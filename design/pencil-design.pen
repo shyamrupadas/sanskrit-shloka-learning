@@ -9,7 +9,7 @@
       "name": "Stage 1 Components",
       "clip": true,
       "width": 900,
-      "height": 640,
+      "height": 1900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -137,6 +137,36 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "vf9Cq",
+              "name": "Streak Indicator",
+              "reusable": true,
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "W6Twbo",
+                  "name": "Streak Flame",
+                  "width": 25,
+                  "height": 25,
+                  "iconFontName": "flame",
+                  "iconFontFamily": "lucide",
+                  "fill": "#72D350"
+                },
+                {
+                  "type": "text",
+                  "id": "vBQcg",
+                  "name": "Streak Days",
+                  "fill": "$text",
+                  "content": "7",
+                  "fontFamily": "$font",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
             }
           ]
         },
@@ -146,11 +176,11 @@
           "name": "Shloka Card",
           "reusable": true,
           "width": 342,
-          "fill": "$surface",
+          "fill": "#FFFFFF",
           "cornerRadius": 12,
           "stroke": {
             "thickness": 1,
-            "fill": "$border"
+            "fill": "#E2E8F0"
           },
           "effect": {
             "type": "shadow",
@@ -162,17 +192,17 @@
             },
             "blur": 8
           },
-          "layout": "vertical",
           "gap": 10,
           "padding": 14,
+          "alignItems": "center",
           "children": [
             {
               "type": "frame",
               "id": "G4Xuh",
-              "name": "Card Top",
+              "name": "Card Text Block",
               "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
+              "layout": "vertical",
+              "gap": 6,
               "children": [
                 {
                   "type": "text",
@@ -180,68 +210,35 @@
                   "name": "Card Title",
                   "fill": "$text",
                   "textGrowth": "fixed-width",
-                  "width": 196,
+                  "width": "fill_container",
                   "content": "Бхагавад-гита 1.1",
                   "fontFamily": "$font",
                   "fontSize": 16,
                   "fontWeight": "700"
                 },
                 {
-                  "id": "S0Yb2",
-                  "type": "ref",
-                  "ref": "CUosX",
-                  "name": "Card Status",
-                  "descendants": {
-                    "t636a": {
-                      "content": "на повторении"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "XH49p",
-              "name": "Card Meta",
-              "fill": "$text-muted",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Бхагавад-гита · глава 1",
-              "fontFamily": "$font",
-              "fontSize": 13,
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "VzcH0",
-              "name": "Card Bottom",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
                   "type": "text",
-                  "id": "ssz9K",
-                  "name": "Card Hint",
+                  "id": "XH49p",
+                  "name": "Card Meta",
                   "fill": "$text-muted",
-                  "content": "короткое повторение",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма кшетре куру кшетре...",
                   "fontFamily": "$font",
                   "fontSize": 13,
                   "fontWeight": "normal"
-                },
-                {
-                  "id": "zRSlZ",
-                  "type": "ref",
-                  "ref": "L7AT6",
-                  "name": "Card Action",
-                  "width": 118,
-                  "descendants": {
-                    "iVGb7": {
-                      "content": "Повторить"
-                    }
-                  }
                 }
               ]
+            },
+            {
+              "type": "icon_font",
+              "id": "u8Rg5T",
+              "name": "Card Click Indicator",
+              "width": 22,
+              "height": 22,
+              "iconFontName": "chevron-right",
+              "iconFontFamily": "lucide",
+              "fill": "#2563EB"
             }
           ]
         },
@@ -490,14 +487,550 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "JOuRq",
+          "name": "Streak Indicator States",
+          "width": "fill_container",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "B67WT",
+              "name": "Inactive closed",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "KD2wZ",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Inactive closed Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#94A3B8"
+                    },
+                    "vBQcg": {
+                      "content": "5",
+                      "fill": "#64748B"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "aWZw5",
+                  "name": "Inactive closed Label",
+                  "fill": "$text-muted",
+                  "content": "Inactive closed",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "X8FLb",
+              "name": "Active closed",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "iw80P",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Active closed Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
+                    },
+                    "vBQcg": {
+                      "content": "7",
+                      "fill": "#0F172A"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "C7Vem",
+                  "name": "Active closed Label",
+                  "fill": "$text-muted",
+                  "content": "Active closed",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G2XA1L",
+              "name": "Active popup open",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "HAELU",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Active popup open Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
+                    },
+                    "vBQcg": {
+                      "content": "7",
+                      "fill": "#0F172A"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "aCc2v",
+                  "name": "Active popup open Label",
+                  "fill": "$text-muted",
+                  "content": "Active popup open",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "A1cNgU",
+          "name": "Streak Popup States",
+          "width": "fill_container",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "a3tijN",
+              "name": "Inactive Popup",
+              "width": 330,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ptw4c",
+                  "name": "Inactive Popup Trigger",
+                  "width": "fill_container",
+                  "justifyContent": "end",
+                  "children": [
+                    {
+                      "id": "vfN1S",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Inactive Popup Indicator",
+                      "descendants": {
+                        "W6Twbo": {
+                          "fill": "#94A3B8"
+                        },
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#64748B"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JWswF",
+                  "name": "Inactive Popup Popup",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#E2E8F0"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0F172A24",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z2oapK",
+                      "name": "Inactive Popup Popup Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "D8sq8s",
+                          "type": "ref",
+                          "ref": "vf9Cq",
+                          "name": "Inactive Popup Popup Indicator",
+                          "descendants": {
+                            "W6Twbo": {
+                              "fill": "#94A3B8"
+                            },
+                            "vBQcg": {
+                              "content": "5",
+                              "fill": "#64748B"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "g18i3",
+                          "name": "Inactive Popup Popup Title",
+                          "fill": "$text",
+                          "content": "Серия дней",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "jk8Dq",
+                      "name": "Inactive Popup Popup Text",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Повторите или выучите хотя бы одну шлоку для продолжения серии.",
+                      "lineHeight": 1.35,
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xdMSm",
+              "name": "Active Popup",
+              "width": 330,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SVpvC",
+                  "name": "Active Popup Trigger",
+                  "width": "fill_container",
+                  "justifyContent": "end",
+                  "children": [
+                    {
+                      "id": "JozwI",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Active Popup Indicator",
+                      "descendants": {
+                        "W6Twbo": {
+                          "fill": "#72D350"
+                        },
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#0F172A"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "e4INR",
+                  "name": "Active Popup Popup",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#E2E8F0"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0F172A24",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tTzq7",
+                      "name": "Active Popup Popup Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "dnKZF",
+                          "type": "ref",
+                          "ref": "vf9Cq",
+                          "name": "Active Popup Popup Indicator",
+                          "descendants": {
+                            "W6Twbo": {
+                              "fill": "#72D350"
+                            },
+                            "vBQcg": {
+                              "content": "7",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "DRZ2E",
+                          "name": "Active Popup Popup Title",
+                          "fill": "$text",
+                          "content": "Серия дней",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "NNnIJ",
+                      "name": "Active Popup Popup Text",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "У вас серия! Вернитесь завтра, чтобы продолжить ее.",
+                      "lineHeight": 1.35,
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "S41hH0",
+          "name": "Review Pack / Active",
+          "reusable": true,
+          "width": 358,
+          "layout": "vertical",
+          "gap": 22,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Z2An3s",
+              "name": "Review Pack Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Mfoih",
+                  "name": "Пачка повторения Title",
+                  "fill": "#0F172A",
+                  "content": "Повторите шлоки",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IFqsZ",
+              "name": "Review Pack List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "id": "BH0cV",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 1.1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 1.1"
+                    }
+                  }
+                },
+                {
+                  "id": "C1yUY",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Иша-упанишада 1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Иша-упанишада 1"
+                    }
+                  }
+                },
+                {
+                  "id": "AspPZ",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.13",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.13"
+                    }
+                  }
+                },
+                {
+                  "id": "R4Arjn",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.20",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.20"
+                    }
+                  }
+                },
+                {
+                  "id": "A6pOEw",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 4.7",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 4.7"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "rxwaR",
+                  "name": "Review Pack Show More",
+                  "fill": "#2563EB",
+                  "content": "Показать еще",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HEEzu",
+          "name": "Want To Learn Block",
+          "reusable": true,
+          "width": 342,
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "THG9l",
+              "name": "Хочу выучить Header",
+              "width": "fill_container",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "u2NjJl",
+                  "name": "Хочу выучить Title",
+                  "fill": "#0F172A",
+                  "content": "Выучите шлоки",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uicar",
+              "name": "Want List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "id": "IkJEJ",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 1.2",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 1.2"
+                    }
+                  }
+                },
+                {
+                  "id": "UpFG5",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Иша-упанишада 1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Иша-упанишада 1"
+                    }
+                  }
+                },
+                {
+                  "id": "r7vNk7",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.13",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.13"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "XvWSd",
+                  "name": "Хочу выучить Action",
+                  "fill": "#2563EB",
+                  "content": "Показать все",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     {
       "type": "frame",
       "id": "Wklvv",
-      "x": 0,
-      "y": 720,
+      "x": 1100,
+      "y": 0,
       "name": "Регистрация",
       "clip": true,
       "width": 390,
@@ -665,53 +1198,33 @@
           "children": [
             {
               "type": "frame",
-              "id": "m7pLkd",
+              "id": "DYH2L",
               "name": "Карточка регистрации",
-              "width": "fill_container",
+              "width": 350,
               "fill": "$surface",
-              "cornerRadius": 12,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$border"
-              },
-              "effect": [
-                {
-                  "type": "shadow",
-                  "shadowType": "outer",
-                  "color": "#0000000A",
-                  "offset": {
-                    "x": 0,
-                    "y": 4
-                  },
-                  "blur": 8
-                },
-                {
-                  "type": "shadow",
-                  "shadowType": "outer",
-                  "color": "#00000012",
-                  "offset": {
-                    "x": 0,
-                    "y": 18
-                  },
-                  "blur": 38
-                }
-              ],
+              "cornerRadius": 28,
               "layout": "vertical",
               "gap": 18,
-              "padding": 24,
+              "padding": [
+                24,
+                24,
+                28,
+                24
+              ],
+              "alignItems": "center",
               "children": [
                 {
                   "type": "frame",
-                  "id": "YdL0B",
+                  "id": "nMQps",
                   "name": "Заголовок формы",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 7,
+                  "gap": 8,
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "o78V7v",
+                      "id": "ghmgk",
                       "name": "Название формы",
                       "fill": "$text",
                       "content": "Создать аккаунт",
@@ -721,7 +1234,7 @@
                     },
                     {
                       "type": "text",
-                      "id": "h7MX1",
+                      "id": "wIIjb",
                       "name": "Описание формы",
                       "fill": "$text-muted",
                       "textGrowth": "fixed-width",
@@ -737,15 +1250,15 @@
                 },
                 {
                   "type": "frame",
-                  "id": "SJ1gI",
-                  "name": "Поля формы",
+                  "id": "mVW4s",
+                  "name": "Поля регистрации",
                   "width": "fill_container",
                   "layout": "vertical",
                   "gap": 14,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "tfB5K",
+                      "id": "w1L3N",
                       "name": "Имя поле",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -753,7 +1266,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "I11JQ",
+                          "id": "k5nyW",
                           "name": "Имя подпись",
                           "fill": "$text",
                           "content": "Имя",
@@ -763,17 +1276,16 @@
                         },
                         {
                           "type": "frame",
-                          "id": "ypPFI",
+                          "id": "br0Ry",
                           "name": "Имя ввод",
                           "width": "fill_container",
                           "height": 44,
-                          "fill": "$surface",
-                          "cornerRadius": "$radius",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 14,
                           "stroke": {
                             "thickness": 1,
-                            "fill": "$border"
+                            "fill": "#CBD5E1"
                           },
-                          "gap": 8,
                           "padding": [
                             0,
                             12
@@ -783,7 +1295,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "eDqHO",
+                              "id": "cjUln",
                               "name": "Имя значение",
                               "fill": "$text",
                               "content": "Анна",
@@ -797,7 +1309,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "v2WKi",
+                      "id": "U5EsZ2",
                       "name": "Email поле",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -805,7 +1317,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "MctTN",
+                          "id": "TcJR2",
                           "name": "Email подпись",
                           "fill": "$text",
                           "content": "Email",
@@ -815,17 +1327,16 @@
                         },
                         {
                           "type": "frame",
-                          "id": "ryX7V",
+                          "id": "N6D2m",
                           "name": "Email ввод",
                           "width": "fill_container",
                           "height": 44,
-                          "fill": "$surface",
-                          "cornerRadius": "$radius",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 14,
                           "stroke": {
                             "thickness": 1,
-                            "fill": "$danger"
+                            "fill": "#CBD5E1"
                           },
-                          "gap": 8,
                           "padding": [
                             0,
                             12
@@ -835,7 +1346,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "zgftU",
+                              "id": "idiKk",
                               "name": "Email значение",
                               "fill": "$text",
                               "content": "anna@",
@@ -847,7 +1358,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "ABXE7",
+                          "id": "i20xM",
                           "name": "Email ошибка",
                           "fill": "$danger",
                           "textGrowth": "fixed-width",
@@ -862,7 +1373,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "UqePI",
+                      "id": "wtHV0",
                       "name": "Пароль поле",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -870,7 +1381,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "q5P5Fb",
+                          "id": "LVLA6",
                           "name": "Пароль подпись",
                           "fill": "$text",
                           "content": "Пароль",
@@ -880,17 +1391,16 @@
                         },
                         {
                           "type": "frame",
-                          "id": "nCq0J",
+                          "id": "XGAEg",
                           "name": "Пароль ввод",
                           "width": "fill_container",
                           "height": 44,
-                          "fill": "$surface",
-                          "cornerRadius": "$radius",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 14,
                           "stroke": {
                             "thickness": 1,
-                            "fill": "$danger"
+                            "fill": "#CBD5E1"
                           },
-                          "gap": 8,
                           "padding": [
                             0,
                             12
@@ -900,7 +1410,7 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "pzYii",
+                              "id": "pyeVd",
                               "name": "Пароль значение",
                               "fill": "$text",
                               "content": "••••",
@@ -910,8 +1420,8 @@
                             },
                             {
                               "type": "text",
-                              "id": "CcCsI",
-                              "name": "Иконка пароль",
+                              "id": "ML4TM",
+                              "name": "Показать пароль",
                               "fill": "$text-muted",
                               "content": "Показать",
                               "fontFamily": "$font",
@@ -922,7 +1432,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "k0l9QO",
+                          "id": "m1G63m",
                           "name": "Пароль ошибка",
                           "fill": "$danger",
                           "textGrowth": "fixed-width",
@@ -934,102 +1444,56 @@
                           "fontWeight": "normal"
                         }
                       ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "iF2ZN",
-                      "name": "Показать пароль",
-                      "width": "fill_container",
-                      "gap": 9,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "UH12L",
-                          "name": "Чекбокс",
-                          "width": 18,
-                          "height": 18,
-                          "fill": "$surface",
-                          "cornerRadius": 4,
-                          "stroke": {
-                            "thickness": 1,
-                            "fill": "$border"
-                          },
-                          "layout": "none"
-                        },
-                        {
-                          "type": "text",
-                          "id": "fAPwH",
-                          "name": "Текст чекбокса",
-                          "fill": "$text-muted",
-                          "content": "Показать пароль",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        }
-                      ]
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "Bn8up",
-                  "name": "Сообщение об ошибке",
+                  "id": "PTFz5",
+                  "name": "Показать пароль строка",
                   "width": "fill_container",
-                  "fill": "#FEF2F2",
-                  "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "#FECACA"
-                  },
-                  "gap": 8,
-                  "padding": 12,
+                  "gap": 9,
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "text",
-                      "id": "gUjXN",
-                      "name": "Иконка ошибки",
-                      "fill": "$danger",
-                      "content": "!",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "jp8IE",
+                      "name": "Чекбокс",
+                      "fill": "#FFFFFF",
+                      "width": 18,
+                      "height": 18,
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "#CBD5E1"
+                      }
                     },
                     {
                       "type": "text",
-                      "id": "Gj0TV",
-                      "name": "Текст ошибки",
-                      "fill": "$danger",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Проверьте выделенные поля перед регистрацией",
-                      "lineHeight": 1.3,
+                      "id": "v19Hl",
+                      "name": "Текст чекбокса",
+                      "fill": "$text-muted",
+                      "content": "Показать пароль",
                       "fontFamily": "$font",
-                      "fontSize": 13,
+                      "fontSize": 14,
                       "fontWeight": "normal"
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "aHZMT",
-                  "name": "Основная кнопка",
+                  "id": "TvgIO",
+                  "name": "Кнопка регистрации",
                   "width": "fill_container",
                   "height": 46,
                   "fill": "$primary",
-                  "cornerRadius": 8,
-                  "gap": 8,
-                  "padding": [
-                    0,
-                    16
-                  ],
+                  "cornerRadius": 14,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "ESM5v",
+                      "id": "j2nfh",
                       "name": "Текст кнопки",
                       "fill": "$surface",
                       "content": "Зарегистрироваться",
@@ -1041,41 +1505,30 @@
                 },
                 {
                   "type": "frame",
-                  "id": "bRZWu",
-                  "name": "Действия",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 12,
+                  "id": "Aocpl",
+                  "name": "Переход ко входу",
+                  "gap": 5,
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "frame",
-                      "id": "fOjPH",
-                      "name": "Строка ссылки",
-                      "gap": 5,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "ZRf7P",
-                          "name": "Текст ссылки",
-                          "fill": "$text-muted",
-                          "content": "Уже есть аккаунт?",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "qRPqy",
-                          "name": "Ссылка",
-                          "fill": "$primary",
-                          "content": "Войти",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        }
-                      ]
+                      "type": "text",
+                      "id": "IKEUx",
+                      "name": "Текст ссылки",
+                      "fill": "$text-muted",
+                      "content": "Уже есть аккаунт?",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cZdLc",
+                      "name": "Ссылка",
+                      "fill": "$primary",
+                      "content": "Войти",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "600"
                     }
                   ]
                 }
@@ -1088,8 +1541,8 @@
     {
       "type": "frame",
       "id": "J9sKf",
-      "x": 430,
-      "y": 720,
+      "x": 1530,
+      "y": 0,
       "name": "Вход",
       "clip": true,
       "width": 390,
@@ -1514,46 +1967,6 @@
                 },
                 {
                   "type": "frame",
-                  "id": "mDZOS",
-                  "name": "Сообщение об ошибке",
-                  "width": "fill_container",
-                  "fill": "#FEF2F2",
-                  "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "#FECACA"
-                  },
-                  "gap": 8,
-                  "padding": 12,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "p0mvNf",
-                      "name": "Иконка ошибки",
-                      "fill": "$danger",
-                      "content": "!",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "text",
-                      "id": "rVOMb",
-                      "name": "Текст ошибки",
-                      "fill": "$danger",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Проверьте email и пароль перед входом",
-                      "lineHeight": 1.3,
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
                   "id": "v8kVEe",
                   "name": "Основная кнопка",
                   "width": "fill_container",
@@ -1638,22 +2051,22 @@
     },
     {
       "type": "frame",
-      "id": "UYHwz",
-      "x": 860,
-      "y": 720,
+      "id": "xJFoj",
+      "x": 1960,
+      "y": 0,
       "name": "Дашборд - обычный",
       "clip": true,
       "width": 390,
-      "fill": "$bg",
+      "fill": "#F8FAFC",
       "layout": "vertical",
       "children": [
         {
           "type": "frame",
-          "id": "g1XCnE",
+          "id": "l1CwK1",
           "name": "Status Bar",
           "width": "fill_container",
           "height": 62,
-          "fill": "$bg",
+          "fill": "#F8FAFC",
           "padding": [
             0,
             24
@@ -1663,40 +2076,40 @@
           "children": [
             {
               "type": "text",
-              "id": "rxR35",
+              "id": "zMUKr",
               "name": "Status Time",
-              "fill": "$text",
+              "fill": "#0F172A",
               "content": "9:41",
-              "fontFamily": "$font",
+              "fontFamily": "Inter",
               "fontSize": 14,
               "fontWeight": "700"
             },
             {
               "type": "frame",
-              "id": "H4b5Vm",
+              "id": "g2Sic",
               "name": "Status Icons",
               "gap": 5,
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon_font",
-                  "id": "OAKLF",
+                  "id": "b2jsZ",
                   "name": "Signal Icon",
                   "width": 16,
                   "height": 16,
                   "iconFontName": "signal",
                   "iconFontFamily": "lucide",
-                  "fill": "$text"
+                  "fill": "#0F172A"
                 },
                 {
                   "type": "icon_font",
-                  "id": "X2BRG",
+                  "id": "eB8kK",
                   "name": "Battery Icon",
                   "width": 18,
                   "height": 18,
                   "iconFontName": "battery",
                   "iconFontFamily": "lucide",
-                  "fill": "$text"
+                  "fill": "#0F172A"
                 }
               ]
             }
@@ -1704,7 +2117,7 @@
         },
         {
           "type": "frame",
-          "id": "x6zU1",
+          "id": "cWhkH",
           "name": "Content",
           "width": "fill_container",
           "layout": "vertical",
@@ -1718,361 +2131,120 @@
           "children": [
             {
               "type": "frame",
-              "id": "D7Bis",
-              "name": "Header",
+              "id": "B8hfvy",
+              "name": "Top icons row",
               "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
+              "height": 34,
+              "gap": 18,
+              "justifyContent": "end",
+              "alignItems": "center",
               "children": [
                 {
-                  "type": "text",
-                  "id": "limvD",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Сегодня",
-                  "fontFamily": "$font",
-                  "fontSize": 30,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "LPTN0",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Небольшая пачка на сегодня и шлоки для заучивания.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 15,
-                  "fontWeight": "normal"
+                  "id": "f03JS",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Streak Indicator Instance",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#94A3B8"
+                    },
+                    "vBQcg": {
+                      "content": "5",
+                      "fill": "#64748B"
+                    }
+                  }
                 }
               ]
             },
             {
+              "id": "H66vVl",
+              "type": "ref",
+              "ref": "S41hH0",
+              "name": "Повторите шлоки Block",
+              "width": "fill_container"
+            },
+            {
               "type": "frame",
-              "id": "s9GFh",
-              "name": "Серия дней",
+              "id": "VwO4D",
+              "name": "Хочу выучить Block",
               "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": 12,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$border"
-              },
-              "padding": 16,
-              "justifyContent": "space_between",
-              "alignItems": "center",
+              "layout": "vertical",
+              "gap": 10,
               "children": [
                 {
                   "type": "frame",
-                  "id": "Lls8N",
-                  "name": "Series Copy",
-                  "width": 210,
-                  "layout": "vertical",
-                  "gap": 4,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "Ai2G4",
-                      "name": "Series Label",
-                      "fill": "$text",
-                      "content": "Серия дней",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "text",
-                      "id": "PPRVa",
-                      "name": "Series Hint",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Продолжайте в удобном темпе.",
-                      "lineHeight": 1.3,
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "XlL0o",
-                  "name": "Series Value",
-                  "width": 72,
-                  "height": 48,
-                  "fill": "$primary-soft",
-                  "cornerRadius": 999,
-                  "justifyContent": "center",
+                  "id": "qclGn",
+                  "name": "Хочу выучить Header",
+                  "width": "fill_container",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "l4qoGu",
-                      "name": "Series Days",
-                      "fill": "$primary",
-                      "content": "5",
-                      "fontFamily": "$font",
-                      "fontSize": 22,
+                      "id": "kyfb6",
+                      "name": "Хочу выучить Title",
+                      "fill": "#0F172A",
+                      "content": "Выучите шлоки",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
                       "fontWeight": "800"
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "sHAq7",
-              "name": "Пачка повторения Header",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "s5MpP",
-                  "name": "Пачка повторения Title",
-                  "fill": "$text",
-                  "content": "Пачка повторения",
-                  "fontFamily": "$font",
-                  "fontSize": 18,
-                  "fontWeight": "800"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "iR9Pf",
-              "name": "Review Pack",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "eZtva",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 1.1",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 1.1"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "на повторении"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 1"
-                    },
-                    "ssz9K": {
-                      "content": "первая в пачке"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Повторить"
-                    }
-                  }
-                },
-                {
-                  "id": "zkDYO",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Иша-упанишада 1",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Иша-упанишада 1"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "на повторении"
-                    },
-                    "XH49p": {
-                      "content": "Упанишады · мантра 1"
-                    },
-                    "ssz9K": {
-                      "content": "короткая шлока"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Повторить"
-                    }
-                  }
                 },
                 {
                   "type": "frame",
-                  "id": "rXKvI",
-                  "name": "Soft Remaining Indicator",
+                  "id": "C0qd1",
+                  "name": "Want List",
                   "width": "fill_container",
-                  "fill": "$surface-muted",
-                  "cornerRadius": 10,
-                  "gap": 8,
-                  "padding": [
-                    10,
-                    12
-                  ],
-                  "alignItems": "center",
+                  "layout": "vertical",
+                  "gap": 10,
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "oEgS4",
-                      "name": "Soft Indicator Icon",
-                      "width": 16,
-                      "height": 16,
-                      "iconFontName": "sparkles",
-                      "iconFontFamily": "lucide",
-                      "fill": "$text-muted"
+                      "id": "thcZF",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 1.2",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 1.2"
+                        }
+                      }
+                    },
+                    {
+                      "id": "frgwi",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Иша-упанишада 1",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Иша-упанишада 1"
+                        }
+                      }
+                    },
+                    {
+                      "id": "RYtBO",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 2.13",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 2.13"
+                        }
+                      }
                     },
                     {
                       "type": "text",
-                      "id": "lzImo",
-                      "name": "Soft Indicator Text",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": 280,
-                      "content": "После пачки есть еще шлоки на сегодня",
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "id": "ZSsWM",
+                      "name": "Хочу выучить Action",
+                      "fill": "#2563EB",
+                      "content": "Показать все",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "zaBeE",
-              "name": "Хочу выучить Header",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ba62N",
-                  "name": "Хочу выучить Title",
-                  "fill": "$text",
-                  "content": "Хочу выучить",
-                  "fontFamily": "$font",
-                  "fontSize": 18,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "e6vzek",
-                  "name": "Хочу выучить Action",
-                  "fill": "$primary",
-                  "content": "Показать все",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "xrAtR",
-              "name": "Want List",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "XFOHi",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 1.2",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 1.2"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 1"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
-                },
-                {
-                  "id": "S2D64M",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Иша-упанишада 1",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Иша-упанишада 1"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Упанишады · мантра 1"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
-                },
-                {
-                  "id": "f7eUo",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 2.13",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 2.13"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 2"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
-                },
-                {
-                  "id": "g44fby",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 2.20",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 2.20"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 2"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
                 }
               ]
             }
@@ -2080,7 +2252,7 @@
         },
         {
           "type": "frame",
-          "id": "sw8vq",
+          "id": "p7YCX",
           "name": "Navigation Wrap",
           "width": "fill_container",
           "padding": [
@@ -2092,7 +2264,7 @@
           "justifyContent": "center",
           "children": [
             {
-              "id": "kBkvC",
+              "id": "LzEV0",
               "type": "ref",
               "ref": "WqaiL",
               "name": "Bottom Navigation Instance",
@@ -2104,9 +2276,9 @@
     },
     {
       "type": "frame",
-      "id": "UAK4r",
-      "x": 1290,
-      "y": 720,
+      "id": "iT1Xy",
+      "x": 2390,
+      "y": 0,
       "name": "Дашборд - новый пользователь",
       "clip": true,
       "width": 390,
@@ -2115,7 +2287,7 @@
       "children": [
         {
           "type": "frame",
-          "id": "AqOvS",
+          "id": "k0HzX7",
           "name": "Status Bar",
           "width": "fill_container",
           "height": 62,
@@ -2129,7 +2301,7 @@
           "children": [
             {
               "type": "text",
-              "id": "W83ix8",
+              "id": "qQVrq",
               "name": "Status Time",
               "fill": "$text",
               "content": "9:41",
@@ -2139,14 +2311,14 @@
             },
             {
               "type": "frame",
-              "id": "zzTMe",
+              "id": "RH9uj",
               "name": "Status Icons",
               "gap": 5,
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon_font",
-                  "id": "f4d4Y",
+                  "id": "wZzhN",
                   "name": "Signal Icon",
                   "width": 16,
                   "height": 16,
@@ -2156,7 +2328,7 @@
                 },
                 {
                   "type": "icon_font",
-                  "id": "Xviin",
+                  "id": "t7vgHY",
                   "name": "Battery Icon",
                   "width": 18,
                   "height": 18,
@@ -2170,7 +2342,7 @@
         },
         {
           "type": "frame",
-          "id": "MhPT8",
+          "id": "DbL2j",
           "name": "Content",
           "width": "fill_container",
           "layout": "vertical",
@@ -2183,115 +2355,20 @@
           ],
           "children": [
             {
-              "type": "frame",
-              "id": "W88S1v",
-              "name": "Header",
+              "type": "text",
+              "id": "E5WxpD",
+              "name": "Screen Subtitle",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
               "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "CPEL5",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Сегодня",
-                  "fontFamily": "$font",
-                  "fontSize": 30,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "CiE67",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Начните с одной шлоки, остальное появится после выбора в библиотеке.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 15,
-                  "fontWeight": "normal"
-                }
-              ]
+              "content": "Начните с одной шлоки, остальное появится после выбора в библиотеке.",
+              "lineHeight": 1.35,
+              "fontFamily": "$font",
+              "fontSize": 15,
+              "fontWeight": "normal"
             },
             {
-              "type": "frame",
-              "id": "OyoE8",
-              "name": "Серия дней",
-              "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": 12,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$border"
-              },
-              "padding": 16,
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "ec3DT",
-                  "name": "Series Copy",
-                  "width": 210,
-                  "layout": "vertical",
-                  "gap": 4,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "fODLY",
-                      "name": "Series Label",
-                      "fill": "$text",
-                      "content": "Серия дней",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "text",
-                      "id": "VrOwX",
-                      "name": "Series Hint",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Серия начнется после первого повторения.",
-                      "lineHeight": 1.3,
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "yEChd",
-                  "name": "Series Value",
-                  "width": 72,
-                  "height": 48,
-                  "fill": "$primary-soft",
-                  "cornerRadius": 999,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "j5g3iO",
-                      "name": "Series Days",
-                      "fill": "$primary",
-                      "content": "0",
-                      "fontFamily": "$font",
-                      "fontSize": 22,
-                      "fontWeight": "800"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": "VjWAn",
+              "id": "L8Luui",
               "type": "ref",
               "ref": "GBQbL",
               "name": "Empty Dashboard",
@@ -2301,7 +2378,7 @@
         },
         {
           "type": "frame",
-          "id": "udOyB",
+          "id": "vzemZ",
           "name": "Navigation Wrap",
           "width": "fill_container",
           "padding": [
@@ -2313,7 +2390,7 @@
           "justifyContent": "center",
           "children": [
             {
-              "id": "h7cDXl",
+              "id": "ON0bZ",
               "type": "ref",
               "ref": "WqaiL",
               "name": "Bottom Navigation Instance",
@@ -2326,8 +2403,8 @@
     {
       "type": "frame",
       "id": "V5wKHO",
-      "x": 860,
-      "y": 2200,
+      "x": 1960,
+      "y": 1400,
       "name": "Дашборд - повторения завершены",
       "clip": true,
       "width": 390,
@@ -2405,109 +2482,28 @@
           "children": [
             {
               "type": "frame",
-              "id": "KzyYN",
-              "name": "Header",
+              "id": "XMRY1",
+              "name": "Top icons row",
               "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "cBDe4",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Сегодня",
-                  "fontFamily": "$font",
-                  "fontSize": 30,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "O3gqGv",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Повторения на сегодня завершены. Можно спокойно продолжить заучивание.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 15,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "WtV3x",
-              "name": "Серия дней",
-              "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": 12,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$border"
-              },
-              "padding": 16,
-              "justifyContent": "space_between",
+              "height": 34,
+              "gap": 18,
+              "justifyContent": "end",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "frame",
-                  "id": "QsqlA",
-                  "name": "Series Copy",
-                  "width": 210,
-                  "layout": "vertical",
-                  "gap": 4,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "GXdAJ",
-                      "name": "Series Label",
-                      "fill": "$text",
-                      "content": "Серия дней",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
+                  "id": "EA70u",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Streak Indicator Instance",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
                     },
-                    {
-                      "type": "text",
-                      "id": "ujkQ3",
-                      "name": "Series Hint",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Мягкий ритм без гонки за количеством.",
-                      "lineHeight": 1.3,
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "T40ww",
-                  "name": "Series Value",
-                  "width": 72,
-                  "height": 48,
-                  "fill": "$primary-soft",
-                  "cornerRadius": 999,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "CZ8t9",
-                      "name": "Series Days",
-                      "fill": "$primary",
+                    "vBQcg": {
                       "content": "7",
-                      "fontFamily": "$font",
-                      "fontSize": 22,
-                      "fontWeight": "800"
+                      "fill": "#0F172A"
                     }
-                  ]
+                  }
                 }
               ]
             },
@@ -2551,89 +2547,74 @@
             },
             {
               "type": "frame",
-              "id": "Hdixf",
-              "name": "Хочу выучить Header",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "HpV5n",
-                  "name": "Хочу выучить Title",
-                  "fill": "$text",
-                  "content": "Хочу выучить",
-                  "fontFamily": "$font",
-                  "fontSize": 18,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "v11iPH",
-                  "name": "Хочу выучить Action",
-                  "fill": "$primary",
-                  "content": "Показать все",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "UzhWI",
-              "name": "Want List",
+              "id": "AHDZ8",
+              "name": "Хочу выучить Block",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 10,
               "children": [
                 {
-                  "id": "b7MUbn",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 1.2",
+                  "type": "frame",
+                  "id": "ciBls",
+                  "name": "Хочу выучить Header",
                   "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 1.2"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 1"
-                    },
-                    "ssz9K": {
-                      "content": "первое заучивание"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Cxav7",
+                      "name": "Хочу выучить Title",
+                      "fill": "#0F172A",
+                      "content": "Выучите шлоки",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
                     }
-                  }
+                  ]
                 },
                 {
-                  "id": "XyDpF",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Иша-упанишада 1",
+                  "type": "frame",
+                  "id": "iMM10",
+                  "name": "Want List",
                   "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Иша-упанишада 1"
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "y3Xwi",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 1.2",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 1.2"
+                        }
+                      }
                     },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
+                    {
+                      "id": "XKdcR",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Иша-упанишада 1",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Иша-упанишада 1"
+                        }
+                      }
                     },
-                    "XH49p": {
-                      "content": "Упанишады · мантра 1"
-                    },
-                    "ssz9K": {
-                      "content": "короткая шлока"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
+                    {
+                      "type": "text",
+                      "id": "lijZL",
+                      "name": "Хочу выучить Action",
+                      "fill": "#2563EB",
+                      "content": "Показать все",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -2660,14 +2641,24 @@
               "width": "fill_container"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "pMATo",
+          "x": 0,
+          "y": 0,
+          "name": "Streak popup open",
+          "enabled": false,
+          "width": "fit_content(0)",
+          "height": "fit_content(0)"
         }
       ]
     },
     {
       "type": "frame",
       "id": "QHJ3L",
-      "x": 1290,
-      "y": 2200,
+      "x": 2390,
+      "y": 1400,
       "name": "Дашборд - следующая пачка",
       "clip": true,
       "width": 390,
@@ -2745,109 +2736,28 @@
           "children": [
             {
               "type": "frame",
-              "id": "DAoL6",
-              "name": "Header",
+              "id": "UezhL",
+              "name": "Top icons row",
               "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "hp6vZ",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Сегодня",
-                  "fontFamily": "$font",
-                  "fontSize": 30,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "OtKQ3",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Текущая пачка завершена. Можно взять еще одну без спешки.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 15,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "zK8Vl",
-              "name": "Серия дней",
-              "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": 12,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$border"
-              },
-              "padding": 16,
-              "justifyContent": "space_between",
+              "height": 34,
+              "gap": 18,
+              "justifyContent": "end",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "frame",
-                  "id": "p4wGh",
-                  "name": "Series Copy",
-                  "width": 210,
-                  "layout": "vertical",
-                  "gap": 4,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "M9WAC",
-                      "name": "Series Label",
-                      "fill": "$text",
-                      "content": "Серия дней",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "700"
+                  "id": "SPkPm",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Streak Indicator Instance",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
                     },
-                    {
-                      "type": "text",
-                      "id": "YC5lV",
-                      "name": "Series Hint",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Пачка закрыта, серия уже засчитана.",
-                      "lineHeight": 1.3,
-                      "fontFamily": "$font",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "tGtpI",
-                  "name": "Series Value",
-                  "width": 72,
-                  "height": 48,
-                  "fill": "$primary-soft",
-                  "cornerRadius": 999,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "xdf2n",
-                      "name": "Series Days",
-                      "fill": "$primary",
+                    "vBQcg": {
                       "content": "6",
-                      "fontFamily": "$font",
-                      "fontSize": 22,
-                      "fontWeight": "800"
+                      "fill": "#0F172A"
                     }
-                  ]
+                  }
                 }
               ]
             },
@@ -2943,137 +2853,86 @@
             },
             {
               "type": "frame",
-              "id": "s79l6",
-              "name": "Хочу выучить Header",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ViDbN",
-                  "name": "Хочу выучить Title",
-                  "fill": "$text",
-                  "content": "Хочу выучить",
-                  "fontFamily": "$font",
-                  "fontSize": 18,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "eyhsE",
-                  "name": "Хочу выучить Action",
-                  "fill": "$primary",
-                  "content": "Показать все",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "fQv4R",
-              "name": "Want List",
+              "id": "pAaiX",
+              "name": "Хочу выучить Block",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 10,
               "children": [
                 {
-                  "id": "WuxoI",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 1.2",
+                  "type": "frame",
+                  "id": "XbnZ8",
+                  "name": "Хочу выучить Header",
                   "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 1.2"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 1"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "W6lfqg",
+                      "name": "Хочу выучить Title",
+                      "fill": "#0F172A",
+                      "content": "Выучите шлоки",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
                     }
-                  }
+                  ]
                 },
                 {
-                  "id": "Sfnt1",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Иша-упанишада 1",
+                  "type": "frame",
+                  "id": "Hhzv1",
+                  "name": "Want List",
                   "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Иша-упанишада 1"
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "bCGNy",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 1.2",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 1.2"
+                        }
+                      }
                     },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
+                    {
+                      "id": "Cvpnb",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Иша-упанишада 1",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Иша-упанишада 1"
+                        }
+                      }
                     },
-                    "XH49p": {
-                      "content": "Упанишады · мантра 1"
+                    {
+                      "id": "e9VHHj",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 2.13",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 2.13"
+                        }
+                      }
                     },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
+                    {
+                      "type": "text",
+                      "id": "ru0Hb",
+                      "name": "Хочу выучить Action",
+                      "fill": "#2563EB",
+                      "content": "Показать все",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
                     }
-                  }
-                },
-                {
-                  "id": "Le4Ck",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 2.13",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 2.13"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 2"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
-                },
-                {
-                  "id": "l0586",
-                  "type": "ref",
-                  "ref": "EKyZN",
-                  "name": "Бхагавад-гита 2.20",
-                  "width": "fill_container",
-                  "descendants": {
-                    "w8wWcv": {
-                      "content": "Бхагавад-гита 2.20"
-                    },
-                    "S0Yb2/t636a": {
-                      "content": "хочу выучить"
-                    },
-                    "XH49p": {
-                      "content": "Бхагавад-гита · глава 2"
-                    },
-                    "ssz9K": {
-                      "content": "готова к заучиванию"
-                    },
-                    "zRSlZ/iVGb7": {
-                      "content": "Учить"
-                    }
-                  }
+                  ]
                 }
               ]
             }
@@ -3098,6 +2957,334 @@
               "ref": "WqaiL",
               "name": "Bottom Navigation Instance",
               "width": "fill_container"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jCjTM",
+          "x": 0,
+          "y": 0,
+          "name": "Streak popup open",
+          "enabled": false,
+          "width": "fit_content(0)",
+          "height": "fit_content(0)"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GwKiu",
+      "x": 2820,
+      "y": 1400,
+      "name": "Дашборд - серия активна закрыто",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "MIBwW",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "fill": "$bg",
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "GdV95",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "h3jQUE",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "TT61q",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "KVlfn",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "battery",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aZHhp",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 22,
+          "padding": [
+            10,
+            16,
+            16,
+            16
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "BM0AI",
+              "name": "Top icons row",
+              "width": "fill_container",
+              "height": 34,
+              "gap": 18,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "F62exy",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Streak Indicator Instance",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
+                    },
+                    "vBQcg": {
+                      "content": "7",
+                      "fill": "#0F172A"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QEeOz",
+              "name": "Повторения завершены",
+              "width": "fill_container",
+              "fill": "$success-soft",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "e5tsFy",
+                  "name": "Done Title",
+                  "fill": "$success",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Все повторения на сегодня завершены",
+                  "fontFamily": "$font",
+                  "fontSize": 17,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "oSxqY",
+                  "name": "Done Text",
+                  "fill": "$text",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Если есть время, выберите шлоку из списка «Хочу выучить».",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uwecd",
+              "name": "Хочу выучить Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "M4XR4",
+                  "name": "Хочу выучить Header",
+                  "width": "fill_container",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cketA",
+                      "name": "Хочу выучить Title",
+                      "fill": "#0F172A",
+                      "content": "Выучите шлоки",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Tg1AN",
+                  "name": "Want List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "jRzpV",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Бхагавад-гита 1.2",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Бхагавад-гита 1.2"
+                        }
+                      }
+                    },
+                    {
+                      "id": "gKFGK",
+                      "type": "ref",
+                      "ref": "EKyZN",
+                      "name": "Иша-упанишада 1",
+                      "width": "fill_container",
+                      "descendants": {
+                        "w8wWcv": {
+                          "content": "Иша-упанишада 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "f67pWY",
+                      "name": "Хочу выучить Action",
+                      "fill": "#2563EB",
+                      "content": "Показать все",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aHLLx",
+          "name": "Navigation Wrap",
+          "width": "fill_container",
+          "padding": [
+            0,
+            16,
+            14,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "FcDaO",
+              "type": "ref",
+              "ref": "WqaiL",
+              "name": "Bottom Navigation Instance",
+              "width": "fill_container"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oTr97",
+          "layoutPosition": "absolute",
+          "x": 90,
+          "y": 112,
+          "name": "Streak popup open",
+          "enabled": false,
+          "width": 278,
+          "fill": "#FFFFFF",
+          "cornerRadius": 14,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#E2E8F0"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A24",
+            "offset": {
+              "x": 0,
+              "y": 10
+            },
+            "blur": 28
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 14,
+          "children": [
+            {
+              "type": "frame",
+              "id": "zYkQ9",
+              "name": "Popup header",
+              "width": "fill_container",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "I439h",
+                  "name": "Popup flame",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "flame",
+                  "iconFontFamily": "lucide",
+                  "fill": "#72D350"
+                },
+                {
+                  "type": "text",
+                  "id": "VpG0L",
+                  "name": "Popup title",
+                  "fill": "$text",
+                  "content": "Серия дней",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "KcYUG",
+              "name": "Popup text",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "У вас серия! Вернитесь завтра, чтобы продолжить ее.",
+              "lineHeight": 1.35,
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         }
