@@ -17,6 +17,14 @@ TypeSpec-first добавляет начальную стоимость наст
 
 Коммит generated-кода увеличивает размер diff-ов и требует дисциплины, но делает репозиторий более самодостаточным: после checkout IDE, typecheck и AI-инструменты видят контрактные типы без предварительного generation step. Для предотвращения расхождения source и generated artifacts нужна отдельная проверка актуальности в CI.
 
-**Открытый вопрос**
+**Backend artifacts**
 
-До начала разработки первого API-среза нужно выбрать точную форму backend server contract artifacts: только типы запросов/ответов, server stubs/handler interfaces или runtime validation middleware.
+Для `apps/api` генерируем backend contract artifacts в форме TypeScript-типов операций и handler interfaces. Nest controllers, guards, pipes, modules и providers остаются ручным кодом `apps/api`; generated-код не создает Nest controllers, server stubs или application services.
+
+Toolchain строится вокруг TypeSpec как source of truth: TypeSpec генерирует OpenAPI, затем repo-owned generator в `packages/api-contract` генерирует TypeScript-типы схем, request/response types и handler interfaces для backend-операций. Не используем third-party OpenAPI server stub generator как owner backend HTTP-слоя. Backend artifacts лежат в `packages/api-contract/generated/backend/` и коммитятся вместе с OpenAPI и frontend API client. Все файлы в generated-директориях считаются generated-only и не редактируются вручную.
+
+Интеграция с Nest идет через тонкий boundary: controller или рядом стоящий handler/provider в `apps/api` должен типизироваться через generated operation interfaces. Внутренние сервисы `apps/api` используют собственные доменные модели и маппят их в контрактные response-типы на HTTP-границе. Это сохраняет Nest-модульность и одновременно заставляет typecheck ловить расхождение реализации с публичным API-контрактом.
+
+В MVP generated backend artifacts не выполняют runtime validation request/response. Входящие запросы могут дополнительно проверяться ручными Nest pipes там, где это нужно для пользовательских ошибок или защиты инвариантов, но эти проверки не становятся source of truth для публичного API-контракта. Если позже понадобится runtime validation по OpenAPI, ее можно добавить как отдельный слой на HTTP boundary без перехода на generated server stubs.
+
+CI должен запускать генерацию контракта и падать при незакоммиченном diff в generated artifacts, а также запускать typecheck для `apps/api`. Так проверяется, что TypeSpec, OpenAPI, frontend client и backend handler interfaces синхронизированы, а backend implementation по-прежнему соответствует типизированному контракту.

@@ -1,0 +1,4694 @@
+{
+  "version": "2.11",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "Stage 1 Components",
+      "clip": true,
+      "width": 900,
+      "height": 1900,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 18,
+      "padding": 24,
+      "children": [
+        {
+          "type": "text",
+          "id": "dSVna",
+          "name": "Components Title",
+          "fill": "$text",
+          "content": "Базовые компоненты этапа 1",
+          "fontFamily": "$font",
+          "fontSize": 20,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "w2EsoE",
+          "name": "Component Row",
+          "width": "fill_container",
+          "gap": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "L7AT6",
+              "name": "Button / Primary",
+              "reusable": true,
+              "width": 144,
+              "height": 44,
+              "fill": "$primary",
+              "cornerRadius": "$radius",
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iVGb7",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Повторить",
+                  "fontFamily": "$font",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CUosX",
+              "name": "Badge / Status",
+              "reusable": true,
+              "height": 28,
+              "fill": "$primary-soft",
+              "cornerRadius": 999,
+              "padding": [
+                0,
+                10
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t636a",
+                  "name": "Badge Label",
+                  "fill": "$primary",
+                  "content": "на повторении",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nR98D",
+              "name": "Field / Input",
+              "reusable": true,
+              "width": 260,
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n2PWuE",
+                  "name": "Field Label",
+                  "fill": "$text",
+                  "content": "Email",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "G5pYo",
+                  "name": "Field Box",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$surface",
+                  "cornerRadius": "$radius",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$border"
+                  },
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "F4Nw3P",
+                      "name": "Field Value",
+                      "fill": "$text-muted",
+                      "content": "user@domain.com",
+                      "fontFamily": "$font",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vf9Cq",
+              "name": "Streak Indicator",
+              "reusable": true,
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "W6Twbo",
+                  "name": "Streak Flame",
+                  "width": 25,
+                  "height": 25,
+                  "iconFontName": "flame",
+                  "iconFontFamily": "lucide",
+                  "fill": "#72D350"
+                },
+                {
+                  "type": "text",
+                  "id": "vBQcg",
+                  "name": "Streak Days",
+                  "fill": "$text",
+                  "content": "7",
+                  "fontFamily": "$font",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EKyZN",
+          "name": "Shloka Card",
+          "reusable": true,
+          "width": 342,
+          "fill": "#FFFFFF",
+          "cornerRadius": 12,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#E2E8F0"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A0A",
+            "offset": {
+              "x": 0,
+              "y": 2
+            },
+            "blur": 8
+          },
+          "gap": 10,
+          "padding": 14,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "G4Xuh",
+              "name": "Card Text Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "w8wWcv",
+                  "name": "Card Title",
+                  "fill": "$text",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Бхагавад-гита 1.1",
+                  "fontFamily": "$font",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "XH49p",
+                  "name": "Card Meta",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма кшетре куру кшетре...",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "icon_font",
+              "id": "u8Rg5T",
+              "name": "Card Click Indicator",
+              "width": 22,
+              "height": 22,
+              "iconFontName": "chevron-right",
+              "iconFontFamily": "lucide",
+              "fill": "#2563EB"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GBQbL",
+          "name": "Empty State",
+          "reusable": true,
+          "width": 342,
+          "fill": "$surface",
+          "cornerRadius": 12,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "M9wnV",
+              "name": "Empty Icon",
+              "width": 42,
+              "height": 42,
+              "fill": "$primary-soft",
+              "cornerRadius": 999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "f6elm",
+                  "name": "Empty Icon Glyph",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "book-open",
+                  "iconFontFamily": "lucide",
+                  "fill": "$primary"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "EZ3CZ",
+              "name": "Empty Title",
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Пока нет шлок",
+              "fontFamily": "$font",
+              "fontSize": 17,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "DeAxo",
+              "name": "Empty Text",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Выберите первые шлоки в библиотеке, чтобы начать заучивание и повторение.",
+              "lineHeight": 1.35,
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "id": "QrS06",
+              "type": "ref",
+              "ref": "L7AT6",
+              "name": "Empty Action",
+              "width": 140,
+              "descendants": {
+                "iVGb7": {
+                  "content": "В библиотеку"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WqaiL",
+          "name": "Bottom Navigation",
+          "reusable": true,
+          "width": 358,
+          "height": 64,
+          "fill": "#FFFFFFE6",
+          "cornerRadius": 32,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A14",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 20
+          },
+          "gap": 2,
+          "padding": 6,
+          "children": [
+            {
+              "type": "frame",
+              "id": "YGaJg",
+              "name": "Nav Item Дашборд",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$primary-soft",
+              "cornerRadius": 26,
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "Yhp2w",
+                  "name": "Nav Icon Дашборд",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "layout-dashboard",
+                  "iconFontFamily": "lucide",
+                  "fill": "$primary"
+                },
+                {
+                  "type": "text",
+                  "id": "r30e6",
+                  "name": "Nav Label Дашборд",
+                  "fill": "$primary",
+                  "content": "Дашборд",
+                  "fontFamily": "$font",
+                  "fontSize": 10,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bU5Zx",
+              "name": "Nav Item Библиотека",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF00",
+              "cornerRadius": 26,
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "gWRqP",
+                  "name": "Nav Icon Библиотека",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "book-open",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "JIUqx",
+                  "name": "Nav Label Библиотека",
+                  "fill": "$text-muted",
+                  "content": "Библиотека",
+                  "fontFamily": "$font",
+                  "fontSize": 10,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DeK99",
+              "name": "Nav Item Обучение",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF00",
+              "cornerRadius": 26,
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "nThE5",
+                  "name": "Nav Icon Обучение",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "graduation-cap",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "q8vVdb",
+                  "name": "Nav Label Обучение",
+                  "fill": "$text-muted",
+                  "content": "Обучение",
+                  "fontFamily": "$font",
+                  "fontSize": 10,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MG9jR",
+              "name": "Nav Item Настройки",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF00",
+              "cornerRadius": 26,
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "C5ePi7",
+                  "name": "Nav Icon Настройки",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "settings",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "bH9d7",
+                  "name": "Nav Label Настройки",
+                  "fill": "$text-muted",
+                  "content": "Настройки",
+                  "fontFamily": "$font",
+                  "fontSize": 10,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JOuRq",
+          "name": "Streak Indicator States",
+          "width": "fill_container",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "B67WT",
+              "name": "Inactive closed",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "KD2wZ",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Inactive closed Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#94A3B8"
+                    },
+                    "vBQcg": {
+                      "content": "5",
+                      "fill": "#64748B"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "aWZw5",
+                  "name": "Inactive closed Label",
+                  "fill": "$text-muted",
+                  "content": "Inactive closed",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "X8FLb",
+              "name": "Active closed",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "iw80P",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Active closed Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
+                    },
+                    "vBQcg": {
+                      "content": "7",
+                      "fill": "#0F172A"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "C7Vem",
+                  "name": "Active closed Label",
+                  "fill": "$text-muted",
+                  "content": "Active closed",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G2XA1L",
+              "name": "Active popup open",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "HAELU",
+                  "type": "ref",
+                  "ref": "vf9Cq",
+                  "name": "Active popup open Indicator",
+                  "descendants": {
+                    "W6Twbo": {
+                      "fill": "#72D350"
+                    },
+                    "vBQcg": {
+                      "content": "7",
+                      "fill": "#0F172A"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "aCc2v",
+                  "name": "Active popup open Label",
+                  "fill": "$text-muted",
+                  "content": "Active popup open",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "A1cNgU",
+          "name": "Streak Popup States",
+          "width": "fill_container",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "a3tijN",
+              "name": "Inactive Popup",
+              "width": 330,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ptw4c",
+                  "name": "Inactive Popup Trigger",
+                  "width": "fill_container",
+                  "justifyContent": "end",
+                  "children": [
+                    {
+                      "id": "vfN1S",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Inactive Popup Indicator",
+                      "descendants": {
+                        "W6Twbo": {
+                          "fill": "#94A3B8"
+                        },
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#64748B"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JWswF",
+                  "name": "Inactive Popup Popup",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#E2E8F0"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0F172A24",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z2oapK",
+                      "name": "Inactive Popup Popup Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "D8sq8s",
+                          "type": "ref",
+                          "ref": "vf9Cq",
+                          "name": "Inactive Popup Popup Indicator",
+                          "descendants": {
+                            "W6Twbo": {
+                              "fill": "#94A3B8"
+                            },
+                            "vBQcg": {
+                              "content": "5",
+                              "fill": "#64748B"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "g18i3",
+                          "name": "Inactive Popup Popup Title",
+                          "fill": "$text",
+                          "content": "Серия дней",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "jk8Dq",
+                      "name": "Inactive Popup Popup Text",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Повторите или выучите хотя бы одну шлоку для продолжения серии.",
+                      "lineHeight": 1.35,
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xdMSm",
+              "name": "Active Popup",
+              "width": 330,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SVpvC",
+                  "name": "Active Popup Trigger",
+                  "width": "fill_container",
+                  "justifyContent": "end",
+                  "children": [
+                    {
+                      "id": "JozwI",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Active Popup Indicator",
+                      "descendants": {
+                        "W6Twbo": {
+                          "fill": "#72D350"
+                        },
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#0F172A"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "e4INR",
+                  "name": "Active Popup Popup",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#E2E8F0"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0F172A24",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tTzq7",
+                      "name": "Active Popup Popup Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "dnKZF",
+                          "type": "ref",
+                          "ref": "vf9Cq",
+                          "name": "Active Popup Popup Indicator",
+                          "descendants": {
+                            "W6Twbo": {
+                              "fill": "#72D350"
+                            },
+                            "vBQcg": {
+                              "content": "7",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "DRZ2E",
+                          "name": "Active Popup Popup Title",
+                          "fill": "$text",
+                          "content": "Серия дней",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "NNnIJ",
+                      "name": "Active Popup Popup Text",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "У вас серия! Вернитесь завтра, чтобы продолжить ее.",
+                      "lineHeight": 1.35,
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "S41hH0",
+          "name": "Review Pack / Active",
+          "reusable": true,
+          "width": 358,
+          "layout": "vertical",
+          "gap": 22,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Z2An3s",
+              "name": "Review Pack Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Mfoih",
+                  "name": "Пачка повторения Title",
+                  "fill": "#0F172A",
+                  "content": "Повторите шлоки",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IFqsZ",
+              "name": "Review Pack List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "id": "BH0cV",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 1.1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 1.1"
+                    }
+                  }
+                },
+                {
+                  "id": "C1yUY",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Иша-упанишада 1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Иша-упанишада 1"
+                    }
+                  }
+                },
+                {
+                  "id": "AspPZ",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.13",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.13"
+                    }
+                  }
+                },
+                {
+                  "id": "R4Arjn",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.20",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.20"
+                    }
+                  }
+                },
+                {
+                  "id": "A6pOEw",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 4.7",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 4.7"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "rxwaR",
+                  "name": "Review Pack Show More",
+                  "fill": "#2563EB",
+                  "content": "Показать еще",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HEEzu",
+          "name": "Want To Learn Block",
+          "reusable": true,
+          "width": 342,
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "THG9l",
+              "name": "Хочу выучить Header",
+              "width": "fill_container",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "u2NjJl",
+                  "name": "Хочу выучить Title",
+                  "fill": "#0F172A",
+                  "content": "Выучите шлоки",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uicar",
+              "name": "Want List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "id": "IkJEJ",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 1.2",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 1.2"
+                    }
+                  }
+                },
+                {
+                  "id": "UpFG5",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Иша-упанишада 1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Иша-упанишада 1"
+                    }
+                  }
+                },
+                {
+                  "id": "r7vNk7",
+                  "type": "ref",
+                  "ref": "EKyZN",
+                  "name": "Бхагавад-гита 2.13",
+                  "width": "fill_container",
+                  "descendants": {
+                    "w8wWcv": {
+                      "content": "Бхагавад-гита 2.13"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "XvWSd",
+                  "name": "Хочу выучить Action",
+                  "fill": "#2563EB",
+                  "content": "Показать все",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nd50",
+      "x": 0,
+      "y": 2450,
+      "name": "Вариант 1 - светлый модерн",
+      "clip": true,
+      "width": 1320,
+      "height": 1100,
+      "fill": "#EEF3FF",
+      "gap": 40,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "nd20",
+          "name": "Вариант 1 - светлый модерн - обычный",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FFFFFF",
+                "position": 0
+              },
+              {
+                "color": "#F4F8FF",
+                "position": 0.5
+              },
+              {
+                "color": "#EEF7F2",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D9E2F1"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#35507024",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd5",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd1",
+                  "name": "Status Time",
+                  "fill": "#152033",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd4",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd2",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd3",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd17",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd7",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd6",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#152033",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd8",
+                  "type": "ref",
+                  "ref": "S41hH0",
+                  "name": "Повторите шлоки Block",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Mfoih": {
+                      "fill": "#152033",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "rxwaR": {
+                      "fill": "#635BFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd16",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd14",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd13",
+                          "name": "Хочу выучить Title",
+                          "fill": "#152033",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd15",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd9",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D9E2F1"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#152033",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#69768B"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#635BFF"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd10",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D9E2F1"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#152033",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#69768B"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#635BFF"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd11",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 2.13",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D9E2F1"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 2.13",
+                              "fill": "#152033",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#69768B"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#635BFF"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd12",
+                          "name": "Хочу выучить Action",
+                          "fill": "#635BFF",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd19",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd18",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFE8",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D9E2F1"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#635BFF14"
+                    },
+                    "Yhp2w": {
+                      "fill": "#635BFF"
+                    },
+                    "r30e6": {
+                      "fill": "#635BFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#69768B"
+                    },
+                    "JIUqx": {
+                      "fill": "#69768B"
+                    },
+                    "nThE5": {
+                      "fill": "#69768B"
+                    },
+                    "q8vVdb": {
+                      "fill": "#69768B"
+                    },
+                    "C5ePi7": {
+                      "fill": "#69768B"
+                    },
+                    "bH9d7": {
+                      "fill": "#69768B"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd30",
+          "name": "Вариант 1 - светлый модерн - новый пользователь",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FFFFFF",
+                "position": 0
+              },
+              {
+                "color": "#F4F8FF",
+                "position": 0.5
+              },
+              {
+                "color": "#EEF7F2",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D9E2F1"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#35507024",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd25",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd21",
+                  "name": "Status Time",
+                  "fill": "#152033",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd24",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd22",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd23",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd27",
+              "name": "Content",
+              "width": "fill_container",
+              "height": "fit_content(0)",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "id": "nd26",
+                  "type": "ref",
+                  "name": "Want To Learn Empty Instance",
+                  "ref": "f7U4Ah",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "stroke": {
+                    "fill": "#D9E2F1",
+                    "thickness": 1
+                  },
+                  "cornerRadius": 18,
+                  "descendants": {
+                    "BYOjl": {
+                      "fill": "#152033",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "tBzZ3/EZ3CZ": {
+                      "fill": "#152033",
+                      "fontFamily": "Geist"
+                    },
+                    "tBzZ3/DeAxo": {
+                      "fill": "#69768B"
+                    },
+                    "tBzZ3/QrS06": {
+                      "fill": "#635BFF",
+                      "cornerRadius": 16
+                    },
+                    "tBzZ3/QrS06/iVGb7": {
+                      "fill": "#FFFFFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "900"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd29",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd28",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFE8",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D9E2F1"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#635BFF14"
+                    },
+                    "Yhp2w": {
+                      "fill": "#635BFF"
+                    },
+                    "r30e6": {
+                      "fill": "#635BFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#69768B"
+                    },
+                    "JIUqx": {
+                      "fill": "#69768B"
+                    },
+                    "nThE5": {
+                      "fill": "#69768B"
+                    },
+                    "q8vVdb": {
+                      "fill": "#69768B"
+                    },
+                    "C5ePi7": {
+                      "fill": "#69768B"
+                    },
+                    "bH9d7": {
+                      "fill": "#69768B"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd49",
+          "name": "Вариант 1 - светлый модерн - повторения завершены",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FFFFFF",
+                "position": 0
+              },
+              {
+                "color": "#F4F8FF",
+                "position": 0.5
+              },
+              {
+                "color": "#EEF7F2",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D9E2F1"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#35507024",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd35",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd31",
+                  "name": "Status Time",
+                  "fill": "#152033",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd34",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd32",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd33",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#152033"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd46",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd37",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd36",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#152033",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd38",
+                  "type": "ref",
+                  "name": "Повторите шлоки Block",
+                  "ref": "JFRtP",
+                  "width": "fill_container",
+                  "descendants": {
+                    "T1aY9": {
+                      "fill": "#152033",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "PC4rH": {
+                      "fill": "#E7F9EF",
+                      "stroke": {
+                        "fill": "#B7EBCB",
+                        "thickness": 1
+                      },
+                      "cornerRadius": 18
+                    },
+                    "Db56N": {
+                      "fill": "#167A46",
+                      "fontFamily": "Geist"
+                    },
+                    "pFm6e": {
+                      "fill": "#294336"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd45",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd43",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd42",
+                          "name": "Хочу выучить Title",
+                          "fill": "#152033",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd44",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd39",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D9E2F1"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#152033",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#69768B"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#635BFF"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd40",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D9E2F1"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#152033",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#69768B"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#635BFF"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd41",
+                          "name": "Хочу выучить Action",
+                          "fill": "#635BFF",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd48",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd47",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFE8",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D9E2F1"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#635BFF14"
+                    },
+                    "Yhp2w": {
+                      "fill": "#635BFF"
+                    },
+                    "r30e6": {
+                      "fill": "#635BFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#69768B"
+                    },
+                    "JIUqx": {
+                      "fill": "#69768B"
+                    },
+                    "nThE5": {
+                      "fill": "#69768B"
+                    },
+                    "q8vVdb": {
+                      "fill": "#69768B"
+                    },
+                    "C5ePi7": {
+                      "fill": "#69768B"
+                    },
+                    "bH9d7": {
+                      "fill": "#69768B"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nd100",
+      "x": 1420,
+      "y": 2450,
+      "name": "Вариант 2 - темный модерн",
+      "clip": true,
+      "width": 1320,
+      "height": 1100,
+      "fill": "#090B12",
+      "gap": 40,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "nd70",
+          "name": "Вариант 2 - темный модерн - обычный",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#090B12",
+                "position": 0
+              },
+              {
+                "color": "#121826",
+                "position": 0.56
+              },
+              {
+                "color": "#0C1018",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#2A3446"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000066",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd55",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#090B1200",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd51",
+                  "name": "Status Time",
+                  "fill": "#F7F1E5",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd54",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd52",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd53",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd67",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd57",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd56",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#F7F1E5",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd58",
+                  "type": "ref",
+                  "ref": "S41hH0",
+                  "name": "Повторите шлоки Block",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Mfoih": {
+                      "fill": "#F7F1E5",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "rxwaR": {
+                      "fill": "#F5C85B",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd66",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd64",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd63",
+                          "name": "Хочу выучить Title",
+                          "fill": "#F7F1E5",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd65",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd59",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#151B27",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#2A3446"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#F7F1E5",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#9AA6B8"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#F5C85B"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd60",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#151B27",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#2A3446"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#F7F1E5",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#9AA6B8"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#F5C85B"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd61",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 2.13",
+                          "width": "fill_container",
+                          "fill": "#151B27",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#2A3446"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 2.13",
+                              "fill": "#F7F1E5",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#9AA6B8"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#F5C85B"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd62",
+                          "name": "Хочу выучить Action",
+                          "fill": "#F5C85B",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd69",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd68",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#111827E6",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#2A3446"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#F5C85B22"
+                    },
+                    "Yhp2w": {
+                      "fill": "#F5C85B"
+                    },
+                    "r30e6": {
+                      "fill": "#F5C85B",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#9AA6B8"
+                    },
+                    "JIUqx": {
+                      "fill": "#9AA6B8"
+                    },
+                    "nThE5": {
+                      "fill": "#9AA6B8"
+                    },
+                    "q8vVdb": {
+                      "fill": "#9AA6B8"
+                    },
+                    "C5ePi7": {
+                      "fill": "#9AA6B8"
+                    },
+                    "bH9d7": {
+                      "fill": "#9AA6B8"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd80",
+          "name": "Вариант 2 - темный модерн - новый пользователь",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#090B12",
+                "position": 0
+              },
+              {
+                "color": "#121826",
+                "position": 0.56
+              },
+              {
+                "color": "#0C1018",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#2A3446"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000066",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd75",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#090B1200",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd71",
+                  "name": "Status Time",
+                  "fill": "#F7F1E5",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd74",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd72",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd73",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd77",
+              "name": "Content",
+              "width": "fill_container",
+              "height": "fit_content(0)",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "id": "nd76",
+                  "type": "ref",
+                  "name": "Want To Learn Empty Instance",
+                  "ref": "f7U4Ah",
+                  "width": "fill_container",
+                  "fill": "#151B27",
+                  "stroke": {
+                    "fill": "#2A3446",
+                    "thickness": 1
+                  },
+                  "cornerRadius": 18,
+                  "descendants": {
+                    "BYOjl": {
+                      "fill": "#F7F1E5",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "tBzZ3/EZ3CZ": {
+                      "fill": "#F7F1E5",
+                      "fontFamily": "Geist"
+                    },
+                    "tBzZ3/DeAxo": {
+                      "fill": "#9AA6B8"
+                    },
+                    "tBzZ3/QrS06": {
+                      "fill": "#F5C85B",
+                      "cornerRadius": 16
+                    },
+                    "tBzZ3/QrS06/iVGb7": {
+                      "fill": "#0B1020",
+                      "fontFamily": "Geist",
+                      "fontWeight": "900"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd79",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd78",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#111827E6",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#2A3446"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#F5C85B22"
+                    },
+                    "Yhp2w": {
+                      "fill": "#F5C85B"
+                    },
+                    "r30e6": {
+                      "fill": "#F5C85B",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#9AA6B8"
+                    },
+                    "JIUqx": {
+                      "fill": "#9AA6B8"
+                    },
+                    "nThE5": {
+                      "fill": "#9AA6B8"
+                    },
+                    "q8vVdb": {
+                      "fill": "#9AA6B8"
+                    },
+                    "C5ePi7": {
+                      "fill": "#9AA6B8"
+                    },
+                    "bH9d7": {
+                      "fill": "#9AA6B8"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd99",
+          "name": "Вариант 2 - темный модерн - повторения завершены",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#090B12",
+                "position": 0
+              },
+              {
+                "color": "#121826",
+                "position": 0.56
+              },
+              {
+                "color": "#0C1018",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#2A3446"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000066",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd85",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#090B1200",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd81",
+                  "name": "Status Time",
+                  "fill": "#F7F1E5",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd84",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd82",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd83",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F7F1E5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd96",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd87",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd86",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#F7F1E5",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd88",
+                  "type": "ref",
+                  "name": "Повторите шлоки Block",
+                  "ref": "JFRtP",
+                  "width": "fill_container",
+                  "descendants": {
+                    "T1aY9": {
+                      "fill": "#F7F1E5",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "PC4rH": {
+                      "fill": "#14352F",
+                      "stroke": {
+                        "fill": "#34D39955",
+                        "thickness": 1
+                      },
+                      "cornerRadius": 18
+                    },
+                    "Db56N": {
+                      "fill": "#7CF2B2",
+                      "fontFamily": "Geist"
+                    },
+                    "pFm6e": {
+                      "fill": "#D7E7DD"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd95",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd93",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd92",
+                          "name": "Хочу выучить Title",
+                          "fill": "#F7F1E5",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd94",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd89",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#151B27",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#2A3446"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#F7F1E5",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#9AA6B8"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#F5C85B"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd90",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#151B27",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#2A3446"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#F7F1E5",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#9AA6B8"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#F5C85B"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd91",
+                          "name": "Хочу выучить Action",
+                          "fill": "#F5C85B",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd98",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd97",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#111827E6",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#2A3446"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#F5C85B22"
+                    },
+                    "Yhp2w": {
+                      "fill": "#F5C85B"
+                    },
+                    "r30e6": {
+                      "fill": "#F5C85B",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#9AA6B8"
+                    },
+                    "JIUqx": {
+                      "fill": "#9AA6B8"
+                    },
+                    "nThE5": {
+                      "fill": "#9AA6B8"
+                    },
+                    "q8vVdb": {
+                      "fill": "#9AA6B8"
+                    },
+                    "C5ePi7": {
+                      "fill": "#9AA6B8"
+                    },
+                    "bH9d7": {
+                      "fill": "#9AA6B8"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nd150",
+      "x": 2840,
+      "y": 2450,
+      "name": "Вариант 3 - chess.com reference",
+      "clip": true,
+      "width": 1320,
+      "height": 1100,
+      "fill": "#262421",
+      "gap": 40,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "nd120",
+          "name": "Вариант 3 - chess.com reference - обычный",
+          "clip": true,
+          "width": 390,
+          "fill": "#262421",
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#5F574A"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000055",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd105",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#262421",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd101",
+                  "name": "Status Time",
+                  "fill": "#F5F1E8",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd104",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd102",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd103",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd117",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd107",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd106",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#F5F1E8",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd108",
+                  "type": "ref",
+                  "ref": "S41hH0",
+                  "name": "Повторите шлоки Block",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Mfoih": {
+                      "fill": "#F5F1E8",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "rxwaR": {
+                      "fill": "#81B64C",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd116",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd114",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd113",
+                          "name": "Хочу выучить Title",
+                          "fill": "#F5F1E8",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd115",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd109",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#312E2B",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#5F574A"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#F5F1E8",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#B9B2A6"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#81B64C"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd110",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#312E2B",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#5F574A"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#F5F1E8",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#B9B2A6"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#81B64C"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd111",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 2.13",
+                          "width": "fill_container",
+                          "fill": "#312E2B",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#5F574A"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 2.13",
+                              "fill": "#F5F1E8",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#B9B2A6"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#81B64C"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd112",
+                          "name": "Хочу выучить Action",
+                          "fill": "#81B64C",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd119",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd118",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#1E1C1AEE",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#5F574A"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#81B64C24"
+                    },
+                    "Yhp2w": {
+                      "fill": "#81B64C"
+                    },
+                    "r30e6": {
+                      "fill": "#81B64C",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#B9B2A6"
+                    },
+                    "JIUqx": {
+                      "fill": "#B9B2A6"
+                    },
+                    "nThE5": {
+                      "fill": "#B9B2A6"
+                    },
+                    "q8vVdb": {
+                      "fill": "#B9B2A6"
+                    },
+                    "C5ePi7": {
+                      "fill": "#B9B2A6"
+                    },
+                    "bH9d7": {
+                      "fill": "#B9B2A6"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd130",
+          "name": "Вариант 3 - chess.com reference - новый пользователь",
+          "clip": true,
+          "width": 390,
+          "fill": "#262421",
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#5F574A"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000055",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd125",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#262421",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd121",
+                  "name": "Status Time",
+                  "fill": "#F5F1E8",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd124",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd122",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd123",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd127",
+              "name": "Content",
+              "width": "fill_container",
+              "height": "fit_content(0)",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "id": "nd126",
+                  "type": "ref",
+                  "name": "Want To Learn Empty Instance",
+                  "ref": "f7U4Ah",
+                  "width": "fill_container",
+                  "fill": "#312E2B",
+                  "stroke": {
+                    "fill": "#5F574A",
+                    "thickness": 1
+                  },
+                  "cornerRadius": 18,
+                  "descendants": {
+                    "BYOjl": {
+                      "fill": "#F5F1E8",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "tBzZ3/EZ3CZ": {
+                      "fill": "#F5F1E8",
+                      "fontFamily": "Geist"
+                    },
+                    "tBzZ3/DeAxo": {
+                      "fill": "#B9B2A6"
+                    },
+                    "tBzZ3/QrS06": {
+                      "fill": "#81B64C",
+                      "cornerRadius": 16
+                    },
+                    "tBzZ3/QrS06/iVGb7": {
+                      "fill": "#FFFFFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "900"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd129",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd128",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#1E1C1AEE",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#5F574A"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#81B64C24"
+                    },
+                    "Yhp2w": {
+                      "fill": "#81B64C"
+                    },
+                    "r30e6": {
+                      "fill": "#81B64C",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#B9B2A6"
+                    },
+                    "JIUqx": {
+                      "fill": "#B9B2A6"
+                    },
+                    "nThE5": {
+                      "fill": "#B9B2A6"
+                    },
+                    "q8vVdb": {
+                      "fill": "#B9B2A6"
+                    },
+                    "C5ePi7": {
+                      "fill": "#B9B2A6"
+                    },
+                    "bH9d7": {
+                      "fill": "#B9B2A6"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd149",
+          "name": "Вариант 3 - chess.com reference - повторения завершены",
+          "clip": true,
+          "width": 390,
+          "fill": "#262421",
+          "cornerRadius": 28,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#5F574A"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000055",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd135",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#262421",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd131",
+                  "name": "Status Time",
+                  "fill": "#F5F1E8",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd134",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd132",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd133",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#F5F1E8"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd146",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd137",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd136",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#F5F1E8",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd138",
+                  "type": "ref",
+                  "name": "Повторите шлоки Block",
+                  "ref": "JFRtP",
+                  "width": "fill_container",
+                  "descendants": {
+                    "T1aY9": {
+                      "fill": "#F5F1E8",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "PC4rH": {
+                      "fill": "#31482B",
+                      "stroke": {
+                        "fill": "#81B64C88",
+                        "thickness": 1
+                      },
+                      "cornerRadius": 18
+                    },
+                    "Db56N": {
+                      "fill": "#B8F28A",
+                      "fontFamily": "Geist"
+                    },
+                    "pFm6e": {
+                      "fill": "#E5DDCF"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd145",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd143",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd142",
+                          "name": "Хочу выучить Title",
+                          "fill": "#F5F1E8",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd144",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd139",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#312E2B",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#5F574A"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#F5F1E8",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#B9B2A6"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#81B64C"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd140",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#312E2B",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#5F574A"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#F5F1E8",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#B9B2A6"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#81B64C"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd141",
+                          "name": "Хочу выучить Action",
+                          "fill": "#81B64C",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd148",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd147",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#1E1C1AEE",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#5F574A"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#81B64C24"
+                    },
+                    "Yhp2w": {
+                      "fill": "#81B64C"
+                    },
+                    "r30e6": {
+                      "fill": "#81B64C",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#B9B2A6"
+                    },
+                    "JIUqx": {
+                      "fill": "#B9B2A6"
+                    },
+                    "nThE5": {
+                      "fill": "#B9B2A6"
+                    },
+                    "q8vVdb": {
+                      "fill": "#B9B2A6"
+                    },
+                    "C5ePi7": {
+                      "fill": "#B9B2A6"
+                    },
+                    "bH9d7": {
+                      "fill": "#B9B2A6"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nd200",
+      "x": 4260,
+      "y": 2450,
+      "name": "Вариант 4 - duolingo reference",
+      "clip": true,
+      "width": 1320,
+      "height": 1100,
+      "fill": "#DDF4C9",
+      "gap": 40,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "nd170",
+          "name": "Вариант 4 - duolingo reference - обычный",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FBFFF5",
+                "position": 0
+              },
+              {
+                "color": "#F1FFE6",
+                "position": 0.55
+              },
+              {
+                "color": "#E8F8FF",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 30,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D7EDC8"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#3BAA1830",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd155",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd151",
+                  "name": "Status Time",
+                  "fill": "#25351F",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd154",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd152",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd153",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd167",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd157",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd156",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "5",
+                          "fill": "#25351F",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd158",
+                  "type": "ref",
+                  "ref": "S41hH0",
+                  "name": "Повторите шлоки Block",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Mfoih": {
+                      "fill": "#25351F",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "rxwaR": {
+                      "fill": "#58CC02",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd166",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd164",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd163",
+                          "name": "Хочу выучить Title",
+                          "fill": "#25351F",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd165",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd159",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D7EDC8"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#25351F",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#6D7D66"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#58CC02"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd160",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D7EDC8"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#25351F",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#6D7D66"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#58CC02"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd161",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 2.13",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D7EDC8"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 2.13",
+                              "fill": "#25351F",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#6D7D66"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#58CC02"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd162",
+                          "name": "Хочу выучить Action",
+                          "fill": "#58CC02",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd169",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd168",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFF2",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D7EDC8"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#58CC0220"
+                    },
+                    "Yhp2w": {
+                      "fill": "#58CC02"
+                    },
+                    "r30e6": {
+                      "fill": "#58CC02",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#6D7D66"
+                    },
+                    "JIUqx": {
+                      "fill": "#6D7D66"
+                    },
+                    "nThE5": {
+                      "fill": "#6D7D66"
+                    },
+                    "q8vVdb": {
+                      "fill": "#6D7D66"
+                    },
+                    "C5ePi7": {
+                      "fill": "#6D7D66"
+                    },
+                    "bH9d7": {
+                      "fill": "#6D7D66"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd180",
+          "name": "Вариант 4 - duolingo reference - новый пользователь",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FBFFF5",
+                "position": 0
+              },
+              {
+                "color": "#F1FFE6",
+                "position": 0.55
+              },
+              {
+                "color": "#E8F8FF",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 30,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D7EDC8"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#3BAA1830",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd175",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd171",
+                  "name": "Status Time",
+                  "fill": "#25351F",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd174",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd172",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd173",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd177",
+              "name": "Content",
+              "width": "fill_container",
+              "height": "fit_content(0)",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "id": "nd176",
+                  "type": "ref",
+                  "name": "Want To Learn Empty Instance",
+                  "ref": "f7U4Ah",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "stroke": {
+                    "fill": "#D7EDC8",
+                    "thickness": 1
+                  },
+                  "cornerRadius": 18,
+                  "descendants": {
+                    "BYOjl": {
+                      "fill": "#25351F",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "tBzZ3/EZ3CZ": {
+                      "fill": "#25351F",
+                      "fontFamily": "Geist"
+                    },
+                    "tBzZ3/DeAxo": {
+                      "fill": "#6D7D66"
+                    },
+                    "tBzZ3/QrS06": {
+                      "fill": "#58CC02",
+                      "cornerRadius": 16
+                    },
+                    "tBzZ3/QrS06/iVGb7": {
+                      "fill": "#FFFFFF",
+                      "fontFamily": "Geist",
+                      "fontWeight": "900"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd179",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd178",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFF2",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D7EDC8"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#58CC0220"
+                    },
+                    "Yhp2w": {
+                      "fill": "#58CC02"
+                    },
+                    "r30e6": {
+                      "fill": "#58CC02",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#6D7D66"
+                    },
+                    "JIUqx": {
+                      "fill": "#6D7D66"
+                    },
+                    "nThE5": {
+                      "fill": "#6D7D66"
+                    },
+                    "q8vVdb": {
+                      "fill": "#6D7D66"
+                    },
+                    "C5ePi7": {
+                      "fill": "#6D7D66"
+                    },
+                    "bH9d7": {
+                      "fill": "#6D7D66"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nd199",
+          "name": "Вариант 4 - duolingo reference - повторения завершены",
+          "clip": true,
+          "width": 390,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#FBFFF5",
+                "position": 0
+              },
+              {
+                "color": "#F1FFE6",
+                "position": 0.55
+              },
+              {
+                "color": "#E8F8FF",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 30,
+          "stroke": {
+            "thickness": 1,
+            "fill": "#D7EDC8"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#3BAA1830",
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "blur": 34
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nd185",
+              "name": "Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "#FFFFFF00",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd181",
+                  "name": "Status Time",
+                  "fill": "#25351F",
+                  "content": "9:41",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "nd184",
+                  "name": "Status Icons",
+                  "gap": 5,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "nd182",
+                      "name": "Signal Icon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "signal",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "nd183",
+                      "name": "Battery Icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "battery",
+                      "iconFontFamily": "lucide",
+                      "fill": "#25351F"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd196",
+              "name": "Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                8,
+                18,
+                18,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nd187",
+                  "name": "Top icons row",
+                  "width": "fill_container",
+                  "height": 42,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "nd186",
+                      "type": "ref",
+                      "ref": "vf9Cq",
+                      "name": "Streak Indicator Instance",
+                      "descendants": {
+                        "vBQcg": {
+                          "content": "7",
+                          "fill": "#25351F",
+                          "fontFamily": "Geist",
+                          "fontWeight": "900"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nd188",
+                  "type": "ref",
+                  "name": "Повторите шлоки Block",
+                  "ref": "JFRtP",
+                  "width": "fill_container",
+                  "descendants": {
+                    "T1aY9": {
+                      "fill": "#25351F",
+                      "fontFamily": "Geist",
+                      "fontSize": 19
+                    },
+                    "PC4rH": {
+                      "fill": "#DDFBD0",
+                      "stroke": {
+                        "fill": "#9EEB84",
+                        "thickness": 1
+                      },
+                      "cornerRadius": 18
+                    },
+                    "Db56N": {
+                      "fill": "#2D8E00",
+                      "fontFamily": "Geist"
+                    },
+                    "pFm6e": {
+                      "fill": "#31502A"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nd195",
+                  "name": "Хочу выучить Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nd193",
+                      "name": "Хочу выучить Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nd192",
+                          "name": "Хочу выучить Title",
+                          "fill": "#25351F",
+                          "content": "Выучите шлоки",
+                          "fontFamily": "Geist",
+                          "fontSize": 19,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nd194",
+                      "name": "Want List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "nd189",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Бхагавад-гита 1.2",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D7EDC8"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Бхагавад-гита 1.2",
+                              "fill": "#25351F",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#6D7D66"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#58CC02"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nd190",
+                          "type": "ref",
+                          "ref": "EKyZN",
+                          "name": "Иша-упанишада 1",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#D7EDC8"
+                          },
+                          "cornerRadius": 16,
+                          "descendants": {
+                            "w8wWcv": {
+                              "content": "Иша-упанишада 1",
+                              "fill": "#25351F",
+                              "fontFamily": "Geist",
+                              "fontWeight": "800"
+                            },
+                            "XH49p": {
+                              "fill": "#6D7D66"
+                            },
+                            "u8Rg5T": {
+                              "fill": "#58CC02"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "nd191",
+                          "name": "Хочу выучить Action",
+                          "fill": "#58CC02",
+                          "content": "Показать все",
+                          "fontFamily": "Geist",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nd198",
+              "name": "Navigation Wrap",
+              "width": "fill_container",
+              "padding": [
+                0,
+                18,
+                18,
+                18
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "id": "nd197",
+                  "type": "ref",
+                  "ref": "WqaiL",
+                  "name": "Bottom Navigation Instance",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFF2",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#D7EDC8"
+                  },
+                  "cornerRadius": 28,
+                  "descendants": {
+                    "YGaJg": {
+                      "fill": "#58CC0220"
+                    },
+                    "Yhp2w": {
+                      "fill": "#58CC02"
+                    },
+                    "r30e6": {
+                      "fill": "#58CC02",
+                      "fontFamily": "Geist",
+                      "fontWeight": "800"
+                    },
+                    "gWRqP": {
+                      "fill": "#6D7D66"
+                    },
+                    "JIUqx": {
+                      "fill": "#6D7D66"
+                    },
+                    "nThE5": {
+                      "fill": "#6D7D66"
+                    },
+                    "q8vVdb": {
+                      "fill": "#6D7D66"
+                    },
+                    "C5ePi7": {
+                      "fill": "#6D7D66"
+                    },
+                    "bH9d7": {
+                      "fill": "#6D7D66"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#F8FAFC"
+    },
+    "border": {
+      "type": "color",
+      "value": "#E2E8F0"
+    },
+    "danger": {
+      "type": "color",
+      "value": "#DC2626"
+    },
+    "font": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "primary": {
+      "type": "color",
+      "value": "#2563EB"
+    },
+    "primary-soft": {
+      "type": "color",
+      "value": "#DBEAFE"
+    },
+    "radius": {
+      "type": "number",
+      "value": 8
+    },
+    "success": {
+      "type": "color",
+      "value": "#15803D"
+    },
+    "success-soft": {
+      "type": "color",
+      "value": "#DCFCE7"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "surface-muted": {
+      "type": "color",
+      "value": "#F1F5F9"
+    },
+    "text": {
+      "type": "color",
+      "value": "#0F172A"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#64748B"
+    },
+    "warning": {
+      "type": "color",
+      "value": "#B45309"
+    },
+    "warning-soft": {
+      "type": "color",
+      "value": "#FEF3C7"
+    }
+  }
+}
