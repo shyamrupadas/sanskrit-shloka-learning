@@ -1,0 +1,12 @@
+{
+  "name": "@sanskrit-shloka-learning/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "test": "node --test",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  }
+}

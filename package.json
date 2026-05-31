@@ -1,0 +1,17 @@
+{
+  "name": "sanskrit-shloka-learning",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  }
+}
