@@ -79,12 +79,16 @@ const routeTree = rootRoute.addChildren([
   libraryRoute,
 ]);
 
-export const router = createRouter({
-  context: {
-    auth: undefined as unknown as AuthContextValue,
-  },
-  routeTree,
-});
+export function createAppRouter() {
+  return createRouter({
+    context: {
+      auth: undefined as unknown as AuthContextValue,
+    },
+    routeTree,
+  });
+}
+
+export const router = createAppRouter();
 
 function RootRoute() {
   return <Outlet />;
@@ -92,6 +96,6 @@ function RootRoute() {
 
 declare module "@tanstack/react-router" {
   interface Register {
-    router: typeof router;
+    router: ReturnType<typeof createAppRouter>;
   }
 }

@@ -26,6 +26,12 @@ pnpm build
 pnpm dev
 ```
 
+Playwright e2e tests need a local browser binary:
+
+```sh
+pnpm --filter @sanskrit-shloka-learning/web exec playwright install chromium
+```
+
 API local environment:
 
 ```sh

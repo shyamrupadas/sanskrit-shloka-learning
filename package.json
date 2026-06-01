@@ -6,7 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "contract:generate": "turbo run contract:generate",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck"
   },
