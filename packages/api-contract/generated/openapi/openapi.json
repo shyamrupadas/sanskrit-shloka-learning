@@ -1,0 +1,485 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sanskrit Shloka Learning API",
+    "version": "0.0.0"
+  },
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Dashboard"
+    },
+    {
+      "name": "Library"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "operationId": "Auth_login",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AuthSessionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.LoginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "Auth_logout",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "Auth_register",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AuthSessionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state of the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.RegisterRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/session": {
+      "get": {
+        "operationId": "Auth_getSession",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AuthSessionDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/dashboard": {
+      "get": {
+        "operationId": "Dashboard_getDashboard",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.EmptyDashboardDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/library": {
+      "get": {
+        "operationId": "Library_getLibrary",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Library"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SanskritShlokaLearning.AccountDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.ApiError": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.ErrorCode"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.AuthSessionDto": {
+        "type": "object",
+        "required": [
+          "account",
+          "accessToken"
+        ],
+        "properties": {
+          "account": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.AccountDto"
+          },
+          "accessToken": {
+            "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.DashboardPrimaryActionDto": {
+        "type": "object",
+        "required": [
+          "label",
+          "target"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": [
+              "Добавить"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "/library"
+            ]
+          }
+        }
+      },
+      "SanskritShlokaLearning.EmptyDashboardDto": {
+        "type": "object",
+        "required": [
+          "hasPersonalShlokas",
+          "showStreak",
+          "showReviewBlock",
+          "primaryAction"
+        ],
+        "properties": {
+          "hasPersonalShlokas": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "showStreak": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "showReviewBlock": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "primaryAction": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardPrimaryActionDto"
+          }
+        }
+      },
+      "SanskritShlokaLearning.ErrorCode": {
+        "type": "string",
+        "enum": [
+          "VALIDATION_ERROR",
+          "INVALID_CREDENTIALS",
+          "EMAIL_ALREADY_REGISTERED",
+          "UNAUTHORIZED"
+        ]
+      },
+      "SanskritShlokaLearning.LibraryResponseDto": {
+        "type": "object",
+        "required": [
+          "defaultTab",
+          "tabs"
+        ],
+        "properties": {
+          "defaultTab": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryTab"
+          },
+          "tabs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryTabDto"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.LibraryTab": {
+        "type": "string",
+        "enum": [
+          "reviewing",
+          "learning",
+          "all"
+        ]
+      },
+      "SanskritShlokaLearning.LibraryTabDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "emptyTitle",
+          "emptyDescription"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryTab"
+          },
+          "label": {
+            "type": "string"
+          },
+          "emptyTitle": {
+            "type": "string"
+          },
+          "emptyDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
+          }
+        }
+      },
+      "SanskritShlokaLearning.RegisterRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "passwordConfirmation"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "minLength": 6
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development API",
+      "variables": {}
+    }
+  ]
+}

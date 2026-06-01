@@ -14,16 +14,25 @@ Initial product discovery / pre-MVP.
 
 ## Development
 
-Package manager: `pnpm@9.15.9` via Corepack.
+Package manager: `pnpm@11.5.0` via Corepack.
 
 ```sh
 corepack enable pnpm
 pnpm install
+pnpm contract:generate
 pnpm typecheck
 pnpm test
 pnpm build
 pnpm dev
 ```
+
+API local environment:
+
+```sh
+cp apps/api/.env.example apps/api/.env.local
+```
+
+Set `DATABASE_URL` to the Neon PostgreSQL connection string with `sslmode=require`.
 
 Workspace layout:
 

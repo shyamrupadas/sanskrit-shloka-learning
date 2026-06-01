@@ -3,10 +3,32 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./generated/frontend": {
+      "types": "./dist/generated/frontend/client.d.ts",
+      "default": "./dist/generated/frontend/client.js"
+    },
+    "./generated/backend": {
+      "types": "./dist/generated/backend/handlers.d.ts",
+      "default": "./dist/generated/backend/handlers.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "contract:generate": "node scripts/generate-contract.mjs",
+    "contract:generate": "tsp compile . && node scripts/generate-contract.mjs",
     "test": "node --test",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "1.12.0",
+    "@typespec/http": "1.12.0",
+    "@typespec/openapi": "1.12.0",
+    "@typespec/openapi3": "1.12.0"
   }
 }
