@@ -1,0 +1,52 @@
+export const strings = {
+  app: {
+    name: "Sanskrit Shloka Learning",
+  },
+  auth: {
+    accountAccess: "Доступ к учетной записи",
+    email: "Email",
+    hasAccount: "Уже есть учетная запись?",
+    hidePassword: "Скрыть пароль",
+    loginAction: "Войти",
+    loginDescription: "Продолжите заучивание и повторение шлок.",
+    loginError: "Неверный email или пароль",
+    loginLink: "Войти",
+    loginSubmitting: "Входим...",
+    loginTitle: "Вход",
+    logout: "Выйти",
+    noAccount: "Еще нет учетной записи?",
+    password: "Пароль",
+    passwordConfirmation: "Подтверждение пароля",
+    passwordMinLength: "Пароль должен быть не короче 6 символов",
+    passwordMismatch: "Пароль и подтверждение должны совпадать",
+    registerAction: "Зарегистрироваться",
+    registerDescription: "Создайте учетную запись для сохранения прогресса.",
+    registerError: "Не удалось зарегистрироваться",
+    registerLink: "Зарегистрироваться",
+    registerSubmitting: "Создаем...",
+    registerTitle: "Регистрация",
+    sessionChecking: "Проверяем сессию",
+    showPassword: "Показать пароль",
+  },
+  common: {
+    error: "Не удалось загрузить данные",
+    loading: "Загрузка...",
+  },
+  dashboard: {
+    emptyDescription:
+      "Выберите первые шлоки из общей библиотеки, чтобы начать заучивание.",
+    emptyTitle: "Пока нет добавленных шлок",
+    loadError: "Не удалось загрузить дашборд",
+    subtitle: "Первый экран после входа для ежедневной работы.",
+    title: "Дашборд",
+  },
+  library: {
+    loadError: "Не удалось загрузить библиотеку",
+    subtitle: "Выберите шлоки для личного списка заучивания.",
+    title: "Библиотека",
+  },
+  nav: {
+    dashboard: "Дашборд",
+    library: "Библиотека",
+  },
+} as const;

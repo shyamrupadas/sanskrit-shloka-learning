@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 
 import { DatabaseService } from "../database/database.service.js";
 import {
@@ -17,7 +17,7 @@ interface AccountRow {
 
 @Injectable()
 export class PostgresAccountRepository implements AccountRepository {
-  constructor(private readonly database: DatabaseService) {}
+  constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
   async createAccount(input: CreateAccountInput): Promise<AccountRecord> {
     try {

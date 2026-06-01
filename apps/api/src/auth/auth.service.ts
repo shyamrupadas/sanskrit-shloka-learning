@@ -25,6 +25,7 @@ export class AuthService {
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly accounts: AccountRepository,
+    @Inject(PasswordHasher)
     private readonly passwordHasher: PasswordHasher,
   ) {}
 

@@ -1,11 +1,11 @@
-import { Controller, Get, Headers, Res } from "@nestjs/common";
+import { Controller, Get, Headers, Inject, Res } from "@nestjs/common";
 
 import { ApiHandlersService } from "./api-handlers.service.js";
 import { sendContractResponse } from "./contract-response.js";
 
 @Controller("api/dashboard")
 export class DashboardController {
-  constructor(private readonly handlers: ApiHandlersService) {}
+  constructor(@Inject(ApiHandlersService) private readonly handlers: ApiHandlersService) {}
 
   @Get()
   async getDashboard(

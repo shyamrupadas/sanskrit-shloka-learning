@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes, BackendContract } from "@sanskrit-shloka-learning/api-contract";
 
 import { AuthService } from "../auth/auth.service.js";
@@ -6,7 +6,7 @@ import { unauthorizedError } from "../auth/api-error.js";
 
 @Injectable()
 export class ApiHandlersService implements BackendContract.ApiHandlers {
-  constructor(private readonly auth: AuthService) {}
+  constructor(@Inject(AuthService) private readonly auth: AuthService) {}
 
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
     return this.auth.register(request.body);

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Inject, Post, Res } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { ApiHandlersService } from "./api-handlers.service.js";
@@ -6,7 +6,7 @@ import { sendContractResponse } from "./contract-response.js";
 
 @Controller("api/auth")
 export class AuthController {
-  constructor(private readonly handlers: ApiHandlersService) {}
+  constructor(@Inject(ApiHandlersService) private readonly handlers: ApiHandlersService) {}
 
   @Post("register")
   async register(
