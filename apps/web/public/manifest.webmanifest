@@ -1,0 +1,40 @@
+{
+  "name": "Sanskrit Shloka Learning",
+  "short_name": "Shlokas",
+  "description": "Mobile-first приложение для заучивания и повторения шлок на санскрите.",
+  "lang": "ru",
+  "dir": "ltr",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5fbf3",
+  "theme_color": "#16684a",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Дашборд",
+      "short_name": "Дашборд",
+      "url": "/dashboard"
+    },
+    {
+      "name": "Библиотека",
+      "short_name": "Библиотека",
+      "url": "/library"
+    }
+  ]
+}
