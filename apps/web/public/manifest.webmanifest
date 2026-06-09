@@ -1,7 +1,7 @@
 {
   "name": "Sanskrit Shloka Learning",
   "short_name": "Shlokas",
-  "description": "Mobile-first приложение для заучивания и повторения шлок на санскрите.",
+  "description": "Приложение для заучивания и повторения шлок на санскрите.",
   "lang": "ru",
   "dir": "ltr",
   "start_url": "/dashboard",
