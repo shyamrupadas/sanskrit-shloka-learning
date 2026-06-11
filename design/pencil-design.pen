@@ -5071,7 +5071,7 @@
       "name": "02 Core Components",
       "clip": true,
       "width": 900,
-      "height": 562,
+      "height": 720,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -5433,6 +5433,220 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "apGlD",
+          "name": "Core Row / Icons",
+          "width": "fill_container",
+          "height": 44,
+          "gap": "$space-4",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Ms4X8",
+              "name": "Core / Icon / Profile",
+              "reusable": true,
+              "metadata": {
+                "type": "profile"
+              },
+              "width": 34,
+              "height": 34,
+              "fill": "$color-surface",
+              "cornerRadius": 999,
+              "stroke": "$border",
+              "strokeWidth": "$stroke-hairline",
+              "strokeAlignment": "inner",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "bfqvS",
+                  "name": "Profile Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "user-round",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Qm2hL",
+              "name": "Core / Icon / Back",
+              "reusable": true,
+              "metadata": {
+                "type": "navigation",
+                "action": "back"
+              },
+              "width": 40,
+              "height": 40,
+              "fill": "$color-transparent",
+              "cornerRadius": 999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "yyK25",
+                  "name": "Back Icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D01LRx",
+          "name": "Core Row / Select and Textarea",
+          "width": "fill_container",
+          "gap": "$space-6",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Be60C",
+              "name": "Select Components Row",
+              "width": 260,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UONHU",
+                  "name": "Core / Field / Select",
+                  "reusable": true,
+                  "width": 260,
+                  "layout": "vertical",
+                  "gap": "$input-gap",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vdvl3",
+                      "name": "Field Label",
+                      "fill": "$input-label",
+                      "content": "Источник",
+                      "fontFamily": "$typo-font",
+                      "fontSize": "$input-label-size",
+                      "fontWeight": "$typo-p3-weight"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JBOMX",
+                      "name": "Field Box",
+                      "width": "fill_container",
+                      "height": 44,
+                      "fill": "$input-bg",
+                      "cornerRadius": "$input-radius",
+                      "stroke": "$input-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "gap": "$space-2",
+                      "padding": [
+                        0,
+                        "$input-padding-x"
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NifPw",
+                          "name": "Field Placeholder",
+                          "fill": "$input-placeholder",
+                          "content": "Выберите источник",
+                          "fontFamily": "$typo-font",
+                          "fontSize": "$input-text-size",
+                          "fontWeight": "$typo-p1-weight"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "A80BSw",
+                          "name": "Field Trailing Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "$input-icon"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "P8O2dZ",
+              "name": "Textarea Components Row",
+              "width": 260,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xEAP6",
+                  "name": "Core / Field / Textarea",
+                  "reusable": true,
+                  "width": 260,
+                  "layout": "vertical",
+                  "gap": "$input-gap",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bwIsN",
+                      "name": "Field Label",
+                      "fill": "$input-label",
+                      "content": "Перевод",
+                      "fontFamily": "$typo-font",
+                      "fontSize": "$input-label-size",
+                      "fontWeight": "$typo-p3-weight"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BRG49",
+                      "name": "Field Box",
+                      "width": "fill_container",
+                      "height": 112,
+                      "fill": "$input-bg",
+                      "cornerRadius": "$input-radius",
+                      "stroke": "$input-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": "$space-2",
+                      "padding": [
+                        12,
+                        "$input-padding-x"
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PCyw0",
+                          "name": "Field Placeholder",
+                          "fill": "$input-placeholder",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Введите перевод",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$typo-font",
+                          "fontSize": "$input-text-size",
+                          "fontWeight": "$typo-p1-weight"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -5444,7 +5658,7 @@
       "name": "03 Product Components",
       "clip": true,
       "width": 900,
-      "height": 1700,
+      "height": 2420,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -6198,49 +6412,7 @@
                       "id": "PPSJl",
                       "type": "ref",
                       "ref": "e16iU",
-                      "name": "Inactive closed Indicator",
-                      "children": [
-                        {
-                          "id": "IVEfb",
-                          "type": "ref",
-                          "ref": "IVEfb",
-                          "fill": "#FFFFFF00",
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "enabled": false,
-                            "color": "#00000000"
-                          },
-                          "children": [
-                            {
-                              "id": "HZYZM",
-                              "type": "ref",
-                              "ref": "HZYZM",
-                              "fill": "#94A3B8",
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "enabled": false,
-                                "color": "#00000000"
-                              }
-                            },
-                            {
-                              "id": "pS8zR",
-                              "type": "ref",
-                              "ref": "pS8zR",
-                              "fill": "#E2E8F0",
-                              "opacity": 0.55
-                            }
-                          ]
-                        },
-                        {
-                          "id": "fUAJN",
-                          "type": "ref",
-                          "ref": "fUAJN",
-                          "content": "5",
-                          "fill": "#64748B"
-                        }
-                      ]
+                      "name": "Inactive closed Indicator"
                     },
                     {
                       "type": "text",
@@ -6265,71 +6437,7 @@
                       "id": "ZjUB4",
                       "type": "ref",
                       "ref": "e16iU",
-                      "name": "Active closed Indicator",
-                      "children": [
-                        {
-                          "id": "IVEfb",
-                          "type": "ref",
-                          "ref": "IVEfb",
-                          "fill": "#FFFFFF00",
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "enabled": false,
-                            "color": "#00000000"
-                          },
-                          "children": [
-                            {
-                              "id": "HZYZM",
-                              "type": "ref",
-                              "ref": "HZYZM",
-                              "fill": {
-                                "type": "gradient",
-                                "gradientType": "linear",
-                                "enabled": true,
-                                "rotation": 180,
-                                "size": {
-                                  "height": 1
-                                },
-                                "colors": [
-                                  {
-                                    "color": "#F97316",
-                                    "position": 0
-                                  },
-                                  {
-                                    "color": "#FACC15",
-                                    "position": 1
-                                  }
-                                ]
-                              },
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "color": "#F973164D",
-                                "offset": {
-                                  "x": 0,
-                                  "y": 2
-                                },
-                                "blur": 8
-                              }
-                            },
-                            {
-                              "id": "pS8zR",
-                              "type": "ref",
-                              "ref": "pS8zR",
-                              "fill": "#FFF7AD",
-                              "opacity": 1
-                            }
-                          ]
-                        },
-                        {
-                          "id": "fUAJN",
-                          "type": "ref",
-                          "ref": "fUAJN",
-                          "content": "7",
-                          "fill": "#0F172A"
-                        }
-                      ]
+                      "name": "Active closed Indicator"
                     },
                     {
                       "type": "text",
@@ -6380,49 +6488,7 @@
                           "id": "XWlr5",
                           "type": "ref",
                           "ref": "e16iU",
-                          "name": "Inactive Popup Indicator",
-                          "children": [
-                            {
-                              "id": "IVEfb",
-                              "type": "ref",
-                              "ref": "IVEfb",
-                              "fill": "#FFFFFF00",
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "enabled": false,
-                                "color": "#00000000"
-                              },
-                              "children": [
-                                {
-                                  "id": "HZYZM",
-                                  "type": "ref",
-                                  "ref": "HZYZM",
-                                  "fill": "#94A3B8",
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "enabled": false,
-                                    "color": "#00000000"
-                                  }
-                                },
-                                {
-                                  "id": "pS8zR",
-                                  "type": "ref",
-                                  "ref": "pS8zR",
-                                  "fill": "#E2E8F0",
-                                  "opacity": 0.55
-                                }
-                              ]
-                            },
-                            {
-                              "id": "fUAJN",
-                              "type": "ref",
-                              "ref": "fUAJN",
-                              "content": "5",
-                              "fill": "#64748B"
-                            }
-                          ]
+                          "name": "Inactive Popup Indicator"
                         }
                       ]
                     },
@@ -6462,49 +6528,7 @@
                               "id": "KiT7Q",
                               "type": "ref",
                               "ref": "e16iU",
-                              "name": "Inactive Popup Popup Indicator",
-                              "children": [
-                                {
-                                  "id": "IVEfb",
-                                  "type": "ref",
-                                  "ref": "IVEfb",
-                                  "fill": "#FFFFFF00",
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "enabled": false,
-                                    "color": "#00000000"
-                                  },
-                                  "children": [
-                                    {
-                                      "id": "HZYZM",
-                                      "type": "ref",
-                                      "ref": "HZYZM",
-                                      "fill": "#94A3B8",
-                                      "effect": {
-                                        "type": "shadow",
-                                        "shadowType": "outer",
-                                        "enabled": false,
-                                        "color": "#00000000"
-                                      }
-                                    },
-                                    {
-                                      "id": "pS8zR",
-                                      "type": "ref",
-                                      "ref": "pS8zR",
-                                      "fill": "#E2E8F0",
-                                      "opacity": 0.55
-                                    }
-                                  ]
-                                },
-                                {
-                                  "id": "fUAJN",
-                                  "type": "ref",
-                                  "ref": "fUAJN",
-                                  "content": "5",
-                                  "fill": "#64748B"
-                                }
-                              ]
+                              "name": "Inactive Popup Popup Indicator"
                             },
                             {
                               "type": "text",
@@ -6554,71 +6578,7 @@
                           "id": "VhmWB",
                           "type": "ref",
                           "ref": "e16iU",
-                          "name": "Active Popup Indicator",
-                          "children": [
-                            {
-                              "id": "IVEfb",
-                              "type": "ref",
-                              "ref": "IVEfb",
-                              "fill": "#FFFFFF00",
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "enabled": false,
-                                "color": "#00000000"
-                              },
-                              "children": [
-                                {
-                                  "id": "HZYZM",
-                                  "type": "ref",
-                                  "ref": "HZYZM",
-                                  "fill": {
-                                    "type": "gradient",
-                                    "gradientType": "linear",
-                                    "enabled": true,
-                                    "rotation": 180,
-                                    "size": {
-                                      "height": 1
-                                    },
-                                    "colors": [
-                                      {
-                                        "color": "#F97316",
-                                        "position": 0
-                                      },
-                                      {
-                                        "color": "#FACC15",
-                                        "position": 1
-                                      }
-                                    ]
-                                  },
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "color": "#F973164D",
-                                    "offset": {
-                                      "x": 0,
-                                      "y": 2
-                                    },
-                                    "blur": 8
-                                  }
-                                },
-                                {
-                                  "id": "pS8zR",
-                                  "type": "ref",
-                                  "ref": "pS8zR",
-                                  "fill": "#FFF7AD",
-                                  "opacity": 1
-                                }
-                              ]
-                            },
-                            {
-                              "id": "fUAJN",
-                              "type": "ref",
-                              "ref": "fUAJN",
-                              "content": "7",
-                              "fill": "#0F172A"
-                            }
-                          ]
+                          "name": "Active Popup Indicator"
                         }
                       ]
                     },
@@ -6658,71 +6618,7 @@
                               "id": "F8YlE",
                               "type": "ref",
                               "ref": "e16iU",
-                              "name": "Active Popup Popup Indicator",
-                              "children": [
-                                {
-                                  "id": "IVEfb",
-                                  "type": "ref",
-                                  "ref": "IVEfb",
-                                  "fill": "#FFFFFF00",
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "enabled": false,
-                                    "color": "#00000000"
-                                  },
-                                  "children": [
-                                    {
-                                      "id": "HZYZM",
-                                      "type": "ref",
-                                      "ref": "HZYZM",
-                                      "fill": {
-                                        "type": "gradient",
-                                        "gradientType": "linear",
-                                        "enabled": true,
-                                        "rotation": 180,
-                                        "size": {
-                                          "height": 1
-                                        },
-                                        "colors": [
-                                          {
-                                            "color": "#F97316",
-                                            "position": 0
-                                          },
-                                          {
-                                            "color": "#FACC15",
-                                            "position": 1
-                                          }
-                                        ]
-                                      },
-                                      "effect": {
-                                        "type": "shadow",
-                                        "shadowType": "outer",
-                                        "color": "#F973164D",
-                                        "offset": {
-                                          "x": 0,
-                                          "y": 2
-                                        },
-                                        "blur": 8
-                                      }
-                                    },
-                                    {
-                                      "id": "pS8zR",
-                                      "type": "ref",
-                                      "ref": "pS8zR",
-                                      "fill": "#FFF7AD",
-                                      "opacity": 1
-                                    }
-                                  ]
-                                },
-                                {
-                                  "id": "fUAJN",
-                                  "type": "ref",
-                                  "ref": "fUAJN",
-                                  "content": "7",
-                                  "fill": "#0F172A"
-                                }
-                              ]
+                              "name": "Active Popup Popup Indicator"
                             },
                             {
                               "type": "text",
@@ -7084,6 +6980,228 @@
                       "content": "Добавить"
                     }
                   }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jENHO",
+          "name": "Product Row / Admin Forms",
+          "width": "fill_container",
+          "gap": "$space-6",
+          "children": [
+            {
+              "type": "frame",
+              "id": "gkqb9",
+              "name": "Product / Shloka Admin Form",
+              "reusable": true,
+              "width": 358,
+              "layout": "vertical",
+              "gap": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ks5xx",
+                  "name": "Form Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fsejk",
+                      "name": "Form Title",
+                      "fill": "$text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Новая шлока",
+                      "lineHeight": 1.12,
+                      "fontFamily": "$font",
+                      "fontSize": 29,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OPN7L",
+                  "name": "Form Fields",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "id": "R2uHb",
+                      "type": "ref",
+                      "ref": "UONHU",
+                      "name": "Source Select",
+                      "width": "fill_container",
+                      "descendants": {
+                        "vdvl3": {
+                          "content": "Источник"
+                        },
+                        "NifPw": {
+                          "content": "Не выбрано",
+                          "fill": "$input-placeholder"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nx9yZ",
+                      "name": "Chapter and Text Row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "qEjTD",
+                          "type": "ref",
+                          "ref": "UONHU",
+                          "name": "Chapter Select",
+                          "width": "fill_container",
+                          "descendants": {
+                            "vdvl3": {
+                              "content": "Глава"
+                            },
+                            "NifPw": {
+                              "content": "Не выбрано",
+                              "fill": "$input-placeholder"
+                            }
+                          }
+                        },
+                        {
+                          "id": "DEtEL",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Text Number Input",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Текст"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Номер",
+                              "fill": "$input-placeholder"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "mzm6b",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "1 пада Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "1 пада"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "enabled": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "tJpQN",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "2 пада Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "2 пада"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "enabled": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "d731x",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "3 пада Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "3 пада"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "enabled": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "EsYLl",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "4 пада Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "4 пада"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "enabled": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "apPOB",
+                      "type": "ref",
+                      "ref": "xEAP6",
+                      "name": "Translation Textarea",
+                      "width": "fill_container",
+                      "descendants": {
+                        "bwIsN": {
+                          "content": "Перевод"
+                        },
+                        "PCyw0": {
+                          "content": "Введите перевод"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x1OST",
+                  "name": "Form Actions",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "ngk8h",
+                      "type": "ref",
+                      "ref": "M6qnk",
+                      "name": "Submit Button",
+                      "width": "fill_container",
+                      "descendants": {
+                        "aUMci": {
+                          "content": "Добавить"
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -7536,15 +7654,7 @@
                   "ref": "M6qnk",
                   "name": "Кнопка регистрации",
                   "width": "fill_container",
-                  "height": 44,
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Зарегистрироваться"
-                    }
-                  ]
+                  "height": 44
                 },
                 {
                   "type": "frame",
@@ -7985,15 +8095,7 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Кнопка входа",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Войти"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "type": "frame",
@@ -8123,54 +8225,32 @@
           "children": [
             {
               "type": "frame",
-              "id": "B8hfvy",
-              "name": "Top icons row",
+              "id": "uqhPD",
+              "name": "Header",
               "width": "fill_container",
               "height": 34,
               "gap": 18,
-              "justifyContent": "end",
+              "justifyContent": "space_between",
               "alignItems": "center",
               "children": [
                 {
-                  "id": "OtiqL",
+                  "id": "hPBuq",
                   "type": "ref",
-                  "ref": "e16iU",
-                  "name": "Streak Indicator Instance",
+                  "ref": "Ms4X8",
+                  "name": "Profile Icon Button Instance",
                   "children": [
                     {
-                      "id": "IVEfb",
+                      "id": "bfqvS",
                       "type": "ref",
-                      "ref": "IVEfb",
-                      "children": [
-                        {
-                          "id": "HZYZM",
-                          "type": "ref",
-                          "ref": "HZYZM",
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "enabled": false,
-                            "color": "#00000000"
-                          },
-                          "fill": "#94A3B8"
-                        },
-                        {
-                          "id": "pS8zR",
-                          "type": "ref",
-                          "ref": "pS8zR",
-                          "fill": "#E2E8F0",
-                          "opacity": 0.55
-                        }
-                      ]
-                    },
-                    {
-                      "id": "fUAJN",
-                      "type": "ref",
-                      "ref": "fUAJN",
-                      "content": "5",
-                      "fill": "#64748B"
+                      "ref": "bfqvS"
                     }
                   ]
+                },
+                {
+                  "id": "J9nsS",
+                  "type": "ref",
+                  "ref": "e16iU",
+                  "name": "Streak Indicator Instance"
                 }
               ]
             },
@@ -8179,298 +8259,14 @@
               "type": "ref",
               "ref": "MTM4W",
               "name": "Повторите шлоки Block",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "xxNJK",
-                  "type": "ref",
-                  "ref": "xxNJK",
-                  "children": [
-                    {
-                      "id": "b57Hth",
-                      "type": "ref",
-                      "ref": "b57Hth"
-                    }
-                  ]
-                },
-                {
-                  "id": "JWPSm",
-                  "type": "ref",
-                  "ref": "JWPSm",
-                  "children": [
-                    {
-                      "id": "aPN1l",
-                      "type": "ref",
-                      "ref": "aPN1l",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "aPN1l/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "aPN1l/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "aPN1l/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "aPN1l/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "Ix0EQ",
-                      "type": "ref",
-                      "ref": "Ix0EQ",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "Ix0EQ/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "Ix0EQ/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "Ix0EQ/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "Ix0EQ/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "tiFbR",
-                      "type": "ref",
-                      "ref": "tiFbR",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "tiFbR/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "tiFbR/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "tiFbR/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "tiFbR/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "qFZm5",
-                      "type": "ref",
-                      "ref": "qFZm5",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "qFZm5/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "qFZm5/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "qFZm5/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "qFZm5/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "SrOkM",
-                      "type": "ref",
-                      "ref": "SrOkM",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "SrOkM/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "SrOkM/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "SrOkM/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "SrOkM/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "hWpgq",
-                      "type": "ref",
-                      "ref": "hWpgq"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "n7baZ",
               "type": "ref",
               "ref": "OPAt8",
               "name": "Выучите шлоки Block",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "W3nBf",
-                  "type": "ref",
-                  "ref": "W3nBf",
-                  "children": [
-                    {
-                      "id": "IxPEQ",
-                      "type": "ref",
-                      "ref": "IxPEQ"
-                    }
-                  ]
-                },
-                {
-                  "id": "sjVQJ",
-                  "type": "ref",
-                  "ref": "sjVQJ",
-                  "children": [
-                    {
-                      "id": "q0Gun",
-                      "type": "ref",
-                      "ref": "q0Gun",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "q0Gun/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "q0Gun/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "q0Gun/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "q0Gun/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "dWBPo",
-                      "type": "ref",
-                      "ref": "dWBPo",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "dWBPo/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "dWBPo/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "dWBPo/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "dWBPo/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "FwzhE",
-                      "type": "ref",
-                      "ref": "FwzhE",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "FwzhE/tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "FwzhE/Y6q1C"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "FwzhE/zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "FwzhE/ekzDR"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ohKFU",
-                      "type": "ref",
-                      "ref": "ohKFU"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
@@ -8488,77 +8284,166 @@
           "justifyContent": "center",
           "children": [
             {
-              "id": "k3dCp",
-              "type": "ref",
-              "ref": "S7Pta",
-              "name": "Bottom Navigation Instance",
+              "type": "frame",
+              "id": "TZLcx",
+              "name": "Bottom Navigation / Dashboard",
               "width": "fill_container",
+              "height": 64,
+              "fill": "$color-surface-translucent",
+              "cornerRadius": 32,
+              "stroke": "$border",
+              "strokeWidth": "$stroke-hairline",
+              "strokeAlignment": "inner",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$shadow-mid-color",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 20
+              },
+              "gap": 2,
+              "padding": 6,
               "children": [
                 {
-                  "id": "X1d4e",
-                  "type": "ref",
-                  "ref": "X1d4e",
+                  "type": "frame",
+                  "id": "skpsB",
+                  "name": "Nav Item / Дашборд",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$primary-soft",
+                  "cornerRadius": "$component-nav-item-radius",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "rZ9HW",
-                      "type": "ref",
-                      "ref": "rZ9HW"
+                      "type": "icon",
+                      "id": "pO1Ed",
+                      "name": "Nav Icon / Дашборд",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "layout-dashboard",
+                      "library": "lucide",
+                      "fill": "$primary"
                     },
                     {
-                      "id": "M1O7R",
-                      "type": "ref",
-                      "ref": "M1O7R"
+                      "type": "text",
+                      "id": "R0eie",
+                      "name": "Nav Label / Дашборд",
+                      "fill": "$primary",
+                      "content": "Дашборд",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-nav-size",
+                      "fontWeight": "$type-weight-bold"
                     }
                   ]
                 },
                 {
-                  "id": "bQROH",
-                  "type": "ref",
-                  "ref": "bQROH",
+                  "type": "frame",
+                  "id": "IN0rF",
+                  "name": "Nav Item / Библиотека",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$color-transparent",
+                  "cornerRadius": "$component-nav-item-radius",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "ivXLv",
-                      "type": "ref",
-                      "ref": "ivXLv"
+                      "type": "icon",
+                      "id": "Esy5o",
+                      "name": "Nav Icon / Библиотека",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "book-open",
+                      "library": "lucide",
+                      "fill": "$text-muted"
                     },
                     {
-                      "id": "L6CXp6",
-                      "type": "ref",
-                      "ref": "L6CXp6"
+                      "type": "text",
+                      "id": "SxttM",
+                      "name": "Nav Label / Библиотека",
+                      "fill": "$text-muted",
+                      "content": "Библиотека",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-nav-size",
+                      "fontWeight": "$type-weight-medium"
                     }
                   ]
                 },
                 {
-                  "id": "U1VK6D",
-                  "type": "ref",
-                  "ref": "U1VK6D",
+                  "type": "frame",
+                  "id": "mWDb0",
+                  "name": "Nav Item / Обучение",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$color-transparent",
+                  "cornerRadius": "$component-nav-item-radius",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "cDiFN",
-                      "type": "ref",
-                      "ref": "cDiFN"
+                      "type": "icon",
+                      "id": "yLvWB",
+                      "name": "Nav Icon / Обучение",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "graduation-cap",
+                      "library": "lucide",
+                      "fill": "$text-muted"
                     },
                     {
-                      "id": "Jl09H",
-                      "type": "ref",
-                      "ref": "Jl09H"
+                      "type": "text",
+                      "id": "H5P4r",
+                      "name": "Nav Label / Обучение",
+                      "fill": "$text-muted",
+                      "content": "Обучение",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-nav-size",
+                      "fontWeight": "$type-weight-medium"
                     }
                   ]
                 },
                 {
-                  "id": "JIRDA",
-                  "type": "ref",
-                  "ref": "JIRDA",
+                  "type": "frame",
+                  "id": "E7lxOF",
+                  "name": "Nav Item / Настройки",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$color-transparent",
+                  "cornerRadius": "$component-nav-item-radius",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "l8qX5V",
-                      "type": "ref",
-                      "ref": "l8qX5V"
+                      "type": "icon",
+                      "id": "SdZbT",
+                      "name": "Nav Icon / Настройки",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "settings",
+                      "library": "lucide",
+                      "fill": "$text-muted"
                     },
                     {
-                      "id": "KuIBo",
-                      "type": "ref",
-                      "ref": "KuIBo"
+                      "type": "text",
+                      "id": "XQVS6",
+                      "name": "Nav Label / Настройки",
+                      "fill": "$text-muted",
+                      "content": "Настройки",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-nav-size",
+                      "fontWeight": "$type-weight-medium"
                     }
                   ]
                 }
@@ -8652,62 +8537,7 @@
               "type": "ref",
               "ref": "Kir4Y",
               "name": "Want To Learn Empty Instance",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "a9lzeS",
-                  "type": "ref",
-                  "ref": "a9lzeS",
-                  "children": [
-                    {
-                      "id": "Ahyn4",
-                      "type": "ref",
-                      "ref": "Ahyn4"
-                    }
-                  ]
-                },
-                {
-                  "id": "Ft2QS",
-                  "type": "ref",
-                  "ref": "Ft2QS",
-                  "children": [
-                    {
-                      "id": "y4vgop",
-                      "type": "ref",
-                      "ref": "Ft2QS/y4vgop",
-                      "children": [
-                        {
-                          "id": "OGAri",
-                          "type": "ref",
-                          "ref": "Ft2QS/OGAri"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "U6y4X",
-                      "type": "ref",
-                      "ref": "Ft2QS/U6y4X"
-                    },
-                    {
-                      "id": "NuUfs",
-                      "type": "ref",
-                      "ref": "Ft2QS/NuUfs"
-                    },
-                    {
-                      "id": "Wmath",
-                      "type": "ref",
-                      "ref": "Ft2QS/Wmath",
-                      "children": [
-                        {
-                          "id": "aUMci",
-                          "type": "ref",
-                          "ref": "Ft2QS/Wmath/aUMci"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
@@ -8729,77 +8559,7 @@
               "type": "ref",
               "ref": "S7Pta",
               "name": "Bottom Navigation Instance",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "X1d4e",
-                  "type": "ref",
-                  "ref": "X1d4e",
-                  "children": [
-                    {
-                      "id": "rZ9HW",
-                      "type": "ref",
-                      "ref": "rZ9HW"
-                    },
-                    {
-                      "id": "M1O7R",
-                      "type": "ref",
-                      "ref": "M1O7R"
-                    }
-                  ]
-                },
-                {
-                  "id": "bQROH",
-                  "type": "ref",
-                  "ref": "bQROH",
-                  "children": [
-                    {
-                      "id": "ivXLv",
-                      "type": "ref",
-                      "ref": "ivXLv"
-                    },
-                    {
-                      "id": "L6CXp6",
-                      "type": "ref",
-                      "ref": "L6CXp6"
-                    }
-                  ]
-                },
-                {
-                  "id": "U1VK6D",
-                  "type": "ref",
-                  "ref": "U1VK6D",
-                  "children": [
-                    {
-                      "id": "cDiFN",
-                      "type": "ref",
-                      "ref": "cDiFN"
-                    },
-                    {
-                      "id": "Jl09H",
-                      "type": "ref",
-                      "ref": "Jl09H"
-                    }
-                  ]
-                },
-                {
-                  "id": "JIRDA",
-                  "type": "ref",
-                  "ref": "JIRDA",
-                  "children": [
-                    {
-                      "id": "l8qX5V",
-                      "type": "ref",
-                      "ref": "l8qX5V"
-                    },
-                    {
-                      "id": "KuIBo",
-                      "type": "ref",
-                      "ref": "KuIBo"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         }
@@ -8899,64 +8659,7 @@
                   "id": "s7cCE3",
                   "type": "ref",
                   "ref": "e16iU",
-                  "name": "Streak Indicator Instance",
-                  "children": [
-                    {
-                      "id": "IVEfb",
-                      "type": "ref",
-                      "ref": "IVEfb",
-                      "children": [
-                        {
-                          "id": "HZYZM",
-                          "type": "ref",
-                          "ref": "HZYZM",
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "color": "#F973164D",
-                            "offset": {
-                              "x": 0,
-                              "y": 2
-                            },
-                            "blur": 8
-                          },
-                          "fill": {
-                            "type": "gradient",
-                            "gradientType": "linear",
-                            "enabled": true,
-                            "rotation": 180,
-                            "size": {
-                              "height": 1
-                            },
-                            "colors": [
-                              {
-                                "color": "#F97316",
-                                "position": 0
-                              },
-                              {
-                                "color": "#FACC15",
-                                "position": 1
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "id": "pS8zR",
-                          "type": "ref",
-                          "ref": "pS8zR",
-                          "fill": "#FFF7AD",
-                          "opacity": 1
-                        }
-                      ]
-                    },
-                    {
-                      "id": "fUAJN",
-                      "type": "ref",
-                      "ref": "fUAJN",
-                      "content": "7",
-                      "fill": "#0F172A"
-                    }
-                  ]
+                  "name": "Streak Indicator Instance"
                 }
               ]
             },
@@ -8965,38 +8668,7 @@
               "type": "ref",
               "ref": "zE99y",
               "name": "Повторите шлоки Block",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "uqI5E",
-                  "type": "ref",
-                  "ref": "uqI5E",
-                  "children": [
-                    {
-                      "id": "uXqzj",
-                      "type": "ref",
-                      "ref": "uXqzj"
-                    }
-                  ]
-                },
-                {
-                  "id": "YZ3Fw",
-                  "type": "ref",
-                  "ref": "YZ3Fw",
-                  "children": [
-                    {
-                      "id": "vKIRp",
-                      "type": "ref",
-                      "ref": "vKIRp"
-                    },
-                    {
-                      "id": "c4Di0p",
-                      "type": "ref",
-                      "ref": "c4Di0p"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "type": "frame",
@@ -9038,64 +8710,14 @@
                       "type": "ref",
                       "ref": "z6MuZx",
                       "name": "Бхагавад-гита 1.2",
-                      "width": "fill_container",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "Y6q1C",
-                              "content": "Бхагавад-гита 1.2"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "ekzDR"
-                        }
-                      ]
+                      "width": "fill_container"
                     },
                     {
                       "id": "kcWl2",
                       "type": "ref",
                       "ref": "z6MuZx",
                       "name": "Иша-упанишада 1",
-                      "width": "fill_container",
-                      "children": [
-                        {
-                          "id": "tvgg2",
-                          "type": "ref",
-                          "ref": "tvgg2",
-                          "children": [
-                            {
-                              "id": "Y6q1C",
-                              "type": "ref",
-                              "ref": "Y6q1C",
-                              "content": "Иша-упанишада 1"
-                            },
-                            {
-                              "id": "zM2Uc",
-                              "type": "ref",
-                              "ref": "zM2Uc"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "ekzDR",
-                          "type": "ref",
-                          "ref": "ekzDR"
-                        }
-                      ]
+                      "width": "fill_container"
                     },
                     {
                       "type": "text",
@@ -9131,77 +8753,7 @@
               "type": "ref",
               "ref": "S7Pta",
               "name": "Bottom Navigation Instance",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "X1d4e",
-                  "type": "ref",
-                  "ref": "X1d4e",
-                  "children": [
-                    {
-                      "id": "rZ9HW",
-                      "type": "ref",
-                      "ref": "rZ9HW"
-                    },
-                    {
-                      "id": "M1O7R",
-                      "type": "ref",
-                      "ref": "M1O7R"
-                    }
-                  ]
-                },
-                {
-                  "id": "bQROH",
-                  "type": "ref",
-                  "ref": "bQROH",
-                  "children": [
-                    {
-                      "id": "ivXLv",
-                      "type": "ref",
-                      "ref": "ivXLv"
-                    },
-                    {
-                      "id": "L6CXp6",
-                      "type": "ref",
-                      "ref": "L6CXp6"
-                    }
-                  ]
-                },
-                {
-                  "id": "U1VK6D",
-                  "type": "ref",
-                  "ref": "U1VK6D",
-                  "children": [
-                    {
-                      "id": "cDiFN",
-                      "type": "ref",
-                      "ref": "cDiFN"
-                    },
-                    {
-                      "id": "Jl09H",
-                      "type": "ref",
-                      "ref": "Jl09H"
-                    }
-                  ]
-                },
-                {
-                  "id": "JIRDA",
-                  "type": "ref",
-                  "ref": "JIRDA",
-                  "children": [
-                    {
-                      "id": "l8qX5V",
-                      "type": "ref",
-                      "ref": "l8qX5V"
-                    },
-                    {
-                      "id": "KuIBo",
-                      "type": "ref",
-                      "ref": "KuIBo"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
@@ -9321,45 +8873,7 @@
               "type": "ref",
               "ref": "T8Ktz7",
               "name": "Tabs / Library",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "xSkJY",
-                  "type": "ref",
-                  "ref": "xSkJY",
-                  "children": [
-                    {
-                      "id": "Wsc2d",
-                      "type": "ref",
-                      "ref": "Wsc2d"
-                    }
-                  ]
-                },
-                {
-                  "id": "YJRaD",
-                  "type": "ref",
-                  "ref": "YJRaD",
-                  "children": [
-                    {
-                      "id": "BnIuW",
-                      "type": "ref",
-                      "ref": "BnIuW"
-                    }
-                  ]
-                },
-                {
-                  "id": "RIxNB",
-                  "type": "ref",
-                  "ref": "RIxNB",
-                  "children": [
-                    {
-                      "id": "YcB2s",
-                      "type": "ref",
-                      "ref": "YcB2s"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "type": "frame",
@@ -9374,99 +8888,21 @@
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 1.1",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 1.1"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "дхритараштра увача · повторяю"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "PtckN",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Иша-упанишада 1",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Иша-упанишада 1"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "ишавасьям идам сарвам · повторяю"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "NyX6U",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 2.13",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 2.13"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "дехино 'смин йатха дехе · повторяю"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -9477,85 +8913,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -9663,51 +9021,7 @@
               "type": "ref",
               "ref": "T8Ktz7",
               "name": "Tabs / Library",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "xSkJY",
-                  "type": "ref",
-                  "ref": "xSkJY",
-                  "fill": "#FFFFFF00",
-                  "children": [
-                    {
-                      "id": "Wsc2d",
-                      "type": "ref",
-                      "ref": "Wsc2d",
-                      "fill": "$text-muted",
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "id": "YJRaD",
-                  "type": "ref",
-                  "ref": "YJRaD",
-                  "fill": "$surface",
-                  "children": [
-                    {
-                      "id": "BnIuW",
-                      "type": "ref",
-                      "ref": "BnIuW",
-                      "fill": "$text",
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "id": "RIxNB",
-                  "type": "ref",
-                  "ref": "RIxNB",
-                  "children": [
-                    {
-                      "id": "YcB2s",
-                      "type": "ref",
-                      "ref": "YcB2s"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "type": "frame",
@@ -9722,99 +9036,21 @@
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 1.2",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 1.2"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "санджая увача · буду учить"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "b9Xrf",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 4.7",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 4.7"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "йада йада хи дхармасья · буду учить"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "j0hGWH",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 4.8",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 4.8"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "паритраная садхунам · буду учить"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -9825,85 +9061,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -10011,51 +9169,7 @@
               "type": "ref",
               "ref": "T8Ktz7",
               "name": "Tabs / Library",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "xSkJY",
-                  "type": "ref",
-                  "ref": "xSkJY",
-                  "fill": "#FFFFFF00",
-                  "children": [
-                    {
-                      "id": "Wsc2d",
-                      "type": "ref",
-                      "ref": "Wsc2d",
-                      "fill": "$text-muted",
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "id": "YJRaD",
-                  "type": "ref",
-                  "ref": "YJRaD",
-                  "children": [
-                    {
-                      "id": "BnIuW",
-                      "type": "ref",
-                      "ref": "BnIuW"
-                    }
-                  ]
-                },
-                {
-                  "id": "RIxNB",
-                  "type": "ref",
-                  "ref": "RIxNB",
-                  "fill": "$surface",
-                  "children": [
-                    {
-                      "id": "YcB2s",
-                      "type": "ref",
-                      "ref": "YcB2s",
-                      "fill": "$text",
-                      "fontWeight": "700"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "SbWdV",
@@ -10065,24 +9179,55 @@
               "width": "fill_container",
               "children": [
                 {
-                  "id": "I1XCdW",
-                  "type": "ref",
-                  "ref": "LgaTW/I1XCdW"
+                  "type": "text",
+                  "id": "AZqkM",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Field Label",
+                  "enabled": false,
+                  "fill": "$input-label",
+                  "content": "Email",
+                  "fontFamily": "$typo-font",
+                  "fontSize": "$input-label-size",
+                  "fontWeight": "$typo-p3-weight"
                 },
                 {
-                  "id": "GAfNm",
-                  "type": "ref",
-                  "ref": "LgaTW/GAfNm",
+                  "type": "frame",
+                  "id": "NFc80",
+                  "name": "Field Box",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$input-bg",
+                  "cornerRadius": "$input-radius",
+                  "stroke": "$input-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "gap": "$space-2",
+                  "padding": [
+                    0,
+                    "$input-padding-x"
+                  ],
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "RBmUz",
-                      "type": "ref",
-                      "ref": "LgaTW/RBmUz"
+                      "type": "icon",
+                      "id": "Xr6GE",
+                      "name": "Field Leading Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "search",
+                      "library": "lucide",
+                      "fill": "$input-icon"
                     },
                     {
-                      "id": "ONWjS",
-                      "type": "ref",
-                      "ref": "LgaTW/ONWjS"
+                      "type": "text",
+                      "id": "eIYHW",
+                      "name": "Field Placeholder",
+                      "fill": "$input-placeholder",
+                      "content": "Поиск",
+                      "fontFamily": "$typo-font",
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "$typo-p1-weight"
                     }
                   ]
                 }
@@ -10101,132 +9246,28 @@
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 1.1",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 1.1"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "дхритараштра увача · повторяю"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "Nfj96",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 1.2",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 1.2"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "санджая увача · буду учить"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "OCXCB",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 2.20",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 2.20"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "на джайате мрийате · доступна"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "S2Wgp",
                   "type": "ref",
                   "ref": "z6MuZx",
                   "name": "Бхагавад-гита 4.7",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "tvgg2",
-                      "type": "ref",
-                      "ref": "tvgg2",
-                      "children": [
-                        {
-                          "id": "Y6q1C",
-                          "type": "ref",
-                          "ref": "Y6q1C",
-                          "content": "Бхагавад-гита 4.7"
-                        },
-                        {
-                          "id": "zM2Uc",
-                          "type": "ref",
-                          "ref": "zM2Uc",
-                          "content": "йада йада хи дхармасья · доступна"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "ekzDR",
-                      "type": "ref",
-                      "ref": "ekzDR"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -10237,85 +9278,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -10423,51 +9386,7 @@
               "type": "ref",
               "ref": "T8Ktz7",
               "name": "Tabs / Library",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "xSkJY",
-                  "type": "ref",
-                  "ref": "xSkJY",
-                  "fill": "#FFFFFF00",
-                  "children": [
-                    {
-                      "id": "Wsc2d",
-                      "type": "ref",
-                      "ref": "Wsc2d",
-                      "fill": "$text-muted",
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "id": "YJRaD",
-                  "type": "ref",
-                  "ref": "YJRaD",
-                  "children": [
-                    {
-                      "id": "BnIuW",
-                      "type": "ref",
-                      "ref": "BnIuW"
-                    }
-                  ]
-                },
-                {
-                  "id": "RIxNB",
-                  "type": "ref",
-                  "ref": "RIxNB",
-                  "fill": "$surface",
-                  "children": [
-                    {
-                      "id": "YcB2s",
-                      "type": "ref",
-                      "ref": "YcB2s",
-                      "fill": "$text",
-                      "fontWeight": "700"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "TzQH5",
@@ -10477,30 +9396,68 @@
               "width": "fill_container",
               "children": [
                 {
-                  "id": "NolEg",
-                  "type": "ref",
-                  "ref": "xoKkO/NolEg"
+                  "type": "text",
+                  "id": "trovs",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Field Label",
+                  "enabled": false,
+                  "fill": "$input-label",
+                  "content": "Email",
+                  "fontFamily": "$typo-font",
+                  "fontSize": "$input-label-size",
+                  "fontWeight": "$typo-p3-weight"
                 },
                 {
-                  "id": "sbxLS",
-                  "type": "ref",
-                  "ref": "xoKkO/sbxLS",
+                  "type": "frame",
+                  "id": "E0gde",
+                  "name": "Field Box",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$input-bg",
+                  "cornerRadius": "$input-radius",
+                  "stroke": "$input-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "gap": "$space-2",
+                  "padding": [
+                    0,
+                    "$input-padding-x"
+                  ],
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "pfaQp",
-                      "type": "ref",
-                      "ref": "xoKkO/pfaQp"
+                      "type": "icon",
+                      "id": "vLnrK",
+                      "name": "Field Leading Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "search",
+                      "library": "lucide",
+                      "fill": "$input-icon"
                     },
                     {
-                      "id": "vtoPn",
-                      "type": "ref",
-                      "ref": "xoKkO/vtoPn"
+                      "type": "text",
+                      "id": "AjkW7",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Field Placeholder",
+                      "enabled": false,
+                      "fill": "$input-placeholder",
+                      "content": "Поиск",
+                      "fontFamily": "$typo-font",
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "$typo-p1-weight"
                     },
                     {
-                      "id": "xKrhL",
-                      "type": "ref",
-                      "ref": "xoKkO/xKrhL",
-                      "content": "abc"
+                      "type": "text",
+                      "id": "q8dKGW",
+                      "name": "Field Value",
+                      "fill": "$input-value",
+                      "content": "abc",
+                      "fontFamily": "$typo-font",
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "$typo-p1-weight"
                     }
                   ]
                 }
@@ -10512,47 +9469,7 @@
               "ref": "RPtlw",
               "name": "No Results Empty State",
               "width": "fill_container",
-              "height": 210,
-              "children": [
-                {
-                  "id": "y4vgop",
-                  "type": "ref",
-                  "ref": "y4vgop",
-                  "children": [
-                    {
-                      "id": "OGAri",
-                      "type": "ref",
-                      "ref": "OGAri",
-                      "icon": "search"
-                    }
-                  ]
-                },
-                {
-                  "id": "U6y4X",
-                  "type": "ref",
-                  "ref": "U6y4X",
-                  "content": "Ничего не найдено"
-                },
-                {
-                  "id": "NuUfs",
-                  "type": "ref",
-                  "ref": "NuUfs",
-                  "content": "Проверьте номер, источник или попробуйте другое слово."
-                },
-                {
-                  "id": "Wmath",
-                  "type": "ref",
-                  "ref": "Wmath",
-                  "enabled": false,
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "Wmath/aUMci"
-                    }
-                  ]
-                }
-              ]
+              "height": 210
             }
           ]
         },
@@ -10561,85 +9478,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -10795,85 +9634,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -11002,36 +9763,14 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Выучил",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Выучил"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "kznoP",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Не выучил",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "rotate-ccw"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Не выучил"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -11042,85 +9781,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -11254,36 +9915,14 @@
               "type": "ref",
               "ref": "M6qnk",
               "name": "Выучить еще",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Выучить еще"
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "BnZgS",
               "type": "ref",
               "ref": "B9n47J",
               "name": "На дашборд",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "g86340",
-                  "type": "ref",
-                  "ref": "g86340",
-                  "icon": "layout-dashboard"
-                },
-                {
-                  "id": "VZsCN",
-                  "type": "ref",
-                  "ref": "VZsCN",
-                  "content": "На дашборд"
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
@@ -11292,85 +9931,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -11558,36 +10119,14 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Primary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Открыть подсказку"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "usyZg",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Secondary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "eye"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Показать весь текст"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -11598,77 +10137,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -11856,36 +10325,14 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Primary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Открыть подсказку"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "zO75K",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Secondary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "eye"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Показать весь текст"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -11896,77 +10343,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -12154,15 +10531,7 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Primary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Показать весь текст"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -12173,77 +10542,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -12431,36 +10730,14 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Primary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Следующая шлока"
-                    }
-                  ]
+                  "width": "fill_container"
                 },
                 {
                   "id": "wRrJM",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Secondary Review Action",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "eye"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Выбрать результат"
-                    }
-                  ]
+                  "width": "fill_container"
                 }
               ]
             }
@@ -12471,77 +10748,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -12664,36 +10871,14 @@
               "type": "ref",
               "ref": "M6qnk",
               "name": "Все правильно",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Все правильно"
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "NDcna",
               "type": "ref",
               "ref": "B9n47J",
               "name": "Сделал ошибку",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "g86340",
-                  "type": "ref",
-                  "ref": "g86340",
-                  "icon": "alert-circle"
-                },
-                {
-                  "id": "VZsCN",
-                  "type": "ref",
-                  "ref": "VZsCN",
-                  "content": "Сделал ошибку"
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "type": "text",
@@ -12715,77 +10900,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -12893,87 +11008,21 @@
               "type": "ref",
               "ref": "epjBK",
               "name": "Как читать шлоку по строкам",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "LONhj",
-                  "type": "ref",
-                  "ref": "LONhj",
-                  "children": [
-                    {
-                      "id": "FPC9Q",
-                      "type": "ref",
-                      "ref": "FPC9Q",
-                      "content": "Как читать шлоку по строкам"
-                    },
-                    {
-                      "id": "RkhSj",
-                      "type": "ref",
-                      "ref": "RkhSj"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "zqmXw",
               "type": "ref",
               "ref": "epjBK",
               "name": "Как учить через смысл слов",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "LONhj",
-                  "type": "ref",
-                  "ref": "LONhj",
-                  "children": [
-                    {
-                      "id": "FPC9Q",
-                      "type": "ref",
-                      "ref": "FPC9Q",
-                      "content": "Как учить через смысл слов"
-                    },
-                    {
-                      "id": "RkhSj",
-                      "type": "ref",
-                      "ref": "RkhSj"
-                    }
-                  ]
-                }
-              ]
+              "width": "fill_container"
             },
             {
               "id": "ymyBb",
               "type": "ref",
               "ref": "rgPsh",
               "name": "Что делать, если шлока не вспоминается",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "q86Rqn",
-                  "type": "ref",
-                  "ref": "q86Rqn",
-                  "children": [
-                    {
-                      "id": "mxAzt",
-                      "type": "ref",
-                      "ref": "mxAzt",
-                      "content": "Что делать, если шлока не вспоминается"
-                    },
-                    {
-                      "id": "UGYgR",
-                      "type": "ref",
-                      "ref": "UGYgR"
-                    }
-                  ]
-                },
-                {
-                  "id": "W2JXi",
-                  "type": "ref",
-                  "ref": "W2JXi",
-                  "content": "Откройте половину первой строки и вернитесь к началу без оценки себя."
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
@@ -12982,85 +11031,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Обучение",
-          "width": 358,
-          "children": [
-            {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
-              "children": [
-                {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
-                  "fill": "$text-muted"
-                },
-                {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
-                  "fill": "$text-muted",
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
-              "children": [
-                {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
-                },
-                {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
-                }
-              ]
-            },
-            {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
-              "fill": "$primary-soft",
-              "children": [
-                {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN",
-                  "fill": "$primary"
-                },
-                {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H",
-                  "fill": "$primary",
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
-              "children": [
-                {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V"
-                },
-                {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo"
-                }
-              ]
-            }
-          ]
+          "width": 358
         }
       ]
     },
@@ -13304,106 +11275,171 @@
               "type": "ref",
               "ref": "B9n47J",
               "name": "Logout",
-              "width": "fill_container",
-              "children": [
-                {
-                  "id": "g86340",
-                  "type": "ref",
-                  "ref": "g86340",
-                  "icon": "log-out",
-                  "fill": "$danger"
-                },
-                {
-                  "id": "VZsCN",
-                  "type": "ref",
-                  "ref": "VZsCN",
-                  "content": "Выйти из учетной записи",
-                  "fill": "$danger"
-                }
-              ]
+              "width": "fill_container"
             }
           ]
         },
         {
-          "id": "nMPJr",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Настройки",
+          "type": "frame",
+          "id": "dQEqg",
+          "name": "Bottom Navigation / Settings",
           "width": 358,
+          "height": 64,
+          "fill": "$color-surface-translucent",
+          "cornerRadius": 32,
+          "stroke": "$border",
+          "strokeWidth": "$stroke-hairline",
+          "strokeAlignment": "inner",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 20
+          },
+          "gap": 2,
+          "padding": 6,
           "children": [
             {
-              "id": "X1d4e",
-              "type": "ref",
-              "ref": "X1d4e",
-              "fill": "#FFFFFF00",
+              "type": "frame",
+              "id": "iMpj7",
+              "name": "Nav Item / Дашборд",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-transparent",
+              "cornerRadius": "$component-nav-item-radius",
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
               "children": [
                 {
-                  "id": "rZ9HW",
-                  "type": "ref",
-                  "ref": "rZ9HW",
+                  "type": "icon",
+                  "id": "V8OMi",
+                  "name": "Nav Icon / Дашборд",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "layout-dashboard",
+                  "library": "lucide",
                   "fill": "$text-muted"
                 },
                 {
-                  "id": "M1O7R",
-                  "type": "ref",
-                  "ref": "M1O7R",
+                  "type": "text",
+                  "id": "S4QmRI",
+                  "name": "Nav Label / Дашборд",
                   "fill": "$text-muted",
-                  "fontWeight": "500"
+                  "content": "Дашборд",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-nav-size",
+                  "fontWeight": "$type-weight-medium"
                 }
               ]
             },
             {
-              "id": "bQROH",
-              "type": "ref",
-              "ref": "bQROH",
+              "type": "frame",
+              "id": "f8UQJ",
+              "name": "Nav Item / Библиотека",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-transparent",
+              "cornerRadius": "$component-nav-item-radius",
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
               "children": [
                 {
-                  "id": "ivXLv",
-                  "type": "ref",
-                  "ref": "ivXLv"
+                  "type": "icon",
+                  "id": "lKmJb",
+                  "name": "Nav Icon / Библиотека",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "fill": "$text-muted"
                 },
                 {
-                  "id": "L6CXp6",
-                  "type": "ref",
-                  "ref": "L6CXp6"
+                  "type": "text",
+                  "id": "Df86F",
+                  "name": "Nav Label / Библиотека",
+                  "fill": "$text-muted",
+                  "content": "Библиотека",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-nav-size",
+                  "fontWeight": "$type-weight-medium"
                 }
               ]
             },
             {
-              "id": "U1VK6D",
-              "type": "ref",
-              "ref": "U1VK6D",
+              "type": "frame",
+              "id": "AMosE",
+              "name": "Nav Item / Обучение",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-transparent",
+              "cornerRadius": "$component-nav-item-radius",
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
               "children": [
                 {
-                  "id": "cDiFN",
-                  "type": "ref",
-                  "ref": "cDiFN"
+                  "type": "icon",
+                  "id": "T9NG1",
+                  "name": "Nav Icon / Обучение",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "graduation-cap",
+                  "library": "lucide",
+                  "fill": "$text-muted"
                 },
                 {
-                  "id": "Jl09H",
-                  "type": "ref",
-                  "ref": "Jl09H"
+                  "type": "text",
+                  "id": "qo2Zk",
+                  "name": "Nav Label / Обучение",
+                  "fill": "$text-muted",
+                  "content": "Обучение",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-nav-size",
+                  "fontWeight": "$type-weight-medium"
                 }
               ]
             },
             {
-              "id": "JIRDA",
-              "type": "ref",
-              "ref": "JIRDA",
+              "type": "frame",
+              "id": "e0ZlZ",
+              "name": "Nav Item / Настройки",
+              "width": "fill_container",
+              "height": "fill_container",
               "fill": "$primary-soft",
+              "cornerRadius": "$component-nav-item-radius",
+              "layout": "vertical",
+              "gap": 3,
+              "justifyContent": "center",
+              "alignItems": "center",
               "children": [
                 {
-                  "id": "l8qX5V",
-                  "type": "ref",
-                  "ref": "l8qX5V",
+                  "type": "icon",
+                  "id": "isOQO",
+                  "name": "Nav Icon / Настройки",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "settings",
+                  "library": "lucide",
                   "fill": "$primary"
                 },
                 {
-                  "id": "KuIBo",
-                  "type": "ref",
-                  "ref": "KuIBo",
+                  "type": "text",
+                  "id": "rUNMm",
+                  "name": "Nav Label / Настройки",
                   "fill": "$primary",
-                  "fontWeight": "700"
+                  "content": "Настройки",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-nav-size",
+                  "fontWeight": "$type-weight-bold"
                 }
               ]
             }
@@ -13419,7 +11455,7 @@
       "name": "Админка — редактирование шлоки",
       "clip": true,
       "width": 390,
-      "height": 746,
+      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -13492,319 +11528,46 @@
         },
         {
           "type": "frame",
-          "id": "UMT6W",
-          "name": "Content Wrapper",
+          "id": "JuuMT",
+          "name": "Admin Back Row",
           "width": "fill_container",
-          "layout": "vertical",
-          "gap": 12,
-          "padding": [
-            0,
-            0,
-            12,
-            0
-          ],
+          "height": 44,
+          "alignItems": "center",
           "children": [
             {
-              "type": "frame",
-              "id": "XSVGV",
-              "name": "Header",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "b3JQ4H",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Редактирование",
-                  "lineHeight": 1.12,
-                  "fontFamily": "$font",
-                  "fontSize": 29,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "XMgfo",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Бхагавад-гита 2.47 · опубликовано.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "NQY29",
-              "name": "Edit Metadata",
-              "width": "fill_container",
-              "gap": 8,
-              "children": [
-                {
-                  "id": "TnenD",
-                  "type": "ref",
-                  "ref": "Ki4eS",
-                  "name": "Published Badge",
-                  "fill": "$success-soft",
-                  "children": [
-                    {
-                      "id": "KNDa1",
-                      "type": "ref",
-                      "ref": "KNDa1",
-                      "content": "опубликовано",
-                      "fill": "$success"
-                    }
-                  ]
-                },
-                {
-                  "id": "GLFX4",
-                  "type": "ref",
-                  "ref": "Ki4eS",
-                  "name": "Updated Badge",
-                  "fill": "$surface-muted",
-                  "children": [
-                    {
-                      "id": "KNDa1",
-                      "type": "ref",
-                      "ref": "KNDa1",
-                      "content": "обновлено сегодня",
-                      "fill": "$text-muted"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "UEMAh",
-              "name": "Edit Form",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "id": "sGpVx",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Edit Source Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Источник",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "Бхагавад-гита 2.47",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "id": "K93DFs",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Edit Sanskrit Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Текст на санскрите",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "карманй эвадхикарасте...",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "id": "eae4N",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Edit Translation Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Перевод",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "Ты имеешь право на действие...",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "U0YXpV",
-              "name": "Visibility Note",
-              "width": "fill_container",
-              "fill": "$primary-soft",
-              "cornerRadius": "$radius",
-              "stroke": "$border",
-              "strokeWidth": 1,
-              "strokeAlignment": "inner",
-              "layout": "vertical",
-              "gap": 4,
-              "padding": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "YEoAu",
-                  "name": "Visibility Title",
-                  "fill": "$text",
-                  "content": "Изменения видны после публикации",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "Q3K4z",
-                  "name": "Visibility Text",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Ученики продолжат видеть текущую версию, пока правка не пройдет проверку.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "aFSfj",
-              "name": "Edit Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "eGpTc",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Publish Changes",
-                  "width": "fill_container",
-                  "fill": "$primary",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Опубликовать правки"
-                    }
-                  ]
-                },
-                {
-                  "id": "vVqEk",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Delete Draft",
-                  "width": "fill_container",
-                  "stroke": "$border",
-                  "strokeAlignment": "inner",
-                  "strokeLinecap": "butt",
-                  "strokeLinejoin": "miter",
-                  "strokeWidth": 1,
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "trash-2",
-                      "fill": "$danger"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Удалить",
-                      "fill": "$danger"
-                    }
-                  ]
-                }
-              ]
+              "id": "qryWV",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
             }
           ]
+        },
+        {
+          "id": "zjhGl",
+          "type": "ref",
+          "ref": "gkqb9",
+          "name": "Edit Shloka Form",
+          "width": "fill_container",
+          "descendants": {
+            "fsejk": {
+              "content": "Редактирование"
+            },
+            "R2uHb/NifPw": {
+              "content": "Бхагавад-гита",
+              "fill": "$input-value"
+            },
+            "qEjTD/NifPw": {
+              "content": "1",
+              "fill": "$input-value"
+            },
+            "DEtEL/ONWjS": {
+              "content": "1",
+              "fill": "$input-value"
+            },
+            "ngk8h/aUMci": {
+              "content": "Сохранить"
+            }
+          }
         }
       ]
     },
@@ -13816,7 +11579,7 @@
       "name": "Админка — создание шлоки",
       "clip": true,
       "width": 390,
-      "height": 844,
+      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -13889,335 +11652,26 @@
         },
         {
           "type": "frame",
-          "id": "tHTqW",
-          "name": "Content Wrapper",
+          "id": "SOoKb",
+          "name": "Admin Back Row",
           "width": "fill_container",
-          "layout": "vertical",
-          "gap": 18,
-          "padding": [
-            0,
-            0,
-            12,
-            0
-          ],
+          "height": 44,
+          "alignItems": "center",
           "children": [
             {
-              "type": "frame",
-              "id": "l6uZKr",
-              "name": "Header",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "W2gi8L",
-                  "name": "Screen Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Новая шлока",
-                  "lineHeight": 1.12,
-                  "fontFamily": "$font",
-                  "fontSize": 29,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "O62nN",
-                  "name": "Screen Subtitle",
-                  "fill": "$text-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Добавьте текст, источник и перевод для учеников.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "n89M1",
-              "name": "Create Form",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "id": "w0VQN8",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Source Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Источник",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "Бхагавад-гита 2.47",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "id": "tBuQA",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Sanskrit Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Текст на санскрите",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "карманй эвадхикарасте...",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "id": "GVKNg",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Translit Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Транслитерация",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "karmany evadhikaraste...",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "id": "aQKJE",
-                  "type": "ref",
-                  "ref": "VvKs5",
-                  "name": "Translation Field",
-                  "width": "fill_container",
-                  "children": [
-                    {
-                      "id": "I1XCdW",
-                      "type": "ref",
-                      "ref": "I1XCdW",
-                      "content": "Перевод",
-                      "fill": "$text"
-                    },
-                    {
-                      "id": "GAfNm",
-                      "type": "ref",
-                      "ref": "GAfNm",
-                      "stroke": "$border",
-                      "strokeAlignment": "inner",
-                      "strokeLinecap": "butt",
-                      "strokeLinejoin": "miter",
-                      "strokeWidth": 1,
-                      "children": [
-                        {
-                          "id": "RBmUz",
-                          "type": "ref",
-                          "ref": "RBmUz"
-                        },
-                        {
-                          "id": "ONWjS",
-                          "type": "ref",
-                          "ref": "ONWjS",
-                          "content": "Ты имеешь право на действие...",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Jg3Ss",
-              "name": "Publish Setting",
-              "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": "$radius",
-              "stroke": "$border",
-              "strokeWidth": 1,
-              "strokeAlignment": "inner",
-              "gap": 12,
-              "padding": 14,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "uuh3r",
-                  "name": "Publish Icon",
-                  "width": 20,
-                  "height": 20,
-                  "icon": "eye-off",
-                  "library": "lucide",
-                  "fill": "$primary"
-                },
-                {
-                  "type": "frame",
-                  "id": "MHqnx",
-                  "name": "Publish Copy",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 2,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "TQA7A",
-                      "name": "Publish Title",
-                      "fill": "$text",
-                      "content": "Сохранить как черновик",
-                      "fontFamily": "$font",
-                      "fontSize": 15,
-                      "fontWeight": "800"
-                    },
-                    {
-                      "type": "text",
-                      "id": "uZvch",
-                      "name": "Publish Text",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Опубликовать можно после проверки текста.",
-                      "fontFamily": "$font",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "tTzZC",
-              "name": "Create Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "XjRxa",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Save Draft",
-                  "width": "fill_container",
-                  "fill": "$primary",
-                  "children": [
-                    {
-                      "id": "aUMci",
-                      "type": "ref",
-                      "ref": "aUMci",
-                      "content": "Повторить"
-                    }
-                  ]
-                },
-                {
-                  "id": "dWsFo",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Cancel Create",
-                  "width": "fill_container",
-                  "stroke": "$border",
-                  "strokeAlignment": "inner",
-                  "strokeLinecap": "butt",
-                  "strokeLinejoin": "miter",
-                  "strokeWidth": 1,
-                  "children": [
-                    {
-                      "id": "g86340",
-                      "type": "ref",
-                      "ref": "g86340",
-                      "icon": "plus"
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Добавить"
-                    }
-                  ]
-                }
-              ]
+              "id": "BaJp2",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
             }
           ]
+        },
+        {
+          "id": "fnDbJ",
+          "type": "ref",
+          "ref": "gkqb9",
+          "name": "Create Shloka Form",
+          "width": "fill_container"
         }
       ]
     }
@@ -14835,6 +12289,10 @@
       "type": "color",
       "value": "$color-text-placeholder"
     },
+    "color-text-placeholder": {
+      "type": "color",
+      "value": "#B8C3D1"
+    },
     "input-radius": {
       "type": "number",
       "value": 8
@@ -14938,10 +12396,6 @@
     "component-tab-height": {
       "type": "number",
       "value": 42
-    },
-    "color-text-placeholder": {
-      "type": "color",
-      "value": "#B8C3D1"
     }
   }
 }
