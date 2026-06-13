@@ -5194,7 +5194,7 @@
                       "id": "I1XCdW",
                       "name": "Field Label",
                       "fill": "$input-label",
-                      "content": "Email",
+                      "content": "Название поля",
                       "fontFamily": "$typo-font",
                       "fontSize": "$input-label-size",
                       "fontWeight": "$typo-p3-weight"
@@ -5235,7 +5235,7 @@
                           "id": "ONWjS",
                           "name": "Field Placeholder",
                           "fill": "$input-placeholder",
-                          "content": "Введите email",
+                          "content": "Введите значение",
                           "fontFamily": "$typo-font",
                           "fontSize": "$input-text-size",
                           "fontWeight": "$typo-p1-weight"
@@ -5258,7 +5258,7 @@
                       "id": "NolEg",
                       "name": "Field Label",
                       "fill": "$input-label",
-                      "content": "Email",
+                      "content": "Название поля",
                       "fontFamily": "$typo-font",
                       "fontSize": "$input-label-size",
                       "fontWeight": "$typo-p3-weight"
@@ -5302,7 +5302,7 @@
                           "name": "Field Placeholder",
                           "enabled": false,
                           "fill": "$input-placeholder",
-                          "content": "Введите email",
+                          "content": "Введите значение",
                           "fontFamily": "$typo-font",
                           "fontSize": "$input-text-size",
                           "fontWeight": "$typo-p1-weight"
@@ -5312,7 +5312,7 @@
                           "id": "xKrhL",
                           "name": "Field Value",
                           "fill": "$input-value",
-                          "content": "user@domain.com",
+                          "content": "Значение",
                           "fontFamily": "$typo-font",
                           "fontSize": "$input-text-size",
                           "fontWeight": "$typo-p1-weight"
@@ -5658,7 +5658,7 @@
       "name": "03 Product Components",
       "clip": true,
       "width": 900,
-      "height": 2420,
+      "height": 2680,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -5686,6 +5686,105 @@
           "fontFamily": "$font-body",
           "fontSize": "$type-body-sm-size",
           "fontWeight": "$type-weight-regular"
+        },
+        {
+          "type": "frame",
+          "id": "PAuthRow",
+          "name": "Product Row / Auth Fields",
+          "width": "fill_container",
+          "gap": "$space-4",
+          "children": [
+            {
+              "type": "frame",
+              "id": "PEmail",
+              "name": "Product / Field / Email",
+              "reusable": true,
+              "width": 342,
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "PEmailIn",
+                  "type": "ref",
+                  "ref": "VvKs5",
+                  "name": "Email Input",
+                  "width": "fill_container",
+                  "descendants": {
+                    "I1XCdW": {
+                      "content": "Email"
+                    },
+                    "RBmUz": {
+                      "enabled": false
+                    },
+                    "ONWjS": {
+                      "content": "Введите email"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "PEmailErr",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Email Error",
+                  "enabled": false,
+                  "fill": "$danger",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container(0)",
+                  "content": "Введите корректный email",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PPass",
+              "name": "Product / Field / Password",
+              "reusable": true,
+              "width": 342,
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "PPassIn",
+                  "type": "ref",
+                  "ref": "VvKs5",
+                  "name": "Password Input",
+                  "width": "fill_container",
+                  "descendants": {
+                    "I1XCdW": {
+                      "content": "Пароль"
+                    },
+                    "RBmUz": {
+                      "enabled": false
+                    },
+                    "ONWjS": {
+                      "content": "Введите пароль"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "PPassErr",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Password Error",
+                  "enabled": false,
+                  "fill": "$danger",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container(0)",
+                  "content": "Ошибка пароля",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "frame",
@@ -6994,6 +7093,385 @@
           "children": [
             {
               "type": "frame",
+              "id": "QUgwl",
+              "name": "Product / Source Admin Form",
+              "reusable": true,
+              "width": 358,
+              "layout": "vertical",
+              "gap": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oMdbd",
+                  "name": "Form Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "C5eLG8",
+                      "name": "Form Title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Новый источник",
+                      "lineHeight": 1.12,
+                      "fontFamily": "Inter",
+                      "fontSize": 29,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EFkCt",
+                  "name": "Source Form Fields",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "id": "M1spoj",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "Source Code Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "Код"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "content": "Введите код",
+                          "fill": "#B8C3D1"
+                        }
+                      }
+                    },
+                    {
+                      "id": "bqlVM",
+                      "type": "ref",
+                      "ref": "VvKs5",
+                      "name": "Source Name Field",
+                      "width": "fill_container",
+                      "descendants": {
+                        "I1XCdW": {
+                          "content": "Название"
+                        },
+                        "RBmUz": {
+                          "enabled": false
+                        },
+                        "ONWjS": {
+                          "content": "Введите название",
+                          "fill": "#B8C3D1"
+                        }
+                      }
+                    },
+                    {
+                      "id": "K6vtp",
+                      "type": "ref",
+                      "ref": "xEAP6",
+                      "name": "Source Description Textarea",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BHPRX",
+                      "name": "Structure Tabs",
+                      "width": "fill_container",
+                      "height": 42,
+                      "fill": "#F1F5F9",
+                      "cornerRadius": 999,
+                      "gap": 4,
+                      "padding": 4,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "A3orb6",
+                          "name": "Tab / No Chapters",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "vYFV8",
+                              "name": "Tab Label / No Chapters",
+                              "fill": "#64748B",
+                              "content": "Без глав",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "we0CZ",
+                          "name": "Tab / Chapters",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "fIy1t",
+                              "name": "Tab Label / Chapters",
+                              "fill": "#64748B",
+                              "content": "Главы",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "C4mQBw",
+                          "name": "Tab / Parts",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qZAKM",
+                              "name": "Tab Label / Parts",
+                              "fill": "#0F172A",
+                              "content": "Части",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CxIpg",
+                      "name": "Parts Block",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "E7RvK0",
+                          "name": "Parts Heading",
+                          "fill": "#0F172A",
+                          "content": "Части",
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "id": "tbtlt",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Part Name Field",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название части"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Например, Часть 1",
+                              "fill": "#B8C3D1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XOZ3F",
+                          "name": "Indented Chapters Area",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            0,
+                            0,
+                            20
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cl0O0",
+                              "name": "Chapters Heading",
+                              "fill": "#0F172A",
+                              "content": "Главы",
+                              "fontFamily": "Inter",
+                              "fontSize": 17,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "OBixI",
+                              "name": "Chapter List",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 10,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "nvyI5",
+                                  "name": "Chapter Row 1",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "id": "h3eIc5",
+                                      "type": "ref",
+                                      "ref": "VvKs5",
+                                      "name": "Chapter Name Field 1",
+                                      "width": "fill_container",
+                                      "descendants": {
+                                        "I1XCdW": {
+                                          "content": "Название главы"
+                                        },
+                                        "RBmUz": {
+                                          "enabled": false
+                                        },
+                                        "ONWjS": {
+                                          "content": "Например, Глава 1",
+                                          "fill": "#B8C3D1"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "V3tCtu",
+                                  "name": "Chapter Row 2",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "id": "EVBNK",
+                                      "type": "ref",
+                                      "ref": "VvKs5",
+                                      "name": "Chapter Name Field 2",
+                                      "width": "fill_container",
+                                      "descendants": {
+                                        "I1XCdW": {
+                                          "content": "Название главы"
+                                        },
+                                        "RBmUz": {
+                                          "enabled": false
+                                        },
+                                        "ONWjS": {
+                                          "content": "Следующая глава",
+                                          "fill": "#B8C3D1"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "bjAbB",
+                                      "name": "Delete Chapter Button",
+                                      "width": 44,
+                                      "height": 44,
+                                      "fill": "#FFFFFF",
+                                      "cornerRadius": 8,
+                                      "stroke": "#D6DEE9",
+                                      "strokeWidth": 1,
+                                      "strokeAlignment": "inner",
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "icon",
+                                          "id": "tzY8J",
+                                          "name": "Delete Chapter Icon",
+                                          "width": 18,
+                                          "height": 18,
+                                          "icon": "trash-2",
+                                          "library": "lucide",
+                                          "fill": "#DC2626"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "id": "t0Ajn9",
+                              "type": "ref",
+                              "ref": "B9n47J",
+                              "name": "Add Chapter Button",
+                              "width": "fill_container",
+                              "descendants": {
+                                "g86340": {
+                                  "icon": "plus",
+                                  "fill": "#2563EB"
+                                },
+                                "VZsCN": {
+                                  "content": "Добавить главу"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Z21tGW",
+                          "type": "ref",
+                          "ref": "B9n47J",
+                          "name": "Add Part Button",
+                          "width": "fill_container",
+                          "descendants": {
+                            "g86340": {
+                              "icon": "plus",
+                              "fill": "#2563EB"
+                            },
+                            "VZsCN": {
+                              "content": "Добавить часть"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "X5oBO",
+                  "name": "Source Form Actions",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "WF4BM",
+                      "type": "ref",
+                      "ref": "M6qnk",
+                      "name": "Submit Source Button",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "gkqb9",
               "name": "Product / Shloka Admin Form",
               "reusable": true,
@@ -7425,194 +7903,58 @@
                   "gap": 14,
                   "children": [
                     {
-                      "type": "frame",
                       "id": "U5EsZ2",
+                      "type": "ref",
+                      "ref": "PEmail",
                       "name": "Email поле",
                       "width": "fill_container",
-                      "height": 93,
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "TcJR2",
-                          "name": "Email подпись",
-                          "fill": "$text",
-                          "content": "Email",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "500"
+                      "descendants": {
+                        "PEmailIn/ONWjS": {
+                          "content": "anna@",
+                          "fill": "$text"
                         },
-                        {
-                          "type": "frame",
-                          "id": "N6D2m",
-                          "name": "Email ввод",
-                          "width": "fill_container",
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#CBD5E1",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "padding": [
-                            0,
-                            12
-                          ],
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "idiKk",
-                              "name": "Email значение",
-                              "fill": "$text",
-                              "content": "anna@",
-                              "fontFamily": "$font",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "i20xM",
-                          "name": "Email ошибка",
-                          "fill": "$danger",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Введите корректный email",
-                          "lineHeight": 1.25,
-                          "fontFamily": "$font",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                        "PEmailErr": {
+                          "enabled": true,
+                          "content": "Введите корректный email"
                         }
-                      ]
+                      }
                     },
                     {
-                      "type": "frame",
                       "id": "wtHV0",
+                      "type": "ref",
+                      "ref": "PPass",
                       "name": "Пароль поле",
                       "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "LVLA6",
-                          "name": "Пароль подпись",
-                          "fill": "$text",
-                          "content": "Пароль",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "500"
+                      "descendants": {
+                        "PPassIn/ONWjS": {
+                          "content": "••••",
+                          "fill": "$text"
                         },
-                        {
-                          "type": "frame",
-                          "id": "XGAEg",
-                          "name": "Пароль ввод",
-                          "width": "fill_container",
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#CBD5E1",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "padding": [
-                            0,
-                            12
-                          ],
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "pyeVd",
-                              "name": "Пароль значение",
-                              "fill": "$text",
-                              "content": "••••",
-                              "fontFamily": "$font",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "m1G63m",
-                          "name": "Пароль ошибка",
-                          "fill": "$danger",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Пароль должен быть не менее 6 символов",
-                          "lineHeight": 1.25,
-                          "fontFamily": "$font",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                        "PPassErr": {
+                          "enabled": true,
+                          "content": "Пароль должен быть не менее 6 символов"
                         }
-                      ]
+                      }
                     },
                     {
-                      "type": "frame",
                       "id": "sTIuJ",
+                      "type": "ref",
+                      "ref": "PPass",
                       "name": "Подтвердите пароль поле",
                       "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "r7Ldw",
-                          "name": "Подтвердите пароль подпись",
-                          "fill": "$text",
-                          "content": "Подтвердите пароль",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "500"
+                      "descendants": {
+                        "PPassIn/I1XCdW": {
+                          "content": "Подтвердите пароль"
                         },
-                        {
-                          "type": "frame",
-                          "id": "B9Xgh",
-                          "name": "Подтвердите пароль ввод",
-                          "width": "fill_container",
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#CBD5E1",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "padding": [
-                            0,
-                            12
-                          ],
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "Rz0Ff",
-                              "name": "Подтвердите пароль значение",
-                              "fill": "$text",
-                              "content": "••••",
-                              "fontFamily": "$font",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                        "PPassIn/ONWjS": {
+                          "content": "••••",
+                          "fill": "$text"
                         },
-                        {
-                          "type": "text",
-                          "id": "WvhSq",
-                          "name": "Подтвердите пароль ошибка",
-                          "fill": "$danger",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Пароли должны совпадать",
-                          "lineHeight": 1.25,
-                          "fontFamily": "$font",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                        "PPassErr": {
+                          "enabled": true,
+                          "content": "Пароли должны совпадать"
                         }
-                      ]
+                      }
                     }
                   ]
                 },
@@ -7926,119 +8268,37 @@
                   "gap": 14,
                   "children": [
                     {
-                      "type": "frame",
                       "id": "lMWYf",
+                      "type": "ref",
+                      "ref": "PEmail",
                       "name": "Email поле",
                       "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "t12r2f",
-                          "name": "Email подпись",
-                          "fill": "$text",
-                          "content": "Email",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "500"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "vWqC9",
-                          "name": "Email ввод",
-                          "width": "fill_container",
-                          "height": 44,
-                          "fill": "$surface",
-                          "cornerRadius": "$radius",
-                          "stroke": "$border",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "gap": 8,
-                          "padding": [
-                            0,
-                            12
-                          ],
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "lS8QU",
-                              "name": "Email значение",
-                              "fill": "$text",
-                              "content": "anna@example.com",
-                              "fontFamily": "$font",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                      "descendants": {
+                        "PEmailIn/ONWjS": {
+                          "content": "anna@example.com",
+                          "fill": "$text"
                         }
-                      ]
+                      }
                     },
                     {
-                      "type": "frame",
                       "id": "blNau",
+                      "type": "ref",
+                      "ref": "PPass",
                       "name": "Пароль поле",
                       "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "sqgy7",
-                          "name": "Пароль подпись",
-                          "fill": "$text",
-                          "content": "Пароль",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "500"
+                      "descendants": {
+                        "PPassIn/GAfNm": {
+                          "stroke": "$danger"
                         },
-                        {
-                          "type": "frame",
-                          "id": "iZvxs",
-                          "name": "Пароль ввод",
-                          "width": "fill_container",
-                          "height": 44,
-                          "fill": "$surface",
-                          "cornerRadius": "$radius",
-                          "stroke": "$danger",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "gap": 8,
-                          "padding": [
-                            0,
-                            12
-                          ],
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "j4cXV",
-                              "name": "Пароль значение",
-                              "fill": "$text",
-                              "content": "••••••",
-                              "fontFamily": "$font",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                        "PPassIn/ONWjS": {
+                          "content": "••••••",
+                          "fill": "$text"
                         },
-                        {
-                          "type": "text",
-                          "id": "G9bsUw",
-                          "name": "Пароль ошибка",
-                          "fill": "$danger",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Неверный email или пароль",
-                          "lineHeight": 1.25,
-                          "fontFamily": "$font",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                        "PPassErr": {
+                          "enabled": true,
+                          "content": "Неверный email или пароль"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",
@@ -8237,14 +8497,7 @@
                   "id": "hPBuq",
                   "type": "ref",
                   "ref": "Ms4X8",
-                  "name": "Profile Icon Button Instance",
-                  "children": [
-                    {
-                      "id": "bfqvS",
-                      "type": "ref",
-                      "ref": "bfqvS"
-                    }
-                  ]
+                  "name": "Profile Icon Button Instance"
                 },
                 {
                   "id": "J9nsS",
@@ -11450,8 +11703,8 @@
     {
       "type": "frame",
       "id": "SmTrE",
-      "x": 2741,
-      "y": 0,
+      "x": 550,
+      "y": 1315,
       "name": "Админка — редактирование шлоки",
       "clip": true,
       "width": 390,
@@ -11574,8 +11827,8 @@
     {
       "type": "frame",
       "id": "epGXt",
-      "x": 2311,
-      "y": 0,
+      "x": 120,
+      "y": 1315,
       "name": "Админка — создание шлоки",
       "clip": true,
       "width": 390,
@@ -11672,6 +11925,855 @@
           "ref": "gkqb9",
           "name": "Create Shloka Form",
           "width": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Q1TjAT",
+      "x": 1410,
+      "y": 1315,
+      "name": "Админка — создание источника / с главами",
+      "clip": true,
+      "width": 390,
+      "height": 900,
+      "fill": "#F8FAFC",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "wG331",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "s4i3r",
+              "name": "Status Time",
+              "fill": "#0F172A",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "XYGTo",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "QstOq",
+                  "name": "Status Icon signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "QSQLw",
+                  "name": "Status Icon wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "d0xhF7",
+                  "name": "Status Icon battery-full",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fyqwe",
+          "name": "Admin Back Row",
+          "width": "fill_container",
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "x0zeBA",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
+            }
+          ]
+        },
+        {
+          "id": "sf0tm",
+          "type": "ref",
+          "ref": "QUgwl",
+          "name": "Create Source Form",
+          "width": "fill_container",
+          "descendants": {
+            "A3orb6": {
+              "fill": "#FFFFFF00"
+            },
+            "vYFV8": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "we0CZ": {
+              "fill": "#FFFFFF"
+            },
+            "fIy1t": {
+              "fill": "#0F172A",
+              "fontWeight": "700"
+            },
+            "C4mQBw": {
+              "fill": "#FFFFFF00"
+            },
+            "qZAKM": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "CxIpg": {
+              "type": "frame",
+              "id": "OtQil",
+              "name": "Chapters Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LOkiy",
+                  "name": "Chapters Heading",
+                  "fill": "#0F172A",
+                  "content": "Главы",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "g2sz1",
+                  "name": "Chapter List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hpDSC",
+                      "name": "Chapter Row 1",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "id": "yF3WG",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Name Field 1",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название главы"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Например, Глава 1",
+                              "fill": "#B8C3D1"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hsTzL",
+                      "name": "Chapter Row 2",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "id": "bazIn",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Name Field 2",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название главы"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Следующая глава",
+                              "fill": "#B8C3D1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S82smp",
+                          "name": "Delete Chapter Button",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "stroke": "#D6DEE9",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "TWmy8",
+                              "name": "Delete Chapter Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "trash-2",
+                              "library": "lucide",
+                              "fill": "#DC2626"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "XLeEw",
+                  "type": "ref",
+                  "ref": "B9n47J",
+                  "name": "Add Chapter Button",
+                  "width": "fill_container",
+                  "descendants": {
+                    "g86340": {
+                      "icon": "plus",
+                      "fill": "#2563EB"
+                    },
+                    "VZsCN": {
+                      "content": "Добавить главу"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "C9Ngfq",
+      "x": 980,
+      "y": 1315,
+      "name": "Админка — создание источника / без глав",
+      "clip": true,
+      "width": 390,
+      "height": 900,
+      "fill": "#F8FAFC",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "yEzIW",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "NNvvI",
+              "name": "Status Time",
+              "fill": "#0F172A",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "nQnLe",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "dP8Ah",
+                  "name": "Status Icon signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "f7y7f",
+                  "name": "Status Icon wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "rapY7",
+                  "name": "Status Icon battery-full",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nIlkj",
+          "name": "Admin Back Row",
+          "width": "fill_container",
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "IKtRp",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
+            }
+          ]
+        },
+        {
+          "id": "a5I1Kz",
+          "type": "ref",
+          "ref": "QUgwl",
+          "name": "Create Source Form Without Chapters",
+          "width": "fill_container",
+          "descendants": {
+            "A3orb6": {
+              "fill": "#FFFFFF"
+            },
+            "vYFV8": {
+              "fill": "#0F172A",
+              "fontWeight": "700"
+            },
+            "we0CZ": {
+              "fill": "#FFFFFF00"
+            },
+            "fIy1t": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "C4mQBw": {
+              "fill": "#FFFFFF00"
+            },
+            "qZAKM": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "CxIpg": {
+              "enabled": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "jR76K",
+      "x": 2269,
+      "y": 1315,
+      "name": "Админка — редактирование источника",
+      "clip": true,
+      "width": 390,
+      "height": 975,
+      "fill": "#F8FAFC",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "UTPls",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "u1IvMg",
+              "name": "Status Time",
+              "fill": "#0F172A",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "zanhs",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "wsOrI",
+                  "name": "Status Icon signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "tHmof",
+                  "name": "Status Icon wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "M6EIVM",
+                  "name": "Status Icon battery-full",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BCgKw",
+          "name": "Admin Back Row",
+          "width": "fill_container",
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "UBSrZ",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
+            }
+          ]
+        },
+        {
+          "id": "zNZHJ",
+          "type": "ref",
+          "ref": "QUgwl",
+          "name": "Edit Source Form",
+          "gap": 16,
+          "width": "fill_container",
+          "descendants": {
+            "C5eLG8": {
+              "content": "Редактирование"
+            },
+            "M1spoj/ONWjS": {
+              "content": "bg",
+              "fill": "#0F172A"
+            },
+            "bqlVM/ONWjS": {
+              "content": "Бхагавад-гита",
+              "fill": "#0F172A"
+            },
+            "K6vtp/PCyw0": {
+              "content": "Диалог Кришны и Арджуны о долге, знании и пути духовной практики.",
+              "fill": "#0F172A"
+            },
+            "A3orb6": {
+              "fill": "#FFFFFF00"
+            },
+            "vYFV8": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "we0CZ": {
+              "fill": "#FFFFFF"
+            },
+            "fIy1t": {
+              "fill": "#0F172A",
+              "fontWeight": "700"
+            },
+            "C4mQBw": {
+              "fill": "#FFFFFF00"
+            },
+            "qZAKM": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "CxIpg": {
+              "type": "frame",
+              "id": "TYECA",
+              "name": "Chapters Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Byqyb",
+                  "name": "Chapters Heading",
+                  "fill": "#0F172A",
+                  "content": "Главы",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "qejzP",
+                  "name": "Chapter List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AzaKm",
+                      "name": "Chapter Row 1",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "id": "QRRkJ",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Name Field 1",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название главы"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Глава 1",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kv5SU",
+                      "name": "Chapter Row 2",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "id": "nR3Ey",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Name Field 2",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название главы"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Глава 2",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wqQPL",
+                          "name": "Delete Chapter Button",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "stroke": "#D6DEE9",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tuJ5r",
+                              "name": "Delete Chapter Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "trash-2",
+                              "library": "lucide",
+                              "fill": "#DC2626"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FBG41",
+                      "name": "Chapter Row 3",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "id": "UxSwx",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Name Field 3",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Название главы"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Глава 3",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Eh0p6",
+                          "name": "Delete Chapter Button",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "stroke": "#D6DEE9",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lqdfU",
+                              "name": "Delete Chapter Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "trash-2",
+                              "library": "lucide",
+                              "fill": "#DC2626"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "Q58nEu",
+                  "type": "ref",
+                  "ref": "B9n47J",
+                  "name": "Add Chapter Button",
+                  "width": "fill_container",
+                  "descendants": {
+                    "g86340": {
+                      "icon": "plus",
+                      "fill": "#2563EB"
+                    },
+                    "VZsCN": {
+                      "content": "Добавить главу"
+                    }
+                  }
+                }
+              ]
+            },
+            "WF4BM/aUMci": {
+              "content": "Сохранить"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "URxxp",
+      "x": 1841,
+      "y": 1315,
+      "name": "Админка — создание источника / с частями",
+      "clip": true,
+      "width": 390,
+      "height": 1040,
+      "fill": "#F8FAFC",
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "eHtCD",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "xNos7",
+              "name": "Status Time",
+              "fill": "#0F172A",
+              "content": "9:41",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "P70MEx",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "pdYD5",
+                  "name": "Status Icon signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "jwNlb",
+                  "name": "Status Icon wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                },
+                {
+                  "type": "icon",
+                  "id": "VoFIR",
+                  "name": "Status Icon battery-full",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "#0F172A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oBqFI",
+          "name": "Admin Back Row",
+          "width": "fill_container",
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Bkhtr",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
+            }
+          ]
+        },
+        {
+          "id": "bCK0R",
+          "type": "ref",
+          "ref": "QUgwl",
+          "name": "Create Source Form With Parts",
+          "gap": 10,
+          "width": "fill_container",
+          "descendants": {
+            "EFkCt": {
+              "gap": 10
+            },
+            "A3orb6": {
+              "fill": "#FFFFFF00"
+            },
+            "vYFV8": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "we0CZ": {
+              "fill": "#FFFFFF00"
+            },
+            "fIy1t": {
+              "fill": "#64748B",
+              "fontWeight": "600"
+            },
+            "C4mQBw": {
+              "fill": "#FFFFFF"
+            },
+            "qZAKM": {
+              "fill": "#0F172A",
+              "fontWeight": "700"
+            }
+          }
         }
       ]
     }
