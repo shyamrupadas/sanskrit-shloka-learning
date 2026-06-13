@@ -22,5 +22,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/01-working-shell-account-and-empty-dashboard.md`
 - `.scratch/initial-product/issues/02-admin-creates-first-published-shloka.md`

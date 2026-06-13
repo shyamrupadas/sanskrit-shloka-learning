@@ -21,4 +21,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/01-working-shell-account-and-empty-dashboard.md`
+Нет - можно начинать сразу
