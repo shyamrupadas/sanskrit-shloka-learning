@@ -1,21 +1,29 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
+import { Injectable, Logger, OnModuleDestroy } from "@nestjs/common";
 import pg from "pg";
 
 import { requireEnv } from "../shared/env.js";
+import { createPoolConfig } from "./postgres-connection.js";
 
 const { Pool } = pg;
 
+export interface DatabaseExecutor {
+  query<T extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string,
+    values?: readonly unknown[],
+  ): Promise<pg.QueryResult<T>>;
+}
+
 @Injectable()
-export class DatabaseService implements OnModuleInit, OnModuleDestroy {
+export class DatabaseService implements OnModuleDestroy, DatabaseExecutor {
+  private readonly logger = new Logger(DatabaseService.name);
   private readonly pool: pg.Pool;
 
   constructor() {
     const databaseUrl = requireEnv("DATABASE_URL");
     this.pool = new Pool(createPoolConfig(databaseUrl));
-  }
-
-  async onModuleInit(): Promise<void> {
-    await this.ensureSchema();
+    this.pool.on("error", (error) => {
+      this.logger.warn(`PostgreSQL idle client error: ${error.message}`);
+    });
   }
 
   async onModuleDestroy(): Promise<void> {
@@ -29,47 +37,53 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     return this.pool.query<T>(text, [...values]);
   }
 
-  private async ensureSchema(): Promise<void> {
-    await this.query(`
-      create table if not exists accounts (
-        id text primary key,
-        email text not null unique,
-        password_hash text not null,
-        created_at timestamptz not null default now()
-      );
+  async transaction<T>(operation: (client: DatabaseExecutor) => Promise<T>): Promise<T> {
+    const client = await this.pool.connect();
+    let clientConnectionError: Error | undefined;
+    let released = false;
+    const handleClientError = (error: Error): void => {
+      clientConnectionError ??= error;
+      this.logger.warn(`PostgreSQL transaction client error: ${error.message}`);
+    };
+    const executor: DatabaseExecutor = {
+      query: <Row extends pg.QueryResultRow = pg.QueryResultRow>(
+        text: string,
+        values: readonly unknown[] = [],
+      ) => client.query<Row>(text, [...values]),
+    };
 
-      create table if not exists auth_sessions (
-        id text primary key,
-        account_id text not null references accounts(id) on delete cascade,
-        token_hash text not null unique,
-        created_at timestamptz not null default now(),
-        expires_at timestamptz not null
-      );
+    client.on("error", handleClientError);
 
-      create index if not exists auth_sessions_account_id_idx on auth_sessions(account_id);
-      create index if not exists auth_sessions_expires_at_idx on auth_sessions(expires_at);
-    `);
+    try {
+      await client.query("begin");
+      const result = await operation(executor);
+      await client.query("commit");
+      return result;
+    } catch (error) {
+      if (!clientConnectionError) {
+        try {
+          await client.query("rollback");
+        } catch (rollbackError) {
+          released = true;
+          client.release(toClientReleaseError(rollbackError));
+          throw error;
+        }
+      }
+
+      throw error;
+    } finally {
+      client.off("error", handleClientError);
+      if (!released) {
+        if (clientConnectionError) {
+          client.release(clientConnectionError);
+        } else {
+          client.release();
+        }
+      }
+    }
   }
 }
 
-function shouldUseSsl(databaseUrl: string): boolean {
-  return databaseUrl.includes("sslmode=require") || databaseUrl.includes("neon.tech");
-}
-
-function createPoolConfig(databaseUrl: string): pg.PoolConfig {
-  const poolConfig: pg.PoolConfig = {
-    connectionString: stripSslMode(databaseUrl),
-  };
-
-  if (shouldUseSsl(databaseUrl)) {
-    poolConfig.ssl = true;
-  }
-
-  return poolConfig;
-}
-
-function stripSslMode(databaseUrl: string): string {
-  const url = new URL(databaseUrl);
-  url.searchParams.delete("sslmode");
-  return url.toString();
+function toClientReleaseError(error: unknown): Error | boolean {
+  return error instanceof Error ? error : true;
 }

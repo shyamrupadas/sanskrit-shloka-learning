@@ -2,11 +2,15 @@ import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes, BackendContract } from "@sanskrit-shloka-learning/api-contract";
 
 import { AuthService } from "../auth/auth.service.js";
-import { unauthorizedError } from "../auth/api-error.js";
+import { forbiddenError, unauthorizedError } from "../auth/api-error.js";
+import { CatalogService } from "../catalog/catalog.service.js";
 
 @Injectable()
 export class ApiHandlersService implements BackendContract.ApiHandlers {
-  constructor(@Inject(AuthService) private readonly auth: AuthService) {}
+  constructor(
+    @Inject(AuthService) private readonly auth: AuthService,
+    @Inject(CatalogService) private readonly catalog: CatalogService,
+  ) {}
 
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
     return this.auth.register(request.body);
@@ -42,8 +46,47 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
 
     return {
       status: 200,
-      body: emptyLibrary(),
+      body: {
+        ...emptyLibrary(),
+        allShlokas: await this.catalog.listLibraryShlokas(),
+      },
     };
+  }
+
+  async sources(request: BackendContract.SourcesRequest): Promise<BackendContract.SourcesResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (!session.account.roles.includes("admin")) {
+      return { status: 403, body: forbiddenError };
+    }
+
+    return this.catalog.createSource(request.body);
+  }
+
+  async getOptions(request: BackendContract.GetOptionsRequest): Promise<BackendContract.GetOptionsResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (!session.account.roles.includes("admin")) {
+      return { status: 403, body: forbiddenError };
+    }
+
+    return { status: 200, body: await this.catalog.getSourceOptions() };
+  }
+
+  async shlokas(request: BackendContract.ShlokasRequest): Promise<BackendContract.ShlokasResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (!session.account.roles.includes("admin")) {
+      return { status: 403, body: forbiddenError };
+    }
+
+    return this.catalog.createShloka(request.body);
   }
 }
 
@@ -62,6 +105,7 @@ function emptyDashboard(): ApiTypes.EmptyDashboardDto {
 function emptyLibrary(): ApiTypes.LibraryResponseDto {
   return {
     defaultTab: "reviewing",
+    allShlokas: [],
     tabs: [
       {
         id: "reviewing",

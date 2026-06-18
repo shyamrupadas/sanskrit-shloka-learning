@@ -8,6 +8,7 @@ import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
 import { AppShell } from "@/components/app-shell";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -64,18 +65,47 @@ export function LibraryPage() {
             </TabsList>
             {libraryQuery.data.tabs.map((tab) => (
               <TabsContent className="pt-3" key={tab.id} value={tab.id}>
-                <Card className="rounded-lg">
-                  <CardHeader>
-                    <CardTitle>{tab.emptyTitle}</CardTitle>
-                    <CardDescription>{tab.emptyDescription}</CardDescription>
-                  </CardHeader>
-                </Card>
+                {tab.id === "all" && libraryQuery.data.allShlokas.length > 0 ? (
+                  <div className="space-y-3">
+                    {libraryQuery.data.allShlokas.map((shloka) => (
+                      <ShlokaCard key={shloka.code} shloka={shloka} />
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="rounded-lg">
+                    <CardHeader>
+                      <CardTitle>{tab.emptyTitle}</CardTitle>
+                      <CardDescription>{tab.emptyDescription}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                )}
               </TabsContent>
             ))}
           </Tabs>
         )}
       </section>
     </AppShell>
+  );
+}
+
+function ShlokaCard({ shloka }: { shloka: ApiTypes.LibraryShlokaDto }) {
+  const excerpt = shloka.text.split("\n").filter(Boolean).slice(0, 2).join(" / ");
+
+  return (
+    <Card className="rounded-lg">
+      <CardHeader>
+        <CardTitle>{shloka.displayTitle}</CardTitle>
+        <CardDescription>
+          {shloka.sourceTitle} · {shloka.number}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm leading-6">{excerpt}</p>
+        {shloka.fullTranslation ? (
+          <p className="text-sm leading-6 text-muted-foreground">{shloka.fullTranslation}</p>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }
 

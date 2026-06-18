@@ -25,6 +25,7 @@ export class InMemoryAccountRepository implements AccountRepository {
       id: input.id,
       email: input.email,
       passwordHash: input.passwordHash,
+      roles: [],
     };
 
     this.accountsByEmail.set(account.email, account);
@@ -55,5 +56,14 @@ export class InMemoryAccountRepository implements AccountRepository {
 
   async deleteSessionByTokenHash(tokenHash: string): Promise<void> {
     this.sessionsByTokenHash.delete(tokenHash);
+  }
+
+  grantRole(accountId: string, role: AccountRecord["roles"][number]): void {
+    const account = this.accountsById.get(accountId);
+    if (!account || account.roles.includes(role)) {
+      return;
+    }
+
+    account.roles = [...account.roles, role];
   }
 }

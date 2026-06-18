@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 
 import type { AuthContextValue } from "@/auth/auth-context";
+import { AdminShlokaPage, AdminSourcePage } from "@/pages/admin-pages";
 import { DashboardPage } from "@/pages/dashboard-page";
 import { LibraryPage } from "@/pages/library-page";
 import { LoginPage, RegisterPage } from "@/pages/auth-pages";
@@ -71,12 +72,32 @@ const libraryRoute = createRoute({
   path: "library",
 });
 
+const adminSourceRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    requireAdmin(context.auth);
+  },
+  component: AdminSourcePage,
+  getParentRoute: () => rootRoute,
+  path: "admin/sources/new",
+});
+
+const adminShlokaRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    requireAdmin(context.auth);
+  },
+  component: AdminShlokaPage,
+  getParentRoute: () => rootRoute,
+  path: "admin/shlokas/new",
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
   dashboardRoute,
   libraryRoute,
+  adminSourceRoute,
+  adminShlokaRoute,
 ]);
 
 export function createAppRouter() {
@@ -92,6 +113,16 @@ export const router = createAppRouter();
 
 function RootRoute() {
   return <Outlet />;
+}
+
+function requireAdmin(auth: AuthContextValue): void {
+  if (!auth.hasSession) {
+    throw redirect({ to: "/login" });
+  }
+
+  if (!auth.account?.roles.includes("admin")) {
+    throw redirect({ to: "/dashboard" });
+  }
 }
 
 declare module "@tanstack/react-router" {

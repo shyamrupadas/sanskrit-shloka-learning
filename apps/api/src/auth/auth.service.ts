@@ -137,6 +137,7 @@ function toAuthSession(account: AccountRecord, accessToken: string): ApiTypes.Au
     account: {
       id: account.id,
       email: account.email,
+      roles: account.roles,
     },
     accessToken,
   };

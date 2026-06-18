@@ -2,10 +2,13 @@ import "reflect-metadata";
 
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
+import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { InMemoryAccountRepository } from "../accounts/in-memory-account.repository.js";
 import { AuthService } from "../auth/auth.service.js";
 import { PasswordHasher } from "../auth/password-hasher.js";
+import { CatalogService } from "../catalog/catalog.service.js";
+import { InMemoryCatalogRepository } from "../catalog/in-memory-catalog.repository.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
 
 describe("ApiHandlersService auth", () => {
@@ -60,6 +63,7 @@ describe("ApiHandlersService auth", () => {
     const sessionResponse = await handlers.getSession({ authorization });
     assert.equal(sessionResponse.status, 200);
     assert.equal(sessionResponse.body.account.email, "learner@example.com");
+    assert.deepEqual(sessionResponse.body.account.roles, []);
 
     const logoutResponse = await handlers.logout({ authorization });
     assert.equal(logoutResponse.status, 204);
@@ -159,13 +163,235 @@ describe("ApiHandlersService protected resources", () => {
       libraryResponse.body.tabs.map((tab) => tab.id),
       ["reviewing", "learning", "all"],
     );
+    assert.deepEqual(libraryResponse.body.allShlokas, []);
   });
 });
 
-function createHandlers(): ApiHandlersService {
+describe("ApiHandlersService admin catalog", () => {
+  test("rejects admin APIs for unauthenticated and regular users", async () => {
+    const handlers = createHandlers();
+
+    const registerResponse = await handlers.register({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+
+    assert.equal(registerResponse.status, 201);
+    const authorization = `Bearer ${registerResponse.body.accessToken}`;
+
+    assert.equal((await handlers.sources({ body: validSourceRequest() })).status, 401);
+    assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 403);
+  });
+
+  test("lets admins keep normal user behavior and create all source structures", async () => {
+    const handlers = createHandlers();
+    const registerResponse = await handlers.register({
+      body: {
+        email: "admin@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(registerResponse.status, 201);
+    handlers.accounts.grantRole(registerResponse.body.account.id, "admin");
+    const authorization = `Bearer ${registerResponse.body.accessToken}`;
+
+    const sessionResponse = await handlers.getSession({ authorization });
+    assert.equal(sessionResponse.status, 200);
+    assert.deepEqual(sessionResponse.body.account.roles, ["admin"]);
+    assert.equal((await handlers.getDashboard({ authorization })).status, 200);
+
+    assert.equal(
+      (await handlers.sources({
+        authorization,
+        body: validSourceRequest({ code: "free", structureType: "none" }),
+      })).status,
+      201,
+    );
+    assert.equal(
+      (await handlers.sources({
+        authorization,
+        body: validSourceRequest({
+          code: "chapters",
+          structureType: "chapters",
+          chapters: [{ code: "one", title: "Глава 1", order: 1 }],
+        }),
+      })).status,
+      201,
+    );
+    assert.equal(
+      (await handlers.sources({
+        authorization,
+        body: validSourceRequest({
+          code: "parts",
+          structureType: "parts",
+          parts: [
+            {
+              code: "part-one",
+              title: "Часть 1",
+              order: 1,
+              chapters: [{ code: "chapter-one", title: "Глава 1", order: 1 }],
+            },
+          ],
+        }),
+      })).status,
+      201,
+    );
+  });
+
+  test("validates source metadata and duplicate source codes", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    const invalidResponse = await handlers.sources({
+      authorization,
+      body: {
+        code: "Bad Code",
+        title: "",
+        structureType: "chapters",
+        chapters: [],
+      },
+    });
+
+    assert.equal(invalidResponse.status, 400);
+    assert.ok(invalidResponse.body.details?.includes("Название источника обязательно"));
+    assert.ok(invalidResponse.body.details?.includes("Добавьте хотя бы одну главу"));
+
+    assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 201);
+    assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 409);
+  });
+
+  test("creates valid shlokas, orders padas, and exposes them in library order", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+      }),
+    });
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "amrita",
+        title: "Амрита",
+        structureType: "none",
+      }),
+    });
+
+    const first = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-2",
+        number: "2.47",
+        padas: ["карманй эвадхикарас те", "ма пхалешу кадачана"],
+        fullTranslation: "Только на действие у тебя право.",
+      },
+    });
+    const second = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "amrita",
+        number: "1",
+        padas: ["первая пада"],
+      },
+    });
+
+    assert.equal(first.status, 201);
+    assert.equal(first.body.code, "gita-chapter-2-2-47");
+    assert.equal(first.body.text, "карманй эвадхикарас те\nма пхалешу кадачана");
+    assert.equal(first.body.fullTranslation, "Только на действие у тебя право.");
+    assert.equal(second.status, 201);
+
+    const libraryResponse = await handlers.getLibrary({ authorization });
+    assert.equal(libraryResponse.status, 200);
+    assert.deepEqual(
+      libraryResponse.body.allShlokas.map((shloka) => shloka.code),
+      ["amrita-1", "gita-chapter-2-2-47"],
+    );
+  });
+
+  test("validates shloka structure, required first pada, and unique reference", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+      }),
+    });
+
+    const invalidResponse = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        number: "1",
+        padas: [],
+      },
+    });
+
+    assert.equal(invalidResponse.status, 400);
+    assert.ok(invalidResponse.body.details?.includes("Первая пада обязательна"));
+    assert.ok(invalidResponse.body.details?.includes("Выберите главу"));
+
+    const request = {
+      sourceCode: "gita",
+      chapterCode: "chapter-1",
+      number: "1",
+      padas: ["первая пада"],
+    };
+
+    assert.equal((await handlers.shlokas({ authorization, body: request })).status, 201);
+    assert.equal((await handlers.shlokas({ authorization, body: request })).status, 409);
+  });
+});
+
+type TestHandlers = ApiHandlersService & {
+  accounts: InMemoryAccountRepository;
+};
+
+function createHandlers(): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
   const auth = new AuthService(accounts, passwordHasher);
+  const catalog = new CatalogService(new InMemoryCatalogRepository());
 
-  return new ApiHandlersService(auth);
+  return Object.assign(new ApiHandlersService(auth, catalog), { accounts });
+}
+
+async function createAdminHandlers(): Promise<{
+  authorization: string;
+  handlers: TestHandlers;
+}> {
+  const handlers = createHandlers();
+  const registerResponse = await handlers.register({
+    body: {
+      email: "admin@example.com",
+      password: "123456",
+      passwordConfirmation: "123456",
+    },
+  });
+  assert.equal(registerResponse.status, 201);
+  handlers.accounts.grantRole(registerResponse.body.account.id, "admin");
+
+  return {
+    authorization: `Bearer ${registerResponse.body.accessToken}`,
+    handlers,
+  };
+}
+
+function validSourceRequest(overrides: Partial<ApiTypes.CreateSourceRequest> = {}): ApiTypes.CreateSourceRequest {
+  return {
+    code: "source",
+    title: "Источник",
+    structureType: "none",
+    ...overrides,
+  };
 }

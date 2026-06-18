@@ -12,8 +12,18 @@ const session = {
   account: {
     id: "account-1",
     email: "learner@example.com",
+    roles: [],
   },
   accessToken: "access-token-1",
+} satisfies ApiTypes.AuthSessionDto;
+
+const adminSession = {
+  account: {
+    id: "account-2",
+    email: "admin@example.com",
+    roles: ["admin"],
+  },
+  accessToken: "access-token-2",
 } satisfies ApiTypes.AuthSessionDto;
 
 const emptyDashboard = {
@@ -28,6 +38,7 @@ const emptyDashboard = {
 
 const emptyLibrary = {
   defaultTab: "reviewing",
+  allShlokas: [],
   tabs: [
     {
       id: "reviewing",
@@ -53,10 +64,28 @@ const emptyLibrary = {
   ],
 } satisfies ApiTypes.LibraryResponseDto;
 
+const sourceOptions = {
+  sources: [
+    {
+      code: "gita",
+      title: "Бхагавад-гита",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+      parts: [],
+    },
+  ],
+} satisfies ApiTypes.AdminSourceOptionsDto;
+
 describe("App auth and empty shell", () => {
   it("validates registration password fields before calling the API", async () => {
     const user = userEvent.setup();
-    const fetchMock = mockApi(successfulApi);
+    const fetchMock = mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return { status: 200, body: adminSession };
+      }
+
+      return successfulApi(request);
+    });
 
     renderAppAt("/register");
 
@@ -236,6 +265,66 @@ describe("App auth and empty shell", () => {
       ).toBeInTheDocument();
     },
   );
+
+  it("redirects regular users away from direct admin routes", async () => {
+    mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+
+    renderAppAt("/admin/sources/new");
+
+    await expectPath("/dashboard");
+    expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+  });
+
+  it("lets admins create a source and shloka through protected forms", async () => {
+    const user = userEvent.setup();
+    const fetchMock = mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return { status: 200, body: adminSession };
+      }
+
+      return successfulApi(request);
+    });
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    const sourceView = renderAppAt("/admin/sources/new");
+
+    await user.type(await screen.findByLabelText("Код источника"), "gita");
+    await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
+    await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
+    await user.type(screen.getByLabelText("Код главы 1"), "chapter-2");
+    await user.type(screen.getByLabelText("Название главы 1"), "Глава 2");
+    await user.click(screen.getByRole("button", { name: "Создать источник" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Источник создан");
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/admin/sources",
+      expect.objectContaining({
+        method: "POST",
+      }),
+    );
+
+    sourceView.unmount();
+    renderAppAt("/admin/shlokas/new");
+
+    await screen.findByLabelText("Источник");
+    await user.selectOptions(screen.getByLabelText("Источник"), "gita");
+    await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
+    await user.type(screen.getByLabelText("Текст"), "2.47");
+    await user.type(screen.getByLabelText("Пада 1"), "карманй эвадхикарас те");
+    await user.type(screen.getByLabelText("Пада 2"), "ма пхалешу кадачана");
+    await user.click(screen.getByRole("button", { name: "Создать шлоку" }));
+
+    expect(await screen.findByText("Шлока создана")).toHaveAttribute("role", "status");
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/admin/shlokas",
+      expect.objectContaining({
+        method: "POST",
+      }),
+    );
+  });
 });
 
 function renderAppAt(path: string) {
@@ -328,7 +417,45 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
   }
 
   if (method === "GET" && path === "/api/library") {
-    return { status: 200, body: emptyLibrary };
+    return {
+      status: 200,
+      body: {
+        ...emptyLibrary,
+        allShlokas: [
+          {
+            code: "gita-chapter-2-2-47",
+            displayTitle: "Бхагавад-гита, Глава 2 2.47",
+            sourceTitle: "Бхагавад-гита",
+            number: "2.47",
+            text: "карманй эвадхикарас те\nма пхалешу кадачана",
+          },
+        ],
+      },
+    };
+  }
+
+  if (method === "POST" && path === "/api/admin/sources") {
+    return {
+      status: 201,
+      body: sourceOptions.sources[0],
+    };
+  }
+
+  if (method === "GET" && path === "/api/admin/sources/options") {
+    return { status: 200, body: sourceOptions };
+  }
+
+  if (method === "POST" && path === "/api/admin/shlokas") {
+    return {
+      status: 201,
+      body: {
+        code: "gita-chapter-2-2-47",
+        displayTitle: "Бхагавад-гита, Глава 2 2.47",
+        sourceTitle: "Бхагавад-гита",
+        number: "2.47",
+        text: "карманй эвадхикарас те\nма пхалешу кадачана",
+      },
+    };
   }
 
   return {

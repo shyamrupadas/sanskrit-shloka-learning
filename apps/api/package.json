@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "db:migrate": "tsx src/database/migrate.ts",
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.js",
     "test": "node --import ./node_modules/tsx/dist/esm/index.mjs --test \"src/**/*.test.ts\"",

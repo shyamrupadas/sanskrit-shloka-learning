@@ -21,6 +21,26 @@ export class ApiClient {
     this.#fetch = options.fetch ?? fetch;
   }
 
+  async shlokas(request: Types.CreateShlokaRequest): Promise<Types.LibraryShlokaDto> {
+    return this.#request<Types.LibraryShlokaDto>("/api/admin/shlokas", {
+      method: "POST",
+      body: JSON.stringify(request)
+    });
+  }
+
+  async sources(request: Types.CreateSourceRequest): Promise<Types.SourceOptionDto> {
+    return this.#request<Types.SourceOptionDto>("/api/admin/sources", {
+      method: "POST",
+      body: JSON.stringify(request)
+    });
+  }
+
+  async getOptions(): Promise<Types.AdminSourceOptionsDto> {
+    return this.#request<Types.AdminSourceOptionsDto>("/api/admin/sources/options", {
+      method: "GET"
+    });
+  }
+
   async getSession(): Promise<Types.AuthSessionDto> {
     return this.#request<Types.AuthSessionDto>("/api/auth/session", {
       method: "GET"

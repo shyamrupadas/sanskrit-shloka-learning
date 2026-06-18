@@ -1,7 +1,10 @@
+import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
+
 export interface AccountRecord {
   id: string;
   email: string;
   passwordHash: string;
+  roles: ApiTypes.AccountRole[];
 }
 
 export interface CreateAccountInput {

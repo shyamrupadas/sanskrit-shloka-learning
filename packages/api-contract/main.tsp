@@ -21,6 +21,7 @@ namespace SanskritShlokaLearning {
     invalidCredentials: "INVALID_CREDENTIALS",
     emailAlreadyRegistered: "EMAIL_ALREADY_REGISTERED",
     unauthorized: "UNAUTHORIZED",
+    forbidden: "FORBIDDEN",
   }
 
   model ValidationErrorResponse {
@@ -33,6 +34,11 @@ namespace SanskritShlokaLearning {
     @body error: ApiError;
   }
 
+  model ForbiddenResponse {
+    @statusCode statusCode: 403;
+    @body error: ApiError;
+  }
+
   model ConflictErrorResponse {
     @statusCode statusCode: 409;
     @body error: ApiError;
@@ -41,6 +47,11 @@ namespace SanskritShlokaLearning {
   model AccountDto {
     id: string;
     email: string;
+    roles: AccountRole[];
+  }
+
+  enum AccountRole {
+    admin: "admin",
   }
 
   model AuthSessionDto {
@@ -112,11 +123,98 @@ namespace SanskritShlokaLearning {
   model LibraryResponseDto {
     defaultTab: LibraryTab;
     tabs: LibraryTabDto[];
+    allShlokas: LibraryShlokaDto[];
+  }
+
+  model LibraryShlokaDto {
+    code: string;
+    displayTitle: string;
+    sourceTitle: string;
+    number: string;
+    text: string;
+    fullTranslation?: string;
   }
 
   model OkLibraryResponse {
     @statusCode statusCode: 200;
     @body library: LibraryResponseDto;
+  }
+
+  enum SourceStructureType {
+    none: "none",
+    chapters: "chapters",
+    parts: "parts",
+  }
+
+  model CreateSourceChapterRequest {
+    code: string;
+    title: string;
+    order: int32;
+  }
+
+  model CreateSourcePartRequest {
+    code: string;
+    title: string;
+    order: int32;
+    chapters: CreateSourceChapterRequest[];
+  }
+
+  model CreateSourceRequest {
+    code: string;
+    title: string;
+    description?: string;
+    structureType: SourceStructureType;
+    chapters?: CreateSourceChapterRequest[];
+    parts?: CreateSourcePartRequest[];
+  }
+
+  model SourceChapterOptionDto {
+    code: string;
+    title: string;
+    order: int32;
+  }
+
+  model SourcePartOptionDto {
+    code: string;
+    title: string;
+    order: int32;
+    chapters: SourceChapterOptionDto[];
+  }
+
+  model SourceOptionDto {
+    code: string;
+    title: string;
+    structureType: SourceStructureType;
+    chapters: SourceChapterOptionDto[];
+    parts: SourcePartOptionDto[];
+  }
+
+  model AdminSourceOptionsDto {
+    sources: SourceOptionDto[];
+  }
+
+  model CreatedSourceResponse {
+    @statusCode statusCode: 201;
+    @body source: SourceOptionDto;
+  }
+
+  model OkAdminSourceOptionsResponse {
+    @statusCode statusCode: 200;
+    @body options: AdminSourceOptionsDto;
+  }
+
+  model CreateShlokaRequest {
+    sourceCode: string;
+    partCode?: string;
+    chapterCode?: string;
+    number: string;
+    padas: string[];
+    fullTranslation?: string;
+  }
+
+  model CreatedShlokaResponse {
+    @statusCode statusCode: 201;
+    @body shloka: LibraryShlokaDto;
   }
 }
 
@@ -159,5 +257,24 @@ namespace SanskritShlokaLearning {
     @get
     op getLibrary(@header authorization?: string):
       OkLibraryResponse | UnauthorizedResponse;
+  }
+
+  @tag("Admin")
+  @route("/admin")
+  namespace Admin {
+    @post
+    @route("/sources")
+    op createSource(@header authorization?: string, @body request: CreateSourceRequest):
+      CreatedSourceResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | ConflictErrorResponse;
+
+    @get
+    @route("/sources/options")
+    op getAdminSourceOptions(@header authorization?: string):
+      OkAdminSourceOptionsResponse | UnauthorizedResponse | ForbiddenResponse;
+
+    @post
+    @route("/shlokas")
+    op createShloka(@header authorization?: string, @body request: CreateShlokaRequest):
+      CreatedShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | ConflictErrorResponse;
   }
 }

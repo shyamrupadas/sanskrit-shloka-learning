@@ -104,6 +104,7 @@ async function mockApi(
     account: {
       id: "account-1",
       email: options.email ?? "learner@example.com",
+      roles: [],
     },
     accessToken: "access-token-1",
   } satisfies ApiTypes.AuthSessionDto;
@@ -188,6 +189,7 @@ const emptyDashboard = {
 
 const emptyLibrary = {
   defaultTab: "reviewing",
+  allShlokas: [],
   tabs: [
     {
       id: "reviewing",

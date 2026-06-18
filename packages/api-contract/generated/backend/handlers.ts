@@ -8,6 +8,20 @@ export type ApiHandlerResponse<TStatus extends number, TBody = undefined> = TBod
   ? { status: TStatus }
   : { status: TStatus; body: TBody };
 
+export interface ShlokasRequest {
+  body: Types.CreateShlokaRequest;
+  authorization?: string;
+}
+
+export interface SourcesRequest {
+  body: Types.CreateSourceRequest;
+  authorization?: string;
+}
+
+export interface GetOptionsRequest {
+  authorization?: string;
+}
+
 export interface GetSessionRequest {
   authorization?: string;
 }
@@ -32,6 +46,9 @@ export interface GetLibraryRequest {
   authorization?: string;
 }
 
+export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
+export type SourcesResponse = ApiHandlerResponse<201, Types.SourceOptionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
+export type GetOptionsResponse = ApiHandlerResponse<200, Types.AdminSourceOptionsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
 export type GetSessionResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type LoginResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type LogoutResponse = ApiHandlerResponse<204> | ApiHandlerResponse<401, Types.ApiError>;
@@ -40,6 +57,9 @@ export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardD
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
 
 export interface ApiHandlers {
+  shlokas(request: ShlokasRequest): Promise<ShlokasResponse> | ShlokasResponse;
+  sources(request: SourcesRequest): Promise<SourcesResponse> | SourcesResponse;
+  getOptions(request: GetOptionsRequest): Promise<GetOptionsResponse> | GetOptionsResponse;
   getSession(request: GetSessionRequest): Promise<GetSessionResponse> | GetSessionResponse;
   login(request: LoginRequest): Promise<LoginResponse> | LoginResponse;
   logout(request: LogoutRequest): Promise<LogoutResponse> | LogoutResponse;

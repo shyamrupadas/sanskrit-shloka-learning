@@ -5,6 +5,13 @@
 export interface AccountDto {
   id: string;
   email: string;
+  roles: AccountRole[];
+}
+
+export type AccountRole = "admin";
+
+export interface AdminSourceOptionsDto {
+  sources: SourceOptionDto[];
 }
 
 export interface ApiError {
@@ -16,6 +23,37 @@ export interface ApiError {
 export interface AuthSessionDto {
   account: AccountDto;
   accessToken: string;
+}
+
+export interface CreateShlokaRequest {
+  sourceCode: string;
+  partCode?: string;
+  chapterCode?: string;
+  number: string;
+  padas: string[];
+  fullTranslation?: string;
+}
+
+export interface CreateSourceChapterRequest {
+  code: string;
+  title: string;
+  order: number;
+}
+
+export interface CreateSourcePartRequest {
+  code: string;
+  title: string;
+  order: number;
+  chapters: CreateSourceChapterRequest[];
+}
+
+export interface CreateSourceRequest {
+  code: string;
+  title: string;
+  description?: string;
+  structureType: SourceStructureType;
+  chapters?: CreateSourceChapterRequest[];
+  parts?: CreateSourcePartRequest[];
 }
 
 export interface DashboardPrimaryActionDto {
@@ -30,11 +68,21 @@ export interface EmptyDashboardDto {
   primaryAction: DashboardPrimaryActionDto;
 }
 
-export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED";
+export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN";
 
 export interface LibraryResponseDto {
   defaultTab: LibraryTab;
   tabs: LibraryTabDto[];
+  allShlokas: LibraryShlokaDto[];
+}
+
+export interface LibraryShlokaDto {
+  code: string;
+  displayTitle: string;
+  sourceTitle: string;
+  number: string;
+  text: string;
+  fullTranslation?: string;
 }
 
 export type LibraryTab = "reviewing" | "learning" | "all";
@@ -56,3 +104,26 @@ export interface RegisterRequest {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface SourceChapterOptionDto {
+  code: string;
+  title: string;
+  order: number;
+}
+
+export interface SourceOptionDto {
+  code: string;
+  title: string;
+  structureType: SourceStructureType;
+  chapters: SourceChapterOptionDto[];
+  parts: SourcePartOptionDto[];
+}
+
+export interface SourcePartOptionDto {
+  code: string;
+  title: string;
+  order: number;
+  chapters: SourceChapterOptionDto[];
+}
+
+export type SourceStructureType = "none" | "chapters" | "parts";

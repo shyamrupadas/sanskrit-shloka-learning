@@ -10,6 +10,11 @@ export const unauthorizedError: ApiTypes.ApiError = {
   message: "Требуется вход",
 };
 
+export const forbiddenError: ApiTypes.ApiError = {
+  code: "FORBIDDEN",
+  message: "Недостаточно прав",
+};
+
 export function validationError(details: string[]): ApiTypes.ApiError {
   return {
     code: "VALIDATION_ERROR",

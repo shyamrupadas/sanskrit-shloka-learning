@@ -13,9 +13,222 @@
     },
     {
       "name": "Library"
+    },
+    {
+      "name": "Admin"
     }
   ],
   "paths": {
+    "/api/admin/shlokas": {
+      "post": {
+        "operationId": "Admin_createShloka",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access is forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state of the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.CreateShlokaRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/sources": {
+      "post": {
+        "operationId": "Admin_createSource",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.SourceOptionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access is forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state of the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.CreateSourceRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/sources/options": {
+      "get": {
+        "operationId": "Admin_getAdminSourceOptions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AdminSourceOptionsDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access is forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
     "/api/auth/login": {
       "post": {
         "operationId": "Auth_login",
@@ -278,7 +491,8 @@
         "type": "object",
         "required": [
           "id",
-          "email"
+          "email",
+          "roles"
         ],
         "properties": {
           "id": {
@@ -286,6 +500,32 @@
           },
           "email": {
             "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.AccountRole"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.AccountRole": {
+        "type": "string",
+        "enum": [
+          "admin"
+        ]
+      },
+      "SanskritShlokaLearning.AdminSourceOptionsDto": {
+        "type": "object",
+        "required": [
+          "sources"
+        ],
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.SourceOptionDto"
+            }
           }
         }
       },
@@ -322,6 +562,118 @@
           },
           "accessToken": {
             "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.CreateShlokaRequest": {
+        "type": "object",
+        "required": [
+          "sourceCode",
+          "number",
+          "padas"
+        ],
+        "properties": {
+          "sourceCode": {
+            "type": "string"
+          },
+          "partCode": {
+            "type": "string"
+          },
+          "chapterCode": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "padas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fullTranslation": {
+            "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.CreateSourceChapterRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "order"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SanskritShlokaLearning.CreateSourcePartRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "order",
+          "chapters"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.CreateSourceChapterRequest"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.CreateSourceRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "structureType"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "structureType": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceStructureType"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.CreateSourceChapterRequest"
+            }
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.CreateSourcePartRequest"
+            }
           }
         }
       },
@@ -384,14 +736,16 @@
           "VALIDATION_ERROR",
           "INVALID_CREDENTIALS",
           "EMAIL_ALREADY_REGISTERED",
-          "UNAUTHORIZED"
+          "UNAUTHORIZED",
+          "FORBIDDEN"
         ]
       },
       "SanskritShlokaLearning.LibraryResponseDto": {
         "type": "object",
         "required": [
           "defaultTab",
-          "tabs"
+          "tabs",
+          "allShlokas"
         ],
         "properties": {
           "defaultTab": {
@@ -402,6 +756,42 @@
             "items": {
               "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryTabDto"
             }
+          },
+          "allShlokas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.LibraryShlokaDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "displayTitle",
+          "sourceTitle",
+          "number",
+          "text"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "displayTitle": {
+            "type": "string"
+          },
+          "sourceTitle": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "fullTranslation": {
+            "type": "string"
           }
         }
       },
@@ -472,6 +862,94 @@
             "minLength": 6
           }
         }
+      },
+      "SanskritShlokaLearning.SourceChapterOptionDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "order"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SanskritShlokaLearning.SourceOptionDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "structureType",
+          "chapters",
+          "parts"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "structureType": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceStructureType"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.SourceChapterOptionDto"
+            }
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.SourcePartOptionDto"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.SourcePartOptionDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "title",
+          "order",
+          "chapters"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.SourceChapterOptionDto"
+            }
+          }
+        }
+      },
+      "SanskritShlokaLearning.SourceStructureType": {
+        "type": "string",
+        "enum": [
+          "none",
+          "chapters",
+          "parts"
+        ]
       }
     }
   },

@@ -113,6 +113,9 @@ function readStoredAccount(): ApiTypes.AccountDto | null {
       return {
         id: parsed.id,
         email: parsed.email,
+        roles: Array.isArray(parsed.roles)
+          ? parsed.roles.filter((role): role is ApiTypes.AccountRole => role === "admin")
+          : [],
       };
     }
   } catch {

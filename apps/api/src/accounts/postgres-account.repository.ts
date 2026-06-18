@@ -13,6 +13,7 @@ interface AccountRow {
   id: string;
   email: string;
   password_hash: string;
+  roles: string[] | null;
 }
 
 @Injectable()
@@ -25,7 +26,7 @@ export class PostgresAccountRepository implements AccountRepository {
         `
           insert into accounts (id, email, password_hash)
           values ($1, $2, $3)
-          returning id, email, password_hash
+          returning id, email, password_hash, array[]::text[] as roles
         `,
         [input.id, input.email, input.passwordHash],
       );
@@ -42,7 +43,15 @@ export class PostgresAccountRepository implements AccountRepository {
 
   async findAccountByEmail(email: string): Promise<AccountRecord | undefined> {
     const result = await this.database.query<AccountRow>(
-      "select id, email, password_hash from accounts where email = $1 limit 1",
+      `
+        select accounts.id, accounts.email, accounts.password_hash,
+          coalesce(array_agg(account_roles.role) filter (where account_roles.role is not null), array[]::text[]) as roles
+        from accounts
+        left join account_roles on account_roles.account_id = accounts.id
+        where accounts.email = $1
+        group by accounts.id, accounts.email, accounts.password_hash
+        limit 1
+      `,
       [email],
     );
 
@@ -53,11 +62,14 @@ export class PostgresAccountRepository implements AccountRepository {
   async findAccountBySessionTokenHash(tokenHash: string, now: Date): Promise<AccountRecord | undefined> {
     const result = await this.database.query<AccountRow>(
       `
-        select accounts.id, accounts.email, accounts.password_hash
+        select accounts.id, accounts.email, accounts.password_hash,
+          coalesce(array_agg(account_roles.role) filter (where account_roles.role is not null), array[]::text[]) as roles
         from auth_sessions
         inner join accounts on accounts.id = auth_sessions.account_id
+        left join account_roles on account_roles.account_id = accounts.id
         where auth_sessions.token_hash = $1
           and auth_sessions.expires_at > $2
+        group by accounts.id, accounts.email, accounts.password_hash
         limit 1
       `,
       [tokenHash, now],
@@ -91,6 +103,7 @@ function mapAccountRow(row: AccountRow | undefined): AccountRecord {
     id: row.id,
     email: row.email,
     passwordHash: row.password_hash,
+    roles: (row.roles ?? []).filter((role): role is AccountRecord["roles"][number] => role === "admin"),
   };
 }
 
