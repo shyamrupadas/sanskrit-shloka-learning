@@ -25,4 +25,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/08-repetition-algorithm-and-dashboard-batch.md`
+- `.scratch/initial-product/issues/09-repetition-algorithm-and-dashboard-batch.md`

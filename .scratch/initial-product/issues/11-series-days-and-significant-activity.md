@@ -23,5 +23,5 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/07-learn-shloka-moves-to-reviewing.md`
-- `.scratch/initial-product/issues/09-review-flow-and-repetition-history.md`
+- `.scratch/initial-product/issues/08-learn-shloka-moves-to-reviewing.md`
+- `.scratch/initial-product/issues/10-review-flow-and-repetition-history.md`
