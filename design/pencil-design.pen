@@ -11524,11 +11524,19 @@
               ]
             },
             {
-              "id": "QBOwp",
+              "id": "koTlm",
               "type": "ref",
               "ref": "B9n47J",
-              "name": "Logout",
-              "width": "fill_container"
+              "name": "Admin Link",
+              "width": "fill_container",
+              "descendants": {
+                "g86340": {
+                  "icon": "shield-check"
+                },
+                "VZsCN": {
+                  "content": "Админка"
+                }
+              }
             }
           ]
         },
@@ -12774,6 +12782,628 @@
               "fontWeight": "700"
             }
           }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "hS3nD",
+      "x": 964,
+      "y": 7353,
+      "name": "Админка",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "Zw4rf",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "oIYa6",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "f8NGRj",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "F8yHt",
+                  "name": "Status Icon signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "b1LnEt",
+                  "name": "Status Icon wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "pPBWj",
+                  "name": "Status Icon battery-full",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "y4lrJX",
+          "name": "Admin Back Row",
+          "width": "fill_container",
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "gifZH",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button Instance"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Yvnoq",
+          "name": "Admin Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            0,
+            16
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "bft2R",
+              "name": "Screen Title",
+              "fill": "$text",
+              "content": "Админка",
+              "fontFamily": "$font",
+              "fontSize": 28,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "T2Gca",
+              "name": "Admin Links",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "gcSjO",
+                  "name": "Link / Новая шлока",
+                  "width": "fill_container",
+                  "height": 56,
+                  "fill": "$surface",
+                  "cornerRadius": 12,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    0,
+                    14
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hvSNb",
+                      "name": "Link Content / Новая шлока",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "aBPvF",
+                          "name": "Link Icon / Новая шлока",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "file-plus",
+                          "library": "lucide",
+                          "fill": "$primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "j9vTYB",
+                          "name": "Link Label / Новая шлока",
+                          "fill": "$text",
+                          "content": "Новая шлока",
+                          "fontFamily": "$font",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon",
+                      "id": "z1VEXA",
+                      "name": "Link Chevron / Новая шлока",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "chevron-right",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FdhYE",
+                  "name": "Link / Новый источник",
+                  "width": "fill_container",
+                  "height": 56,
+                  "fill": "$surface",
+                  "cornerRadius": 12,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    0,
+                    14
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d6bqS",
+                      "name": "Link Content / Новый источник",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ncShE",
+                          "name": "Link Icon / Новый источник",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "book-plus",
+                          "library": "lucide",
+                          "fill": "$primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "tXF0X",
+                          "name": "Link Label / Новый источник",
+                          "fill": "$text",
+                          "content": "Новый источник",
+                          "fontFamily": "$font",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon",
+                      "id": "t1sDh",
+                      "name": "Link Chevron / Новый источник",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "chevron-right",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ttXmg",
+                  "name": "Section Header / Список шлок",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    10,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WKyZj",
+                      "name": "Section Title / Список шлок",
+                      "fill": "$text",
+                      "content": "Список шлок",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Wk9VO",
+                  "name": "Hierarchical Shloka List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Z2tQm",
+                      "name": "Source Group / Бхагавад-гита",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "L1Lpg",
+                          "name": "Source Row / Бхагавад-гита",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$surface",
+                          "cornerRadius": 12,
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "padding": [
+                            0,
+                            14
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "dXZUI",
+                              "name": "Source Text / Бхагавад-гита",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rHzL1",
+                                  "name": "Source Title / Бхагавад-гита",
+                                  "fill": "$text",
+                                  "content": "Бхагавад-гита",
+                                  "fontFamily": "$font",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "VZgZW",
+                                  "name": "Source Meta / Бхагавад-гита",
+                                  "fill": "$text-muted",
+                                  "content": "18 глав",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "icon",
+                              "id": "YorPN",
+                              "name": "Edit Source / Бхагавад-гита",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "pencil",
+                              "library": "lucide",
+                              "fill": "$primary"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jj7f9",
+                          "name": "Shlokas / Бхагавад-гита",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": [
+                            0,
+                            0,
+                            0,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "sHpnD",
+                              "name": "Shloka Row / 2.47 Карманй эвадхикарас те",
+                              "width": "fill_container",
+                              "height": 52,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 10,
+                              "stroke": "$border",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "W7pSl",
+                                  "name": "Shloka Title / 2.47 Карманй эвадхикарас те",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 250,
+                                  "content": "2.47 Карманй эвадхикарас те",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "t3YVO",
+                                  "name": "Edit Shloka / 2.47 Карманй эвадхикарас те",
+                                  "width": 17,
+                                  "height": 17,
+                                  "icon": "pencil",
+                                  "library": "lucide",
+                                  "fill": "$primary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "h4ZfQZ",
+                              "name": "Shloka Row / 4.7 Йада йада хи дхармасйа",
+                              "width": "fill_container",
+                              "height": 52,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 10,
+                              "stroke": "$border",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "kUKgX",
+                                  "name": "Shloka Title / 4.7 Йада йада хи дхармасйа",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 250,
+                                  "content": "4.7 Йада йада хи дхармасйа",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "Alku9",
+                                  "name": "Edit Shloka / 4.7 Йада йада хи дхармасйа",
+                                  "width": 17,
+                                  "height": 17,
+                                  "icon": "pencil",
+                                  "library": "lucide",
+                                  "fill": "$primary"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k6avr",
+                      "name": "Source Group / Иша Упанишада",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "JU9mB",
+                          "name": "Source Row / Иша Упанишада",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$surface",
+                          "cornerRadius": 12,
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "padding": [
+                            0,
+                            14
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "C1GvG",
+                              "name": "Source Text / Иша Упанишада",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "CoV5X",
+                                  "name": "Source Title / Иша Упанишада",
+                                  "fill": "$text",
+                                  "content": "Иша Упанишада",
+                                  "fontFamily": "$font",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "jhw1w",
+                                  "name": "Source Meta / Иша Упанишада",
+                                  "fill": "$text-muted",
+                                  "content": "18 шлок",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "icon",
+                              "id": "q0LPJy",
+                              "name": "Edit Source / Иша Упанишада",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "pencil",
+                              "library": "lucide",
+                              "fill": "$primary"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pH0NN",
+                          "name": "Shlokas / Иша Упанишада",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": [
+                            0,
+                            0,
+                            0,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "dKTcE",
+                              "name": "Shloka Row / Мантра 1 Ишавасйам идам сарвам",
+                              "width": "fill_container",
+                              "height": 52,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 10,
+                              "stroke": "$border",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "HvpRS",
+                                  "name": "Shloka Title / Мантра 1 Ишавасйам идам сарвам",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 250,
+                                  "content": "Мантра 1 Ишавасйам идам сарвам",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "qoWl6",
+                                  "name": "Edit Shloka / Мантра 1 Ишавасйам идам сарвам",
+                                  "width": 17,
+                                  "height": 17,
+                                  "icon": "pencil",
+                                  "library": "lucide",
+                                  "fill": "$primary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Yt5w9",
+                              "name": "Shloka Row / Мантра 15 Хиранмайена патрена",
+                              "width": "fill_container",
+                              "height": 52,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 10,
+                              "stroke": "$border",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "dXuwj",
+                                  "name": "Shloka Title / Мантра 15 Хиранмайена патрена",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 250,
+                                  "content": "Мантра 15 Хиранмайена патрена",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "GGf9g",
+                                  "name": "Edit Shloka / Мантра 15 Хиранмайена патрена",
+                                  "width": 17,
+                                  "height": 17,
+                                  "icon": "pencil",
+                                  "library": "lucide",
+                                  "fill": "$primary"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }
