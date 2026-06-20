@@ -1,15 +1,9 @@
 # Sanskrit Shloka Learning
 
+Do not stage (`git add`) or commit changes unless explicitly asked.
+
 ## Agent skills
 
-### Issue tracker
-
-Issues and PRDs are tracked as local markdown files under `.scratch/<feature-slug>/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-This repo uses the default five triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-This repo uses a single-context domain-doc layout: root `CONTEXT.md` and root `docs/adr/`. See `docs/agents/domain.md`.
+- Issues/PRDs: local markdown under `.scratch/<feature-slug>/`; see `docs/agents/issue-tracker.md`.
+- Triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`; see `docs/agents/triage-labels.md`.
+- Domain docs: root `CONTEXT.md` and `docs/adr/`; see `docs/agents/domain.md`.
