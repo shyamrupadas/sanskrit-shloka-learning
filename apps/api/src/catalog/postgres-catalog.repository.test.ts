@@ -176,6 +176,64 @@ describe("PostgresCatalogRepository", () => {
     assert.ok(
       database.directQueries.some((query) => query.includes("source_chapters.part_code = shlokas.part_code")),
     );
+    assert.ok(
+      database.directQueries
+        .filter((query) => query.includes("from shlokas"))
+        .every((query) => !query.includes("concat_ws(")),
+    );
+  });
+
+  test("reads source hierarchy with set-based aggregates", async () => {
+    const database = new TransactionTrackingDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "sb",
+      title: "Srimad Bhagavatam",
+      structureType: "parts",
+      chapters: [],
+      parts: [
+        {
+          code: "1",
+          title: "Canto 1",
+          order: 1,
+          chapters: [
+            { code: "1", title: "Chapter 1", order: 1 },
+            { code: "2", title: "Chapter 2", order: 2 },
+          ],
+        },
+      ],
+    });
+
+    const sources = await repository.listSources();
+
+    assert.deepEqual(sources, [
+      {
+        code: "sb",
+        title: "Srimad Bhagavatam",
+        structureType: "parts",
+        chapters: [],
+        parts: [
+          {
+            code: "1",
+            title: "Canto 1",
+            order: 1,
+            chapters: [
+              { code: "1", title: "Chapter 1", order: 1 },
+              { code: "2", title: "Chapter 2", order: 2 },
+            ],
+          },
+        ],
+      },
+    ]);
+
+    const sourceReadQuery = database.directQueries.find((query) => query.includes("from shloka_sources"));
+    assert.ok(sourceReadQuery);
+    assert.ok(sourceReadQuery.includes("with root_chapters as"));
+    assert.ok(sourceReadQuery.includes("part_chapters as"));
+    assert.ok(sourceReadQuery.includes("parts as"));
+    assert.equal(sourceReadQuery.includes("where source_chapters.source_code = shloka_sources.code"), false);
+    assert.equal(sourceReadQuery.includes("where source_parts.source_code = shloka_sources.code"), false);
   });
 });
 
@@ -213,6 +271,13 @@ class TransactionTrackingDatabase {
     }
 
     throw new Error(`Unexpected direct query: ${query}`);
+  }
+
+  async readQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string,
+    values: readonly unknown[] = [],
+  ): Promise<pg.QueryResult<Row>> {
+    return this.query<Row>(text, values);
   }
 
   async transaction<T>(operation: (client: DatabaseExecutor) => Promise<T>): Promise<T> {
@@ -265,7 +330,6 @@ class TransactionTrackingDatabase {
       part_code: values[2] === null ? null : String(values[2]),
       chapter_code: values[3] === null ? null : String(values[3]),
       number: String(values[4]),
-      display_title: String(values[6]),
       full_translation: values[7] === null ? null : String(values[7]),
     });
 
@@ -393,8 +457,9 @@ class TransactionTrackingDatabase {
 
     return {
       ...seed,
-      display_title: [source?.title ?? seed.source_code, part?.title, chapter?.title].filter(Boolean).join(", ") + ` ${seed.number}`,
       source_title: source?.title ?? seed.source_code,
+      part_title: part?.title ?? null,
+      chapter_title: chapter?.title ?? null,
       text: (this.padas.get(seed.code) ?? []).join("\n"),
       padas: this.padas.get(seed.code) ?? [],
       sort_source_title: source?.title ?? seed.source_code,
@@ -469,12 +534,13 @@ interface ShlokaRowSeed extends pg.QueryResultRow {
   part_code: string | null;
   chapter_code: string | null;
   number: string;
-  display_title: string;
   full_translation: string | null;
 }
 
 interface ShlokaRow extends ShlokaRowSeed {
   source_title: string;
+  part_title: string | null;
+  chapter_title: string | null;
   text: string;
   padas: string[];
   sort_source_title: string;

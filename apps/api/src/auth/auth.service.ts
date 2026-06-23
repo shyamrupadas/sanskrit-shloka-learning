@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import {
@@ -14,6 +14,14 @@ import { PasswordHasher } from "./password-hasher.js";
 import { createAccessToken, hashAccessToken, parseBearerToken } from "./token.js";
 
 const sessionTtlMs = 30 * 24 * 60 * 60 * 1000;
+const sessionLookupCacheFreshTtlMs = 30_000;
+const sessionLookupCacheStaleTtlMs = 5 * 60_000;
+
+interface CachedSessionLookup {
+  freshUntil: number;
+  session: SessionLookup;
+  staleUntil: number;
+}
 
 export interface SessionLookup {
   account: AccountRecord;
@@ -22,6 +30,10 @@ export interface SessionLookup {
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+  private readonly sessionCache = new Map<string, CachedSessionLookup>();
+  private readonly sessionLookups = new Map<string, Promise<SessionLookup | undefined>>();
+
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly accounts: AccountRepository,
@@ -102,10 +114,12 @@ export class AuthService {
     const tokenHash = hashAccessToken(token);
     const account = await this.accounts.findAccountBySessionTokenHash(tokenHash, new Date());
     if (!account) {
+      this.deleteSessionCache(tokenHash);
       return { status: 401, body: unauthorizedError };
     }
 
     await this.accounts.deleteSessionByTokenHash(tokenHash);
+    this.deleteSessionCache(tokenHash);
     return { status: 204 };
   }
 
@@ -115,8 +129,72 @@ export class AuthService {
       return undefined;
     }
 
-    const account = await this.accounts.findAccountBySessionTokenHash(hashAccessToken(accessToken), new Date());
-    return account ? { account, accessToken } : undefined;
+    const tokenHash = hashAccessToken(accessToken);
+    const cached = this.sessionCache.get(tokenHash);
+    const now = Date.now();
+    if (cached && cached.freshUntil > now) {
+      return cached.session;
+    }
+
+    const existingLookup = this.sessionLookups.get(tokenHash);
+    if (existingLookup) {
+      return existingLookup;
+    }
+
+    const lookup = this.lookupSessionByTokenHash(tokenHash, accessToken, cached);
+    this.sessionLookups.set(tokenHash, lookup);
+    void lookup.then(
+      () => this.deleteSessionLookup(tokenHash, lookup),
+      () => this.deleteSessionLookup(tokenHash, lookup),
+    );
+
+    return lookup;
+  }
+
+  private async lookupSessionByTokenHash(
+    tokenHash: string,
+    accessToken: string,
+    cached: CachedSessionLookup | undefined,
+  ): Promise<SessionLookup | undefined> {
+    try {
+      const account = await this.accounts.findAccountBySessionTokenHash(tokenHash, new Date());
+      if (!account) {
+        this.deleteSessionCache(tokenHash);
+        return undefined;
+      }
+
+      const session = { account, accessToken };
+      this.setSessionCache(tokenHash, session);
+      return session;
+    } catch (error) {
+      if (cached && cached.staleUntil > Date.now() && isTransientSessionLookupError(error)) {
+        this.logger.warn(
+          `Using cached auth session after transient lookup error: ${errorMessage(error)}`,
+        );
+        return cached.session;
+      }
+
+      throw error;
+    }
+  }
+
+  private deleteSessionLookup(tokenHash: string, lookup: Promise<SessionLookup | undefined>): void {
+    if (this.sessionLookups.get(tokenHash) === lookup) {
+      this.sessionLookups.delete(tokenHash);
+    }
+  }
+
+  private setSessionCache(tokenHash: string, session: SessionLookup): void {
+    const now = Date.now();
+    this.sessionCache.set(tokenHash, {
+      freshUntil: now + sessionLookupCacheFreshTtlMs,
+      session,
+      staleUntil: now + sessionLookupCacheStaleTtlMs,
+    });
+  }
+
+  private deleteSessionCache(tokenHash: string): void {
+    this.sessionCache.delete(tokenHash);
   }
 
   private async createSession(account: AccountRecord): Promise<string> {
@@ -188,4 +266,34 @@ function validateCredentials(request: ApiTypes.LoginRequest): string[] {
   }
 
   return details;
+}
+
+function isTransientSessionLookupError(error: unknown): boolean {
+  const code = errorCode(error);
+  if (code && ["57P01", "08003", "08006"].includes(code)) {
+    return true;
+  }
+
+  const message = errorMessage(error);
+  return (
+    message === "Query read timeout" ||
+    message.includes("Connection terminated") ||
+    message.includes("Client has encountered a connection error") ||
+    message.includes("terminating connection due to administrator command") ||
+    message.includes("Couldn't connect to compute node") ||
+    message.includes("network issue") ||
+    message.includes("early eof")
+  );
+}
+
+function errorCode(error: unknown): string | undefined {
+  if (typeof error !== "object" || error === null || !("code" in error)) {
+    return undefined;
+  }
+
+  return typeof error.code === "string" ? error.code : undefined;
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }

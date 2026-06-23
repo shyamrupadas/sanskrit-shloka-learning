@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { notFoundError, validationError } from "../auth/api-error.js";
@@ -12,8 +12,20 @@ import {
   type ShlokaRecord,
 } from "./catalog.repository.js";
 
+const adminCatalogCacheFreshTtlMs = 30_000;
+const adminCatalogCacheStaleTtlMs = 5 * 60_000;
+
+interface CachedAdminCatalog {
+  freshUntil: number;
+  staleUntil: number;
+  value: ApiTypes.AdminCatalogDto;
+}
+
 @Injectable()
 export class CatalogService {
+  private adminCatalogCache: CachedAdminCatalog | undefined;
+  private readonly logger = new Logger(CatalogService.name);
+
   constructor(
     @Inject(CATALOG_REPOSITORY)
     private readonly catalog: CatalogRepository,
@@ -40,6 +52,7 @@ export class CatalogService {
         chapters: normalized.chapters,
         parts: normalized.parts,
       });
+      this.clearAdminCatalogCache();
       return { status: 201, body: toSourceOption(source) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -56,17 +69,40 @@ export class CatalogService {
   }
 
   async getAdminCatalog(): Promise<ApiTypes.AdminCatalogDto> {
-    const sources = await this.catalog.listSources();
-    const shlokas = (await this.catalog.listLibraryShlokas()).sort(compareShlokas);
+    const now = Date.now();
+    if (this.adminCatalogCache && this.adminCatalogCache.freshUntil > now) {
+      return this.adminCatalogCache.value;
+    }
 
-    return {
-      sources: sources.map((source) => ({
-        ...toAdminSource(source),
-        shlokas: shlokas
-          .filter((shloka) => shloka.sourceCode === source.code)
-          .map(toAdminCatalogShloka),
-      })),
-    };
+    try {
+      const [sources, shlokas] = await Promise.all([
+        this.catalog.listSources(),
+        this.catalog.listLibraryShlokas(),
+      ]);
+      const sortedShlokas = shlokas.sort(compareShlokas);
+      const catalog = {
+        sources: sources.map((source) => ({
+          ...toAdminSource(source),
+          shlokas: sortedShlokas
+            .filter((shloka) => shloka.sourceCode === source.code)
+            .map(toAdminCatalogShloka),
+        })),
+      };
+
+      this.setAdminCatalogCache(catalog);
+      return catalog;
+    } catch (error) {
+      if (
+        this.adminCatalogCache &&
+        this.adminCatalogCache.staleUntil > Date.now() &&
+        isTransientCatalogReadError(error)
+      ) {
+        this.logger.warn(`Using cached admin catalog after transient read error: ${errorMessage(error)}`);
+        return this.adminCatalogCache.value;
+      }
+
+      throw error;
+    }
   }
 
   async getAdminSource(
@@ -108,6 +144,7 @@ export class CatalogService {
         chapters: normalized.chapters ?? source.chapters,
         parts: normalized.parts ?? source.parts,
       });
+      this.clearAdminCatalogCache();
       return { status: 200, body: toAdminSource(updated) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -155,6 +192,7 @@ export class CatalogService {
         sortChapterOrder: chapter?.order ?? 0,
       });
 
+      this.clearAdminCatalogCache();
       return { status: 201, body: toLibraryShloka(shloka) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -210,12 +248,26 @@ export class CatalogService {
       padas: normalized.padas,
       ...(normalized.fullTranslation ? { fullTranslation: normalized.fullTranslation } : {}),
     });
+    this.clearAdminCatalogCache();
     const source = await this.catalog.getSource(updated.sourceCode);
     if (!source) {
       return { status: 404, body: notFoundError("Источник шлоки не найден") };
     }
 
     return { status: 200, body: toAdminShloka(updated, source) };
+  }
+
+  private setAdminCatalogCache(value: ApiTypes.AdminCatalogDto): void {
+    const now = Date.now();
+    this.adminCatalogCache = {
+      freshUntil: now + adminCatalogCacheFreshTtlMs,
+      staleUntil: now + adminCatalogCacheStaleTtlMs,
+      value,
+    };
+  }
+
+  private clearAdminCatalogCache(): void {
+    this.adminCatalogCache = undefined;
   }
 }
 
@@ -688,4 +740,34 @@ function conflictError(message: string): ApiTypes.ApiError {
     code: "VALIDATION_ERROR",
     message,
   };
+}
+
+function isTransientCatalogReadError(error: unknown): boolean {
+  const code = errorCode(error);
+  if (code && ["57P01", "08003", "08006"].includes(code)) {
+    return true;
+  }
+
+  const message = errorMessage(error);
+  return (
+    message === "Query read timeout" ||
+    message.includes("Connection terminated") ||
+    message.includes("Client has encountered a connection error") ||
+    message.includes("terminating connection due to administrator command") ||
+    message.includes("Couldn't connect to compute node") ||
+    message.includes("network issue") ||
+    message.includes("early eof")
+  );
+}
+
+function errorCode(error: unknown): string | undefined {
+  if (typeof error !== "object" || error === null || !("code" in error)) {
+    return undefined;
+  }
+
+  return typeof error.code === "string" ? error.code : undefined;
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }

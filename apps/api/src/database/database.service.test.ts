@@ -6,6 +6,71 @@ import type pg from "pg";
 
 import { DatabaseService } from "./database.service.js";
 
+describe("DatabaseService readQuery", () => {
+  test("retries transient connection errors once", async () => {
+    const connectionError = new Error("Connection terminated unexpectedly");
+    const pool = new FakeQueryPool([connectionError, result([{ value: "ok" }])]);
+    const { logger, readQuery } = readQueryHarness(pool);
+
+    const queryResult = await readQuery<{ value: string }>("select 1", ["input"]);
+
+    assert.deepEqual(queryResult.rows, [{ value: "ok" }]);
+    assert.deepEqual(pool.queries, ["select 1", "select 1"]);
+    assert.deepEqual(pool.values, [["input"], ["input"]]);
+    assert.deepEqual(logger.warnings, [
+      "Retrying read-only PostgreSQL query after transient connection error: Connection terminated unexpectedly",
+    ]);
+  });
+
+  test("does not retry ordinary query calls", async () => {
+    const connectionError = new Error("Connection terminated unexpectedly");
+    const pool = new FakeQueryPool([connectionError, result([{ value: "ok" }])]);
+    const { query } = readQueryHarness(pool);
+
+    await assert.rejects(query("select 1"), (error) => error === connectionError);
+
+    assert.deepEqual(pool.queries, ["select 1"]);
+  });
+
+  test("does not retry non-transient read errors", async () => {
+    const queryError = Object.assign(new Error("relation does not exist"), { code: "42P01" });
+    const pool = new FakeQueryPool([queryError, result([{ value: "ok" }])]);
+    const { logger, readQuery } = readQueryHarness(pool);
+
+    await assert.rejects(readQuery("select missing_table"), (error) => error === queryError);
+
+    assert.deepEqual(pool.queries, ["select missing_table"]);
+    assert.deepEqual(logger.warnings, []);
+  });
+
+  test("does not retry query read timeouts", async () => {
+    const queryTimeoutError = new Error("Query read timeout");
+    const pool = new FakeQueryPool([queryTimeoutError, result([{ value: "ok" }])]);
+    const { logger, readQuery } = readQueryHarness(pool);
+
+    await assert.rejects(readQuery("select slow"), (error) => error === queryTimeoutError);
+
+    assert.deepEqual(pool.queries, ["select slow"]);
+    assert.deepEqual(logger.warnings, []);
+  });
+
+  test("retries fast read query timeouts once with a short per-query timeout", async () => {
+    const queryTimeoutError = new Error("Query read timeout");
+    const pool = new FakeQueryPool([queryTimeoutError, result([{ value: "ok" }])]);
+    const { fastReadQuery, logger } = readQueryHarness(pool);
+
+    const queryResult = await fastReadQuery<{ value: string }>("select fast", ["input"]);
+
+    assert.deepEqual(queryResult.rows, [{ value: "ok" }]);
+    assert.deepEqual(pool.queries, ["select fast", "select fast"]);
+    assert.deepEqual(pool.values, [["input"], ["input"]]);
+    assert.deepEqual(pool.queryTimeouts, [5_000, 5_000]);
+    assert.deepEqual(logger.warnings, [
+      "Retrying fast read-only PostgreSQL query after transient read error: Query read timeout",
+    ]);
+  });
+});
+
 describe("DatabaseService transaction", () => {
   test("commits and releases a successful transaction", async () => {
     const { client, transaction } = transactionHarness();
@@ -81,6 +146,21 @@ describe("DatabaseService transaction", () => {
   });
 });
 
+function readQueryHarness(pool = new FakeQueryPool()) {
+  const logger = new FakeLogger();
+  const database = Object.assign(Object.create(DatabaseService.prototype), {
+    logger,
+    pool,
+  }) as DatabaseService;
+
+  return {
+    fastReadQuery: DatabaseService.prototype.fastReadQuery.bind(database),
+    logger,
+    query: DatabaseService.prototype.query.bind(database),
+    readQuery: DatabaseService.prototype.readQuery.bind(database),
+  };
+}
+
 function transactionHarness(client = new FakePoolClient()) {
   const logger = new FakeLogger();
   const database = {
@@ -102,6 +182,38 @@ class FakeLogger {
 
   warn(message: string): void {
     this.warnings.push(message);
+  }
+}
+
+class FakeQueryPool {
+  readonly queries: string[] = [];
+  readonly queryTimeouts: Array<number | undefined> = [];
+  readonly values: unknown[][] = [];
+
+  constructor(
+    private readonly responses: Array<Error | pg.QueryResult<pg.QueryResultRow>> = [result([])],
+  ) {}
+
+  async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string | (pg.QueryConfig<unknown[]> & { query_timeout?: number }),
+    values: unknown[] = [],
+  ): Promise<pg.QueryResult<Row>> {
+    if (typeof text === "string") {
+      this.queries.push(normalizeQuery(text));
+      this.values.push(values);
+      this.queryTimeouts.push(undefined);
+    } else {
+      this.queries.push(normalizeQuery(text.text));
+      this.values.push(text.values ?? []);
+      this.queryTimeouts.push(text.query_timeout);
+    }
+
+    const response = this.responses.shift() ?? result([]);
+    if (response instanceof Error) {
+      throw response;
+    }
+
+    return response as pg.QueryResult<Row>;
   }
 }
 

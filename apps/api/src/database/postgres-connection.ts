@@ -2,14 +2,20 @@ import pg from "pg";
 
 export interface PostgresConnectionOptions {
   connectionTimeoutMillis?: number;
+  keepAlive?: boolean;
+  keepAliveInitialDelayMillis?: number;
   lockTimeoutMillis?: number;
+  maxLifetimeSeconds?: number;
   queryTimeoutMillis?: number;
   statementTimeoutMillis?: number;
 }
 
 const defaultConnectionOptions = {
   connectionTimeoutMillis: 10_000,
+  keepAlive: true,
+  keepAliveInitialDelayMillis: 10_000,
   lockTimeoutMillis: 10_000,
+  maxLifetimeSeconds: 60,
   queryTimeoutMillis: 30_000,
   statementTimeoutMillis: 30_000,
 } satisfies Required<PostgresConnectionOptions>;
@@ -29,7 +35,10 @@ export function createConnectionConfig(
   const config: pg.PoolConfig = {
     connectionString: stripSslMode(databaseUrl),
     connectionTimeoutMillis: resolvedOptions.connectionTimeoutMillis,
+    keepAlive: resolvedOptions.keepAlive,
+    keepAliveInitialDelayMillis: resolvedOptions.keepAliveInitialDelayMillis,
     lock_timeout: resolvedOptions.lockTimeoutMillis,
+    maxLifetimeSeconds: resolvedOptions.maxLifetimeSeconds,
     query_timeout: resolvedOptions.queryTimeoutMillis,
     statement_timeout: resolvedOptions.statementTimeoutMillis,
   };

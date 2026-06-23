@@ -25,11 +25,12 @@ interface SourceRow {
 
 interface ShlokaRow {
   code: string;
-  display_title: string;
   source_code: string;
   source_title: string;
   part_code: string | null;
+  part_title: string | null;
   chapter_code: string | null;
+  chapter_title: string | null;
   number: string;
   text: string;
   padas: string[];
@@ -134,60 +135,66 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listSources(): Promise<SourceRecord[]> {
-    const result = await this.database.query<SourceRow>(`
+    const result = await this.database.readQuery<SourceRow>(`
+      with root_chapters as (
+        select
+          source_chapters.source_code,
+          jsonb_agg(
+            jsonb_build_object(
+              'code', source_chapters.code,
+              'title', source_chapters.title,
+              'order', source_chapters.sort_order
+            )
+            order by source_chapters.sort_order, source_chapters.code
+          ) as chapters
+        from source_chapters
+        where source_chapters.part_code is null
+        group by source_chapters.source_code
+      ),
+      part_chapters as (
+        select
+          source_chapters.source_code,
+          source_chapters.part_code,
+          jsonb_agg(
+            jsonb_build_object(
+              'code', source_chapters.code,
+              'title', source_chapters.title,
+              'order', source_chapters.sort_order
+            )
+            order by source_chapters.sort_order, source_chapters.code
+          ) as chapters
+        from source_chapters
+        where source_chapters.part_code is not null
+        group by source_chapters.source_code, source_chapters.part_code
+      ),
+      parts as (
+        select
+          source_parts.source_code,
+          jsonb_agg(
+            jsonb_build_object(
+              'code', source_parts.code,
+              'title', source_parts.title,
+              'order', source_parts.sort_order,
+              'chapters', coalesce(part_chapters.chapters, '[]'::jsonb)
+            )
+            order by source_parts.sort_order, source_parts.code
+          ) as parts
+        from source_parts
+        left join part_chapters
+          on part_chapters.source_code = source_parts.source_code
+          and part_chapters.part_code = source_parts.code
+        group by source_parts.source_code
+      )
       select
         shloka_sources.code,
         shloka_sources.title,
         shloka_sources.description,
         shloka_sources.structure_type,
-        coalesce(
-          (
-            select jsonb_agg(
-              jsonb_build_object(
-                'code', source_chapters.code,
-                'title', source_chapters.title,
-                'order', source_chapters.sort_order
-              )
-              order by source_chapters.sort_order, source_chapters.code
-            )
-            from source_chapters
-            where source_chapters.source_code = shloka_sources.code
-              and source_chapters.part_code is null
-          ),
-          '[]'::jsonb
-        ) as chapters,
-        coalesce(
-          (
-            select jsonb_agg(
-              jsonb_build_object(
-                'code', source_parts.code,
-                'title', source_parts.title,
-                'order', source_parts.sort_order,
-                'chapters', coalesce(
-                  (
-                    select jsonb_agg(
-                      jsonb_build_object(
-                        'code', part_chapters.code,
-                        'title', part_chapters.title,
-                        'order', part_chapters.sort_order
-                      )
-                      order by part_chapters.sort_order, part_chapters.code
-                    )
-                    from source_chapters part_chapters
-                    where part_chapters.source_code = source_parts.source_code
-                      and part_chapters.part_code = source_parts.code
-                  ),
-                  '[]'::jsonb
-                )
-              )
-              order by source_parts.sort_order, source_parts.code
-            )
-            from source_parts
-            where source_parts.source_code = shloka_sources.code
-          ),
-          '[]'::jsonb
-        ) as parts
+        coalesce(root_chapters.chapters, '[]'::jsonb) as chapters,
+        coalesce(parts.parts, '[]'::jsonb) as parts
       from shloka_sources
+      left join root_chapters on root_chapters.source_code = shloka_sources.code
+      left join parts on parts.source_code = shloka_sources.code
       order by shloka_sources.title, shloka_sources.code
     `);
 
@@ -203,15 +210,15 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listLibraryShlokas(): Promise<ShlokaRecord[]> {
-    const result = await this.database.query<ShlokaRow>(`
+    const result = await this.database.readQuery<ShlokaRow>(`
       select
         shlokas.code,
-        concat_ws(', ', shloka_sources.title, source_parts.title, source_chapters.title)
-          || ' ' || shlokas.number as display_title,
         shlokas.source_code,
         shloka_sources.title as source_title,
         shlokas.part_code,
+        source_parts.title as part_title,
         shlokas.chapter_code,
+        source_chapters.title as chapter_title,
         shlokas.number,
         string_agg(shloka_padas.text, E'\n' order by shloka_padas.position) as text,
         array_agg(shloka_padas.text order by shloka_padas.position) as padas,
@@ -232,7 +239,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
           (shlokas.part_code is null and source_chapters.part_code is null)
           or source_chapters.part_code = shlokas.part_code
         )
-      group by shlokas.code, shlokas.display_title, shlokas.source_code, shloka_sources.title,
+      group by shlokas.code, shlokas.source_code, shloka_sources.title,
         shlokas.part_code, shlokas.chapter_code, shlokas.number, shlokas.full_translation,
         source_parts.title, source_parts.sort_order, source_chapters.title, source_chapters.sort_order
     `);
@@ -425,7 +432,7 @@ function cloneChapter(chapter: SourceChapterRecord): SourceChapterRecord {
 function mapShloka(row: ShlokaRow): ShlokaRecord {
   return {
     code: row.code,
-    displayTitle: row.display_title,
+    displayTitle: buildDisplayTitle(row),
     sourceCode: row.source_code,
     sourceTitle: row.source_title,
     ...(row.part_code ? { partCode: row.part_code } : {}),
@@ -438,6 +445,14 @@ function mapShloka(row: ShlokaRow): ShlokaRecord {
     sortPartOrder: row.sort_part_order ?? 0,
     sortChapterOrder: row.sort_chapter_order ?? 0,
   };
+}
+
+function buildDisplayTitle(row: ShlokaRow): string {
+  const segments = [row.source_title, row.part_title, row.chapter_title].filter(
+    (segment): segment is string => Boolean(segment),
+  );
+
+  return `${segments.join(", ")} ${row.number}`;
 }
 
 function isUniqueViolation(error: unknown): boolean {

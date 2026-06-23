@@ -42,14 +42,19 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async findAccountByEmail(email: string): Promise<AccountRecord | undefined> {
-    const result = await this.database.query<AccountRow>(
+    const result = await this.database.fastReadQuery<AccountRow>(
       `
         select accounts.id, accounts.email, accounts.password_hash,
-          coalesce(array_agg(account_roles.role) filter (where account_roles.role is not null), array[]::text[]) as roles
+          coalesce(
+            (
+              select array_agg(account_roles.role order by account_roles.role)
+              from account_roles
+              where account_roles.account_id = accounts.id
+            ),
+            array[]::text[]
+          ) as roles
         from accounts
-        left join account_roles on account_roles.account_id = accounts.id
         where accounts.email = $1
-        group by accounts.id, accounts.email, accounts.password_hash
         limit 1
       `,
       [email],
@@ -60,16 +65,21 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async findAccountBySessionTokenHash(tokenHash: string, now: Date): Promise<AccountRecord | undefined> {
-    const result = await this.database.query<AccountRow>(
+    const result = await this.database.fastReadQuery<AccountRow>(
       `
         select accounts.id, accounts.email, accounts.password_hash,
-          coalesce(array_agg(account_roles.role) filter (where account_roles.role is not null), array[]::text[]) as roles
+          coalesce(
+            (
+              select array_agg(account_roles.role order by account_roles.role)
+              from account_roles
+              where account_roles.account_id = accounts.id
+            ),
+            array[]::text[]
+          ) as roles
         from auth_sessions
         inner join accounts on accounts.id = auth_sessions.account_id
-        left join account_roles on account_roles.account_id = accounts.id
         where auth_sessions.token_hash = $1
           and auth_sessions.expires_at > $2
-        group by accounts.id, accounts.email, accounts.password_hash
         limit 1
       `,
       [tokenHash, now],
