@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it, vi } from "vitest";
@@ -75,6 +75,56 @@ const sourceOptions = {
     },
   ],
 } satisfies ApiTypes.AdminSourceOptionsDto;
+
+const adminCatalog = {
+  sources: [
+    {
+      code: "gita",
+      title: "Бхагавад-гита",
+      description: "Диалог Кришны и Арджуны",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+      parts: [],
+      shlokas: [
+        {
+          code: "gita-chapter-2-2-47",
+          chapterCode: "chapter-2",
+          number: "2.47",
+          text: "карманй эвадхикарас те\nма пхалешу кадачана",
+        },
+      ],
+    },
+    {
+      code: "empty",
+      title: "Пустой источник",
+      structureType: "none",
+      chapters: [],
+      parts: [],
+      shlokas: [],
+    },
+  ],
+} satisfies ApiTypes.AdminCatalogDto;
+
+const adminSource = {
+  code: "gita",
+  title: "Бхагавад-гита",
+  description: "Диалог Кришны и Арджуны",
+  structureType: "chapters",
+  chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+  parts: [],
+} satisfies ApiTypes.AdminSourceDto;
+
+const adminShloka = {
+  code: "gita-chapter-2-2-47",
+  sourceCode: "gita",
+  sourceTitle: "Бхагавад-гита",
+  chapterCode: "chapter-2",
+  chapterTitle: "Глава 2",
+  number: "2.47",
+  text: "карманй эвадхикарас те\nма пхалешу кадачана",
+  padas: ["карманй эвадхикарас те", "ма пхалешу кадачана"],
+  fullTranslation: "Только на действие у тебя право.",
+} satisfies ApiTypes.AdminShlokaDto;
 
 describe("App auth and empty shell", () => {
   it("validates registration password fields before calling the API", async () => {
@@ -266,16 +316,19 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("redirects regular users away from direct admin routes", async () => {
-    mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+  it.each(["/admin", "/admin/sources/gita/edit", "/admin/shlokas/gita-chapter-2-2-47/edit", "/admin/sources/new"])(
+    "redirects regular users away from direct admin route %s",
+    async (path) => {
+      mockApi(successfulApi);
+      window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
+      window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
 
-    renderAppAt("/admin/sources/new");
+      renderAppAt(path);
 
-    await expectPath("/dashboard");
-    expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
-  });
+      await expectPath("/dashboard");
+      expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+    },
+  );
 
   it("lets admins create a source and shloka through protected forms", async () => {
     const user = userEvent.setup();
@@ -325,6 +378,116 @@ describe("App auth and empty shell", () => {
       }),
     );
   });
+
+  it("shows the protected admin catalog without adding admin to bottom navigation", async () => {
+    mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/admin");
+
+    expect(await screen.findByRole("heading", { name: "Админка" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Новая шлока" })).toHaveAttribute("href", "/admin/shlokas/new");
+    expect(screen.getByRole("link", { name: "Новый источник" })).toHaveAttribute("href", "/admin/sources/new");
+    expect(await screen.findByText("Бхагавад-гита")).toBeInTheDocument();
+    expect(screen.getByText("gita · 1 глава")).toBeInTheDocument();
+    expect(screen.getByText("Глава 2 · 2.47")).toBeInTheDocument();
+    expect(screen.getByText("карманй эвадхикарас те ма пхалешу кадачана")).toBeInTheDocument();
+    expect(screen.getByText("Пустой источник")).toBeInTheDocument();
+    expect(screen.getByText("empty · 0 шлок")).toBeInTheDocument();
+    expect(screen.queryByText("Сначала создайте источник")).not.toBeInTheDocument();
+    expect(within(screen.getByRole("navigation")).queryByText("Админка")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Редактировать источник Бхагавад-гита" })).toHaveAttribute(
+      "href",
+      "/admin/sources/gita/edit",
+    );
+    expect(screen.getByRole("link", { name: "Редактировать шлоку 2.47" })).toHaveAttribute(
+      "href",
+      "/admin/shlokas/gita-chapter-2-2-47/edit",
+    );
+  });
+
+  it("lets admins edit source mutable fields while keeping source and chapter codes readonly", async () => {
+    const user = userEvent.setup();
+    let updateBody: unknown;
+    mockApi((request) => {
+      if (request.method === "PATCH" && request.path === "/api/admin/sources/gita") {
+        updateBody = request.body;
+      }
+
+      return successfulApi(request);
+    });
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/admin/sources/gita/edit");
+
+    const sourceCode = (await screen.findByLabelText("Код источника")) as HTMLInputElement;
+    const structure = screen.getByLabelText("Структура") as HTMLInputElement;
+    const chapterCode = screen.getByLabelText("Код главы 1") as HTMLInputElement;
+    expect(sourceCode.readOnly).toBe(true);
+    expect(structure.readOnly).toBe(true);
+    expect(chapterCode.readOnly).toBe(true);
+
+    await user.clear(screen.getByLabelText("Название"));
+    await user.type(screen.getByLabelText("Название"), "Гита");
+    await user.clear(screen.getByLabelText("Описание"));
+    await user.type(screen.getByLabelText("Описание"), "Новое описание");
+    await user.clear(screen.getByLabelText("Название главы 1"));
+    await user.type(screen.getByLabelText("Название главы 1"), "Вторая глава");
+    await user.click(screen.getByRole("button", { name: "Добавить главу" }));
+    await user.type(screen.getByLabelText("Код главы 2"), "chapter-3");
+    await user.type(screen.getByLabelText("Название главы 2"), "Третья глава");
+    await user.click(screen.getByRole("button", { name: "Сохранить источник" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Источник сохранен");
+    expect(updateBody).toEqual({
+      title: "Гита",
+      description: "Новое описание",
+      chapters: [
+        { code: "chapter-2", title: "Вторая глава", order: 1 },
+        { code: "chapter-3", title: "Третья глава", order: 2 },
+      ],
+    });
+  });
+
+  it("lets admins edit shloka padas and translation while showing immutable reference fields", async () => {
+    const user = userEvent.setup();
+    let updateBody: unknown;
+    mockApi((request) => {
+      if (request.method === "PATCH" && request.path === "/api/admin/shlokas/gita-chapter-2-2-47") {
+        updateBody = request.body;
+      }
+
+      return successfulApi(request);
+    });
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/admin/shlokas/gita-chapter-2-2-47/edit");
+
+    expect(
+      await screen.findByText("Изменение канонического текста затронет всех пользователей общей библиотеки."),
+    ).toBeInTheDocument();
+    expect((screen.getByLabelText("Код шлоки") as HTMLInputElement).readOnly).toBe(true);
+    expect((screen.getByLabelText("Источник") as HTMLInputElement).readOnly).toBe(true);
+    expect((screen.getByLabelText("Глава") as HTMLInputElement).readOnly).toBe(true);
+    expect((screen.getByLabelText("Текст") as HTMLInputElement).readOnly).toBe(true);
+
+    await user.clear(screen.getByLabelText("Пада 1"));
+    await user.type(screen.getByLabelText("Пада 1"), "обновленная первая");
+    await user.clear(screen.getByLabelText("Пада 2"));
+    await user.type(screen.getByLabelText("Пада 2"), "обновленная вторая");
+    await user.clear(screen.getByLabelText("Полный перевод"));
+    await user.type(screen.getByLabelText("Полный перевод"), "Новый перевод");
+    await user.click(screen.getByRole("button", { name: "Сохранить шлоку" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Шлока сохранена");
+    expect(updateBody).toEqual({
+      padas: ["обновленная первая", "обновленная вторая"],
+      fullTranslation: "Новый перевод",
+    });
+  });
 });
 
 function renderAppAt(path: string) {
@@ -339,6 +502,7 @@ async function expectPath(path: string): Promise<void> {
 }
 
 interface MockApiRequest {
+  body?: unknown;
   method: string;
   path: string;
 }
@@ -365,7 +529,9 @@ function mockApi(handler: MockApiHandler) {
             ? input.href
             : input.url;
       const url = new URL(rawUrl, window.location.origin);
+      const requestBody = typeof init?.body === "string" ? JSON.parse(init.body) : undefined;
       const response = await handler({
+        body: requestBody,
         method: init?.method ?? "GET",
         path: url.pathname,
       });
@@ -445,6 +611,29 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
     return { status: 200, body: sourceOptions };
   }
 
+  if (method === "GET" && path === "/api/admin/catalog") {
+    return { status: 200, body: adminCatalog };
+  }
+
+  if (method === "GET" && path === "/api/admin/sources/gita") {
+    return { status: 200, body: adminSource };
+  }
+
+  if (method === "PATCH" && path === "/api/admin/sources/gita") {
+    return {
+      status: 200,
+      body: {
+        ...adminSource,
+        title: "Гита",
+        description: "Новое описание",
+        chapters: [
+          { code: "chapter-2", title: "Вторая глава", order: 1 },
+          { code: "chapter-3", title: "Третья глава", order: 2 },
+        ],
+      },
+    };
+  }
+
   if (method === "POST" && path === "/api/admin/shlokas") {
     return {
       status: 201,
@@ -454,6 +643,22 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
         sourceTitle: "Бхагавад-гита",
         number: "2.47",
         text: "карманй эвадхикарас те\nма пхалешу кадачана",
+      },
+    };
+  }
+
+  if (method === "GET" && path === "/api/admin/shlokas/gita-chapter-2-2-47") {
+    return { status: 200, body: adminShloka };
+  }
+
+  if (method === "PATCH" && path === "/api/admin/shlokas/gita-chapter-2-2-47") {
+    return {
+      status: 200,
+      body: {
+        ...adminShloka,
+        text: "обновленная первая\nобновленная вторая",
+        padas: ["обновленная первая", "обновленная вторая"],
+        fullTranslation: "Новый перевод",
       },
     };
   }

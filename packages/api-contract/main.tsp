@@ -22,6 +22,7 @@ namespace SanskritShlokaLearning {
     emailAlreadyRegistered: "EMAIL_ALREADY_REGISTERED",
     unauthorized: "UNAUTHORIZED",
     forbidden: "FORBIDDEN",
+    notFound: "NOT_FOUND",
   }
 
   model ValidationErrorResponse {
@@ -36,6 +37,11 @@ namespace SanskritShlokaLearning {
 
   model ForbiddenResponse {
     @statusCode statusCode: 403;
+    @body error: ApiError;
+  }
+
+  model NotFoundResponse {
+    @statusCode statusCode: 404;
     @body error: ApiError;
   }
 
@@ -193,14 +199,76 @@ namespace SanskritShlokaLearning {
     sources: SourceOptionDto[];
   }
 
+  model AdminSourceDto {
+    code: string;
+    title: string;
+    description?: string;
+    structureType: SourceStructureType;
+    chapters: SourceChapterOptionDto[];
+    parts: SourcePartOptionDto[];
+  }
+
+  model AdminCatalogShlokaDto {
+    code: string;
+    partCode?: string;
+    chapterCode?: string;
+    number: string;
+    text: string;
+    fullTranslation?: string;
+  }
+
+  model AdminCatalogSourceDto {
+    code: string;
+    title: string;
+    description?: string;
+    structureType: SourceStructureType;
+    chapters: SourceChapterOptionDto[];
+    parts: SourcePartOptionDto[];
+    shlokas: AdminCatalogShlokaDto[];
+  }
+
+  model AdminCatalogDto {
+    sources: AdminCatalogSourceDto[];
+  }
+
   model CreatedSourceResponse {
     @statusCode statusCode: 201;
     @body source: SourceOptionDto;
   }
 
+  model OkAdminCatalogResponse {
+    @statusCode statusCode: 200;
+    @body catalog: AdminCatalogDto;
+  }
+
   model OkAdminSourceOptionsResponse {
     @statusCode statusCode: 200;
     @body options: AdminSourceOptionsDto;
+  }
+
+  model OkAdminSourceResponse {
+    @statusCode statusCode: 200;
+    @body source: AdminSourceDto;
+  }
+
+  model UpdateSourceChapterRequest {
+    code: string;
+    title: string;
+    order: int32;
+  }
+
+  model UpdateSourcePartRequest {
+    code: string;
+    title: string;
+    order: int32;
+    chapters: UpdateSourceChapterRequest[];
+  }
+
+  model UpdateSourceRequest {
+    title: string;
+    description?: string;
+    chapters?: UpdateSourceChapterRequest[];
+    parts?: UpdateSourcePartRequest[];
   }
 
   model CreateShlokaRequest {
@@ -215,6 +283,30 @@ namespace SanskritShlokaLearning {
   model CreatedShlokaResponse {
     @statusCode statusCode: 201;
     @body shloka: LibraryShlokaDto;
+  }
+
+  model AdminShlokaDto {
+    code: string;
+    sourceCode: string;
+    sourceTitle: string;
+    partCode?: string;
+    partTitle?: string;
+    chapterCode?: string;
+    chapterTitle?: string;
+    number: string;
+    text: string;
+    padas: string[];
+    fullTranslation?: string;
+  }
+
+  model UpdateShlokaRequest {
+    padas: string[];
+    fullTranslation?: string;
+  }
+
+  model OkAdminShlokaResponse {
+    @statusCode statusCode: 200;
+    @body shloka: AdminShlokaDto;
   }
 }
 
@@ -262,10 +354,25 @@ namespace SanskritShlokaLearning {
   @tag("Admin")
   @route("/admin")
   namespace Admin {
+    @get
+    @route("/catalog")
+    op getAdminCatalog(@header authorization?: string):
+      OkAdminCatalogResponse | UnauthorizedResponse | ForbiddenResponse;
+
     @post
     @route("/sources")
     op createSource(@header authorization?: string, @body request: CreateSourceRequest):
       CreatedSourceResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | ConflictErrorResponse;
+
+    @get
+    @route("/sources/{sourceCode}")
+    op getAdminSource(@path sourceCode: string, @header authorization?: string):
+      OkAdminSourceResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
+
+    @patch
+    @route("/sources/{sourceCode}")
+    op updateSource(@path sourceCode: string, @header authorization?: string, @body request: UpdateSourceRequest):
+      OkAdminSourceResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse | ConflictErrorResponse;
 
     @get
     @route("/sources/options")
@@ -276,5 +383,15 @@ namespace SanskritShlokaLearning {
     @route("/shlokas")
     op createShloka(@header authorization?: string, @body request: CreateShlokaRequest):
       CreatedShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | ConflictErrorResponse;
+
+    @get
+    @route("/shlokas/{shlokaCode}")
+    op getAdminShloka(@path shlokaCode: string, @header authorization?: string):
+      OkAdminShlokaResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
+
+    @patch
+    @route("/shlokas/{shlokaCode}")
+    op updateShloka(@path shlokaCode: string, @header authorization?: string, @body request: UpdateShlokaRequest):
+      OkAdminShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
   }
 }

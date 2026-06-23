@@ -10,6 +10,8 @@ import {
   type SourceChapterRecord,
   type SourcePartRecord,
   type SourceRecord,
+  type UpdateShlokaRecordInput,
+  type UpdateSourceRecordInput,
 } from "./catalog.repository.js";
 
 interface SourceRow {
@@ -30,6 +32,7 @@ interface ShlokaRow {
   chapter_code: string | null;
   number: string;
   text: string;
+  padas: string[];
   full_translation: string | null;
   sort_source_title: string;
   sort_part_order: number | null;
@@ -191,17 +194,27 @@ export class PostgresCatalogRepository implements CatalogRepository {
     return result.rows.map(mapSource);
   }
 
+  async getSource(code: string): Promise<SourceRecord | undefined> {
+    return (await this.listSources()).find((source) => source.code === code);
+  }
+
+  async getShloka(code: string): Promise<ShlokaRecord | undefined> {
+    return (await this.listLibraryShlokas()).find((shloka) => shloka.code === code);
+  }
+
   async listLibraryShlokas(): Promise<ShlokaRecord[]> {
     const result = await this.database.query<ShlokaRow>(`
       select
         shlokas.code,
-        shlokas.display_title,
+        concat_ws(', ', shloka_sources.title, source_parts.title, source_chapters.title)
+          || ' ' || shlokas.number as display_title,
         shlokas.source_code,
         shloka_sources.title as source_title,
         shlokas.part_code,
         shlokas.chapter_code,
         shlokas.number,
         string_agg(shloka_padas.text, E'\n' order by shloka_padas.position) as text,
+        array_agg(shloka_padas.text order by shloka_padas.position) as padas,
         shlokas.full_translation,
         shloka_sources.title as sort_source_title,
         source_parts.sort_order as sort_part_order,
@@ -215,37 +228,144 @@ export class PostgresCatalogRepository implements CatalogRepository {
       left join source_chapters
         on source_chapters.source_code = shlokas.source_code
         and source_chapters.code = shlokas.chapter_code
+        and (
+          (shlokas.part_code is null and source_chapters.part_code is null)
+          or source_chapters.part_code = shlokas.part_code
+        )
       group by shlokas.code, shlokas.display_title, shlokas.source_code, shloka_sources.title,
         shlokas.part_code, shlokas.chapter_code, shlokas.number, shlokas.full_translation,
-        source_parts.sort_order, source_chapters.sort_order
+        source_parts.title, source_parts.sort_order, source_chapters.title, source_chapters.sort_order
     `);
 
     return result.rows.map(mapShloka);
   }
 
+  async updateSource(input: UpdateSourceRecordInput): Promise<SourceRecord> {
+    try {
+      await this.database.transaction(async (client) => {
+        await client.query(
+          `
+            update shloka_sources
+            set title = $2, description = $3
+            where code = $1
+          `,
+          [input.code, input.title, input.description ?? null],
+        );
+
+        await client.query(
+          `
+            insert into source_parts (source_code, code, title, sort_order)
+            select $1, part.code, part.title, part.sort_order
+            from jsonb_to_recordset($2::jsonb) as part(code text, title text, sort_order integer)
+            on conflict (source_code, code)
+            do update set title = excluded.title, sort_order = excluded.sort_order
+          `,
+          [
+            input.code,
+            toJsonRows(input.parts.map((part) => ({ code: part.code, title: part.title, sort_order: part.order }))),
+          ],
+        );
+
+        await client.query(
+          `
+            insert into source_chapters (source_code, part_code, code, title, sort_order)
+            select $1, null, chapter.code, chapter.title, chapter.sort_order
+            from jsonb_to_recordset($2::jsonb) as chapter(
+              code text,
+              title text,
+              sort_order integer
+            )
+            on conflict (source_code, code) where part_code is null
+            do update set title = excluded.title, sort_order = excluded.sort_order
+          `,
+          [input.code, toJsonRows(toRootChapterRows(input))],
+        );
+
+        await client.query(
+          `
+            insert into source_chapters (source_code, part_code, code, title, sort_order)
+            select $1, chapter.part_code, chapter.code, chapter.title, chapter.sort_order
+            from jsonb_to_recordset($2::jsonb) as chapter(
+              part_code text,
+              code text,
+              title text,
+              sort_order integer
+            )
+            on conflict (source_code, part_code, code) where part_code is not null
+            do update set title = excluded.title, sort_order = excluded.sort_order
+          `,
+          [input.code, toJsonRows(toPartChapterRows(input))],
+        );
+      });
+
+      const source = await this.getSource(input.code);
+      if (!source) {
+        throw new Error("Expected source to exist after updating it");
+      }
+      return source;
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        throw new CatalogConflictError("Source structure code or order already exists");
+      }
+      throw error;
+    }
+  }
+
+  async updateShloka(input: UpdateShlokaRecordInput): Promise<ShlokaRecord> {
+    await this.database.transaction(async (client) => {
+      await client.query(
+        `
+          update shlokas
+          set full_translation = $2
+          where code = $1
+        `,
+        [input.code, input.fullTranslation ?? null],
+      );
+      await client.query("delete from shloka_padas where shloka_code = $1", [input.code]);
+      await client.query(
+        `
+          insert into shloka_padas (shloka_code, position, text)
+          select $1, pada.position, pada.text
+          from jsonb_to_recordset($2::jsonb) as pada(position integer, text text)
+        `,
+        [input.code, toJsonRows(input.padas.map((pada, index) => ({ position: index + 1, text: pada })))],
+      );
+    });
+
+    const shloka = await this.getShloka(input.code);
+    if (!shloka) {
+      throw new Error("Expected shloka to exist after updating it");
+    }
+    return shloka;
+  }
 }
 
 function toJsonRows(rows: unknown[]): string {
   return JSON.stringify(rows);
 }
 
-function toChapterRows(input: CreateSourceRecordInput): unknown[] {
-  return [
-    ...input.chapters.map((chapter) => ({
-      part_code: null,
+function toChapterRows(input: CreateSourceRecordInput | UpdateSourceRecordInput): unknown[] {
+  return [...toRootChapterRows(input), ...toPartChapterRows(input)];
+}
+
+function toRootChapterRows(input: CreateSourceRecordInput | UpdateSourceRecordInput): unknown[] {
+  return input.chapters.map((chapter) => ({
+    part_code: null,
+    code: chapter.code,
+    title: chapter.title,
+    sort_order: chapter.order,
+  }));
+}
+
+function toPartChapterRows(input: CreateSourceRecordInput | UpdateSourceRecordInput): unknown[] {
+  return input.parts.flatMap((part) =>
+    part.chapters.map((chapter) => ({
+      part_code: part.code,
       code: chapter.code,
       title: chapter.title,
       sort_order: chapter.order,
     })),
-    ...input.parts.flatMap((part) =>
-      part.chapters.map((chapter) => ({
-        part_code: part.code,
-        code: chapter.code,
-        title: chapter.title,
-        sort_order: chapter.order,
-      })),
-    ),
-  ];
+  );
 }
 
 function toCreatedSource(input: CreateSourceRecordInput): SourceRecord {
@@ -274,6 +394,7 @@ function toCreatedShloka(input: CreateShlokaRecordInput): ShlokaRecord {
     ...(input.chapterCode ? { chapterCode: input.chapterCode } : {}),
     number: input.number,
     text: input.padas.join("\n"),
+    padas: [...input.padas],
     ...(input.fullTranslation ? { fullTranslation: input.fullTranslation } : {}),
     sortSourceTitle: input.sourceTitle,
     sortPartOrder: input.sortPartOrder,
@@ -311,6 +432,7 @@ function mapShloka(row: ShlokaRow): ShlokaRecord {
     ...(row.chapter_code ? { chapterCode: row.chapter_code } : {}),
     number: row.number,
     text: row.text,
+    padas: [...row.padas],
     ...(row.full_translation ? { fullTranslation: row.full_translation } : {}),
     sortSourceTitle: row.sort_source_title,
     sortPartOrder: row.sort_part_order ?? 0,

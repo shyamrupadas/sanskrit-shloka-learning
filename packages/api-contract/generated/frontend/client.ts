@@ -35,9 +35,41 @@ export class ApiClient {
     });
   }
 
+  async getCatalog(): Promise<Types.AdminCatalogDto> {
+    return this.#request<Types.AdminCatalogDto>("/api/admin/catalog", {
+      method: "GET"
+    });
+  }
+
+  async getShloka(shlokaCode: string): Promise<Types.AdminShlokaDto> {
+    return this.#request<Types.AdminShlokaDto>(`/api/admin/shlokas/${encodeURIComponent(shlokaCode)}`, {
+      method: "GET"
+    });
+  }
+
+  async getSource(sourceCode: string): Promise<Types.AdminSourceDto> {
+    return this.#request<Types.AdminSourceDto>(`/api/admin/sources/${encodeURIComponent(sourceCode)}`, {
+      method: "GET"
+    });
+  }
+
   async getOptions(): Promise<Types.AdminSourceOptionsDto> {
     return this.#request<Types.AdminSourceOptionsDto>("/api/admin/sources/options", {
       method: "GET"
+    });
+  }
+
+  async updateShloka(shlokaCode: string, request: Types.UpdateShlokaRequest): Promise<Types.AdminShlokaDto> {
+    return this.#request<Types.AdminShlokaDto>(`/api/admin/shlokas/${encodeURIComponent(shlokaCode)}`, {
+      method: "PATCH",
+      body: JSON.stringify(request)
+    });
+  }
+
+  async updateSource(sourceCode: string, request: Types.UpdateSourceRequest): Promise<Types.AdminSourceDto> {
+    return this.#request<Types.AdminSourceDto>(`/api/admin/sources/${encodeURIComponent(sourceCode)}`, {
+      method: "PATCH",
+      body: JSON.stringify(request)
     });
   }
 

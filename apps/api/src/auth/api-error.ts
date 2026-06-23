@@ -15,6 +15,13 @@ export const forbiddenError: ApiTypes.ApiError = {
   message: "Недостаточно прав",
 };
 
+export function notFoundError(message: string): ApiTypes.ApiError {
+  return {
+    code: "NOT_FOUND",
+    message,
+  };
+}
+
 export function validationError(details: string[]): ApiTypes.ApiError {
   return {
     code: "VALIDATION_ERROR",

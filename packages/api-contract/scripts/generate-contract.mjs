@@ -50,19 +50,27 @@ function collectOperations(paths) {
           bodySchema: response.content?.["application/json"]?.schema,
         }),
       );
+      const parameters = operation.parameters ?? [];
+      const pathParameters = parameters
+        .filter((parameter) => parameter.in === "path")
+        .map((parameter) => ({
+          name: parameter.name,
+          type: tsTypeFromSchema(parameter.schema ?? { type: "string" }),
+        }));
 
       collected.push({
         method: method.toUpperCase(),
         methodName: methodNameFromRoute(method, path),
         operationId,
         path,
+        pathParameters,
         requestBodyType: requestBodySchema
           ? tsTypeFromSchema(requestBodySchema)
           : undefined,
         responses,
         successType: successTypeFor(responses),
         responseType: responseUnionTypeFor(responses),
-        requiresAuthorization: (operation.parameters ?? []).some(
+        requiresAuthorization: parameters.some(
           (parameter) =>
             parameter.in === "header" &&
             parameter.name.toLowerCase() === "authorization",
@@ -179,15 +187,16 @@ export class ApiError extends Error {
 }
 
 function renderClientMethod(operation) {
-  const requestParameter = operation.requestBodyType
-    ? `request: Types.${operation.requestBodyType}`
-    : "";
+  const parameters = [
+    ...operation.pathParameters.map((parameter) => `${parameter.name}: ${parameter.type}`),
+    ...(operation.requestBodyType ? [`request: Types.${operation.requestBodyType}`] : []),
+  ].join(", ");
   const bodyInit = operation.requestBodyType
     ? ",\n    body: JSON.stringify(request)"
     : "";
 
-  return `async ${operation.methodName}(${requestParameter}): Promise<${operation.successType}> {
-  return this.#request<${operation.successType}>(${JSON.stringify(operation.path)}, {
+  return `async ${operation.methodName}(${parameters}): Promise<${operation.successType}> {
+  return this.#request<${operation.successType}>(${renderPathExpression(operation)}, {
     method: ${JSON.stringify(operation.method)}${bodyInit}
   });
 }`;
@@ -199,10 +208,13 @@ function renderBackendHandlers() {
       const body = operation.requestBodyType
         ? `\n  body: Types.${operation.requestBodyType};`
         : "";
+      const path = operation.pathParameters
+        .map((parameter) => `\n  ${parameter.name}: ${parameter.type};`)
+        .join("");
       const authorization = operation.requiresAuthorization
         ? "\n  authorization?: string;"
         : "";
-      return `export interface ${operation.handlerRequestType} {${body}${authorization}\n}`;
+      return `export interface ${operation.handlerRequestType} {${body}${path}${authorization}\n}`;
     })
     .join("\n\n");
 
@@ -304,12 +316,37 @@ function methodNameFromRoute(method, path) {
   const parts = path.split("/").filter(Boolean);
   const contractParts = parts[0] === "api" ? parts.slice(1) : parts;
   const lastPart = contractParts.at(-1) ?? method;
+  const isItemRoute = lastPart.startsWith("{") && lastPart.endsWith("}");
+  const resourcePart = isItemRoute ? singularize(contractParts.at(-2) ?? lastPart) : lastPart;
 
   if (method === "get") {
-    return `get${capitalize(toCamelCase(lastPart))}`;
+    return `get${capitalize(toCamelCase(resourcePart))}`;
+  }
+
+  if (isItemRoute && method === "patch") {
+    return `update${capitalize(toCamelCase(resourcePart))}`;
   }
 
   return toCamelCase(lastPart);
+}
+
+function renderPathExpression(operation) {
+  let pathExpression = operation.path;
+
+  for (const parameter of operation.pathParameters) {
+    pathExpression = pathExpression.replaceAll(
+      `{${parameter.name}}`,
+      `\${encodeURIComponent(${parameter.name})}`,
+    );
+  }
+
+  return pathExpression.includes("${")
+    ? `\`${pathExpression}\``
+    : JSON.stringify(pathExpression);
+}
+
+function singularize(value) {
+  return value.endsWith("s") ? value.slice(0, -1) : value;
 }
 
 function toTypeName(schemaName) {

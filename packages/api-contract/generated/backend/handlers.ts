@@ -18,7 +18,33 @@ export interface SourcesRequest {
   authorization?: string;
 }
 
+export interface GetCatalogRequest {
+  authorization?: string;
+}
+
+export interface GetShlokaRequest {
+  shlokaCode: string;
+  authorization?: string;
+}
+
+export interface GetSourceRequest {
+  sourceCode: string;
+  authorization?: string;
+}
+
 export interface GetOptionsRequest {
+  authorization?: string;
+}
+
+export interface UpdateShlokaRequest {
+  body: Types.UpdateShlokaRequest;
+  shlokaCode: string;
+  authorization?: string;
+}
+
+export interface UpdateSourceRequest {
+  body: Types.UpdateSourceRequest;
+  sourceCode: string;
   authorization?: string;
 }
 
@@ -48,7 +74,12 @@ export interface GetLibraryRequest {
 
 export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type SourcesResponse = ApiHandlerResponse<201, Types.SourceOptionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
+export type GetCatalogResponse = ApiHandlerResponse<200, Types.AdminCatalogDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
+export type GetShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
+export type GetSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetOptionsResponse = ApiHandlerResponse<200, Types.AdminSourceOptionsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
+export type UpdateShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
+export type UpdateSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type GetSessionResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type LoginResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type LogoutResponse = ApiHandlerResponse<204> | ApiHandlerResponse<401, Types.ApiError>;
@@ -59,7 +90,12 @@ export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDt
 export interface ApiHandlers {
   shlokas(request: ShlokasRequest): Promise<ShlokasResponse> | ShlokasResponse;
   sources(request: SourcesRequest): Promise<SourcesResponse> | SourcesResponse;
+  getCatalog(request: GetCatalogRequest): Promise<GetCatalogResponse> | GetCatalogResponse;
+  getShloka(request: GetShlokaRequest): Promise<GetShlokaResponse> | GetShlokaResponse;
+  getSource(request: GetSourceRequest): Promise<GetSourceResponse> | GetSourceResponse;
   getOptions(request: GetOptionsRequest): Promise<GetOptionsResponse> | GetOptionsResponse;
+  updateShloka(request: UpdateShlokaRequest): Promise<UpdateShlokaResponse> | UpdateShlokaResponse;
+  updateSource(request: UpdateSourceRequest): Promise<UpdateSourceResponse> | UpdateSourceResponse;
   getSession(request: GetSessionRequest): Promise<GetSessionResponse> | GetSessionResponse;
   login(request: LoginRequest): Promise<LoginResponse> | LoginResponse;
   logout(request: LogoutRequest): Promise<LogoutResponse> | LogoutResponse;

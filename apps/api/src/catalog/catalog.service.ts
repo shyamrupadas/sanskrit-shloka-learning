@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { validationError } from "../auth/api-error.js";
+import { notFoundError, validationError } from "../auth/api-error.js";
 import {
   CATALOG_REPOSITORY,
   CatalogConflictError,
@@ -53,6 +53,68 @@ export class CatalogService {
     return {
       sources: (await this.catalog.listSources()).map(toSourceOption),
     };
+  }
+
+  async getAdminCatalog(): Promise<ApiTypes.AdminCatalogDto> {
+    const sources = await this.catalog.listSources();
+    const shlokas = (await this.catalog.listLibraryShlokas()).sort(compareShlokas);
+
+    return {
+      sources: sources.map((source) => ({
+        ...toAdminSource(source),
+        shlokas: shlokas
+          .filter((shloka) => shloka.sourceCode === source.code)
+          .map(toAdminCatalogShloka),
+      })),
+    };
+  }
+
+  async getAdminSource(
+    sourceCode: string,
+  ): Promise<{ status: 200; body: ApiTypes.AdminSourceDto } | { status: 404; body: ApiTypes.ApiError }> {
+    const source = await this.catalog.getSource(sourceCode);
+    if (!source) {
+      return { status: 404, body: notFoundError("Источник шлоки не найден") };
+    }
+
+    return { status: 200, body: toAdminSource(source) };
+  }
+
+  async updateSource(
+    sourceCode: string,
+    request: ApiTypes.UpdateSourceRequest,
+  ): Promise<
+    | { status: 200; body: ApiTypes.AdminSourceDto }
+    | { status: 400; body: ApiTypes.ApiError }
+    | { status: 404; body: ApiTypes.ApiError }
+    | { status: 409; body: ApiTypes.ApiError }
+  > {
+    const source = await this.catalog.getSource(sourceCode);
+    if (!source) {
+      return { status: 404, body: notFoundError("Источник шлоки не найден") };
+    }
+
+    const normalized = normalizeUpdateSourceRequest(request, source);
+    const details = validateUpdateSourceRequest(normalized, source);
+    if (details.length > 0) {
+      return { status: 400, body: validationError(details) };
+    }
+
+    try {
+      const updated = await this.catalog.updateSource({
+        code: source.code,
+        title: normalized.title,
+        ...(normalized.description ? { description: normalized.description } : {}),
+        chapters: normalized.chapters ?? source.chapters,
+        parts: normalized.parts ?? source.parts,
+      });
+      return { status: 200, body: toAdminSource(updated) };
+    } catch (error) {
+      if (error instanceof CatalogConflictError) {
+        return { status: 409, body: conflictError("Коды или порядок структуры источника уже используются") };
+      }
+      throw error;
+    }
   }
 
   async createShloka(request: ApiTypes.CreateShlokaRequest): Promise<
@@ -107,6 +169,54 @@ export class CatalogService {
 
     return shlokas.sort(compareShlokas).map(toLibraryShloka);
   }
+
+  async getAdminShloka(
+    shlokaCode: string,
+  ): Promise<{ status: 200; body: ApiTypes.AdminShlokaDto } | { status: 404; body: ApiTypes.ApiError }> {
+    const shloka = await this.catalog.getShloka(shlokaCode);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+
+    const source = await this.catalog.getSource(shloka.sourceCode);
+    if (!source) {
+      return { status: 404, body: notFoundError("Источник шлоки не найден") };
+    }
+
+    return { status: 200, body: toAdminShloka(shloka, source) };
+  }
+
+  async updateShloka(
+    shlokaCode: string,
+    request: ApiTypes.UpdateShlokaRequest,
+  ): Promise<
+    | { status: 200; body: ApiTypes.AdminShlokaDto }
+    | { status: 400; body: ApiTypes.ApiError }
+    | { status: 404; body: ApiTypes.ApiError }
+  > {
+    const shloka = await this.catalog.getShloka(shlokaCode);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+
+    const normalized = normalizeUpdateShlokaRequest(request);
+    const details = validateUpdateShlokaRequest(normalized);
+    if (details.length > 0) {
+      return { status: 400, body: validationError(details) };
+    }
+
+    const updated = await this.catalog.updateShloka({
+      code: shloka.code,
+      padas: normalized.padas,
+      ...(normalized.fullTranslation ? { fullTranslation: normalized.fullTranslation } : {}),
+    });
+    const source = await this.catalog.getSource(updated.sourceCode);
+    if (!source) {
+      return { status: 404, body: notFoundError("Источник шлоки не найден") };
+    }
+
+    return { status: 200, body: toAdminShloka(updated, source) };
+  }
 }
 
 function normalizeSourceRequest(request: ApiTypes.CreateSourceRequest) {
@@ -143,6 +253,38 @@ function normalizeShlokaRequest(request: ApiTypes.CreateShlokaRequest): ApiTypes
     ...(partCode ? { partCode } : {}),
     ...(chapterCode ? { chapterCode } : {}),
     number: normalizeText(request.number),
+    padas: (request.padas ?? []).map(normalizeText).filter(Boolean),
+    ...(fullTranslation ? { fullTranslation } : {}),
+  };
+}
+
+function normalizeUpdateSourceRequest(request: ApiTypes.UpdateSourceRequest, source: SourceRecord) {
+  const description = optionalText(request.description);
+
+  return {
+    title: normalizeText(request.title),
+    ...(description ? { description } : {}),
+    chapters:
+      request.chapters === undefined
+        ? undefined
+        : normalizeChapters(request.chapters),
+    parts:
+      request.parts === undefined
+        ? undefined
+        : request.parts.map((part) => ({
+            code: normalizeCode(part.code),
+            title: normalizeText(part.title),
+            order: normalizeOrder(part.order),
+            chapters: normalizeChapters(part.chapters),
+          })),
+    structureType: source.structureType,
+  };
+}
+
+function normalizeUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): ApiTypes.UpdateShlokaRequest {
+  const fullTranslation = optionalText(request.fullTranslation);
+
+  return {
     padas: (request.padas ?? []).map(normalizeText).filter(Boolean),
     ...(fullTranslation ? { fullTranslation } : {}),
   };
@@ -188,6 +330,95 @@ function validateSourceRequest(request: ReturnType<typeof normalizeSourceRequest
   }
 
   return details;
+}
+
+function validateUpdateSourceRequest(
+  request: ReturnType<typeof normalizeUpdateSourceRequest>,
+  source: SourceRecord,
+): string[] {
+  const details: string[] = [];
+
+  requireText(request.title, "Название источника обязательно", details);
+
+  if (source.structureType === "none") {
+    if ((request.chapters?.length ?? 0) > 0 || (request.parts?.length ?? 0) > 0) {
+      details.push("Для источника без глав нельзя добавить части или главы");
+    }
+    return details;
+  }
+
+  if (source.structureType === "chapters") {
+    if ((request.parts?.length ?? 0) > 0) {
+      details.push("Для источника с главами нельзя добавить части");
+    }
+    if (request.chapters) {
+      validateEditableChapters(source.chapters, request.chapters, details);
+    }
+    return details;
+  }
+
+  if ((request.chapters?.length ?? 0) > 0) {
+    details.push("Для источника с частями главы должны находиться внутри частей");
+  }
+
+  if (request.parts) {
+    validateEditableParts(source.parts, request.parts, details);
+  }
+
+  return details;
+}
+
+function validateEditableParts(
+  existingParts: SourcePartRecord[],
+  nextParts: SourcePartRecord[],
+  details: string[],
+): void {
+  if (nextParts.length === 0 && existingParts.length > 0) {
+    details.push("Нельзя удалять существующие части");
+  }
+
+  validateUniqueCodes(nextParts, "Коды частей должны быть уникальны", details);
+  validateUniqueOrders(nextParts, "Порядок частей должен быть уникален", details);
+
+  for (const existingPart of existingParts) {
+    const nextPart = nextParts.find((part) => part.code === existingPart.code);
+    if (!nextPart) {
+      details.push("Нельзя удалять существующие части");
+      continue;
+    }
+    if (nextPart.order !== existingPart.order) {
+      details.push("Нельзя менять порядок существующих частей");
+    }
+  }
+
+  for (const part of nextParts) {
+    validateCode(part.code, "Код части", details);
+    requireText(part.title, "Название части обязательно", details);
+    if (part.chapters.length === 0) {
+      details.push("В каждой части должна быть хотя бы одна глава");
+    }
+    const existingPart = existingParts.find((candidate) => candidate.code === part.code);
+    validateEditableChapters(existingPart?.chapters ?? [], part.chapters, details);
+  }
+}
+
+function validateEditableChapters(
+  existingChapters: SourceChapterRecord[],
+  nextChapters: SourceChapterRecord[],
+  details: string[],
+): void {
+  validateChapters(nextChapters, details);
+
+  for (const existingChapter of existingChapters) {
+    const nextChapter = nextChapters.find((chapter) => chapter.code === existingChapter.code);
+    if (!nextChapter) {
+      details.push("Нельзя удалять существующие главы");
+      continue;
+    }
+    if (nextChapter.order !== existingChapter.order) {
+      details.push("Нельзя менять порядок существующих глав");
+    }
+  }
 }
 
 function validateChapters(chapters: SourceChapterRecord[], details: string[]): void {
@@ -251,6 +482,20 @@ function validateShlokaRequest(request: ApiTypes.CreateShlokaRequest, source: So
     details.push("Выберите главу");
   } else if (!part.chapters.some((chapter) => chapter.code === request.chapterCode)) {
     details.push("Выбранная глава не найдена в выбранной части");
+  }
+
+  return details;
+}
+
+function validateUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): string[] {
+  const details: string[] = [];
+
+  if (!request.padas[0]) {
+    details.push("Первая пада обязательна");
+  }
+
+  if (request.padas.length > 4) {
+    details.push("Можно указать не больше четырех пад");
   }
 
   return details;
@@ -323,11 +568,29 @@ function toSourceOption(source: SourceRecord): ApiTypes.SourceOptionDto {
   };
 }
 
+function toAdminSource(source: SourceRecord): ApiTypes.AdminSourceDto {
+  return {
+    ...toSourceOption(source),
+    ...(source.description ? { description: source.description } : {}),
+  };
+}
+
 function toChapterOption(chapter: SourceChapterRecord): ApiTypes.SourceChapterOptionDto {
   return {
     code: chapter.code,
     title: chapter.title,
     order: chapter.order,
+  };
+}
+
+function toAdminCatalogShloka(shloka: ShlokaRecord): ApiTypes.AdminCatalogShlokaDto {
+  return {
+    code: shloka.code,
+    ...(shloka.partCode ? { partCode: shloka.partCode } : {}),
+    ...(shloka.chapterCode ? { chapterCode: shloka.chapterCode } : {}),
+    number: shloka.number,
+    text: shloka.text,
+    ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
 }
 
@@ -338,6 +601,27 @@ function toLibraryShloka(shloka: ShlokaRecord): ApiTypes.LibraryShlokaDto {
     sourceTitle: shloka.sourceTitle,
     number: shloka.number,
     text: shloka.text,
+    ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
+  };
+}
+
+function toAdminShloka(shloka: ShlokaRecord, source: SourceRecord): ApiTypes.AdminShlokaDto {
+  const part = shloka.partCode
+    ? source.parts.find((candidate) => candidate.code === shloka.partCode)
+    : undefined;
+  const chapter = shloka.chapterCode
+    ? (part?.chapters ?? source.chapters).find((candidate) => candidate.code === shloka.chapterCode)
+    : undefined;
+
+  return {
+    code: shloka.code,
+    sourceCode: shloka.sourceCode,
+    sourceTitle: source.title,
+    ...(part ? { partCode: part.code, partTitle: part.title } : {}),
+    ...(chapter ? { chapterCode: chapter.code, chapterTitle: chapter.title } : {}),
+    number: shloka.number,
+    text: shloka.text,
+    padas: [...shloka.padas],
     ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
 }

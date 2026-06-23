@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-router";
 
 import type { AuthContextValue } from "@/auth/auth-context";
-import { AdminShlokaPage, AdminSourcePage } from "@/pages/admin-pages";
+import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
 import { DashboardPage } from "@/pages/dashboard-page";
 import { LibraryPage } from "@/pages/library-page";
 import { LoginPage, RegisterPage } from "@/pages/auth-pages";
@@ -72,6 +72,15 @@ const libraryRoute = createRoute({
   path: "library",
 });
 
+const adminRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    requireAdmin(context.auth);
+  },
+  component: AdminPage,
+  getParentRoute: () => rootRoute,
+  path: "admin",
+});
+
 const adminSourceRoute = createRoute({
   beforeLoad: ({ context }) => {
     requireAdmin(context.auth);
@@ -79,6 +88,15 @@ const adminSourceRoute = createRoute({
   component: AdminSourcePage,
   getParentRoute: () => rootRoute,
   path: "admin/sources/new",
+});
+
+const adminSourceEditRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    requireAdmin(context.auth);
+  },
+  component: AdminSourceEditRoute,
+  getParentRoute: () => rootRoute,
+  path: "admin/sources/$sourceCode/edit",
 });
 
 const adminShlokaRoute = createRoute({
@@ -90,14 +108,26 @@ const adminShlokaRoute = createRoute({
   path: "admin/shlokas/new",
 });
 
+const adminShlokaEditRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    requireAdmin(context.auth);
+  },
+  component: AdminShlokaEditRoute,
+  getParentRoute: () => rootRoute,
+  path: "admin/shlokas/$shlokaCode/edit",
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
   dashboardRoute,
   libraryRoute,
+  adminRoute,
   adminSourceRoute,
+  adminSourceEditRoute,
   adminShlokaRoute,
+  adminShlokaEditRoute,
 ]);
 
 export function createAppRouter() {
@@ -113,6 +143,16 @@ export const router = createAppRouter();
 
 function RootRoute() {
   return <Outlet />;
+}
+
+function AdminSourceEditRoute() {
+  const { sourceCode } = adminSourceEditRoute.useParams();
+  return <AdminSourceEditPage sourceCode={sourceCode} />;
+}
+
+function AdminShlokaEditRoute() {
+  const { shlokaCode } = adminShlokaEditRoute.useParams();
+  return <AdminShlokaEditPage shlokaCode={shlokaCode} />;
 }
 
 function requireAdmin(auth: AuthContextValue): void {

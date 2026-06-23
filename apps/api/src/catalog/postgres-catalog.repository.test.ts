@@ -43,6 +43,140 @@ describe("PostgresCatalogRepository", () => {
     assert.ok(database.directQueries[1]?.includes("insert into shlokas"));
     assert.ok(database.directQueries[1]?.includes("insert into shloka_padas"));
   });
+
+  test("updates catalog records through transactions without deleting sources or shlokas", async () => {
+    const database = new TransactionTrackingDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "gita",
+      title: "Gita",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      parts: [],
+    });
+    await repository.createShloka({
+      code: "gita-chapter-1-1",
+      displayTitle: "Gita, Chapter 1 1",
+      sourceCode: "gita",
+      sourceTitle: "Gita",
+      chapterCode: "chapter-1",
+      number: "1",
+      referenceKey: "gita/chapter-1/1",
+      padas: ["first pada"],
+      sortPartOrder: 0,
+      sortChapterOrder: 1,
+    });
+
+    const updatedSource = await repository.updateSource({
+      code: "gita",
+      title: "Bhagavad Gita",
+      description: "Updated source",
+      chapters: [
+        { code: "chapter-1", title: "First Chapter", order: 1 },
+        { code: "chapter-2", title: "Second Chapter", order: 2 },
+      ],
+      parts: [],
+    });
+    const updatedShloka = await repository.updateShloka({
+      code: "gita-chapter-1-1",
+      padas: ["updated first", "updated second"],
+      fullTranslation: "Updated translation",
+    });
+
+    assert.equal(database.transactionCount, 2);
+    assert.equal(updatedSource.title, "Bhagavad Gita");
+    assert.deepEqual(
+      updatedSource.chapters.map((chapter) => chapter.title),
+      ["First Chapter", "Second Chapter"],
+    );
+    assert.equal(updatedShloka.sourceTitle, "Bhagavad Gita");
+    assert.equal(updatedShloka.displayTitle, "Bhagavad Gita, First Chapter 1");
+    assert.deepEqual(updatedShloka.padas, ["updated first", "updated second"]);
+    assert.equal(updatedShloka.text, "updated first\nupdated second");
+    assert.equal(updatedShloka.fullTranslation, "Updated translation");
+    assert.ok(database.transactionQueries.some((query) => query.includes("update shloka_sources")));
+    assert.ok(database.transactionQueries.some((query) => query.includes("update shlokas")));
+    assert.ok(
+      database.transactionQueries.some((query) =>
+        query.includes("on conflict (source_code, part_code, code) where part_code is not null"),
+      ),
+    );
+    assert.ok(database.transactionQueries.every((query) => !query.includes("delete from shlokas")));
+    assert.ok(database.transactionQueries.every((query) => !query.includes("delete from shloka_sources")));
+  });
+
+  test("scopes chapter codes by source part when reading shlokas", async () => {
+    const database = new TransactionTrackingDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "sb",
+      title: "Srimad Bhagavatam",
+      structureType: "parts",
+      chapters: [],
+      parts: [
+        {
+          code: "1",
+          title: "Canto 1",
+          order: 1,
+          chapters: [
+            { code: "1", title: "Chapter 1", order: 1 },
+            { code: "2", title: "Chapter 2", order: 2 },
+          ],
+        },
+        {
+          code: "2",
+          title: "Canto 2",
+          order: 2,
+          chapters: [{ code: "1", title: "Chapter 1", order: 1 }],
+        },
+      ],
+    });
+    await repository.createShloka({
+      code: "sb-1-1-1",
+      displayTitle: "Srimad Bhagavatam, Canto 1, Chapter 1 1",
+      sourceCode: "sb",
+      sourceTitle: "Srimad Bhagavatam",
+      partCode: "1",
+      chapterCode: "1",
+      number: "1",
+      referenceKey: "sb/1/1/1",
+      padas: ["first canto"],
+      sortPartOrder: 1,
+      sortChapterOrder: 1,
+    });
+    await repository.createShloka({
+      code: "sb-2-1-1",
+      displayTitle: "Srimad Bhagavatam, Canto 2, Chapter 1 1",
+      sourceCode: "sb",
+      sourceTitle: "Srimad Bhagavatam",
+      partCode: "2",
+      chapterCode: "1",
+      number: "1",
+      referenceKey: "sb/2/1/1",
+      padas: ["second canto"],
+      sortPartOrder: 2,
+      sortChapterOrder: 1,
+    });
+
+    const shlokas = await repository.listLibraryShlokas();
+
+    assert.deepEqual(
+      shlokas.map((shloka) => shloka.code),
+      ["sb-1-1-1", "sb-2-1-1"],
+    );
+    assert.deepEqual(
+      shlokas.map((shloka) => shloka.displayTitle),
+      [
+        "Srimad Bhagavatam, Canto 1, Chapter 1 1",
+        "Srimad Bhagavatam, Canto 2, Chapter 1 1",
+      ],
+    );
+    assert.ok(
+      database.directQueries.some((query) => query.includes("source_chapters.part_code = shlokas.part_code")),
+    );
+  });
 });
 
 class TransactionTrackingDatabase {
@@ -149,7 +283,100 @@ class TransactionTrackingDatabase {
     }
     if (query.includes("insert into shlokas")) {
       this.applyCreateShloka(values);
+      return;
     }
+    if (query.includes("update shloka_sources")) {
+      this.applyUpdateSource(values);
+      return;
+    }
+    if (query.includes("insert into source_parts")) {
+      this.applyUpsertParts(values);
+      return;
+    }
+    if (query.includes("insert into source_chapters")) {
+      this.applyUpsertChapters(values);
+      return;
+    }
+    if (query.includes("update shlokas")) {
+      this.applyUpdateShloka(values);
+      return;
+    }
+    if (query.includes("delete from shloka_padas")) {
+      this.padas.delete(String(values[0]));
+      return;
+    }
+    if (query.includes("insert into shloka_padas")) {
+      this.applyUpdatePadas(values);
+    }
+  }
+
+  private applyUpdateSource(values: readonly unknown[]): void {
+    const source = this.sources.find((candidate) => candidate.code === String(values[0]));
+    if (!source) {
+      return;
+    }
+
+    source.title = String(values[1]);
+    source.description = values[2] === null ? null : String(values[2]);
+  }
+
+  private applyUpsertParts(values: readonly unknown[]): void {
+    const sourceCode = String(values[0]);
+
+    for (const row of jsonRows<PartJsonRow>(values[1])) {
+      const existing = this.parts.find((part) => part.source_code === sourceCode && part.code === row.code);
+      if (existing) {
+        existing.title = row.title;
+        existing.sort_order = row.sort_order;
+      } else {
+        this.parts.push({
+          source_code: sourceCode,
+          code: row.code,
+          title: row.title,
+          sort_order: row.sort_order,
+        });
+      }
+    }
+  }
+
+  private applyUpsertChapters(values: readonly unknown[]): void {
+    const sourceCode = String(values[0]);
+
+    for (const row of jsonRows<ChapterJsonRow>(values[1])) {
+      const existing = this.chapters.find(
+        (chapter) =>
+          chapter.source_code === sourceCode &&
+          chapter.part_code === row.part_code &&
+          chapter.code === row.code,
+      );
+      if (existing) {
+        existing.title = row.title;
+        existing.sort_order = row.sort_order;
+      } else {
+        this.chapters.push({
+          source_code: sourceCode,
+          part_code: row.part_code,
+          code: row.code,
+          title: row.title,
+          sort_order: row.sort_order,
+        });
+      }
+    }
+  }
+
+  private applyUpdateShloka(values: readonly unknown[]): void {
+    const shloka = this.shlokas.get(String(values[0]));
+    if (shloka) {
+      shloka.full_translation = values[1] === null ? null : String(values[1]);
+    }
+  }
+
+  private applyUpdatePadas(values: readonly unknown[]): void {
+    const padas: string[] = [];
+    for (const row of jsonRows<PadaJsonRow>(values[1])) {
+      padas[row.position - 1] = row.text;
+    }
+    this.padas.set(String(values[0]), padas);
   }
 
   private toShlokaRow(seed: ShlokaRowSeed): ShlokaRow {
@@ -158,13 +385,18 @@ class TransactionTrackingDatabase {
       (candidate) => candidate.source_code === seed.source_code && candidate.code === seed.part_code,
     );
     const chapter = this.chapters.find(
-      (candidate) => candidate.source_code === seed.source_code && candidate.code === seed.chapter_code,
+      (candidate) =>
+        candidate.source_code === seed.source_code &&
+        candidate.part_code === seed.part_code &&
+        candidate.code === seed.chapter_code,
     );
 
     return {
       ...seed,
+      display_title: [source?.title ?? seed.source_code, part?.title, chapter?.title].filter(Boolean).join(", ") + ` ${seed.number}`,
       source_title: source?.title ?? seed.source_code,
       text: (this.padas.get(seed.code) ?? []).join("\n"),
+      padas: this.padas.get(seed.code) ?? [],
       sort_source_title: source?.title ?? seed.source_code,
       sort_part_order: part?.sort_order ?? null,
       sort_chapter_order: chapter?.sort_order ?? null,
@@ -244,6 +476,7 @@ interface ShlokaRowSeed extends pg.QueryResultRow {
 interface ShlokaRow extends ShlokaRowSeed {
   source_title: string;
   text: string;
+  padas: string[];
   sort_source_title: string;
   sort_part_order: number | null;
   sort_chapter_order: number | null;

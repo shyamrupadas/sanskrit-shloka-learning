@@ -5,6 +5,8 @@ import {
   type CreateSourceRecordInput,
   type ShlokaRecord,
   type SourceRecord,
+  type UpdateShlokaRecordInput,
+  type UpdateSourceRecordInput,
 } from "./catalog.repository.js";
 
 export class InMemoryCatalogRepository implements CatalogRepository {
@@ -52,6 +54,7 @@ export class InMemoryCatalogRepository implements CatalogRepository {
       ...(input.chapterCode ? { chapterCode: input.chapterCode } : {}),
       number: input.number,
       text: input.padas.join("\n"),
+      padas: [...input.padas],
       ...(input.fullTranslation ? { fullTranslation: input.fullTranslation } : {}),
       sortSourceTitle: input.sourceTitle,
       sortPartOrder: input.sortPartOrder,
@@ -60,7 +63,17 @@ export class InMemoryCatalogRepository implements CatalogRepository {
 
     this.shlokas.set(shloka.code, shloka);
     this.shlokaReferenceKeys.add(input.referenceKey);
-    return { ...shloka };
+    return cloneShloka(shloka);
+  }
+
+  async getSource(code: string): Promise<SourceRecord | undefined> {
+    const source = this.sources.get(code);
+    return source ? cloneSource(source) : undefined;
+  }
+
+  async getShloka(code: string): Promise<ShlokaRecord | undefined> {
+    const shloka = this.shlokas.get(code);
+    return shloka ? cloneShloka(shloka) : undefined;
   }
 
   async listSources(): Promise<SourceRecord[]> {
@@ -68,7 +81,77 @@ export class InMemoryCatalogRepository implements CatalogRepository {
   }
 
   async listLibraryShlokas(): Promise<ShlokaRecord[]> {
-    return [...this.shlokas.values()].map((shloka) => ({ ...shloka }));
+    return [...this.shlokas.values()].map(cloneShloka);
+  }
+
+  async updateSource(input: UpdateSourceRecordInput): Promise<SourceRecord> {
+    const current = this.sources.get(input.code);
+    if (!current) {
+      throw new Error("Expected source to exist before updating it");
+    }
+
+    const source: SourceRecord = {
+      code: current.code,
+      title: input.title,
+      ...(input.description ? { description: input.description } : {}),
+      structureType: current.structureType,
+      chapters: input.chapters.map((chapter) => ({ ...chapter })),
+      parts: input.parts.map((part) => ({
+        ...part,
+        chapters: part.chapters.map((chapter) => ({ ...chapter })),
+      })),
+    };
+
+    this.sources.set(source.code, source);
+    this.refreshShlokaSourceTitles(source);
+    return cloneSource(source);
+  }
+
+  async updateShloka(input: UpdateShlokaRecordInput): Promise<ShlokaRecord> {
+    const current = this.shlokas.get(input.code);
+    if (!current) {
+      throw new Error("Expected shloka to exist before updating it");
+    }
+
+    const shloka: ShlokaRecord = {
+      ...current,
+      padas: [...input.padas],
+      text: input.padas.join("\n"),
+      ...(input.fullTranslation ? { fullTranslation: input.fullTranslation } : {}),
+    };
+
+    if (!input.fullTranslation) {
+      delete shloka.fullTranslation;
+    }
+
+    this.shlokas.set(shloka.code, shloka);
+    return cloneShloka(shloka);
+  }
+
+  private refreshShlokaSourceTitles(source: SourceRecord): void {
+    for (const [code, shloka] of this.shlokas.entries()) {
+      if (shloka.sourceCode !== source.code) {
+        continue;
+      }
+
+      const refreshed = {
+        ...shloka,
+        displayTitle: buildDisplayTitle(source, shloka),
+        sourceTitle: source.title,
+        sortSourceTitle: source.title,
+        sortPartOrder: shloka.partCode
+          ? source.parts.find((part) => part.code === shloka.partCode)?.order ?? 0
+          : 0,
+        sortChapterOrder: shloka.chapterCode
+          ? (
+              shloka.partCode
+                ? source.parts.find((part) => part.code === shloka.partCode)?.chapters
+                : source.chapters
+            )?.find((chapter) => chapter.code === shloka.chapterCode)?.order ?? 0
+          : 0,
+      };
+      this.shlokas.set(code, refreshed);
+    }
   }
 }
 
@@ -81,4 +164,34 @@ function cloneSource(source: SourceRecord): SourceRecord {
       chapters: part.chapters.map((chapter) => ({ ...chapter })),
     })),
   };
+}
+
+function cloneShloka(shloka: ShlokaRecord): ShlokaRecord {
+  return {
+    ...shloka,
+    padas: [...shloka.padas],
+  };
+}
+
+function buildDisplayTitle(source: SourceRecord, shloka: ShlokaRecord): string {
+  const segments = [source.title];
+
+  if (shloka.partCode) {
+    const part = source.parts.find((candidate) => candidate.code === shloka.partCode);
+    if (part) {
+      segments.push(part.title);
+    }
+  }
+
+  if (shloka.chapterCode) {
+    const chapters = shloka.partCode
+      ? source.parts.find((part) => part.code === shloka.partCode)?.chapters ?? []
+      : source.chapters;
+    const chapter = chapters.find((candidate) => candidate.code === shloka.chapterCode);
+    if (chapter) {
+      segments.push(chapter.title);
+    }
+  }
+
+  return `${segments.join(", ")} ${shloka.number}`;
 }

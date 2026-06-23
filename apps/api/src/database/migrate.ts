@@ -11,16 +11,17 @@ const { Client } = pg;
 
 const migrationConnectionOptions = {
   connectionTimeoutMillis: 30_000,
-  lockTimeoutMillis: 30_000,
-  queryTimeoutMillis: 120_000,
-  statementTimeoutMillis: 120_000,
 };
 
 export async function migrate(): Promise<void> {
   loadApiEnv();
 
   const databaseUrl = resolveMigrationDatabaseUrl(requireEnv("DATABASE_URL"));
-  const client = new Client(createConnectionConfig(databaseUrl, migrationConnectionOptions));
+  const connectionConfig = createConnectionConfig(databaseUrl, migrationConnectionOptions);
+  delete connectionConfig.lock_timeout;
+  delete connectionConfig.query_timeout;
+  delete connectionConfig.statement_timeout;
+  const client = new Client(connectionConfig);
   let connected = false;
   let closing = false;
 
@@ -33,8 +34,6 @@ export async function migrate(): Promise<void> {
   try {
     await client.connect();
     connected = true;
-    await client.query("set lock_timeout to '30s'");
-    await client.query("set statement_timeout to '120s'");
 
     const result = await runMigrations(client, migrations);
     if (result.applied.length === 0) {

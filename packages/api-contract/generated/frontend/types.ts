@@ -10,6 +10,52 @@ export interface AccountDto {
 
 export type AccountRole = "admin";
 
+export interface AdminCatalogDto {
+  sources: AdminCatalogSourceDto[];
+}
+
+export interface AdminCatalogShlokaDto {
+  code: string;
+  partCode?: string;
+  chapterCode?: string;
+  number: string;
+  text: string;
+  fullTranslation?: string;
+}
+
+export interface AdminCatalogSourceDto {
+  code: string;
+  title: string;
+  description?: string;
+  structureType: SourceStructureType;
+  chapters: SourceChapterOptionDto[];
+  parts: SourcePartOptionDto[];
+  shlokas: AdminCatalogShlokaDto[];
+}
+
+export interface AdminShlokaDto {
+  code: string;
+  sourceCode: string;
+  sourceTitle: string;
+  partCode?: string;
+  partTitle?: string;
+  chapterCode?: string;
+  chapterTitle?: string;
+  number: string;
+  text: string;
+  padas: string[];
+  fullTranslation?: string;
+}
+
+export interface AdminSourceDto {
+  code: string;
+  title: string;
+  description?: string;
+  structureType: SourceStructureType;
+  chapters: SourceChapterOptionDto[];
+  parts: SourcePartOptionDto[];
+}
+
 export interface AdminSourceOptionsDto {
   sources: SourceOptionDto[];
 }
@@ -68,7 +114,7 @@ export interface EmptyDashboardDto {
   primaryAction: DashboardPrimaryActionDto;
 }
 
-export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN";
+export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND";
 
 export interface LibraryResponseDto {
   defaultTab: LibraryTab;
@@ -127,3 +173,28 @@ export interface SourcePartOptionDto {
 }
 
 export type SourceStructureType = "none" | "chapters" | "parts";
+
+export interface UpdateShlokaRequest {
+  padas: string[];
+  fullTranslation?: string;
+}
+
+export interface UpdateSourceChapterRequest {
+  code: string;
+  title: string;
+  order: number;
+}
+
+export interface UpdateSourcePartRequest {
+  code: string;
+  title: string;
+  order: number;
+  chapters: UpdateSourceChapterRequest[];
+}
+
+export interface UpdateSourceRequest {
+  title: string;
+  description?: string;
+  chapters?: UpdateSourceChapterRequest[];
+  parts?: UpdateSourcePartRequest[];
+}

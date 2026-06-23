@@ -31,6 +31,7 @@ export interface ShlokaRecord {
   chapterCode?: string;
   number: string;
   text: string;
+  padas: string[];
   fullTranslation?: string;
   sortSourceTitle: string;
   sortPartOrder: number;
@@ -61,11 +62,29 @@ export interface CreateShlokaRecordInput {
   sortChapterOrder: number;
 }
 
+export interface UpdateSourceRecordInput {
+  code: string;
+  title: string;
+  description?: string;
+  chapters: SourceChapterRecord[];
+  parts: SourcePartRecord[];
+}
+
+export interface UpdateShlokaRecordInput {
+  code: string;
+  padas: string[];
+  fullTranslation?: string;
+}
+
 export interface CatalogRepository {
   createSource(input: CreateSourceRecordInput): Promise<SourceRecord>;
   createShloka(input: CreateShlokaRecordInput): Promise<ShlokaRecord>;
+  getSource(code: string): Promise<SourceRecord | undefined>;
+  getShloka(code: string): Promise<ShlokaRecord | undefined>;
   listSources(): Promise<SourceRecord[]>;
   listLibraryShlokas(): Promise<ShlokaRecord[]>;
+  updateSource(input: UpdateSourceRecordInput): Promise<SourceRecord>;
+  updateShloka(input: UpdateShlokaRecordInput): Promise<ShlokaRecord>;
 }
 
 export class CatalogConflictError extends Error {

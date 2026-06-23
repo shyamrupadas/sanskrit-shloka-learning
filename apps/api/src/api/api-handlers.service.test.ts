@@ -184,6 +184,50 @@ describe("ApiHandlersService admin catalog", () => {
 
     assert.equal((await handlers.sources({ body: validSourceRequest() })).status, 401);
     assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 403);
+    assert.equal((await handlers.getCatalog({})).status, 401);
+    assert.equal((await handlers.getCatalog({ authorization })).status, 403);
+    assert.equal((await handlers.getSource({ sourceCode: "source" })).status, 401);
+    assert.equal((await handlers.getSource({ authorization, sourceCode: "source" })).status, 403);
+    assert.equal(
+      (
+        await handlers.updateSource({
+          sourceCode: "source",
+          body: { title: "Источник" },
+        })
+      ).status,
+      401,
+    );
+    assert.equal(
+      (
+        await handlers.updateSource({
+          authorization,
+          sourceCode: "source",
+          body: { title: "Источник" },
+        })
+      ).status,
+      403,
+    );
+    assert.equal((await handlers.getShloka({ shlokaCode: "source-1" })).status, 401);
+    assert.equal((await handlers.getShloka({ authorization, shlokaCode: "source-1" })).status, 403);
+    assert.equal(
+      (
+        await handlers.updateShloka({
+          shlokaCode: "source-1",
+          body: { padas: ["первая пада"] },
+        })
+      ).status,
+      401,
+    );
+    assert.equal(
+      (
+        await handlers.updateShloka({
+          authorization,
+          shlokaCode: "source-1",
+          body: { padas: ["первая пада"] },
+        })
+      ).status,
+      403,
+    );
   });
 
   test("lets admins keep normal user behavior and create all source structures", async () => {
@@ -263,6 +307,71 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 409);
   });
 
+  test("allows the same chapter code inside different source parts", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    const sourceResponse = await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "sb",
+        title: "Шримад Бхагаватам",
+        structureType: "parts",
+        parts: [
+          {
+            code: "1",
+            title: "Песнь 1",
+            order: 1,
+            chapters: [
+              { code: "1", title: "1", order: 1 },
+              { code: "2", title: "2", order: 2 },
+            ],
+          },
+          {
+            code: "2",
+            title: "Песнь 2",
+            order: 2,
+            chapters: [{ code: "1", title: "1", order: 1 }],
+          },
+        ],
+      }),
+    });
+
+    assert.equal(sourceResponse.status, 201);
+
+    const first = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "sb",
+        partCode: "1",
+        chapterCode: "1",
+        number: "1",
+        padas: ["первая шлока первой песни"],
+      },
+    });
+    const second = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "sb",
+        partCode: "2",
+        chapterCode: "1",
+        number: "1",
+        padas: ["первая шлока второй песни"],
+      },
+    });
+
+    assert.equal(first.status, 201);
+    assert.equal(first.body.code, "sb-1-1-1");
+    assert.equal(second.status, 201);
+    assert.equal(second.body.code, "sb-2-1-1");
+
+    const libraryResponse = await handlers.getLibrary({ authorization });
+    assert.equal(libraryResponse.status, 200);
+    assert.deepEqual(
+      libraryResponse.body.allShlokas.map((shloka) => shloka.displayTitle),
+      ["Шримад Бхагаватам, Песнь 1, 1 1", "Шримад Бхагаватам, Песнь 2, 1 1"],
+    );
+  });
+
   test("creates valid shlokas, orders padas, and exposes them in library order", async () => {
     const { authorization, handlers } = await createAdminHandlers();
 
@@ -315,6 +424,235 @@ describe("ApiHandlersService admin catalog", () => {
       libraryResponse.body.allShlokas.map((shloka) => shloka.code),
       ["amrita-1", "gita-chapter-2-2-47"],
     );
+  });
+
+  test("returns admin catalog with empty sources and stable shloka order", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "empty",
+        title: "Пустой источник",
+        structureType: "none",
+      }),
+    });
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        structureType: "chapters",
+        chapters: [
+          { code: "chapter-1", title: "Глава 1", order: 1 },
+          { code: "chapter-2", title: "Глава 2", order: 2 },
+        ],
+      }),
+    });
+
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-2",
+        number: "10",
+        padas: ["десятая шлока"],
+      },
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-1",
+        number: "2",
+        padas: ["вторая шлока"],
+      },
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-2",
+        number: "2",
+        padas: ["еще одна вторая"],
+      },
+    });
+
+    const catalogResponse = await handlers.getCatalog({ authorization });
+    assert.equal(catalogResponse.status, 200);
+    const emptySource = catalogResponse.body.sources.find((source) => source.code === "empty");
+    assert.ok(emptySource);
+    assert.deepEqual(emptySource.shlokas, []);
+
+    const gitaSource = catalogResponse.body.sources.find((source) => source.code === "gita");
+    assert.ok(gitaSource);
+    assert.deepEqual(
+      gitaSource.shlokas.map((shloka) => shloka.code),
+      ["gita-chapter-1-2", "gita-chapter-2-2", "gita-chapter-2-10"],
+    );
+
+    const libraryResponse = await handlers.getLibrary({ authorization });
+    assert.equal(libraryResponse.status, 200);
+    assert.deepEqual(
+      libraryResponse.body.allShlokas.map((shloka) => shloka.code),
+      ["gita-chapter-1-2", "gita-chapter-2-2", "gita-chapter-2-10"],
+    );
+  });
+
+  test("updates source editable fields and rejects immutable structure changes", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        description: "Старое описание",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+      }),
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-1",
+        number: "1",
+        padas: ["первая пада"],
+      },
+    });
+
+    const updated = await handlers.updateSource({
+      authorization,
+      sourceCode: "gita",
+      body: {
+        title: "Гита",
+        description: "Новое описание",
+        chapters: [
+          { code: "chapter-1", title: "Первая глава", order: 1 },
+          { code: "chapter-2", title: "Вторая глава", order: 2 },
+        ],
+      },
+    });
+
+    assert.equal(updated.status, 200);
+    assert.equal(updated.body.title, "Гита");
+    assert.equal(updated.body.description, "Новое описание");
+    assert.deepEqual(
+      updated.body.chapters.map((chapter) => chapter.code),
+      ["chapter-1", "chapter-2"],
+    );
+
+    const shlokaResponse = await handlers.getShloka({ authorization, shlokaCode: "gita-chapter-1-1" });
+    assert.equal(shlokaResponse.status, 200);
+    assert.equal(shlokaResponse.body.sourceTitle, "Гита");
+    assert.equal(shlokaResponse.body.chapterTitle, "Первая глава");
+
+    const removedChapter = await handlers.updateSource({
+      authorization,
+      sourceCode: "gita",
+      body: {
+        title: "Гита",
+        chapters: [{ code: "chapter-2", title: "Вторая глава", order: 2 }],
+      },
+    });
+    assert.equal(removedChapter.status, 400);
+    assert.ok(removedChapter.body.details?.includes("Нельзя удалять существующие главы"));
+
+    const changedOrder = await handlers.updateSource({
+      authorization,
+      sourceCode: "gita",
+      body: {
+        title: "Гита",
+        chapters: [
+          { code: "chapter-1", title: "Первая глава", order: 2 },
+          { code: "chapter-2", title: "Вторая глава", order: 1 },
+        ],
+      },
+    });
+    assert.equal(changedOrder.status, 400);
+    assert.ok(changedOrder.body.details?.includes("Нельзя менять порядок существующих глав"));
+
+    const changedStructure = await handlers.updateSource({
+      authorization,
+      sourceCode: "gita",
+      body: {
+        title: "Гита",
+        parts: [
+          {
+            code: "part-1",
+            title: "Часть 1",
+            order: 1,
+            chapters: [{ code: "chapter-1", title: "Первая глава", order: 1 }],
+          },
+        ],
+      },
+    });
+    assert.equal(changedStructure.status, 400);
+    assert.ok(changedStructure.body.details?.includes("Для источника с главами нельзя добавить части"));
+  });
+
+  test("updates shloka padas and translation while keeping its reference immutable", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+      }),
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-1",
+        number: "1",
+        padas: ["первая пада"],
+      },
+    });
+
+    const updated = await handlers.updateShloka({
+      authorization,
+      shlokaCode: "gita-chapter-1-1",
+      body: {
+        padas: ["обновленная первая", "обновленная вторая"],
+        fullTranslation: "Новый перевод",
+      },
+    });
+
+    assert.equal(updated.status, 200);
+    assert.equal(updated.body.code, "gita-chapter-1-1");
+    assert.equal(updated.body.sourceCode, "gita");
+    assert.equal(updated.body.chapterCode, "chapter-1");
+    assert.equal(updated.body.number, "1");
+    assert.deepEqual(updated.body.padas, ["обновленная первая", "обновленная вторая"]);
+    assert.equal(updated.body.text, "обновленная первая\nобновленная вторая");
+    assert.equal(updated.body.fullTranslation, "Новый перевод");
+
+    const libraryResponse = await handlers.getLibrary({ authorization });
+    assert.equal(libraryResponse.status, 200);
+    assert.deepEqual(libraryResponse.body.allShlokas, [
+      {
+        code: "gita-chapter-1-1",
+        displayTitle: "Бхагавад-гита, Глава 1 1",
+        sourceTitle: "Бхагавад-гита",
+        number: "1",
+        text: "обновленная первая\nобновленная вторая",
+        fullTranslation: "Новый перевод",
+      },
+    ]);
+
+    const invalid = await handlers.updateShloka({
+      authorization,
+      shlokaCode: "gita-chapter-1-1",
+      body: {
+        padas: [],
+      },
+    });
+    assert.equal(invalid.status, 400);
+    assert.ok(invalid.body.details?.includes("Первая пада обязательна"));
   });
 
   test("validates shloka structure, required first pada, and unique reference", async () => {

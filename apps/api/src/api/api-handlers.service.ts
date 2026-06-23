@@ -5,6 +5,10 @@ import { AuthService } from "../auth/auth.service.js";
 import { forbiddenError, unauthorizedError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
 
+type AdminAuthorizationError =
+  | { status: 401; body: ApiTypes.ApiError }
+  | { status: 403; body: ApiTypes.ApiError };
+
 @Injectable()
 export class ApiHandlersService implements BackendContract.ApiHandlers {
   constructor(
@@ -54,31 +58,79 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
   }
 
   async sources(request: BackendContract.SourcesRequest): Promise<BackendContract.SourcesResponse> {
-    const session = await this.auth.lookupSession(request.authorization);
-    if (!session) {
-      return { status: 401, body: unauthorizedError };
-    }
-    if (!session.account.roles.includes("admin")) {
-      return { status: 403, body: forbiddenError };
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
     }
 
     return this.catalog.createSource(request.body);
   }
 
-  async getOptions(request: BackendContract.GetOptionsRequest): Promise<BackendContract.GetOptionsResponse> {
-    const session = await this.auth.lookupSession(request.authorization);
-    if (!session) {
-      return { status: 401, body: unauthorizedError };
+  async getCatalog(request: BackendContract.GetCatalogRequest): Promise<BackendContract.GetCatalogResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
     }
-    if (!session.account.roles.includes("admin")) {
-      return { status: 403, body: forbiddenError };
+
+    return { status: 200, body: await this.catalog.getAdminCatalog() };
+  }
+
+  async getSource(request: BackendContract.GetSourceRequest): Promise<BackendContract.GetSourceResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
+    }
+
+    return this.catalog.getAdminSource(request.sourceCode);
+  }
+
+  async getOptions(request: BackendContract.GetOptionsRequest): Promise<BackendContract.GetOptionsResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
     }
 
     return { status: 200, body: await this.catalog.getSourceOptions() };
   }
 
+  async updateSource(request: BackendContract.UpdateSourceRequest): Promise<BackendContract.UpdateSourceResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
+    }
+
+    return this.catalog.updateSource(request.sourceCode, request.body);
+  }
+
   async shlokas(request: BackendContract.ShlokasRequest): Promise<BackendContract.ShlokasResponse> {
-    const session = await this.auth.lookupSession(request.authorization);
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
+    }
+
+    return this.catalog.createShloka(request.body);
+  }
+
+  async getShloka(request: BackendContract.GetShlokaRequest): Promise<BackendContract.GetShlokaResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
+    }
+
+    return this.catalog.getAdminShloka(request.shlokaCode);
+  }
+
+  async updateShloka(request: BackendContract.UpdateShlokaRequest): Promise<BackendContract.UpdateShlokaResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) {
+      return adminError;
+    }
+
+    return this.catalog.updateShloka(request.shlokaCode, request.body);
+  }
+
+  private async authorizeAdmin(authorization: string | undefined): Promise<AdminAuthorizationError | undefined> {
+    const session = await this.auth.lookupSession(authorization);
     if (!session) {
       return { status: 401, body: unauthorizedError };
     }
@@ -86,7 +138,7 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
       return { status: 403, body: forbiddenError };
     }
 
-    return this.catalog.createShloka(request.body);
+    return undefined;
   }
 }
 
