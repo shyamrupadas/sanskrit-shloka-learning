@@ -314,6 +314,7 @@ export function AdminSourcePage() {
 
   return (
     <AppShell title={strings.admin.sourceTitle}>
+      <AdminBackLink />
       <AdminHeader title={strings.admin.sourceTitle} subtitle={strings.admin.sourceSubtitle} />
       <Card className="rounded-lg">
         <CardContent className="pt-6">
@@ -404,6 +405,7 @@ export function AdminShlokaPage() {
 
   return (
     <AppShell title={strings.admin.shlokaTitle}>
+      <AdminBackLink />
       <AdminHeader title={strings.admin.shlokaTitle} subtitle={strings.admin.shlokaSubtitle} />
       <Card className="rounded-lg">
         <CardContent className="pt-6">

@@ -23,4 +23,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/02-admin-creates-first-source-and-shloka.md`
+Нет - можно начинать сразу

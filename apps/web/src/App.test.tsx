@@ -344,6 +344,7 @@ describe("App auth and empty shell", () => {
 
     const sourceView = renderAppAt("/admin/sources/new");
 
+    expect(await screen.findByRole("link", { name: "Админка" })).toHaveAttribute("href", "/admin");
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
     await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
@@ -362,6 +363,7 @@ describe("App auth and empty shell", () => {
     sourceView.unmount();
     renderAppAt("/admin/shlokas/new");
 
+    expect(await screen.findByRole("link", { name: "Админка" })).toHaveAttribute("href", "/admin");
     await screen.findByLabelText("Источник");
     await user.selectOptions(screen.getByLabelText("Источник"), "gita");
     await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
