@@ -1,9 +1,4 @@
-# Sanskrit Shloka Learning
-
-Do not stage (`git add`) or commit changes unless explicitly asked.
-
-## Agent skills
-
-- Issues/PRDs: local markdown under `.scratch/<feature-slug>/`; see `docs/agents/issue-tracker.md`.
-- Triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`; see `docs/agents/triage-labels.md`.
-- Domain docs: root `CONTEXT.md` and `docs/adr/`; see `docs/agents/domain.md`.
+Do not change the git index (`git add`, `git restore --staged`) or commit unless explicitly asked.
+Issues/PRDs live in `.scratch/<feature-slug>/`; details: `docs/agents/issue-tracker.md`.
+Triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`; details: `docs/agents/triage-labels.md`.
+Domain docs: `CONTEXT.md` and `docs/adr/`; details: `docs/agents/domain.md`.
