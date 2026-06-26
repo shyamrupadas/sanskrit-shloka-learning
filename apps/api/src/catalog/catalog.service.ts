@@ -14,6 +14,8 @@ import {
 
 const adminCatalogCacheFreshTtlMs = 30_000;
 const adminCatalogCacheStaleTtlMs = 5 * 60_000;
+const shlokaPadaCount = 4;
+const shlokaPadasRequiredMessage = "Заполните все четыре пады шлоки";
 
 interface CachedAdminCatalog {
   freshUntil: number;
@@ -159,8 +161,13 @@ export class CatalogService {
     | { status: 400; body: ApiTypes.ApiError }
     | { status: 409; body: ApiTypes.ApiError }
   > {
-    const sources = await this.catalog.listSources();
     const normalized = normalizeShlokaRequest(request);
+    const requiredDetails = validateShlokaRequiredFields(normalized);
+    if (requiredDetails.length > 0) {
+      return { status: 400, body: validationError(requiredDetails) };
+    }
+
+    const sources = await this.catalog.listSources();
     const source = sources.find((candidate) => candidate.code === normalized.sourceCode);
     const details = validateShlokaRequest(normalized, source);
 
@@ -232,15 +239,15 @@ export class CatalogService {
     | { status: 400; body: ApiTypes.ApiError }
     | { status: 404; body: ApiTypes.ApiError }
   > {
-    const shloka = await this.catalog.getShloka(shlokaCode);
-    if (!shloka) {
-      return { status: 404, body: notFoundError("Шлока не найдена") };
-    }
-
     const normalized = normalizeUpdateShlokaRequest(request);
     const details = validateUpdateShlokaRequest(normalized);
     if (details.length > 0) {
       return { status: 400, body: validationError(details) };
+    }
+
+    const shloka = await this.catalog.getShloka(shlokaCode);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
     }
 
     const updated = await this.catalog.updateShloka({
@@ -305,7 +312,7 @@ function normalizeShlokaRequest(request: ApiTypes.CreateShlokaRequest): ApiTypes
     ...(partCode ? { partCode } : {}),
     ...(chapterCode ? { chapterCode } : {}),
     number: normalizeText(request.number),
-    padas: (request.padas ?? []).map(normalizeText).filter(Boolean),
+    padas: (request.padas ?? []).map(normalizeText),
     ...(fullTranslation ? { fullTranslation } : {}),
   };
 }
@@ -337,7 +344,7 @@ function normalizeUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): Ap
   const fullTranslation = optionalText(request.fullTranslation);
 
   return {
-    padas: (request.padas ?? []).map(normalizeText).filter(Boolean),
+    padas: (request.padas ?? []).map(normalizeText),
     ...(fullTranslation ? { fullTranslation } : {}),
   };
 }
@@ -495,16 +502,6 @@ function validateShlokaRequest(request: ApiTypes.CreateShlokaRequest, source: So
     return details;
   }
 
-  requireText(request.number, "Текст обязателен", details);
-
-  if (!request.padas[0]) {
-    details.push("Первая пада обязательна");
-  }
-
-  if (request.padas.length > 4) {
-    details.push("Можно указать не больше четырех пад");
-  }
-
   if (source.structureType === "none") {
     if (request.partCode || request.chapterCode) {
       details.push("Для источника без глав нельзя выбрать часть или главу");
@@ -539,18 +536,28 @@ function validateShlokaRequest(request: ApiTypes.CreateShlokaRequest, source: So
   return details;
 }
 
+function validateShlokaRequiredFields(request: ApiTypes.CreateShlokaRequest): string[] {
+  const details: string[] = [];
+
+  requireText(request.sourceCode, "Выберите источник шлоки", details);
+  requireText(request.number, "Номер шлоки обязателен", details);
+  validateShlokaPadas(request.padas, details);
+
+  return details;
+}
+
 function validateUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): string[] {
   const details: string[] = [];
 
-  if (!request.padas[0]) {
-    details.push("Первая пада обязательна");
-  }
-
-  if (request.padas.length > 4) {
-    details.push("Можно указать не больше четырех пад");
-  }
+  validateShlokaPadas(request.padas, details);
 
   return details;
+}
+
+function validateShlokaPadas(padas: string[], details: string[]): void {
+  if (padas.length !== shlokaPadaCount || padas.some((pada) => !pada)) {
+    details.push(shlokaPadasRequiredMessage);
+  }
 }
 
 function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequest) {

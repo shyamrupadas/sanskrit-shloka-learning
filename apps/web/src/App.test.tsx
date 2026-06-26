@@ -121,8 +121,8 @@ const adminShloka = {
   chapterCode: "chapter-2",
   chapterTitle: "Глава 2",
   number: "2.47",
-  text: "карманй эвадхикарас те\nма пхалешу кадачана",
-  padas: ["карманй эвадхикарас те", "ма пхалешу кадачана"],
+  text: "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани",
+  padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
   fullTranslation: "Только на действие у тебя право.",
 } satisfies ApiTypes.AdminShlokaDto;
 
@@ -332,9 +332,13 @@ describe("App auth and empty shell", () => {
 
   it("lets admins create a source and shloka through protected forms", async () => {
     const user = userEvent.setup();
+    let createShlokaBody: unknown;
     const fetchMock = mockApi((request) => {
       if (request.method === "GET" && request.path === "/api/auth/session") {
         return { status: 200, body: adminSession };
+      }
+      if (request.method === "POST" && request.path === "/api/admin/shlokas") {
+        createShlokaBody = request.body;
       }
 
       return successfulApi(request);
@@ -367,9 +371,11 @@ describe("App auth and empty shell", () => {
     await screen.findByLabelText("Источник");
     await user.selectOptions(screen.getByLabelText("Источник"), "gita");
     await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
-    await user.type(screen.getByLabelText("Текст"), "2.47");
+    await user.type(screen.getByLabelText("Номер шлоки"), "2.47");
     await user.type(screen.getByLabelText("Пада 1"), "карманй эвадхикарас те");
     await user.type(screen.getByLabelText("Пада 2"), "ма пхалешу кадачана");
+    await user.type(screen.getByLabelText("Пада 3"), "ма кармапхалахетур бхур");
+    await user.type(screen.getByLabelText("Пада 4"), "ма те санго сту акармани");
     await user.click(screen.getByRole("button", { name: "Создать шлоку" }));
 
     expect(await screen.findByText("Шлока создана")).toHaveAttribute("role", "status");
@@ -378,6 +384,36 @@ describe("App auth and empty shell", () => {
       expect.objectContaining({
         method: "POST",
       }),
+    );
+    expect(createShlokaBody).toEqual({
+      sourceCode: "gita",
+      chapterCode: "chapter-2",
+      number: "2.47",
+      padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
+    });
+  });
+
+  it("blocks shloka creation when any pada is blank", async () => {
+    const user = userEvent.setup();
+    const fetchMock = mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/admin/shlokas/new");
+
+    await screen.findByLabelText("Источник");
+    await user.selectOptions(screen.getByLabelText("Источник"), "gita");
+    await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
+    await user.type(screen.getByLabelText("Номер шлоки"), "2.47");
+    await user.type(screen.getByLabelText("Пада 1"), "карманй эвадхикарас те");
+    await user.type(screen.getByLabelText("Пада 2"), "ма пхалешу кадачана");
+    await user.type(screen.getByLabelText("Пада 4"), "ма те санго сту акармани");
+    await user.click(screen.getByRole("button", { name: "Создать шлоку" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Заполните все четыре пады шлоки");
+    expect(fetchMock).not.toHaveBeenCalledWith(
+      "/api/admin/shlokas",
+      expect.objectContaining({ method: "POST" }),
     );
   });
 
@@ -474,7 +510,7 @@ describe("App auth and empty shell", () => {
     expect((screen.getByLabelText("Код шлоки") as HTMLInputElement).readOnly).toBe(true);
     expect((screen.getByLabelText("Источник") as HTMLInputElement).readOnly).toBe(true);
     expect((screen.getByLabelText("Глава") as HTMLInputElement).readOnly).toBe(true);
-    expect((screen.getByLabelText("Текст") as HTMLInputElement).readOnly).toBe(true);
+    expect((screen.getByLabelText("Номер шлоки") as HTMLInputElement).readOnly).toBe(true);
 
     await user.clear(screen.getByLabelText("Пада 1"));
     await user.type(screen.getByLabelText("Пада 1"), "обновленная первая");
@@ -486,9 +522,29 @@ describe("App auth and empty shell", () => {
 
     expect(await screen.findByRole("status")).toHaveTextContent("Шлока сохранена");
     expect(updateBody).toEqual({
-      padas: ["обновленная первая", "обновленная вторая"],
+      padas: ["обновленная первая", "обновленная вторая", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
       fullTranslation: "Новый перевод",
     });
+  });
+
+  it("blocks shloka edits when any pada has only whitespace", async () => {
+    const user = userEvent.setup();
+    const fetchMock = mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/admin/shlokas/gita-chapter-2-2-47/edit");
+
+    await screen.findByLabelText("Пада 3");
+    await user.clear(screen.getByLabelText("Пада 3"));
+    await user.type(screen.getByLabelText("Пада 3"), "   ");
+    await user.click(screen.getByRole("button", { name: "Сохранить шлоку" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Заполните все четыре пады шлоки");
+    expect(fetchMock).not.toHaveBeenCalledWith(
+      "/api/admin/shlokas/gita-chapter-2-2-47",
+      expect.objectContaining({ method: "PATCH" }),
+    );
   });
 });
 
@@ -658,8 +714,8 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
       status: 200,
       body: {
         ...adminShloka,
-        text: "обновленная первая\nобновленная вторая",
-        padas: ["обновленная первая", "обновленная вторая"],
+        text: "обновленная первая\nобновленная вторая\nма кармапхалахетур бхур\nма те санго сту акармани",
+        padas: ["обновленная первая", "обновленная вторая", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
         fullTranslation: "Новый перевод",
       },
     };

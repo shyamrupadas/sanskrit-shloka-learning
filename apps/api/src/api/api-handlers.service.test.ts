@@ -213,7 +213,7 @@ describe("ApiHandlersService admin catalog", () => {
       (
         await handlers.updateShloka({
           shlokaCode: "source-1",
-          body: { padas: ["первая пада"] },
+          body: { padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"] },
         })
       ).status,
       401,
@@ -223,7 +223,7 @@ describe("ApiHandlersService admin catalog", () => {
         await handlers.updateShloka({
           authorization,
           shlokaCode: "source-1",
-          body: { padas: ["первая пада"] },
+          body: { padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"] },
         })
       ).status,
       403,
@@ -345,7 +345,7 @@ describe("ApiHandlersService admin catalog", () => {
         partCode: "1",
         chapterCode: "1",
         number: "1",
-        padas: ["первая шлока первой песни"],
+        padas: ["первая шлока первой песни 1", "первая шлока первой песни 2", "первая шлока первой песни 3", "первая шлока первой песни 4"],
       },
     });
     const second = await handlers.shlokas({
@@ -355,7 +355,7 @@ describe("ApiHandlersService admin catalog", () => {
         partCode: "2",
         chapterCode: "1",
         number: "1",
-        padas: ["первая шлока второй песни"],
+        padas: ["первая шлока второй песни 1", "первая шлока второй песни 2", "первая шлока второй песни 3", "первая шлока второй песни 4"],
       },
     });
 
@@ -399,7 +399,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-2",
         number: "2.47",
-        padas: ["карманй эвадхикарас те", "ма пхалешу кадачана"],
+        padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
         fullTranslation: "Только на действие у тебя право.",
       },
     });
@@ -408,13 +408,13 @@ describe("ApiHandlersService admin catalog", () => {
       body: {
         sourceCode: "amrita",
         number: "1",
-        padas: ["первая пада"],
+        padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
     });
 
     assert.equal(first.status, 201);
     assert.equal(first.body.code, "gita-chapter-2-2-47");
-    assert.equal(first.body.text, "карманй эвадхикарас те\nма пхалешу кадачана");
+    assert.equal(first.body.text, "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани");
     assert.equal(first.body.fullTranslation, "Только на действие у тебя право.");
     assert.equal(second.status, 201);
 
@@ -456,7 +456,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-2",
         number: "10",
-        padas: ["десятая шлока"],
+        padas: ["десятая шлока 1", "десятая шлока 2", "десятая шлока 3", "десятая шлока 4"],
       },
     });
     await handlers.shlokas({
@@ -465,7 +465,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-1",
         number: "2",
-        padas: ["вторая шлока"],
+        padas: ["вторая шлока 1", "вторая шлока 2", "вторая шлока 3", "вторая шлока 4"],
       },
     });
     await handlers.shlokas({
@@ -474,7 +474,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-2",
         number: "2",
-        padas: ["еще одна вторая"],
+        padas: ["еще одна вторая 1", "еще одна вторая 2", "еще одна вторая 3", "еще одна вторая 4"],
       },
     });
 
@@ -518,7 +518,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-1",
         number: "1",
-        padas: ["первая пада"],
+        padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
     });
 
@@ -609,7 +609,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceCode: "gita",
         chapterCode: "chapter-1",
         number: "1",
-        padas: ["первая пада"],
+        padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
     });
 
@@ -617,7 +617,7 @@ describe("ApiHandlersService admin catalog", () => {
       authorization,
       shlokaCode: "gita-chapter-1-1",
       body: {
-        padas: ["обновленная первая", "обновленная вторая"],
+        padas: ["обновленная первая", "обновленная вторая", "обновленная третья", "обновленная четвертая"],
         fullTranslation: "Новый перевод",
       },
     });
@@ -627,8 +627,8 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(updated.body.sourceCode, "gita");
     assert.equal(updated.body.chapterCode, "chapter-1");
     assert.equal(updated.body.number, "1");
-    assert.deepEqual(updated.body.padas, ["обновленная первая", "обновленная вторая"]);
-    assert.equal(updated.body.text, "обновленная первая\nобновленная вторая");
+    assert.deepEqual(updated.body.padas, ["обновленная первая", "обновленная вторая", "обновленная третья", "обновленная четвертая"]);
+    assert.equal(updated.body.text, "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая");
     assert.equal(updated.body.fullTranslation, "Новый перевод");
 
     const libraryResponse = await handlers.getLibrary({ authorization });
@@ -639,7 +639,7 @@ describe("ApiHandlersService admin catalog", () => {
         displayTitle: "Бхагавад-гита, Глава 1 1",
         sourceTitle: "Бхагавад-гита",
         number: "1",
-        text: "обновленная первая\nобновленная вторая",
+        text: "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая",
         fullTranslation: "Новый перевод",
       },
     ]);
@@ -652,10 +652,10 @@ describe("ApiHandlersService admin catalog", () => {
       },
     });
     assert.equal(invalid.status, 400);
-    assert.ok(invalid.body.details?.includes("Первая пада обязательна"));
+    assert.ok(invalid.body.details?.includes("Заполните все четыре пады шлоки"));
   });
 
-  test("validates shloka structure, required first pada, and unique reference", async () => {
+  test("validates shloka structure, required padas, and unique reference", async () => {
     const { authorization, handlers } = await createAdminHandlers();
     await handlers.sources({
       authorization,
@@ -676,14 +676,25 @@ describe("ApiHandlersService admin catalog", () => {
     });
 
     assert.equal(invalidResponse.status, 400);
-    assert.ok(invalidResponse.body.details?.includes("Первая пада обязательна"));
-    assert.ok(invalidResponse.body.details?.includes("Выберите главу"));
+    assert.ok(invalidResponse.body.details?.includes("Заполните все четыре пады шлоки"));
+
+    const invalidStructure = await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        number: "1",
+        padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
+      },
+    });
+
+    assert.equal(invalidStructure.status, 400);
+    assert.ok(invalidStructure.body.details?.includes("Выберите главу"));
 
     const request = {
       sourceCode: "gita",
       chapterCode: "chapter-1",
       number: "1",
-      padas: ["первая пада"],
+      padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
     };
 
     assert.equal((await handlers.shlokas({ authorization, body: request })).status, 201);

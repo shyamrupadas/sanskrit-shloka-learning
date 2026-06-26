@@ -22,6 +22,8 @@ import { strings } from "@/shared/i18n";
 
 type SourceStructureType = ApiTypes.SourceStructureType;
 
+const shlokaPadaCount = 4;
+
 interface ChapterFormState {
   code: string;
   title: string;
@@ -192,8 +194,9 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
     queryFn: () => auth.apiClient.getShloka(shlokaCode),
     queryKey: ["admin", "shlokas", shlokaCode],
   });
-  const [padas, setPadas] = useState(["", "", "", ""]);
+  const [padas, setPadas] = useState(emptyShlokaPadas);
   const [fullTranslation, setFullTranslation] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
 
   const mutation = useMutation({
     mutationFn: (request: ApiTypes.UpdateShlokaRequest) => auth.apiClient.updateShloka(shlokaCode, request),
@@ -206,16 +209,27 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
       return;
     }
 
-    setPadas([...shlokaQuery.data.padas, "", "", "", ""].slice(0, 4));
+    setPadas(toShlokaPadaFields(shlokaQuery.data.padas));
     setFullTranslation(shlokaQuery.data.fullTranslation ?? "");
+    setFormError(null);
   }, [shlokaQuery.data]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     mutation.reset();
+    setFormError(null);
+
+    const normalizedPadas = normalizeShlokaPadas(padas);
+    if (!hasCompleteShlokaPadas(normalizedPadas)) {
+      setFormError(strings.admin.shlokaPadasRequired);
+      return;
+    }
+    if (!event.currentTarget.reportValidity()) {
+      return;
+    }
 
     await mutation.mutateAsync({
-      padas: padas.map((pada) => pada.trim()).filter(Boolean),
+      padas: normalizedPadas,
       ...(fullTranslation ? { fullTranslation } : {}),
     });
   }
@@ -235,7 +249,8 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
         <Card className="rounded-lg">
           <CardContent className="space-y-5 pt-6">
             <WarningMessage text={strings.admin.canonicalTextWarning} />
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" noValidate onSubmit={handleSubmit}>
+              <LocalError error={formError} />
               <FieldError error={mutation.error} fallback={strings.admin.saveError} />
               {mutation.isSuccess ? <SuccessMessage text={strings.admin.shlokaSaved} /> : null}
               <TextField label={strings.admin.shlokaCode} onChange={() => undefined} readOnly value={shlokaQuery.data.code} />
@@ -252,7 +267,7 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
                   key={index}
                   label={`${strings.admin.pada} ${index + 1}`}
                   onChange={(value) => setPadas((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))}
-                  required={index === 0}
+                  required
                   value={pada}
                 />
               ))}
@@ -359,8 +374,9 @@ export function AdminShlokaPage() {
   const [partCode, setPartCode] = useState("");
   const [chapterCode, setChapterCode] = useState("");
   const [number, setNumber] = useState("");
-  const [padas, setPadas] = useState(["", "", "", ""]);
+  const [padas, setPadas] = useState(emptyShlokaPadas);
   const [fullTranslation, setFullTranslation] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
 
   const optionsQuery = useQuery({
     queryFn: () => auth.apiClient.getOptions(),
@@ -386,13 +402,23 @@ export function AdminShlokaPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     mutation.reset();
+    setFormError(null);
+
+    const normalizedPadas = normalizeShlokaPadas(padas);
+    if (!hasCompleteShlokaPadas(normalizedPadas)) {
+      setFormError(strings.admin.shlokaPadasRequired);
+      return;
+    }
+    if (!event.currentTarget.reportValidity()) {
+      return;
+    }
 
     await mutation.mutateAsync({
       sourceCode,
       ...(partCode ? { partCode } : {}),
       ...(chapterCode ? { chapterCode } : {}),
       number,
-      padas: padas.map((pada) => pada.trim()).filter(Boolean),
+      padas: normalizedPadas,
       ...(fullTranslation ? { fullTranslation } : {}),
     });
   }
@@ -416,7 +442,8 @@ export function AdminShlokaPage() {
           ) : optionsQuery.data.sources.length === 0 ? (
             <EmptySources />
           ) : (
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" noValidate onSubmit={handleSubmit}>
+              <LocalError error={formError} />
               <FieldError error={mutation.error} fallback={strings.admin.saveError} />
               {mutation.isSuccess ? <SuccessMessage text={strings.admin.shlokaCreated} /> : null}
               <SelectField
@@ -471,7 +498,7 @@ export function AdminShlokaPage() {
                   key={index}
                   label={`${strings.admin.pada} ${index + 1}`}
                   onChange={(value) => setPadas((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))}
-                  required={index === 0}
+                  required
                   value={pada}
                 />
               ))}
@@ -622,6 +649,22 @@ function formatRuCount(count: number, one: string, few: string, many: string): s
   const word = mod10 === 1 && mod100 !== 11 ? one : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? few : many;
 
   return `${count} ${word}`;
+}
+
+function emptyShlokaPadas(): string[] {
+  return Array.from({ length: shlokaPadaCount }, () => "");
+}
+
+function toShlokaPadaFields(padas: string[]): string[] {
+  return [...padas, ...emptyShlokaPadas()].slice(0, shlokaPadaCount);
+}
+
+function normalizeShlokaPadas(padas: string[]): string[] {
+  return toShlokaPadaFields(padas).map((pada) => pada.trim());
+}
+
+function hasCompleteShlokaPadas(padas: string[]): boolean {
+  return padas.length === shlokaPadaCount && padas.every(Boolean);
 }
 
 function TextField({
@@ -793,6 +836,18 @@ function FieldError({ error, fallback }: { error: unknown; fallback: string }) {
   return (
     <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">
       {getApiErrorMessage(error, fallback)}
+    </p>
+  );
+}
+
+function LocalError({ error }: { error: string | null }) {
+  if (!error) {
+    return null;
+  }
+
+  return (
+    <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">
+      {error}
     </p>
   );
 }
