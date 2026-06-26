@@ -376,6 +376,9 @@ describe("App auth and empty shell", () => {
     await user.type(screen.getByLabelText("Пада 2"), "ма пхалешу кадачана");
     await user.type(screen.getByLabelText("Пада 3"), "ма кармапхалахетур бхур");
     await user.type(screen.getByLabelText("Пада 4"), "ма те санго сту акармани");
+    const fullTranslation = screen.getByLabelText("Полный перевод");
+    expect(fullTranslation.tagName).toBe("TEXTAREA");
+    await user.type(fullTranslation, "Полный перевод шлоки");
     await user.click(screen.getByRole("button", { name: "Создать шлоку" }));
 
     expect(await screen.findByText("Шлока создана")).toHaveAttribute("role", "status");
@@ -390,6 +393,7 @@ describe("App auth and empty shell", () => {
       chapterCode: "chapter-2",
       number: "2.47",
       padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
+      fullTranslation: "Полный перевод шлоки",
     });
   });
 

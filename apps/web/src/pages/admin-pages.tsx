@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { strings } from "@/shared/i18n";
 
 type SourceStructureType = ApiTypes.SourceStructureType;
@@ -502,7 +503,7 @@ export function AdminShlokaPage() {
                   value={pada}
                 />
               ))}
-              <TextField label={strings.admin.fullTranslation} onChange={setFullTranslation} value={fullTranslation} />
+              <TextareaField label={strings.admin.fullTranslation} onChange={setFullTranslation} value={fullTranslation} />
 
               <Button className="h-10 w-full sm:w-auto" disabled={mutation.isPending} type="submit">
                 {strings.admin.createShloka}
@@ -689,6 +690,32 @@ function TextField({
         id={id}
         onChange={(event) => onChange(event.currentTarget.value)}
         readOnly={readOnly}
+        required={required}
+        value={value}
+      />
+    </div>
+  );
+}
+
+function TextareaField({
+  label,
+  onChange,
+  required,
+  value,
+}: {
+  label: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  value: string;
+}) {
+  const id = label.toLowerCase().replaceAll(" ", "-");
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Textarea
+        id={id}
+        onChange={(event) => onChange(event.currentTarget.value)}
         required={required}
         value={value}
       />
