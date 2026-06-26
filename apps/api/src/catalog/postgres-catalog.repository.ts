@@ -135,7 +135,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listSources(): Promise<SourceRecord[]> {
-    const result = await this.database.readQuery<SourceRow>(`
+    const result = await this.database.fastReadQuery<SourceRow>(`
       with root_chapters as (
         select
           source_chapters.source_code,

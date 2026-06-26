@@ -235,6 +235,28 @@ describe("PostgresCatalogRepository", () => {
     assert.equal(sourceReadQuery.includes("where source_chapters.source_code = shloka_sources.code"), false);
     assert.equal(sourceReadQuery.includes("where source_parts.source_code = shloka_sources.code"), false);
   });
+
+  test("loads source hierarchy through fast read queries", async () => {
+    const database = new TimeoutSensitiveReadDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "gita",
+      title: "Gita",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      parts: [],
+    });
+
+    const sources = await repository.listSources();
+
+    assert.deepEqual(
+      sources.map((source) => source.code),
+      ["gita"],
+    );
+    assert.equal(database.readQueryAttempts, 0);
+    assert.equal(database.fastReadQueryAttempts, 1);
+  });
 });
 
 class TransactionTrackingDatabase {
@@ -274,6 +296,13 @@ class TransactionTrackingDatabase {
   }
 
   async readQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string,
+    values: readonly unknown[] = [],
+  ): Promise<pg.QueryResult<Row>> {
+    return this.query<Row>(text, values);
+  }
+
+  async fastReadQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
     values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
@@ -485,6 +514,27 @@ class TransactionTrackingDatabase {
             .map(toSourceChapterRecord),
         })),
     };
+  }
+}
+
+class TimeoutSensitiveReadDatabase extends TransactionTrackingDatabase {
+  fastReadQueryAttempts = 0;
+  readQueryAttempts = 0;
+
+  override async readQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+    _text: string,
+    _values: readonly unknown[] = [],
+  ): Promise<pg.QueryResult<Row>> {
+    this.readQueryAttempts += 1;
+    throw new Error("Query read timeout");
+  }
+
+  override async fastReadQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string,
+    values: readonly unknown[] = [],
+  ): Promise<pg.QueryResult<Row>> {
+    this.fastReadQueryAttempts += 1;
+    return super.fastReadQuery<Row>(text, values);
   }
 }
 
