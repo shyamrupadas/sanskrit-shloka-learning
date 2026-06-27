@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 1. Inspect `git status --short`, staged diffs, and unstaged diffs for files that may belong to the commit.
 2. Treat existing staged files as user intent. If they conflict with the requested commit, stop and ask. Stage additional files only by exact path: `git add -- <path>...`.
-3. Use `type(scope): subject`. Pick one allowed type and one allowed scope. Write the subject in English, imperative mood, lowercase after the colon, with no trailing period.
+3. Use `type(scope): subject`. Scope is mandatory. Pick one allowed type and one allowed scope. Write the subject in English, imperative mood, lowercase after the colon, with no trailing period.
 4. Run focused checks for executable code, generated contracts, or tests. Stop on failed or skipped checks unless the user explicitly says to commit anyway.
 5. Commit with `git commit -m "<subject>"`. Add a body only for necessary context.
 6. Report in Russian: hash, subject, checks, and intentionally uncommitted files.
