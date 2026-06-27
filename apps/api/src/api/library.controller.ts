@@ -16,6 +16,21 @@ export class LibraryController {
     return sendContractResponse(response, await this.handlers.getLibrary(withAuthorization(authorization)));
   }
 
+  @Get("items/:shlokaCode")
+  async getItem(
+    @Param("shlokaCode") shlokaCode: string,
+    @Headers("authorization") authorization: string | undefined,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(
+      response,
+      await this.handlers.getItem({
+        ...withAuthorization(authorization),
+        shlokaCode,
+      }),
+    );
+  }
+
   @Patch("items/:shlokaCode")
   async updateItem(
     @Param("shlokaCode") shlokaCode: string,

@@ -100,6 +100,7 @@ export const strings = {
     loadError: "Не удалось загрузить библиотеку",
     noSearchResultsDescription: "Измените запрос или очистите поиск, чтобы снова увидеть шлоки.",
     noSearchResultsTitle: "Шлоки не найдены",
+    openShloka: "Открыть шлоку",
     removeFromLearning: "Убрать",
     saveError: "Не удалось изменить статус шлоки",
     saving: "Сохраняем...",
@@ -107,6 +108,11 @@ export const strings = {
     searchPlaceholder: "Название, источник или номер",
     subtitle: "Выберите шлоки для личного списка заучивания.",
     title: "Библиотека",
+  },
+  shloka: {
+    backToLibrary: "В библиотеку",
+    canonicalText: "Канонический текст шлоки",
+    loadError: "Не удалось загрузить шлоку",
   },
   nav: {
     dashboard: "Дашборд",

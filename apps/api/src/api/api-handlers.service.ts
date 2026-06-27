@@ -89,6 +89,15 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     };
   }
 
+  async getItem(request: BackendContract.GetItemRequest): Promise<BackendContract.GetItemResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+
+    return this.userLibrary.getShloka(session.account.id, request.shlokaCode);
+  }
+
   async updateItem(request: BackendContract.UpdateItemRequest): Promise<BackendContract.UpdateItemResponse> {
     const session = await this.auth.lookupSession(request.authorization);
     if (!session) {

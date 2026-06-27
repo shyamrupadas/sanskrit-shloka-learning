@@ -34,6 +34,29 @@ export class UserLibraryService {
     };
   }
 
+  async getShloka(
+    accountId: string,
+    shlokaCode: string,
+  ): Promise<{ status: 200; body: ApiTypes.LibraryShlokaDto } | { status: 404; body: ApiTypes.ApiError }> {
+    const [shloka, statuses] = await Promise.all([
+      this.catalog.getLibraryShloka(shlokaCode),
+      this.userLibrary.listShlokaStatuses(accountId),
+    ]);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+
+    const personalStatus = statuses.find((status) => status.shlokaCode === shlokaCode)?.status ?? "available";
+
+    return {
+      status: 200,
+      body: {
+        ...shloka,
+        personalStatus,
+      },
+    };
+  }
+
   async updateItem(
     accountId: string,
     shlokaCode: string,

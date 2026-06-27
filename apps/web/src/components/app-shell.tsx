@@ -75,7 +75,9 @@ function NavItem({
   to: "/dashboard" | "/library" | "/settings";
 }) {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive =
+    location.pathname === to ||
+    (to === "/library" && location.pathname.startsWith("/library/"));
 
   return (
     <Link

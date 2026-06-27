@@ -22,5 +22,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/06-minimal-shloka-page.md`
 - `.scratch/initial-product/issues/07-static-sanskrit-learning-section.md`

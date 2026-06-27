@@ -398,6 +398,11 @@ namespace SanskritShlokaLearning {
     op getLibrary(@header authorization?: string):
       OkLibraryResponse | UnauthorizedResponse;
 
+    @get
+    @route("/items/{shlokaCode}")
+    op getItem(@path shlokaCode: string, @header authorization?: string):
+      OkLibraryShlokaResponse | UnauthorizedResponse | NotFoundResponse;
+
     @patch
     @route("/items/{shlokaCode}")
     op updateItem(@path shlokaCode: string, @header authorization?: string, @body request: UpdateLibraryItemRequest):

@@ -9,7 +9,7 @@ import {
 import type { AuthContextValue } from "@/auth/auth-context";
 import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
 import { DashboardPage } from "@/pages/dashboard-page";
-import { LibraryPage } from "@/pages/library-page";
+import { LibraryPage, ShlokaPage } from "@/pages/library-page";
 import { LoginPage, RegisterPage } from "@/pages/auth-pages";
 import { SettingsPage } from "@/pages/settings-page";
 
@@ -71,6 +71,17 @@ const libraryRoute = createRoute({
   component: LibraryPage,
   getParentRoute: () => rootRoute,
   path: "library",
+});
+
+const shlokaRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    if (!context.auth.hasSession) {
+      throw redirect({ to: "/login" });
+    }
+  },
+  component: ShlokaRoute,
+  getParentRoute: () => rootRoute,
+  path: "library/shlokas/$shlokaCode",
 });
 
 const settingsRoute = createRoute({
@@ -135,6 +146,7 @@ const routeTree = rootRoute.addChildren([
   registerRoute,
   dashboardRoute,
   libraryRoute,
+  shlokaRoute,
   settingsRoute,
   adminRoute,
   adminSourceRoute,
@@ -161,6 +173,11 @@ function RootRoute() {
 function AdminSourceEditRoute() {
   const { sourceCode } = adminSourceEditRoute.useParams();
   return <AdminSourceEditPage sourceCode={sourceCode} />;
+}
+
+function ShlokaRoute() {
+  const { shlokaCode } = shlokaRoute.useParams();
+  return <ShlokaPage shlokaCode={shlokaCode} />;
 }
 
 function AdminShlokaEditRoute() {

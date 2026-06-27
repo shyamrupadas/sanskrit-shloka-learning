@@ -128,6 +128,7 @@ describe("ApiHandlersService protected resources", () => {
 
     const dashboardResponse = await handlers.getDashboard({});
     const libraryResponse = await handlers.getLibrary({});
+    const itemResponse = await handlers.getItem({ shlokaCode: "missing" });
     const settingsResponse = await handlers.getSettings({});
     const updateSettingsResponse = await handlers.updateSettings({
       body: { hardMode: true },
@@ -135,6 +136,7 @@ describe("ApiHandlersService protected resources", () => {
 
     assert.equal(dashboardResponse.status, 401);
     assert.equal(libraryResponse.status, 401);
+    assert.equal(itemResponse.status, 401);
     assert.equal(settingsResponse.status, 401);
     assert.equal(updateSettingsResponse.status, 401);
   });
@@ -537,6 +539,16 @@ describe("ApiHandlersService admin catalog", () => {
 
     assert.equal(addResponse.status, 200);
     assert.equal(addResponse.body.personalStatus, "learning");
+    const addedItemResponse = await handlers.getItem({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+    });
+    assert.equal(addedItemResponse.status, 200);
+    assert.equal(addedItemResponse.body.personalStatus, "learning");
+    assert.equal(
+      addedItemResponse.body.text,
+      "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани",
+    );
     const afterAddLibrary = await handlers.getLibrary({ authorization: learnerAuthorization });
     assert.equal(afterAddLibrary.status, 200);
     const afterAddShloka = afterAddLibrary.body.allShlokas.at(0);
@@ -556,6 +568,12 @@ describe("ApiHandlersService admin catalog", () => {
     const otherShloka = otherLibrary.body.allShlokas.at(0);
     assert.ok(otherShloka);
     assert.equal(otherShloka.personalStatus, "available");
+    const otherItemResponse = await handlers.getItem({
+      authorization: `Bearer ${otherLearner.body.accessToken}`,
+      shlokaCode: "gita-chapter-2-2-47",
+    });
+    assert.equal(otherItemResponse.status, 200);
+    assert.equal(otherItemResponse.body.personalStatus, "available");
 
     const removeResponse = await handlers.updateItem({
       authorization: learnerAuthorization,
@@ -576,6 +594,15 @@ describe("ApiHandlersService admin catalog", () => {
           authorization: learnerAuthorization,
           shlokaCode: "missing",
           body: { personalStatus: "learning" },
+        })
+      ).status,
+      404,
+    );
+    assert.equal(
+      (
+        await handlers.getItem({
+          authorization: learnerAuthorization,
+          shlokaCode: "missing",
         })
       ).status,
       404,

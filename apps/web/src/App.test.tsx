@@ -95,6 +95,16 @@ const sortedLibraryShlokas = [
   },
 ] satisfies ApiTypes.LibraryShlokaDto[];
 
+const shlokaDetail = {
+  code: "gita-chapter-2-2-47",
+  displayTitle: "Бхагавад-гита, Глава 2 2.47",
+  sourceTitle: "Бхагавад-гита",
+  number: "2.47",
+  text: "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани",
+  personalStatus: "learning",
+  fullTranslation: "Только на действие у тебя право.",
+} satisfies ApiTypes.LibraryShlokaDto;
+
 const sourceOptions = {
   sources: [
     {
@@ -446,6 +456,58 @@ describe("App auth and empty shell", () => {
     });
     await user.click(within(cardForText("Бхагавад-гита, Глава 2 2.10")).getByRole("button", { name: "Убрать" }));
     expect(await screen.findByText("Пока нет шлок для заучивания")).toBeInTheDocument();
+  });
+
+  it("opens a minimal shloka page from the library card body and transition arrow", async () => {
+    const user = userEvent.setup();
+    mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+
+    renderAppAt("/library");
+
+    await user.click(await screen.findByRole("tab", { name: "Все" }));
+    await user.click(screen.getByRole("link", { name: "карманй эвадхикарас те / ма пхалешу кадачана" }));
+
+    await expectPath("/library/shlokas/gita-chapter-2-2-47");
+    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("link", { name: "В библиотеку" }));
+    await expectPath("/library");
+    await user.click(await screen.findByRole("tab", { name: "Все" }));
+    await user.click(screen.getByRole("link", { name: "Открыть шлоку Бхагавад-гита, Глава 2 2.47" }));
+
+    await expectPath("/library/shlokas/gita-chapter-2-2-47");
+    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
+  });
+
+  it("shows the direct shloka route with Cyrillic text, return link, mobile shell, and no advanced details", async () => {
+    const user = userEvent.setup();
+    mockApi(successfulApi);
+    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+
+    renderAppAt("/library/shlokas/gita-chapter-2-2-47");
+
+    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
+    expect(screen.getByText("Бхагавад-гита · 2.47")).toBeInTheDocument();
+    expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
+      /карманй эвадхикарас те\s+ма пхалешу кадачана\s+ма кармапхалахетур бхур\s+ма те санго сту акармани/,
+    );
+
+    const backLink = screen.getByRole("link", { name: "В библиотеку" });
+    expect(backLink).toHaveAttribute("href", "/library");
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Библиотека" })).toHaveAttribute("aria-current", "page");
+    expect(screen.queryByText("Буду учить")).not.toBeInTheDocument();
+    expect(screen.queryByText("Доступна")).not.toBeInTheDocument();
+    expect(screen.queryByText("Только на действие у тебя право.")).not.toBeInTheDocument();
+    expect(screen.queryByText(/послов/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Буду учить" })).not.toBeInTheDocument();
+
+    await user.click(backLink);
+    await expectPath("/library");
+    expect(await screen.findByRole("heading", { name: "Библиотека" })).toBeInTheDocument();
   });
 
   it("reads and saves hard mode from account settings", async () => {
@@ -888,6 +950,10 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
         ],
       },
     };
+  }
+
+  if (method === "GET" && path === "/api/library/items/gita-chapter-2-2-47") {
+    return { status: 200, body: shlokaDetail };
   }
 
   if (method === "POST" && path === "/api/admin/sources") {

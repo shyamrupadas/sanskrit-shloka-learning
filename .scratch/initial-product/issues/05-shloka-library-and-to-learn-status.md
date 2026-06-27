@@ -1,7 +1,6 @@
 # Библиотека шлок и статус `буду учить`
 
-Status: ready-for-agent
-Accepted: 2026-06-27
+Status: ready-for-human
 
 ## Родитель
 

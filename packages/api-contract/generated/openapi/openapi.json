@@ -954,6 +954,62 @@
       }
     },
     "/api/library/items/{shlokaCode}": {
+      "get": {
+        "operationId": "Library_getItem",
+        "parameters": [
+          {
+            "name": "shlokaCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Library"
+        ]
+      },
       "patch": {
         "operationId": "Library_updateItem",
         "parameters": [

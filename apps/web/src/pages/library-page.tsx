@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, X, type LucideIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight, Plus, X, type LucideIcon } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/api/errors";
@@ -99,6 +100,61 @@ export function LibraryPage() {
               </TabsContent>
             ))}
           </Tabs>
+        )}
+      </section>
+    </AppShell>
+  );
+}
+
+export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
+  const auth = useAuth();
+  const shlokaQuery = useQuery({
+    queryFn: () => auth.apiClient.getItem(shlokaCode),
+    queryKey: ["library", "shloka", shlokaCode],
+  });
+
+  useUnauthorizedRedirect(shlokaQuery.error);
+
+  return (
+    <AppShell>
+      <section className="space-y-5">
+        <div>
+          <Button asChild size="sm" variant="outline">
+            <Link activeOptions={{ exact: true }} to="/library">
+              <ArrowLeft />
+              {strings.shloka.backToLibrary}
+            </Link>
+          </Button>
+        </div>
+
+        {shlokaQuery.isPending ? (
+          <StatusCard title={strings.common.loading} />
+        ) : shlokaQuery.error ? (
+          <StatusCard
+            description={getApiErrorMessage(
+              shlokaQuery.error,
+              strings.shloka.loadError,
+            )}
+            title={strings.common.error}
+          />
+        ) : (
+          <article className="space-y-4">
+            <div className="space-y-1">
+              <h1 className="text-2xl font-semibold tracking-normal">
+                {shlokaQuery.data.displayTitle}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {shlokaQuery.data.sourceTitle} · {shlokaQuery.data.number}
+              </p>
+            </div>
+
+            <div
+              aria-label={strings.shloka.canonicalText}
+              className="whitespace-pre-line text-lg leading-8"
+            >
+              {shlokaQuery.data.text}
+            </div>
+          </article>
         )}
       </section>
     </AppShell>
@@ -223,6 +279,7 @@ function ShlokaCard({
 }) {
   const excerpt = shloka.text.split("\n").filter(Boolean).slice(0, 2).join(" / ");
   const action = getCardAction(tabId, shloka.personalStatus);
+  const shlokaPath = "/library/shlokas/$shlokaCode";
 
   return (
     <Card className="rounded-lg">
@@ -234,13 +291,31 @@ function ShlokaCard({
               {shloka.sourceTitle} · {shloka.number}
             </CardDescription>
           </div>
-          <span className="w-fit rounded-md border border-border px-2 py-1 text-xs font-medium text-muted-foreground">
-            {statusLabels[shloka.personalStatus]}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="w-fit rounded-md border border-border px-2 py-1 text-xs font-medium text-muted-foreground">
+              {statusLabels[shloka.personalStatus]}
+            </span>
+            <Button
+              asChild
+              aria-label={`${strings.library.openShloka} ${shloka.displayTitle}`}
+              size="icon"
+              variant="outline"
+            >
+              <Link params={{ shlokaCode: shloka.code }} to={shlokaPath}>
+                <ArrowRight />
+              </Link>
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm leading-6">{excerpt}</p>
+        <Link
+          className="block rounded-md text-sm leading-6 outline-none transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50"
+          params={{ shlokaCode: shloka.code }}
+          to={shlokaPath}
+        >
+          {excerpt}
+        </Link>
         {shloka.fullTranslation ? (
           <p className="text-sm leading-6 text-muted-foreground">{shloka.fullTranslation}</p>
         ) : null}
