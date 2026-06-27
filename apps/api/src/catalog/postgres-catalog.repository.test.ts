@@ -257,6 +257,72 @@ describe("PostgresCatalogRepository", () => {
     assert.equal(database.readQueryAttempts, 0);
     assert.equal(database.fastReadQueryAttempts, 1);
   });
+
+  test("loads library shlokas through fast read queries", async () => {
+    const database = new TimeoutSensitiveReadDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "gita",
+      title: "Gita",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      parts: [],
+    });
+    await repository.createShloka({
+      code: "gita-chapter-1-1",
+      displayTitle: "Gita, Chapter 1 1",
+      sourceCode: "gita",
+      sourceTitle: "Gita",
+      chapterCode: "chapter-1",
+      number: "1",
+      referenceKey: "gita/chapter-1/1",
+      padas: ["first pada"],
+      sortPartOrder: 0,
+      sortChapterOrder: 1,
+    });
+
+    const shlokas = await repository.listLibraryShlokas();
+
+    assert.deepEqual(
+      shlokas.map((shloka) => shloka.code),
+      ["gita-chapter-1-1"],
+    );
+    assert.equal(database.readQueryAttempts, 0);
+    assert.equal(database.fastReadQueryAttempts, 1);
+  });
+
+  test("loads one shloka through a targeted fast read query", async () => {
+    const database = new TimeoutSensitiveReadDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "gita",
+      title: "Gita",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      parts: [],
+    });
+    await repository.createShloka({
+      code: "gita-chapter-1-1",
+      displayTitle: "Gita, Chapter 1 1",
+      sourceCode: "gita",
+      sourceTitle: "Gita",
+      chapterCode: "chapter-1",
+      number: "1",
+      referenceKey: "gita/chapter-1/1",
+      padas: ["first pada"],
+      sortPartOrder: 0,
+      sortChapterOrder: 1,
+    });
+
+    const shloka = await repository.getShloka("gita-chapter-1-1");
+
+    assert.equal(shloka?.code, "gita-chapter-1-1");
+    assert.equal(database.readQueryAttempts, 0);
+    assert.equal(database.fastReadQueryAttempts, 1);
+    assert.ok(database.directQueries.some((query) => query.includes("where shlokas.code = $1")));
+  });
 });
 
 class TransactionTrackingDatabase {

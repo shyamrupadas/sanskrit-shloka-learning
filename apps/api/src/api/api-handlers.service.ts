@@ -5,6 +5,7 @@ import { AccountSettingsService } from "../accounts/account-settings.service.js"
 import { AuthService } from "../auth/auth.service.js";
 import { forbiddenError, unauthorizedError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
+import { UserLibraryService } from "../library/user-library.service.js";
 
 type AdminAuthorizationError =
   | { status: 401; body: ApiTypes.ApiError }
@@ -16,6 +17,7 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     @Inject(AuthService) private readonly auth: AuthService,
     @Inject(AccountSettingsService) private readonly accountSettings: AccountSettingsService,
     @Inject(CatalogService) private readonly catalog: CatalogService,
+    @Inject(UserLibraryService) private readonly userLibrary: UserLibraryService,
   ) {}
 
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
@@ -76,17 +78,24 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
   }
 
   async getLibrary(request: BackendContract.GetLibraryRequest): Promise<BackendContract.GetLibraryResponse> {
-    if (!(await this.auth.lookupSession(request.authorization))) {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
       return { status: 401, body: unauthorizedError };
     }
 
     return {
       status: 200,
-      body: {
-        ...emptyLibrary(),
-        allShlokas: await this.catalog.listLibraryShlokas(),
-      },
+      body: await this.userLibrary.getLibrary(session.account.id),
     };
+  }
+
+  async updateItem(request: BackendContract.UpdateItemRequest): Promise<BackendContract.UpdateItemResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+
+    return this.userLibrary.updateItem(session.account.id, request.shlokaCode, request.body);
   }
 
   async sources(request: BackendContract.SourcesRequest): Promise<BackendContract.SourcesResponse> {
@@ -183,32 +192,5 @@ function emptyDashboard(): ApiTypes.EmptyDashboardDto {
       label: "Добавить",
       target: "/library",
     },
-  };
-}
-
-function emptyLibrary(): ApiTypes.LibraryResponseDto {
-  return {
-    defaultTab: "reviewing",
-    allShlokas: [],
-    tabs: [
-      {
-        id: "reviewing",
-        label: "Повторяю",
-        emptyTitle: "Пока нет шлок в повторении",
-        emptyDescription: "Добавьте первую шлоку из общей библиотеки, чтобы начать повторение.",
-      },
-      {
-        id: "learning",
-        label: "Буду учить",
-        emptyTitle: "Пока нет шлок для заучивания",
-        emptyDescription: "Выберите шлоку из общего списка и добавьте ее в личную библиотеку.",
-      },
-      {
-        id: "all",
-        label: "Все",
-        emptyTitle: "Библиотека пока пуста",
-        emptyDescription: "Опубликованные шлоки появятся здесь после наполнения каталога.",
-      },
-    ],
   };
 }

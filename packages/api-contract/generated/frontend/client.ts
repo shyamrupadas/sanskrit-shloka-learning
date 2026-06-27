@@ -124,6 +124,13 @@ export class ApiClient {
     });
   }
 
+  async updateItem(shlokaCode: string, request: Types.UpdateLibraryItemRequest): Promise<Types.LibraryShlokaDto> {
+    return this.#request<Types.LibraryShlokaDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}`, {
+      method: "PATCH",
+      body: JSON.stringify(request)
+    });
+  }
+
   async #request<TResponse>(
     path: string,
     init: RequestInit & { body?: string } = {},

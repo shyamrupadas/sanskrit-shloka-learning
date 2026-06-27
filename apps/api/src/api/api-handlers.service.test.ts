@@ -10,6 +10,8 @@ import { AuthService } from "../auth/auth.service.js";
 import { PasswordHasher } from "../auth/password-hasher.js";
 import { CatalogService } from "../catalog/catalog.service.js";
 import { InMemoryCatalogRepository } from "../catalog/in-memory-catalog.repository.js";
+import { InMemoryUserLibraryRepository } from "../library/in-memory-user-library.repository.js";
+import { UserLibraryService } from "../library/user-library.service.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
 
 describe("ApiHandlersService auth", () => {
@@ -478,6 +480,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(first.body.code, "gita-chapter-2-2-47");
     assert.equal(first.body.text, "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани");
     assert.equal(first.body.fullTranslation, "Только на действие у тебя право.");
+    assert.equal(first.body.personalStatus, "available");
     assert.equal(second.status, 201);
 
     const libraryResponse = await handlers.getLibrary({ authorization });
@@ -485,6 +488,97 @@ describe("ApiHandlersService admin catalog", () => {
     assert.deepEqual(
       libraryResponse.body.allShlokas.map((shloka) => shloka.code),
       ["amrita-1", "gita-chapter-2-2-47"],
+    );
+  });
+
+  test("keeps to-learn shloka status per user and allows removing it", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+      }),
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-2",
+        number: "2.47",
+        padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
+      },
+    });
+
+    const learner = await handlers.register({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(learner.status, 201);
+    const learnerAuthorization = `Bearer ${learner.body.accessToken}`;
+
+    const initialLibrary = await handlers.getLibrary({ authorization: learnerAuthorization });
+    assert.equal(initialLibrary.status, 200);
+    const initialShloka = initialLibrary.body.allShlokas.at(0);
+    assert.ok(initialShloka);
+    assert.equal(initialShloka.personalStatus, "available");
+
+    const addResponse = await handlers.updateItem({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+      body: { personalStatus: "learning" },
+    });
+
+    assert.equal(addResponse.status, 200);
+    assert.equal(addResponse.body.personalStatus, "learning");
+    const afterAddLibrary = await handlers.getLibrary({ authorization: learnerAuthorization });
+    assert.equal(afterAddLibrary.status, 200);
+    const afterAddShloka = afterAddLibrary.body.allShlokas.at(0);
+    assert.ok(afterAddShloka);
+    assert.equal(afterAddShloka.personalStatus, "learning");
+
+    const otherLearner = await handlers.register({
+      body: {
+        email: "other@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(otherLearner.status, 201);
+    const otherLibrary = await handlers.getLibrary({ authorization: `Bearer ${otherLearner.body.accessToken}` });
+    assert.equal(otherLibrary.status, 200);
+    const otherShloka = otherLibrary.body.allShlokas.at(0);
+    assert.ok(otherShloka);
+    assert.equal(otherShloka.personalStatus, "available");
+
+    const removeResponse = await handlers.updateItem({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+      body: { personalStatus: "available" },
+    });
+
+    assert.equal(removeResponse.status, 200);
+    assert.equal(removeResponse.body.personalStatus, "available");
+    const afterRemoveLibrary = await handlers.getLibrary({ authorization: learnerAuthorization });
+    assert.equal(afterRemoveLibrary.status, 200);
+    const afterRemoveShloka = afterRemoveLibrary.body.allShlokas.at(0);
+    assert.ok(afterRemoveShloka);
+    assert.equal(afterRemoveShloka.personalStatus, "available");
+    assert.equal(
+      (
+        await handlers.updateItem({
+          authorization: learnerAuthorization,
+          shlokaCode: "missing",
+          body: { personalStatus: "learning" },
+        })
+      ).status,
+      404,
     );
   });
 
@@ -702,6 +796,7 @@ describe("ApiHandlersService admin catalog", () => {
         sourceTitle: "Бхагавад-гита",
         number: "1",
         text: "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая",
+        personalStatus: "available",
         fullTranslation: "Новый перевод",
       },
     ]);
@@ -774,8 +869,9 @@ function createHandlers(): TestHandlers {
   const auth = new AuthService(accounts, passwordHasher);
   const accountSettings = new AccountSettingsService(accounts);
   const catalog = new CatalogService(new InMemoryCatalogRepository());
+  const userLibrary = new UserLibraryService(catalog, new InMemoryUserLibraryRepository());
 
-  return Object.assign(new ApiHandlersService(auth, accountSettings, catalog), { accounts });
+  return Object.assign(new ApiHandlersService(auth, accountSettings, catalog, userLibrary), { accounts });
 }
 
 async function createAdminHandlers(): Promise<{

@@ -12,8 +12,8 @@ import {
   type ShlokaRecord,
 } from "./catalog.repository.js";
 
-const adminCatalogCacheFreshTtlMs = 30_000;
-const adminCatalogCacheStaleTtlMs = 5 * 60_000;
+const catalogCacheFreshTtlMs = 30_000;
+const catalogCacheStaleTtlMs = 5 * 60_000;
 const shlokaPadaCount = 4;
 const shlokaPadasRequiredMessage = "Заполните все четыре пады шлоки";
 
@@ -23,9 +23,16 @@ interface CachedAdminCatalog {
   value: ApiTypes.AdminCatalogDto;
 }
 
+interface CachedLibraryShlokas {
+  freshUntil: number;
+  staleUntil: number;
+  value: ApiTypes.LibraryShlokaDto[];
+}
+
 @Injectable()
 export class CatalogService {
   private adminCatalogCache: CachedAdminCatalog | undefined;
+  private libraryShlokasCache: CachedLibraryShlokas | undefined;
   private readonly logger = new Logger(CatalogService.name);
 
   constructor(
@@ -54,7 +61,7 @@ export class CatalogService {
         chapters: normalized.chapters,
         parts: normalized.parts,
       });
-      this.clearAdminCatalogCache();
+      this.clearCatalogCaches();
       return { status: 201, body: toSourceOption(source) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -146,7 +153,7 @@ export class CatalogService {
         chapters: normalized.chapters ?? source.chapters,
         parts: normalized.parts ?? source.parts,
       });
-      this.clearAdminCatalogCache();
+      this.clearCatalogCaches();
       return { status: 200, body: toAdminSource(updated) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -199,7 +206,7 @@ export class CatalogService {
         sortChapterOrder: chapter?.order ?? 0,
       });
 
-      this.clearAdminCatalogCache();
+      this.clearCatalogCaches();
       return { status: 201, body: toLibraryShloka(shloka) };
     } catch (error) {
       if (error instanceof CatalogConflictError) {
@@ -210,9 +217,53 @@ export class CatalogService {
   }
 
   async listLibraryShlokas(): Promise<ApiTypes.LibraryShlokaDto[]> {
-    const shlokas = await this.catalog.listLibraryShlokas();
+    const now = Date.now();
+    if (this.libraryShlokasCache && this.libraryShlokasCache.freshUntil > now) {
+      return cloneLibraryShlokas(this.libraryShlokasCache.value);
+    }
 
-    return shlokas.sort(compareShlokas).map(toLibraryShloka);
+    try {
+      const shlokas = await this.catalog.listLibraryShlokas();
+      const libraryShlokas = shlokas.sort(compareShlokas).map(toLibraryShloka);
+      this.setLibraryShlokasCache(libraryShlokas);
+      return cloneLibraryShlokas(libraryShlokas);
+    } catch (error) {
+      if (
+        this.libraryShlokasCache &&
+        this.libraryShlokasCache.staleUntil > Date.now() &&
+        isTransientCatalogReadError(error)
+      ) {
+        this.logger.warn(`Using cached library shlokas after transient read error: ${errorMessage(error)}`);
+        return cloneLibraryShlokas(this.libraryShlokasCache.value);
+      }
+
+      throw error;
+    }
+  }
+
+  async getLibraryShloka(shlokaCode: string): Promise<ApiTypes.LibraryShlokaDto | undefined> {
+    const now = Date.now();
+    const cachedShloka = this.libraryShlokasCache?.value.find((candidate) => candidate.code === shlokaCode);
+    if (cachedShloka && this.libraryShlokasCache && this.libraryShlokasCache.freshUntil > now) {
+      return cloneLibraryShloka(cachedShloka);
+    }
+
+    try {
+      const shloka = await this.catalog.getShloka(shlokaCode);
+      return shloka ? toLibraryShloka(shloka) : undefined;
+    } catch (error) {
+      if (
+        cachedShloka &&
+        this.libraryShlokasCache &&
+        this.libraryShlokasCache.staleUntil > Date.now() &&
+        isTransientCatalogReadError(error)
+      ) {
+        this.logger.warn(`Using cached library shloka after transient read error: ${errorMessage(error)}`);
+        return cloneLibraryShloka(cachedShloka);
+      }
+
+      throw error;
+    }
   }
 
   async getAdminShloka(
@@ -255,7 +306,7 @@ export class CatalogService {
       padas: normalized.padas,
       ...(normalized.fullTranslation ? { fullTranslation: normalized.fullTranslation } : {}),
     });
-    this.clearAdminCatalogCache();
+    this.clearCatalogCaches();
     const source = await this.catalog.getSource(updated.sourceCode);
     if (!source) {
       return { status: 404, body: notFoundError("Источник шлоки не найден") };
@@ -267,14 +318,32 @@ export class CatalogService {
   private setAdminCatalogCache(value: ApiTypes.AdminCatalogDto): void {
     const now = Date.now();
     this.adminCatalogCache = {
-      freshUntil: now + adminCatalogCacheFreshTtlMs,
-      staleUntil: now + adminCatalogCacheStaleTtlMs,
+      freshUntil: now + catalogCacheFreshTtlMs,
+      staleUntil: now + catalogCacheStaleTtlMs,
       value,
     };
   }
 
+  private setLibraryShlokasCache(value: ApiTypes.LibraryShlokaDto[]): void {
+    const now = Date.now();
+    this.libraryShlokasCache = {
+      freshUntil: now + catalogCacheFreshTtlMs,
+      staleUntil: now + catalogCacheStaleTtlMs,
+      value: cloneLibraryShlokas(value),
+    };
+  }
+
+  private clearCatalogCaches(): void {
+    this.clearAdminCatalogCache();
+    this.clearLibraryShlokasCache();
+  }
+
   private clearAdminCatalogCache(): void {
     this.adminCatalogCache = undefined;
+  }
+
+  private clearLibraryShlokasCache(): void {
+    this.libraryShlokasCache = undefined;
   }
 }
 
@@ -660,8 +729,17 @@ function toLibraryShloka(shloka: ShlokaRecord): ApiTypes.LibraryShlokaDto {
     sourceTitle: shloka.sourceTitle,
     number: shloka.number,
     text: shloka.text,
+    personalStatus: "available",
     ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
+}
+
+function cloneLibraryShlokas(shlokas: ApiTypes.LibraryShlokaDto[]): ApiTypes.LibraryShlokaDto[] {
+  return shlokas.map(cloneLibraryShloka);
+}
+
+function cloneLibraryShloka(shloka: ApiTypes.LibraryShlokaDto): ApiTypes.LibraryShlokaDto {
+  return { ...shloka };
 }
 
 function toAdminShloka(shloka: ShlokaRecord, source: SourceRecord): ApiTypes.AdminShlokaDto {

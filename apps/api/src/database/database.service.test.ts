@@ -69,6 +69,24 @@ describe("DatabaseService readQuery", () => {
       "Retrying fast read-only PostgreSQL query after transient read error: Query read timeout",
     ]);
   });
+
+  test("retries idempotent write query timeouts once", async () => {
+    const queryTimeoutError = new Error("Query read timeout");
+    const pool = new FakeQueryPool([queryTimeoutError, result([])]);
+    const { idempotentWriteQuery, logger } = readQueryHarness(pool);
+
+    await idempotentWriteQuery("insert into user_shlokas values ($1)", ["input"]);
+
+    assert.deepEqual(pool.queries, [
+      "insert into user_shlokas values ($1)",
+      "insert into user_shlokas values ($1)",
+    ]);
+    assert.deepEqual(pool.values, [["input"], ["input"]]);
+    assert.deepEqual(pool.queryTimeouts, [5_000, 5_000]);
+    assert.deepEqual(logger.warnings, [
+      "Retrying idempotent PostgreSQL write after transient write error: Query read timeout",
+    ]);
+  });
 });
 
 describe("DatabaseService transaction", () => {
@@ -155,6 +173,7 @@ function readQueryHarness(pool = new FakeQueryPool()) {
 
   return {
     fastReadQuery: DatabaseService.prototype.fastReadQuery.bind(database),
+    idempotentWriteQuery: DatabaseService.prototype.idempotentWriteQuery.bind(database),
     logger,
     query: DatabaseService.prototype.query.bind(database),
     readQuery: DatabaseService.prototype.readQuery.bind(database),

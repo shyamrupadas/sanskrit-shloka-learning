@@ -132,8 +132,11 @@ export interface LibraryShlokaDto {
   sourceTitle: string;
   number: string;
   text: string;
+  personalStatus: LibraryShlokaStatus;
   fullTranslation?: string;
 }
+
+export type LibraryShlokaStatus = "available" | "learning" | "reviewing";
 
 export type LibraryTab = "reviewing" | "learning" | "all";
 
@@ -181,6 +184,12 @@ export type SourceStructureType = "none" | "chapters" | "parts";
 export interface UpdateAccountSettingsRequest {
   hardMode: boolean;
 }
+
+export interface UpdateLibraryItemRequest {
+  personalStatus: UpdateLibraryShlokaStatus;
+}
+
+export type UpdateLibraryShlokaStatus = "available" | "learning";
 
 export interface UpdateShlokaRequest {
   padas: string[];

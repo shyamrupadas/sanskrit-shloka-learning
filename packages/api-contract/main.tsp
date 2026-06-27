@@ -145,18 +145,39 @@ namespace SanskritShlokaLearning {
     allShlokas: LibraryShlokaDto[];
   }
 
+  enum LibraryShlokaStatus {
+    available: "available",
+    learning: "learning",
+    reviewing: "reviewing",
+  }
+
+  enum UpdateLibraryShlokaStatus {
+    available: "available",
+    learning: "learning",
+  }
+
+  model UpdateLibraryItemRequest {
+    personalStatus: UpdateLibraryShlokaStatus;
+  }
+
   model LibraryShlokaDto {
     code: string;
     displayTitle: string;
     sourceTitle: string;
     number: string;
     text: string;
+    personalStatus: LibraryShlokaStatus;
     fullTranslation?: string;
   }
 
   model OkLibraryResponse {
     @statusCode statusCode: 200;
     @body library: LibraryResponseDto;
+  }
+
+  model OkLibraryShlokaResponse {
+    @statusCode statusCode: 200;
+    @body shloka: LibraryShlokaDto;
   }
 
   enum SourceStructureType {
@@ -376,6 +397,11 @@ namespace SanskritShlokaLearning {
     @get
     op getLibrary(@header authorization?: string):
       OkLibraryResponse | UnauthorizedResponse;
+
+    @patch
+    @route("/items/{shlokaCode}")
+    op updateItem(@path shlokaCode: string, @header authorization?: string, @body request: UpdateLibraryItemRequest):
+      OkLibraryShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
   }
 
   @tag("Admin")

@@ -81,6 +81,12 @@ export interface GetLibraryRequest {
   authorization?: string;
 }
 
+export interface UpdateItemRequest {
+  body: Types.UpdateLibraryItemRequest;
+  shlokaCode: string;
+  authorization?: string;
+}
+
 export type GetSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type UpdateSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
@@ -97,6 +103,7 @@ export type LogoutResponse = ApiHandlerResponse<204> | ApiHandlerResponse<401, T
 export type RegisterResponse = ApiHandlerResponse<201, Types.AuthSessionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
+export type UpdateItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 
 export interface ApiHandlers {
   getSettings(request: GetSettingsRequest): Promise<GetSettingsResponse> | GetSettingsResponse;
@@ -115,4 +122,5 @@ export interface ApiHandlers {
   register(request: RegisterRequest): Promise<RegisterResponse> | RegisterResponse;
   getDashboard(request: GetDashboardRequest): Promise<GetDashboardResponse> | GetDashboardResponse;
   getLibrary(request: GetLibraryRequest): Promise<GetLibraryResponse> | GetLibraryResponse;
+  updateItem(request: UpdateItemRequest): Promise<UpdateItemResponse> | UpdateItemResponse;
 }

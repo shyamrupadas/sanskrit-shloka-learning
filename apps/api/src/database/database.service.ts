@@ -25,6 +25,7 @@ const transientConnectionErrorMessages = [
 ];
 
 const fastReadQueryTimeoutMillis = 5_000;
+const idempotentWriteQueryTimeoutMillis = 5_000;
 
 interface QueryConfigWithTimeout extends pg.QueryConfig<unknown[]> {
   query_timeout: number;
@@ -87,6 +88,24 @@ export class DatabaseService implements OnModuleDestroy, DatabaseExecutor {
         `Retrying fast read-only PostgreSQL query after transient read error: ${errorMessage(error)}`,
       );
       return this.queryWithTimeout<T>(text, values, fastReadQueryTimeoutMillis);
+    }
+  }
+
+  async idempotentWriteQuery<T extends pg.QueryResultRow = pg.QueryResultRow>(
+    text: string,
+    values: readonly unknown[] = [],
+  ): Promise<pg.QueryResult<T>> {
+    try {
+      return await this.queryWithTimeout<T>(text, values, idempotentWriteQueryTimeoutMillis);
+    } catch (error) {
+      if (!isIdempotentWriteRetriablePostgresError(error)) {
+        throw error;
+      }
+
+      this.logger.warn(
+        `Retrying idempotent PostgreSQL write after transient write error: ${errorMessage(error)}`,
+      );
+      return this.queryWithTimeout<T>(text, values, idempotentWriteQueryTimeoutMillis);
     }
   }
 
@@ -170,6 +189,10 @@ function isTransientPostgresConnectionError(error: unknown): boolean {
 }
 
 function isFastReadRetriablePostgresError(error: unknown): boolean {
+  return isTransientPostgresConnectionError(error) || errorMessage(error) === "Query read timeout";
+}
+
+function isIdempotentWriteRetriablePostgresError(error: unknown): boolean {
   return isTransientPostgresConnectionError(error) || errorMessage(error) === "Query read timeout";
 }
 

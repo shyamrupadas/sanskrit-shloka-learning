@@ -105,6 +105,67 @@ describe("CatalogService", () => {
     assert.equal(repository.shlokaReads, 2);
   });
 
+  test("uses cached library shlokas for fresh public library reads", async () => {
+    const repository = new ConfigurableCatalogRepository();
+    const service = new CatalogService(repository);
+
+    assert.deepEqual(await service.listLibraryShlokas(), [
+      {
+        code: "gita-chapter-1-1",
+        displayTitle: "Gita, Chapter 1 1",
+        number: "1",
+        personalStatus: "available",
+        sourceTitle: "Gita",
+        text: "first pada",
+      },
+    ]);
+    assert.deepEqual(await service.listLibraryShlokas(), [
+      {
+        code: "gita-chapter-1-1",
+        displayTitle: "Gita, Chapter 1 1",
+        number: "1",
+        personalStatus: "available",
+        sourceTitle: "Gita",
+        text: "first pada",
+      },
+    ]);
+
+    assert.equal(repository.shlokaReads, 1);
+  });
+
+  test("uses stale cached library shlokas when refresh fails with a transient error", async () => {
+    const repository = new ConfigurableCatalogRepository();
+    const service = new CatalogService(repository);
+
+    await service.listLibraryShlokas();
+    const cached = libraryShlokasCache(service);
+    assert.ok(cached);
+    cached.freshUntil = Date.now() - 1;
+    cached.staleUntil = Date.now() + 60_000;
+    repository.listLibraryShlokasResult = Promise.reject(new Error("Query read timeout"));
+
+    assert.deepEqual(await service.listLibraryShlokas(), cached.value);
+    assert.equal(repository.shlokaReads, 2);
+  });
+
+  test("uses cached library shloka for item lookups while cache is fresh", async () => {
+    const repository = new ConfigurableCatalogRepository();
+    const service = new CatalogService(repository);
+
+    await service.listLibraryShlokas();
+    repository.getShlokaError = new Error("Query read timeout");
+
+    assert.deepEqual(await service.getLibraryShloka("gita-chapter-1-1"), {
+      code: "gita-chapter-1-1",
+      displayTitle: "Gita, Chapter 1 1",
+      number: "1",
+      personalStatus: "available",
+      sourceTitle: "Gita",
+      text: "first pada",
+    });
+    assert.equal(repository.shlokaRecordReads, 0);
+  });
+
   test("rejects incomplete shloka padas before catalog reads", async () => {
     const repository = new ConfigurableCatalogRepository();
     const service = new CatalogService(repository);
@@ -192,6 +253,8 @@ class DeferredCatalogRepository implements CatalogRepository {
 }
 
 class ConfigurableCatalogRepository implements CatalogRepository {
+  getShlokaError: Error | undefined;
+  getShlokaResult: Promise<ShlokaRecord | undefined> = Promise.resolve(shlokaRecord);
   listLibraryShlokasResult: Promise<ShlokaRecord[]> = Promise.resolve([shlokaRecord]);
   listSourcesResult: Promise<SourceRecord[]> = Promise.resolve([sourceRecord]);
   shlokaReads = 0;
@@ -212,7 +275,10 @@ class ConfigurableCatalogRepository implements CatalogRepository {
 
   async getShloka(_code: string): Promise<ShlokaRecord | undefined> {
     this.shlokaRecordReads += 1;
-    return shlokaRecord;
+    if (this.getShlokaError) {
+      throw this.getShlokaError;
+    }
+    return this.getShlokaResult;
   }
 
   async listSources(): Promise<SourceRecord[]> {
@@ -267,4 +333,22 @@ function adminCatalogCache(service: CatalogService):
         }
       | undefined;
   }).adminCatalogCache;
+}
+
+function libraryShlokasCache(service: CatalogService):
+  | {
+      freshUntil: number;
+      staleUntil: number;
+      value: unknown[];
+    }
+  | undefined {
+  return (service as unknown as {
+    libraryShlokasCache:
+      | {
+          freshUntil: number;
+          staleUntil: number;
+          value: unknown[];
+        }
+      | undefined;
+  }).libraryShlokasCache;
 }

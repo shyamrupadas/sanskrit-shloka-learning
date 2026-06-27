@@ -206,43 +206,15 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async getShloka(code: string): Promise<ShlokaRecord | undefined> {
-    return (await this.listLibraryShlokas()).find((shloka) => shloka.code === code);
+    const result = await this.database.fastReadQuery<ShlokaRow>(
+      libraryShlokasQuery("where shlokas.code = $1"),
+      [code],
+    );
+    return result.rows[0] ? mapShloka(result.rows[0]) : undefined;
   }
 
   async listLibraryShlokas(): Promise<ShlokaRecord[]> {
-    const result = await this.database.readQuery<ShlokaRow>(`
-      select
-        shlokas.code,
-        shlokas.source_code,
-        shloka_sources.title as source_title,
-        shlokas.part_code,
-        source_parts.title as part_title,
-        shlokas.chapter_code,
-        source_chapters.title as chapter_title,
-        shlokas.number,
-        string_agg(shloka_padas.text, E'\n' order by shloka_padas.position) as text,
-        array_agg(shloka_padas.text order by shloka_padas.position) as padas,
-        shlokas.full_translation,
-        shloka_sources.title as sort_source_title,
-        source_parts.sort_order as sort_part_order,
-        source_chapters.sort_order as sort_chapter_order
-      from shlokas
-      inner join shloka_sources on shloka_sources.code = shlokas.source_code
-      inner join shloka_padas on shloka_padas.shloka_code = shlokas.code
-      left join source_parts
-        on source_parts.source_code = shlokas.source_code
-        and source_parts.code = shlokas.part_code
-      left join source_chapters
-        on source_chapters.source_code = shlokas.source_code
-        and source_chapters.code = shlokas.chapter_code
-        and (
-          (shlokas.part_code is null and source_chapters.part_code is null)
-          or source_chapters.part_code = shlokas.part_code
-        )
-      group by shlokas.code, shlokas.source_code, shloka_sources.title,
-        shlokas.part_code, shlokas.chapter_code, shlokas.number, shlokas.full_translation,
-        source_parts.title, source_parts.sort_order, source_chapters.title, source_chapters.sort_order
-    `);
+    const result = await this.database.fastReadQuery<ShlokaRow>(libraryShlokasQuery());
 
     return result.rows.map(mapShloka);
   }
@@ -349,6 +321,43 @@ export class PostgresCatalogRepository implements CatalogRepository {
 
 function toJsonRows(rows: unknown[]): string {
   return JSON.stringify(rows);
+}
+
+function libraryShlokasQuery(whereClause = ""): string {
+  return `
+    select
+      shlokas.code,
+      shlokas.source_code,
+      shloka_sources.title as source_title,
+      shlokas.part_code,
+      source_parts.title as part_title,
+      shlokas.chapter_code,
+      source_chapters.title as chapter_title,
+      shlokas.number,
+      string_agg(shloka_padas.text, E'\n' order by shloka_padas.position) as text,
+      array_agg(shloka_padas.text order by shloka_padas.position) as padas,
+      shlokas.full_translation,
+      shloka_sources.title as sort_source_title,
+      source_parts.sort_order as sort_part_order,
+      source_chapters.sort_order as sort_chapter_order
+    from shlokas
+    inner join shloka_sources on shloka_sources.code = shlokas.source_code
+    inner join shloka_padas on shloka_padas.shloka_code = shlokas.code
+    left join source_parts
+      on source_parts.source_code = shlokas.source_code
+      and source_parts.code = shlokas.part_code
+    left join source_chapters
+      on source_chapters.source_code = shlokas.source_code
+      and source_chapters.code = shlokas.chapter_code
+      and (
+        (shlokas.part_code is null and source_chapters.part_code is null)
+        or source_chapters.part_code = shlokas.part_code
+      )
+    ${whereClause}
+    group by shlokas.code, shlokas.source_code, shloka_sources.title,
+      shlokas.part_code, shlokas.chapter_code, shlokas.number, shlokas.full_translation,
+      source_parts.title, source_parts.sort_order, source_chapters.title, source_chapters.sort_order
+  `;
 }
 
 function toChapterRows(input: CreateSourceRecordInput | UpdateSourceRecordInput): unknown[] {
