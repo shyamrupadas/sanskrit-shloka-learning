@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Pencil, Plus, TriangleAlert } from "lucide-react";
@@ -46,7 +46,7 @@ export function AdminPage() {
   useUnauthorizedRedirect(catalogQuery.error);
 
   return (
-    <AppShell title={strings.admin.adminTitle}>
+    <AdminShell backTo="/settings">
       <AdminHeader title={strings.admin.adminTitle} subtitle={strings.admin.adminSubtitle} />
       <div className="mb-5 flex flex-col gap-2 sm:flex-row">
         <Button asChild className="h-10">
@@ -77,7 +77,7 @@ export function AdminPage() {
           ))}
         </section>
       )}
-    </AppShell>
+    </AdminShell>
   );
 }
 
@@ -142,8 +142,7 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
   }
 
   return (
-    <AppShell title={strings.admin.editSourceTitle}>
-      <AdminBackLink />
+    <AdminShell>
       <AdminHeader title={strings.admin.editSourceTitle} subtitle={strings.admin.editSourceSubtitle} />
       {sourceQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
@@ -185,7 +184,7 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
           </CardContent>
         </Card>
       )}
-    </AppShell>
+    </AdminShell>
   );
 }
 
@@ -236,8 +235,7 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
   }
 
   return (
-    <AppShell title={strings.admin.editShlokaTitle}>
-      <AdminBackLink />
+    <AdminShell>
       <AdminHeader title={strings.admin.editShlokaTitle} subtitle={strings.admin.editShlokaSubtitle} />
       {shlokaQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
@@ -281,7 +279,7 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
           </CardContent>
         </Card>
       )}
-    </AppShell>
+    </AdminShell>
   );
 }
 
@@ -329,8 +327,7 @@ export function AdminSourcePage() {
   }
 
   return (
-    <AppShell title={strings.admin.sourceTitle}>
-      <AdminBackLink />
+    <AdminShell>
       <AdminHeader title={strings.admin.sourceTitle} subtitle={strings.admin.sourceSubtitle} />
       <Card className="rounded-lg">
         <CardContent className="pt-6">
@@ -365,7 +362,7 @@ export function AdminSourcePage() {
           </form>
         </CardContent>
       </Card>
-    </AppShell>
+    </AdminShell>
   );
 }
 
@@ -431,8 +428,7 @@ export function AdminShlokaPage() {
   }
 
   return (
-    <AppShell title={strings.admin.shlokaTitle}>
-      <AdminBackLink />
+    <AdminShell>
       <AdminHeader title={strings.admin.shlokaTitle} subtitle={strings.admin.shlokaSubtitle} />
       <Card className="rounded-lg">
         <CardContent className="pt-6">
@@ -512,6 +508,21 @@ export function AdminShlokaPage() {
           )}
         </CardContent>
       </Card>
+    </AdminShell>
+  );
+}
+
+function AdminShell({
+  backTo = "/admin",
+  children,
+}: {
+  backTo?: "/admin" | "/settings";
+  children: ReactNode;
+}) {
+  return (
+    <AppShell showBottomNavigation={false}>
+      <AdminBackLink to={backTo} />
+      {children}
     </AppShell>
   );
 }
@@ -525,12 +536,11 @@ function AdminHeader({ subtitle, title }: { subtitle: string; title: string }) {
   );
 }
 
-function AdminBackLink() {
+function AdminBackLink({ to }: { to: "/admin" | "/settings" }) {
   return (
-    <Button asChild className="mb-4 w-fit" size="sm" variant="ghost">
-      <Link to="/admin">
-        <ArrowLeft />
-        {strings.admin.backToAdmin}
+    <Button asChild className="mb-4 size-12" size="icon-lg" variant="ghost">
+      <Link aria-label={strings.common.back} to={to}>
+        <ArrowLeft className="size-6" />
       </Link>
     </Button>
   );

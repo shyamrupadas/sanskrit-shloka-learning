@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it, vi } from "vitest";
@@ -270,7 +270,7 @@ describe("App auth and empty shell", () => {
     );
 
     await expectPath("/dashboard");
-    expect(await screen.findByText(session.account.email)).toBeInTheDocument();
+    expect(screen.queryByText(session.account.email)).not.toBeInTheDocument();
     expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /Добавить/ })).toHaveLength(1);
     expect(screen.queryByText(/серия/i)).not.toBeInTheDocument();
@@ -291,10 +291,11 @@ describe("App auth and empty shell", () => {
     await user.click(screen.getByRole("button", { name: "Войти" }));
 
     await expectPath("/dashboard");
-    expect(await screen.findByText(session.account.email)).toBeInTheDocument();
+    expect(screen.queryByText(session.account.email)).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("link", { name: "Настройки" }));
     await expectPath("/settings");
+    expect(await screen.findByText(session.account.email)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Выйти" }));
 
     await expectPath("/login");
@@ -389,6 +390,10 @@ describe("App auth and empty shell", () => {
 
     await expectPath("/admin");
     expect(await screen.findByRole("heading", { name: "Админка" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("href", "/settings");
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("data-size", "icon-lg");
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveClass("size-12");
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 
   it.each(["/admin", "/admin/sources/gita/edit", "/admin/shlokas/gita-chapter-2-2-47/edit", "/admin/sources/new"])(
@@ -423,7 +428,10 @@ describe("App auth and empty shell", () => {
 
     const sourceView = renderAppAt("/admin/sources/new");
 
-    expect(await screen.findByRole("link", { name: "Админка" })).toHaveAttribute("href", "/admin");
+    expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute("href", "/admin");
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("data-size", "icon-lg");
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveClass("size-12");
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
     await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
@@ -442,7 +450,8 @@ describe("App auth and empty shell", () => {
     sourceView.unmount();
     renderAppAt("/admin/shlokas/new");
 
-    expect(await screen.findByRole("link", { name: "Админка" })).toHaveAttribute("href", "/admin");
+    expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute("href", "/admin");
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
     await screen.findByLabelText("Источник");
     await user.selectOptions(screen.getByLabelText("Источник"), "gita");
     await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
@@ -496,7 +505,7 @@ describe("App auth and empty shell", () => {
     );
   });
 
-  it("shows the protected admin catalog without adding admin to bottom navigation", async () => {
+  it("shows the protected admin catalog with a back link and without bottom navigation", async () => {
     mockApi(successfulApi);
     window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
     window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
@@ -513,7 +522,8 @@ describe("App auth and empty shell", () => {
     expect(screen.getByText("Пустой источник")).toBeInTheDocument();
     expect(screen.getByText("empty · 0 шлок")).toBeInTheDocument();
     expect(screen.queryByText("Сначала создайте источник")).not.toBeInTheDocument();
-    expect(within(screen.getByRole("navigation")).queryByText("Админка")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("href", "/settings");
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Редактировать источник Бхагавад-гита" })).toHaveAttribute(
       "href",
       "/admin/sources/gita/edit",

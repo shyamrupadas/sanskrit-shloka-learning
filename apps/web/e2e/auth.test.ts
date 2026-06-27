@@ -41,7 +41,7 @@ test("registers and reaches the empty dashboard and library", async ({
   await page.getByRole("button", { name: "Зарегистрироваться" }).click();
 
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByText(session.account.email)).toBeVisible();
+  await expect(page.getByText(session.account.email)).toHaveCount(0);
   await expect(page.getByText("Пока нет добавленных шлок")).toBeVisible();
   await expect(page.getByText(/серия/i)).toHaveCount(0);
   await expect(page.getByText(/повторить/i)).toHaveCount(0);
@@ -67,10 +67,11 @@ test("logs in and logs out", async ({ page }) => {
   await page.getByRole("button", { name: "Войти" }).click();
 
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByText(session.account.email)).toBeVisible();
+  await expect(page.getByText(session.account.email)).toHaveCount(0);
 
   await page.getByRole("link", { name: "Настройки" }).click();
   await expect(page).toHaveURL(/\/settings$/);
+  await expect(page.getByText(session.account.email)).toBeVisible();
   await page.getByRole("button", { name: "Выйти" }).click();
 
   await expect(page).toHaveURL(/\/login$/);

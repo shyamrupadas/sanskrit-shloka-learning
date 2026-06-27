@@ -57,7 +57,7 @@ export function SettingsPage() {
   }
 
   return (
-    <AppShell title={strings.nav.settings}>
+    <AppShell>
       <section className="space-y-5">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-normal">

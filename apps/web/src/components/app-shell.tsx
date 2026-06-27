@@ -10,10 +10,13 @@ import { strings } from "@/shared/i18n";
 
 interface AppShellProps {
   children: ReactNode;
-  title: string;
+  showBottomNavigation?: boolean;
 }
 
-export function AppShell({ children, title }: AppShellProps) {
+export function AppShell({
+  children,
+  showBottomNavigation = true,
+}: AppShellProps) {
   const auth = useAuth();
   const router = useRouter();
 
@@ -40,28 +43,24 @@ export function AppShell({ children, title }: AppShellProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
-        <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-3 px-4 sm:px-6">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium">{title}</p>
-            <p className="truncate text-xs text-muted-foreground">
-              {auth.account?.email ?? strings.auth.sessionChecking}
-            </p>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-5 pb-28 sm:px-6">
+      <main
+        className={cn(
+          "mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-5 sm:px-6",
+          showBottomNavigation && "pb-28",
+        )}
+      >
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
-        <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-3 gap-2 px-4 py-2 sm:px-6">
-          <NavItem icon={<LayoutDashboard />} label={strings.nav.dashboard} to="/dashboard" />
-          <NavItem icon={<BookOpen />} label={strings.nav.library} to="/library" />
-          <NavItem icon={<Settings />} label={strings.nav.settings} to="/settings" />
-        </div>
-      </nav>
+      {showBottomNavigation ? (
+        <nav className="fixed inset-x-0 bottom-0 z-20 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
+          <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-3 gap-2 px-4 py-2 sm:px-6">
+            <NavItem icon={<LayoutDashboard />} label={strings.nav.dashboard} to="/dashboard" />
+            <NavItem icon={<BookOpen />} label={strings.nav.library} to="/library" />
+            <NavItem icon={<Settings />} label={strings.nav.settings} to="/settings" />
+          </div>
+        </nav>
+      ) : null}
     </div>
   );
 }

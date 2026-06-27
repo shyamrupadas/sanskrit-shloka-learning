@@ -27,7 +27,7 @@ export function DashboardPage() {
   useUnauthorizedRedirect(dashboardQuery.error);
 
   return (
-    <AppShell title={strings.nav.dashboard}>
+    <AppShell>
       <section className="space-y-5">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-normal">

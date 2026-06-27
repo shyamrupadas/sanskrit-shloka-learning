@@ -29,6 +29,7 @@ export const strings = {
     showPassword: "Показать пароль",
   },
   common: {
+    back: "Назад",
     error: "Не удалось загрузить данные",
     forbidden: "Недостаточно прав",
     loading: "Загрузка...",
@@ -38,7 +39,6 @@ export const strings = {
     addPart: "Добавить часть",
     adminSubtitle: "Пополняйте и исправляйте общую библиотеку шлок.",
     adminTitle: "Админка",
-    backToAdmin: "Админка",
     canonicalTextWarning:
       "Изменение канонического текста затронет всех пользователей общей библиотеки.",
     chapterCode: "Код главы",

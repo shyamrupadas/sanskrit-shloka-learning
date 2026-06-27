@@ -1,6 +1,7 @@
 # Настройки, hard mode и вход в админку
 
 Status: ready-for-human
+Accepted: 2026-06-27
 
 ## Родитель
 
