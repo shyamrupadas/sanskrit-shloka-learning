@@ -323,7 +323,7 @@ function methodNameFromRoute(method, path) {
     return `get${capitalize(toCamelCase(resourcePart))}`;
   }
 
-  if (isItemRoute && method === "patch") {
+  if (method === "patch") {
     return `update${capitalize(toCamelCase(resourcePart))}`;
   }
 

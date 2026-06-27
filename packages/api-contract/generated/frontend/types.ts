@@ -10,6 +10,10 @@ export interface AccountDto {
 
 export type AccountRole = "admin";
 
+export interface AccountSettingsDto {
+  hardMode: boolean;
+}
+
 export interface AdminCatalogDto {
   sources: AdminCatalogSourceDto[];
 }
@@ -173,6 +177,10 @@ export interface SourcePartOptionDto {
 }
 
 export type SourceStructureType = "none" | "chapters" | "parts";
+
+export interface UpdateAccountSettingsRequest {
+  hardMode: boolean;
+}
 
 export interface UpdateShlokaRequest {
   padas: string[];

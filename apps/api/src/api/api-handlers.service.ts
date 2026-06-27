@@ -1,8 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes, BackendContract } from "@sanskrit-shloka-learning/api-contract";
 
+import { AccountSettingsService } from "../accounts/account-settings.service.js";
 import { AuthService } from "../auth/auth.service.js";
-import { forbiddenError, unauthorizedError } from "../auth/api-error.js";
+import { forbiddenError, unauthorizedError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
 
 type AdminAuthorizationError =
@@ -13,6 +14,7 @@ type AdminAuthorizationError =
 export class ApiHandlersService implements BackendContract.ApiHandlers {
   constructor(
     @Inject(AuthService) private readonly auth: AuthService,
+    @Inject(AccountSettingsService) private readonly accountSettings: AccountSettingsService,
     @Inject(CatalogService) private readonly catalog: CatalogService,
   ) {}
 
@@ -30,6 +32,36 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
 
   async logout(request: BackendContract.LogoutRequest): Promise<BackendContract.LogoutResponse> {
     return this.auth.logout(request.authorization);
+  }
+
+  async getSettings(request: BackendContract.GetSettingsRequest): Promise<BackendContract.GetSettingsResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+
+    return {
+      status: 200,
+      body: await this.accountSettings.get(session.account.id),
+    };
+  }
+
+  async updateSettings(request: BackendContract.UpdateSettingsRequest): Promise<BackendContract.UpdateSettingsResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (typeof request.body?.hardMode !== "boolean") {
+      return {
+        status: 400,
+        body: validationError(["Hard mode должен быть логическим значением"]),
+      };
+    }
+
+    return {
+      status: 200,
+      body: await this.accountSettings.update(session.account.id, request.body),
+    };
   }
 
   async getDashboard(request: BackendContract.GetDashboardRequest): Promise<BackendContract.GetDashboardResponse> {

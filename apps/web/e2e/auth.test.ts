@@ -15,6 +15,9 @@ test("redirects protected routes to the login/register flow", async ({
   await page.goto("/library");
   await expect(page).toHaveURL(/\/login$/);
 
+  await page.goto("/settings");
+  await expect(page).toHaveURL(/\/login$/);
+
   await page.getByRole("link", { name: "Зарегистрироваться" }).click();
   await expect(page).toHaveURL(/\/register$/);
   await expect(
@@ -66,6 +69,8 @@ test("logs in and logs out", async ({ page }) => {
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText(session.account.email)).toBeVisible();
 
+  await page.getByRole("link", { name: "Настройки" }).click();
+  await expect(page).toHaveURL(/\/settings$/);
   await page.getByRole("button", { name: "Выйти" }).click();
 
   await expect(page).toHaveURL(/\/login$/);
@@ -153,6 +158,11 @@ async function mockApi(
 
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(route, 200, emptyLibrary);
+      return;
+    }
+
+    if (method === "GET" && url.pathname === "/api/account/settings") {
+      await fulfillJson(route, 200, { hardMode: false });
       return;
     }
 

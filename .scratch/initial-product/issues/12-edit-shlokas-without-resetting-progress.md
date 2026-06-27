@@ -23,6 +23,5 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/03-admin-catalog-list-and-editing.md`
 - `.scratch/initial-product/issues/05-shloka-library-and-to-learn-status.md`
 - `.scratch/initial-product/issues/10-review-flow-and-repetition-history.md`

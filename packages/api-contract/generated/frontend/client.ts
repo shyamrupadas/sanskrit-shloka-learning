@@ -21,6 +21,19 @@ export class ApiClient {
     this.#fetch = options.fetch ?? fetch;
   }
 
+  async getSettings(): Promise<Types.AccountSettingsDto> {
+    return this.#request<Types.AccountSettingsDto>("/api/account/settings", {
+      method: "GET"
+    });
+  }
+
+  async updateSettings(request: Types.UpdateAccountSettingsRequest): Promise<Types.AccountSettingsDto> {
+    return this.#request<Types.AccountSettingsDto>("/api/account/settings", {
+      method: "PATCH",
+      body: JSON.stringify(request)
+    });
+  }
+
   async shlokas(request: Types.CreateShlokaRequest): Promise<Types.LibraryShlokaDto> {
     return this.#request<Types.LibraryShlokaDto>("/api/admin/shlokas", {
       method: "POST",

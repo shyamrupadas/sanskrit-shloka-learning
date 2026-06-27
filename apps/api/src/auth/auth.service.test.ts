@@ -4,8 +4,10 @@ import { describe, test } from "node:test";
 import {
   type AccountRecord,
   type AccountRepository,
+  type AccountSettingsRecord,
   type CreateAccountInput,
   type CreateSessionInput,
+  type UpdateAccountSettingsInput,
 } from "../accounts/account.repository.js";
 import { AuthService } from "./auth.service.js";
 import { PasswordHasher } from "./password-hasher.js";
@@ -111,6 +113,14 @@ class DeferredAccountRepository implements AccountRepository {
     const deferred = new Deferred<AccountRecord | undefined>();
     this.lookups.push({ deferred, tokenHash });
     return deferred.promise;
+  }
+
+  async getAccountSettings(_accountId: string): Promise<AccountSettingsRecord> {
+    throw new Error("Not implemented");
+  }
+
+  async updateAccountSettings(_input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord> {
+    throw new Error("Not implemented");
   }
 
   async createSession(_input: CreateSessionInput): Promise<void> {

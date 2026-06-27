@@ -65,6 +65,19 @@ namespace SanskritShlokaLearning {
     accessToken: string;
   }
 
+  model AccountSettingsDto {
+    hardMode: boolean;
+  }
+
+  model UpdateAccountSettingsRequest {
+    hardMode: boolean;
+  }
+
+  model OkAccountSettingsResponse {
+    @statusCode statusCode: 200;
+    @body settings: AccountSettingsDto;
+  }
+
   model RegisterRequest {
     email: string;
 
@@ -341,6 +354,20 @@ namespace SanskritShlokaLearning {
     @get
     op getDashboard(@header authorization?: string):
       OkDashboardResponse | UnauthorizedResponse;
+  }
+
+  @tag("Account")
+  @route("/account")
+  namespace Account {
+    @get
+    @route("/settings")
+    op getAccountSettings(@header authorization?: string):
+      OkAccountSettingsResponse | UnauthorizedResponse;
+
+    @patch
+    @route("/settings")
+    op updateAccountSettings(@header authorization?: string, @body request: UpdateAccountSettingsRequest):
+      OkAccountSettingsResponse | ValidationErrorResponse | UnauthorizedResponse;
   }
 
   @tag("Library")

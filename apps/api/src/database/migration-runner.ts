@@ -79,37 +79,38 @@ async function applyMigration(
   migration: Migration,
   checksum: string,
 ): Promise<void> {
-  await client.query("begin");
-  let failedStatementIndex = -1;
-  let failedStatement = "";
+  const batch = renderMigrationBatch(migration, checksum);
 
   try {
-    for (const [index, statement] of migration.statements.entries()) {
-      failedStatementIndex = index;
-      failedStatement = statement;
-      await client.query(statement);
-    }
-
-    await client.query("insert into schema_migrations (id, checksum) values ($1, $2)", [
-      migration.id,
-      checksum,
-    ]);
-    await client.query("commit");
+    await client.query(batch);
   } catch (error) {
     try {
       await client.query("rollback");
     } catch (rollbackError) {
       throw new Error(
-        `Failed to roll back database migration ${migration.id} after statement ${failedStatementIndex + 1}: ${formatError(rollbackError)}`,
+        `Failed to roll back database migration ${migration.id}: ${formatError(rollbackError)}`,
         { cause: error },
       );
     }
 
     throw new Error(
-      `Failed to apply database migration ${migration.id} at statement ${failedStatementIndex + 1} (${summarizeStatement(failedStatement)}): ${formatError(error)}`,
+      `Failed to apply database migration ${migration.id} as a transactional batch: ${formatError(error)}`,
       { cause: error },
     );
   }
+}
+
+function renderMigrationBatch(migration: Migration, checksum: string): string {
+  return [
+    "begin",
+    ...migration.statements,
+    `insert into schema_migrations (id, checksum) values (${quoteSqlLiteral(migration.id)}, ${quoteSqlLiteral(checksum)})`,
+    "commit",
+  ].join(";\n");
+}
+
+function quoteSqlLiteral(value: string): string {
+  return `'${value.replaceAll("'", "''")}'`;
 }
 
 function validateMigrations(migrations: readonly Migration[]): void {
@@ -127,15 +128,6 @@ function validateMigrations(migrations: readonly Migration[]): void {
     ids.add(migration.id);
     previousId = migration.id;
   }
-}
-
-function summarizeStatement(statement: string): string {
-  const normalizedStatement = statement.trim().replaceAll(/\s+/g, " ");
-  if (normalizedStatement.length <= 120) {
-    return normalizedStatement;
-  }
-
-  return `${normalizedStatement.slice(0, 117)}...`;
 }
 
 function formatError(error: unknown): string {

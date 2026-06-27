@@ -12,6 +12,9 @@
       "name": "Dashboard"
     },
     {
+      "name": "Account"
+    },
+    {
       "name": "Library"
     },
     {
@@ -19,6 +22,104 @@
     }
   ],
   "paths": {
+    "/api/account/settings": {
+      "get": {
+        "operationId": "Account_getAccountSettings",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AccountSettingsDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
+      },
+      "patch": {
+        "operationId": "Account_updateAccountSettings",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.AccountSettingsDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.UpdateAccountSettingsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/admin/catalog": {
       "get": {
         "operationId": "Admin_getAdminCatalog",
@@ -883,6 +984,17 @@
           "admin"
         ]
       },
+      "SanskritShlokaLearning.AccountSettingsDto": {
+        "type": "object",
+        "required": [
+          "hardMode"
+        ],
+        "properties": {
+          "hardMode": {
+            "type": "boolean"
+          }
+        }
+      },
       "SanskritShlokaLearning.AdminCatalogDto": {
         "type": "object",
         "required": [
@@ -1489,6 +1601,17 @@
           "chapters",
           "parts"
         ]
+      },
+      "SanskritShlokaLearning.UpdateAccountSettingsRequest": {
+        "type": "object",
+        "required": [
+          "hardMode"
+        ],
+        "properties": {
+          "hardMode": {
+            "type": "boolean"
+          }
+        }
       },
       "SanskritShlokaLearning.UpdateShlokaRequest": {
         "type": "object",

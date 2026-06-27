@@ -22,3 +22,19 @@ describe("generated OpenAPI admin contract", () => {
     }
   });
 });
+
+describe("generated OpenAPI account settings contract", () => {
+  test("exposes authenticated read and update operations for hard mode", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const settingsPath = openApi.paths?.["/api/account/settings"];
+
+    assert.ok(settingsPath?.get);
+    assert.ok(settingsPath?.patch);
+    assert.equal(settingsPath.get.parameters?.[0]?.name, "authorization");
+    assert.equal(settingsPath.patch.parameters?.[0]?.name, "authorization");
+    assert.equal(
+      settingsPath.patch.requestBody?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.UpdateAccountSettingsRequest",
+    );
+  });
+});

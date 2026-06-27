@@ -11,6 +11,7 @@ import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, A
 import { DashboardPage } from "@/pages/dashboard-page";
 import { LibraryPage } from "@/pages/library-page";
 import { LoginPage, RegisterPage } from "@/pages/auth-pages";
+import { SettingsPage } from "@/pages/settings-page";
 
 interface RouterContext {
   auth: AuthContextValue;
@@ -72,6 +73,17 @@ const libraryRoute = createRoute({
   path: "library",
 });
 
+const settingsRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    if (!context.auth.hasSession) {
+      throw redirect({ to: "/login" });
+    }
+  },
+  component: SettingsPage,
+  getParentRoute: () => rootRoute,
+  path: "settings",
+});
+
 const adminRoute = createRoute({
   beforeLoad: ({ context }) => {
     requireAdmin(context.auth);
@@ -123,6 +135,7 @@ const routeTree = rootRoute.addChildren([
   registerRoute,
   dashboardRoute,
   libraryRoute,
+  settingsRoute,
   adminRoute,
   adminSourceRoute,
   adminSourceEditRoute,

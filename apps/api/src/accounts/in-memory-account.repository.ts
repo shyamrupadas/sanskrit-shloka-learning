@@ -1,9 +1,11 @@
 import {
   type AccountRecord,
   type AccountRepository,
+  type AccountSettingsRecord,
   type CreateAccountInput,
   type CreateSessionInput,
   EmailAlreadyRegisteredError,
+  type UpdateAccountSettingsInput,
 } from "./account.repository.js";
 
 interface SessionRecord {
@@ -14,6 +16,7 @@ interface SessionRecord {
 export class InMemoryAccountRepository implements AccountRepository {
   private readonly accountsByEmail = new Map<string, AccountRecord>();
   private readonly accountsById = new Map<string, AccountRecord>();
+  private readonly settingsByAccountId = new Map<string, AccountSettingsRecord>();
   private readonly sessionsByTokenHash = new Map<string, SessionRecord>();
 
   async createAccount(input: CreateAccountInput): Promise<AccountRecord> {
@@ -30,6 +33,7 @@ export class InMemoryAccountRepository implements AccountRepository {
 
     this.accountsByEmail.set(account.email, account);
     this.accountsById.set(account.id, account);
+    this.settingsByAccountId.set(account.id, { hardMode: false });
 
     return account;
   }
@@ -45,6 +49,25 @@ export class InMemoryAccountRepository implements AccountRepository {
     }
 
     return this.accountsById.get(session.accountId);
+  }
+
+  async getAccountSettings(accountId: string): Promise<AccountSettingsRecord> {
+    const settings = this.settingsByAccountId.get(accountId);
+    if (!settings) {
+      throw new Error(`Account settings not found: ${accountId}`);
+    }
+
+    return { ...settings };
+  }
+
+  async updateAccountSettings(input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord> {
+    if (!this.accountsById.has(input.accountId)) {
+      throw new Error(`Account settings not found: ${input.accountId}`);
+    }
+
+    const settings = { hardMode: input.hardMode };
+    this.settingsByAccountId.set(input.accountId, settings);
+    return { ...settings };
   }
 
   async createSession(input: CreateSessionInput): Promise<void> {

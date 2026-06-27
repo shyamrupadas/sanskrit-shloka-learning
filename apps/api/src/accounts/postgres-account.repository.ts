@@ -4,9 +4,11 @@ import { DatabaseService } from "../database/database.service.js";
 import {
   type AccountRecord,
   type AccountRepository,
+  type AccountSettingsRecord,
   type CreateAccountInput,
   type CreateSessionInput,
   EmailAlreadyRegisteredError,
+  type UpdateAccountSettingsInput,
 } from "./account.repository.js";
 
 interface AccountRow {
@@ -14,6 +16,10 @@ interface AccountRow {
   email: string;
   password_hash: string;
   roles: string[] | null;
+}
+
+interface AccountSettingsRow {
+  hard_mode: boolean;
 }
 
 @Injectable()
@@ -89,6 +95,29 @@ export class PostgresAccountRepository implements AccountRepository {
     return row ? mapAccountRow(row) : undefined;
   }
 
+  async getAccountSettings(accountId: string): Promise<AccountSettingsRecord> {
+    const result = await this.database.fastReadQuery<AccountSettingsRow>(
+      "select hard_mode from accounts where id = $1",
+      [accountId],
+    );
+
+    return mapAccountSettingsRow(result.rows[0]);
+  }
+
+  async updateAccountSettings(input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord> {
+    const result = await this.database.query<AccountSettingsRow>(
+      `
+        update accounts
+        set hard_mode = $2
+        where id = $1
+        returning hard_mode
+      `,
+      [input.accountId, input.hardMode],
+    );
+
+    return mapAccountSettingsRow(result.rows[0]);
+  }
+
   async createSession(input: CreateSessionInput): Promise<void> {
     await this.database.query(
       `
@@ -114,6 +143,16 @@ function mapAccountRow(row: AccountRow | undefined): AccountRecord {
     email: row.email,
     passwordHash: row.password_hash,
     roles: (row.roles ?? []).filter((role): role is AccountRecord["roles"][number] => role === "admin"),
+  };
+}
+
+function mapAccountSettingsRow(row: AccountSettingsRow | undefined): AccountSettingsRecord {
+  if (!row) {
+    throw new Error("Expected account settings row");
+  }
+
+  return {
+    hardMode: row.hard_mode,
   };
 }
 

@@ -1,11 +1,10 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation, useRouter } from "@tanstack/react-router";
-import { BookOpen, LayoutDashboard, LogOut } from "lucide-react";
+import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 
 import { isUnauthorizedError } from "@/api/errors";
 import { useAuth } from "@/auth/auth-context";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { strings } from "@/shared/i18n";
 
@@ -17,7 +16,6 @@ interface AppShellProps {
 export function AppShell({ children, title }: AppShellProps) {
   const auth = useAuth();
   const router = useRouter();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const sessionQuery = useQuery({
     enabled: auth.hasSession,
@@ -40,37 +38,16 @@ export function AppShell({ children, title }: AppShellProps) {
     void router.navigate({ replace: true, to: "/login" });
   }, [auth, router, sessionQuery.error]);
 
-  async function handleLogout() {
-    setIsLoggingOut(true);
-
-    try {
-      await auth.logout();
-      await router.navigate({ replace: true, to: "/login" });
-    } finally {
-      setIsLoggingOut(false);
-    }
-  }
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
-        <div className="mx-auto flex h-14 w-full max-w-3xl items-center justify-between gap-3 px-4 sm:px-6">
+        <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-3 px-4 sm:px-6">
           <div className="min-w-0">
             <p className="truncate text-sm font-medium">{title}</p>
             <p className="truncate text-xs text-muted-foreground">
               {auth.account?.email ?? strings.auth.sessionChecking}
             </p>
           </div>
-          <Button
-            aria-label={strings.auth.logout}
-            disabled={isLoggingOut}
-            onClick={handleLogout}
-            size="icon"
-            type="button"
-            variant="ghost"
-          >
-            <LogOut />
-          </Button>
         </div>
       </header>
 
@@ -79,9 +56,10 @@ export function AppShell({ children, title }: AppShellProps) {
       </main>
 
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
-        <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-2 gap-2 px-4 py-2 sm:px-6">
+        <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-3 gap-2 px-4 py-2 sm:px-6">
           <NavItem icon={<LayoutDashboard />} label={strings.nav.dashboard} to="/dashboard" />
           <NavItem icon={<BookOpen />} label={strings.nav.library} to="/library" />
+          <NavItem icon={<Settings />} label={strings.nav.settings} to="/settings" />
         </div>
       </nav>
     </div>
@@ -95,7 +73,7 @@ function NavItem({
 }: {
   icon: ReactNode;
   label: string;
-  to: "/dashboard" | "/library";
+  to: "/dashboard" | "/library" | "/settings";
 }) {
   const location = useLocation();
   const isActive = location.pathname === to;

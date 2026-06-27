@@ -20,10 +20,21 @@ export interface CreateSessionInput {
   expiresAt: Date;
 }
 
+export interface AccountSettingsRecord {
+  hardMode: boolean;
+}
+
+export interface UpdateAccountSettingsInput {
+  accountId: string;
+  hardMode: boolean;
+}
+
 export interface AccountRepository {
   createAccount(input: CreateAccountInput): Promise<AccountRecord>;
   findAccountByEmail(email: string): Promise<AccountRecord | undefined>;
   findAccountBySessionTokenHash(tokenHash: string, now: Date): Promise<AccountRecord | undefined>;
+  getAccountSettings(accountId: string): Promise<AccountSettingsRecord>;
+  updateAccountSettings(input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord>;
   createSession(input: CreateSessionInput): Promise<void>;
   deleteSessionByTokenHash(tokenHash: string): Promise<void>;
 }

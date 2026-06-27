@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { AccountSettingsService } from "../accounts/account-settings.service.js";
 import { InMemoryAccountRepository } from "../accounts/in-memory-account.repository.js";
 import { AuthService } from "../auth/auth.service.js";
 import { PasswordHasher } from "../auth/password-hasher.js";
@@ -120,14 +121,75 @@ describe("ApiHandlersService auth", () => {
 });
 
 describe("ApiHandlersService protected resources", () => {
-  test("requires authorization for dashboard and library", async () => {
+  test("requires authorization for dashboard, library, and account settings", async () => {
     const handlers = createHandlers();
 
     const dashboardResponse = await handlers.getDashboard({});
     const libraryResponse = await handlers.getLibrary({});
+    const settingsResponse = await handlers.getSettings({});
+    const updateSettingsResponse = await handlers.updateSettings({
+      body: { hardMode: true },
+    });
 
     assert.equal(dashboardResponse.status, 401);
     assert.equal(libraryResponse.status, 401);
+    assert.equal(settingsResponse.status, 401);
+    assert.equal(updateSettingsResponse.status, 401);
+  });
+
+  test("saves hard mode between sessions without changing MVP dashboard behavior", async () => {
+    const handlers = createHandlers();
+    const registerResponse = await handlers.register({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(registerResponse.status, 201);
+    const firstAuthorization = `Bearer ${registerResponse.body.accessToken}`;
+
+    const initialSettings = await handlers.getSettings({
+      authorization: firstAuthorization,
+    });
+    assert.deepEqual(initialSettings, {
+      status: 200,
+      body: { hardMode: false },
+    });
+    const dashboardBeforeUpdate = await handlers.getDashboard({
+      authorization: firstAuthorization,
+    });
+
+    const updatedSettings = await handlers.updateSettings({
+      authorization: firstAuthorization,
+      body: { hardMode: true },
+    });
+    assert.deepEqual(updatedSettings, {
+      status: 200,
+      body: { hardMode: true },
+    });
+
+    assert.equal((await handlers.logout({ authorization: firstAuthorization })).status, 204);
+    const loginResponse = await handlers.login({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+      },
+    });
+    assert.equal(loginResponse.status, 200);
+    const secondAuthorization = `Bearer ${loginResponse.body.accessToken}`;
+
+    assert.deepEqual(
+      await handlers.getSettings({ authorization: secondAuthorization }),
+      {
+        status: 200,
+        body: { hardMode: true },
+      },
+    );
+    assert.deepEqual(
+      await handlers.getDashboard({ authorization: secondAuthorization }),
+      dashboardBeforeUpdate,
+    );
   });
 
   test("returns empty dashboard and library for a new account", async () => {
@@ -710,9 +772,10 @@ function createHandlers(): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
   const auth = new AuthService(accounts, passwordHasher);
+  const accountSettings = new AccountSettingsService(accounts);
   const catalog = new CatalogService(new InMemoryCatalogRepository());
 
-  return Object.assign(new ApiHandlersService(auth, catalog), { accounts });
+  return Object.assign(new ApiHandlersService(auth, accountSettings, catalog), { accounts });
 }
 
 async function createAdminHandlers(): Promise<{

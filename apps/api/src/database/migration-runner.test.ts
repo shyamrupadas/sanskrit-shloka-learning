@@ -60,8 +60,7 @@ describe("runMigrations", () => {
       runMigrations(client, [migration("0001_first", ["create table broken_table"])], silentLogger),
       (error: unknown) => {
         assert.ok(error instanceof Error);
-        assert.match(error.message, /Failed to apply database migration 0001_first at statement 1/);
-        assert.match(error.message, /create table broken_table/);
+        assert.match(error.message, /Failed to apply database migration 0001_first as a transactional batch/);
         assert.match(error.message, /Failed statement: create table broken_table/);
         return true;
       },
@@ -71,11 +70,28 @@ describe("runMigrations", () => {
     assert.equal(client.commitCount, 0);
     assert.equal(client.appliedMigrations.has("0001_first"), false);
   });
+
+  test("sends each migration transaction in one database round trip", async () => {
+    const client = new FakeMigrationClient();
+
+    await runMigrations(
+      client,
+      [migration("0001_first", ["create table first_table", "create index first_index"])],
+      silentLogger,
+    );
+
+    assert.equal(client.migrationBatches.length, 1);
+    assert.match(
+      client.migrationBatches[0] ?? "",
+      /^begin; create table first_table; create index first_index; insert into schema_migrations .*; commit$/,
+    );
+  });
 });
 
 class FakeMigrationClient implements MigrationExecutor {
   readonly appliedMigrations = new Map<string, string>();
   readonly executedStatements: string[] = [];
+  readonly migrationBatches: string[] = [];
   commitCount = 0;
   rollbackCount = 0;
 
@@ -83,18 +99,10 @@ class FakeMigrationClient implements MigrationExecutor {
 
   async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
-    values: readonly unknown[] = [],
+    _values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
     const statement = normalizeSql(text);
-    this.executedStatements.push(statement);
 
-    if (statement === "begin") {
-      return result([]);
-    }
-    if (statement === "commit") {
-      this.commitCount += 1;
-      return result([]);
-    }
     if (statement === "rollback") {
       this.rollbackCount += 1;
       return result([]);
@@ -109,14 +117,30 @@ class FakeMigrationClient implements MigrationExecutor {
       }));
       return result(rows as unknown as Row[]);
     }
-    if (statement === "insert into schema_migrations (id, checksum) values ($1, $2)") {
-      this.appliedMigrations.set(String(values[0]), String(values[1]));
+    if (statement.startsWith("begin;")) {
+      this.migrationBatches.push(statement);
+      const migrationStatements = [...statement.matchAll(/create (?:table|index) [a-z0-9_]+/g)]
+        .map((match) => match[0])
+        .filter((migrationStatement) => !migrationStatement.includes("schema_migrations"));
+      this.executedStatements.push(...migrationStatements);
+
+      if (this.options.failOnStatement && migrationStatements.includes(this.options.failOnStatement)) {
+        throw new Error(`Failed statement: ${this.options.failOnStatement}`);
+      }
+
+      const record = statement.match(
+        /insert into schema_migrations \(id, checksum\) values \('((?:''|[^'])*)', '((?:''|[^'])*)'\)/,
+      );
+      if (!record) {
+        throw new Error("Migration batch does not record its checksum");
+      }
+
+      this.appliedMigrations.set(unquoteSqlLiteral(record[1] ?? ""), unquoteSqlLiteral(record[2] ?? ""));
+      this.commitCount += 1;
       return result([]);
     }
-    if (this.options.failOnStatement && statement === this.options.failOnStatement) {
-      throw new Error(`Failed statement: ${statement}`);
-    }
 
+    this.executedStatements.push(statement);
     return result([]);
   }
 }
@@ -127,6 +151,10 @@ function migration(id: string, statements: readonly string[]): Migration {
 
 function normalizeSql(text: string): string {
   return text.trim().replaceAll(/\s+/g, " ").toLowerCase();
+}
+
+function unquoteSqlLiteral(value: string): string {
+  return value.replaceAll("''", "'");
 }
 
 function result<Row extends pg.QueryResultRow>(rows: Row[]): pg.QueryResult<Row> {

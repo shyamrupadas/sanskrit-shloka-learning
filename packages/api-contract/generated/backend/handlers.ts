@@ -8,6 +8,15 @@ export type ApiHandlerResponse<TStatus extends number, TBody = undefined> = TBod
   ? { status: TStatus }
   : { status: TStatus; body: TBody };
 
+export interface GetSettingsRequest {
+  authorization?: string;
+}
+
+export interface UpdateSettingsRequest {
+  body: Types.UpdateAccountSettingsRequest;
+  authorization?: string;
+}
+
 export interface ShlokasRequest {
   body: Types.CreateShlokaRequest;
   authorization?: string;
@@ -72,6 +81,8 @@ export interface GetLibraryRequest {
   authorization?: string;
 }
 
+export type GetSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsDto> | ApiHandlerResponse<401, Types.ApiError>;
+export type UpdateSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type SourcesResponse = ApiHandlerResponse<201, Types.SourceOptionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type GetCatalogResponse = ApiHandlerResponse<200, Types.AdminCatalogDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
@@ -88,6 +99,8 @@ export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardD
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
 
 export interface ApiHandlers {
+  getSettings(request: GetSettingsRequest): Promise<GetSettingsResponse> | GetSettingsResponse;
+  updateSettings(request: UpdateSettingsRequest): Promise<UpdateSettingsResponse> | UpdateSettingsResponse;
   shlokas(request: ShlokasRequest): Promise<ShlokasResponse> | ShlokasResponse;
   sources(request: SourcesRequest): Promise<SourcesResponse> | SourcesResponse;
   getCatalog(request: GetCatalogRequest): Promise<GetCatalogResponse> | GetCatalogResponse;

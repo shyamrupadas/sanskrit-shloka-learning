@@ -36,6 +36,10 @@ const emptyDashboard = {
   },
 } satisfies ApiTypes.EmptyDashboardDto;
 
+const defaultSettings = {
+  hardMode: false,
+} satisfies ApiTypes.AccountSettingsDto;
+
 const emptyLibrary = {
   defaultTab: "reviewing",
   allShlokas: [],
@@ -289,6 +293,8 @@ describe("App auth and empty shell", () => {
     await expectPath("/dashboard");
     expect(await screen.findByText(session.account.email)).toBeInTheDocument();
 
+    await user.click(screen.getByRole("link", { name: "Настройки" }));
+    await expectPath("/settings");
     await user.click(screen.getByRole("button", { name: "Выйти" }));
 
     await expectPath("/login");
@@ -296,7 +302,7 @@ describe("App auth and empty shell", () => {
     expect(window.localStorage.getItem(accountStorageKey)).toBeNull();
   });
 
-  it.each(["/dashboard", "/library"])(
+  it.each(["/dashboard", "/library", "/settings"])(
     "redirects unauthenticated %s visits to the login/register flow",
     async (path) => {
       const user = userEvent.setup();
@@ -315,6 +321,75 @@ describe("App auth and empty shell", () => {
       ).toBeInTheDocument();
     },
   );
+
+  it("reads and saves hard mode from account settings", async () => {
+    const user = userEvent.setup();
+    let hardMode = false;
+    let updateBody: unknown;
+    const fetchMock = mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/account/settings") {
+        return { status: 200, body: { hardMode } };
+      }
+      if (request.method === "PATCH" && request.path === "/api/account/settings") {
+        updateBody = request.body;
+        hardMode = (request.body as ApiTypes.UpdateAccountSettingsRequest).hardMode;
+        return { status: 200, body: { hardMode } };
+      }
+
+      return successfulApi(request);
+    });
+    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+
+    const settingsView = renderAppAt("/settings");
+
+    const hardModeToggle = await screen.findByRole("switch", {
+      name: "Интенсивный режим повторения",
+    });
+    expect(hardModeToggle).not.toBeChecked();
+    expect(screen.queryByRole("link", { name: "Админка" })).not.toBeInTheDocument();
+
+    await user.click(hardModeToggle);
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Настройка сохранена");
+    expect(hardModeToggle).toBeChecked();
+    expect(updateBody).toEqual({ hardMode: true });
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/account/settings",
+      expect.objectContaining({ method: "PATCH" }),
+    );
+
+    settingsView.unmount();
+    renderAppAt("/settings");
+
+    expect(
+      await screen.findByRole("switch", {
+        name: "Интенсивный режим повторения",
+      }),
+    ).toBeChecked();
+  });
+
+  it("shows the admin action only to admins and opens the protected catalog", async () => {
+    const user = userEvent.setup();
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return { status: 200, body: adminSession };
+      }
+
+      return successfulApi(request);
+    });
+    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
+    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+
+    renderAppAt("/settings");
+
+    const adminAction = await screen.findByRole("link", { name: "Админка" });
+    expect(adminAction).toHaveAttribute("href", "/admin");
+    await user.click(adminAction);
+
+    await expectPath("/admin");
+    expect(await screen.findByRole("heading", { name: "Админка" })).toBeInTheDocument();
+  });
 
   it.each(["/admin", "/admin/sources/gita/edit", "/admin/shlokas/gita-chapter-2-2-47/edit", "/admin/sources/new"])(
     "redirects regular users away from direct admin route %s",
@@ -642,6 +717,14 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
 
   if (method === "GET" && path === "/api/dashboard") {
     return { status: 200, body: emptyDashboard };
+  }
+
+  if (method === "GET" && path === "/api/account/settings") {
+    return { status: 200, body: defaultSettings };
+  }
+
+  if (method === "PATCH" && path === "/api/account/settings") {
+    return { status: 200, body: defaultSettings };
   }
 
   if (method === "GET" && path === "/api/library") {
