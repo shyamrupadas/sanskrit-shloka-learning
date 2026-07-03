@@ -4,7 +4,7 @@ Status: ready-for-agent
 
 ## Родитель
 
-`docs/prd/0001-initial-product.md`
+`.scratch/initial-product/PRD.md`
 
 ## Что сделать
 
@@ -21,4 +21,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-Нет - можно начинать сразу
+- `.scratch/frontend-evolution-design/issues/09-verify-ed-small-migration.md`

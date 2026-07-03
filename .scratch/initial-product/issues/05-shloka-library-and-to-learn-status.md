@@ -4,7 +4,7 @@ Status: ready-for-human
 
 ## Родитель
 
-`docs/prd/0001-initial-product.md`
+`.scratch/initial-product/PRD.md`
 
 ## Что сделать
 
