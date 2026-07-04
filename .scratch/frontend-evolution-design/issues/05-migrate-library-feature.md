@@ -26,4 +26,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/03-migrate-dashboard-protected-layout.md`
+Нет - можно начинать сразу

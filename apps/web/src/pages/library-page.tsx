@@ -4,7 +4,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Plus, X, type LucideIcon } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -53,8 +52,7 @@ export function LibraryPage() {
   }, [libraryQuery.data]);
 
   return (
-    <AppShell>
-      <section className="space-y-5">
+    <section className="space-y-5">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-normal">
             {strings.library.title}
@@ -101,8 +99,7 @@ export function LibraryPage() {
             ))}
           </Tabs>
         )}
-      </section>
-    </AppShell>
+    </section>
   );
 }
 
@@ -116,8 +113,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   useUnauthorizedRedirect(shlokaQuery.error);
 
   return (
-    <AppShell>
-      <section className="space-y-5">
+    <section className="space-y-5">
         <div>
           <Button asChild size="sm" variant="outline">
             <Link activeOptions={{ exact: true }} to={routePaths.library}>
@@ -156,8 +152,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
             </div>
           </article>
         )}
-      </section>
-    </AppShell>
+    </section>
   );
 }
 

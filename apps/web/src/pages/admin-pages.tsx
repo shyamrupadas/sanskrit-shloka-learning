@@ -4,7 +4,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Pencil, Plus, TriangleAlert } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -527,10 +526,10 @@ function AdminShell({
   children: ReactNode;
 }) {
   return (
-    <AppShell showBottomNavigation={false}>
+    <>
       <AdminBackLink to={backTo} />
       {children}
-    </AppShell>
+    </>
   );
 }
 

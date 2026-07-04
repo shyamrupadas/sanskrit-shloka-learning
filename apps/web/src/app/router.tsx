@@ -6,11 +6,15 @@ import {
   redirect,
 } from "@tanstack/react-router";
 
-import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
-import { DashboardPage } from "@/pages/dashboard-page";
-import { LibraryPage, ShlokaPage } from "@/pages/library-page";
+import {
+  AdminLayout,
+  AuthenticatedLayout,
+} from "@/app/layouts/protected-layouts";
 import { LoginPage } from "@/features/auth/login.page";
 import { RegisterPage } from "@/features/auth/register.page";
+import { DashboardPage } from "@/features/dashboard/dashboard.page";
+import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
+import { LibraryPage, ShlokaPage } from "@/pages/library-page";
 import { SettingsPage } from "@/pages/settings-page";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
@@ -55,92 +59,75 @@ const registerRoute = createRoute({
   path: routeSegments.register,
 });
 
-const dashboardRoute = createRoute({
+const authenticatedRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (!context.session.hasSession) {
-      throw redirect({ to: routePaths.login });
-    }
+    requireAuthentication(context.session);
   },
-  component: DashboardPage,
+  component: AuthenticatedLayout,
   getParentRoute: () => rootRoute,
+  id: "authenticated",
+});
+
+const dashboardRoute = createRoute({
+  component: DashboardPage,
+  getParentRoute: () => authenticatedRoute,
   path: routeSegments.dashboard,
 });
 
 const libraryRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    if (!context.session.hasSession) {
-      throw redirect({ to: routePaths.login });
-    }
-  },
   component: LibraryPage,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => authenticatedRoute,
   path: routeSegments.library,
 });
 
 const shlokaRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    if (!context.session.hasSession) {
-      throw redirect({ to: routePaths.login });
-    }
-  },
   component: ShlokaRoute,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => authenticatedRoute,
   path: routeSegments.libraryShloka,
 });
 
 const settingsRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    if (!context.session.hasSession) {
-      throw redirect({ to: routePaths.login });
-    }
-  },
   component: SettingsPage,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => authenticatedRoute,
   path: routeSegments.settings,
 });
 
-const adminRoute = createRoute({
+const adminLayoutRoute = createRoute({
   beforeLoad: ({ context }) => {
     requireAdmin(context.session);
   },
-  component: AdminPage,
+  component: AdminLayout,
   getParentRoute: () => rootRoute,
+  id: "admin-layout",
+});
+
+const adminRoute = createRoute({
+  component: AdminPage,
+  getParentRoute: () => adminLayoutRoute,
   path: routeSegments.admin,
 });
 
 const adminSourceRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAdmin(context.session);
-  },
   component: AdminSourcePage,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminSourceNew,
 });
 
 const adminSourceEditRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAdmin(context.session);
-  },
   component: AdminSourceEditRoute,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminSourceEdit,
 });
 
 const adminShlokaRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAdmin(context.session);
-  },
   component: AdminShlokaPage,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminShlokaNew,
 });
 
 const adminShlokaEditRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAdmin(context.session);
-  },
   component: AdminShlokaEditRoute,
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminShlokaEdit,
 });
 
@@ -148,15 +135,19 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
-  dashboardRoute,
-  libraryRoute,
-  shlokaRoute,
-  settingsRoute,
-  adminRoute,
-  adminSourceRoute,
-  adminSourceEditRoute,
-  adminShlokaRoute,
-  adminShlokaEditRoute,
+  authenticatedRoute.addChildren([
+    dashboardRoute,
+    libraryRoute,
+    shlokaRoute,
+    settingsRoute,
+  ]),
+  adminLayoutRoute.addChildren([
+    adminRoute,
+    adminSourceRoute,
+    adminSourceEditRoute,
+    adminShlokaRoute,
+    adminShlokaEditRoute,
+  ]),
 ]);
 
 export function createAppRouter() {
@@ -187,10 +178,14 @@ function AdminShlokaEditRoute() {
   return <AdminShlokaEditPage shlokaCode={shlokaCode} />;
 }
 
-function requireAdmin(session: SessionContextValue): void {
+function requireAuthentication(session: SessionContextValue): void {
   if (!session.hasSession) {
     throw redirect({ to: routePaths.login });
   }
+}
+
+function requireAdmin(session: SessionContextValue): void {
+  requireAuthentication(session);
 
   if (!session.account?.roles.includes("admin")) {
     throw redirect({ to: routePaths.dashboard });

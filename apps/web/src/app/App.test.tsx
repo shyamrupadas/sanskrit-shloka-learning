@@ -187,7 +187,10 @@ describe("App auth and empty shell", () => {
     renderAppAt("/");
 
     await expectPath("/dashboard");
-    expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+    const navigation = await screen.findByRole("navigation");
+    expect(
+      within(navigation).getByRole("link", { name: "Дашборд" }),
+    ).toHaveAttribute("aria-current", "page");
   });
 
   it.each(["/login", "/register"])(
@@ -199,9 +202,35 @@ describe("App auth and empty shell", () => {
       renderAppAt(path);
 
       await expectPath("/dashboard");
-      expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+      const navigation = await screen.findByRole("navigation");
+      expect(
+        within(navigation).getByRole("link", { name: "Дашборд" }),
+      ).toHaveAttribute("aria-current", "page");
     },
   );
+
+  it("opens the authenticated dashboard layout after login", async () => {
+    const user = userEvent.setup();
+    mockApi(successfulApi);
+
+    renderAppAt("/login");
+
+    await user.type(
+      await screen.findByLabelText("Email"),
+      session.account.email,
+    );
+    await user.type(
+      screen.getByLabelText("Пароль", { selector: "input" }),
+      "correct-password",
+    );
+    await user.click(screen.getByRole("button", { name: "Войти" }));
+
+    await expectPath("/dashboard");
+    const navigation = await screen.findByRole("navigation");
+    expect(
+      within(navigation).getByRole("link", { name: "Дашборд" }),
+    ).toHaveAttribute("aria-current", "page");
+  });
 
   it("logs out from settings and clears the saved session", async () => {
     const user = userEvent.setup();
@@ -236,7 +265,7 @@ describe("App auth and empty shell", () => {
     expectStoredSessionCleared();
   });
 
-  it.each(["/dashboard", "/library", "/settings"])(
+  it.each(["/dashboard", "/library", "/settings", "/admin"])(
     "redirects unauthenticated %s visits to the login/register flow",
     async (path) => {
       const user = userEvent.setup();
@@ -483,7 +512,10 @@ describe("App auth and empty shell", () => {
       renderAppAt(path);
 
       await expectPath("/dashboard");
-      expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+      const navigation = await screen.findByRole("navigation");
+      expect(
+        within(navigation).getByRole("link", { name: "Дашборд" }),
+      ).toHaveAttribute("aria-current", "page");
     },
   );
 

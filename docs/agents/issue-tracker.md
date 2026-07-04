@@ -10,6 +10,14 @@ Issues and PRDs for this repo live as markdown files in `.scratch/`.
 - Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
 - Completed issues may include an `Accepted: YYYY-MM-DD` line after `Status:`. Treat `Accepted:` as the local completion marker; do not add non-canonical values like `done` to `Status:`.
 
+## When an agent finishes an issue
+
+After completing the implementation and required checks:
+
+- Change `Status: ready-for-agent` to `Status: ready-for-human`.
+- Do not add `Accepted:`. Acceptance remains a human action.
+- Report the issue as ready for human review.
+
 ## When a skill says "publish to the issue tracker"
 
 Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).

@@ -4,7 +4,6 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { LogOut, Shield } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -57,8 +56,7 @@ export function SettingsPage() {
   }
 
   return (
-    <AppShell>
-      <section className="space-y-5">
+    <section className="space-y-5">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-normal">
             {strings.settings.title}
@@ -148,8 +146,7 @@ export function SettingsPage() {
             </Button>
           </CardContent>
         </Card>
-      </section>
-    </AppShell>
+    </section>
   );
 }
 

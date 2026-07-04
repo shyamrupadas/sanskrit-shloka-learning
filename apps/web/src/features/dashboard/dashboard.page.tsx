@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -26,32 +25,30 @@ export function DashboardPage() {
   useUnauthorizedRedirect(dashboardQuery.error);
 
   return (
-    <AppShell>
-      <section className="space-y-5">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-normal">
-            {strings.dashboard.title}
-          </h1>
-          <p className="text-sm leading-6 text-muted-foreground">
-            {strings.dashboard.subtitle}
-          </p>
-        </div>
+    <section className="space-y-5">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-normal">
+          {strings.dashboard.title}
+        </h1>
+        <p className="text-sm leading-6 text-muted-foreground">
+          {strings.dashboard.subtitle}
+        </p>
+      </div>
 
-        {dashboardQuery.isPending ? (
-          <StatusCard title={strings.common.loading} />
-        ) : dashboardQuery.error ? (
-          <StatusCard
-            description={getApiErrorMessage(
-              dashboardQuery.error,
-              strings.dashboard.loadError,
-            )}
-            title={strings.common.error}
-          />
-        ) : (
-          <EmptyDashboard dashboard={dashboardQuery.data} />
-        )}
-      </section>
-    </AppShell>
+      {dashboardQuery.isPending ? (
+        <StatusCard title={strings.common.loading} />
+      ) : dashboardQuery.error ? (
+        <StatusCard
+          description={getApiErrorMessage(
+            dashboardQuery.error,
+            strings.dashboard.loadError,
+          )}
+          title={strings.common.error}
+        />
+      ) : (
+        <EmptyDashboard dashboard={dashboardQuery.data} />
+      )}
+    </section>
   );
 }
 
