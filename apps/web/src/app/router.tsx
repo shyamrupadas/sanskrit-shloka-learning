@@ -12,11 +12,12 @@ import {
 } from "@/app/layouts/protected-layouts";
 import { LoginPage } from "@/features/auth/login.page";
 import { RegisterPage } from "@/features/auth/register.page";
+import { AdminCatalogPage } from "@/features/admin";
 import { DashboardPage } from "@/features/dashboard/dashboard.page";
 import { LibraryPage } from "@/features/library/library.page";
 import { ShlokaPage } from "@/features/library/shloka.page";
 import { SettingsPage } from "@/features/settings/settings.page";
-import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
+import { AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 
@@ -103,7 +104,7 @@ const adminLayoutRoute = createRoute({
 });
 
 const adminRoute = createRoute({
-  component: AdminPage,
+  component: AdminCatalogPage,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.admin,
 });

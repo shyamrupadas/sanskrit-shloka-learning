@@ -96,35 +96,6 @@ const sourceOptions = {
   ],
 } satisfies ApiTypes.AdminSourceOptionsDto;
 
-const adminCatalog = {
-  sources: [
-    {
-      code: "gita",
-      title: "Бхагавад-гита",
-      description: "Диалог Кришны и Арджуны",
-      structureType: "chapters",
-      chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
-      parts: [],
-      shlokas: [
-        {
-          code: "gita-chapter-2-2-47",
-          chapterCode: "chapter-2",
-          number: "2.47",
-          text: "карманй эвадхикарас те\nма пхалешу кадачана",
-        },
-      ],
-    },
-    {
-      code: "empty",
-      title: "Пустой источник",
-      structureType: "none",
-      chapters: [],
-      parts: [],
-      shlokas: [],
-    },
-  ],
-} satisfies ApiTypes.AdminCatalogDto;
-
 const adminSource = {
   code: "gita",
   title: "Бхагавад-гита",
@@ -306,6 +277,31 @@ describe("App auth and empty shell", () => {
     },
   );
 
+  it("opens the catalog inside the existing admin guard and layout", async () => {
+    mockApi((request) => {
+      if (
+        request.method === "GET" &&
+        request.path === "/api/admin/catalog"
+      ) {
+        return { status: 200, body: { sources: [] } };
+      }
+
+      return successfulApi(request);
+    });
+    storeTestSession(adminSession);
+
+    renderAppAt("/admin");
+
+    expect(
+      await screen.findByRole("heading", { name: "Админка" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute(
+      "href",
+      "/settings",
+    );
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+  });
+
   it("lets admins create a source and shloka through protected forms", async () => {
     const user = userEvent.setup();
     let createShlokaBody: unknown;
@@ -396,34 +392,6 @@ describe("App auth and empty shell", () => {
     expect(fetchMock).not.toHaveBeenCalledWith(
       "/api/admin/shlokas",
       expect.objectContaining({ method: "POST" }),
-    );
-  });
-
-  it("shows the protected admin catalog with a back link and without bottom navigation", async () => {
-    mockApi(successfulApi);
-    storeTestSession(adminSession);
-
-    renderAppAt("/admin");
-
-    expect(await screen.findByRole("heading", { name: "Админка" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Новая шлока" })).toHaveAttribute("href", "/admin/shlokas/new");
-    expect(screen.getByRole("link", { name: "Новый источник" })).toHaveAttribute("href", "/admin/sources/new");
-    expect(await screen.findByText("Бхагавад-гита")).toBeInTheDocument();
-    expect(screen.getByText("gita · 1 глава")).toBeInTheDocument();
-    expect(screen.getByText("Глава 2 · 2.47")).toBeInTheDocument();
-    expect(screen.getByText("карманй эвадхикарас те ма пхалешу кадачана")).toBeInTheDocument();
-    expect(screen.getByText("Пустой источник")).toBeInTheDocument();
-    expect(screen.getByText("empty · 0 шлок")).toBeInTheDocument();
-    expect(screen.queryByText("Сначала создайте источник")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("href", "/settings");
-    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Редактировать источник Бхагавад-гита" })).toHaveAttribute(
-      "href",
-      "/admin/sources/gita/edit",
-    );
-    expect(screen.getByRole("link", { name: "Редактировать шлоку 2.47" })).toHaveAttribute(
-      "href",
-      "/admin/shlokas/gita-chapter-2-2-47/edit",
     );
   });
 
@@ -593,10 +561,6 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
 
   if (method === "GET" && path === "/api/admin/sources/options") {
     return { status: 200, body: sourceOptions };
-  }
-
-  if (method === "GET" && path === "/api/admin/catalog") {
-    return { status: 200, body: adminCatalog };
   }
 
   if (method === "GET" && path === "/api/admin/sources/gita") {

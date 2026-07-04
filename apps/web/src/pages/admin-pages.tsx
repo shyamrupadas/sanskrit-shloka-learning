@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Pencil, Plus, TriangleAlert } from "lucide-react";
+import { ArrowLeft, Plus, TriangleAlert } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
@@ -33,51 +33,6 @@ interface PartFormState {
   code: string;
   title: string;
   chapters: ChapterFormState[];
-}
-
-export function AdminPage() {
-  const auth = useSession();
-  const catalogQuery = useQuery({
-    queryFn: () => auth.apiClient.getCatalog(),
-    queryKey: ["admin", "catalog"],
-  });
-
-  useUnauthorizedRedirect(catalogQuery.error);
-
-  return (
-    <AdminShell backTo={routePaths.settings}>
-      <AdminHeader title={strings.admin.adminTitle} subtitle={strings.admin.adminSubtitle} />
-      <div className="mb-5 flex flex-col gap-2 sm:flex-row">
-        <Button asChild className="h-10">
-          <Link to={routePaths.adminShlokaNew}>
-            <Plus />
-            {strings.admin.newShloka}
-          </Link>
-        </Button>
-        <Button asChild className="h-10" variant="outline">
-          <Link to={routePaths.adminSourceNew}>
-            <Plus />
-            {strings.admin.newSource}
-          </Link>
-        </Button>
-      </div>
-
-      {catalogQuery.isPending ? (
-        <StatusCard title={strings.common.loading} />
-      ) : catalogQuery.error ? (
-        <StatusCard
-          description={getApiErrorMessage(catalogQuery.error, strings.admin.loadCatalogError)}
-          title={strings.common.error}
-        />
-      ) : (
-        <section className="space-y-4">
-          {catalogQuery.data.sources.map((source) => (
-            <AdminSourceSection key={source.code} source={source} />
-          ))}
-        </section>
-      )}
-    </AdminShell>
-  );
 }
 
 export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
@@ -556,47 +511,6 @@ function AdminBackLink({
   );
 }
 
-function AdminSourceSection({ source }: { source: ApiTypes.AdminCatalogSourceDto }) {
-  return (
-    <Card className="rounded-lg">
-      <CardHeader>
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 space-y-1">
-            <CardTitle className="break-words">{source.title}</CardTitle>
-            <CardDescription>
-              {source.code} · {sourceCaption(source)}
-            </CardDescription>
-          </div>
-          <Button asChild aria-label={`${strings.admin.editSource} ${source.title}`} size="icon-sm" variant="ghost">
-            <Link params={{ sourceCode: source.code }} to={routePaths.adminSourceEdit}>
-              <Pencil />
-            </Link>
-          </Button>
-        </div>
-      </CardHeader>
-      {source.shlokas.length > 0 ? (
-        <CardContent>
-          <div className="divide-y rounded-lg border">
-            {source.shlokas.map((shloka) => (
-              <div className="flex items-start justify-between gap-3 px-3 py-3" key={shloka.code}>
-                <div className="min-w-0 space-y-1">
-                  <p className="text-sm font-medium">{shlokaLocation(source, shloka)}</p>
-                  <p className="break-words text-sm leading-6 text-muted-foreground">{shlokaExcerpt(shloka.text)}</p>
-                </div>
-                <Button asChild aria-label={`${strings.admin.editShloka} ${shloka.number}`} size="icon-sm" variant="ghost">
-                  <Link params={{ shlokaCode: shloka.code }} to={routePaths.adminShlokaEdit}>
-                    <Pencil />
-                  </Link>
-                </Button>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      ) : null}
-    </Card>
-  );
-}
-
 function StatusCard({
   description,
   title,
@@ -623,37 +537,6 @@ function WarningMessage({ text }: { text: string }) {
   );
 }
 
-function sourceCaption(source: ApiTypes.AdminCatalogSourceDto): string {
-  if (source.structureType === "chapters") {
-    return formatRuCount(source.chapters.length, "глава", "главы", "глав");
-  }
-  if (source.structureType === "parts") {
-    return formatRuCount(source.parts.length, "часть", "части", "частей");
-  }
-  return formatRuCount(source.shlokas.length, "шлока", "шлоки", "шлок");
-}
-
-function shlokaLocation(
-  source: ApiTypes.AdminCatalogSourceDto,
-  shloka: ApiTypes.AdminCatalogShlokaDto,
-): string {
-  if (source.structureType === "parts") {
-    const part = source.parts.find((candidate) => candidate.code === shloka.partCode);
-    const chapter = part?.chapters.find((candidate) => candidate.code === shloka.chapterCode);
-    return [part?.title, chapter?.title, shloka.number].filter(Boolean).join(" · ");
-  }
-  if (source.structureType === "chapters") {
-    const chapter = source.chapters.find((candidate) => candidate.code === shloka.chapterCode);
-    return [chapter?.title, shloka.number].filter(Boolean).join(" · ");
-  }
-  return shloka.number;
-}
-
-function shlokaExcerpt(text: string): string {
-  const excerpt = text.replaceAll(/\s+/g, " ").trim();
-  return excerpt.length > 96 ? `${excerpt.slice(0, 93)}...` : excerpt;
-}
-
 function structureLabel(structureType: SourceStructureType): string {
   if (structureType === "chapters") {
     return strings.admin.structureChapters;
@@ -662,14 +545,6 @@ function structureLabel(structureType: SourceStructureType): string {
     return strings.admin.structureParts;
   }
   return strings.admin.structureNone;
-}
-
-function formatRuCount(count: number, one: string, few: string, many: string): string {
-  const mod10 = count % 10;
-  const mod100 = count % 100;
-  const word = mod10 === 1 && mod100 !== 11 ? one : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? few : many;
-
-  return `${count} ${word}`;
 }
 
 function emptyShlokaPadas(): string[] {

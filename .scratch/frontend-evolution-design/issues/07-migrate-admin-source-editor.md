@@ -26,4 +26,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/06-migrate-admin-catalog.md`
+Нет - можно начинать сразу
