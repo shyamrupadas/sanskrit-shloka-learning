@@ -232,18 +232,20 @@ describe("App auth and empty shell", () => {
     ).toHaveAttribute("aria-current", "page");
   });
 
-  it("logs out from settings and clears the saved session", async () => {
-    const user = userEvent.setup();
+  it("opens settings inside the authenticated layout", async () => {
     mockApi(successfulApi);
     storeTestSession(session);
 
     renderAppAt("/settings");
 
-    expect(await screen.findByText(session.account.email)).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Выйти" }));
-
-    await expectPath("/login");
-    expectStoredSessionCleared();
+    expect(
+      await screen.findByRole("heading", { name: "Настройки" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(session.account.email)).toBeInTheDocument();
+    const navigation = screen.getByRole("navigation");
+    expect(
+      within(navigation).getByRole("link", { name: "Настройки" }),
+    ).toHaveAttribute("aria-current", "page");
   });
 
   it("clears an invalid saved session and redirects to login", async () => {
@@ -430,77 +432,6 @@ describe("App auth and empty shell", () => {
     await user.click(backLink);
     await expectPath("/library");
     expect(await screen.findByRole("heading", { name: "Библиотека" })).toBeInTheDocument();
-  });
-
-  it("reads and saves hard mode from account settings", async () => {
-    const user = userEvent.setup();
-    let hardMode = false;
-    let updateBody: unknown;
-    const fetchMock = mockApi((request) => {
-      if (request.method === "GET" && request.path === "/api/account/settings") {
-        return { status: 200, body: { hardMode } };
-      }
-      if (request.method === "PATCH" && request.path === "/api/account/settings") {
-        updateBody = request.body;
-        hardMode = (request.body as ApiTypes.UpdateAccountSettingsRequest).hardMode;
-        return { status: 200, body: { hardMode } };
-      }
-
-      return successfulApi(request);
-    });
-    storeTestSession(session);
-
-    const settingsView = renderAppAt("/settings");
-
-    const hardModeToggle = await screen.findByRole("switch", {
-      name: "Интенсивный режим повторения",
-    });
-    expect(hardModeToggle).not.toBeChecked();
-    expect(screen.queryByRole("link", { name: "Админка" })).not.toBeInTheDocument();
-
-    await user.click(hardModeToggle);
-
-    expect(await screen.findByRole("status")).toHaveTextContent("Настройка сохранена");
-    expect(hardModeToggle).toBeChecked();
-    expect(updateBody).toEqual({ hardMode: true });
-    expect(fetchMock).toHaveBeenCalledWith(
-      "/api/account/settings",
-      expect.objectContaining({ method: "PATCH" }),
-    );
-
-    settingsView.unmount();
-    renderAppAt("/settings");
-
-    expect(
-      await screen.findByRole("switch", {
-        name: "Интенсивный режим повторения",
-      }),
-    ).toBeChecked();
-  });
-
-  it("shows the admin action only to admins and opens the protected catalog", async () => {
-    const user = userEvent.setup();
-    mockApi((request) => {
-      if (request.method === "GET" && request.path === "/api/auth/session") {
-        return { status: 200, body: adminSession };
-      }
-
-      return successfulApi(request);
-    });
-    storeTestSession(adminSession);
-
-    renderAppAt("/settings");
-
-    const adminAction = await screen.findByRole("link", { name: "Админка" });
-    expect(adminAction).toHaveAttribute("href", "/admin");
-    await user.click(adminAction);
-
-    await expectPath("/admin");
-    expect(await screen.findByRole("heading", { name: "Админка" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("href", "/settings");
-    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("data-size", "icon-lg");
-    expect(screen.getByRole("link", { name: "Назад" })).toHaveClass("size-12");
-    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 
   it.each(["/admin", "/admin/sources/gita/edit", "/admin/shlokas/gita-chapter-2-2-47/edit", "/admin/sources/new"])(

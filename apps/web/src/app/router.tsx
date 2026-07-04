@@ -13,9 +13,9 @@ import {
 import { LoginPage } from "@/features/auth/login.page";
 import { RegisterPage } from "@/features/auth/register.page";
 import { DashboardPage } from "@/features/dashboard/dashboard.page";
+import { SettingsPage } from "@/features/settings/settings.page";
 import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
 import { LibraryPage, ShlokaPage } from "@/pages/library-page";
-import { SettingsPage } from "@/pages/settings-page";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 
