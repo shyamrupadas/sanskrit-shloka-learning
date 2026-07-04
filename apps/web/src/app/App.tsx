@@ -2,8 +2,8 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 
-import { AuthProvider, useAuth } from "@/auth/auth-context";
-import { createAppRouter } from "@/router";
+import { createAppRouter } from "@/app/router";
+import { SessionProvider, useSession } from "@/shared/session";
 
 type AppRouterInstance = ReturnType<typeof createAppRouter>;
 
@@ -13,17 +13,17 @@ export function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      <SessionProvider>
         <AppRouter router={router} />
-      </AuthProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 }
 
 function AppRouter({ router }: { router: AppRouterInstance }) {
-  const auth = useAuth();
+  const session = useSession();
 
-  return <RouterProvider router={router} context={{ auth }} />;
+  return <RouterProvider router={router} context={{ session }} />;
 }
 
 function createQueryClient(): QueryClient {

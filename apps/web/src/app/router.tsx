@@ -6,16 +6,17 @@ import {
   redirect,
 } from "@tanstack/react-router";
 
-import type { AuthContextValue } from "@/auth/auth-context";
 import { AdminPage, AdminShlokaEditPage, AdminShlokaPage, AdminSourceEditPage, AdminSourcePage } from "@/pages/admin-pages";
 import { DashboardPage } from "@/pages/dashboard-page";
 import { LibraryPage, ShlokaPage } from "@/pages/library-page";
-import { LoginPage, RegisterPage } from "@/pages/auth-pages";
+import { LoginPage } from "@/features/auth/login.page";
+import { RegisterPage } from "@/features/auth/register.page";
 import { SettingsPage } from "@/pages/settings-page";
 import { routePaths, routeSegments } from "@/shared/model/routes";
+import type { SessionContextValue } from "@/shared/session";
 
 interface RouterContext {
-  auth: AuthContextValue;
+  session: SessionContextValue;
 }
 
 const rootRoute = createRootRouteWithContext<RouterContext>()({
@@ -25,7 +26,7 @@ const rootRoute = createRootRouteWithContext<RouterContext>()({
 const indexRoute = createRoute({
   beforeLoad: ({ context }) => {
     throw redirect({
-      to: context.auth.hasSession ? routePaths.dashboard : routePaths.login,
+      to: context.session.hasSession ? routePaths.dashboard : routePaths.login,
     });
   },
   getParentRoute: () => rootRoute,
@@ -34,7 +35,7 @@ const indexRoute = createRoute({
 
 const loginRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (context.auth.hasSession) {
+    if (context.session.hasSession) {
       throw redirect({ to: routePaths.dashboard });
     }
   },
@@ -45,7 +46,7 @@ const loginRoute = createRoute({
 
 const registerRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (context.auth.hasSession) {
+    if (context.session.hasSession) {
       throw redirect({ to: routePaths.dashboard });
     }
   },
@@ -56,7 +57,7 @@ const registerRoute = createRoute({
 
 const dashboardRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (!context.auth.hasSession) {
+    if (!context.session.hasSession) {
       throw redirect({ to: routePaths.login });
     }
   },
@@ -67,7 +68,7 @@ const dashboardRoute = createRoute({
 
 const libraryRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (!context.auth.hasSession) {
+    if (!context.session.hasSession) {
       throw redirect({ to: routePaths.login });
     }
   },
@@ -78,7 +79,7 @@ const libraryRoute = createRoute({
 
 const shlokaRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (!context.auth.hasSession) {
+    if (!context.session.hasSession) {
       throw redirect({ to: routePaths.login });
     }
   },
@@ -89,7 +90,7 @@ const shlokaRoute = createRoute({
 
 const settingsRoute = createRoute({
   beforeLoad: ({ context }) => {
-    if (!context.auth.hasSession) {
+    if (!context.session.hasSession) {
       throw redirect({ to: routePaths.login });
     }
   },
@@ -100,7 +101,7 @@ const settingsRoute = createRoute({
 
 const adminRoute = createRoute({
   beforeLoad: ({ context }) => {
-    requireAdmin(context.auth);
+    requireAdmin(context.session);
   },
   component: AdminPage,
   getParentRoute: () => rootRoute,
@@ -109,7 +110,7 @@ const adminRoute = createRoute({
 
 const adminSourceRoute = createRoute({
   beforeLoad: ({ context }) => {
-    requireAdmin(context.auth);
+    requireAdmin(context.session);
   },
   component: AdminSourcePage,
   getParentRoute: () => rootRoute,
@@ -118,7 +119,7 @@ const adminSourceRoute = createRoute({
 
 const adminSourceEditRoute = createRoute({
   beforeLoad: ({ context }) => {
-    requireAdmin(context.auth);
+    requireAdmin(context.session);
   },
   component: AdminSourceEditRoute,
   getParentRoute: () => rootRoute,
@@ -127,7 +128,7 @@ const adminSourceEditRoute = createRoute({
 
 const adminShlokaRoute = createRoute({
   beforeLoad: ({ context }) => {
-    requireAdmin(context.auth);
+    requireAdmin(context.session);
   },
   component: AdminShlokaPage,
   getParentRoute: () => rootRoute,
@@ -136,7 +137,7 @@ const adminShlokaRoute = createRoute({
 
 const adminShlokaEditRoute = createRoute({
   beforeLoad: ({ context }) => {
-    requireAdmin(context.auth);
+    requireAdmin(context.session);
   },
   component: AdminShlokaEditRoute,
   getParentRoute: () => rootRoute,
@@ -161,13 +162,11 @@ const routeTree = rootRoute.addChildren([
 export function createAppRouter() {
   return createRouter({
     context: {
-      auth: undefined as unknown as AuthContextValue,
+      session: undefined as unknown as SessionContextValue,
     },
     routeTree,
   });
 }
-
-export const router = createAppRouter();
 
 function RootRoute() {
   return <Outlet />;
@@ -188,12 +187,12 @@ function AdminShlokaEditRoute() {
   return <AdminShlokaEditPage shlokaCode={shlokaCode} />;
 }
 
-function requireAdmin(auth: AuthContextValue): void {
-  if (!auth.hasSession) {
+function requireAdmin(session: SessionContextValue): void {
+  if (!session.hasSession) {
     throw redirect({ to: routePaths.login });
   }
 
-  if (!auth.account?.roles.includes("admin")) {
+  if (!session.account?.roles.includes("admin")) {
     throw redirect({ to: routePaths.dashboard });
   }
 }

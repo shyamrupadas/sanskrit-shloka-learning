@@ -1,6 +1,7 @@
 # Перенести auth и session как первый ED-срез
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-04
 
 ## Родитель
 

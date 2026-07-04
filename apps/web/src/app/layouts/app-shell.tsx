@@ -1,13 +1,12 @@
 import { useEffect, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useLocation, useRouter } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 
-import { isUnauthorizedError } from "@/shared/api/errors";
-import { useAuth } from "@/auth/auth-context";
 import { cn } from "@/shared/lib/utils";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
+import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
 interface AppShellProps {
   children: ReactNode;
@@ -18,29 +17,21 @@ export function AppShell({
   children,
   showBottomNavigation = true,
 }: AppShellProps) {
-  const auth = useAuth();
-  const router = useRouter();
+  const session = useSession();
 
   const sessionQuery = useQuery({
-    enabled: auth.hasSession,
-    queryFn: () => auth.apiClient.getSession(),
-    queryKey: ["auth", "session", auth.accessToken],
+    enabled: session.hasSession,
+    queryFn: () => session.apiClient.getSession(),
+    queryKey: ["auth", "session", session.accessToken],
   });
 
   useEffect(() => {
     if (sessionQuery.data) {
-      auth.setSession(sessionQuery.data);
+      session.setSession(sessionQuery.data);
     }
-  }, [auth, sessionQuery.data]);
+  }, [session, sessionQuery.data]);
 
-  useEffect(() => {
-    if (!isUnauthorizedError(sessionQuery.error)) {
-      return;
-    }
-
-    auth.clearSession();
-    void router.navigate({ replace: true, to: routePaths.login });
-  }, [auth, router, sessionQuery.error]);
+  useUnauthorizedRedirect(sessionQuery.error);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

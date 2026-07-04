@@ -4,10 +4,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Plus, X, type LucideIcon } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { useAuth } from "@/auth/auth-context";
-import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
-import { AppShell } from "@/components/app-shell";
+import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -22,7 +21,7 @@ import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 
 export function LibraryPage() {
-  const auth = useAuth();
+  const auth = useSession();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<ApiTypes.LibraryTab>("reviewing");
   const [searchQuery, setSearchQuery] = useState("");
@@ -108,7 +107,7 @@ export function LibraryPage() {
 }
 
 export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
-  const auth = useAuth();
+  const auth = useSession();
   const shlokaQuery = useQuery({
     queryFn: () => auth.apiClient.getItem(shlokaCode),
     queryKey: ["library", "shloka", shlokaCode],

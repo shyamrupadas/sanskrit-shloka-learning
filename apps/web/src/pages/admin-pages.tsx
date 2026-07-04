@@ -4,10 +4,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Pencil, Plus, TriangleAlert } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { useAuth } from "@/auth/auth-context";
-import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
-import { AppShell } from "@/components/app-shell";
+import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -38,7 +37,7 @@ interface PartFormState {
 }
 
 export function AdminPage() {
-  const auth = useAuth();
+  const auth = useSession();
   const catalogQuery = useQuery({
     queryFn: () => auth.apiClient.getCatalog(),
     queryKey: ["admin", "catalog"],
@@ -83,7 +82,7 @@ export function AdminPage() {
 }
 
 export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
-  const auth = useAuth();
+  const auth = useSession();
   const sourceQuery = useQuery({
     queryFn: () => auth.apiClient.getSource(sourceCode),
     queryKey: ["admin", "sources", sourceCode],
@@ -108,7 +107,7 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
 }
 
 function AdminSourceEditForm({ source }: { source: ApiTypes.AdminSourceDto }) {
-  const auth = useAuth();
+  const auth = useSession();
   const [title, setTitle] = useState(source.title);
   const [description, setDescription] = useState(source.description ?? "");
   const [chapters, setChapters] = useState<ChapterFormState[]>(
@@ -196,7 +195,7 @@ function AdminSourceEditForm({ source }: { source: ApiTypes.AdminSourceDto }) {
 }
 
 export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
-  const auth = useAuth();
+  const auth = useSession();
   const shlokaQuery = useQuery({
     queryFn: () => auth.apiClient.getShloka(shlokaCode),
     queryKey: ["admin", "shlokas", shlokaCode],
@@ -221,7 +220,7 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
 }
 
 function AdminShlokaEditForm({ shloka }: { shloka: ApiTypes.AdminShlokaDto }) {
-  const auth = useAuth();
+  const auth = useSession();
   const [padas, setPadas] = useState(() => toShlokaPadaFields(shloka.padas));
   const [fullTranslation, setFullTranslation] = useState(
     shloka.fullTranslation ?? "",
@@ -292,7 +291,7 @@ function AdminShlokaEditForm({ shloka }: { shloka: ApiTypes.AdminShlokaDto }) {
 }
 
 export function AdminSourcePage() {
-  const auth = useAuth();
+  const auth = useSession();
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -375,7 +374,7 @@ export function AdminSourcePage() {
 }
 
 export function AdminShlokaPage() {
-  const auth = useAuth();
+  const auth = useSession();
   const [sourceCode, setSourceCode] = useState("");
   const [partCode, setPartCode] = useState("");
   const [chapterCode, setChapterCode] = useState("");

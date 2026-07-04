@@ -1,12 +1,18 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+
+import {
+  expectPath,
+  expectStoredSessionCleared,
+  mockApi,
+  storeTestSession,
+  type MockApiRequest,
+  type MockApiResponse,
+} from "@/shared/test/harness";
 
 import { App } from "./App";
-
-const accessTokenStorageKey = "sanskrit-shloka-learning.access-token";
-const accountStorageKey = "sanskrit-shloka-learning.account";
 
 const session = {
   account: {
@@ -168,176 +174,66 @@ const adminShloka = {
 } satisfies ApiTypes.AdminShlokaDto;
 
 describe("App auth and empty shell", () => {
-  it("validates registration password fields before calling the API", async () => {
-    const user = userEvent.setup();
-    const fetchMock = mockApi((request) => {
-      if (request.method === "GET" && request.path === "/api/auth/session") {
-        return { status: 200, body: adminSession };
-      }
-
-      return successfulApi(request);
-    });
-
-    renderAppAt("/register");
-
-    await user.type(await screen.findByLabelText("Email"), "learner@example.com");
-    await user.type(screen.getByLabelText("Пароль", { selector: "input" }), "123");
-    await user.type(
-      screen.getByLabelText("Подтверждение пароля", { selector: "input" }),
-      "123",
-    );
-    await user.click(
-      screen.getByRole("button", { name: "Зарегистрироваться" }),
-    );
-
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Пароль должен быть не короче 6 символов",
-    );
-    expect(fetchMock).not.toHaveBeenCalled();
-
-    await user.clear(screen.getByLabelText("Пароль", { selector: "input" }));
-    await user.clear(
-      screen.getByLabelText("Подтверждение пароля", { selector: "input" }),
-    );
-    await user.type(
-      screen.getByLabelText("Пароль", { selector: "input" }),
-      "correct-password",
-    );
-    await user.type(
-      screen.getByLabelText("Подтверждение пароля", { selector: "input" }),
-      "different-password",
-    );
-    await user.click(
-      screen.getByRole("button", { name: "Зарегистрироваться" }),
-    );
-
-    expect(
-      await screen.findByText("Пароль и подтверждение должны совпадать"),
-    ).toHaveAttribute("role", "alert");
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-
-  it("shows the generic login error for invalid credentials", async () => {
-    const user = userEvent.setup();
-    mockApi(({ method, path }) => {
-      if (method === "POST" && path === "/api/auth/login") {
-        return {
-          status: 401,
-          body: {
-            code: "INVALID_CREDENTIALS",
-            message: "Неверный email или пароль",
-          },
-        };
-      }
-
-      return successfulApi({ method, path });
-    });
-
-    renderAppAt("/login");
-
-    await user.type(await screen.findByLabelText("Email"), "learner@example.com");
-    await user.type(
-      screen.getByLabelText("Пароль", { selector: "input" }),
-      "wrong-password",
-    );
-    await user.click(screen.getByRole("button", { name: "Войти" }));
-
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Неверный email или пароль",
-    );
-    expect(window.location.pathname).toBe("/login");
-  });
-
-  it("toggles the login password field visibility", async () => {
-    const user = userEvent.setup();
+  it("redirects the root route by session state", async () => {
     mockApi(successfulApi);
 
-    renderAppAt("/login");
+    const unauthenticatedView = renderAppAt("/");
 
-    const password = (await screen.findByLabelText("Пароль", {
-      selector: "input",
-    })) as HTMLInputElement;
+    await expectPath("/login");
 
-    expect(password.type).toBe("password");
-    await user.click(screen.getByRole("button", { name: "Показать пароль" }));
-    expect(password.type).toBe("text");
-    await user.click(screen.getByRole("button", { name: "Скрыть пароль" }));
-    expect(password.type).toBe("password");
-  });
+    unauthenticatedView.unmount();
+    storeTestSession(session);
 
-  it("toggles the register password and confirmation fields together", async () => {
-    const user = userEvent.setup();
-    mockApi(successfulApi);
-
-    renderAppAt("/register");
-
-    const password = (await screen.findByLabelText("Пароль", {
-      selector: "input",
-    })) as HTMLInputElement;
-    const passwordConfirmation = screen.getByLabelText("Подтверждение пароля", {
-      selector: "input",
-    }) as HTMLInputElement;
-
-    expect(password.type).toBe("password");
-    expect(passwordConfirmation.type).toBe("password");
-
-    await user.click(screen.getByRole("button", { name: "Показать пароль" }));
-
-    expect(password.type).toBe("text");
-    expect(passwordConfirmation.type).toBe("text");
-  });
-
-  it("navigates from successful registration to the empty dashboard", async () => {
-    const user = userEvent.setup();
-    mockApi(successfulApi);
-
-    renderAppAt("/register");
-
-    await user.type(await screen.findByLabelText("Email"), session.account.email);
-    await user.type(
-      screen.getByLabelText("Пароль", { selector: "input" }),
-      "correct-password",
-    );
-    await user.type(
-      screen.getByLabelText("Подтверждение пароля", { selector: "input" }),
-      "correct-password",
-    );
-    await user.click(
-      screen.getByRole("button", { name: "Зарегистрироваться" }),
-    );
+    renderAppAt("/");
 
     await expectPath("/dashboard");
-    expect(screen.queryByText(session.account.email)).not.toBeInTheDocument();
     expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Добавить/ })).toHaveLength(1);
-    expect(screen.queryByText(/серия/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/повторить/i)).not.toBeInTheDocument();
   });
 
-  it("navigates from successful login to dashboard and logs out to login", async () => {
+  it.each(["/login", "/register"])(
+    "redirects authenticated auth route %s to the dashboard",
+    async (path) => {
+      mockApi(successfulApi);
+      storeTestSession(session);
+
+      renderAppAt(path);
+
+      await expectPath("/dashboard");
+      expect(await screen.findByText("Пока нет добавленных шлок")).toBeInTheDocument();
+    },
+  );
+
+  it("logs out from settings and clears the saved session", async () => {
     const user = userEvent.setup();
     mockApi(successfulApi);
+    storeTestSession(session);
 
-    renderAppAt("/login");
+    renderAppAt("/settings");
 
-    await user.type(await screen.findByLabelText("Email"), session.account.email);
-    await user.type(
-      screen.getByLabelText("Пароль", { selector: "input" }),
-      "correct-password",
-    );
-    await user.click(screen.getByRole("button", { name: "Войти" }));
-
-    await expectPath("/dashboard");
-    expect(screen.queryByText(session.account.email)).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("link", { name: "Настройки" }));
-    await expectPath("/settings");
     expect(await screen.findByText(session.account.email)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Выйти" }));
 
     await expectPath("/login");
-    expect(window.localStorage.getItem(accessTokenStorageKey)).toBeNull();
-    expect(window.localStorage.getItem(accountStorageKey)).toBeNull();
+    expectStoredSessionCleared();
+  });
+
+  it("clears an invalid saved session and redirects to login", async () => {
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return {
+          status: 401,
+          body: { code: "UNAUTHORIZED", message: "Сессия недействительна" },
+        };
+      }
+
+      return successfulApi(request);
+    });
+    storeTestSession(session);
+
+    renderAppAt("/dashboard");
+
+    await expectPath("/login");
+    expectStoredSessionCleared();
   });
 
   it.each(["/dashboard", "/library", "/settings"])(
@@ -399,8 +295,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+    storeTestSession(session);
 
     renderAppAt("/library");
 
@@ -461,8 +356,7 @@ describe("App auth and empty shell", () => {
   it("opens a minimal shloka page from the library card body and transition arrow", async () => {
     const user = userEvent.setup();
     mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+    storeTestSession(session);
 
     renderAppAt("/library");
 
@@ -484,8 +378,7 @@ describe("App auth and empty shell", () => {
   it("shows the direct shloka route with Cyrillic text, return link, mobile shell, and no advanced details", async () => {
     const user = userEvent.setup();
     mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+    storeTestSession(session);
 
     renderAppAt("/library/shlokas/gita-chapter-2-2-47");
 
@@ -526,8 +419,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+    storeTestSession(session);
 
     const settingsView = renderAppAt("/settings");
 
@@ -566,8 +458,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/settings");
 
@@ -587,8 +478,7 @@ describe("App auth and empty shell", () => {
     "redirects regular users away from direct admin route %s",
     async (path) => {
       mockApi(successfulApi);
-      window.localStorage.setItem(accessTokenStorageKey, session.accessToken);
-      window.localStorage.setItem(accountStorageKey, JSON.stringify(session.account));
+      storeTestSession(session);
 
       renderAppAt(path);
 
@@ -610,8 +500,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     const sourceView = renderAppAt("/admin/sources/new");
 
@@ -671,8 +560,7 @@ describe("App auth and empty shell", () => {
   it("blocks shloka creation when any pada is blank", async () => {
     const user = userEvent.setup();
     const fetchMock = mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/admin/shlokas/new");
 
@@ -694,8 +582,7 @@ describe("App auth and empty shell", () => {
 
   it("shows the protected admin catalog with a back link and without bottom navigation", async () => {
     mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/admin");
 
@@ -731,8 +618,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/admin/sources/gita/edit");
 
@@ -775,8 +661,7 @@ describe("App auth and empty shell", () => {
 
       return successfulApi(request);
     });
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/admin/shlokas/gita-chapter-2-2-47/edit");
 
@@ -806,8 +691,7 @@ describe("App auth and empty shell", () => {
   it("blocks shloka edits when any pada has only whitespace", async () => {
     const user = userEvent.setup();
     const fetchMock = mockApi(successfulApi);
-    window.localStorage.setItem(accessTokenStorageKey, adminSession.accessToken);
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(adminSession.account));
+    storeTestSession(adminSession);
 
     renderAppAt("/admin/shlokas/gita-chapter-2-2-47/edit");
 
@@ -829,12 +713,6 @@ function renderAppAt(path: string) {
   return render(<App />);
 }
 
-async function expectPath(path: string): Promise<void> {
-  await waitFor(() => {
-    expect(window.location.pathname).toBe(path);
-  });
-}
-
 function cardForText(text: string): HTMLElement {
   const element = screen.getByText(text);
   const card = element.closest('[data-slot="card"]');
@@ -842,66 +720,6 @@ function cardForText(text: string): HTMLElement {
     throw new Error(`Card not found for text: ${text}`);
   }
   return card;
-}
-
-interface MockApiRequest {
-  body?: unknown;
-  method: string;
-  path: string;
-}
-
-interface MockApiResponse {
-  body?: unknown;
-  status: number;
-}
-
-type MockApiHandler = (
-  request: MockApiRequest,
-) => MockApiResponse | Promise<MockApiResponse>;
-
-function mockApi(handler: MockApiHandler) {
-  const fetchMock = vi.fn(
-    async (
-      input: RequestInfo | URL,
-      init?: RequestInit,
-    ): Promise<Response> => {
-      const rawUrl =
-        typeof input === "string"
-          ? input
-          : input instanceof URL
-            ? input.href
-            : input.url;
-      const url = new URL(rawUrl, window.location.origin);
-      const requestBody = typeof init?.body === "string" ? JSON.parse(init.body) : undefined;
-      const response = await handler({
-        body: requestBody,
-        method: init?.method ?? "GET",
-        path: url.pathname,
-      });
-      const headers = new Headers();
-      let body: BodyInit | null = null;
-
-      if (response.body !== undefined) {
-        headers.set("Content-Type", "application/json");
-        body = JSON.stringify(response.body);
-      }
-
-      return new Response(body, {
-        headers,
-        status: response.status,
-      });
-    },
-  );
-  const typedFetch = fetchMock as unknown as typeof fetch;
-
-  vi.stubGlobal("fetch", typedFetch);
-  Object.defineProperty(window, "fetch", {
-    configurable: true,
-    value: typedFetch,
-    writable: true,
-  });
-
-  return fetchMock;
 }
 
 function successfulApi({ method, path }: MockApiRequest): MockApiResponse {

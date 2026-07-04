@@ -3,10 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { AppShell } from "@/app/layouts/app-shell";
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { useAuth } from "@/auth/auth-context";
-import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
-import { AppShell } from "@/components/app-shell";
+import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -18,7 +17,7 @@ import {
 import { strings } from "@/shared/i18n";
 
 export function DashboardPage() {
-  const auth = useAuth();
+  const auth = useSession();
   const dashboardQuery = useQuery({
     queryFn: () => auth.apiClient.getDashboard(),
     queryKey: ["dashboard"],

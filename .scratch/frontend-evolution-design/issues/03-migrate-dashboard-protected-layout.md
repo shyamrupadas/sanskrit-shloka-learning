@@ -28,4 +28,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/02-migrate-auth-session-tracer.md`
+Нет - можно начинать сразу
