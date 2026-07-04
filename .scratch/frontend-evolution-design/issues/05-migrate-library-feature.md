@@ -1,6 +1,7 @@
 # Перенести Общую библиотеку шлок и страницу Шлоки
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-04
 
 ## Родитель
 

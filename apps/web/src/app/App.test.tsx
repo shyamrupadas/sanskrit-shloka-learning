@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
@@ -73,33 +73,6 @@ const emptyLibrary = {
     },
   ],
 } satisfies ApiTypes.LibraryResponseDto;
-
-const sortedLibraryShlokas = [
-  {
-    code: "amrita-1",
-    displayTitle: "Амрита 1",
-    sourceTitle: "Амрита",
-    number: "1",
-    text: "первая кириллическая пада\nвторая кириллическая пада",
-    personalStatus: "available",
-  },
-  {
-    code: "gita-chapter-1-2",
-    displayTitle: "Бхагавад-гита, Глава 1 2",
-    sourceTitle: "Бхагавад-гита",
-    number: "2",
-    text: "дхарма-кшетре куру-кшетре\nсамавета юютсавах",
-    personalStatus: "available",
-  },
-  {
-    code: "gita-chapter-2-10",
-    displayTitle: "Бхагавад-гита, Глава 2 2.10",
-    sourceTitle: "Бхагавад-гита",
-    number: "2.10",
-    text: "там увача хришикешах\nпрахасанн ива бхарата",
-    personalStatus: "learning",
-  },
-] satisfies ApiTypes.LibraryShlokaDto[];
 
 const shlokaDetail = {
   code: "gita-chapter-2-2-47",
@@ -287,151 +260,34 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("shows library tabs, search, personal statuses, and to-learn actions", async () => {
-    const user = userEvent.setup();
-    const libraryShlokas: ApiTypes.LibraryShlokaDto[] = sortedLibraryShlokas.map((shloka) => ({ ...shloka }));
-    const updateRequests: unknown[] = [];
-    mockApi((request) => {
-      if (request.method === "GET" && request.path === "/api/library") {
-        return {
-          status: 200,
-          body: {
-            ...emptyLibrary,
-            allShlokas: libraryShlokas,
-          },
-        };
-      }
-
-      const itemMatch = request.path.match(/^\/api\/library\/items\/([^/]+)$/);
-      if (request.method === "PATCH" && itemMatch) {
-        updateRequests.push(request.body);
-        const shlokaCode = itemMatch[1];
-        if (!shlokaCode) {
-          throw new Error(`Missing shloka code in request path: ${request.path}`);
-        }
-        const shloka = libraryShlokas.find(
-          (candidate) => candidate.code === decodeURIComponent(shlokaCode),
-        );
-        if (!shloka) {
-          return {
-            status: 404,
-            body: { code: "NOT_FOUND", message: "Шлока не найдена" },
-          };
-        }
-        shloka.personalStatus = (
-          request.body as ApiTypes.UpdateLibraryItemRequest
-        ).personalStatus;
-        return { status: 200, body: shloka };
-      }
-
-      return successfulApi(request);
-    });
-    storeTestSession(session);
-
-    renderAppAt("/library");
-
-    expect(await screen.findByText("Пока нет шлок в повторении")).toBeInTheDocument();
-    expect(screen.getByText("Добавьте первую шлоку из общей библиотеки, чтобы начать повторение.")).toBeInTheDocument();
-
-    await user.click(screen.getByRole("tab", { name: "Буду учить" }));
-    expect(await screen.findByText("Бхагавад-гита, Глава 2 2.10")).toBeInTheDocument();
-    expect(screen.queryByText("Пока нет шлок для заучивания")).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("tab", { name: "Все" }));
-    const first = await screen.findByText("Амрита 1");
-    const second = screen.getByText("Бхагавад-гита, Глава 1 2");
-    const third = screen.getByText("Бхагавад-гита, Глава 2 2.10");
-    expect(first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(second.compareDocumentPosition(third) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(screen.getByText("первая кириллическая пада / вторая кириллическая пада")).toBeInTheDocument();
-
-    const amritaCard = cardForText("Амрита 1");
-    expect(within(amritaCard).getByText("Доступна")).toBeInTheDocument();
-    expect(within(amritaCard).getByRole("button", { name: "Буду учить" })).toBeInTheDocument();
-    const learningCard = cardForText("Бхагавад-гита, Глава 2 2.10");
-    expect(within(learningCard).getByText("Буду учить")).toBeInTheDocument();
-    expect(within(learningCard).getByRole("button", { name: "Убрать" })).toBeInTheDocument();
-
-    const search = screen.getByRole("searchbox", { name: "Поиск" });
-    await user.type(search, "Амрита");
-    expect(screen.getByText("Амрита 1")).toBeInTheDocument();
-    expect(screen.queryByText("Бхагавад-гита, Глава 1 2")).not.toBeInTheDocument();
-
-    await user.clear(search);
-    await user.type(search, "2.10");
-    expect(screen.getByText("Бхагавад-гита, Глава 2 2.10")).toBeInTheDocument();
-    expect(screen.queryByText("Амрита 1")).not.toBeInTheDocument();
-
-    await user.clear(search);
-    await user.type(search, "нет совпадений");
-    expect(await screen.findByText("Шлоки не найдены")).toBeInTheDocument();
-
-    await user.clear(search);
-    await user.click(within(cardForText("Амрита 1")).getByRole("button", { name: "Буду учить" }));
-
-    await waitFor(() => {
-      expect(updateRequests).toContainEqual({ personalStatus: "learning" });
-    });
-    await user.click(screen.getByRole("tab", { name: "Буду учить" }));
-    expect(await screen.findByText("Амрита 1")).toBeInTheDocument();
-
-    await user.click(within(cardForText("Амрита 1")).getByRole("button", { name: "Убрать" }));
-
-    await waitFor(() => {
-      expect(updateRequests).toContainEqual({ personalStatus: "available" });
-    });
-    await user.click(within(cardForText("Бхагавад-гита, Глава 2 2.10")).getByRole("button", { name: "Убрать" }));
-    expect(await screen.findByText("Пока нет шлок для заучивания")).toBeInTheDocument();
-  });
-
-  it("opens a minimal shloka page from the library card body and transition arrow", async () => {
-    const user = userEvent.setup();
+  it("opens library routes inside the authenticated layout", async () => {
     mockApi(successfulApi);
     storeTestSession(session);
 
-    renderAppAt("/library");
+    const libraryView = renderAppAt("/library");
 
-    await user.click(await screen.findByRole("tab", { name: "Все" }));
-    await user.click(screen.getByRole("link", { name: "карманй эвадхикарас те / ма пхалешу кадачана" }));
+    expect(
+      await screen.findByRole("heading", { name: "Библиотека" }),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("navigation")).getByRole("link", {
+        name: "Библиотека",
+      }),
+    ).toHaveAttribute("aria-current", "page");
 
-    await expectPath("/library/shlokas/gita-chapter-2-2-47");
-    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
-
-    await user.click(screen.getByRole("link", { name: "В библиотеку" }));
-    await expectPath("/library");
-    await user.click(await screen.findByRole("tab", { name: "Все" }));
-    await user.click(screen.getByRole("link", { name: "Открыть шлоку Бхагавад-гита, Глава 2 2.47" }));
-
-    await expectPath("/library/shlokas/gita-chapter-2-2-47");
-    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
-  });
-
-  it("shows the direct shloka route with Cyrillic text, return link, mobile shell, and no advanced details", async () => {
-    const user = userEvent.setup();
-    mockApi(successfulApi);
-    storeTestSession(session);
-
+    libraryView.unmount();
     renderAppAt("/library/shlokas/gita-chapter-2-2-47");
 
-    expect(await screen.findByRole("heading", { name: "Бхагавад-гита, Глава 2 2.47" })).toBeInTheDocument();
-    expect(screen.getByText("Бхагавад-гита · 2.47")).toBeInTheDocument();
-    expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
-      /карманй эвадхикарас те\s+ма пхалешу кадачана\s+ма кармапхалахетур бхур\s+ма те санго сту акармани/,
-    );
-
-    const backLink = screen.getByRole("link", { name: "В библиотеку" });
-    expect(backLink).toHaveAttribute("href", "/library");
-    expect(screen.getByRole("navigation")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Библиотека" })).toHaveAttribute("aria-current", "page");
-    expect(screen.queryByText("Буду учить")).not.toBeInTheDocument();
-    expect(screen.queryByText("Доступна")).not.toBeInTheDocument();
-    expect(screen.queryByText("Только на действие у тебя право.")).not.toBeInTheDocument();
-    expect(screen.queryByText(/послов/i)).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Буду учить" })).not.toBeInTheDocument();
-
-    await user.click(backLink);
-    await expectPath("/library");
-    expect(await screen.findByRole("heading", { name: "Библиотека" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", {
+        name: "Бхагавад-гита, Глава 2 2.47",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("navigation")).getByRole("link", {
+        name: "Библиотека",
+      }),
+    ).toHaveAttribute("aria-current", "page");
   });
 
   it.each(["/admin", "/admin/sources/gita/edit", "/admin/shlokas/gita-chapter-2-2-47/edit", "/admin/sources/new"])(
@@ -674,15 +530,6 @@ describe("App auth and empty shell", () => {
 function renderAppAt(path: string) {
   window.history.pushState({}, "", path);
   return render(<App />);
-}
-
-function cardForText(text: string): HTMLElement {
-  const element = screen.getByText(text);
-  const card = element.closest('[data-slot="card"]');
-  if (!(card instanceof HTMLElement)) {
-    throw new Error(`Card not found for text: ${text}`);
-  }
-  return card;
 }
 
 function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
