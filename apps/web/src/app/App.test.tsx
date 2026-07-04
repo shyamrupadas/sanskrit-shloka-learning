@@ -96,15 +96,6 @@ const sourceOptions = {
   ],
 } satisfies ApiTypes.AdminSourceOptionsDto;
 
-const adminSource = {
-  code: "gita",
-  title: "Бхагавад-гита",
-  description: "Диалог Кришны и Арджуны",
-  structureType: "chapters",
-  chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
-  parts: [],
-} satisfies ApiTypes.AdminSourceDto;
-
 const adminShloka = {
   code: "gita-chapter-2-2-47",
   sourceCode: "gita",
@@ -302,7 +293,7 @@ describe("App auth and empty shell", () => {
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 
-  it("lets admins create a source and shloka through protected forms", async () => {
+  it("lets admins create a shloka through the protected form", async () => {
     const user = userEvent.setup();
     let createShlokaBody: unknown;
     const fetchMock = mockApi((request) => {
@@ -317,31 +308,11 @@ describe("App auth and empty shell", () => {
     });
     storeTestSession(adminSession);
 
-    const sourceView = renderAppAt("/admin/sources/new");
+    renderAppAt("/admin/shlokas/new");
 
     expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute("href", "/admin");
     expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute("data-size", "icon-lg");
     expect(screen.getByRole("link", { name: "Назад" })).toHaveClass("size-12");
-    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
-    await user.type(await screen.findByLabelText("Код источника"), "gita");
-    await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
-    await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
-    await user.type(screen.getByLabelText("Код главы 1"), "chapter-2");
-    await user.type(screen.getByLabelText("Название главы 1"), "Глава 2");
-    await user.click(screen.getByRole("button", { name: "Создать источник" }));
-
-    expect(await screen.findByRole("status")).toHaveTextContent("Источник создан");
-    expect(fetchMock).toHaveBeenCalledWith(
-      "/api/admin/sources",
-      expect.objectContaining({
-        method: "POST",
-      }),
-    );
-
-    sourceView.unmount();
-    renderAppAt("/admin/shlokas/new");
-
-    expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute("href", "/admin");
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
     await screen.findByLabelText("Источник");
     await user.selectOptions(screen.getByLabelText("Источник"), "gita");
@@ -393,49 +364,6 @@ describe("App auth and empty shell", () => {
       "/api/admin/shlokas",
       expect.objectContaining({ method: "POST" }),
     );
-  });
-
-  it("lets admins edit source mutable fields while keeping source and chapter codes readonly", async () => {
-    const user = userEvent.setup();
-    let updateBody: unknown;
-    mockApi((request) => {
-      if (request.method === "PATCH" && request.path === "/api/admin/sources/gita") {
-        updateBody = request.body;
-      }
-
-      return successfulApi(request);
-    });
-    storeTestSession(adminSession);
-
-    renderAppAt("/admin/sources/gita/edit");
-
-    const sourceCode = (await screen.findByLabelText("Код источника")) as HTMLInputElement;
-    const structure = screen.getByLabelText("Структура") as HTMLInputElement;
-    const chapterCode = screen.getByLabelText("Код главы 1") as HTMLInputElement;
-    expect(sourceCode.readOnly).toBe(true);
-    expect(structure.readOnly).toBe(true);
-    expect(chapterCode.readOnly).toBe(true);
-
-    await user.clear(screen.getByLabelText("Название"));
-    await user.type(screen.getByLabelText("Название"), "Гита");
-    await user.clear(screen.getByLabelText("Описание"));
-    await user.type(screen.getByLabelText("Описание"), "Новое описание");
-    await user.clear(screen.getByLabelText("Название главы 1"));
-    await user.type(screen.getByLabelText("Название главы 1"), "Вторая глава");
-    await user.click(screen.getByRole("button", { name: "Добавить главу" }));
-    await user.type(screen.getByLabelText("Код главы 2"), "chapter-3");
-    await user.type(screen.getByLabelText("Название главы 2"), "Третья глава");
-    await user.click(screen.getByRole("button", { name: "Сохранить источник" }));
-
-    expect(await screen.findByRole("status")).toHaveTextContent("Источник сохранен");
-    expect(updateBody).toEqual({
-      title: "Гита",
-      description: "Новое описание",
-      chapters: [
-        { code: "chapter-2", title: "Вторая глава", order: 1 },
-        { code: "chapter-3", title: "Третья глава", order: 2 },
-      ],
-    });
   });
 
   it("lets admins edit shloka padas and translation while showing immutable reference fields", async () => {
@@ -552,34 +480,8 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
     return { status: 200, body: shlokaDetail };
   }
 
-  if (method === "POST" && path === "/api/admin/sources") {
-    return {
-      status: 201,
-      body: sourceOptions.sources[0],
-    };
-  }
-
   if (method === "GET" && path === "/api/admin/sources/options") {
     return { status: 200, body: sourceOptions };
-  }
-
-  if (method === "GET" && path === "/api/admin/sources/gita") {
-    return { status: 200, body: adminSource };
-  }
-
-  if (method === "PATCH" && path === "/api/admin/sources/gita") {
-    return {
-      status: 200,
-      body: {
-        ...adminSource,
-        title: "Гита",
-        description: "Новое описание",
-        chapters: [
-          { code: "chapter-2", title: "Вторая глава", order: 1 },
-          { code: "chapter-3", title: "Третья глава", order: 2 },
-        ],
-      },
-    };
   }
 
   if (method === "POST" && path === "/api/admin/shlokas") {

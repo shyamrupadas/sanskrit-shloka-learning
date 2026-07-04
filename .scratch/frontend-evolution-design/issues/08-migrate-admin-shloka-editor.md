@@ -26,4 +26,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/07-migrate-admin-source-editor.md`
+Нет - можно начинать сразу

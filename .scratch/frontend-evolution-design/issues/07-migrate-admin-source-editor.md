@@ -1,6 +1,7 @@
 # Перенести редактор Источника шлоки
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-04
 
 ## Родитель
 
