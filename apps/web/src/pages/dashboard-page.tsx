@@ -3,18 +3,18 @@ import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { getApiErrorMessage } from "@/api/errors";
+import { getApiErrorMessage } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
 import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
 import { AppShell } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/shared/ui/card";
 import { strings } from "@/shared/i18n";
 
 export function DashboardPage() {

@@ -4,21 +4,22 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Plus, X, type LucideIcon } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { getApiErrorMessage } from "@/api/errors";
+import { getApiErrorMessage } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
 import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
 import { AppShell } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "@/shared/ui/card";
+import { Input } from "@/shared/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { strings } from "@/shared/i18n";
+import { routePaths } from "@/shared/model/routes";
 
 export function LibraryPage() {
   const auth = useAuth();
@@ -120,7 +121,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
       <section className="space-y-5">
         <div>
           <Button asChild size="sm" variant="outline">
-            <Link activeOptions={{ exact: true }} to="/library">
+            <Link activeOptions={{ exact: true }} to={routePaths.library}>
               <ArrowLeft />
               {strings.shloka.backToLibrary}
             </Link>
@@ -279,7 +280,7 @@ function ShlokaCard({
 }) {
   const excerpt = shloka.text.split("\n").filter(Boolean).slice(0, 2).join(" / ");
   const action = getCardAction(tabId, shloka.personalStatus);
-  const shlokaPath = "/library/shlokas/$shlokaCode";
+  const shlokaPath = routePaths.libraryShloka;
 
   return (
     <Card className="rounded-lg">

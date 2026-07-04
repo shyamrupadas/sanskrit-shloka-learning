@@ -18,7 +18,9 @@ Session-модуль должен скрывать local storage, восстан
 
 - [ ] `app` владеет React bootstrap, глобальными providers и router.
 - [ ] Вход и регистрация принадлежат одной фиче `auth` с небольшим public API.
+- [ ] Route-level страницы входа и регистрации могут быть публичными entry points фичи без обязательного barrel-файла.
 - [ ] Глобальная session-модель и создание API-клиента принадлежат `shared`, а не `auth`.
+- [ ] Route constants для auth routes принадлежат `shared` там, где это не ухудшает типизацию TanStack Router.
 - [ ] LocalStorage keys и формат сохраненной Учетной записи не изменены.
 - [ ] Вход, регистрация, валидация паролей, показ пароля, ошибки и redirects работают как до рефакторинга.
 - [ ] Logout и очистка невалидной сессии сохраняют прежнее поведение.
@@ -29,4 +31,4 @@ Session-модуль должен скрывать local storage, восстан
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/01-prepare-ed-small-foundation.md`
+Нет - можно начинать сразу

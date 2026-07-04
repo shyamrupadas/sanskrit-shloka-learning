@@ -1,0 +1,29 @@
+export const routePaths = {
+  root: "/",
+  login: "/login",
+  register: "/register",
+  dashboard: "/dashboard",
+  library: "/library",
+  libraryShloka: "/library/shlokas/$shlokaCode",
+  settings: "/settings",
+  admin: "/admin",
+  adminSourceNew: "/admin/sources/new",
+  adminSourceEdit: "/admin/sources/$sourceCode/edit",
+  adminShlokaNew: "/admin/shlokas/new",
+  adminShlokaEdit: "/admin/shlokas/$shlokaCode/edit",
+} as const;
+
+export const routeSegments = {
+  root: "/",
+  login: "login",
+  register: "register",
+  dashboard: "dashboard",
+  library: "library",
+  libraryShloka: "library/shlokas/$shlokaCode",
+  settings: "settings",
+  admin: "admin",
+  adminSourceNew: "admin/sources/new",
+  adminSourceEdit: "admin/sources/$sourceCode/edit",
+  adminShlokaNew: "admin/shlokas/new",
+  adminShlokaEdit: "admin/shlokas/$shlokaCode/edit",
+} as const;

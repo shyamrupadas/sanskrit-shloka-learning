@@ -4,11 +4,11 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { LogOut, Shield } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { getApiErrorMessage } from "@/api/errors";
+import { getApiErrorMessage } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
 import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
 import { AppShell } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardAction,
@@ -16,9 +16,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+} from "@/shared/ui/card";
+import { Switch } from "@/shared/ui/switch";
 import { strings } from "@/shared/i18n";
+import { routePaths } from "@/shared/model/routes";
 
 export function SettingsPage() {
   const auth = useAuth();
@@ -50,7 +51,7 @@ export function SettingsPage() {
 
     try {
       await auth.logout();
-      await router.navigate({ replace: true, to: "/login" });
+      await router.navigate({ replace: true, to: routePaths.login });
     } finally {
       setIsLoggingOut(false);
     }
@@ -121,7 +122,7 @@ export function SettingsPage() {
             </CardHeader>
             <CardContent>
               <Button asChild className="h-10 w-full sm:w-auto">
-                <Link to="/admin">
+                <Link to={routePaths.admin}>
                   <Shield />
                   {strings.settings.adminAction}
                 </Link>

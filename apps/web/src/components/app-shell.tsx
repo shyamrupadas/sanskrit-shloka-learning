@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 
-import { isUnauthorizedError } from "@/api/errors";
+import { isUnauthorizedError } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { strings } from "@/shared/i18n";
+import { routePaths } from "@/shared/model/routes";
 
 interface AppShellProps {
   children: ReactNode;
@@ -38,7 +39,7 @@ export function AppShell({
     }
 
     auth.clearSession();
-    void router.navigate({ replace: true, to: "/login" });
+    void router.navigate({ replace: true, to: routePaths.login });
   }, [auth, router, sessionQuery.error]);
 
   return (
@@ -55,9 +56,9 @@ export function AppShell({
       {showBottomNavigation ? (
         <nav className="fixed inset-x-0 bottom-0 z-20 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
           <div className="mx-auto grid h-16 w-full max-w-3xl grid-cols-3 gap-2 px-4 py-2 sm:px-6">
-            <NavItem icon={<LayoutDashboard />} label={strings.nav.dashboard} to="/dashboard" />
-            <NavItem icon={<BookOpen />} label={strings.nav.library} to="/library" />
-            <NavItem icon={<Settings />} label={strings.nav.settings} to="/settings" />
+            <NavItem icon={<LayoutDashboard />} label={strings.nav.dashboard} to={routePaths.dashboard} />
+            <NavItem icon={<BookOpen />} label={strings.nav.library} to={routePaths.library} />
+            <NavItem icon={<Settings />} label={strings.nav.settings} to={routePaths.settings} />
           </div>
         </nav>
       ) : null}
@@ -72,12 +73,16 @@ function NavItem({
 }: {
   icon: ReactNode;
   label: string;
-  to: "/dashboard" | "/library" | "/settings";
+  to:
+    | typeof routePaths.dashboard
+    | typeof routePaths.library
+    | typeof routePaths.settings;
 }) {
   const location = useLocation();
   const isActive =
     location.pathname === to ||
-    (to === "/library" && location.pathname.startsWith("/library/"));
+    (to === routePaths.library &&
+      location.pathname.startsWith(`${routePaths.library}/`));
 
   return (
     <Link

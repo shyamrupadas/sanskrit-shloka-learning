@@ -2,19 +2,20 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 
-import { getApiErrorMessage } from "@/api/errors";
+import { getApiErrorMessage } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/shared/ui/card";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
 import { strings } from "@/shared/i18n";
+import { routePaths } from "@/shared/model/routes";
 
 export function LoginPage() {
   const auth = useAuth();
@@ -36,7 +37,7 @@ export function LoginPage() {
         password,
       });
       auth.setSession(session);
-      await router.navigate({ replace: true, to: "/dashboard" });
+      await router.navigate({ replace: true, to: routePaths.dashboard });
     } catch (caughtError) {
       setError(getApiErrorMessage(caughtError, strings.auth.loginError));
     } finally {
@@ -50,7 +51,7 @@ export function LoginPage() {
       footer={
         <>
           <span>{strings.auth.noAccount}</span>
-          <Link className="font-medium text-primary underline-offset-4 hover:underline" to="/register">
+          <Link className="font-medium text-primary underline-offset-4 hover:underline" to={routePaths.register}>
             {strings.auth.registerLink}
           </Link>
         </>
@@ -115,7 +116,7 @@ export function RegisterPage() {
         passwordConfirmation,
       });
       auth.setSession(session);
-      await router.navigate({ replace: true, to: "/dashboard" });
+      await router.navigate({ replace: true, to: routePaths.dashboard });
     } catch (caughtError) {
       setError(getApiErrorMessage(caughtError, strings.auth.registerError));
     } finally {
@@ -129,7 +130,7 @@ export function RegisterPage() {
       footer={
         <>
           <span>{strings.auth.hasAccount}</span>
-          <Link className="font-medium text-primary underline-offset-4 hover:underline" to="/login">
+          <Link className="font-medium text-primary underline-offset-4 hover:underline" to={routePaths.login}>
             {strings.auth.loginLink}
           </Link>
         </>

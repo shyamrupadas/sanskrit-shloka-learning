@@ -1,25 +1,26 @@
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Pencil, Plus, TriangleAlert } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-import { getApiErrorMessage } from "@/api/errors";
+import { getApiErrorMessage } from "@/shared/api/errors";
 import { useAuth } from "@/auth/auth-context";
 import { useUnauthorizedRedirect } from "@/auth/use-unauthorized-redirect";
 import { AppShell } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/shared/ui/card";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+import { Textarea } from "@/shared/ui/textarea";
 import { strings } from "@/shared/i18n";
+import { routePaths } from "@/shared/model/routes";
 
 type SourceStructureType = ApiTypes.SourceStructureType;
 
@@ -46,17 +47,17 @@ export function AdminPage() {
   useUnauthorizedRedirect(catalogQuery.error);
 
   return (
-    <AdminShell backTo="/settings">
+    <AdminShell backTo={routePaths.settings}>
       <AdminHeader title={strings.admin.adminTitle} subtitle={strings.admin.adminSubtitle} />
       <div className="mb-5 flex flex-col gap-2 sm:flex-row">
         <Button asChild className="h-10">
-          <Link to="/admin/shlokas/new">
+          <Link to={routePaths.adminShlokaNew}>
             <Plus />
             {strings.admin.newShloka}
           </Link>
         </Button>
         <Button asChild className="h-10" variant="outline">
-          <Link to="/admin/sources/new">
+          <Link to={routePaths.adminSourceNew}>
             <Plus />
             {strings.admin.newSource}
           </Link>
@@ -87,33 +88,51 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
     queryFn: () => auth.apiClient.getSource(sourceCode),
     queryKey: ["admin", "sources", sourceCode],
   });
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [chapters, setChapters] = useState<ChapterFormState[]>([]);
-  const [parts, setParts] = useState<PartFormState[]>([]);
+  useUnauthorizedRedirect(sourceQuery.error);
 
+  return (
+    <AdminShell>
+      <AdminHeader title={strings.admin.editSourceTitle} subtitle={strings.admin.editSourceSubtitle} />
+      {sourceQuery.isPending ? (
+        <StatusCard title={strings.common.loading} />
+      ) : sourceQuery.error ? (
+        <StatusCard
+          description={getApiErrorMessage(sourceQuery.error, strings.admin.loadSourceError)}
+          title={strings.common.error}
+        />
+      ) : (
+        <AdminSourceEditForm key={sourceQuery.data.code} source={sourceQuery.data} />
+      )}
+    </AdminShell>
+  );
+}
+
+function AdminSourceEditForm({ source }: { source: ApiTypes.AdminSourceDto }) {
+  const auth = useAuth();
+  const [title, setTitle] = useState(source.title);
+  const [description, setDescription] = useState(source.description ?? "");
+  const [chapters, setChapters] = useState<ChapterFormState[]>(
+    source.chapters.map(({ code, title: chapterTitle }) => ({
+      code,
+      title: chapterTitle,
+    })),
+  );
+  const [parts, setParts] = useState<PartFormState[]>(
+    source.parts.map((part) => ({
+      code: part.code,
+      title: part.title,
+      chapters: part.chapters.map((chapter) => ({
+        code: chapter.code,
+        title: chapter.title,
+      })),
+    })),
+  );
   const mutation = useMutation({
-    mutationFn: (request: ApiTypes.UpdateSourceRequest) => auth.apiClient.updateSource(sourceCode, request),
+    mutationFn: (request: ApiTypes.UpdateSourceRequest) =>
+      auth.apiClient.updateSource(source.code, request),
   });
 
-  useUnauthorizedRedirect(sourceQuery.error ?? mutation.error);
-
-  useEffect(() => {
-    if (!sourceQuery.data) {
-      return;
-    }
-
-    setTitle(sourceQuery.data.title);
-    setDescription(sourceQuery.data.description ?? "");
-    setChapters(sourceQuery.data.chapters.map(({ code, title: chapterTitle }) => ({ code, title: chapterTitle })));
-    setParts(
-      sourceQuery.data.parts.map((part) => ({
-        code: part.code,
-        title: part.title,
-        chapters: part.chapters.map((chapter) => ({ code: chapter.code, title: chapter.title })),
-      })),
-    );
-  }, [sourceQuery.data]);
+  useUnauthorizedRedirect(mutation.error);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -122,10 +141,10 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
     await mutation.mutateAsync({
       title,
       ...(description ? { description } : {}),
-      ...(sourceQuery.data?.structureType === "chapters"
+      ...(source.structureType === "chapters"
         ? { chapters: chapters.map((chapter, index) => ({ ...chapter, order: index + 1 })) }
         : {}),
-      ...(sourceQuery.data?.structureType === "parts"
+      ...(source.structureType === "parts"
         ? {
             parts: parts.map((part, partIndex) => ({
               code: part.code,
@@ -142,49 +161,37 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
   }
 
   return (
-    <AdminShell>
-      <AdminHeader title={strings.admin.editSourceTitle} subtitle={strings.admin.editSourceSubtitle} />
-      {sourceQuery.isPending ? (
-        <StatusCard title={strings.common.loading} />
-      ) : sourceQuery.error ? (
-        <StatusCard
-          description={getApiErrorMessage(sourceQuery.error, strings.admin.loadSourceError)}
-          title={strings.common.error}
-        />
-      ) : (
-        <Card className="rounded-lg">
-          <CardContent className="pt-6">
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <FieldError error={mutation.error} fallback={strings.admin.saveError} />
-              {mutation.isSuccess ? <SuccessMessage text={strings.admin.sourceSaved} /> : null}
-              <TextField label={strings.admin.sourceCode} onChange={() => undefined} readOnly value={sourceQuery.data.code} />
-              <TextField label={strings.admin.structure} onChange={() => undefined} readOnly value={structureLabel(sourceQuery.data.structureType)} />
-              <TextField label={strings.admin.title} onChange={setTitle} required value={title} />
-              <TextField label={strings.admin.description} onChange={setDescription} value={description} />
+    <Card className="rounded-lg">
+      <CardContent className="pt-6">
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <FieldError error={mutation.error} fallback={strings.admin.saveError} />
+          {mutation.isSuccess ? <SuccessMessage text={strings.admin.sourceSaved} /> : null}
+          <TextField label={strings.admin.sourceCode} onChange={() => undefined} readOnly value={source.code} />
+          <TextField label={strings.admin.structure} onChange={() => undefined} readOnly value={structureLabel(source.structureType)} />
+          <TextField label={strings.admin.title} onChange={setTitle} required value={title} />
+          <TextField label={strings.admin.description} onChange={setDescription} value={description} />
 
-              {sourceQuery.data.structureType === "chapters" ? (
-                <ChapterFields chapters={chapters} existingCodes={sourceQuery.data.chapters.map((chapter) => chapter.code)} onChange={setChapters} />
-              ) : null}
+          {source.structureType === "chapters" ? (
+            <ChapterFields chapters={chapters} existingCodes={source.chapters.map((chapter) => chapter.code)} onChange={setChapters} />
+          ) : null}
 
-              {sourceQuery.data.structureType === "parts" ? (
-                <PartFields
-                  existingChapterCodes={Object.fromEntries(
-                    sourceQuery.data.parts.map((part) => [part.code, part.chapters.map((chapter) => chapter.code)]),
-                  )}
-                  existingPartCodes={sourceQuery.data.parts.map((part) => part.code)}
-                  onChange={setParts}
-                  parts={parts}
-                />
-              ) : null}
+          {source.structureType === "parts" ? (
+            <PartFields
+              existingChapterCodes={Object.fromEntries(
+                source.parts.map((part) => [part.code, part.chapters.map((chapter) => chapter.code)]),
+              )}
+              existingPartCodes={source.parts.map((part) => part.code)}
+              onChange={setParts}
+              parts={parts}
+            />
+          ) : null}
 
-              <Button className="h-10 w-full sm:w-auto" disabled={mutation.isPending} type="submit">
-                {strings.admin.saveSource}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-    </AdminShell>
+          <Button className="h-10 w-full sm:w-auto" disabled={mutation.isPending} type="submit">
+            {strings.admin.saveSource}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -194,25 +201,38 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
     queryFn: () => auth.apiClient.getShloka(shlokaCode),
     queryKey: ["admin", "shlokas", shlokaCode],
   });
-  const [padas, setPadas] = useState(emptyShlokaPadas);
-  const [fullTranslation, setFullTranslation] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
+  useUnauthorizedRedirect(shlokaQuery.error);
 
+  return (
+    <AdminShell>
+      <AdminHeader title={strings.admin.editShlokaTitle} subtitle={strings.admin.editShlokaSubtitle} />
+      {shlokaQuery.isPending ? (
+        <StatusCard title={strings.common.loading} />
+      ) : shlokaQuery.error ? (
+        <StatusCard
+          description={getApiErrorMessage(shlokaQuery.error, strings.admin.loadShlokaError)}
+          title={strings.common.error}
+        />
+      ) : (
+        <AdminShlokaEditForm key={shlokaQuery.data.code} shloka={shlokaQuery.data} />
+      )}
+    </AdminShell>
+  );
+}
+
+function AdminShlokaEditForm({ shloka }: { shloka: ApiTypes.AdminShlokaDto }) {
+  const auth = useAuth();
+  const [padas, setPadas] = useState(() => toShlokaPadaFields(shloka.padas));
+  const [fullTranslation, setFullTranslation] = useState(
+    shloka.fullTranslation ?? "",
+  );
+  const [formError, setFormError] = useState<string | null>(null);
   const mutation = useMutation({
-    mutationFn: (request: ApiTypes.UpdateShlokaRequest) => auth.apiClient.updateShloka(shlokaCode, request),
+    mutationFn: (request: ApiTypes.UpdateShlokaRequest) =>
+      auth.apiClient.updateShloka(shloka.code, request),
   });
 
-  useUnauthorizedRedirect(shlokaQuery.error ?? mutation.error);
-
-  useEffect(() => {
-    if (!shlokaQuery.data) {
-      return;
-    }
-
-    setPadas(toShlokaPadaFields(shlokaQuery.data.padas));
-    setFullTranslation(shlokaQuery.data.fullTranslation ?? "");
-    setFormError(null);
-  }, [shlokaQuery.data]);
+  useUnauthorizedRedirect(mutation.error);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -235,51 +255,39 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
   }
 
   return (
-    <AdminShell>
-      <AdminHeader title={strings.admin.editShlokaTitle} subtitle={strings.admin.editShlokaSubtitle} />
-      {shlokaQuery.isPending ? (
-        <StatusCard title={strings.common.loading} />
-      ) : shlokaQuery.error ? (
-        <StatusCard
-          description={getApiErrorMessage(shlokaQuery.error, strings.admin.loadShlokaError)}
-          title={strings.common.error}
-        />
-      ) : (
-        <Card className="rounded-lg">
-          <CardContent className="space-y-5 pt-6">
-            <WarningMessage text={strings.admin.canonicalTextWarning} />
-            <form className="space-y-5" noValidate onSubmit={handleSubmit}>
-              <LocalError error={formError} />
-              <FieldError error={mutation.error} fallback={strings.admin.saveError} />
-              {mutation.isSuccess ? <SuccessMessage text={strings.admin.shlokaSaved} /> : null}
-              <TextField label={strings.admin.shlokaCode} onChange={() => undefined} readOnly value={shlokaQuery.data.code} />
-              <TextField label={strings.admin.source} onChange={() => undefined} readOnly value={shlokaQuery.data.sourceTitle} />
-              {shlokaQuery.data.partTitle ? (
-                <TextField label={strings.admin.part} onChange={() => undefined} readOnly value={shlokaQuery.data.partTitle} />
-              ) : null}
-              {shlokaQuery.data.chapterTitle ? (
-                <TextField label={strings.admin.chapter} onChange={() => undefined} readOnly value={shlokaQuery.data.chapterTitle} />
-              ) : null}
-              <TextField label={strings.admin.shlokaNumber} onChange={() => undefined} readOnly value={shlokaQuery.data.number} />
-              {padas.map((pada, index) => (
-                <TextField
-                  key={index}
-                  label={`${strings.admin.pada} ${index + 1}`}
-                  onChange={(value) => setPadas((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))}
-                  required
-                  value={pada}
-                />
-              ))}
-              <TextField label={strings.admin.fullTranslation} onChange={setFullTranslation} value={fullTranslation} />
+    <Card className="rounded-lg">
+      <CardContent className="space-y-5 pt-6">
+        <WarningMessage text={strings.admin.canonicalTextWarning} />
+        <form className="space-y-5" noValidate onSubmit={handleSubmit}>
+          <LocalError error={formError} />
+          <FieldError error={mutation.error} fallback={strings.admin.saveError} />
+          {mutation.isSuccess ? <SuccessMessage text={strings.admin.shlokaSaved} /> : null}
+          <TextField label={strings.admin.shlokaCode} onChange={() => undefined} readOnly value={shloka.code} />
+          <TextField label={strings.admin.source} onChange={() => undefined} readOnly value={shloka.sourceTitle} />
+          {shloka.partTitle ? (
+            <TextField label={strings.admin.part} onChange={() => undefined} readOnly value={shloka.partTitle} />
+          ) : null}
+          {shloka.chapterTitle ? (
+            <TextField label={strings.admin.chapter} onChange={() => undefined} readOnly value={shloka.chapterTitle} />
+          ) : null}
+          <TextField label={strings.admin.shlokaNumber} onChange={() => undefined} readOnly value={shloka.number} />
+          {padas.map((pada, index) => (
+            <TextField
+              key={index}
+              label={`${strings.admin.pada} ${index + 1}`}
+              onChange={(value) => setPadas((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))}
+              required
+              value={pada}
+            />
+          ))}
+          <TextField label={strings.admin.fullTranslation} onChange={setFullTranslation} value={fullTranslation} />
 
-              <Button className="h-10 w-full sm:w-auto" disabled={mutation.isPending} type="submit">
-                {strings.admin.saveShloka}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-    </AdminShell>
+          <Button className="h-10 w-full sm:w-auto" disabled={mutation.isPending} type="submit">
+            {strings.admin.saveShloka}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -513,10 +521,10 @@ export function AdminShlokaPage() {
 }
 
 function AdminShell({
-  backTo = "/admin",
+  backTo = routePaths.admin,
   children,
 }: {
-  backTo?: "/admin" | "/settings";
+  backTo?: typeof routePaths.admin | typeof routePaths.settings;
   children: ReactNode;
 }) {
   return (
@@ -536,7 +544,11 @@ function AdminHeader({ subtitle, title }: { subtitle: string; title: string }) {
   );
 }
 
-function AdminBackLink({ to }: { to: "/admin" | "/settings" }) {
+function AdminBackLink({
+  to,
+}: {
+  to: typeof routePaths.admin | typeof routePaths.settings;
+}) {
   return (
     <Button asChild className="mb-4 size-12" size="icon-lg" variant="ghost">
       <Link aria-label={strings.common.back} to={to}>
@@ -558,7 +570,7 @@ function AdminSourceSection({ source }: { source: ApiTypes.AdminCatalogSourceDto
             </CardDescription>
           </div>
           <Button asChild aria-label={`${strings.admin.editSource} ${source.title}`} size="icon-sm" variant="ghost">
-            <Link params={{ sourceCode: source.code }} to="/admin/sources/$sourceCode/edit">
+            <Link params={{ sourceCode: source.code }} to={routePaths.adminSourceEdit}>
               <Pencil />
             </Link>
           </Button>
@@ -574,7 +586,7 @@ function AdminSourceSection({ source }: { source: ApiTypes.AdminCatalogSourceDto
                   <p className="break-words text-sm leading-6 text-muted-foreground">{shlokaExcerpt(shloka.text)}</p>
                 </div>
                 <Button asChild aria-label={`${strings.admin.editShloka} ${shloka.number}`} size="icon-sm" variant="ghost">
-                  <Link params={{ shlokaCode: shloka.code }} to="/admin/shlokas/$shlokaCode/edit">
+                  <Link params={{ shlokaCode: shloka.code }} to={routePaths.adminShlokaEdit}>
                     <Pencil />
                   </Link>
                 </Button>
@@ -856,7 +868,7 @@ function EmptySources() {
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">{strings.admin.noSources}</p>
       <Button asChild className="h-10">
-        <Link to="/admin/sources/new">
+        <Link to={routePaths.adminSourceNew}>
           <Plus />
           {strings.admin.createSource}
         </Link>

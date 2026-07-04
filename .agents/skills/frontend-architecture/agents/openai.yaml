@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Architecture"
+  short_description: "Audit and evolve frontend architecture."
+  default_prompt: "Use $frontend-architecture to audit or evolve the frontend architecture safely."

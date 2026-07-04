@@ -12,6 +12,7 @@ import { DashboardPage } from "@/pages/dashboard-page";
 import { LibraryPage, ShlokaPage } from "@/pages/library-page";
 import { LoginPage, RegisterPage } from "@/pages/auth-pages";
 import { SettingsPage } from "@/pages/settings-page";
+import { routePaths, routeSegments } from "@/shared/model/routes";
 
 interface RouterContext {
   auth: AuthContextValue;
@@ -23,76 +24,78 @@ const rootRoute = createRootRouteWithContext<RouterContext>()({
 
 const indexRoute = createRoute({
   beforeLoad: ({ context }) => {
-    throw redirect({ to: context.auth.hasSession ? "/dashboard" : "/login" });
+    throw redirect({
+      to: context.auth.hasSession ? routePaths.dashboard : routePaths.login,
+    });
   },
   getParentRoute: () => rootRoute,
-  path: "/",
+  path: routeSegments.root,
 });
 
 const loginRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (context.auth.hasSession) {
-      throw redirect({ to: "/dashboard" });
+      throw redirect({ to: routePaths.dashboard });
     }
   },
   component: LoginPage,
   getParentRoute: () => rootRoute,
-  path: "login",
+  path: routeSegments.login,
 });
 
 const registerRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (context.auth.hasSession) {
-      throw redirect({ to: "/dashboard" });
+      throw redirect({ to: routePaths.dashboard });
     }
   },
   component: RegisterPage,
   getParentRoute: () => rootRoute,
-  path: "register",
+  path: routeSegments.register,
 });
 
 const dashboardRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (!context.auth.hasSession) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: routePaths.login });
     }
   },
   component: DashboardPage,
   getParentRoute: () => rootRoute,
-  path: "dashboard",
+  path: routeSegments.dashboard,
 });
 
 const libraryRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (!context.auth.hasSession) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: routePaths.login });
     }
   },
   component: LibraryPage,
   getParentRoute: () => rootRoute,
-  path: "library",
+  path: routeSegments.library,
 });
 
 const shlokaRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (!context.auth.hasSession) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: routePaths.login });
     }
   },
   component: ShlokaRoute,
   getParentRoute: () => rootRoute,
-  path: "library/shlokas/$shlokaCode",
+  path: routeSegments.libraryShloka,
 });
 
 const settingsRoute = createRoute({
   beforeLoad: ({ context }) => {
     if (!context.auth.hasSession) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: routePaths.login });
     }
   },
   component: SettingsPage,
   getParentRoute: () => rootRoute,
-  path: "settings",
+  path: routeSegments.settings,
 });
 
 const adminRoute = createRoute({
@@ -101,7 +104,7 @@ const adminRoute = createRoute({
   },
   component: AdminPage,
   getParentRoute: () => rootRoute,
-  path: "admin",
+  path: routeSegments.admin,
 });
 
 const adminSourceRoute = createRoute({
@@ -110,7 +113,7 @@ const adminSourceRoute = createRoute({
   },
   component: AdminSourcePage,
   getParentRoute: () => rootRoute,
-  path: "admin/sources/new",
+  path: routeSegments.adminSourceNew,
 });
 
 const adminSourceEditRoute = createRoute({
@@ -119,7 +122,7 @@ const adminSourceEditRoute = createRoute({
   },
   component: AdminSourceEditRoute,
   getParentRoute: () => rootRoute,
-  path: "admin/sources/$sourceCode/edit",
+  path: routeSegments.adminSourceEdit,
 });
 
 const adminShlokaRoute = createRoute({
@@ -128,7 +131,7 @@ const adminShlokaRoute = createRoute({
   },
   component: AdminShlokaPage,
   getParentRoute: () => rootRoute,
-  path: "admin/shlokas/new",
+  path: routeSegments.adminShlokaNew,
 });
 
 const adminShlokaEditRoute = createRoute({
@@ -137,7 +140,7 @@ const adminShlokaEditRoute = createRoute({
   },
   component: AdminShlokaEditRoute,
   getParentRoute: () => rootRoute,
-  path: "admin/shlokas/$shlokaCode/edit",
+  path: routeSegments.adminShlokaEdit,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -187,11 +190,11 @@ function AdminShlokaEditRoute() {
 
 function requireAdmin(auth: AuthContextValue): void {
   if (!auth.hasSession) {
-    throw redirect({ to: "/login" });
+    throw redirect({ to: routePaths.login });
   }
 
   if (!auth.account?.roles.includes("admin")) {
-    throw redirect({ to: "/dashboard" });
+    throw redirect({ to: routePaths.dashboard });
   }
 }
 
