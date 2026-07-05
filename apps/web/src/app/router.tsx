@@ -3,32 +3,73 @@ import {
   createRootRouteWithContext,
   createRoute,
   createRouter,
+  lazyRouteComponent,
   redirect,
 } from "@tanstack/react-router";
 
-import {
-  AdminLayout,
-  AuthenticatedLayout,
-} from "@/app/layouts/protected-layouts";
-import {
-  AdminCatalogPage,
-  AdminShlokaEditPage,
-  AdminShlokaPage,
-  AdminSourceEditPage,
-  AdminSourcePage,
-} from "@/features/admin";
-import { LoginPage } from "@/features/auth/login.page";
-import { RegisterPage } from "@/features/auth/register.page";
-import { DashboardPage } from "@/features/dashboard/dashboard.page";
-import { LibraryPage } from "@/features/library/library.page";
-import { ShlokaPage } from "@/features/library/shloka.page";
-import { SettingsPage } from "@/features/settings/settings.page";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 
 interface RouterContext {
   session: SessionContextValue;
 }
+
+const loadProtectedLayouts = () =>
+  import("@/app/layouts/protected-layouts");
+const loadAdminSourcePages = () =>
+  import("@/features/admin/source-editor.page");
+const loadAdminShlokaPages = () =>
+  import("@/features/admin/shloka-editor.page");
+
+const AuthenticatedLayout = lazyRouteComponent(
+  loadProtectedLayouts,
+  "AuthenticatedLayout",
+);
+const AdminLayout = lazyRouteComponent(loadProtectedLayouts, "AdminLayout");
+const LoginPage = lazyRouteComponent(
+  () => import("@/features/auth/login.page"),
+  "LoginPage",
+);
+const RegisterPage = lazyRouteComponent(
+  () => import("@/features/auth/register.page"),
+  "RegisterPage",
+);
+const DashboardPage = lazyRouteComponent(
+  () => import("@/features/dashboard/dashboard.page"),
+  "DashboardPage",
+);
+const LibraryPage = lazyRouteComponent(
+  () => import("@/features/library/library.page"),
+  "LibraryPage",
+);
+const ShlokaPage = lazyRouteComponent(
+  () => import("@/features/library/shloka.page"),
+  "ShlokaPage",
+);
+const SettingsPage = lazyRouteComponent(
+  () => import("@/features/settings/settings.page"),
+  "SettingsPage",
+);
+const AdminCatalogPage = lazyRouteComponent(
+  () => import("@/features/admin/catalog.page"),
+  "AdminCatalogPage",
+);
+const AdminSourcePage = lazyRouteComponent(
+  loadAdminSourcePages,
+  "AdminSourcePage",
+);
+const AdminSourceEditPage = lazyRouteComponent(
+  loadAdminSourcePages,
+  "AdminSourceEditPage",
+);
+const AdminShlokaPage = lazyRouteComponent(
+  loadAdminShlokaPages,
+  "AdminShlokaPage",
+);
+const AdminShlokaEditPage = lazyRouteComponent(
+  loadAdminShlokaPages,
+  "AdminShlokaEditPage",
+);
 
 const rootRoute = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
@@ -162,6 +203,7 @@ export function createAppRouter() {
     context: {
       session: undefined as unknown as SessionContextValue,
     },
+    defaultPreload: "intent",
     routeTree,
   });
 }
