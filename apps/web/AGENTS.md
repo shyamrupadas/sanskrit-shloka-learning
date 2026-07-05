@@ -1,12 +1,16 @@
 # Frontend ED Small
 
-Перед любой frontend-задачей прочитай
-`docs/architecture/frontend.md`: миграция ED small еще не завершена, поэтому
-legacy-код не является образцом для нового кода.
+При добавлении или перемещении frontend-файлов, изменении зависимостей,
+interfaces или ответственности модулей прочитай
+`docs/architecture/frontend.md`.
 
-Не расширяй legacy-структуру и не выполняй сопутствующий архитектурный
-рефакторинг вне текущей задачи. Для архитектурного аудита или переноса используй
-project skill `$frontend-architecture`.
+Для локальной правки существующего implementation без изменения границ,
+interfaces, зависимостей или ответственности модулей живую спецификацию можно
+не перечитывать.
+
+Не создавай верхнеуровневые `pages`, `services`, `components`, `auth`, `api`,
+`lib` или `test` внутри `src`. Для архитектурного аудита, переноса или
+эволюции модулей используй project skill `$frontend-architecture`.
 
 Обязательные проверки после frontend-изменений:
 
@@ -14,4 +18,11 @@ project skill `$frontend-architecture`.
 pnpm lint
 pnpm --filter @sanskrit-shloka-learning/web typecheck
 pnpm --filter @sanskrit-shloka-learning/web test:unit
+```
+
+Для финальной архитектурной проверки дополнительно запускай:
+
+```bash
+pnpm --filter @sanskrit-shloka-learning/web build
+pnpm --filter @sanskrit-shloka-learning/web test:e2e
 ```

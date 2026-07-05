@@ -1,6 +1,7 @@
 # Удалить legacy-архитектуру и проверить ED small
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-05
 
 ## Родитель
 

@@ -17,6 +17,9 @@ export const edSmallBoundariesConfig = {
         alwaysTryTypes: true,
       },
     },
+    "boundaries/flag-as-external": {
+      customSourcePatterns: ["@sanskrit-shloka-learning/*"],
+    },
     "boundaries/elements": [
       {
         pattern: "src/app",
@@ -34,6 +37,8 @@ export const edSmallBoundariesConfig = {
     ],
   },
   rules: {
+    "boundaries/no-unknown-files": "error",
+    "boundaries/no-unknown": "error",
     "boundaries/dependencies": [
       "error",
       {

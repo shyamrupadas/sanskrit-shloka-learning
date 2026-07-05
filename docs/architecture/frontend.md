@@ -1,6 +1,6 @@
 # Frontend Architecture
 
-Status: migration in progress
+Status: stable
 
 Текущие правила для `apps/web`. [ADR-0003](../adr/0003-evolution-design-for-frontend-architecture.md)
 объясняет выбор ED small; ESLint исполняет проверяемые правила. Расхождения
@@ -38,15 +38,15 @@ Status: migration in progress
 seams без фактической сложности. Слой `services` требует решения о переходе к
 ED medium.
 
-## Migration Mode
+## Guardrails
 
-До выполнения [issue 09](../../.scratch/frontend-evolution-design/issues/09-verify-ed-small-migration.md):
-
-- Код вне `app`, `features`, `shared` — legacy, не образец; не расширять его.
-- Legacy менять только в текущем миграционном шаге; compatibility imports
-  удалить до завершения шага.
-- Переносить один законченный seam без продуктовых или визуальных изменений.
-- Сохранять routes, params, query/localStorage keys, HTTP/API contract,
-  generated artifacts и наблюдаемое поведение.
-
-Issue 09 удаляет этот раздел и включает запрет неизвестных файлов и зависимостей.
+- `boundaries/no-unknown-files` запрещает frontend-файлы вне описанных элементов.
+- `boundaries/no-unknown` запрещает локальные зависимости, которые не попали в
+  `app`, `features` или `shared`.
+- Workspace-пакеты вроде API contract считаются внешними зависимостями через
+  `boundaries/flag-as-external`; локальные импорты через `@/` остаются под
+  архитектурной проверкой.
+- ESLint включает React hooks правила.
+- При переносе или изменении границ сохранять routes, params,
+  query/localStorage keys, HTTP/API contract, generated artifacts,
+  пользовательское поведение и визуальный дизайн.
