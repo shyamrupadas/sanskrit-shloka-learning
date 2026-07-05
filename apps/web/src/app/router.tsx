@@ -12,6 +12,8 @@ import {
 } from "@/app/layouts/protected-layouts";
 import {
   AdminCatalogPage,
+  AdminShlokaEditPage,
+  AdminShlokaPage,
   AdminSourceEditPage,
   AdminSourcePage,
 } from "@/features/admin";
@@ -21,7 +23,6 @@ import { DashboardPage } from "@/features/dashboard/dashboard.page";
 import { LibraryPage } from "@/features/library/library.page";
 import { ShlokaPage } from "@/features/library/shloka.page";
 import { SettingsPage } from "@/features/settings/settings.page";
-import { AdminShlokaEditPage, AdminShlokaPage } from "@/pages/admin-pages";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 

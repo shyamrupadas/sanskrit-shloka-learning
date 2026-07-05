@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, TriangleAlert } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { strings } from "@/shared/i18n";
@@ -15,6 +15,7 @@ import {
 } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
+import { Textarea } from "@/shared/ui/textarea";
 
 export function AdminShell({
   backTo = routePaths.admin,
@@ -92,6 +93,21 @@ export function FieldError({
   );
 }
 
+export function LocalError({ error }: { error: string | null }) {
+  if (!error) {
+    return null;
+  }
+
+  return (
+    <p
+      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+      role="alert"
+    >
+      {error}
+    </p>
+  );
+}
+
 export function SuccessMessage({ text }: { text: string }) {
   return (
     <p
@@ -99,6 +115,15 @@ export function SuccessMessage({ text }: { text: string }) {
       role="status"
     >
       {text}
+    </p>
+  );
+}
+
+export function WarningMessage({ text }: { text: string }) {
+  return (
+    <p className="flex gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm leading-6 text-primary">
+      <TriangleAlert className="mt-0.5 size-4 shrink-0" />
+      <span>{text}</span>
     </p>
   );
 }
@@ -125,6 +150,32 @@ export function TextField({
         id={id}
         onChange={(event) => onChange(event.currentTarget.value)}
         readOnly={readOnly}
+        required={required}
+        value={value}
+      />
+    </div>
+  );
+}
+
+export function TextareaField({
+  label,
+  onChange,
+  required,
+  value,
+}: {
+  label: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  value: string;
+}) {
+  const id = useFieldId(label);
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Textarea
+        id={id}
+        onChange={(event) => onChange(event.currentTarget.value)}
         required={required}
         value={value}
       />

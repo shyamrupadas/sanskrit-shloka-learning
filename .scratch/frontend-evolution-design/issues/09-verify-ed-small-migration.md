@@ -33,4 +33,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-evolution-design/issues/08-migrate-admin-shloka-editor.md`
+Нет - можно начинать сразу
