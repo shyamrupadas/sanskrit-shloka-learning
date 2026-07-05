@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Tests"
+  short_description: "Add focused regression tests."
+  default_prompt: "Use $write-tests to add a focused regression test for the affected behavior."
