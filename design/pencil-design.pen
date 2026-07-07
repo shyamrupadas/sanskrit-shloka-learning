@@ -5658,7 +5658,7 @@
       "name": "03 Product Components",
       "clip": true,
       "width": 900,
-      "height": 2680,
+      "height": 3560,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -6511,42 +6511,67 @@
                       "id": "PPSJl",
                       "type": "ref",
                       "ref": "e16iU",
-                      "name": "Inactive closed Indicator"
-                    },
-                    {
-                      "type": "text",
-                      "id": "Zgu05",
-                      "name": "Inactive closed Label",
-                      "fill": "$text-muted",
-                      "content": "Inactive closed",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-semibold"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "U4UEI",
-                  "name": "Active closed",
-                  "layout": "vertical",
-                  "gap": "$space-2",
-                  "children": [
-                    {
-                      "id": "ZjUB4",
-                      "type": "ref",
-                      "ref": "e16iU",
-                      "name": "Active closed Indicator"
-                    },
-                    {
-                      "type": "text",
-                      "id": "vUghI",
-                      "name": "Active closed Label",
-                      "fill": "$text-muted",
-                      "content": "Active closed",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-semibold"
+                      "name": "Inactive closed Indicator",
+                      "descendants": {
+                        "HZYZM": {
+                          "type": "path",
+                          "id": "mAgVS",
+                          "x": 1,
+                          "y": 0,
+                          "name": "Streak Flame Outer",
+                          "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
+                          "viewBox": [
+                            0,
+                            0,
+                            48,
+                            48
+                          ],
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "$color-icon-muted",
+                                "position": 0
+                              },
+                              {
+                                "color": "$color-border-strong",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 23,
+                          "height": 25,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "enabled": false,
+                            "color": "#00000000"
+                          }
+                        },
+                        "pS8zR": {
+                          "type": "path",
+                          "id": "O3gCYS",
+                          "x": 8,
+                          "y": 10,
+                          "name": "Streak Flame Inner",
+                          "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
+                          "viewBox": [
+                            0,
+                            0,
+                            48,
+                            48
+                          ],
+                          "fill": "$color-disabled-bg",
+                          "width": 10,
+                          "height": 13
+                        }
+                      }
                     }
                   ]
                 }
@@ -6587,7 +6612,67 @@
                           "id": "XWlr5",
                           "type": "ref",
                           "ref": "e16iU",
-                          "name": "Inactive Popup Indicator"
+                          "name": "Inactive Popup Indicator",
+                          "descendants": {
+                            "HZYZM": {
+                              "type": "path",
+                              "id": "czm2B",
+                              "x": 1,
+                              "y": 0,
+                              "name": "Streak Flame Outer",
+                              "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
+                              "viewBox": [
+                                0,
+                                0,
+                                48,
+                                48
+                              ],
+                              "fill": {
+                                "type": "gradient",
+                                "gradientType": "linear",
+                                "enabled": true,
+                                "rotation": 180,
+                                "size": {
+                                  "height": 1
+                                },
+                                "colors": [
+                                  {
+                                    "color": "$color-icon-muted",
+                                    "position": 0
+                                  },
+                                  {
+                                    "color": "$color-border-strong",
+                                    "position": 1
+                                  }
+                                ]
+                              },
+                              "width": 23,
+                              "height": 25,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "enabled": false,
+                                "color": "#00000000"
+                              }
+                            },
+                            "pS8zR": {
+                              "type": "path",
+                              "id": "u5wmZV",
+                              "x": 8,
+                              "y": 10,
+                              "name": "Streak Flame Inner",
+                              "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
+                              "viewBox": [
+                                0,
+                                0,
+                                48,
+                                48
+                              ],
+                              "fill": "$color-disabled-bg",
+                              "width": 10,
+                              "height": 13
+                            }
+                          }
                         }
                       ]
                     },
@@ -6627,7 +6712,67 @@
                               "id": "KiT7Q",
                               "type": "ref",
                               "ref": "e16iU",
-                              "name": "Inactive Popup Popup Indicator"
+                              "name": "Inactive Popup Popup Indicator",
+                              "descendants": {
+                                "HZYZM": {
+                                  "type": "path",
+                                  "id": "W2Amo",
+                                  "x": 1,
+                                  "y": 0,
+                                  "name": "Streak Flame Outer",
+                                  "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    48,
+                                    48
+                                  ],
+                                  "fill": {
+                                    "type": "gradient",
+                                    "gradientType": "linear",
+                                    "enabled": true,
+                                    "rotation": 180,
+                                    "size": {
+                                      "height": 1
+                                    },
+                                    "colors": [
+                                      {
+                                        "color": "$color-icon-muted",
+                                        "position": 0
+                                      },
+                                      {
+                                        "color": "$color-border-strong",
+                                        "position": 1
+                                      }
+                                    ]
+                                  },
+                                  "width": 23,
+                                  "height": 25,
+                                  "effect": {
+                                    "type": "shadow",
+                                    "shadowType": "outer",
+                                    "enabled": false,
+                                    "color": "#00000000"
+                                  }
+                                },
+                                "pS8zR": {
+                                  "type": "path",
+                                  "id": "Qmj0n",
+                                  "x": 8,
+                                  "y": 10,
+                                  "name": "Streak Flame Inner",
+                                  "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    48,
+                                    48
+                                  ],
+                                  "fill": "$color-disabled-bg",
+                                  "width": 10,
+                                  "height": 13
+                                }
+                              }
                             },
                             {
                               "type": "text",
@@ -7102,29 +7247,6 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "oMdbd",
-                  "name": "Form Header",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 6,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "C5eLG8",
-                      "name": "Form Title",
-                      "fill": "#0F172A",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Новый источник",
-                      "lineHeight": 1.12,
-                      "fontFamily": "Inter",
-                      "fontSize": 29,
-                      "fontWeight": "800"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
                   "id": "EFkCt",
                   "name": "Source Form Fields",
                   "width": "fill_container",
@@ -7481,29 +7603,6 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "ks5xx",
-                  "name": "Form Header",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 6,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "fsejk",
-                      "name": "Form Title",
-                      "fill": "$text",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Новая шлока",
-                      "lineHeight": 1.12,
-                      "fontFamily": "$font",
-                      "fontSize": 29,
-                      "fontWeight": "800"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
                   "id": "OPN7L",
                   "name": "Form Fields",
                   "width": "fill_container",
@@ -7682,6 +7781,111 @@
                   ]
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qWaA6",
+          "name": "Layout Components Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "jt3Y0",
+              "name": "Layout Components Title",
+              "fill": "$color-text-primary",
+              "content": "Лейауты экранов",
+              "fontFamily": "$font-heading",
+              "fontSize": "$type-section-title-size",
+              "fontWeight": "$type-weight-bold"
+            },
+            {
+              "type": "text",
+              "id": "orFby",
+              "name": "Layout Components Description",
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Полноразмерные каркасы приложения: detail-экран с кнопкой назад и основной экран с нижней навигацией.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-body",
+              "fontSize": "$type-body-sm-size",
+              "fontWeight": "$type-weight-regular"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kzghQ",
+          "name": "Product Row / Layout Components",
+          "width": "fill_container",
+          "height": 900,
+          "gap": "$space-6",
+          "children": [
+            {
+              "id": "c1SEd",
+              "type": "ref",
+              "ref": "haku8",
+              "name": "Product / Layout / Back Header Full Size",
+              "width": 390,
+              "height": 900,
+              "descendants": {
+                "m8i6XF": {
+                  "content": "Новая шлока",
+                  "fontSize": "$typo-h1-size",
+                  "fontWeight": "$typo-h1-weight",
+                  "lineHeight": "$typo-h1-line"
+                },
+                "uFSKB": {
+                  "type": "frame",
+                  "id": "DRuMD",
+                  "name": "Empty Content Area",
+                  "width": 358,
+                  "height": 750,
+                  "fill": "$bg",
+                  "layout": "vertical"
+                }
+              }
+            },
+            {
+              "id": "SHZM9",
+              "type": "ref",
+              "ref": "jZZrV",
+              "name": "Product / Layout / Main With Bottom Navigation Full Size",
+              "width": 390,
+              "height": 900,
+              "descendants": {
+                "Gpbzr": {
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "B0WyI",
+                      "name": "Header Title",
+                      "fill": "$text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Заголовок",
+                      "lineHeight": "$typo-h1-line",
+                      "textAlign": "center",
+                      "fontFamily": "$font",
+                      "fontSize": "$typo-h1-size",
+                      "fontWeight": "$typo-h1-weight"
+                    }
+                  ]
+                },
+                "Jixp5": {
+                  "type": "frame",
+                  "id": "jx5tZ",
+                  "name": "Empty Content Area",
+                  "width": 358,
+                  "height": 672,
+                  "fill": "$bg",
+                  "layout": "vertical"
+                }
+              }
             }
           ]
         }
@@ -11709,808 +11913,428 @@
       ]
     },
     {
-      "type": "frame",
-      "id": "SmTrE",
+      "id": "NmyPN",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — редактирование шлоки",
       "x": 550,
       "y": 1315,
-      "name": "Админка — редактирование шлоки",
-      "clip": true,
       "width": 390,
       "height": 900,
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "E6yj7G",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "PJcJ9",
-              "name": "Status Time",
-              "fill": "$text",
-              "content": "9:41",
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "yrecE",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "xei11",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "AwS1D",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "S2Y9b",
-                  "name": "Status Icon battery-full",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$text"
-                }
-              ]
-            }
-          ]
+      "descendants": {
+        "m8i6XF": {
+          "content": "Редактирование"
         },
-        {
+        "uFSKB": {
           "type": "frame",
-          "id": "JuuMT",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
+          "id": "Fbyt6",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 750,
+          "layout": "vertical",
           "children": [
             {
-              "id": "qryWV",
+              "id": "kIpXh",
               "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
+              "ref": "gkqb9",
+              "name": "Edit Shloka Form",
+              "width": 358,
+              "descendants": {
+                "R2uHb/NifPw": {
+                  "content": "Бхагавад-гита",
+                  "fill": "$input-value"
+                },
+                "qEjTD/NifPw": {
+                  "content": "1",
+                  "fill": "$input-value"
+                },
+                "DEtEL/ONWjS": {
+                  "content": "1",
+                  "fill": "$input-value"
+                },
+                "ngk8h/aUMci": {
+                  "content": "Сохранить"
+                }
+              }
             }
           ]
-        },
-        {
-          "id": "zjhGl",
-          "type": "ref",
-          "ref": "gkqb9",
-          "name": "Edit Shloka Form",
-          "width": "fill_container",
-          "descendants": {
-            "fsejk": {
-              "content": "Редактирование"
-            },
-            "R2uHb/NifPw": {
-              "content": "Бхагавад-гита",
-              "fill": "$input-value"
-            },
-            "qEjTD/NifPw": {
-              "content": "1",
-              "fill": "$input-value"
-            },
-            "DEtEL/ONWjS": {
-              "content": "1",
-              "fill": "$input-value"
-            },
-            "ngk8h/aUMci": {
-              "content": "Сохранить"
-            }
-          }
         }
-      ]
+      }
     },
     {
-      "type": "frame",
-      "id": "epGXt",
+      "id": "aUsAL",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — создание шлоки",
       "x": 120,
       "y": 1315,
-      "name": "Админка — создание шлоки",
-      "clip": true,
       "width": 390,
       "height": 900,
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "TB5Ne",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "MgNCB",
-              "name": "Status Time",
-              "fill": "$text",
-              "content": "9:41",
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "I9NL4O",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "x61tzC",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "w3csT",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "px8mh",
-                  "name": "Status Icon battery-full",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$text"
-                }
-              ]
-            }
-          ]
+      "descendants": {
+        "m8i6XF": {
+          "content": "Новая шлока"
         },
-        {
+        "uFSKB": {
           "type": "frame",
-          "id": "SOoKb",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
+          "id": "hX8ty",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 750,
+          "layout": "vertical",
           "children": [
             {
-              "id": "BaJp2",
+              "id": "McYwP",
               "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
+              "ref": "gkqb9",
+              "name": "Create Shloka Form",
+              "width": 358
             }
           ]
-        },
-        {
-          "id": "fnDbJ",
-          "type": "ref",
-          "ref": "gkqb9",
-          "name": "Create Shloka Form",
-          "width": "fill_container"
         }
-      ]
+      }
     },
     {
-      "type": "frame",
-      "id": "Q1TjAT",
+      "id": "DxZ4Q",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — создание источника / с главами",
       "x": 1410,
       "y": 1315,
-      "name": "Админка — создание источника / с главами",
-      "clip": true,
       "width": 390,
       "height": 900,
-      "fill": "#F8FAFC",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "wG331",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "s4i3r",
-              "name": "Status Time",
-              "fill": "#0F172A",
-              "content": "9:41",
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "XYGTo",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "QstOq",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "QSQLw",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "d0xhF7",
-                  "name": "Status Icon battery-full",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                }
-              ]
-            }
-          ]
+      "descendants": {
+        "m8i6XF": {
+          "content": "Новый источник"
         },
-        {
+        "uFSKB": {
           "type": "frame",
-          "id": "fyqwe",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
+          "id": "cPlkY",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 750,
+          "layout": "vertical",
           "children": [
             {
-              "id": "x0zeBA",
+              "id": "qbkWM",
               "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
-            }
-          ]
-        },
-        {
-          "id": "sf0tm",
-          "type": "ref",
-          "ref": "QUgwl",
-          "name": "Create Source Form",
-          "width": "fill_container",
-          "descendants": {
-            "A3orb6": {
-              "fill": "#FFFFFF00"
-            },
-            "vYFV8": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "we0CZ": {
-              "fill": "#FFFFFF"
-            },
-            "fIy1t": {
-              "fill": "#0F172A",
-              "fontWeight": "700"
-            },
-            "C4mQBw": {
-              "fill": "#FFFFFF00"
-            },
-            "qZAKM": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "CxIpg": {
-              "type": "frame",
-              "id": "OtQil",
-              "name": "Chapters Block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "LOkiy",
-                  "name": "Chapters Heading",
+              "ref": "QUgwl",
+              "name": "Create Source Form",
+              "width": 358,
+              "descendants": {
+                "A3orb6": {
+                  "fill": "#FFFFFF00"
+                },
+                "vYFV8": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "we0CZ": {
+                  "fill": "#FFFFFF"
+                },
+                "fIy1t": {
                   "fill": "#0F172A",
-                  "content": "Главы",
-                  "fontFamily": "Inter",
-                  "fontSize": 17,
                   "fontWeight": "700"
                 },
-                {
+                "C4mQBw": {
+                  "fill": "#FFFFFF00"
+                },
+                "qZAKM": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "CxIpg": {
                   "type": "frame",
-                  "id": "g2sz1",
-                  "name": "Chapter List",
+                  "id": "qQByg",
+                  "name": "Chapters Block",
                   "width": "fill_container",
                   "layout": "vertical",
                   "gap": 10,
                   "children": [
                     {
+                      "type": "text",
+                      "id": "L1cMl",
+                      "name": "Chapters Heading",
+                      "fill": "#0F172A",
+                      "content": "Главы",
+                      "fontFamily": "Inter",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
                       "type": "frame",
-                      "id": "hpDSC",
-                      "name": "Chapter Row 1",
+                      "id": "B6c4D",
+                      "name": "Chapter List",
                       "width": "fill_container",
-                      "gap": 8,
-                      "alignItems": "end",
+                      "layout": "vertical",
+                      "gap": 10,
                       "children": [
                         {
-                          "id": "yF3WG",
+                          "id": "SagXd",
                           "type": "ref",
                           "ref": "VvKs5",
-                          "name": "Chapter Name Field 1",
+                          "name": "Chapter Name Field",
                           "width": "fill_container",
                           "descendants": {
                             "I1XCdW": {
-                              "content": "Название главы"
+                              "content": "Название"
                             },
                             "RBmUz": {
                               "enabled": false
                             },
                             "ONWjS": {
-                              "content": "Например, Глава 1",
+                              "content": "Введите название",
                               "fill": "#B8C3D1"
+                            }
+                          }
+                        },
+                        {
+                          "id": "of7DK",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter Number Field",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Номер"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "1",
+                              "fill": "#0F172A"
                             }
                           }
                         }
                       ]
                     },
                     {
-                      "type": "frame",
-                      "id": "hsTzL",
-                      "name": "Chapter Row 2",
+                      "id": "b3HV0",
+                      "type": "ref",
+                      "ref": "B9n47J",
+                      "name": "Add Chapter Button",
                       "width": "fill_container",
-                      "gap": 8,
-                      "alignItems": "end",
-                      "children": [
-                        {
-                          "id": "bazIn",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter Name Field 2",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Название главы"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Следующая глава",
-                              "fill": "#B8C3D1"
-                            }
-                          }
+                      "descendants": {
+                        "g86340": {
+                          "fill": "#2563EB",
+                          "icon": "plus"
                         },
-                        {
-                          "type": "frame",
-                          "id": "S82smp",
-                          "name": "Delete Chapter Button",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#D6DEE9",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "TWmy8",
-                              "name": "Delete Chapter Icon",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "trash-2",
-                              "library": "lucide",
-                              "fill": "#DC2626"
-                            }
-                          ]
+                        "VZsCN": {
+                          "content": "Добавить главу"
                         }
-                      ]
+                      }
                     }
                   ]
-                },
-                {
-                  "id": "XLeEw",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Add Chapter Button",
-                  "width": "fill_container",
-                  "descendants": {
-                    "g86340": {
-                      "icon": "plus",
-                      "fill": "#2563EB"
-                    },
-                    "VZsCN": {
-                      "content": "Добавить главу"
-                    }
-                  }
                 }
-              ]
+              }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     {
-      "type": "frame",
-      "id": "C9Ngfq",
+      "id": "kxCGc",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — создание источника / без глав",
       "x": 980,
       "y": 1315,
-      "name": "Админка — создание источника / без глав",
-      "clip": true,
       "width": 390,
       "height": 900,
-      "fill": "#F8FAFC",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "yEzIW",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "NNvvI",
-              "name": "Status Time",
-              "fill": "#0F172A",
-              "content": "9:41",
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "nQnLe",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "dP8Ah",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "f7y7f",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "rapY7",
-                  "name": "Status Icon battery-full",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                }
-              ]
-            }
-          ]
+      "descendants": {
+        "m8i6XF": {
+          "content": "Новый источник"
         },
-        {
+        "uFSKB": {
           "type": "frame",
-          "id": "nIlkj",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
+          "id": "pvegV",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 750,
+          "layout": "vertical",
           "children": [
             {
-              "id": "IKtRp",
+              "id": "mqGVN",
               "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
-            }
-          ]
-        },
-        {
-          "id": "a5I1Kz",
-          "type": "ref",
-          "ref": "QUgwl",
-          "name": "Create Source Form Without Chapters",
-          "width": "fill_container",
-          "descendants": {
-            "A3orb6": {
-              "fill": "#FFFFFF"
-            },
-            "vYFV8": {
-              "fill": "#0F172A",
-              "fontWeight": "700"
-            },
-            "we0CZ": {
-              "fill": "#FFFFFF00"
-            },
-            "fIy1t": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "C4mQBw": {
-              "fill": "#FFFFFF00"
-            },
-            "qZAKM": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "CxIpg": {
-              "enabled": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "jR76K",
-      "x": 2269,
-      "y": 1315,
-      "name": "Админка — редактирование источника",
-      "clip": true,
-      "width": 390,
-      "height": 975,
-      "fill": "#F8FAFC",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "UTPls",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "u1IvMg",
-              "name": "Status Time",
-              "fill": "#0F172A",
-              "content": "9:41",
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "zanhs",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "wsOrI",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "#0F172A"
+              "ref": "QUgwl",
+              "name": "Create Source Form Without Chapters",
+              "width": 358,
+              "descendants": {
+                "A3orb6": {
+                  "fill": "#FFFFFF"
                 },
-                {
-                  "type": "icon",
-                  "id": "tHmof",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "M6EIVM",
-                  "name": "Status Icon battery-full",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "BCgKw",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
-          "children": [
-            {
-              "id": "UBSrZ",
-              "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
-            }
-          ]
-        },
-        {
-          "id": "zNZHJ",
-          "type": "ref",
-          "ref": "QUgwl",
-          "name": "Edit Source Form",
-          "gap": 16,
-          "width": "fill_container",
-          "descendants": {
-            "C5eLG8": {
-              "content": "Редактирование"
-            },
-            "M1spoj/ONWjS": {
-              "content": "bg",
-              "fill": "#0F172A"
-            },
-            "bqlVM/ONWjS": {
-              "content": "Бхагавад-гита",
-              "fill": "#0F172A"
-            },
-            "K6vtp/PCyw0": {
-              "content": "Диалог Кришны и Арджуны о долге, знании и пути духовной практики.",
-              "fill": "#0F172A"
-            },
-            "A3orb6": {
-              "fill": "#FFFFFF00"
-            },
-            "vYFV8": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "we0CZ": {
-              "fill": "#FFFFFF"
-            },
-            "fIy1t": {
-              "fill": "#0F172A",
-              "fontWeight": "700"
-            },
-            "C4mQBw": {
-              "fill": "#FFFFFF00"
-            },
-            "qZAKM": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "CxIpg": {
-              "type": "frame",
-              "id": "TYECA",
-              "name": "Chapters Block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Byqyb",
-                  "name": "Chapters Heading",
+                "vYFV8": {
                   "fill": "#0F172A",
-                  "content": "Главы",
-                  "fontFamily": "Inter",
-                  "fontSize": 17,
                   "fontWeight": "700"
                 },
-                {
+                "we0CZ": {
+                  "fill": "#FFFFFF00"
+                },
+                "fIy1t": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "C4mQBw": {
+                  "fill": "#FFFFFF00"
+                },
+                "qZAKM": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "CxIpg": {
                   "type": "frame",
-                  "id": "qejzP",
-                  "name": "Chapter List",
+                  "id": "B2t5g",
+                  "name": "No Chapters Empty Structure Block",
+                  "width": "fill_container",
+                  "height": 0,
+                  "layout": "vertical"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gOpc1",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — редактирование источника",
+      "x": 2269,
+      "y": 1315,
+      "width": 390,
+      "height": 975,
+      "descendants": {
+        "m8i6XF": {
+          "content": "Редактирование"
+        },
+        "uFSKB": {
+          "type": "frame",
+          "id": "WjXHs",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 825,
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "hO8yv",
+              "type": "ref",
+              "ref": "QUgwl",
+              "name": "Edit Source Form",
+              "width": 358,
+              "descendants": {
+                "M1spoj/ONWjS": {
+                  "content": "bg",
+                  "fill": "#0F172A"
+                },
+                "bqlVM/ONWjS": {
+                  "content": "Бхагавад-гита",
+                  "fill": "#0F172A"
+                },
+                "K6vtp/PCyw0": {
+                  "content": "Диалог Кришны и Арджуны о долге, знании и пути духовной практики.",
+                  "fill": "#0F172A"
+                },
+                "A3orb6": {
+                  "fill": "#FFFFFF00"
+                },
+                "vYFV8": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "we0CZ": {
+                  "fill": "#FFFFFF"
+                },
+                "fIy1t": {
+                  "fill": "#0F172A",
+                  "fontWeight": "700"
+                },
+                "C4mQBw": {
+                  "fill": "#FFFFFF00"
+                },
+                "qZAKM": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "CxIpg": {
+                  "type": "frame",
+                  "id": "W7L4pB",
+                  "name": "Chapters Block",
                   "width": "fill_container",
                   "layout": "vertical",
                   "gap": 10,
                   "children": [
                     {
+                      "type": "text",
+                      "id": "s4bMNs",
+                      "name": "Chapters Heading",
+                      "fill": "#0F172A",
+                      "content": "Главы",
+                      "fontFamily": "Inter",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
                       "type": "frame",
-                      "id": "AzaKm",
-                      "name": "Chapter Row 1",
+                      "id": "T9MVwp",
+                      "name": "Chapter List",
                       "width": "fill_container",
-                      "gap": 8,
-                      "alignItems": "end",
+                      "layout": "vertical",
+                      "gap": 10,
                       "children": [
                         {
-                          "id": "QRRkJ",
+                          "id": "Z5MumT",
                           "type": "ref",
                           "ref": "VvKs5",
-                          "name": "Chapter Name Field 1",
+                          "name": "Chapter 1 Field",
                           "width": "fill_container",
                           "descendants": {
                             "I1XCdW": {
-                              "content": "Название главы"
+                              "content": "Глава 1"
                             },
                             "RBmUz": {
                               "enabled": false
                             },
                             "ONWjS": {
-                              "content": "Глава 1",
+                              "content": "Арджуна-вишада-йога",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "id": "Rz1St",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter 2 Field",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Глава 2"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Санкхья-йога",
+                              "fill": "#0F172A"
+                            }
+                          }
+                        },
+                        {
+                          "id": "FYC4C",
+                          "type": "ref",
+                          "ref": "VvKs5",
+                          "name": "Chapter 3 Field",
+                          "width": "fill_container",
+                          "descendants": {
+                            "I1XCdW": {
+                              "content": "Глава 3"
+                            },
+                            "RBmUz": {
+                              "enabled": false
+                            },
+                            "ONWjS": {
+                              "content": "Карма-йога",
                               "fill": "#0F172A"
                             }
                           }
@@ -12518,272 +12342,89 @@
                       ]
                     },
                     {
-                      "type": "frame",
-                      "id": "kv5SU",
-                      "name": "Chapter Row 2",
+                      "id": "RMVI2",
+                      "type": "ref",
+                      "ref": "B9n47J",
+                      "name": "Add Chapter Button",
                       "width": "fill_container",
-                      "gap": 8,
-                      "alignItems": "end",
-                      "children": [
-                        {
-                          "id": "nR3Ey",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter Name Field 2",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Название главы"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Глава 2",
-                              "fill": "#0F172A"
-                            }
-                          }
+                      "descendants": {
+                        "g86340": {
+                          "fill": "#2563EB",
+                          "icon": "plus"
                         },
-                        {
-                          "type": "frame",
-                          "id": "wqQPL",
-                          "name": "Delete Chapter Button",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#D6DEE9",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "tuJ5r",
-                              "name": "Delete Chapter Icon",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "trash-2",
-                              "library": "lucide",
-                              "fill": "#DC2626"
-                            }
-                          ]
+                        "VZsCN": {
+                          "content": "Добавить главу"
                         }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "FBG41",
-                      "name": "Chapter Row 3",
-                      "width": "fill_container",
-                      "gap": 8,
-                      "alignItems": "end",
-                      "children": [
-                        {
-                          "id": "UxSwx",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter Name Field 3",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Название главы"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Глава 3",
-                              "fill": "#0F172A"
-                            }
-                          }
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Eh0p6",
-                          "name": "Delete Chapter Button",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 8,
-                          "stroke": "#D6DEE9",
-                          "strokeWidth": 1,
-                          "strokeAlignment": "inner",
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "lqdfU",
-                              "name": "Delete Chapter Icon",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "trash-2",
-                              "library": "lucide",
-                              "fill": "#DC2626"
-                            }
-                          ]
-                        }
-                      ]
+                      }
                     }
                   ]
                 },
-                {
-                  "id": "Q58nEu",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Add Chapter Button",
-                  "width": "fill_container",
-                  "descendants": {
-                    "g86340": {
-                      "icon": "plus",
-                      "fill": "#2563EB"
-                    },
-                    "VZsCN": {
-                      "content": "Добавить главу"
-                    }
-                  }
+                "WF4BM/aUMci": {
+                  "content": "Сохранить"
                 }
-              ]
-            },
-            "WF4BM/aUMci": {
-              "content": "Сохранить"
+              }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     {
-      "type": "frame",
-      "id": "URxxp",
+      "id": "aLrxL",
+      "type": "ref",
+      "ref": "haku8",
+      "name": "Админка — создание источника / с частями",
       "x": 1841,
       "y": 1315,
-      "name": "Админка — создание источника / с частями",
-      "clip": true,
       "width": 390,
       "height": 1040,
-      "fill": "#F8FAFC",
-      "layout": "vertical",
-      "gap": 10,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "eHtCD",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "xNos7",
-              "name": "Status Time",
-              "fill": "#0F172A",
-              "content": "9:41",
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "P70MEx",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "pdYD5",
-                  "name": "Status Icon signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "jwNlb",
-                  "name": "Status Icon wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                },
-                {
-                  "type": "icon",
-                  "id": "VoFIR",
-                  "name": "Status Icon battery-full",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "#0F172A"
-                }
-              ]
-            }
-          ]
+      "descendants": {
+        "m8i6XF": {
+          "content": "Новый источник"
         },
-        {
+        "uFSKB": {
           "type": "frame",
-          "id": "oBqFI",
-          "name": "Admin Back Row",
-          "width": "fill_container",
-          "height": 44,
-          "alignItems": "center",
+          "id": "l4jbpq",
+          "name": "Content Slot",
+          "width": 358,
+          "height": 890,
+          "layout": "vertical",
           "children": [
             {
-              "id": "Bkhtr",
+              "id": "MnaTK",
               "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button Instance"
+              "ref": "QUgwl",
+              "name": "Create Source Form With Parts",
+              "width": 358,
+              "descendants": {
+                "EFkCt": {
+                  "gap": 10
+                },
+                "A3orb6": {
+                  "fill": "#FFFFFF00"
+                },
+                "vYFV8": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "we0CZ": {
+                  "fill": "#FFFFFF00"
+                },
+                "fIy1t": {
+                  "fill": "#64748B",
+                  "fontWeight": "600"
+                },
+                "C4mQBw": {
+                  "fill": "#FFFFFF"
+                },
+                "qZAKM": {
+                  "fill": "#0F172A",
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
-        },
-        {
-          "id": "bCK0R",
-          "type": "ref",
-          "ref": "QUgwl",
-          "name": "Create Source Form With Parts",
-          "gap": 10,
-          "width": "fill_container",
-          "descendants": {
-            "EFkCt": {
-              "gap": 10
-            },
-            "A3orb6": {
-              "fill": "#FFFFFF00"
-            },
-            "vYFV8": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "we0CZ": {
-              "fill": "#FFFFFF00"
-            },
-            "fIy1t": {
-              "fill": "#64748B",
-              "fontWeight": "600"
-            },
-            "C4mQBw": {
-              "fill": "#FFFFFF"
-            },
-            "qZAKM": {
-              "fill": "#0F172A",
-              "fontWeight": "700"
-            }
-          }
         }
-      ]
+      }
     },
     {
       "type": "frame",
@@ -13404,6 +13045,287 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EwoIh",
+      "x": 0,
+      "y": 0,
+      "width": "fit_content(0)",
+      "height": "fit_content(0)"
+    },
+    {
+      "type": "frame",
+      "id": "WDC88",
+      "x": 0,
+      "y": 0,
+      "width": "fit_content(0)",
+      "height": "fit_content(0)"
+    },
+    {
+      "type": "frame",
+      "id": "haku8",
+      "x": 2269,
+      "y": 0,
+      "name": "Product / Layout / Back Header",
+      "reusable": true,
+      "clip": true,
+      "width": 390,
+      "height": 900,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "DWBZc",
+          "name": "Status Bar",
+          "width": 358,
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "jXbJk",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "jfnVz",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "k5I7P",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "HxPP4",
+                  "name": "Wifi Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "f13mzv",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gNwOk",
+          "name": "Back Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "e5hwD",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "zxoyR",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "m8i6XF",
+                  "name": "Header Title",
+                  "fill": "$text",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Заголовок",
+                  "lineHeight": "$typo-h1-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": "$typo-h1-size",
+                  "fontWeight": "$typo-h1-weight"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rBvcB",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uFSKB",
+          "width": "fit_content(0)",
+          "height": 750
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "jZZrV",
+      "x": 2699,
+      "y": 0,
+      "name": "Product / Layout / Main With Bottom Navigation",
+      "reusable": true,
+      "clip": true,
+      "width": 390,
+      "height": 900,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "NVEuM",
+          "name": "Status Bar",
+          "width": 358,
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Y9yAR",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "Z2Eh5h",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "s6n2r9",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "U9kyd4",
+                  "name": "Wifi Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "k0ArC",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Gpbzr",
+          "name": "Title Header",
+          "width": 358,
+          "height": 44,
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "RmybS",
+              "name": "Header Title",
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Заголовок",
+              "lineHeight": "$typo-h1-line",
+              "textAlign": "center",
+              "fontFamily": "$font",
+              "fontSize": "$typo-h1-size",
+              "fontWeight": "$typo-h1-weight"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Jixp5",
+          "name": "Content Slot",
+          "slot": [
+            "z6MuZx",
+            "OPAt8",
+            "MTM4W"
+          ],
+          "width": 358,
+          "height": 672,
+          "layout": "vertical"
+        },
+        {
+          "id": "d0qqT",
+          "type": "ref",
+          "ref": "S7Pta",
+          "name": "Bottom Navigation",
+          "width": 358
         }
       ]
     }
