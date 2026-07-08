@@ -1,6 +1,7 @@
 # Evolution Design small для фронтенда
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-08
 
 ## Problem Statement
 

@@ -12,8 +12,9 @@ Status: stable
 - `app`: bootstrap, providers, router, guards, layouts, композиция фич.
 - `features/<feature>`: route-level страницы, состояние и логика одного
   крупного пользовательского сценария.
-- `shared`: только глобальные UI (`src/shared/ui`), i18n, API helpers,
-  session-модель, route constants, utilities и test harness.
+- `shared`: базовые UI-примитивы (`src/shared/ui`), синхронизированные с
+  Pencil токены и проектные компоненты (`src/shared/design-system`), i18n,
+  API helpers, session-модель, route constants, utilities и test harness.
 
 ## Зависимости
 
