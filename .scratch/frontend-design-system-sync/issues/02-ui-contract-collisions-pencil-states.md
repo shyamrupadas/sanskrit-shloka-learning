@@ -31,4 +31,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-design-system-sync/issues/01-ui-contract-workflow.md`
+Нет - можно начинать сразу

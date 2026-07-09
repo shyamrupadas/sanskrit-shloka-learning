@@ -9,7 +9,19 @@ Issues and PRDs for this repo live as markdown files in `.scratch/`.
 - Implementation issues are `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
 - Triage state is recorded as a `Status:` line near the top of each issue or PRD file (see `triage-labels.md` for the role strings)
 - Completed issues and accepted PRDs may include an `Accepted: YYYY-MM-DD` line after `Status:`. Treat `Accepted:` as the local completion marker; do not add non-canonical values like `done` to `Status:`.
-- Issues that create or change visible frontend UI must include Pencil references or explicitly record a `UI Contract Collision`; see `docs/design/frontend-design-system.md`.
+
+## UI-contract requirements
+
+PRDs and issues that create or change visible frontend UI must follow `docs/design/frontend-design-system.md`.
+
+- Include `## Pencil references` with human-readable Pencil names and `nodeId` values for relevant screens, states and reusable components.
+- If the UI contract is missing or conflicts with the requirement, include a structured `## UI Contract Collision`; do not leave a free-form note or ask the agent to improvise.
+- Use `docs/design/pencil-design-map.md` as the navigation index for preparing issues and for reviewer checks.
+- Treat `design/pencil-design.pen` as the canonical UI contract. `design/new-design.pen` is deprecated.
+- Keep functional behavior in PRD, domain docs, ADR and API contracts. Pencil references define visual UI, screen states, components and tokens.
+- Backend/API-only issues do not need Pencil references when they do not introduce a visible user scenario. If they introduce a future user scenario, the PRD/issue must either link to the future UI contract or explicitly state that frontend implementation is blocked until a UI contract exists.
+
+A visible UI issue without `## Pencil references` or `## UI Contract Collision` is not ready for `ready-for-agent`.
 
 ## When an agent finishes an issue
 
@@ -17,6 +29,7 @@ After completing the implementation and required checks:
 
 - Change `Status: ready-for-agent` to `Status: ready-for-human`.
 - Do not add `Accepted:`. Acceptance remains a human action.
+- If the issue touched visible UI, include the final `Pencil references` report with used screens, components and exceptions.
 - Report the issue as ready for human review.
 
 ## When a skill says "publish to the issue tracker"
