@@ -1,7 +1,6 @@
 ---
 name: project-commits
 description: Create commits with this repository's Conventional Commit rules.
-disable-model-invocation: true
 ---
 
 # Project Commits
