@@ -122,6 +122,27 @@ apps/web/src/shared/design-system/components/
 
 Эта граница нужна, чтобы не смешивать generic UI primitives и продуктовую дизайн-систему Sanskrit Shloka Learning. Страницы фич должны использовать уже существующие проектные компоненты и передавать смысловые props, а не повторять Tailwind-размеры, цвета, radii, spacing и карточную структуру там, где компонентный контракт уже выделен.
 
+### Shadcn/Radix primitives workflow
+
+Новые и обновляемые generic shadcn/Radix primitives в `apps/web/src/shared/ui/`
+обслуживаются через shadcn MCP workflow для текущего `apps/web/components.json`:
+
+1. Получить registry item и canonical add-команду через shadcn MCP.
+2. Запустить полученную команду или эквивалентный CLI workflow для текущего
+   `components.json`.
+3. После генерации оставить только техническую адаптацию к aliases
+   `components.json` (`@/shared/ui`, `@/shared/lib/utils`) и форматированию
+   проекта.
+
+Продуктовые дизайн-отличия не маскируются внутри `src/shared/ui`. Если primitive
+нужен как основа для Sanskrit Shloka Learning UI, продуктовый слой размещается в
+`src/shared/design-system/components/`, локальном feature component или другом
+project component по правилам компонентной границы.
+
+Если shadcn MCP недоступен или нужного item нет в registry, агент возвращает
+blocker/exception на ревью с указанием недоступного MCP/item и предполагаемого
+места будущего компонента.
+
 Pencil `reusable`-узел не является автоматическим требованием создать reusable React-компонент в `shared/design-system/components`. В Pencil reusable-компонент может быть выделен для скорости прототипирования, визуальной синхронизации экранов или удобства навигационной карты. В коде проектный компонент создается только после явного решения, что у паттерна есть устойчивая ответственность и полезный public API.
 
 Создавайте проектный компонент в коде, если выполняется хотя бы одно условие:
