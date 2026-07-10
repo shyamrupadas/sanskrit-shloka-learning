@@ -1,6 +1,7 @@
 # Добавить guardrails от дрейфа токенов и PWA-цветов
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-10
 
 ## Родитель
 
@@ -12,14 +13,14 @@ Status: ready-for-agent
 
 ## Критерии приемки
 
-- [ ] Проверка запрещает новые произвольные hex/OKLCH цвета в frontend-коде вне token/generator слоя.
-- [ ] Проверка PWA colors подтверждает, что theme colors, manifest colors и icon colors синхронизированы с token contract.
-- [ ] Magic-size ограничения вводятся только там, где есть готовая token/component основа, и не блокируют всю миграцию страниц сразу.
-- [ ] Guardrails документируют допустимые исключения для token/generator слоя.
-- [ ] Проверки интегрированы в существующий frontend quality workflow без создания параллельного test harness.
-- [ ] Тесты/fixtures guardrail-проверок демонстрируют запрещенный drift и разрешенный token-driven путь.
-- [ ] Существующие Tailwind utility classes не запрещаются полностью.
-- [ ] Обязательные frontend-проверки проходят.
+- [x] Проверка запрещает новые произвольные hex/OKLCH цвета в frontend-коде вне token/generator слоя.
+- [x] Проверка PWA colors подтверждает, что theme colors, manifest colors и icon colors синхронизированы с token contract.
+- [x] Magic-size ограничения вводятся только там, где есть готовая token/component основа, и не блокируют всю миграцию страниц сразу.
+- [x] Guardrails документируют допустимые исключения для token/generator слоя.
+- [x] Проверки интегрированы в существующий frontend quality workflow без создания параллельного test harness.
+- [x] Тесты/fixtures guardrail-проверок демонстрируют запрещенный drift и разрешенный token-driven путь.
+- [x] Существующие Tailwind utility classes не запрещаются полностью.
+- [x] Обязательные frontend-проверки проходят.
 
 ## Pencil references
 
@@ -28,3 +29,15 @@ Status: ready-for-agent
 ## Заблокировано
 
 Нет - можно начинать сразу
+
+## Agent report
+
+Pencil references:
+- Screens: none
+- Components/sections: `01 Foundations` (`otJrw`)
+- Exceptions: none
+
+Guardrails:
+- Raw hex/OKLCH scan runs in web unit tests over `src`, `public` and `index.html`, with documented token/theme/PWA artifact exceptions.
+- PWA theme, manifest and icon colors remain checked against `pwaThemeTokens`.
+- Magic-size scan is scoped to `src/shared/design-system/components/`, so existing pages and generic Tailwind scale utilities are not blocked during migration.
