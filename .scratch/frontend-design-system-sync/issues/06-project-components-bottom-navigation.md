@@ -14,8 +14,7 @@ Status: ready-for-agent
 
 - [ ] Generic shadcn/Radix primitives остаются отделены от Pencil-синхронизированных project components.
 - [ ] Начальный набор project components включает проверяемый фундамент для `BottomNavigation`, `PageHeader` и общих layout-паттернов, нужных для последующих экранов.
-- [ ] Existing shadcn/Radix UI primitives audited: все текущие shadcn-компоненты заведены корректно, используют актуальные aliases, CSS entrypoint, shared utilities и не ссылаются на несуществующие пути.
-- [ ] Shadcn configuration согласована с фактическим расположением generic UI primitives и theme entrypoint.
+- [ ] Project components строятся поверх shadcn/Radix primitives, проверенных в предыдущей задаче, без повторного аудита generic UI kit внутри этого среза.
 - [ ] Навигационная оболочка использует Pencil-синхронизированный `BottomNavigation`.
 - [ ] Нижняя навигация содержит `Дашборд`, `Библиотека`, `Обучение`, `Настройки`.
 - [ ] Активное состояние и переходы нижней навигации проверены через route-level или app-level сценарии.
