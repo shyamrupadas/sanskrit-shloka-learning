@@ -39,5 +39,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-design-system-sync/issues/03-design-token-contract-pencil-theme.md`
 - `.scratch/frontend-design-system-sync/issues/05-project-components-bottom-navigation.md`

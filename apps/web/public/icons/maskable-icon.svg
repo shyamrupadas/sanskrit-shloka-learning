@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">Sanskrit Shloka Learning maskable icon</title>
   <desc id="desc">Maskable app icon placeholder with a centered letter S.</desc>
-  <rect width="512" height="512" fill="#16684a" />
-  <circle cx="256" cy="256" r="176" fill="#f5fbf3" />
-  <path d="M187 333c19 17 43 25 72 25 54 0 91-30 91-75 0-43-28-64-82-76-35-8-50-17-50-35 0-18 17-29 44-29 25 0 47 8 67 23l16-44c-22-14-50-21-84-21-51 0-88 30-88 75 0 41 30 64 85 76 34 7 47 17 47 35 0 18-17 29-46 29-25 0-48-8-70-25l-22 42Z" fill="#16684a" />
+  <rect width="512" height="512" fill="#2563EB" />
+  <circle cx="256" cy="256" r="176" fill="#F8FAFC" />
+  <path d="M187 333c19 17 43 25 72 25 54 0 91-30 91-75 0-43-28-64-82-76-35-8-50-17-50-35 0-18 17-29 44-29 25 0 47 8 67 23l16-44c-22-14-50-21-84-21-51 0-88 30-88 75 0 41 30 64 85 76 34 7 47 17 47 35 0 18-17 29-46 29-25 0-48-8-70-25l-22 42Z" fill="#2563EB" />
 </svg>

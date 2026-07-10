@@ -1,6 +1,7 @@
 # Ввести code-token contract и синюю Pencil-тему приложения
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-10
 
 ## Родитель
 
@@ -12,18 +13,18 @@ Status: ready-for-agent
 
 ## Критерии приемки
 
-- [ ] Code-token contract содержит normalized модель: reference palette, semantic colors, typography, spacing, radius, elevation и минимальные component tokens.
-- [ ] Каждый code-token имеет явную связь с Pencil variable или source value; несвязанные токены не считаются синхронизированными.
-- [ ] Токены размещены внутри web-приложения и сохраняют переносимую структуру без преждевременного workspace package.
-- [ ] CSS variables и frontend theme производятся из token contract или проверяются против него.
-- [ ] Текущий frontend primary заменен на Pencil-синхронизированную синюю систему.
-- [ ] Типографика приложения использует Pencil-синхронизированный шрифт и размеры как базовую тему.
-- [ ] PWA theme colors, manifest colors и icon colors берутся из design tokens или проверяются против них.
-- [ ] Shadcn configuration указывает на фактический CSS entrypoint приложения и актуальные aliases.
-- [ ] Focused token contract tests проверяют связь token contract, CSS variables, theme и PWA-производных артефактов.
-- [ ] Существующие routes, route params, query keys, localStorage keys, API calls, generated API artifacts и публичный HTTP/API-контракт не меняются.
-- [ ] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
-- [ ] Обязательные frontend-проверки проходят.
+- [x] Code-token contract содержит normalized модель: reference palette, semantic colors, typography, spacing, radius, elevation и минимальные component tokens.
+- [x] Каждый code-token имеет явную связь с Pencil variable или source value; несвязанные токены не считаются синхронизированными.
+- [x] Токены размещены внутри web-приложения и сохраняют переносимую структуру без преждевременного workspace package.
+- [x] CSS variables и frontend theme производятся из token contract или проверяются против него.
+- [x] Текущий frontend primary заменен на Pencil-синхронизированную синюю систему.
+- [x] Типографика приложения использует Pencil-синхронизированный шрифт и размеры как базовую тему.
+- [x] PWA theme colors, manifest colors и icon colors берутся из design tokens или проверяются против них.
+- [x] Shadcn configuration указывает на фактический CSS entrypoint приложения и актуальные aliases.
+- [x] Focused token contract tests проверяют связь token contract, CSS variables, theme и PWA-производных артефактов.
+- [x] Существующие routes, route params, query keys, localStorage keys, API calls, generated API artifacts и публичный HTTP/API-контракт не меняются.
+- [x] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
+- [x] Обязательные frontend-проверки проходят.
 
 ## Pencil references
 
@@ -34,3 +35,10 @@ Status: ready-for-agent
 ## Заблокировано
 
 Нет - можно начинать сразу
+
+## Agent report
+
+Pencil references:
+- Screens: none
+- Components/sections: "01 Foundations" (`otJrw`), "02 Core Components" (`R1N0L6`), "03 Product Components" (`lgFfS`)
+- Exceptions: none
