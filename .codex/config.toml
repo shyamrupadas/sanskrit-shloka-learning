@@ -2,6 +2,18 @@
 command = "npx"
 args = ["shadcn@latest", "mcp"]
 
+[mcp_servers.shadcn.tools.get_project_registries]
+approval_mode = "approve"
+
+[mcp_servers.shadcn.tools.get_add_command_for_items]
+approval_mode = "approve"
+
+[mcp_servers.shadcn.tools.view_items_in_registries]
+approval_mode = "approve"
+
+[mcp_servers.shadcn.tools.get_audit_checklist]
+approval_mode = "approve"
+
 [mcp_servers.playwright]
 command = "npx"
 args = ["@playwright/mcp@latest"]

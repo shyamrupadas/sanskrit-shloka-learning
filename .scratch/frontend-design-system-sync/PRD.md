@@ -101,8 +101,12 @@ Status: ready-for-agent
 - CSS variables, frontend theme, PWA colors, manifest colors и icon colors должны быть производными от code-token contract или проверяться против него.
 - Базовые UI-примитивы остаются поверх shadcn/Radix.
 - Pencil-синхронизированные проектные компоненты выделяются отдельно от generic UI primitives.
-- Проектные компоненты соответствуют reusable-компонентам и устойчивым экранным паттернам Pencil: bottom navigation, shloka card, empty state, page header, review pack, want-to-learn block, streak indicator, settings row и admin form layout.
-- Страницы фич передают смысловые данные в проектные компоненты и не повторяют визуальные размеры, цвета, radii, spacing и карточную структуру.
+- Pencil `reusable`-узел является UI-контрактом и кандидатом на code component, но не автоматическим требованием создать reusable React-компонент.
+- Проектный компонент в `shared/design-system/components` создается только для устойчивого паттерна с повторным использованием, app-level/layout ответственностью, интерактивной/accessibility логикой или component tokens/guardrails, которые не должны копироваться в фичах.
+- Если Pencil reusable-компонент выделен только для удобства прототипирования или нужен одному экрану, его можно реализовать локально внутри фичи поверх shadcn/Radix primitives и design tokens; Pencil reference остается обязательным UI-контрактом.
+- Полноэкранные Pencil layout-узлы являются reference для визуального состава, отступов и shell-паттерна; они не требуют переносить в код fake mobile status bar, фиксированный phone frame или общий shared layout component.
+- Начальные кандидаты на проектные компоненты из Pencil: bottom navigation, shloka card, empty state, page header, review pack, want-to-learn block, streak indicator, settings row и admin form layout. Перед реализацией каждого кандидата нужно классифицировать его как shared project component, локальный feature component или app-level layout pattern.
+- Страницы фич передают смысловые данные в уже выделенные проектные компоненты и не повторяют визуальные размеры, цвета, radii, spacing и карточную структуру там, где компонентный контракт уже существует.
 - ED small остается архитектурной моделью frontend; design-system слой живет внутри shared и не вводит новый верхнеуровневый слой.
 - Синхронизация выполняется слоями: workflow и UI-контракт, токены и производные артефакты, проектные компоненты, затем экраны и пользовательские потоки.
 - Автоматические guardrails вводятся после появления code-token contract.

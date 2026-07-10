@@ -8,16 +8,20 @@ Status: ready-for-agent
 
 ## Что сделать
 
-Создать начальный слой Pencil-синхронизированных project components поверх существующих shadcn/Radix primitives и применить его к навигационной оболочке приложения. После среза generic UI primitives остаются базовым kit, project components становятся продуктовым языком Sanskrit Shloka Learning, а нижняя навигация работает через четыре раздела, включая `Обучение`.
+Создать начальный слой Pencil-синхронизированных project components поверх существующих shadcn/Radix primitives и применить его к навигационной оболочке приложения. После среза generic UI primitives остаются базовым kit, project components становятся продуктовым языком Sanskrit Shloka Learning, а нижняя навигация визуально содержит четыре раздела, включая `Обучение`.
 
 ## Критерии приемки
 
 - [ ] Generic shadcn/Radix primitives остаются отделены от Pencil-синхронизированных project components.
 - [ ] Начальный набор project components включает проверяемый фундамент для `BottomNavigation`, `PageHeader` и общих layout-паттернов, нужных для последующих экранов.
+- [ ] Перед созданием каждого code component явно применено правило: Pencil `reusable` является UI-контрактом и кандидатом, но не обязательством создавать shared React-компонент; в `shared/design-system/components` попадают только устойчивые shared/app-level паттерны с полезным public API.
+- [ ] Паттерны из Pencil, которые нужны только одному экрану или служат удобством прототипирования, не выносятся в shared в этой задаче; их будущий перенос требует второго реального потребителя или отдельного архитектурного решения.
+- [ ] Full-size layout references из Pencil используются как контракт отступов, slots и shell-состава, но не переносят в код fake mobile status bar, фиксированную высоту phone frame или общий shared layout без устойчивого API.
 - [ ] Project components строятся поверх shadcn/Radix primitives, проверенных в предыдущей задаче, без повторного аудита generic UI kit внутри этого среза.
 - [ ] Навигационная оболочка использует Pencil-синхронизированный `BottomNavigation`.
 - [ ] Нижняя навигация содержит `Дашборд`, `Библиотека`, `Обучение`, `Настройки`.
-- [ ] Активное состояние и переходы нижней навигации проверены через route-level или app-level сценарии.
+- [ ] Issue 06 не создает новый route для `Обучение`; пункт `Обучение` отображается в нижней навигации, но переход по нему в этом срезе не работает.
+- [ ] Активное состояние и переходы нижней навигации проверены через route-level или app-level сценарии для существующих маршрутов `Дашборд`, `Библиотека` и `Настройки`; для `Обучение` проверяется только наличие неработающего пункта без route creation.
 - [ ] Mobile viewports `390x844` и `360x800` проверены для navigation shell без overlap, clipping и layout shift.
 - [ ] Страницы передают в project components смысловые props и не повторяют карточную структуру, цвета, radii и spacing там, где уже есть компонентный контракт.
 - [ ] Existing routes, route params, query keys, localStorage keys, API calls and generated API artifacts не меняются.
