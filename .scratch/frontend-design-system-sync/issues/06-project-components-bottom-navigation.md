@@ -1,6 +1,7 @@
 # Создать project components и подключить bottom navigation shell
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-11
 
 ## Родитель
 
@@ -34,6 +35,17 @@ Status: ready-for-agent
 - Компонент: `Product / Layout / Back Header` (`haku8`)
 - Раздел: `02 Core Components` (`R1N0L6`)
 - Раздел: `03 Product Components` (`lgFfS`)
+
+## Принятое UI-решение
+
+- Решение пользователя от 2026-07-11: применять визуальный active-паттерн
+  `Product / Bottom Navigation` (`S7Pta`) к фактически активному маршруту.
+- Экранные Pencil-инстансы, которые наследуют active-состояние `Дашборд`, не
+  меняют это функциональное правило; `design/pencil-design.pen` в issue 06 не
+  редактируется.
+- Будущие расхождения между требованиями, reusable-компонентами и экранными
+  Pencil-инстансами должны быть вынесены пользователю до синхронизации кода или
+  Pencil.
 
 ## Заблокировано
 

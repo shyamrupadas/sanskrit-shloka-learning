@@ -71,6 +71,7 @@ describe("design token contract", () => {
       "card",
       "emptyState",
       "input",
+      "pageHeader",
       "tabs",
     ]);
   });

@@ -117,6 +117,8 @@ export const strings = {
   nav: {
     dashboard: "Дашборд",
     library: "Библиотека",
+    learning: "Обучение",
+    primaryLabel: "Основная навигация",
     settings: "Настройки",
   },
   settings: {

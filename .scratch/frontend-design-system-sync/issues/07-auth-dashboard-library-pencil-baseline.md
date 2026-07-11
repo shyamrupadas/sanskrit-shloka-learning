@@ -47,4 +47,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/frontend-design-system-sync/issues/06-project-components-bottom-navigation.md`
+Нет - можно начинать сразу

@@ -1,4 +1,10 @@
-import { expect, test, type Page, type Route } from "@playwright/test";
+import {
+  expect,
+  test,
+  type Locator,
+  type Page,
+  type Route,
+} from "@playwright/test";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 const accessTokenStorageKey = "sanskrit-shloka-learning.access-token";
@@ -81,6 +87,83 @@ test("logs in and logs out", async ({ page }) => {
   ).toBeNull();
 });
 
+for (const viewport of [
+  { height: 844, width: 390 },
+  { height: 800, width: 360 },
+]) {
+  test(`keeps the navigation shell stable at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    const session = await mockApi(page, {
+      email: `mobile-${viewport.width}@example.com`,
+    });
+
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(session.account.email);
+    await page.getByLabel("Пароль", { exact: true }).fill("correct-password");
+    await page.getByRole("button", { name: "Войти" }).click();
+
+    await expect(page).toHaveURL(/\/dashboard$/);
+
+    const navigation = page.getByRole("navigation", {
+      name: "Основная навигация",
+    });
+    const dashboardLink = navigation.getByRole("link", {
+      name: "Дашборд",
+    });
+    const libraryLink = navigation.getByRole("link", {
+      name: "Библиотека",
+    });
+    const learningItem = navigation.getByRole("button", {
+      name: "Обучение",
+    });
+    const settingsLink = navigation.getByRole("link", {
+      name: "Настройки",
+    });
+
+    await expect(navigation).toBeVisible();
+    await expectActiveNavigationLink(navigation, dashboardLink);
+    await expect(libraryLink).toBeVisible();
+    await expect(learningItem).toBeDisabled();
+    await expect(settingsLink).toBeVisible();
+
+    const initialMetrics = await expectNavigationFitsViewport(page, viewport);
+    const locationBeforeLearning = page.url();
+    await learningItem.evaluate((element) => (element as HTMLElement).click());
+    expect(page.url()).toBe(locationBeforeLearning);
+
+    await libraryLink.click();
+    await expect(page).toHaveURL(/\/library$/);
+    await expectActiveNavigationLink(navigation, libraryLink);
+    expectNavigationMetricsToBeStable(
+      await expectNavigationFitsViewport(page, viewport),
+      initialMetrics,
+    );
+
+    await settingsLink.click();
+    await expect(page).toHaveURL(/\/settings$/);
+    await expectActiveNavigationLink(navigation, settingsLink);
+    expectNavigationMetricsToBeStable(
+      await expectNavigationFitsViewport(page, viewport),
+      initialMetrics,
+    );
+
+    const logoutButton = page.getByRole("button", { name: "Выйти" });
+    await logoutButton.scrollIntoViewIfNeeded();
+    const [logoutBox, navigationBox] = await Promise.all([
+      logoutButton.boundingBox(),
+      navigation.boundingBox(),
+    ]);
+
+    expect(logoutBox).not.toBeNull();
+    expect(navigationBox).not.toBeNull();
+    expect(logoutBox!.y + logoutBox!.height).toBeLessThanOrEqual(
+      navigationBox!.y,
+    );
+  });
+}
+
 test("shows the generic login error for invalid credentials", async ({
   page,
 }) => {
@@ -100,6 +183,146 @@ test("shows the generic login error for invalid credentials", async ({
 interface ApiMockOptions {
   email?: string;
   invalidLogin?: boolean;
+}
+
+type NavigationMetrics = {
+  bottom: number;
+  height: number;
+  right: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
+async function expectNavigationFitsViewport(
+  page: Page,
+  viewport: { height: number; width: number },
+): Promise<NavigationMetrics> {
+  const navigation = page.getByRole("navigation", {
+    name: "Основная навигация",
+  });
+  const navigationItems = [
+    {
+      control: navigation.getByRole("link", { name: "Дашборд" }),
+      label: navigation.getByText("Дашборд", { exact: true }),
+    },
+    {
+      control: navigation.getByRole("link", { name: "Библиотека" }),
+      label: navigation.getByText("Библиотека", { exact: true }),
+    },
+    {
+      control: navigation.getByRole("button", { name: "Обучение" }),
+      label: navigation.getByText("Обучение", { exact: true }),
+    },
+    {
+      control: navigation.getByRole("link", { name: "Настройки" }),
+      label: navigation.getByText("Настройки", { exact: true }),
+    },
+  ];
+  const [metrics, contract, itemMetrics] = await Promise.all([
+    navigation.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+
+      return {
+        bottom: rect.bottom,
+        height: rect.height,
+        right: rect.right,
+        width: rect.width,
+        x: rect.x,
+        y: rect.y,
+      };
+    }),
+    page.evaluate(() => {
+      const styles = getComputedStyle(document.documentElement);
+      const readNumber = (name: string) =>
+        Number.parseFloat(styles.getPropertyValue(name));
+
+      return {
+        height: readNumber("--component-bottom-nav-height"),
+        inset: readNumber("--space-4"),
+        maxWidth: readNumber("--component-bottom-nav-width"),
+      };
+    }),
+    Promise.all(
+      navigationItems.map(async ({ control, label }) => {
+        const [controlMetrics, labelIsClipped] = await Promise.all([
+          control.evaluate((element) => {
+            const rect = element.getBoundingClientRect();
+
+            return {
+              bottom: rect.bottom,
+              isClipped:
+                element.scrollWidth > element.clientWidth ||
+                element.scrollHeight > element.clientHeight,
+              left: rect.left,
+              right: rect.right,
+              top: rect.top,
+            };
+          }),
+          label.evaluate(
+            (element) =>
+              element.scrollWidth > element.clientWidth ||
+              element.scrollHeight > element.clientHeight,
+          ),
+        ]);
+
+        return { ...controlMetrics, labelIsClipped };
+      }),
+    ),
+  ]);
+  const expectedWidth = Math.min(
+    contract.maxWidth,
+    viewport.width - contract.inset * 2,
+  );
+
+  expect(metrics.x).toBeCloseTo(contract.inset, 1);
+  expect(metrics.y).toBeGreaterThanOrEqual(0);
+  expect(viewport.width - metrics.right).toBeCloseTo(contract.inset, 1);
+  expect(viewport.height - metrics.bottom).toBeCloseTo(contract.inset, 1);
+  expect(metrics.height).toBeCloseTo(contract.height, 1);
+  expect(metrics.width).toBeCloseTo(expectedWidth, 1);
+  expect(itemMetrics).toHaveLength(4);
+
+  for (const item of itemMetrics) {
+    expect(item.left).toBeGreaterThanOrEqual(metrics.x);
+    expect(item.right).toBeLessThanOrEqual(metrics.right);
+    expect(item.top).toBeGreaterThanOrEqual(metrics.y);
+    expect(item.bottom).toBeLessThanOrEqual(metrics.bottom);
+    expect(item.isClipped).toBe(false);
+    expect(item.labelIsClipped).toBe(false);
+  }
+
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+
+  return metrics;
+}
+
+async function expectActiveNavigationLink(
+  navigation: Locator,
+  expectedLink: Locator,
+): Promise<void> {
+  await expect(expectedLink).toHaveAttribute("aria-current", "page");
+  expect(
+    await navigation.getByRole("link").evaluateAll(
+      (links) =>
+        links.filter((link) => link.getAttribute("aria-current") === "page")
+          .length,
+    ),
+  ).toBe(1);
+}
+
+function expectNavigationMetricsToBeStable(
+  actual: NavigationMetrics,
+  expected: NavigationMetrics,
+): void {
+  expect(actual.x).toBeCloseTo(expected.x, 0);
+  expect(actual.y).toBeCloseTo(expected.y, 0);
+  expect(actual.width).toBeCloseTo(expected.width, 0);
+  expect(actual.height).toBeCloseTo(expected.height, 0);
 }
 
 async function mockApi(

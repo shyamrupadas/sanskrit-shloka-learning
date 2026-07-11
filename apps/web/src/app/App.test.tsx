@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
 
@@ -119,16 +120,50 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("opens settings inside the authenticated layout", async () => {
+  it("navigates between available product sections and keeps learning unavailable", async () => {
+    const user = userEvent.setup();
     mockApi(successfulApi);
     storeTestSession(session);
 
-    renderAppAt("/settings");
+    renderAppAt("/dashboard");
 
-    const navigation = await screen.findByRole("navigation");
-    expect(
-      within(navigation).getByRole("link", { name: "Настройки" }),
-    ).toHaveAttribute("aria-current", "page");
+    const navigation = await screen.findByRole("navigation", {
+      name: "Основная навигация",
+    });
+    const dashboardLink = within(navigation).getByRole("link", {
+      name: "Дашборд",
+    });
+    const libraryLink = within(navigation).getByRole("link", {
+      name: "Библиотека",
+    });
+    const learningItem = within(navigation).getByRole("button", {
+      name: "Обучение",
+    });
+    const settingsLink = within(navigation).getByRole("link", {
+      name: "Настройки",
+    });
+
+    expect(dashboardLink).toHaveAttribute("href", "/dashboard");
+    expect(libraryLink).toHaveAttribute("href", "/library");
+    expect(settingsLink).toHaveAttribute("href", "/settings");
+    expect(learningItem).toBeDisabled();
+    expect(within(navigation).getAllByRole("link")).toHaveLength(3);
+    expectActiveNavigationLink(navigation, dashboardLink);
+
+    await user.click(learningItem);
+    await expectPath("/dashboard");
+
+    await user.click(libraryLink);
+    await expectPath("/library");
+    expectActiveNavigationLink(navigation, libraryLink);
+
+    await user.click(settingsLink);
+    await expectPath("/settings");
+    expectActiveNavigationLink(navigation, settingsLink);
+
+    await user.click(dashboardLink);
+    await expectPath("/dashboard");
+    expectActiveNavigationLink(navigation, dashboardLink);
   });
 
   it("clears an invalid saved session and redirects to login", async () => {
@@ -224,6 +259,17 @@ describe("App auth and empty shell", () => {
 function renderAppAt(path: string) {
   window.history.pushState({}, "", path);
   return render(<App />);
+}
+
+function expectActiveNavigationLink(
+  navigation: HTMLElement,
+  expectedLink: HTMLElement,
+) {
+  const activeLinks = within(navigation)
+    .getAllByRole("link")
+    .filter((link) => link.getAttribute("aria-current") === "page");
+
+  expect(activeLinks).toEqual([expectedLink]);
 }
 
 function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
