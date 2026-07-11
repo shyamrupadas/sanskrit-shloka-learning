@@ -8,7 +8,11 @@ import { useSession } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 
 import { AuthScreen } from "./ui/auth-screen";
-import { FieldError, PasswordField, TextField } from "./ui/form-fields";
+import {
+  PasswordField,
+  PasswordVisibilityToggle,
+  TextField,
+} from "./ui/form-fields";
 
 export function LoginPage() {
   const session = useSession();
@@ -40,7 +44,6 @@ export function LoginPage() {
 
   return (
     <AuthScreen
-      description={strings.auth.loginDescription}
       footer={
         <>
           <span>{strings.auth.noAccount}</span>
@@ -50,25 +53,35 @@ export function LoginPage() {
         </>
       }
       title={strings.auth.loginTitle}
+      variant="login"
     >
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <FieldError error={error} />
+      <form className="flex flex-col gap-3.5" onSubmit={handleSubmit}>
         <TextField
           autoComplete="email"
           label={strings.auth.email}
           onChange={setEmail}
+          placeholder={strings.auth.emailPlaceholder}
           type="email"
           value={email}
         />
         <PasswordField
           autoComplete="current-password"
+          error={error}
           label={strings.auth.password}
           onChange={setPassword}
+          placeholder={strings.auth.passwordPlaceholder}
           showPassword={showPassword}
-          toggleShowPassword={() => setShowPassword((current) => !current)}
           value={password}
         />
-        <Button className="h-10 w-full" disabled={isSubmitting} type="submit">
+        <PasswordVisibilityToggle
+          checked={showPassword}
+          onCheckedChange={setShowPassword}
+        />
+        <Button
+          className="h-[var(--button-height)] w-full text-[length:var(--button-font-size)]"
+          disabled={isSubmitting}
+          type="submit"
+        >
           {isSubmitting ? strings.auth.loginSubmitting : strings.auth.loginAction}
         </Button>
       </form>

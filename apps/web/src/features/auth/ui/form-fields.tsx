@@ -1,7 +1,4 @@
-import { Eye, EyeOff } from "lucide-react";
-
 import { strings } from "@/shared/i18n";
-import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 
@@ -9,12 +6,14 @@ export function TextField({
   autoComplete,
   label,
   onChange,
+  placeholder,
   type,
   value,
 }: {
   autoComplete: string;
   label: string;
   onChange: (value: string) => void;
+  placeholder: string;
   type: string;
   value: string;
 }) {
@@ -25,8 +24,10 @@ export function TextField({
       <Label htmlFor={id}>{label}</Label>
       <Input
         autoComplete={autoComplete}
+        className="h-[var(--input-height)] rounded-[var(--input-radius)] bg-card px-[var(--input-padding-x)] text-[length:var(--input-text-size)] placeholder:text-[color:var(--placeholder)]"
         id={id}
         onChange={(event) => onChange(event.currentTarget.value)}
+        placeholder={placeholder}
         required
         type={type}
         value={value}
@@ -40,62 +41,77 @@ export function PasswordField({
   label,
   minLength,
   onChange,
+  error,
+  placeholder,
   showPassword,
-  showToggle = true,
-  toggleShowPassword,
   value,
 }: {
   autoComplete: string;
+  error?: string | null | undefined;
   label: string;
   minLength?: number;
   onChange: (value: string) => void;
+  placeholder: string;
   showPassword: boolean;
-  showToggle?: boolean;
-  toggleShowPassword: () => void;
   value: string;
 }) {
   const id = label.toLowerCase().replaceAll(" ", "-");
+  const errorId = `${id}-error`;
 
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
-      <div className="relative">
-        <Input
-          autoComplete={autoComplete}
-          className={showToggle ? "pr-10" : undefined}
-          id={id}
-          minLength={minLength}
-          onChange={(event) => onChange(event.currentTarget.value)}
-          required
-          type={showPassword ? "text" : "password"}
-          value={value}
-        />
-        {showToggle ? (
-          <Button
-            aria-label={
-              showPassword ? strings.auth.hidePassword : strings.auth.showPassword
-            }
-            className="absolute right-1 top-1/2 -translate-y-1/2"
-            onClick={toggleShowPassword}
-            size="icon"
-            type="button"
-            variant="ghost"
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </Button>
-        ) : null}
-      </div>
+      <Input
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? true : undefined}
+        autoComplete={autoComplete}
+        className="h-[var(--input-height)] rounded-[var(--input-radius)] bg-card px-[var(--input-padding-x)] text-[length:var(--input-text-size)] placeholder:text-[color:var(--placeholder)]"
+        id={id}
+        minLength={minLength}
+        onChange={(event) => onChange(event.currentTarget.value)}
+        placeholder={placeholder}
+        required
+        type={showPassword ? "text" : "password"}
+        value={value}
+      />
+      <FieldError error={error} id={errorId} />
     </div>
   );
 }
 
-export function FieldError({ error }: { error: string | null }) {
+export function PasswordVisibilityToggle({
+  checked,
+  onCheckedChange,
+}: {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  return (
+    <Label className="w-fit gap-2.5 font-normal text-muted-foreground">
+      <input
+        checked={checked}
+        className="size-4.5 rounded border-border accent-primary"
+        onChange={(event) => onCheckedChange(event.currentTarget.checked)}
+        type="checkbox"
+      />
+      {strings.auth.showPassword}
+    </Label>
+  );
+}
+
+export function FieldError({
+  error,
+  id,
+}: {
+  error?: string | null | undefined;
+  id?: string | undefined;
+}) {
   if (!error) {
     return null;
   }
 
   return (
-    <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">
+    <p className="text-xs leading-tight text-destructive" id={id} role="alert">
       {error}
     </p>
   );

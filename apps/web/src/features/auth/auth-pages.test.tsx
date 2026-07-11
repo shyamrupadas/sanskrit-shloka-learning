@@ -100,11 +100,16 @@ describe("auth pages", () => {
     const password = (await screen.findByLabelText("Пароль", {
       selector: "input",
     })) as HTMLInputElement;
+    const visibilityToggle = screen.getByRole("checkbox", {
+      name: "Показать пароль",
+    });
 
     expect(password.type).toBe("password");
-    await user.click(screen.getByRole("button", { name: "Показать пароль" }));
+    expect(visibilityToggle).not.toBeChecked();
+    await user.click(visibilityToggle);
     expect(password.type).toBe("text");
-    await user.click(screen.getByRole("button", { name: "Скрыть пароль" }));
+    expect(visibilityToggle).toBeChecked();
+    await user.click(visibilityToggle);
     expect(password.type).toBe("password");
   });
 
@@ -124,7 +129,9 @@ describe("auth pages", () => {
     expect(password.type).toBe("password");
     expect(passwordConfirmation.type).toBe("password");
 
-    await user.click(screen.getByRole("button", { name: "Показать пароль" }));
+    await user.click(
+      screen.getByRole("checkbox", { name: "Показать пароль" }),
+    );
 
     expect(password.type).toBe("text");
     expect(passwordConfirmation.type).toBe("text");

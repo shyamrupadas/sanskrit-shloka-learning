@@ -1,19 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import { EmptyState } from "@/shared/design-system/components";
+import { strings } from "@/shared/i18n";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
-import { Button } from "@/shared/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
-import { strings } from "@/shared/i18n";
 
 export function DashboardPage() {
   const auth = useSession();
@@ -24,32 +22,28 @@ export function DashboardPage() {
 
   useUnauthorizedRedirect(dashboardQuery.error);
 
-  return (
-    <section className="space-y-5">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-normal">
+  if (dashboardQuery.isPending || dashboardQuery.error) {
+    return (
+      <section className="space-y-5">
+        <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
           {strings.dashboard.title}
         </h1>
-        <p className="text-sm leading-6 text-muted-foreground">
-          {strings.dashboard.subtitle}
-        </p>
-      </div>
+        {dashboardQuery.isPending ? (
+          <StatusCard title={strings.common.loading} />
+        ) : (
+          <StatusCard
+            description={getApiErrorMessage(
+              dashboardQuery.error,
+              strings.dashboard.loadError,
+            )}
+            title={strings.common.error}
+          />
+        )}
+      </section>
+    );
+  }
 
-      {dashboardQuery.isPending ? (
-        <StatusCard title={strings.common.loading} />
-      ) : dashboardQuery.error ? (
-        <StatusCard
-          description={getApiErrorMessage(
-            dashboardQuery.error,
-            strings.dashboard.loadError,
-          )}
-          title={strings.common.error}
-        />
-      ) : (
-        <EmptyDashboard dashboard={dashboardQuery.data} />
-      )}
-    </section>
-  );
+  return <EmptyDashboard dashboard={dashboardQuery.data} />;
 }
 
 function EmptyDashboard({
@@ -62,20 +56,20 @@ function EmptyDashboard({
   }
 
   return (
-    <Card className="rounded-lg">
-      <CardHeader>
-        <CardTitle>{strings.dashboard.emptyTitle}</CardTitle>
-        <CardDescription>{strings.dashboard.emptyDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Button asChild className="h-10 w-full sm:w-auto">
+    <section className="space-y-2.5">
+      <h1 className="font-heading text-[length:var(--font-size-section-title)] leading-[var(--line-height-title)] font-extrabold">
+        {strings.dashboard.wantToLearnTitle}
+      </h1>
+      <EmptyState
+        action={
           <Link to={dashboard.primaryAction.target}>
-            <Plus />
             {dashboard.primaryAction.label}
           </Link>
-        </Button>
-      </CardContent>
-    </Card>
+        }
+        description={strings.dashboard.emptyDescription}
+        title={strings.dashboard.emptyTitle}
+      />
+    </section>
   );
 }
 

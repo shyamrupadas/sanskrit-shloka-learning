@@ -8,7 +8,17 @@ import { useSession } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 
 import { AuthScreen } from "./ui/auth-screen";
-import { FieldError, PasswordField, TextField } from "./ui/form-fields";
+import {
+  FieldError,
+  PasswordField,
+  PasswordVisibilityToggle,
+  TextField,
+} from "./ui/form-fields";
+
+type RegisterError = {
+  field: "confirmation" | "form" | "password";
+  message: string;
+};
 
 export function RegisterPage() {
   const session = useSession();
@@ -17,7 +27,7 @@ export function RegisterPage() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<RegisterError | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -25,12 +35,15 @@ export function RegisterPage() {
     setError(null);
 
     if (password.length < 6) {
-      setError(strings.auth.passwordMinLength);
+      setError({ field: "password", message: strings.auth.passwordMinLength });
       return;
     }
 
     if (password !== passwordConfirmation) {
-      setError(strings.auth.passwordMismatch);
+      setError({
+        field: "confirmation",
+        message: strings.auth.passwordMismatch,
+      });
       return;
     }
 
@@ -45,7 +58,10 @@ export function RegisterPage() {
       session.setSession(nextSession);
       await router.navigate({ replace: true, to: routePaths.dashboard });
     } catch (caughtError) {
-      setError(getApiErrorMessage(caughtError, strings.auth.registerError));
+      setError({
+        field: "form",
+        message: getApiErrorMessage(caughtError, strings.auth.registerError),
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -53,7 +69,6 @@ export function RegisterPage() {
 
   return (
     <AuthScreen
-      description={strings.auth.registerDescription}
       footer={
         <>
           <span>{strings.auth.hasAccount}</span>
@@ -63,36 +78,49 @@ export function RegisterPage() {
         </>
       }
       title={strings.auth.registerTitle}
+      variant="register"
     >
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <FieldError error={error} />
+      <form className="flex flex-col gap-3.5" onSubmit={handleSubmit}>
+        <FieldError
+          error={error?.field === "form" ? error.message : undefined}
+        />
         <TextField
           autoComplete="email"
           label={strings.auth.email}
           onChange={setEmail}
+          placeholder={strings.auth.emailPlaceholder}
           type="email"
           value={email}
         />
         <PasswordField
           autoComplete="new-password"
+          error={error?.field === "password" ? error.message : undefined}
           label={strings.auth.password}
           minLength={6}
           onChange={setPassword}
+          placeholder={strings.auth.passwordPlaceholder}
           showPassword={showPassword}
-          toggleShowPassword={() => setShowPassword((current) => !current)}
           value={password}
         />
         <PasswordField
           autoComplete="new-password"
+          error={error?.field === "confirmation" ? error.message : undefined}
           label={strings.auth.passwordConfirmation}
           minLength={6}
           onChange={setPasswordConfirmation}
+          placeholder={strings.auth.passwordConfirmationPlaceholder}
           showPassword={showPassword}
-          showToggle={false}
-          toggleShowPassword={() => setShowPassword((current) => !current)}
           value={passwordConfirmation}
         />
-        <Button className="h-10 w-full" disabled={isSubmitting} type="submit">
+        <PasswordVisibilityToggle
+          checked={showPassword}
+          onCheckedChange={setShowPassword}
+        />
+        <Button
+          className="h-[var(--button-height)] w-full text-[length:var(--button-font-size)]"
+          disabled={isSubmitting}
+          type="submit"
+        >
           {isSubmitting
             ? strings.auth.registerSubmitting
             : strings.auth.registerAction}

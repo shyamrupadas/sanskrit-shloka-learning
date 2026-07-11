@@ -9326,11 +9326,40 @@
               "fontWeight": "800"
             },
             {
-              "id": "ZNwsm",
+              "id": "UMAgk",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library",
-              "width": "fill_container"
+              "name": "Tabs / Library — Повторяю",
+              "width": "fill_container",
+              "descendants": {
+                "xSkJY": {
+                  "name": "Tab / Active",
+                  "fill": "$surface"
+                },
+                "Wsc2d": {
+                  "name": "Tab Label / Active",
+                  "fill": "$text",
+                  "fontWeight": "$type-weight-bold"
+                },
+                "YJRaD": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "BnIuW": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "RIxNB": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "YcB2s": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                }
+              }
             },
             {
               "type": "frame",
@@ -9474,11 +9503,40 @@
               "fontWeight": "800"
             },
             {
-              "id": "n4A3n",
+              "id": "vNoAd",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library",
-              "width": "fill_container"
+              "name": "Tabs / Library — Буду учить",
+              "width": "fill_container",
+              "descendants": {
+                "xSkJY": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "Wsc2d": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "YJRaD": {
+                  "name": "Tab / Active",
+                  "fill": "$surface"
+                },
+                "BnIuW": {
+                  "name": "Tab Label / Active",
+                  "fill": "$text",
+                  "fontWeight": "$type-weight-bold"
+                },
+                "RIxNB": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "YcB2s": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                }
+              }
             },
             {
               "type": "frame",
@@ -9622,11 +9680,40 @@
               "fontWeight": "800"
             },
             {
-              "id": "dxeb5",
+              "id": "Mo9nG",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library",
-              "width": "fill_container"
+              "name": "Tabs / Library — Все",
+              "width": "fill_container",
+              "descendants": {
+                "xSkJY": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "Wsc2d": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "YJRaD": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "BnIuW": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "RIxNB": {
+                  "name": "Tab / Active",
+                  "fill": "$surface"
+                },
+                "YcB2s": {
+                  "name": "Tab Label / Active",
+                  "fill": "$text",
+                  "fontWeight": "$type-weight-bold"
+                }
+              }
             },
             {
               "id": "SbWdV",
@@ -9839,11 +9926,40 @@
               "fontWeight": "800"
             },
             {
-              "id": "q0KfQ",
+              "id": "Us47j",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library",
-              "width": "fill_container"
+              "name": "Tabs / Library — Все",
+              "width": "fill_container",
+              "descendants": {
+                "xSkJY": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "Wsc2d": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "YJRaD": {
+                  "name": "Tab / Inactive",
+                  "fill": "$color-transparent"
+                },
+                "BnIuW": {
+                  "name": "Tab Label / Inactive",
+                  "fill": "$text-muted",
+                  "fontWeight": "$type-weight-semibold"
+                },
+                "RIxNB": {
+                  "name": "Tab / Active",
+                  "fill": "$surface"
+                },
+                "YcB2s": {
+                  "name": "Tab Label / Active",
+                  "fill": "$text",
+                  "fontWeight": "$type-weight-bold"
+                }
+              }
             },
             {
               "id": "TzQH5",

@@ -1,44 +1,37 @@
 import type { ReactNode } from "react";
 
-import { strings } from "@/shared/i18n";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
+import { cn } from "@/shared/lib/utils";
+import { Card } from "@/shared/ui/card";
 
 export function AuthScreen({
   children,
-  description,
   footer,
   title,
+  variant,
 }: {
   children: ReactNode;
-  description: string;
   footer: ReactNode;
   title: string;
+  variant: "login" | "register";
 }) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[color-mix(in_oklch,var(--secondary),var(--background)_55%)] px-4 py-8">
-      <section className="w-full max-w-sm space-y-5">
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-primary">{strings.app.name}</p>
-          <h1 className="text-2xl font-semibold tracking-normal">{title}</h1>
-          <p className="text-sm leading-6 text-muted-foreground">{description}</p>
-        </div>
-        <Card className="rounded-lg">
-          <CardHeader>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription>{strings.auth.accountAccess}</CardDescription>
-          </CardHeader>
-          <CardContent>{children}</CardContent>
-        </Card>
-        <p className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground">
+    <main className="flex min-h-dvh items-center justify-center bg-background px-5 py-10">
+      <Card
+        className={cn(
+          "w-full max-w-[350px] gap-4.5 overflow-visible bg-card px-6 py-6 ring-0",
+          variant === "register"
+            ? "rounded-[28px] border-0 pb-7 shadow-none"
+            : "rounded-xl border border-border shadow-[var(--shadow-high)]",
+        )}
+      >
+        <h1 className="text-center font-heading text-[length:var(--font-size-page-title)] leading-[var(--line-height-title)] font-bold">
+          {title}
+        </h1>
+        {children}
+        <p className="flex flex-wrap items-center justify-center gap-1.5 text-sm text-muted-foreground">
           {footer}
         </p>
-      </section>
+      </Card>
     </main>
   );
 }

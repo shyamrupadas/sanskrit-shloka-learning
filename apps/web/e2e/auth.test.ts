@@ -48,7 +48,7 @@ test("registers and reaches the empty dashboard and library", async ({
 
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText(session.account.email)).toHaveCount(0);
-  await expect(page.getByText("Пока нет добавленных шлок")).toBeVisible();
+  await expect(page.getByText("У вас нет шлок для заучивания")).toBeVisible();
   await expect(page.getByText(/серия/i)).toHaveCount(0);
   await expect(page.getByText(/повторить/i)).toHaveCount(0);
 
@@ -91,20 +91,38 @@ for (const viewport of [
   { height: 844, width: 390 },
   { height: 800, width: 360 },
 ]) {
-  test(`keeps the navigation shell stable at ${viewport.width}x${viewport.height}`, async ({
+  test(`keeps auth, dashboard, library, shloka, and navigation stable at ${viewport.width}x${viewport.height}`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
     const session = await mockApi(page, {
       email: `mobile-${viewport.width}@example.com`,
+      library: mobileLibrary,
+      libraryItem: mobileShloka,
     });
 
-    await page.goto("/login");
+    await page.goto("/register");
+    await expect(
+      page.getByRole("heading", { name: "Регистрация" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Подтверждение пароля")).toBeVisible();
+    await expectPageFitsViewport(page);
+
+    await page.getByRole("link", { name: "Войти" }).click();
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByRole("heading", { name: "Вход" })).toBeVisible();
+    await expectPageFitsViewport(page);
+
     await page.getByLabel("Email").fill(session.account.email);
     await page.getByLabel("Пароль", { exact: true }).fill("correct-password");
     await page.getByRole("button", { name: "Войти" }).click();
 
     await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(
+      page.getByRole("heading", { name: "Выучите шлоки" }),
+    ).toBeVisible();
+    await expect(page.getByText("У вас нет шлок для заучивания")).toBeVisible();
+    await expectPageFitsViewport(page);
 
     const navigation = page.getByRole("navigation", {
       name: "Основная навигация",
@@ -140,6 +158,43 @@ for (const viewport of [
       await expectNavigationFitsViewport(page, viewport),
       initialMetrics,
     );
+    await expect(
+      page.getByRole("tab", { name: "Повторяю" }),
+    ).toHaveAttribute("aria-selected", "true");
+
+    const allTab = page.getByRole("tab", { name: "Все" });
+    await allTab.click();
+    await expect(allTab).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("searchbox", { name: "Поиск" })).toBeVisible();
+
+    const longCard = page.getByRole("article", { name: mobileShlokaTitle });
+    await expect(longCard).toBeVisible();
+    await expectLocatorFitsViewport(longCard, viewport);
+    await expectSingleLineEllipsis(
+      longCard.getByText(mobileShlokaExcerpt, { exact: true }),
+    );
+    await expect(longCard.getByText(mobileShlokaTranslation)).toHaveCount(0);
+    await expectPageFitsViewport(page);
+
+    await longCard.getByRole("link", { name: mobileShlokaExcerpt }).click();
+    await expect(page).toHaveURL(/\/library\/shlokas\/mobile-long-shloka$/);
+    await expect(
+      page.getByRole("heading", { name: mobileShlokaTitle }),
+    ).toBeVisible();
+    await expect(
+      page.getByLabel("Канонический текст шлоки"),
+    ).toContainText("сверхдлинноесловобезпробелов");
+    await expectLocatorFitsViewport(
+      page.getByRole("heading", { name: mobileShlokaTitle }),
+      viewport,
+    );
+    await expectPageFitsViewport(page);
+
+    await page
+      .getByRole("main")
+      .getByRole("link", { name: "Библиотека" })
+      .click();
+    await expect(page).toHaveURL(/\/library$/);
 
     await settingsLink.click();
     await expect(page).toHaveURL(/\/settings$/);
@@ -183,6 +238,8 @@ test("shows the generic login error for invalid credentials", async ({
 interface ApiMockOptions {
   email?: string;
   invalidLogin?: boolean;
+  library?: ApiTypes.LibraryResponseDto;
+  libraryItem?: ApiTypes.LibraryShlokaDto;
 }
 
 type NavigationMetrics = {
@@ -301,6 +358,57 @@ async function expectNavigationFitsViewport(
   return metrics;
 }
 
+async function expectLocatorFitsViewport(
+  locator: Locator,
+  viewport: { height: number; width: number },
+): Promise<void> {
+  const metrics = await locator.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+
+    return {
+      left: rect.left,
+      right: rect.right,
+      scrollWidth: element.scrollWidth,
+      width: element.clientWidth,
+    };
+  });
+
+  expect(metrics.left).toBeGreaterThanOrEqual(0);
+  expect(metrics.right).toBeLessThanOrEqual(viewport.width);
+  expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.width + 1);
+}
+
+async function expectPageFitsViewport(page: Page): Promise<void> {
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+}
+
+async function expectSingleLineEllipsis(locator: Locator): Promise<void> {
+  const metrics = await locator.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const styles = getComputedStyle(element);
+
+    return {
+      clientWidth: element.clientWidth,
+      height: rect.height,
+      lineHeight: Number.parseFloat(styles.lineHeight),
+      overflowX: styles.overflowX,
+      scrollWidth: element.scrollWidth,
+      textOverflow: styles.textOverflow,
+      whiteSpace: styles.whiteSpace,
+    };
+  });
+
+  expect(metrics.whiteSpace).toBe("nowrap");
+  expect(metrics.overflowX).toBe("hidden");
+  expect(metrics.textOverflow).toBe("ellipsis");
+  expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
+  expect(metrics.height).toBeLessThanOrEqual(metrics.lineHeight + 1);
+}
+
 async function expectActiveNavigationLink(
   navigation: Locator,
   expectedLink: Locator,
@@ -381,7 +489,16 @@ async function mockApi(
     }
 
     if (method === "GET" && url.pathname === "/api/library") {
-      await fulfillJson(route, 200, emptyLibrary);
+      await fulfillJson(route, 200, options.library ?? emptyLibrary);
+      return;
+    }
+
+    if (
+      method === "GET" &&
+      options.libraryItem &&
+      url.pathname === `/api/library/items/${options.libraryItem.code}`
+    ) {
+      await fulfillJson(route, 200, options.libraryItem);
       return;
     }
 
@@ -447,4 +564,26 @@ const emptyLibrary = {
         "Опубликованные шлоки появятся здесь после наполнения каталога.",
     },
   ],
+} satisfies ApiTypes.LibraryResponseDto;
+
+const mobileShlokaTitle =
+  "Бхагавад-гита — очень длинное название главы о непреходящей природе действия";
+const mobileShlokaExcerpt =
+  "дхарма-кшетре куру-кшетре сверхдлинноесловобезпробелов";
+const mobileShlokaTranslation =
+  "Длинный перевод проверяет, что дополнительный текст карточки остается внутри мобильного экрана.";
+
+const mobileShloka = {
+  code: "mobile-long-shloka",
+  displayTitle: mobileShlokaTitle,
+  sourceTitle: "Бхагавад-гита",
+  number: "2.47",
+  text: "дхарма-кшетре куру-кшетре сверхдлинноесловобезпробелов\nсамавета юютсавах мамаках пандавашчаива\nкимакурвата санджая продолжение длинной строки\nма те санго сту акармани",
+  personalStatus: "available",
+  fullTranslation: mobileShlokaTranslation,
+} satisfies ApiTypes.LibraryShlokaDto;
+
+const mobileLibrary = {
+  ...emptyLibrary,
+  allShlokas: [mobileShloka],
 } satisfies ApiTypes.LibraryResponseDto;

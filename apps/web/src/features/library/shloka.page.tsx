@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
-import { Button } from "@/shared/ui/button";
 
 import { StatusCard } from "./ui/status-card";
 
@@ -20,15 +19,15 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   useUnauthorizedRedirect(shlokaQuery.error);
 
   return (
-    <section className="space-y-5">
-      <div>
-        <Button asChild size="sm" variant="outline">
-          <Link activeOptions={{ exact: true }} to={routePaths.library}>
-            <ArrowLeft />
-            {strings.shloka.backToLibrary}
-          </Link>
-        </Button>
-      </div>
+    <section className="min-w-0 space-y-4">
+      <Link
+        activeOptions={{ exact: true }}
+        className="inline-flex w-fit items-center gap-2 rounded-md text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50"
+        to={routePaths.library}
+      >
+        <ChevronLeft aria-hidden="true" className="size-5" />
+        {strings.shloka.backToLibrary}
+      </Link>
 
       {shlokaQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
@@ -42,18 +41,13 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         />
       ) : (
         <article className="space-y-4">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-normal">
-              {shlokaQuery.data.displayTitle}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {shlokaQuery.data.sourceTitle} · {shlokaQuery.data.number}
-            </p>
-          </div>
+          <h1 className="break-words font-heading text-[26px] leading-[1.1] font-extrabold [overflow-wrap:anywhere]">
+            {shlokaQuery.data.displayTitle}
+          </h1>
 
           <div
             aria-label={strings.shloka.canonicalText}
-            className="whitespace-pre-line text-lg leading-8"
+            className="break-words whitespace-pre-wrap font-[family-name:var(--font-family-sanskrit-token)] text-[length:var(--font-size-sanskrit)] leading-[1.32] font-bold [overflow-wrap:anywhere]"
           >
             {shlokaQuery.data.text}
           </div>

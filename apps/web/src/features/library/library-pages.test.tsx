@@ -76,6 +76,7 @@ const sortedLibraryShlokas = [
     number: "2.10",
     text: "там увача хришикешах\nпрахасанн ива бхарата",
     personalStatus: "learning",
+    fullTranslation: "Так обратился Хришикеша.",
   },
 ] satisfies ApiTypes.LibraryShlokaDto[];
 
@@ -177,7 +178,10 @@ describe("library pages", () => {
     renderLibraryAt(routePaths.library);
 
     expect(
-      await screen.findByText("Пока нет шлок в повторении"),
+      await screen.findByRole("tab", { name: "Повторяю" }),
+    ).toHaveAttribute("aria-selected", "true");
+    expect(
+      screen.getByText("Пока нет шлок в повторении"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -185,15 +189,22 @@ describe("library pages", () => {
       ),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("tab", { name: "Буду учить" }));
+    const learningTab = screen.getByRole("tab", { name: "Буду учить" });
+    await user.click(learningTab);
+    expect(learningTab).toHaveAttribute("aria-selected", "true");
     expect(
       await screen.findByText("Бхагавад-гита, Глава 2 2.10"),
     ).toBeInTheDocument();
     expect(
+      screen.queryByText("Так обратился Хришикеша."),
+    ).not.toBeInTheDocument();
+    expect(
       screen.queryByText("Пока нет шлок для заучивания"),
     ).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("tab", { name: "Все" }));
+    const allTab = screen.getByRole("tab", { name: "Все" });
+    await user.click(allTab);
+    expect(allTab).toHaveAttribute("aria-selected", "true");
     const first = await screen.findByText("Амрита 1");
     const second = screen.getByText("Бхагавад-гита, Глава 1 2");
     const third = screen.getByText("Бхагавад-гита, Глава 2 2.10");
@@ -206,18 +217,23 @@ describe("library pages", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      screen.getByText(
-        "первая кириллическая пада / вторая кириллическая пада",
-      ),
+      screen.getByText("первая кириллическая пада"),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByText("вторая кириллическая пада"),
+    ).not.toBeInTheDocument();
 
     const amritaCard = cardForText("Амрита 1");
-    expect(within(amritaCard).getByText("Доступна")).toBeInTheDocument();
+    expect(
+      within(amritaCard).getByLabelText("Статус: Доступна"),
+    ).toBeInTheDocument();
     expect(
       within(amritaCard).getByRole("button", { name: "Буду учить" }),
     ).toBeInTheDocument();
     const learningCard = cardForText("Бхагавад-гита, Глава 2 2.10");
-    expect(within(learningCard).getByText("Буду учить")).toBeInTheDocument();
+    expect(
+      within(learningCard).getByLabelText("Статус: Буду учить"),
+    ).toBeInTheDocument();
     expect(
       within(learningCard).getByRole("button", { name: "Убрать" }),
     ).toBeInTheDocument();
@@ -239,6 +255,9 @@ describe("library pages", () => {
     await user.clear(search);
     await user.type(search, "нет совпадений");
     expect(await screen.findByText("Шлоки не найдены")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "В библиотеку" }),
+    ).not.toBeInTheDocument();
 
     await user.clear(search);
     await user.click(
@@ -286,7 +305,7 @@ describe("library pages", () => {
     await user.click(await screen.findByRole("tab", { name: "Все" }));
     await user.click(
       screen.getByRole("link", {
-        name: "карманй эвадхикарас те / ма пхалешу кадачана",
+        name: "карманй эвадхикарас те",
       }),
     );
 
@@ -296,7 +315,6 @@ describe("library pages", () => {
         name: "Бхагавад-гита, Глава 2 2.47",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Бхагавад-гита · 2.47")).toBeInTheDocument();
     expect(
       screen.getByLabelText("Канонический текст шлоки"),
     ).toHaveTextContent(
@@ -306,7 +324,7 @@ describe("library pages", () => {
       screen.queryByText("Только на действие у тебя право."),
     ).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("link", { name: "В библиотеку" }));
+    await user.click(screen.getByRole("link", { name: "Библиотека" }));
     await expectPath(routePaths.library);
     await user.click(await screen.findByRole("tab", { name: "Все" }));
     await user.click(
@@ -358,12 +376,7 @@ function createLibraryTestRouter() {
 }
 
 function cardForText(text: string): HTMLElement {
-  const element = screen.getByText(text);
-  const card = element.closest('[data-slot="card"]');
-  if (!(card instanceof HTMLElement)) {
-    throw new Error(`Card not found for text: ${text}`);
-  }
-  return card;
+  return screen.getByRole("article", { name: text });
 }
 
 function successfulLibraryApi({

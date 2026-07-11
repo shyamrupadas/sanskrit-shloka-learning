@@ -257,14 +257,23 @@ export const designTokens = {
         cssValue: px(12),
         cssVariable: "--font-size-caption",
       }),
-      cardTitle: fromPencil(17, "type-card-title-size"),
+      cardTitle: fromPencil(17, "type-card-title-size", {
+        cssValue: px(17),
+        cssVariable: "--font-size-card-title",
+      }),
       display: fromPencil(32, "type-display-size"),
-      meta: fromPencil(13, "type-meta-size"),
+      meta: fromPencil(13, "type-meta-size", {
+        cssValue: px(13),
+        cssVariable: "--font-size-meta",
+      }),
       nav: fromPencil(10, "type-nav-size", {
         cssValue: px(10),
         cssVariable: "--font-size-nav",
       }),
-      pageTitle: fromPencil(24, "type-page-title-size"),
+      pageTitle: fromPencil(24, "type-page-title-size", {
+        cssValue: px(24),
+        cssVariable: "--font-size-page-title",
+      }),
       sanskrit: fromPencil(22, "type-sanskrit-size", {
         cssValue: px(22),
         cssVariable: "--font-size-sanskrit",
@@ -273,7 +282,10 @@ export const designTokens = {
         cssValue: px(28),
         cssVariable: "--font-size-screen-title",
       }),
-      sectionTitle: fromPencil(20, "type-section-title-size"),
+      sectionTitle: fromPencil(20, "type-section-title-size", {
+        cssValue: px(20),
+        cssVariable: "--font-size-section-title",
+      }),
       transliteration: fromPencil(14, "type-transliteration-size"),
     },
     weights: {
@@ -473,6 +485,24 @@ export const designTokens = {
       secondaryFg: fromPencil("#2563EB", "button-secondary-fg"),
     },
     card: {
+      gap: fromSource(
+        10,
+        "component-card-gap",
+        "Content gap measured from Product / Shloka Card (z6MuZx); Pencil has no named variable for this value.",
+        {
+          cssValue: px(10),
+          cssVariable: "--component-card-gap",
+        },
+      ),
+      indicatorSize: fromSource(
+        22,
+        "component-card-indicator-size",
+        "Chevron size measured from Product / Shloka Card (z6MuZx); Pencil has no named variable for this value.",
+        {
+          cssValue: px(22),
+          cssVariable: "--component-card-indicator-size",
+        },
+      ),
       padding: fromPencil(14, "component-card-padding", {
         cssValue: px(14),
         cssVariable: "--component-card-padding",
@@ -480,8 +510,23 @@ export const designTokens = {
       width: fromPencil(342, "component-card-width"),
     },
     emptyState: {
-      iconSize: fromPencil(42, "component-empty-icon-size"),
-      padding: fromPencil(18, "component-empty-padding"),
+      descriptionLineHeight: fromSource(
+        1.35,
+        "component-empty-description-line-height",
+        "Description line height measured from Product / Empty State (RPtlw); Pencil has no named variable for this value.",
+        {
+          cssValue: "1.35",
+          cssVariable: "--component-empty-description-line-height",
+        },
+      ),
+      iconSize: fromPencil(42, "component-empty-icon-size", {
+        cssValue: px(42),
+        cssVariable: "--component-empty-icon-size",
+      }),
+      padding: fromPencil(18, "component-empty-padding", {
+        cssValue: px(18),
+        cssVariable: "--component-empty-padding",
+      }),
     },
     input: {
       background: fromPencil("#FFFFFF", "input-bg"),
@@ -491,9 +536,18 @@ export const designTokens = {
         cssValue: px(44),
         cssVariable: "--input-height",
       }),
-      paddingX: fromPencil(12, "input-padding-x"),
-      radius: fromPencil(8, "input-radius"),
-      textSize: fromPencil(15, "input-text-size"),
+      paddingX: fromPencil(12, "input-padding-x", {
+        cssValue: px(12),
+        cssVariable: "--input-padding-x",
+      }),
+      radius: fromPencil(8, "input-radius", {
+        cssValue: px(8),
+        cssVariable: "--input-radius",
+      }),
+      textSize: fromPencil(15, "input-text-size", {
+        cssValue: px(15),
+        cssVariable: "--input-text-size",
+      }),
     },
     pageHeader: {
       actionSize: fromSource(
@@ -529,7 +583,10 @@ export const designTokens = {
       }),
     },
     tabs: {
-      height: fromPencil(42, "component-tab-height"),
+      height: fromPencil(42, "component-tab-height", {
+        cssValue: px(42),
+        cssVariable: "--component-tab-height",
+      }),
     },
   },
 } as const;

@@ -84,11 +84,12 @@ describe("dashboard page", () => {
     renderDashboard();
 
     expect(
-      await screen.findByText("Пока нет добавленных шлок"),
+      await screen.findByRole("heading", { name: "Выучите шлоки" }),
     ).toBeInTheDocument();
+    expect(screen.getByText("У вас нет шлок для заучивания")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Выберите первые шлоки из общей библиотеки, чтобы начать заучивание.",
+        "Добавьте шлоки для заучивания из библиотеки.",
       ),
     ).toBeInTheDocument();
 
