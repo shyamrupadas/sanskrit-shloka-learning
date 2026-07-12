@@ -57,6 +57,7 @@ describe("settings page", () => {
       name: "Интенсивный режим повторения",
     });
     expect(hardModeToggle).not.toBeChecked();
+    expect(screen.queryByText("Транслитерация")).not.toBeInTheDocument();
     expect(
       screen.queryByRole("link", { name: "Админка" }),
     ).not.toBeInTheDocument();

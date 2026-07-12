@@ -6,7 +6,7 @@ import { getApiErrorMessage } from "@/shared/api/errors";
 import { strings } from "@/shared/i18n";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
-import { AdminHeader, AdminShell, StatusCard } from "../ui/admin-page";
+import { AdminShell, StatusCard } from "../ui/admin-page";
 import {
   useCreateSourceForm,
   useEditSourceForm,
@@ -33,11 +33,10 @@ export function AdminSourcePage() {
   }
 
   return (
-    <AdminShell>
-      <AdminHeader
-        title={strings.admin.sourceTitle}
-        subtitle={strings.admin.sourceSubtitle}
-      />
+    <AdminShell
+      subtitle={strings.admin.sourceSubtitle}
+      title={strings.admin.sourceTitle}
+    >
       <SourceEditorForm
         error={mutation.error}
         form={form}
@@ -60,11 +59,10 @@ export function AdminSourceEditPage({ sourceCode }: { sourceCode: string }) {
   useUnauthorizedRedirect(sourceQuery.error);
 
   return (
-    <AdminShell>
-      <AdminHeader
-        title={strings.admin.editSourceTitle}
-        subtitle={strings.admin.editSourceSubtitle}
-      />
+    <AdminShell
+      subtitle={strings.admin.editSourceSubtitle}
+      title={strings.admin.editSourceTitle}
+    >
       {sourceQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
       ) : sourceQuery.error ? (

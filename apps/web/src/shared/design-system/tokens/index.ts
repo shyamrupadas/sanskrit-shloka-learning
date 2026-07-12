@@ -395,6 +395,35 @@ export const designTokens = {
     streak: fromPencil("#F973164D", "shadow-streak-color"),
   },
   components: {
+    adminForm: {
+      fieldGap: fromSource(
+        12,
+        "component-admin-form-field-gap",
+        "Field spacing measured from Product / Source Admin Form (QUgwl) and Product / Shloka Admin Form (gkqb9); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(12),
+          cssVariable: "--component-admin-form-field-gap",
+        },
+      ),
+      nestedInset: fromSource(
+        20,
+        "component-admin-form-nested-inset",
+        "Nested chapter inset measured from Product / Source Admin Form (QUgwl); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(20),
+          cssVariable: "--component-admin-form-nested-inset",
+        },
+      ),
+      sectionGap: fromSource(
+        18,
+        "component-admin-form-section-gap",
+        "Fields-to-actions spacing measured from Product / Source Admin Form (QUgwl) and Product / Shloka Admin Form (gkqb9); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(18),
+          cssVariable: "--component-admin-form-section-gap",
+        },
+      ),
+    },
     bottomNavigation: {
       background: fromPencil(
         "#FFFFFFE6",
@@ -580,6 +609,30 @@ export const designTokens = {
       titleLineHeight: fromPencil(1.2, "typo-h1-line", {
         cssValue: "1.2",
         cssVariable: "--component-page-header-title-line-height",
+      }),
+    },
+    settingsRow: {
+      gap: fromSource(
+        12,
+        "component-settings-row-gap",
+        "Content gap measured from settings rows on Настройки (HTlzD); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(12),
+          cssVariable: "--component-settings-row-gap",
+        },
+      ),
+      padding: fromSource(
+        14,
+        "component-settings-row-padding",
+        "Container padding measured from settings rows on Настройки (HTlzD); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(14),
+          cssVariable: "--component-settings-row-padding",
+        },
+      ),
+      radius: fromPencil(12, "radius-lg", {
+        cssValue: px(12),
+        cssVariable: "--component-settings-row-radius",
       }),
     },
     tabs: {

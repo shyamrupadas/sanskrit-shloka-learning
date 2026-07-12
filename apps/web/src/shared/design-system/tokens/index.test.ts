@@ -66,12 +66,14 @@ describe("design token contract", () => {
     ]);
 
     expect(Object.keys(designTokens.components)).toEqual([
+      "adminForm",
       "bottomNavigation",
       "button",
       "card",
       "emptyState",
       "input",
       "pageHeader",
+      "settingsRow",
       "tabs",
     ]);
   });

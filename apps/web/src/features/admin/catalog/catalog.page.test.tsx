@@ -149,10 +149,12 @@ describe("admin catalog page", () => {
     const catalogView = renderCatalog();
 
     await screen.findByText("Бхагавад-гита");
-    expect(screen.getByRole("link", { name: "Назад" })).toHaveAttribute(
-      "href",
-      routePaths.settings,
-    );
+    await user.click(screen.getByRole("button", { name: "Назад" }));
+    await expectPath(routePaths.settings);
+
+    catalogView.unmount();
+    const createCatalogView = renderCatalog();
+    await screen.findByText("Бхагавад-гита");
     expect(screen.getByRole("link", { name: "Новый источник" })).toHaveAttribute(
       "href",
       routePaths.adminSourceNew,
@@ -171,7 +173,7 @@ describe("admin catalog page", () => {
       screen.getByRole("heading", { name: "Create shloka" }),
     ).toBeInTheDocument();
 
-    catalogView.unmount();
+    createCatalogView.unmount();
     renderCatalog();
     await screen.findByText("Бхагавад-гита");
     await user.click(

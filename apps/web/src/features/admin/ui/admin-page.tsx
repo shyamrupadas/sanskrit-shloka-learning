@@ -1,14 +1,13 @@
 import { useId, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft, TriangleAlert } from "lucide-react";
+import { useRouter } from "@tanstack/react-router";
+import { ChevronDown, TriangleAlert } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import { PageHeader } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
-import { Button } from "@/shared/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -20,38 +19,30 @@ import { Textarea } from "@/shared/ui/textarea";
 export function AdminShell({
   backTo = routePaths.admin,
   children,
-}: {
-  backTo?: typeof routePaths.admin | typeof routePaths.settings;
-  children: ReactNode;
-}) {
-  return (
-    <>
-      <AdminBackLink to={backTo} />
-      {children}
-    </>
-  );
-}
-
-export function AdminHeader({
   subtitle,
   title,
 }: {
+  backTo?: typeof routePaths.admin | typeof routePaths.settings;
+  children: ReactNode;
   subtitle: string;
   title: string;
 }) {
-  return (
-    <section className="mb-5 space-y-1">
-      <h1 className="text-2xl font-semibold tracking-normal">{title}</h1>
-      <p className="text-sm leading-6 text-muted-foreground">{subtitle}</p>
-    </section>
-  );
-}
+  const router = useRouter();
 
-export function AdminFormCard({ children }: { children: ReactNode }) {
   return (
-    <Card className="rounded-lg">
-      <CardContent className="pt-6">{children}</CardContent>
-    </Card>
+    <section className="min-w-0 space-y-4">
+      <PageHeader
+        backAction={{
+          label: strings.common.back,
+          onClick: () => void router.navigate({ to: backTo }),
+        }}
+        title={title}
+      />
+      <p className="break-words text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] text-muted-foreground [overflow-wrap:anywhere]">
+        {subtitle}
+      </p>
+      {children}
+    </section>
   );
 }
 
@@ -63,7 +54,7 @@ export function StatusCard({
   title: string;
 }) {
   return (
-    <Card className="rounded-lg">
+    <Card className="rounded-xl border border-border shadow-[var(--shadow-low)] ring-0">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         {description ? <CardDescription>{description}</CardDescription> : null}
@@ -85,7 +76,7 @@ export function FieldError({
 
   return (
     <p
-      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-destructive"
       role="alert"
     >
       {getApiErrorMessage(error, fallback)}
@@ -100,7 +91,7 @@ export function LocalError({ error }: { error: string | null }) {
 
   return (
     <p
-      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-destructive"
       role="alert"
     >
       {error}
@@ -111,7 +102,7 @@ export function LocalError({ error }: { error: string | null }) {
 export function SuccessMessage({ text }: { text: string }) {
   return (
     <p
-      className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-primary"
+      className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-primary"
       role="status"
     >
       {text}
@@ -121,7 +112,7 @@ export function SuccessMessage({ text }: { text: string }) {
 
 export function WarningMessage({ text }: { text: string }) {
   return (
-    <p className="flex gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm leading-6 text-primary">
+    <p className="flex gap-2 rounded-lg border px-3 py-2 text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] [border-color:var(--warning)] bg-[var(--warning-background)] text-[color:var(--warning)]">
       <TriangleAlert className="mt-0.5 size-4 shrink-0" />
       <span>{text}</span>
     </p>
@@ -144,9 +135,12 @@ export function TextField({
   const id = useFieldId(label);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="min-w-0 space-y-2">
+      <Label className="font-semibold" htmlFor={id}>
+        {label}
+      </Label>
       <Input
+        className="h-[var(--input-height)] rounded-[var(--input-radius)] bg-card px-[var(--input-padding-x)] text-[length:var(--input-text-size)] read-only:bg-muted read-only:text-muted-foreground"
         id={id}
         onChange={(event) => onChange(event.currentTarget.value)}
         readOnly={readOnly}
@@ -171,9 +165,12 @@ export function TextareaField({
   const id = useFieldId(label);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="min-w-0 space-y-2">
+      <Label className="font-semibold" htmlFor={id}>
+        {label}
+      </Label>
       <Textarea
+        className="min-h-28 rounded-[var(--input-radius)] bg-card px-[var(--input-padding-x)] py-3 text-[length:var(--input-text-size)]"
         id={id}
         onChange={(event) => onChange(event.currentTarget.value)}
         required={required}
@@ -199,36 +196,30 @@ export function SelectField({
   const id = useFieldId(label);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <select
-        className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        id={id}
-        onChange={(event) => onChange(event.currentTarget.value)}
-        required={required}
-        value={value}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+    <div className="min-w-0 space-y-2">
+      <Label className="font-semibold" htmlFor={id}>
+        {label}
+      </Label>
+      <div className="relative min-w-0">
+        <select
+          className="h-[var(--input-height)] w-full min-w-0 appearance-none rounded-[var(--input-radius)] border border-input bg-card px-[var(--input-padding-x)] pr-10 text-[length:var(--input-text-size)] outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          id={id}
+          onChange={(event) => onChange(event.currentTarget.value)}
+          required={required}
+          value={value}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 right-3 size-4.5 -translate-y-1/2 text-muted-foreground"
+        />
+      </div>
     </div>
-  );
-}
-
-function AdminBackLink({
-  to,
-}: {
-  to: typeof routePaths.admin | typeof routePaths.settings;
-}) {
-  return (
-    <Button asChild className="mb-4 size-12" size="icon-lg" variant="ghost">
-      <Link aria-label={strings.common.back} to={to}>
-        <ArrowLeft className="size-6" />
-      </Link>
-    </Button>
   );
 }
 

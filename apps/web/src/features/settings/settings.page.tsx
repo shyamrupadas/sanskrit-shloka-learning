@@ -5,18 +5,11 @@ import { LogOut, Shield } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import { SettingsRow } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
 import { Switch } from "@/shared/ui/switch";
 
 export function SettingsPage() {
@@ -56,12 +49,12 @@ export function SettingsPage() {
   }
 
   return (
-    <section className="space-y-5">
+    <section className="min-w-0 space-y-4">
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-normal">
+        <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
           {strings.settings.title}
         </h1>
-        <p className="text-sm leading-6 text-muted-foreground">
+        <p className="break-words text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] text-muted-foreground [overflow-wrap:anywhere]">
           {strings.settings.subtitle}
         </p>
       </div>
@@ -77,69 +70,73 @@ export function SettingsPage() {
           title={strings.common.error}
         />
       ) : (
-        <Card className="rounded-lg">
-          <CardHeader>
-            <CardTitle id="hard-mode-title">
-              {strings.settings.hardMode}
-            </CardTitle>
-            <CardAction>
+        <SettingsRow
+          action={
+            <div className="flex h-7 w-12 items-center justify-center">
               <Switch
                 aria-labelledby="hard-mode-title"
                 checked={hardMode}
+                className="scale-150"
                 disabled={settingsMutation.isPending}
                 onCheckedChange={(checked) =>
                   settingsMutation.mutate({ hardMode: checked })
                 }
               />
-            </CardAction>
-          </CardHeader>
-          {settingsMutation.isSuccess || settingsMutation.error ? (
-            <CardContent>
-              {settingsMutation.isSuccess ? (
-                <p className="text-sm text-muted-foreground" role="status">
-                  {strings.settings.saved}
-                </p>
-              ) : null}
-              {settingsMutation.error ? (
-                <p className="text-sm text-destructive" role="alert">
-                  {getApiErrorMessage(
-                    settingsMutation.error,
-                    strings.settings.saveError,
-                  )}
-                </p>
-              ) : null}
-            </CardContent>
-          ) : null}
-        </Card>
+            </div>
+          }
+          feedback={
+            settingsMutation.isSuccess || settingsMutation.error ? (
+              <>
+                {settingsMutation.isSuccess ? (
+                  <p
+                    className="text-[length:var(--font-size-body-sm)] text-muted-foreground"
+                    role="status"
+                  >
+                    {strings.settings.saved}
+                  </p>
+                ) : null}
+                {settingsMutation.error ? (
+                  <p
+                    className="text-[length:var(--font-size-body-sm)] text-destructive"
+                    role="alert"
+                  >
+                    {getApiErrorMessage(
+                      settingsMutation.error,
+                      strings.settings.saveError,
+                    )}
+                  </p>
+                ) : null}
+              </>
+            ) : null
+          }
+          title={strings.settings.hardMode}
+          titleId="hard-mode-title"
+        />
       )}
 
       {auth.account?.roles.includes("admin") ? (
-        <Card className="rounded-lg">
-          <CardHeader>
-            <CardTitle>{strings.settings.adminTitle}</CardTitle>
-            <CardDescription>
-              {strings.settings.adminDescription}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="h-10 w-full sm:w-auto">
+        <SettingsRow
+          action={
+            <Button
+              asChild
+              className="h-[var(--button-height)] px-4 text-[length:var(--button-font-size)]"
+              variant="outline"
+            >
               <Link to={routePaths.admin}>
                 <Shield />
                 {strings.settings.adminAction}
               </Link>
             </Button>
-          </CardContent>
-        </Card>
+          }
+          description={strings.settings.adminDescription}
+          title={strings.settings.adminTitle}
+        />
       ) : null}
 
-      <Card className="rounded-lg">
-        <CardHeader>
-          <CardTitle>{strings.settings.accountTitle}</CardTitle>
-          <CardDescription>{auth.account?.email}</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <SettingsRow
+        action={
           <Button
-            className="h-10 w-full sm:w-auto"
+            className="h-[var(--button-height)] px-4 text-[length:var(--button-font-size)]"
             disabled={isLoggingOut}
             onClick={handleLogout}
             type="button"
@@ -148,8 +145,10 @@ export function SettingsPage() {
             <LogOut />
             {strings.auth.logout}
           </Button>
-        </CardContent>
-      </Card>
+        }
+        description={auth.account?.email}
+        title={strings.settings.accountTitle}
+      />
     </section>
   );
 }
@@ -161,12 +160,5 @@ function StatusCard({
   description?: string;
   title: string;
 }) {
-  return (
-    <Card className="rounded-lg">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
-      </CardHeader>
-    </Card>
-  );
+  return <SettingsRow description={description} title={title} />;
 }

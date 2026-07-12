@@ -11,8 +11,6 @@ import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 
 import {
-  AdminFormCard,
-  AdminHeader,
   AdminShell,
   FieldError,
   StatusCard,
@@ -33,28 +31,19 @@ export function AdminShlokaPage() {
   useUnauthorizedRedirect(optionsQuery.error);
 
   return (
-    <AdminShell>
-      <AdminHeader
-        title={strings.admin.shlokaTitle}
-        subtitle={strings.admin.shlokaSubtitle}
-      />
+    <AdminShell
+      subtitle={strings.admin.shlokaSubtitle}
+      title={strings.admin.shlokaTitle}
+    >
       {optionsQuery.isPending ? (
-        <AdminFormCard>
-          <p className="text-sm text-muted-foreground">
-            {strings.common.loading}
-          </p>
-        </AdminFormCard>
+        <StatusCard title={strings.common.loading} />
       ) : optionsQuery.error ? (
-        <AdminFormCard>
-          <FieldError
-            error={optionsQuery.error}
-            fallback={strings.admin.loadSourcesError}
-          />
-        </AdminFormCard>
+        <FieldError
+          error={optionsQuery.error}
+          fallback={strings.admin.loadSourcesError}
+        />
       ) : optionsQuery.data.sources.length === 0 ? (
-        <AdminFormCard>
-          <EmptySources />
-        </AdminFormCard>
+        <EmptySources />
       ) : (
         <AdminShlokaCreateForm sources={optionsQuery.data.sources} />
       )}
@@ -72,11 +61,10 @@ export function AdminShlokaEditPage({ shlokaCode }: { shlokaCode: string }) {
   useUnauthorizedRedirect(shlokaQuery.error);
 
   return (
-    <AdminShell>
-      <AdminHeader
-        title={strings.admin.editShlokaTitle}
-        subtitle={strings.admin.editShlokaSubtitle}
-      />
+    <AdminShell
+      subtitle={strings.admin.editShlokaSubtitle}
+      title={strings.admin.editShlokaTitle}
+    >
       {shlokaQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
       ) : shlokaQuery.error ? (

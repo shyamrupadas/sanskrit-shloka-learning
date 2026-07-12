@@ -1,10 +1,9 @@
 import type { FormEventHandler } from "react";
 
+import { AdminFormLayout } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
-import { Button } from "@/shared/ui/button";
 
 import {
-  AdminFormCard,
   FieldError,
   LocalError,
   SelectField,
@@ -39,35 +38,34 @@ export function ShlokaEditorForm<TRequest>({
   wasSuccessful,
 }: ShlokaEditorFormProps<TRequest>) {
   return (
-    <AdminFormCard>
-      <form className="space-y-5" noValidate onSubmit={onSubmit}>
-        {showCanonicalWarning ? (
-          <WarningMessage text={strings.admin.canonicalTextWarning} />
-        ) : null}
-        <LocalError error={form.validationError} />
-        <FieldError error={error} fallback={strings.admin.saveError} />
-        {wasSuccessful ? <SuccessMessage text={successText} /> : null}
-        <ReferenceFields form={form} />
-        <PadaFields form={form} />
-        {fullTranslationField === "textarea" ? (
-          <TextareaField
-            label={strings.admin.fullTranslation}
-            onChange={form.setFullTranslation}
-            value={form.fullTranslation}
-          />
-        ) : (
-          <TextField
-            label={strings.admin.fullTranslation}
-            onChange={form.setFullTranslation}
-            value={form.fullTranslation}
-          />
-        )}
-
-        <Button className="h-10 w-full sm:w-auto" disabled={isSubmitting} type="submit">
-          {submitLabel}
-        </Button>
-      </form>
-    </AdminFormCard>
+    <AdminFormLayout
+      isSubmitting={isSubmitting}
+      noValidate
+      onSubmit={onSubmit}
+      submitLabel={submitLabel}
+    >
+      {showCanonicalWarning ? (
+        <WarningMessage text={strings.admin.canonicalTextWarning} />
+      ) : null}
+      <LocalError error={form.validationError} />
+      <FieldError error={error} fallback={strings.admin.saveError} />
+      {wasSuccessful ? <SuccessMessage text={successText} /> : null}
+      <ReferenceFields form={form} />
+      <PadaFields form={form} />
+      {fullTranslationField === "textarea" ? (
+        <TextareaField
+          label={strings.admin.fullTranslation}
+          onChange={form.setFullTranslation}
+          value={form.fullTranslation}
+        />
+      ) : (
+        <TextField
+          label={strings.admin.fullTranslation}
+          onChange={form.setFullTranslation}
+          value={form.fullTranslation}
+        />
+      )}
+    </AdminFormLayout>
   );
 }
 
@@ -124,28 +122,36 @@ function ReferenceFields<TRequest>({
         />
       ) : null}
 
-      {form.shouldShowChapterField ? (
-        <SelectField
-          label={strings.admin.chapter}
-          onChange={form.setChapterCode}
-          options={[
-            { label: "Выберите главу", value: "" },
-            ...form.availableChapters.map((chapter) => ({
-              label: chapter.title,
-              value: chapter.code,
-            })),
-          ]}
-          required
-          value={form.chapterCode}
-        />
-      ) : null}
+      <div
+        className={
+          form.shouldShowChapterField
+            ? "grid min-w-0 grid-cols-2 gap-2.5"
+            : "min-w-0"
+        }
+      >
+        {form.shouldShowChapterField ? (
+          <SelectField
+            label={strings.admin.chapter}
+            onChange={form.setChapterCode}
+            options={[
+              { label: "Выберите главу", value: "" },
+              ...form.availableChapters.map((chapter) => ({
+                label: chapter.title,
+                value: chapter.code,
+              })),
+            ]}
+            required
+            value={form.chapterCode}
+          />
+        ) : null}
 
-      <TextField
-        label={strings.admin.shlokaNumber}
-        onChange={form.setNumber}
-        required
-        value={form.number}
-      />
+        <TextField
+          label={strings.admin.shlokaNumber}
+          onChange={form.setNumber}
+          required
+          value={form.number}
+        />
+      </div>
     </>
   );
 }

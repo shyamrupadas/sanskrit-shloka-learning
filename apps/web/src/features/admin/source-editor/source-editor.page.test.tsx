@@ -14,6 +14,7 @@ import { AdminSourceEditPage, AdminSourcePage } from "@/features/admin";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import {
   adminSession,
+  expectPath,
   mockApi,
   renderWithTestProviders,
   storeTestSession,
@@ -60,10 +61,9 @@ describe("admin source editor pages", () => {
     storeTestSession(adminSession);
     renderSourceEditor(routePaths.adminSourceNew);
 
-    expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute(
-      "href",
-      routePaths.admin,
-    );
+    expect(
+      await screen.findByRole("button", { name: "Назад" }),
+    ).toBeInTheDocument();
     await user.type(screen.getByLabelText("Код источника"), "amrita");
     await user.type(screen.getByLabelText("Название"), "Амрита");
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
@@ -74,6 +74,9 @@ describe("admin source editor pages", () => {
       structureType: "none",
       title: "Амрита",
     });
+
+    await user.click(screen.getByRole("button", { name: "Назад" }));
+    await expectPath(routePaths.admin);
   });
 
   it("creates a source with chapters and preserves chapter order", async () => {
@@ -91,7 +94,7 @@ describe("admin source editor pages", () => {
 
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
-    await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
+    await user.click(screen.getByRole("tab", { name: "Главы" }));
     await user.type(screen.getByLabelText("Код главы 1"), "chapter-2");
     await user.type(screen.getByLabelText("Название главы 1"), "Глава 2");
     await user.click(screen.getByRole("button", { name: "Добавить главу" }));
@@ -127,7 +130,10 @@ describe("admin source editor pages", () => {
     await user.type(await screen.findByLabelText("Код источника"), "mahabharata");
     await user.type(screen.getByLabelText("Название"), "Махабхарата");
     await user.type(screen.getByLabelText("Описание"), "Эпос");
-    await user.selectOptions(screen.getByLabelText("Структура"), "parts");
+    await user.click(screen.getByRole("tab", { name: "Части" }));
+    expect(
+      screen.queryByRole("button", { name: /удалить/i }),
+    ).not.toBeInTheDocument();
     await user.type(screen.getByLabelText("Код части 1"), "bhishma-parva");
     await user.type(screen.getByLabelText("Название части 1"), "Бхишма-парва");
     await user.type(screen.getByLabelText("Код главы 1"), "chapter-1");
@@ -269,7 +275,7 @@ describe("admin source editor pages", () => {
 
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
-    await user.selectOptions(screen.getByLabelText("Структура"), "chapters");
+    await user.click(screen.getByRole("tab", { name: "Главы" }));
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
 
     expect(screen.getByLabelText("Код главы 1")).toBeInvalid();

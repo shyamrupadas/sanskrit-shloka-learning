@@ -76,6 +76,9 @@ body {
   --chart-3: #B45309;
   --chart-4: #DC2626;
   --chart-5: #94A3B8;
+  --component-admin-form-field-gap: 12px;
+  --component-admin-form-nested-inset: 20px;
+  --component-admin-form-section-gap: 18px;
   --component-bottom-nav-background: #FFFFFFE6;
   --component-bottom-nav-border: #E2E8F0;
   --component-bottom-nav-gap: 2px;
@@ -97,6 +100,9 @@ body {
   --component-page-header-height: 44px;
   --component-page-header-icon-size: 22px;
   --component-page-header-title-line-height: 1.2;
+  --component-settings-row-gap: 12px;
+  --component-settings-row-padding: 14px;
+  --component-settings-row-radius: 12px;
   --component-tab-height: 42px;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;

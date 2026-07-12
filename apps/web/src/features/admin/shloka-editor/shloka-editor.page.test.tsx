@@ -14,6 +14,7 @@ import { AdminShlokaEditPage, AdminShlokaPage } from "@/features/admin";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import {
   adminSession,
+  expectPath,
   mockApi,
   renderWithTestProviders,
   storeTestSession,
@@ -87,10 +88,9 @@ describe("admin shloka editor pages", () => {
     storeTestSession(adminSession);
     renderShlokaEditor(routePaths.adminShlokaNew);
 
-    expect(await screen.findByRole("link", { name: "Назад" })).toHaveAttribute(
-      "href",
-      routePaths.admin,
-    );
+    expect(
+      await screen.findByRole("button", { name: "Назад" }),
+    ).toBeInTheDocument();
     await user.selectOptions(await screen.findByLabelText("Источник"), "gita");
     await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
     await user.type(screen.getByLabelText("Номер шлоки"), "2.47");
@@ -115,6 +115,9 @@ describe("admin shloka editor pages", () => {
       ],
       fullTranslation: "Полный перевод шлоки",
     });
+
+    await user.click(screen.getByRole("button", { name: "Назад" }));
+    await expectPath(routePaths.admin);
   });
 
   it("follows source structure while selecting source, part, and chapter", async () => {
