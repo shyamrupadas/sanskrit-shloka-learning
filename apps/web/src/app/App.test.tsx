@@ -120,7 +120,7 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("navigates between available product sections and keeps learning unavailable", async () => {
+  it("navigates between the product sections", async () => {
     const user = userEvent.setup();
     mockApi(successfulApi);
     storeTestSession(session);
@@ -136,7 +136,7 @@ describe("App auth and empty shell", () => {
     const libraryLink = within(navigation).getByRole("link", {
       name: "Библиотека",
     });
-    const learningItem = within(navigation).getByRole("button", {
+    const learningLink = within(navigation).getByRole("link", {
       name: "Обучение",
     });
     const settingsLink = within(navigation).getByRole("link", {
@@ -145,13 +145,17 @@ describe("App auth and empty shell", () => {
 
     expect(dashboardLink).toHaveAttribute("href", "/dashboard");
     expect(libraryLink).toHaveAttribute("href", "/library");
+    expect(learningLink).toHaveAttribute("href", "/learning");
     expect(settingsLink).toHaveAttribute("href", "/settings");
-    expect(learningItem).toBeDisabled();
-    expect(within(navigation).getAllByRole("link")).toHaveLength(3);
+    expect(within(navigation).getAllByRole("link")).toHaveLength(4);
     expectActiveNavigationLink(navigation, dashboardLink);
 
-    await user.click(learningItem);
-    await expectPath("/dashboard");
+    await user.click(learningLink);
+    await expectPath("/learning");
+    expectActiveNavigationLink(navigation, learningLink);
+    expect(
+      await screen.findByRole("heading", { name: "Советы" }),
+    ).toBeInTheDocument();
 
     await user.click(libraryLink);
     await expectPath("/library");
@@ -185,7 +189,7 @@ describe("App auth and empty shell", () => {
     expectStoredSessionCleared();
   });
 
-  it.each(["/dashboard", "/library", "/settings", "/admin"])(
+  it.each(["/dashboard", "/library", "/learning", "/settings", "/admin"])(
     "redirects unauthenticated %s visits to login",
     async (path) => {
       mockApi(successfulApi);

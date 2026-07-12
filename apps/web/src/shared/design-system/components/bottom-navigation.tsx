@@ -14,6 +14,7 @@ import { Button } from "@/shared/ui/button";
 
 export type BottomNavigationSection =
   | "dashboard"
+  | "learning"
   | "library"
   | "settings";
 
@@ -21,20 +22,15 @@ export type BottomNavigationProps = {
   activeSection?: BottomNavigationSection | undefined;
 };
 
-type AvailableNavigationItem = {
+type NavigationItem = {
   Icon: LucideIcon;
   label: string;
   section: BottomNavigationSection;
   to:
     | typeof routePaths.dashboard
+    | typeof routePaths.learning
     | typeof routePaths.library
     | typeof routePaths.settings;
-};
-
-type UnavailableNavigationItem = {
-  Icon: LucideIcon;
-  label: string;
-  section: "learning";
 };
 
 const navigationItems = [
@@ -54,6 +50,7 @@ const navigationItems = [
     Icon: GraduationCap,
     label: strings.nav.learning,
     section: "learning",
+    to: routePaths.learning,
   },
   {
     Icon: Settings,
@@ -61,10 +58,7 @@ const navigationItems = [
     section: "settings",
     to: routePaths.settings,
   },
-] as const satisfies readonly (
-  | AvailableNavigationItem
-  | UnavailableNavigationItem
-)[];
+] as const satisfies readonly NavigationItem[];
 
 export function BottomNavigation({
   activeSection,
@@ -89,29 +83,18 @@ export function BottomNavigation({
 
           return (
             <li className="min-w-0" key={item.section}>
-              {"to" in item ? (
-                <Button
-                  asChild
-                  className={getItemClassName(isActive)}
-                  variant="ghost"
-                >
-                  <Link
-                    aria-current={isActive ? "page" : undefined}
-                    to={item.to}
-                  >
-                    {content}
-                  </Link>
-                </Button>
-              ) : (
-                <Button
-                  className={getItemClassName(false)}
-                  disabled
-                  type="button"
-                  variant="ghost"
+              <Button
+                asChild
+                className={getItemClassName(isActive)}
+                variant="ghost"
+              >
+                <Link
+                  aria-current={isActive ? "page" : undefined}
+                  to={item.to}
                 >
                   {content}
-                </Button>
-              )}
+                </Link>
+              </Button>
             </li>
           );
         })}

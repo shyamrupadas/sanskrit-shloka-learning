@@ -21,6 +21,9 @@ test("redirects protected routes to the login/register flow", async ({
   await page.goto("/library");
   await expect(page).toHaveURL(/\/login$/);
 
+  await page.goto("/learning");
+  await expect(page).toHaveURL(/\/login$/);
+
   await page.goto("/settings");
   await expect(page).toHaveURL(/\/login$/);
 
@@ -133,7 +136,7 @@ for (const viewport of [
     const libraryLink = navigation.getByRole("link", {
       name: "Библиотека",
     });
-    const learningItem = navigation.getByRole("button", {
+    const learningLink = navigation.getByRole("link", {
       name: "Обучение",
     });
     const settingsLink = navigation.getByRole("link", {
@@ -143,13 +146,19 @@ for (const viewport of [
     await expect(navigation).toBeVisible();
     await expectActiveNavigationLink(navigation, dashboardLink);
     await expect(libraryLink).toBeVisible();
-    await expect(learningItem).toBeDisabled();
+    await expect(learningLink).toBeVisible();
     await expect(settingsLink).toBeVisible();
 
     const initialMetrics = await expectNavigationFitsViewport(page, viewport);
-    const locationBeforeLearning = page.url();
-    await learningItem.evaluate((element) => (element as HTMLElement).click());
-    expect(page.url()).toBe(locationBeforeLearning);
+    await learningLink.click();
+    await expect(page).toHaveURL(/\/learning$/);
+    await expectActiveNavigationLink(navigation, learningLink);
+    await expect(page.getByRole("heading", { name: "Советы" })).toBeVisible();
+    expectNavigationMetricsToBeStable(
+      await expectNavigationFitsViewport(page, viewport),
+      initialMetrics,
+    );
+    await expectPageFitsViewport(page);
 
     await libraryLink.click();
     await expect(page).toHaveURL(/\/library$/);
@@ -268,7 +277,7 @@ async function expectNavigationFitsViewport(
       label: navigation.getByText("Библиотека", { exact: true }),
     },
     {
-      control: navigation.getByRole("button", { name: "Обучение" }),
+      control: navigation.getByRole("link", { name: "Обучение" }),
       label: navigation.getByText("Обучение", { exact: true }),
     },
     {

@@ -104,6 +104,8 @@ body {
   --component-settings-row-padding: 14px;
   --component-settings-row-radius: 12px;
   --component-tab-height: 42px;
+  --component-tip-accordion-border: #E2E8F0;
+  --component-tip-accordion-content-line-height: 1.35;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
   --disabled-background: #E2E8F0;

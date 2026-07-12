@@ -46,6 +46,10 @@ const ShlokaPage = lazyRouteComponent(
   () => import("@/features/library/shloka.page"),
   "ShlokaPage",
 );
+const LearningPage = lazyRouteComponent(
+  () => import("@/features/learning/learning.page"),
+  "LearningPage",
+);
 const SettingsPage = lazyRouteComponent(
   () => import("@/features/settings/settings.page"),
   "SettingsPage",
@@ -134,6 +138,12 @@ const shlokaRoute = createRoute({
   path: routeSegments.libraryShloka,
 });
 
+const learningRoute = createRoute({
+  component: LearningPage,
+  getParentRoute: () => authenticatedRoute,
+  path: routeSegments.learning,
+});
+
 const settingsRoute = createRoute({
   component: SettingsPage,
   getParentRoute: () => authenticatedRoute,
@@ -187,6 +197,7 @@ const routeTree = rootRoute.addChildren([
     dashboardRoute,
     libraryRoute,
     shlokaRoute,
+    learningRoute,
     settingsRoute,
   ]),
   adminLayoutRoute.addChildren([

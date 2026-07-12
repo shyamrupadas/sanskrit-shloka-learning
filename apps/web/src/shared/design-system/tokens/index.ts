@@ -635,6 +635,20 @@ export const designTokens = {
         cssVariable: "--component-settings-row-radius",
       }),
     },
+    tipAccordion: {
+      border: fromPencil("#E2E8F0", "border", {
+        cssVariable: "--component-tip-accordion-border",
+      }),
+      contentLineHeight: fromSource(
+        1.35,
+        "component-tip-accordion-content-line-height",
+        "Content line height measured from Product / Tip Accordion Item / Expanded (rgPsh); Pencil has no named component variable for this value.",
+        {
+          cssValue: "1.35",
+          cssVariable: "--component-tip-accordion-content-line-height",
+        },
+      ),
+    },
     tabs: {
       height: fromPencil(42, "component-tab-height", {
         cssValue: px(42),

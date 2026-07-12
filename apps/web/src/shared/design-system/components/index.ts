@@ -24,3 +24,7 @@ export {
   type ShlokaCardProps,
 } from "./shloka-card";
 export { SettingsRow, type SettingsRowProps } from "./settings-row";
+export {
+  TipAccordionItem,
+  type TipAccordionItemProps,
+} from "./tip-accordion-item";

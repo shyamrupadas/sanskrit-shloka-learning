@@ -74,6 +74,7 @@ describe("design token contract", () => {
       "input",
       "pageHeader",
       "settingsRow",
+      "tipAccordion",
       "tabs",
     ]);
   });

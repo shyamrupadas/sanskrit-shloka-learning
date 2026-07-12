@@ -71,6 +71,10 @@ function getActiveNavigationSection(
     return "library";
   }
 
+  if (pathname === routePaths.learning) {
+    return "learning";
+  }
+
   if (pathname === routePaths.settings) {
     return "settings";
   }
