@@ -913,6 +913,135 @@
         ]
       }
     },
+    "/api/dashboard/learning-shlokas": {
+      "get": {
+        "operationId": "Dashboard_getLearningShlokas",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "explode": false
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardLearningShlokaListDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/dashboard/review-shlokas": {
+      "get": {
+        "operationId": "Dashboard_getReviewShlokas",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "explode": false
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardReviewShlokaListDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
     "/api/library": {
       "get": {
         "operationId": "Library_getLibrary",
@@ -1547,6 +1676,29 @@
           }
         }
       },
+      "SanskritShlokaLearning.DashboardLearningShlokaListDto": {
+        "type": "object",
+        "required": [
+          "items",
+          "remainingCount",
+          "hasLearningShlokas"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardShlokaDto"
+            }
+          },
+          "remainingCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasLearningShlokas": {
+            "type": "boolean"
+          }
+        }
+      },
       "SanskritShlokaLearning.DashboardPrimaryActionDto": {
         "type": "object",
         "required": [
@@ -1565,6 +1717,60 @@
             "enum": [
               "/library"
             ]
+          }
+        }
+      },
+      "SanskritShlokaLearning.DashboardReviewListState": {
+        "type": "string",
+        "enum": [
+          "empty",
+          "active",
+          "completed"
+        ]
+      },
+      "SanskritShlokaLearning.DashboardReviewShlokaListDto": {
+        "type": "object",
+        "required": [
+          "items",
+          "remainingCount",
+          "hasReviewingShlokas",
+          "state"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardShlokaDto"
+            }
+          },
+          "remainingCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasReviewingShlokas": {
+            "type": "boolean"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardReviewListState"
+          }
+        }
+      },
+      "SanskritShlokaLearning.DashboardShlokaDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "displayTitle",
+          "text"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "displayTitle": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
           }
         }
       },

@@ -10,6 +10,8 @@ import { AuthService } from "../auth/auth.service.js";
 import { PasswordHasher } from "../auth/password-hasher.js";
 import { CatalogService } from "../catalog/catalog.service.js";
 import { InMemoryCatalogRepository } from "../catalog/in-memory-catalog.repository.js";
+import { DashboardService } from "../dashboard/dashboard.service.js";
+import { InMemoryReviewHistoryRepository } from "../dashboard/in-memory-review-history.repository.js";
 import { InMemoryUserLibraryRepository } from "../library/in-memory-user-library.repository.js";
 import { UserLibraryService } from "../library/user-library.service.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
@@ -127,6 +129,10 @@ describe("ApiHandlersService protected resources", () => {
     const handlers = createHandlers();
 
     const dashboardResponse = await handlers.getDashboard({});
+    const learningShlokasResponse = await handlers.getLearningShlokas({});
+    const reviewShlokasResponse = await handlers.getReviewShlokas({
+      timeZone: "UTC",
+    });
     const libraryResponse = await handlers.getLibrary({});
     const itemResponse = await handlers.getItem({ shlokaCode: "missing" });
     const completeLearningResponse = await handlers.completeLearning({
@@ -138,6 +144,8 @@ describe("ApiHandlersService protected resources", () => {
     });
 
     assert.equal(dashboardResponse.status, 401);
+    assert.equal(learningShlokasResponse.status, 401);
+    assert.equal(reviewShlokasResponse.status, 401);
     assert.equal(libraryResponse.status, 401);
     assert.equal(itemResponse.status, 401);
     assert.equal(completeLearningResponse.status, 401);
@@ -234,6 +242,67 @@ describe("ApiHandlersService protected resources", () => {
       ["reviewing", "learning", "all"],
     );
     assert.deepEqual(libraryResponse.body.allShlokas, []);
+
+    assert.deepEqual(
+      await handlers.getLearningShlokas({ authorization, limit: 3 }),
+      {
+        status: 200,
+        body: {
+          hasLearningShlokas: false,
+          items: [],
+          remainingCount: 0,
+        },
+      },
+    );
+    assert.deepEqual(
+      await handlers.getReviewShlokas({
+        authorization,
+        limit: 5,
+        timeZone: "UTC",
+      }),
+      {
+        status: 200,
+        body: {
+          hasReviewingShlokas: false,
+          items: [],
+          remainingCount: 0,
+          state: "empty",
+        },
+      },
+    );
+  });
+
+  test("validates dashboard list limits and the user timezone", async () => {
+    const handlers = createHandlers();
+    const registerResponse = await handlers.register({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(registerResponse.status, 201);
+    const authorization = `Bearer ${registerResponse.body.accessToken}`;
+
+    const learning = await handlers.getLearningShlokas({
+      authorization,
+      limit: 0,
+    });
+    const review = await handlers.getReviewShlokas({
+      authorization,
+      limit: Number.NaN,
+      timeZone: "not-a-timezone",
+    });
+
+    assert.equal(learning.status, 400);
+    assert.deepEqual(learning.body.details, [
+      "Лимит должен быть положительным целым числом",
+    ]);
+    assert.equal(review.status, 400);
+    assert.deepEqual(review.body.details, [
+      "Лимит должен быть положительным целым числом",
+      "Таймзона пользователя должна быть корректной IANA-таймзоной",
+    ]);
   });
 });
 
@@ -975,6 +1044,7 @@ describe("ApiHandlersService admin catalog", () => {
 
 type TestHandlers = ApiHandlersService & {
   accounts: InMemoryAccountRepository;
+  reviewHistoryRepository: InMemoryReviewHistoryRepository;
   userLibraryRepository: InMemoryUserLibraryRepository;
 };
 
@@ -992,10 +1062,23 @@ function createHandlers(
     userLibraryRepository,
     options.now ?? (() => new Date()),
   );
+  const reviewHistoryRepository = new InMemoryReviewHistoryRepository();
+  const dashboard = new DashboardService(
+    catalog,
+    userLibraryRepository,
+    reviewHistoryRepository,
+    options.now ?? (() => new Date()),
+  );
 
   return Object.assign(
-    new ApiHandlersService(auth, accountSettings, catalog, userLibrary),
-    { accounts, userLibraryRepository },
+    new ApiHandlersService(
+      auth,
+      accountSettings,
+      catalog,
+      dashboard,
+      userLibrary,
+    ),
+    { accounts, reviewHistoryRepository, userLibraryRepository },
   );
 }
 

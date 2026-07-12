@@ -24,6 +24,7 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
       .filter(([key]) => key.startsWith(`${accountId}:`))
       .map(([, status]) => ({
         ...status,
+        createdAt: new Date(status.createdAt),
         ...(status.reviewingStartedAt
           ? { reviewingStartedAt: new Date(status.reviewingStartedAt) }
           : {}),
@@ -48,6 +49,7 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
 
     const reviewingStartedAt = new Date(input.reviewingStartedAt);
     this.statuses.set(key, {
+      createdAt: new Date(current.createdAt),
       reviewingStartedAt,
       shlokaCode: input.shlokaCode,
       status: "reviewing",
@@ -66,6 +68,7 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
     }
 
     this.statuses.set(key, {
+      createdAt: new Date(input.createdAt),
       shlokaCode: input.shlokaCode,
       status: input.status,
     });

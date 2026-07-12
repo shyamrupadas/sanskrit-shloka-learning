@@ -1,6 +1,7 @@
 export type PersistedLibraryShlokaStatus = "learning" | "reviewing";
 
 export interface UserShlokaStatusRecord {
+  createdAt: Date;
   reviewingStartedAt?: Date;
   shlokaCode: string;
   status: PersistedLibraryShlokaStatus;
@@ -8,6 +9,7 @@ export interface UserShlokaStatusRecord {
 
 export interface SetUserShlokaStatusInput {
   accountId: string;
+  createdAt: Date;
   shlokaCode: string;
   status: "learning";
 }

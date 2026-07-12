@@ -126,6 +126,41 @@ namespace SanskritShlokaLearning {
     @body dashboard: EmptyDashboardDto;
   }
 
+  model DashboardShlokaDto {
+    code: string;
+    displayTitle: string;
+    text: string;
+  }
+
+  enum DashboardReviewListState {
+    empty: "empty",
+    active: "active",
+    completed: "completed",
+  }
+
+  model DashboardLearningShlokaListDto {
+    items: DashboardShlokaDto[];
+    remainingCount: int32;
+    hasLearningShlokas: boolean;
+  }
+
+  model DashboardReviewShlokaListDto {
+    items: DashboardShlokaDto[];
+    remainingCount: int32;
+    hasReviewingShlokas: boolean;
+    state: DashboardReviewListState;
+  }
+
+  model OkDashboardLearningShlokasResponse {
+    @statusCode statusCode: 200;
+    @body list: DashboardLearningShlokaListDto;
+  }
+
+  model OkDashboardReviewShlokasResponse {
+    @statusCode statusCode: 200;
+    @body list: DashboardReviewShlokaListDto;
+  }
+
   enum LibraryTab {
     reviewing: "reviewing",
     learning: "learning",
@@ -385,6 +420,21 @@ namespace SanskritShlokaLearning {
     @get
     op getDashboard(@header authorization?: string):
       OkDashboardResponse | UnauthorizedResponse;
+
+    @get
+    @route("/learning-shlokas")
+    op getLearningShlokas(
+      @query limit?: int32,
+      @header authorization?: string,
+    ): OkDashboardLearningShlokasResponse | ValidationErrorResponse | UnauthorizedResponse;
+
+    @get
+    @route("/review-shlokas")
+    op getReviewShlokas(
+      @query timeZone: string,
+      @query limit?: int32,
+      @header authorization?: string,
+    ): OkDashboardReviewShlokasResponse | ValidationErrorResponse | UnauthorizedResponse;
   }
 
   @tag("Account")

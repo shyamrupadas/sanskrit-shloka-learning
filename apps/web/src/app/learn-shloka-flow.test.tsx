@@ -206,15 +206,31 @@ function learningApi(
       body: library(options.libraryShlokas ?? [learningShloka]),
     };
   }
-  if (request.method === "GET" && request.path === "/api/dashboard") {
+  if (
+    request.method === "GET" &&
+    request.path === "/api/dashboard/review-shlokas"
+  ) {
     return {
       status: 200,
       body: {
-        hasPersonalShlokas: false,
-        primaryAction: { label: "Добавить", target: routePaths.library },
-        showReviewBlock: false,
-        showStreak: false,
-      } satisfies ApiTypes.EmptyDashboardDto,
+        hasReviewingShlokas: false,
+        items: [],
+        remainingCount: 0,
+        state: "empty",
+      } satisfies ApiTypes.DashboardReviewShlokaListDto,
+    };
+  }
+  if (
+    request.method === "GET" &&
+    request.path === "/api/dashboard/learning-shlokas"
+  ) {
+    return {
+      status: 200,
+      body: {
+        hasLearningShlokas: false,
+        items: [],
+        remainingCount: 0,
+      } satisfies ApiTypes.DashboardLearningShlokaListDto,
     };
   }
 

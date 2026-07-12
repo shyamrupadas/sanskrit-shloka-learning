@@ -98,9 +98,18 @@ export const strings = {
     title: "Название",
   },
   dashboard: {
+    add: "Добавить",
     emptyDescription: "Добавьте шлоки для заучивания из библиотеки.",
     emptyTitle: "У вас нет шлок для заучивания",
     loadError: "Не удалось загрузить дашборд",
+    reviewCompletedDescription:
+      "Если есть время, выберите шлоку из списка «Буду учить».",
+    reviewCompletedTitle: "Все повторения на сегодня завершены",
+    reviewEmptyDescription: "На сегодня повторений нет.",
+    reviewEmptyTitle: "Нет шлок для повторения",
+    reviewTitle: "Повторите шлоки",
+    showAll: "Показать все",
+    showMore: "Показать еще",
     subtitle: "Первый экран после входа для ежедневной работы.",
     title: "Дашборд",
     wantToLearnTitle: "Выучите шлоки",

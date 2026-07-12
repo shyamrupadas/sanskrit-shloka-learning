@@ -53,3 +53,37 @@ describe("generated OpenAPI learning contract", () => {
     );
   });
 });
+
+describe("generated OpenAPI dashboard list contract", () => {
+  test("exposes independently limited learning and review lists with user timezone", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const learning = openApi.paths?.["/api/dashboard/learning-shlokas"]?.get;
+    const review = openApi.paths?.["/api/dashboard/review-shlokas"]?.get;
+
+    assert.ok(learning);
+    assert.ok(review);
+    assert.deepEqual(
+      learning.parameters?.map(({ in: location, name, required }) => ({ location, name, required })),
+      [
+        { location: "query", name: "limit", required: false },
+        { location: "header", name: "authorization", required: false },
+      ],
+    );
+    assert.deepEqual(
+      review.parameters?.map(({ in: location, name, required }) => ({ location, name, required })),
+      [
+        { location: "query", name: "timeZone", required: true },
+        { location: "query", name: "limit", required: false },
+        { location: "header", name: "authorization", required: false },
+      ],
+    );
+    assert.equal(
+      learning.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.DashboardLearningShlokaListDto",
+    );
+    assert.equal(
+      review.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.DashboardReviewShlokaListDto",
+    );
+  });
+});

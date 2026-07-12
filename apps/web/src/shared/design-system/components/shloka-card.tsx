@@ -16,6 +16,10 @@ export type ShlokaCardProps = {
   actions?: readonly ShlokaCardAction[] | undefined;
   excerpt: string;
   openLabel: string;
+  openTo?:
+    | typeof routePaths.libraryShloka
+    | typeof routePaths.learnShloka
+    | undefined;
   shlokaCode: string;
   status?: string | undefined;
   title: string;
@@ -25,6 +29,7 @@ export function ShlokaCard({
   actions = [],
   excerpt,
   openLabel,
+  openTo = routePaths.libraryShloka,
   shlokaCode,
   status,
   title,
@@ -39,7 +44,7 @@ export function ShlokaCard({
           aria-label={excerpt}
           className="min-w-0 flex-1 rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
           params={{ shlokaCode }}
-          to={routePaths.libraryShloka}
+          to={openTo}
         >
           <span className="block break-words text-[length:var(--font-size-body)] leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]">
             {title}
@@ -52,7 +57,7 @@ export function ShlokaCard({
           aria-label={openLabel}
           className="flex size-[var(--component-card-indicator-size)] shrink-0 items-center justify-center rounded-full text-primary outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50"
           params={{ shlokaCode }}
-          to={routePaths.libraryShloka}
+          to={openTo}
         >
           <ChevronRight aria-hidden="true" className="size-full" />
         </Link>

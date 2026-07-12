@@ -11,6 +11,7 @@ import {
 } from "./user-library.repository.js";
 
 interface UserShlokaStatusRow {
+  created_at: Date;
   reviewing_started_at: Date | null;
   shloka_code: string;
   status: string;
@@ -40,7 +41,7 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   async listShlokaStatuses(accountId: string): Promise<UserShlokaStatusRecord[]> {
     const result = await this.database.fastReadQuery<UserShlokaStatusRow>(
       `
-        select shloka_code, status, reviewing_started_at
+        select shloka_code, status, created_at, reviewing_started_at
         from user_shlokas
         where account_id = $1
       `,
@@ -89,12 +90,18 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   async setShlokaStatus(input: SetUserShlokaStatusInput): Promise<void> {
     await this.database.idempotentWriteQuery(
       `
-        insert into user_shlokas (account_id, shloka_code, status)
-        values ($1, $2, $3)
+        insert into user_shlokas (
+          account_id,
+          shloka_code,
+          status,
+          created_at,
+          updated_at
+        )
+        values ($1, $2, $3, $4, $4)
         on conflict (account_id, shloka_code)
         do nothing
       `,
-      [input.accountId, input.shlokaCode, input.status],
+      [input.accountId, input.shlokaCode, input.status, input.createdAt],
     );
   }
 }
@@ -111,6 +118,7 @@ function mapStatusRow(row: UserShlokaStatusRow): UserShlokaStatusRecord {
   }
 
   return {
+    createdAt: row.created_at,
     ...(row.reviewing_started_at
       ? { reviewingStartedAt: row.reviewing_started_at }
       : {}),

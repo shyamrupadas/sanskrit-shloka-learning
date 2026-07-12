@@ -77,6 +77,17 @@ export interface GetDashboardRequest {
   authorization?: string;
 }
 
+export interface GetLearningShlokasRequest {
+  limit?: number;
+  authorization?: string;
+}
+
+export interface GetReviewShlokasRequest {
+  timeZone: string;
+  limit?: number;
+  authorization?: string;
+}
+
 export interface CompleteLearningRequest {
   shlokaCode: string;
   authorization?: string;
@@ -112,6 +123,8 @@ export type LoginResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiH
 export type LogoutResponse = ApiHandlerResponse<204> | ApiHandlerResponse<401, Types.ApiError>;
 export type RegisterResponse = ApiHandlerResponse<201, Types.AuthSessionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardDto> | ApiHandlerResponse<401, Types.ApiError>;
+export type GetLearningShlokasResponse = ApiHandlerResponse<200, Types.DashboardLearningShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
+export type GetReviewShlokasResponse = ApiHandlerResponse<200, Types.DashboardReviewShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type CompleteLearningResponse = ApiHandlerResponse<200, Types.CompleteLearningDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
@@ -133,6 +146,8 @@ export interface ApiHandlers {
   logout(request: LogoutRequest): Promise<LogoutResponse> | LogoutResponse;
   register(request: RegisterRequest): Promise<RegisterResponse> | RegisterResponse;
   getDashboard(request: GetDashboardRequest): Promise<GetDashboardResponse> | GetDashboardResponse;
+  getLearningShlokas(request: GetLearningShlokasRequest): Promise<GetLearningShlokasResponse> | GetLearningShlokasResponse;
+  getReviewShlokas(request: GetReviewShlokasRequest): Promise<GetReviewShlokasResponse> | GetReviewShlokasResponse;
   completeLearning(request: CompleteLearningRequest): Promise<CompleteLearningResponse> | CompleteLearningResponse;
   getItem(request: GetItemRequest): Promise<GetItemResponse> | GetItemResponse;
   getLibrary(request: GetLibraryRequest): Promise<GetLibraryResponse> | GetLibraryResponse;

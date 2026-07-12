@@ -42,6 +42,19 @@ const emptyDashboard = {
   },
 } satisfies ApiTypes.EmptyDashboardDto;
 
+const emptyDashboardReviewList = {
+  hasReviewingShlokas: false,
+  items: [],
+  remainingCount: 0,
+  state: "empty",
+} satisfies ApiTypes.DashboardReviewShlokaListDto;
+
+const emptyDashboardLearningList = {
+  hasLearningShlokas: false,
+  items: [],
+  remainingCount: 0,
+} satisfies ApiTypes.DashboardLearningShlokaListDto;
+
 const defaultSettings = {
   hardMode: false,
 } satisfies ApiTypes.AccountSettingsDto;
@@ -335,6 +348,14 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
 
   if (method === "GET" && path === "/api/dashboard") {
     return { status: 200, body: emptyDashboard };
+  }
+
+  if (method === "GET" && path === "/api/dashboard/review-shlokas") {
+    return { status: 200, body: emptyDashboardReviewList };
+  }
+
+  if (method === "GET" && path === "/api/dashboard/learning-shlokas") {
+    return { status: 200, body: emptyDashboardLearningList };
   }
 
   if (method === "GET" && path === "/api/account/settings") {

@@ -13,6 +13,7 @@ describe("PostgresUserLibraryRepository", () => {
 
     await repository.setShlokaStatus({
       accountId: "account-1",
+      createdAt: new Date("2026-07-12T09:00:00.000Z"),
       shlokaCode: "bg-1-1",
       status: "learning",
     });

@@ -57,6 +57,13 @@ function collectOperations(paths) {
           name: parameter.name,
           type: tsTypeFromSchema(parameter.schema ?? { type: "string" }),
         }));
+      const queryParameters = parameters
+        .filter((parameter) => parameter.in === "query")
+        .map((parameter) => ({
+          name: parameter.name,
+          required: parameter.required === true,
+          type: tsTypeFromSchema(parameter.schema ?? { type: "string" }),
+        }));
 
       collected.push({
         method: method.toUpperCase(),
@@ -64,6 +71,7 @@ function collectOperations(paths) {
         operationId,
         path,
         pathParameters,
+        queryParameters,
         requestBodyType: requestBodySchema
           ? tsTypeFromSchema(requestBodySchema)
           : undefined,
@@ -187,19 +195,53 @@ export class ApiError extends Error {
 }
 
 function renderClientMethod(operation) {
+  const requiredQueryParameters = operation.queryParameters.filter(
+    (parameter) => parameter.required,
+  );
+  const optionalQueryParameters = operation.queryParameters.filter(
+    (parameter) => !parameter.required,
+  );
   const parameters = [
     ...operation.pathParameters.map((parameter) => `${parameter.name}: ${parameter.type}`),
+    ...requiredQueryParameters.map((parameter) => `${parameter.name}: ${parameter.type}`),
     ...(operation.requestBodyType ? [`request: Types.${operation.requestBodyType}`] : []),
+    ...optionalQueryParameters.map((parameter) => `${parameter.name}?: ${parameter.type}`),
   ].join(", ");
   const bodyInit = operation.requestBodyType
     ? ",\n    body: JSON.stringify(request)"
     : "";
+  const querySetup = renderClientQuerySetup(operation);
+  const requestPath = operation.queryParameters.length > 0
+    ? "`${path}${queryString ? `?${queryString}` : \"\"}`"
+    : renderPathExpression(operation);
 
   return `async ${operation.methodName}(${parameters}): Promise<${operation.successType}> {
-  return this.#request<${operation.successType}>(${renderPathExpression(operation)}, {
+${querySetup}  return this.#request<${operation.successType}>(${requestPath}, {
     method: ${JSON.stringify(operation.method)}${bodyInit}
   });
 }`;
+}
+
+function renderClientQuerySetup(operation) {
+  if (operation.queryParameters.length === 0) {
+    return "";
+  }
+
+  const assignments = operation.queryParameters
+    .map((parameter) => {
+      const assignment = `query.set(${JSON.stringify(parameter.name)}, String(${parameter.name}));`;
+      return parameter.required
+        ? `  ${assignment}`
+        : `  if (${parameter.name} !== undefined) {\n    ${assignment}\n  }`;
+    })
+    .join("\n");
+
+  return `  const query = new URLSearchParams();
+${assignments}
+  const queryString = query.toString();
+  const path = ${renderPathExpression(operation)};
+
+`;
 }
 
 function renderBackendHandlers() {
@@ -211,10 +253,16 @@ function renderBackendHandlers() {
       const path = operation.pathParameters
         .map((parameter) => `\n  ${parameter.name}: ${parameter.type};`)
         .join("");
+      const query = operation.queryParameters
+        .map(
+          (parameter) =>
+            `\n  ${parameter.name}${parameter.required ? "" : "?"}: ${parameter.type};`,
+        )
+        .join("");
       const authorization = operation.requiresAuthorization
         ? "\n  authorization?: string;"
         : "";
-      return `export interface ${operation.handlerRequestType} {${body}${path}${authorization}\n}`;
+      return `export interface ${operation.handlerRequestType} {${body}${path}${query}${authorization}\n}`;
     })
     .join("\n\n");
 

@@ -34,4 +34,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/09-repetition-algorithm-and-dashboard-batch.md`
+Нет - можно начинать сразу

@@ -111,9 +111,30 @@ export interface CreateSourceRequest {
   parts?: CreateSourcePartRequest[];
 }
 
+export interface DashboardLearningShlokaListDto {
+  items: DashboardShlokaDto[];
+  remainingCount: number;
+  hasLearningShlokas: boolean;
+}
+
 export interface DashboardPrimaryActionDto {
   label: "Добавить";
   target: "/library";
+}
+
+export type DashboardReviewListState = "empty" | "active" | "completed";
+
+export interface DashboardReviewShlokaListDto {
+  items: DashboardShlokaDto[];
+  remainingCount: number;
+  hasReviewingShlokas: boolean;
+  state: DashboardReviewListState;
+}
+
+export interface DashboardShlokaDto {
+  code: string;
+  displayTitle: string;
+  text: string;
 }
 
 export interface EmptyDashboardDto {

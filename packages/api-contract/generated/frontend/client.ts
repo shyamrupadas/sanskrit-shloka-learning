@@ -118,6 +118,33 @@ export class ApiClient {
     });
   }
 
+  async getLearningShlokas(limit?: number): Promise<Types.DashboardLearningShlokaListDto> {
+    const query = new URLSearchParams();
+    if (limit !== undefined) {
+      query.set("limit", String(limit));
+    }
+    const queryString = query.toString();
+    const path = "/api/dashboard/learning-shlokas";
+
+    return this.#request<Types.DashboardLearningShlokaListDto>(`${path}${queryString ? `?${queryString}` : ""}`, {
+      method: "GET"
+    });
+  }
+
+  async getReviewShlokas(timeZone: string, limit?: number): Promise<Types.DashboardReviewShlokaListDto> {
+    const query = new URLSearchParams();
+    query.set("timeZone", String(timeZone));
+    if (limit !== undefined) {
+      query.set("limit", String(limit));
+    }
+    const queryString = query.toString();
+    const path = "/api/dashboard/review-shlokas";
+
+    return this.#request<Types.DashboardReviewShlokaListDto>(`${path}${queryString ? `?${queryString}` : ""}`, {
+      method: "GET"
+    });
+  }
+
   async completeLearning(shlokaCode: string): Promise<Types.CompleteLearningDto> {
     return this.#request<Types.CompleteLearningDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}/complete-learning`, {
       method: "POST"

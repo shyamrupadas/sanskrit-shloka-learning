@@ -5,6 +5,10 @@ import { AccountSettingsService } from "../accounts/account-settings.service.js"
 import { AuthService } from "../auth/auth.service.js";
 import { forbiddenError, unauthorizedError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
+import {
+  DashboardService,
+  isValidTimeZone,
+} from "../dashboard/dashboard.service.js";
 import { UserLibraryService } from "../library/user-library.service.js";
 
 type AdminAuthorizationError =
@@ -17,6 +21,7 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     @Inject(AuthService) private readonly auth: AuthService,
     @Inject(AccountSettingsService) private readonly accountSettings: AccountSettingsService,
     @Inject(CatalogService) private readonly catalog: CatalogService,
+    @Inject(DashboardService) private readonly dashboard: DashboardService,
     @Inject(UserLibraryService) private readonly userLibrary: UserLibraryService,
   ) {}
 
@@ -74,6 +79,58 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     return {
       status: 200,
       body: emptyDashboard(),
+    };
+  }
+
+  async getLearningShlokas(
+    request: BackendContract.GetLearningShlokasRequest,
+  ): Promise<BackendContract.GetLearningShlokasResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (!isValidDashboardLimit(request.limit)) {
+      return {
+        status: 400,
+        body: validationError(["Лимит должен быть положительным целым числом"]),
+      };
+    }
+
+    return {
+      status: 200,
+      body: await this.dashboard.getLearningShlokas(
+        session.account.id,
+        request.limit,
+      ),
+    };
+  }
+
+  async getReviewShlokas(
+    request: BackendContract.GetReviewShlokasRequest,
+  ): Promise<BackendContract.GetReviewShlokasResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    const details = [
+      ...(!isValidDashboardLimit(request.limit)
+        ? ["Лимит должен быть положительным целым числом"]
+        : []),
+      ...(!isValidTimeZone(request.timeZone)
+        ? ["Таймзона пользователя должна быть корректной IANA-таймзоной"]
+        : []),
+    ];
+    if (details.length > 0) {
+      return { status: 400, body: validationError(details) };
+    }
+
+    return {
+      status: 200,
+      body: await this.dashboard.getReviewShlokas(
+        session.account.id,
+        request.timeZone,
+        request.limit,
+      ),
     };
   }
 
@@ -216,4 +273,8 @@ function emptyDashboard(): ApiTypes.EmptyDashboardDto {
       target: "/library",
     },
   };
+}
+
+function isValidDashboardLimit(limit: number | undefined): boolean {
+  return limit === undefined || (Number.isInteger(limit) && limit > 0);
 }

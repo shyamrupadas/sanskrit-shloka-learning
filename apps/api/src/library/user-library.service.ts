@@ -100,6 +100,7 @@ export class UserLibraryService {
     if (request.personalStatus === "learning") {
       await this.userLibrary.setShlokaStatus({
         accountId,
+        createdAt: this.now(),
         shlokaCode,
         status: "learning",
       });

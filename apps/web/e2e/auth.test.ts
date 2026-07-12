@@ -497,6 +497,22 @@ async function mockApi(
       return;
     }
 
+    if (
+      method === "GET" &&
+      url.pathname === "/api/dashboard/review-shlokas"
+    ) {
+      await fulfillJson(route, 200, emptyDashboardReviewList);
+      return;
+    }
+
+    if (
+      method === "GET" &&
+      url.pathname === "/api/dashboard/learning-shlokas"
+    ) {
+      await fulfillJson(route, 200, emptyDashboardLearningList);
+      return;
+    }
+
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(route, 200, options.library ?? emptyLibrary);
       return;
@@ -546,6 +562,19 @@ const emptyDashboard = {
     target: "/library",
   },
 } satisfies ApiTypes.EmptyDashboardDto;
+
+const emptyDashboardReviewList = {
+  hasReviewingShlokas: false,
+  items: [],
+  remainingCount: 0,
+  state: "empty",
+} satisfies ApiTypes.DashboardReviewShlokaListDto;
+
+const emptyDashboardLearningList = {
+  hasLearningShlokas: false,
+  items: [],
+  remainingCount: 0,
+} satisfies ApiTypes.DashboardLearningShlokaListDto;
 
 const emptyLibrary = {
   defaultTab: "reviewing",
