@@ -19,6 +19,13 @@ Status: ready-for-agent
 - [ ] В разделе нет CMS, отслеживания прогресса, структуры курсов, квизов или административного редактирования.
 - [ ] Тесты покрывают переход в раздел, раскрытие/сворачивание советов, русские UI-строки через i18n и отсутствие курсов/квизов/прогресса.
 
+## Pencil references
+
+- Экран: `Обучение санскриту` (`aj0kd`)
+- Компонент: `Product / Tip Accordion Item / Collapsed` (`epjBK`)
+- Компонент: `Product / Tip Accordion Item / Expanded` (`rgPsh`)
+- Компонент: `Product / Bottom Navigation` (`S7Pta`)
+
 ## Заблокировано
 
 - `.scratch/frontend-evolution-design/issues/09-verify-ed-small-migration.md`
