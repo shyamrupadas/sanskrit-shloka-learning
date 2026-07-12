@@ -25,12 +25,48 @@ describe("PostgresUserLibraryRepository", () => {
     assert.equal(database.idempotentWriteQueries.length, 2);
     assert.ok(database.idempotentWriteQueries[0]?.includes("insert into user_shlokas"));
     assert.ok(database.idempotentWriteQueries[1]?.includes("delete from user_shlokas"));
+    assert.ok(database.idempotentWriteQueries[1]?.includes("status = 'learning'"));
+  });
+
+  test("stores the reviewing transition time without overwriting it on retries", async () => {
+    const learnedAt = new Date("2026-07-12T09:30:00.000Z");
+    const database = new WriteTrackingDatabase([
+      {
+        reviewing_started_at: learnedAt,
+        transitioned: true,
+      },
+    ]);
+    const repository = new PostgresUserLibraryRepository(database as unknown as DatabaseService);
+
+    const transition = await repository.markShlokaLearned({
+      accountId: "account-1",
+      reviewingStartedAt: learnedAt,
+      shlokaCode: "bg-1-1",
+    });
+
+    assert.deepEqual(transition, {
+      kind: "transitioned",
+      reviewingStartedAt: learnedAt,
+    });
+    assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'reviewing'"));
+    assert.ok(database.idempotentWriteQueries[0]?.includes("reviewing_started_at = $3"));
+    assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'learning'"));
+    assert.deepEqual(database.idempotentWriteValues[0], [
+      "account-1",
+      "bg-1-1",
+      learnedAt,
+    ]);
   });
 });
 
 class WriteTrackingDatabase {
   readonly directQueries: string[] = [];
   readonly idempotentWriteQueries: string[] = [];
+  readonly idempotentWriteValues: unknown[][] = [];
+
+  constructor(
+    private readonly idempotentRows: Array<Record<string, unknown>> = [],
+  ) {}
 
   async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
@@ -42,10 +78,11 @@ class WriteTrackingDatabase {
 
   async idempotentWriteQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
-    _values: readonly unknown[] = [],
+    values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
     this.idempotentWriteQueries.push(normalizeQuery(text));
-    return result<Row>([]);
+    this.idempotentWriteValues.push([...values]);
+    return result<Row>(this.idempotentRows.splice(0) as unknown as Row[]);
   }
 }
 

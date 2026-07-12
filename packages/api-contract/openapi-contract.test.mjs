@@ -38,3 +38,18 @@ describe("generated OpenAPI account settings contract", () => {
     );
   });
 });
+
+describe("generated OpenAPI learning contract", () => {
+  test("exposes the authenticated learning completion transition", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const operation = openApi.paths?.["/api/library/items/{shlokaCode}/complete-learning"]?.post;
+
+    assert.ok(operation);
+    assert.equal(operation.parameters?.[0]?.name, "shlokaCode");
+    assert.equal(operation.parameters?.[1]?.name, "authorization");
+    assert.equal(
+      operation.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.CompleteLearningDto",
+    );
+  });
+});

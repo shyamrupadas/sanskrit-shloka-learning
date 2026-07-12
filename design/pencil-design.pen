@@ -10219,6 +10219,7 @@
       "name": "Заучивание — шлока",
       "clip": true,
       "width": 390,
+      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10228,7 +10229,7 @@
           "type": "frame",
           "id": "WTeiO",
           "name": "Status Bar",
-          "width": "fill_container",
+          "width": 358,
           "height": 62,
           "padding": [
             0,
@@ -10292,7 +10293,8 @@
           "type": "frame",
           "id": "QdURv",
           "name": "Content",
-          "width": "fill_container",
+          "width": 390,
+          "height": 808,
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -10301,14 +10303,52 @@
           ],
           "children": [
             {
-              "type": "text",
-              "id": "qAR2W",
-              "name": "Screen Title",
-              "fill": "$text",
-              "content": "Заучивание",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "type": "frame",
+              "id": "Pt5Cw",
+              "name": "Шапка шлоки",
+              "width": 358,
+              "gap": 12,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TegnD",
+                  "name": "Заголовок шлоки",
+                  "fill": "#111827",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": 1.2,
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "VumZV",
+                  "name": "Кнопка перехода в обучение санскриту",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#EEF4FF",
+                  "cornerRadius": 18,
+                  "stroke": "#D7E4FF",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GoRt4",
+                      "name": "Иконка вопроса",
+                      "fill": "#2563EB",
+                      "content": "?",
+                      "lineHeight": 1,
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "text",
@@ -10326,8 +10366,11 @@
             {
               "type": "frame",
               "id": "Jt9DR",
+              "layoutPosition": "absolute",
+              "x": 16,
+              "y": 694,
               "name": "Learning Actions",
-              "width": "fill_container",
+              "width": 358,
               "layout": "vertical",
               "gap": 10,
               "children": [
@@ -10336,25 +10379,31 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Выучил",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "aUMci": {
+                      "content": "Выучил"
+                    }
+                  }
                 },
                 {
                   "id": "kznoP",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Не выучил",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "g86340": {
+                      "enabled": false
+                    },
+                    "VZsCN": {
+                      "content": "Не выучил"
+                    }
+                  }
                 }
               ]
             }
           ]
-        },
-        {
-          "id": "SNz1e",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Библиотека",
-          "width": 358
         }
       ]
     },
@@ -10366,6 +10415,7 @@
       "name": "Заучивание — подтверждение",
       "clip": true,
       "width": 390,
+      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10375,7 +10425,7 @@
           "type": "frame",
           "id": "H3IPOm",
           "name": "Status Bar",
-          "width": "fill_container",
+          "width": 358,
           "height": 62,
           "padding": [
             0,
@@ -10439,7 +10489,8 @@
           "type": "frame",
           "id": "EQaJS",
           "name": "Content",
-          "width": "fill_container",
+          "width": 390,
+          "height": 808,
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -10488,23 +10539,32 @@
               "type": "ref",
               "ref": "M6qnk",
               "name": "Выучить еще",
-              "width": "fill_container"
+              "width": 358,
+              "layoutPosition": "absolute",
+              "x": 16,
+              "y": 686,
+              "descendants": {
+                "aUMci": {
+                  "content": "На дашборд"
+                }
+              }
             },
             {
               "id": "BnZgS",
               "type": "ref",
               "ref": "B9n47J",
               "name": "На дашборд",
-              "width": "fill_container"
+              "width": 358,
+              "layoutPosition": "absolute",
+              "x": 16,
+              "y": 748,
+              "descendants": {
+                "VZsCN": {
+                  "content": "Выучить еще"
+                }
+              }
             }
           ]
-        },
-        {
-          "id": "j7mFF",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Библиотека",
-          "width": 358
         }
       ]
     },

@@ -20,12 +20,14 @@ export interface LibraryModel {
   updatingShlokaCode: string | undefined;
 }
 
-export function useLibrary(): LibraryModel {
+export function useLibrary(initialTab?: ApiTypes.LibraryTab): LibraryModel {
   const auth = useSession();
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<ApiTypes.LibraryTab>("reviewing");
+  const [activeTab, setActiveTab] = useState<ApiTypes.LibraryTab>(
+    initialTab ?? "reviewing",
+  );
   const [searchQuery, setSearchQuery] = useState("");
-  const didApplyDefaultTab = useRef(false);
+  const didApplyDefaultTab = useRef(initialTab !== undefined);
   const libraryQuery = useQuery({
     queryFn: () => auth.apiClient.getLibrary(),
     queryKey: ["library"],

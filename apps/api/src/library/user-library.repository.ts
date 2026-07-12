@@ -1,6 +1,7 @@
 export type PersistedLibraryShlokaStatus = "learning" | "reviewing";
 
 export interface UserShlokaStatusRecord {
+  reviewingStartedAt?: Date;
   shlokaCode: string;
   status: PersistedLibraryShlokaStatus;
 }
@@ -8,7 +9,7 @@ export interface UserShlokaStatusRecord {
 export interface SetUserShlokaStatusInput {
   accountId: string;
   shlokaCode: string;
-  status: PersistedLibraryShlokaStatus;
+  status: "learning";
 }
 
 export interface ClearUserShlokaStatusInput {
@@ -16,9 +17,25 @@ export interface ClearUserShlokaStatusInput {
   shlokaCode: string;
 }
 
+export interface MarkShlokaLearnedInput {
+  accountId: string;
+  reviewingStartedAt: Date;
+  shlokaCode: string;
+}
+
+export type MarkShlokaLearnedResult =
+  | {
+      kind: "transitioned" | "already-reviewing";
+      reviewingStartedAt: Date;
+    }
+  | { kind: "not-learning" };
+
 export interface UserLibraryRepository {
-  clearShlokaStatus(input: ClearUserShlokaStatusInput): Promise<void>;
+  clearShlokaStatus(input: ClearUserShlokaStatusInput): Promise<boolean>;
   listShlokaStatuses(accountId: string): Promise<UserShlokaStatusRecord[]>;
+  markShlokaLearned(
+    input: MarkShlokaLearnedInput,
+  ): Promise<MarkShlokaLearnedResult>;
   setShlokaStatus(input: SetUserShlokaStatusInput): Promise<void>;
 }
 

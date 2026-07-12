@@ -129,6 +129,9 @@ describe("ApiHandlersService protected resources", () => {
     const dashboardResponse = await handlers.getDashboard({});
     const libraryResponse = await handlers.getLibrary({});
     const itemResponse = await handlers.getItem({ shlokaCode: "missing" });
+    const completeLearningResponse = await handlers.completeLearning({
+      shlokaCode: "missing",
+    });
     const settingsResponse = await handlers.getSettings({});
     const updateSettingsResponse = await handlers.updateSettings({
       body: { hardMode: true },
@@ -137,6 +140,7 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(dashboardResponse.status, 401);
     assert.equal(libraryResponse.status, 401);
     assert.equal(itemResponse.status, 401);
+    assert.equal(completeLearningResponse.status, 401);
     assert.equal(settingsResponse.status, 401);
     assert.equal(updateSettingsResponse.status, 401);
   });
@@ -493,8 +497,12 @@ describe("ApiHandlersService admin catalog", () => {
     );
   });
 
-  test("keeps to-learn shloka status per user and allows removing it", async () => {
-    const { authorization, handlers } = await createAdminHandlers();
+  test("keeps to-learn status per user, completes learning, and preserves reviewing", async () => {
+    const learnedAt = new Date("2026-07-12T09:30:00.000Z");
+    let now = learnedAt;
+    const { authorization, handlers } = await createAdminHandlers({
+      now: () => now,
+    });
 
     await handlers.sources({
       authorization,
@@ -588,12 +596,91 @@ describe("ApiHandlersService admin catalog", () => {
     const afterRemoveShloka = afterRemoveLibrary.body.allShlokas.at(0);
     assert.ok(afterRemoveShloka);
     assert.equal(afterRemoveShloka.personalStatus, "available");
+
+    assert.equal(
+      (
+        await handlers.updateItem({
+          authorization: learnerAuthorization,
+          shlokaCode: "gita-chapter-2-2-47",
+          body: { personalStatus: "learning" },
+        })
+      ).status,
+      200,
+    );
+    const completeResponse = await handlers.completeLearning({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+    });
+
+    assert.equal(completeResponse.status, 200);
+    assert.equal(completeResponse.body.shloka.personalStatus, "reviewing");
+    assert.deepEqual(completeResponse.body.remainingLearningShlokas, []);
+    const reviewingRecord = (
+      await handlers.userLibraryRepository.listShlokaStatuses(
+        learner.body.account.id,
+      )
+    ).at(0);
+    assert.ok(reviewingRecord);
+    assert.equal(reviewingRecord.status, "reviewing");
+    assert.equal(reviewingRecord.reviewingStartedAt?.toISOString(), learnedAt.toISOString());
+
+    const removalFromReviewing = await handlers.updateItem({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+      body: { personalStatus: "available" },
+    });
+    assert.equal(removalFromReviewing.status, 400);
+    const reviewingItem = await handlers.getItem({
+      authorization: learnerAuthorization,
+      shlokaCode: "gita-chapter-2-2-47",
+    });
+    assert.equal(reviewingItem.status, 200);
+    assert.equal(reviewingItem.body.personalStatus, "reviewing");
+
+    now = new Date("2026-07-13T11:00:00.000Z");
+    assert.equal(
+      (
+        await handlers.completeLearning({
+          authorization: learnerAuthorization,
+          shlokaCode: "gita-chapter-2-2-47",
+        })
+      ).status,
+      200,
+    );
+    const recordAfterDuplicateCompletion = (
+      await handlers.userLibraryRepository.listShlokaStatuses(
+        learner.body.account.id,
+      )
+    ).at(0);
+    assert.equal(
+      recordAfterDuplicateCompletion?.reviewingStartedAt?.toISOString(),
+      learnedAt.toISOString(),
+    );
+
+    assert.equal(
+      (
+        await handlers.completeLearning({
+          authorization: `Bearer ${otherLearner.body.accessToken}`,
+          shlokaCode: "gita-chapter-2-2-47",
+        })
+      ).status,
+      400,
+    );
     assert.equal(
       (
         await handlers.updateItem({
           authorization: learnerAuthorization,
           shlokaCode: "missing",
           body: { personalStatus: "learning" },
+        })
+      ).status,
+      404,
+    );
+    assert.equal(
+      (
+        await handlers.completeLearning({
+          authorization: learnerAuthorization,
+          shlokaCode: "missing",
         })
       ).status,
       404,
@@ -888,24 +975,37 @@ describe("ApiHandlersService admin catalog", () => {
 
 type TestHandlers = ApiHandlersService & {
   accounts: InMemoryAccountRepository;
+  userLibraryRepository: InMemoryUserLibraryRepository;
 };
 
-function createHandlers(): TestHandlers {
+function createHandlers(
+  options: { now?: () => Date } = {},
+): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
   const auth = new AuthService(accounts, passwordHasher);
   const accountSettings = new AccountSettingsService(accounts);
   const catalog = new CatalogService(new InMemoryCatalogRepository());
-  const userLibrary = new UserLibraryService(catalog, new InMemoryUserLibraryRepository());
+  const userLibraryRepository = new InMemoryUserLibraryRepository();
+  const userLibrary = new UserLibraryService(
+    catalog,
+    userLibraryRepository,
+    options.now ?? (() => new Date()),
+  );
 
-  return Object.assign(new ApiHandlersService(auth, accountSettings, catalog, userLibrary), { accounts });
+  return Object.assign(
+    new ApiHandlersService(auth, accountSettings, catalog, userLibrary),
+    { accounts, userLibraryRepository },
+  );
 }
 
-async function createAdminHandlers(): Promise<{
+async function createAdminHandlers(
+  options: { now?: () => Date } = {},
+): Promise<{
   authorization: string;
   handlers: TestHandlers;
 }> {
-  const handlers = createHandlers();
+  const handlers = createHandlers(options);
   const registerResponse = await handlers.register({
     body: {
       email: "admin@example.com",

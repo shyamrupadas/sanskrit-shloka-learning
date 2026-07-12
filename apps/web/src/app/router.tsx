@@ -6,6 +6,7 @@ import {
   lazyRouteComponent,
   redirect,
 } from "@tanstack/react-router";
+import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
@@ -45,6 +46,10 @@ const LibraryPage = lazyRouteComponent(
 const ShlokaPage = lazyRouteComponent(
   () => import("@/features/library/shloka.page"),
   "ShlokaPage",
+);
+const LearnShlokaPage = lazyRouteComponent(
+  () => import("@/features/learn-shloka/learn-shloka.page"),
+  "LearnShlokaPage",
 );
 const LearningPage = lazyRouteComponent(
   () => import("@/features/learning/learning.page"),
@@ -127,15 +132,22 @@ const dashboardRoute = createRoute({
 });
 
 const libraryRoute = createRoute({
-  component: LibraryPage,
+  component: LibraryRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.library,
+  validateSearch: parseLibrarySearch,
 });
 
 const shlokaRoute = createRoute({
   component: ShlokaRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.libraryShloka,
+});
+
+const learnShlokaRoute = createRoute({
+  component: LearnShlokaRoute,
+  getParentRoute: () => authenticatedRoute,
+  path: routeSegments.learnShloka,
 });
 
 const learningRoute = createRoute({
@@ -197,6 +209,7 @@ const routeTree = rootRoute.addChildren([
     dashboardRoute,
     libraryRoute,
     shlokaRoute,
+    learnShlokaRoute,
     learningRoute,
     settingsRoute,
   ]),
@@ -233,6 +246,18 @@ function ShlokaRoute() {
   return <ShlokaPage shlokaCode={shlokaCode} />;
 }
 
+function LibraryRoute() {
+  const { tab } = libraryRoute.useSearch();
+
+  return tab ? <LibraryPage initialTab={tab} /> : <LibraryPage />;
+}
+
+function LearnShlokaRoute() {
+  const { shlokaCode } = learnShlokaRoute.useParams();
+
+  return <LearnShlokaPage key={shlokaCode} shlokaCode={shlokaCode} />;
+}
+
 function AdminShlokaEditRoute() {
   const { shlokaCode } = adminShlokaEditRoute.useParams();
   return <AdminShlokaEditPage shlokaCode={shlokaCode} />;
@@ -250,6 +275,16 @@ function requireAdmin(session: SessionContextValue): void {
   if (!session.account?.roles.includes("admin")) {
     throw redirect({ to: routePaths.dashboard });
   }
+}
+
+function parseLibrarySearch(search: Record<string, unknown>): {
+  tab?: ApiTypes.LibraryTab;
+} {
+  return search.tab === "reviewing" ||
+    search.tab === "learning" ||
+    search.tab === "all"
+    ? { tab: search.tab }
+    : {};
 }
 
 declare module "@tanstack/react-router" {

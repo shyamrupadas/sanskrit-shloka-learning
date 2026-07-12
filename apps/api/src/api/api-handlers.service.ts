@@ -98,6 +98,20 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     return this.userLibrary.getShloka(session.account.id, request.shlokaCode);
   }
 
+  async completeLearning(
+    request: BackendContract.CompleteLearningRequest,
+  ): Promise<BackendContract.CompleteLearningResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+
+    return this.userLibrary.completeLearning(
+      session.account.id,
+      request.shlokaCode,
+    );
+  }
+
   async updateItem(request: BackendContract.UpdateItemRequest): Promise<BackendContract.UpdateItemResponse> {
     const session = await this.auth.lookupSession(request.authorization);
     if (!session) {

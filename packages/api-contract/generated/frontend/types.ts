@@ -75,6 +75,11 @@ export interface AuthSessionDto {
   accessToken: string;
 }
 
+export interface CompleteLearningDto {
+  shloka: LibraryShlokaDto;
+  remainingLearningShlokas: LibraryShlokaDto[];
+}
+
 export interface CreateShlokaRequest {
   sourceCode: string;
   partCode?: string;

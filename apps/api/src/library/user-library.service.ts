@@ -8,12 +8,16 @@ import {
   type UserLibraryRepository,
 } from "./user-library.repository.js";
 
+export type UserLibraryClock = () => Date;
+export const USER_LIBRARY_CLOCK = Symbol("USER_LIBRARY_CLOCK");
+
 @Injectable()
 export class UserLibraryService {
   constructor(
     @Inject(CatalogService) private readonly catalog: CatalogService,
     @Inject(USER_LIBRARY_REPOSITORY)
     private readonly userLibrary: UserLibraryRepository,
+    @Inject(USER_LIBRARY_CLOCK) private readonly now: UserLibraryClock,
   ) {}
 
   async getLibrary(accountId: string): Promise<ApiTypes.LibraryResponseDto> {
@@ -73,9 +77,24 @@ export class UserLibraryService {
       };
     }
 
-    const shloka = await this.catalog.getLibraryShloka(shlokaCode);
+    const [shloka, statuses] = await Promise.all([
+      this.catalog.getLibraryShloka(shlokaCode),
+      this.userLibrary.listShlokaStatuses(accountId),
+    ]);
     if (!shloka) {
       return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+
+    const currentStatus = statuses.find(
+      (status) => status.shlokaCode === shlokaCode,
+    )?.status;
+    if (currentStatus === "reviewing") {
+      return {
+        status: 400,
+        body: validationError([
+          "Шлоку в повторении нельзя вернуть в доступное состояние",
+        ]),
+      };
     }
 
     if (request.personalStatus === "learning") {
@@ -85,7 +104,23 @@ export class UserLibraryService {
         status: "learning",
       });
     } else {
-      await this.userLibrary.clearShlokaStatus({ accountId, shlokaCode });
+      const removed = await this.userLibrary.clearShlokaStatus({
+        accountId,
+        shlokaCode,
+      });
+      if (currentStatus === "learning" && !removed) {
+        const latestStatus = (
+          await this.userLibrary.listShlokaStatuses(accountId)
+        ).find((status) => status.shlokaCode === shlokaCode)?.status;
+        if (latestStatus === "reviewing") {
+          return {
+            status: 400,
+            body: validationError([
+              "Шлоку в повторении нельзя вернуть в доступное состояние",
+            ]),
+          };
+        }
+      }
     }
 
     return {
@@ -93,6 +128,49 @@ export class UserLibraryService {
       body: {
         ...shloka,
         personalStatus: request.personalStatus,
+      },
+    };
+  }
+
+  async completeLearning(
+    accountId: string,
+    shlokaCode: string,
+  ): Promise<
+    | { status: 200; body: ApiTypes.CompleteLearningDto }
+    | { status: 400; body: ApiTypes.ApiError }
+    | { status: 404; body: ApiTypes.ApiError }
+  > {
+    const shloka = await this.catalog.getLibraryShloka(shlokaCode);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+
+    const transition = await this.userLibrary.markShlokaLearned({
+      accountId,
+      reviewingStartedAt: this.now(),
+      shlokaCode,
+    });
+    if (transition.kind === "not-learning") {
+      return {
+        status: 400,
+        body: validationError([
+          "Только шлоку в статусе «буду учить» можно отметить выученной",
+        ]),
+      };
+    }
+
+    const library = await this.getLibrary(accountId);
+
+    return {
+      status: 200,
+      body: {
+        remainingLearningShlokas: library.allShlokas.filter(
+          (candidate) => candidate.personalStatus === "learning",
+        ),
+        shloka: {
+          ...shloka,
+          personalStatus: "reviewing",
+        },
       },
     };
   }

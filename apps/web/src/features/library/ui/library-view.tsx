@@ -1,4 +1,5 @@
-import { Plus, Search, X, type LucideIcon } from "lucide-react";
+import { BookOpen, Plus, Search, X, type LucideIcon } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
@@ -11,11 +12,12 @@ import { strings } from "@/shared/i18n";
 import { Input } from "@/shared/ui/input";
 
 import {
-  getLibraryCardAction,
+  getLibraryCardActions,
   getVisibleShlokas,
   type LibraryCardAction,
 } from "../lib/library";
 import type { LibraryModel } from "../model/use-library";
+import { routePaths } from "@/shared/model/routes";
 import { StatusCard } from "./status-card";
 
 export function LibraryView({ model }: { model: LibraryModel }) {
@@ -157,32 +159,40 @@ function LibraryShlokaCard({
   shloka: ApiTypes.LibraryShlokaDto;
   tabId: ApiTypes.LibraryTab;
 }) {
+  const navigate = useNavigate();
   const excerpt =
     shloka.text
       .split("\n")
       .find((line) => line.trim().length > 0)
       ?.trim() ?? "";
-  const action = getLibraryCardAction(tabId, shloka.personalStatus);
-  const actionPresentation = action
-    ? cardActionPresentations[action.kind]
-    : undefined;
+  const actions = getLibraryCardActions(tabId, shloka.personalStatus);
 
   return (
     <ShlokaCard
-      action={
-        action && actionPresentation
-          ? {
-              disabled: isUpdating,
-              Icon: actionPresentation.Icon,
-              label: isUpdating
-                ? strings.library.saving
-                : actionPresentation.label,
-              onClick: () =>
-                onStatusChange(shloka.code, action.nextStatus),
-              variant: actionPresentation.variant,
+      actions={actions.map((action) => {
+        const presentation = cardActionPresentations[action.kind];
+
+        return {
+          disabled: action.kind === "start-learning" ? false : isUpdating,
+          Icon: presentation.Icon,
+          label:
+            action.kind !== "start-learning" && isUpdating
+              ? strings.library.saving
+              : presentation.label,
+          onClick: () => {
+            if (action.kind === "start-learning") {
+              void navigate({
+                params: { shlokaCode: shloka.code },
+                to: routePaths.learnShloka,
+              });
+              return;
             }
-          : undefined
-      }
+
+            onStatusChange(shloka.code, action.nextStatus);
+          },
+          variant: presentation.variant,
+        };
+      })}
       excerpt={excerpt}
       openLabel={`${strings.library.openShloka} ${shloka.displayTitle}`}
       shlokaCode={shloka.code}
@@ -209,6 +219,11 @@ const cardActionPresentations: Record<
   "add-to-learning": {
     Icon: Plus,
     label: strings.library.addToLearning,
+    variant: "default",
+  },
+  "start-learning": {
+    Icon: BookOpen,
+    label: strings.library.startLearning,
     variant: "default",
   },
   "remove-from-learning": {

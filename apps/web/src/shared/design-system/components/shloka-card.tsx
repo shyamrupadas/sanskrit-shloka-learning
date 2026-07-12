@@ -13,7 +13,7 @@ export type ShlokaCardAction = {
 };
 
 export type ShlokaCardProps = {
-  action?: ShlokaCardAction | undefined;
+  actions?: readonly ShlokaCardAction[] | undefined;
   excerpt: string;
   openLabel: string;
   shlokaCode: string;
@@ -22,15 +22,13 @@ export type ShlokaCardProps = {
 };
 
 export function ShlokaCard({
-  action,
+  actions = [],
   excerpt,
   openLabel,
   shlokaCode,
   status,
   title,
 }: ShlokaCardProps) {
-  const ActionIcon = action?.Icon;
-
   return (
     <article
       aria-label={title}
@@ -60,7 +58,7 @@ export function ShlokaCard({
         </Link>
       </div>
 
-      {status || action ? (
+      {status || actions.length > 0 ? (
         <div className="flex flex-wrap items-center justify-between gap-2">
           {status ? (
             <span
@@ -70,17 +68,26 @@ export function ShlokaCard({
               {status}
             </span>
           ) : null}
-          {action ? (
-            <Button
-              className="ml-auto h-9 px-3"
-              disabled={action.disabled}
-              onClick={action.onClick}
-              type="button"
-              variant={action.variant ?? "outline"}
-            >
-              {ActionIcon ? <ActionIcon aria-hidden="true" /> : null}
-              {action.label}
-            </Button>
+          {actions.length > 0 ? (
+            <div className="ml-auto flex flex-wrap justify-end gap-2">
+              {actions.map((action) => {
+                const ActionIcon = action.Icon;
+
+                return (
+                  <Button
+                    className="h-9 px-3"
+                    disabled={action.disabled}
+                    key={action.label}
+                    onClick={action.onClick}
+                    type="button"
+                    variant={action.variant ?? "outline"}
+                  >
+                    {ActionIcon ? <ActionIcon aria-hidden="true" /> : null}
+                    {action.label}
+                  </Button>
+                );
+              })}
+            </div>
           ) : null}
         </div>
       ) : null}

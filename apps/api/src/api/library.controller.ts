@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Inject, Param, Patch, Res } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Res } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { ApiHandlersService } from "./api-handlers.service.js";
@@ -43,6 +43,21 @@ export class LibraryController {
       await this.handlers.updateItem({
         ...withAuthorization(authorization),
         body,
+        shlokaCode,
+      }),
+    );
+  }
+
+  @Post("items/:shlokaCode/complete-learning")
+  async completeLearning(
+    @Param("shlokaCode") shlokaCode: string,
+    @Headers("authorization") authorization: string | undefined,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(
+      response,
+      await this.handlers.completeLearning({
+        ...withAuthorization(authorization),
         shlokaCode,
       }),
     );

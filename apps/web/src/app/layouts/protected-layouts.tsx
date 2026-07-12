@@ -11,17 +11,31 @@ import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
 export function AuthenticatedLayout() {
   const location = useLocation();
+  const isFocusedFlow = isFocusedFlowPath(location.pathname);
 
   return (
     <ProtectedLayout>
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pt-5 pb-[calc(var(--component-bottom-nav-height)+var(--space-8)+env(safe-area-inset-bottom))] sm:px-6">
+      <main
+        className={
+          isFocusedFlow
+            ? "mx-auto flex min-h-dvh w-full max-w-[390px] flex-col px-4 py-5"
+            : "mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pt-5 pb-[calc(var(--component-bottom-nav-height)+var(--space-8)+env(safe-area-inset-bottom))] sm:px-6"
+        }
+      >
         <Outlet />
       </main>
-      <BottomNavigation
-        activeSection={getActiveNavigationSection(location.pathname)}
-      />
+      {isFocusedFlow ? null : (
+        <BottomNavigation
+          activeSection={getActiveNavigationSection(location.pathname)}
+        />
+      )}
     </ProtectedLayout>
   );
+}
+
+function isFocusedFlowPath(pathname: string): boolean {
+  return pathname.startsWith(`${routePaths.library}/shlokas/`) &&
+    pathname.endsWith("/learn");
 }
 
 export function AdminLayout() {

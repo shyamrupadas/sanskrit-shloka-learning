@@ -118,6 +118,12 @@ export class ApiClient {
     });
   }
 
+  async completeLearning(shlokaCode: string): Promise<Types.CompleteLearningDto> {
+    return this.#request<Types.CompleteLearningDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}/complete-learning`, {
+      method: "POST"
+    });
+  }
+
   async getItem(shlokaCode: string): Promise<Types.LibraryShlokaDto> {
     return this.#request<Types.LibraryShlokaDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}`, {
       method: "GET"

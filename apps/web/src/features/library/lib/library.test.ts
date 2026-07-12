@@ -1,7 +1,7 @@
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
 
-import { getLibraryCardAction, getVisibleShlokas } from "./library";
+import { getLibraryCardActions, getVisibleShlokas } from "./library";
 
 const shlokas = [
   {
@@ -54,26 +54,27 @@ describe("library rules", () => {
   });
 
   it("returns the add action only for an available shloka on the all tab", () => {
-    expect(getLibraryCardAction("all", "available")).toEqual({
+    expect(getLibraryCardActions("all", "available")).toEqual([{
       kind: "add-to-learning",
       nextStatus: "learning",
-    });
-    expect(getLibraryCardAction("learning", "available")).toBeUndefined();
-    expect(getLibraryCardAction("reviewing", "available")).toBeUndefined();
+    }]);
+    expect(getLibraryCardActions("learning", "available")).toEqual([]);
+    expect(getLibraryCardActions("reviewing", "available")).toEqual([]);
   });
 
-  it("returns the remove action for a learning shloka on every tab", () => {
-    for (const tabId of ["reviewing", "learning", "all"] as const) {
-      expect(getLibraryCardAction(tabId, "learning")).toEqual({
-        kind: "remove-from-learning",
-        nextStatus: "available",
-      });
-    }
+  it("adds the learn exception before remove on the to-learn tab", () => {
+    expect(getLibraryCardActions("learning", "learning")).toEqual([
+      { kind: "start-learning" },
+      { kind: "remove-from-learning", nextStatus: "available" },
+    ]);
+    expect(getLibraryCardActions("all", "learning")).toEqual([
+      { kind: "remove-from-learning", nextStatus: "available" },
+    ]);
   });
 
   it("does not offer an action for a reviewing shloka", () => {
     for (const tabId of ["reviewing", "learning", "all"] as const) {
-      expect(getLibraryCardAction(tabId, "reviewing")).toBeUndefined();
+      expect(getLibraryCardActions(tabId, "reviewing")).toEqual([]);
     }
   });
 });

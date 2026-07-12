@@ -195,6 +195,13 @@ describe("library pages", () => {
     expect(
       await screen.findByText("Бхагавад-гита, Глава 2 2.10"),
     ).toBeInTheDocument();
+    const learningTabCard = cardForText("Бхагавад-гита, Глава 2 2.10");
+    expect(
+      within(learningTabCard).getByRole("button", { name: "Учить" }),
+    ).toBeInTheDocument();
+    expect(
+      within(learningTabCard).getByRole("button", { name: "Убрать" }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByText("Так обратился Хришикеша."),
     ).not.toBeInTheDocument();

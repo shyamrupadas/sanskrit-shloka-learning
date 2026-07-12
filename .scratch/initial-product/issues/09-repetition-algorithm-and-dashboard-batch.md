@@ -24,4 +24,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/08-learn-shloka-moves-to-reviewing.md`
+Нет - можно начинать сразу

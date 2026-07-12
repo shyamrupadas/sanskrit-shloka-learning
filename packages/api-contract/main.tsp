@@ -180,6 +180,16 @@ namespace SanskritShlokaLearning {
     @body shloka: LibraryShlokaDto;
   }
 
+  model CompleteLearningDto {
+    shloka: LibraryShlokaDto;
+    remainingLearningShlokas: LibraryShlokaDto[];
+  }
+
+  model OkCompleteLearningResponse {
+    @statusCode statusCode: 200;
+    @body result: CompleteLearningDto;
+  }
+
   enum SourceStructureType {
     none: "none",
     chapters: "chapters",
@@ -407,6 +417,11 @@ namespace SanskritShlokaLearning {
     @route("/items/{shlokaCode}")
     op updateItem(@path shlokaCode: string, @header authorization?: string, @body request: UpdateLibraryItemRequest):
       OkLibraryShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
+
+    @post
+    @route("/items/{shlokaCode}/complete-learning")
+    op completeLearning(@path shlokaCode: string, @header authorization?: string):
+      OkCompleteLearningResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
   }
 
   @tag("Admin")

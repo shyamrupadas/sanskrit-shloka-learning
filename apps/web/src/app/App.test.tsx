@@ -152,22 +152,55 @@ describe("App auth and empty shell", () => {
 
     await user.click(learningLink);
     await expectPath("/learning");
-    expectActiveNavigationLink(navigation, learningLink);
+    const learningNavigation = await screen.findByRole("navigation", {
+      name: "Основная навигация",
+    });
+    const currentLibraryLink = within(learningNavigation).getByRole("link", {
+      name: "Библиотека",
+    });
+    expectActiveNavigationLink(
+      learningNavigation,
+      within(learningNavigation).getByRole("link", { name: "Обучение" }),
+    );
     expect(
       await screen.findByRole("heading", { name: "Советы" }),
     ).toBeInTheDocument();
 
-    await user.click(libraryLink);
+    await user.click(currentLibraryLink);
     await expectPath("/library");
-    expectActiveNavigationLink(navigation, libraryLink);
+    await screen.findByRole("heading", { name: "Библиотека" });
+    const libraryNavigation = screen.getByRole("navigation", {
+      name: "Основная навигация",
+    });
+    expectActiveNavigationLink(
+      libraryNavigation,
+      within(libraryNavigation).getByRole("link", { name: "Библиотека" }),
+    );
 
-    await user.click(settingsLink);
+    await user.click(
+      within(libraryNavigation).getByRole("link", { name: "Настройки" }),
+    );
     await expectPath("/settings");
-    expectActiveNavigationLink(navigation, settingsLink);
+    await screen.findByRole("heading", { name: "Настройки" });
+    const settingsNavigation = screen.getByRole("navigation", {
+      name: "Основная навигация",
+    });
+    expectActiveNavigationLink(
+      settingsNavigation,
+      within(settingsNavigation).getByRole("link", { name: "Настройки" }),
+    );
 
-    await user.click(dashboardLink);
+    await user.click(
+      within(settingsNavigation).getByRole("link", { name: "Дашборд" }),
+    );
     await expectPath("/dashboard");
-    expectActiveNavigationLink(navigation, dashboardLink);
+    const dashboardNavigation = await screen.findByRole("navigation", {
+      name: "Основная навигация",
+    });
+    expectActiveNavigationLink(
+      dashboardNavigation,
+      within(dashboardNavigation).getByRole("link", { name: "Дашборд" }),
+    );
   });
 
   it("clears an invalid saved session and redirects to login", async () => {
@@ -189,7 +222,14 @@ describe("App auth and empty shell", () => {
     expectStoredSessionCleared();
   });
 
-  it.each(["/dashboard", "/library", "/learning", "/settings", "/admin"])(
+  it.each([
+    "/dashboard",
+    "/library",
+    "/library/shlokas/gita-chapter-2-2-47/learn",
+    "/learning",
+    "/settings",
+    "/admin",
+  ])(
     "redirects unauthenticated %s visits to login",
     async (path) => {
       mockApi(successfulApi);

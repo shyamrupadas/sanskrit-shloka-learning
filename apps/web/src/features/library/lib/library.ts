@@ -1,9 +1,11 @@
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-export interface LibraryCardAction {
-  kind: "add-to-learning" | "remove-from-learning";
-  nextStatus: ApiTypes.UpdateLibraryShlokaStatus;
-}
+export type LibraryCardAction =
+  | { kind: "start-learning" }
+  | {
+      kind: "add-to-learning" | "remove-from-learning";
+      nextStatus: ApiTypes.UpdateLibraryShlokaStatus;
+    };
 
 export function getVisibleShlokas(
   tabId: ApiTypes.LibraryTab,
@@ -30,25 +32,29 @@ export function getVisibleShlokas(
   );
 }
 
-export function getLibraryCardAction(
+export function getLibraryCardActions(
   tabId: ApiTypes.LibraryTab,
   personalStatus: ApiTypes.LibraryShlokaStatus,
-): LibraryCardAction | undefined {
+): LibraryCardAction[] {
   if (personalStatus === "available" && tabId === "all") {
-    return {
+    return [{
       kind: "add-to-learning",
       nextStatus: "learning",
-    };
+    }];
   }
 
   if (personalStatus === "learning") {
-    return {
+    const removeAction = {
       kind: "remove-from-learning",
       nextStatus: "available",
-    };
+    } as const;
+
+    return tabId === "learning"
+      ? [{ kind: "start-learning" }, removeAction]
+      : [removeAction];
   }
 
-  return undefined;
+  return [];
 }
 
 function normalizeSearch(value: string): string {

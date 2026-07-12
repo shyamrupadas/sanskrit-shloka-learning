@@ -1086,6 +1086,74 @@
           }
         }
       }
+    },
+    "/api/library/items/{shlokaCode}/complete-learning": {
+      "post": {
+        "operationId": "Library_completeLearning",
+        "parameters": [
+          {
+            "name": "shlokaCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.CompleteLearningDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Library"
+        ]
+      }
     }
   },
   "components": {
@@ -1346,6 +1414,24 @@
           },
           "accessToken": {
             "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.CompleteLearningDto": {
+        "type": "object",
+        "required": [
+          "shloka",
+          "remainingLearningShlokas"
+        ],
+        "properties": {
+          "shloka": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+          },
+          "remainingLearningShlokas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+            }
           }
         }
       },
