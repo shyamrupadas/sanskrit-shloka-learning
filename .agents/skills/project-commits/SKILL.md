@@ -1,18 +1,18 @@
 ---
 name: project-commits
-description: Create commits with this repository's Conventional Commit rules.
+description: Create one commit with all current repository changes using this repository's Conventional Commit rules. Use when the user asks to commit the current work.
 ---
 
 # Project Commits
 
 ## Workflow
 
-1. Inspect `git status --short`, staged diffs, and unstaged diffs for files that may belong to the commit.
-2. Treat existing staged files as user intent. If they conflict with the requested commit, stop and ask. Stage additional files only by exact path: `git add -- <path>...`.
-3. Use `type(scope): subject`. Scope is mandatory. Pick one allowed type and one allowed scope. Write the subject in English, imperative mood, lowercase after the colon, with no trailing period.
+1. Treat the current task and conversation as the complete commit intent. Immediately stage every tracked, untracked, modified, and deleted file with `git add -A`. Do not inspect, classify, filter, or exclude files based on whether they appear to belong to the task, and do not split the changes into multiple commits.
+2. If the staged diff is empty, report that there is nothing to commit and stop.
+3. Use `type(scope): subject`. Scope is mandatory. Choose the type, scope, and subject from the current task. Write the subject in English, imperative mood, lowercase after the colon, with no trailing period.
 4. Do not run tests, linters, builds, type checks, generators, or other validation as part of this skill unless the user explicitly requests it in the same request.
-5. Commit with `git commit -m "<subject>"`. Add a body only for necessary context.
-6. Report in Russian: hash, subject, and intentionally uncommitted files.
+5. Commit all staged changes with `git commit -m "<subject>"`. Add a body only for necessary context.
+6. Report in Russian: hash, subject, and whether the worktree is clean after the commit.
 
 ## Types
 
