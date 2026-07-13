@@ -26,12 +26,11 @@ interface SourceRow {
 
 interface ShlokaRow {
   code: string;
+  display_title: string;
   source_code: string;
   source_title: string;
   part_code: string | null;
-  part_title: string | null;
   chapter_code: string | null;
-  chapter_title: string | null;
   number: string;
   text: string;
   padas: string[];
@@ -39,6 +38,13 @@ interface ShlokaRow {
   sort_source_title: string;
   sort_part_order: number | null;
   sort_chapter_order: number | null;
+}
+
+interface ShlokaReferenceRow {
+  code: string;
+  part_code: string | null;
+  chapter_code: string | null;
+  number: string;
 }
 
 @Injectable()
@@ -276,6 +282,29 @@ export class PostgresCatalogRepository implements CatalogRepository {
           `,
           [input.code, toJsonRows(toPartChapterRows(input))],
         );
+
+        const shlokas = await client.query<ShlokaReferenceRow>(
+          `
+            select code, part_code, chapter_code, number
+            from shlokas
+            where source_code = $1
+          `,
+          [input.code],
+        );
+        const displayTitles = toShlokaDisplayTitleRows(input, shlokas.rows);
+
+        if (displayTitles.length > 0) {
+          await client.query(
+            `
+              update shlokas
+              set display_title = refreshed.display_title
+              from jsonb_to_recordset($1::jsonb) as refreshed(code text, display_title text)
+              where shlokas.code = refreshed.code
+                and shlokas.display_title is distinct from refreshed.display_title
+            `,
+            [toJsonRows(displayTitles)],
+          );
+        }
       });
 
       const source = await this.getSource(input.code);
@@ -328,12 +357,11 @@ function libraryShlokasQuery(whereClause = ""): string {
   return `
     select
       shlokas.code,
+      shlokas.display_title,
       shlokas.source_code,
       shloka_sources.title as source_title,
       shlokas.part_code,
-      source_parts.title as part_title,
       shlokas.chapter_code,
-      source_chapters.title as chapter_title,
       shlokas.number,
       string_agg(shloka_padas.text, E'\n' order by shloka_padas.position) as text,
       array_agg(shloka_padas.text order by shloka_padas.position) as padas,
@@ -355,9 +383,9 @@ function libraryShlokasQuery(whereClause = ""): string {
         or source_chapters.part_code = shlokas.part_code
       )
     ${whereClause}
-    group by shlokas.code, shlokas.source_code, shloka_sources.title,
+    group by shlokas.code, shlokas.display_title, shlokas.source_code, shloka_sources.title,
       shlokas.part_code, shlokas.chapter_code, shlokas.number, shlokas.full_translation,
-      source_parts.title, source_parts.sort_order, source_chapters.title, source_chapters.sort_order
+      source_parts.sort_order, source_chapters.sort_order
   `;
 }
 
@@ -383,6 +411,31 @@ function toPartChapterRows(input: CreateSourceRecordInput | UpdateSourceRecordIn
       sort_order: chapter.order,
     })),
   );
+}
+
+function toShlokaDisplayTitleRows(
+  source: UpdateSourceRecordInput,
+  shlokas: ShlokaReferenceRow[],
+): unknown[] {
+  return shlokas.map((shloka) => {
+    const part = shloka.part_code
+      ? source.parts.find((candidate) => candidate.code === shloka.part_code)
+      : undefined;
+    const chapters = part ? part.chapters : source.chapters;
+    const chapter = shloka.chapter_code
+      ? chapters.find((candidate) => candidate.code === shloka.chapter_code)
+      : undefined;
+
+    return {
+      code: shloka.code,
+      display_title: formatShlokaDisplayTitle({
+        ...(chapter ? { chapterTitle: chapter.title } : {}),
+        number: shloka.number,
+        ...(part ? { partTitle: part.title } : {}),
+        sourceTitle: source.title,
+      }),
+    };
+  });
 }
 
 function toCreatedSource(input: CreateSourceRecordInput): SourceRecord {
@@ -442,7 +495,7 @@ function cloneChapter(chapter: SourceChapterRecord): SourceChapterRecord {
 function mapShloka(row: ShlokaRow): ShlokaRecord {
   return {
     code: row.code,
-    displayTitle: buildDisplayTitle(row),
+    displayTitle: row.display_title,
     sourceCode: row.source_code,
     sourceTitle: row.source_title,
     ...(row.part_code ? { partCode: row.part_code } : {}),
@@ -455,15 +508,6 @@ function mapShloka(row: ShlokaRow): ShlokaRecord {
     sortPartOrder: row.sort_part_order ?? 0,
     sortChapterOrder: row.sort_chapter_order ?? 0,
   };
-}
-
-function buildDisplayTitle(row: ShlokaRow): string {
-  return formatShlokaDisplayTitle({
-    chapterTitle: row.chapter_title ?? undefined,
-    number: row.number,
-    partTitle: row.part_title ?? undefined,
-    sourceTitle: row.source_title,
-  });
 }
 
 function isUniqueViolation(error: unknown): boolean {

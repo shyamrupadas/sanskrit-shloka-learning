@@ -6,6 +6,7 @@ import { accountSettingsMigration } from "./0004-account-settings.js";
 import { userShlokasMigration } from "./0005-user-shlokas.js";
 import { reviewingStartedAtMigration } from "./0006-reviewing-started-at.js";
 import { reviewHistoryMigration } from "./0007-review-history.js";
+import { materializedShlokaDisplayTitleMigration } from "./0008-materialized-shloka-display-title.js";
 
 export const migrations: readonly Migration[] = [
   initialAuthMigration,
@@ -15,4 +16,5 @@ export const migrations: readonly Migration[] = [
   userShlokasMigration,
   reviewingStartedAtMigration,
   reviewHistoryMigration,
+  materializedShlokaDisplayTitleMigration,
 ];

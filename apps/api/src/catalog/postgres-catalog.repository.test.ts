@@ -44,7 +44,7 @@ describe("PostgresCatalogRepository", () => {
     assert.ok(database.directQueries[1]?.includes("insert into shloka_padas"));
   });
 
-  test("updates catalog records through transactions without deleting sources or shlokas", async () => {
+  test("updates catalog records and materialized shloka titles in one transaction", async () => {
     const database = new TransactionTrackingDatabase();
     const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
 
@@ -57,7 +57,7 @@ describe("PostgresCatalogRepository", () => {
     });
     await repository.createShloka({
       code: "gita-chapter-1-1",
-      displayTitle: "Gita, Chapter 1 1",
+      displayTitle: "Persisted display title",
       sourceCode: "gita",
       sourceTitle: "Gita",
       chapterCode: "chapter-1",
@@ -96,6 +96,7 @@ describe("PostgresCatalogRepository", () => {
     assert.equal(updatedShloka.text, "updated first\nupdated second");
     assert.equal(updatedShloka.fullTranslation, "Updated translation");
     assert.ok(database.transactionQueries.some((query) => query.includes("update shloka_sources")));
+    assert.ok(database.transactionQueries.some((query) => query.includes("set display_title")));
     assert.ok(database.transactionQueries.some((query) => query.includes("update shlokas")));
     assert.ok(
       database.transactionQueries.some((query) =>
@@ -305,7 +306,7 @@ describe("PostgresCatalogRepository", () => {
     });
     await repository.createShloka({
       code: "gita-chapter-1-1",
-      displayTitle: "Gita, Chapter 1 1",
+      displayTitle: "Persisted display title",
       sourceCode: "gita",
       sourceTitle: "Gita",
       chapterCode: "chapter-1",
@@ -319,6 +320,7 @@ describe("PostgresCatalogRepository", () => {
     const shloka = await repository.getShloka("gita-chapter-1-1");
 
     assert.equal(shloka?.code, "gita-chapter-1-1");
+    assert.equal(shloka?.displayTitle, "Persisted display title");
     assert.equal(database.readQueryAttempts, 0);
     assert.equal(database.fastReadQueryAttempts, 1);
     assert.ok(database.directQueries.some((query) => query.includes("where shlokas.code = $1")));
@@ -384,6 +386,14 @@ class TransactionTrackingDatabase {
       ): Promise<pg.QueryResult<Row>> => {
         const query = normalizeQuery(text);
         this.transactionQueries.push(query);
+
+        if (query.includes("select code, part_code, chapter_code, number from shlokas")) {
+          const sourceCode = String(values[0]);
+          return result(
+            [...this.shlokas.values()].filter((shloka) => shloka.source_code === sourceCode),
+          ) as unknown as pg.QueryResult<Row>;
+        }
+
         this.applyWrite(query, values);
         return result<Row>([]);
       },
@@ -425,6 +435,7 @@ class TransactionTrackingDatabase {
       part_code: values[2] === null ? null : String(values[2]),
       chapter_code: values[3] === null ? null : String(values[3]),
       number: String(values[4]),
+      display_title: String(values[6]),
       full_translation: values[7] === null ? null : String(values[7]),
     });
 
@@ -454,6 +465,10 @@ class TransactionTrackingDatabase {
     }
     if (query.includes("insert into source_chapters")) {
       this.applyUpsertChapters(values);
+      return;
+    }
+    if (query.includes("set display_title")) {
+      this.applyRefreshDisplayTitles(values);
       return;
     }
     if (query.includes("update shlokas")) {
@@ -527,6 +542,15 @@ class TransactionTrackingDatabase {
     const shloka = this.shlokas.get(String(values[0]));
     if (shloka) {
       shloka.full_translation = values[1] === null ? null : String(values[1]);
+    }
+  }
+
+  private applyRefreshDisplayTitles(values: readonly unknown[]): void {
+    for (const row of jsonRows<DisplayTitleJsonRow>(values[0])) {
+      const shloka = this.shlokas.get(row.code);
+      if (shloka) {
+        shloka.display_title = row.display_title;
+      }
     }
   }
 
@@ -650,6 +674,7 @@ interface ShlokaRowSeed extends pg.QueryResultRow {
   part_code: string | null;
   chapter_code: string | null;
   number: string;
+  display_title: string;
   full_translation: string | null;
 }
 
@@ -680,6 +705,11 @@ interface ChapterJsonRow {
 interface PadaJsonRow {
   position: number;
   text: string;
+}
+
+interface DisplayTitleJsonRow {
+  code: string;
+  display_title: string;
 }
 
 function normalizeQuery(text: string): string {
