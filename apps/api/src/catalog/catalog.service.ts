@@ -11,6 +11,7 @@ import {
   type SourceRecord,
   type ShlokaRecord,
 } from "./catalog.repository.js";
+import { formatShlokaDisplayTitle } from "./shloka-display-title.js";
 
 const catalogCacheFreshTtlMs = 30_000;
 const catalogCacheStaleTtlMs = 5 * 60_000;
@@ -631,13 +632,14 @@ function validateShlokaPadas(padas: string[], details: string[]): void {
 
 function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequest) {
   const segments = [source.code];
-  const titleSegments = [source.title];
+  let partTitle: string | undefined;
+  let chapterTitle: string | undefined;
 
   if (request.partCode) {
     const part = source.parts.find((candidate) => candidate.code === request.partCode);
     if (part) {
       segments.push(part.code);
-      titleSegments.push(part.title);
+      partTitle = part.title;
     }
   }
 
@@ -648,7 +650,7 @@ function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequ
     const chapter = chapters.find((candidate) => candidate.code === request.chapterCode);
     if (chapter) {
       segments.push(chapter.code);
-      titleSegments.push(chapter.title);
+      chapterTitle = chapter.title;
     }
   }
 
@@ -657,7 +659,12 @@ function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequ
 
   return {
     code: segments.join("-"),
-    displayTitle: `${titleSegments.join(", ")} ${request.number}`,
+    displayTitle: formatShlokaDisplayTitle({
+      chapterTitle,
+      number: request.number,
+      partTitle,
+      sourceTitle: source.title,
+    }),
     referenceKey: segments.join("/"),
   };
 }

@@ -179,13 +179,11 @@ for (const viewport of [
     const longCard = page.getByRole("article", { name: mobileShlokaTitle });
     await expect(longCard).toBeVisible();
     await expectLocatorFitsViewport(longCard, viewport);
-    await expectSingleLineEllipsis(
-      longCard.getByText(mobileShlokaExcerpt, { exact: true }),
-    );
+    await expect(longCard.getByText(mobileShlokaExcerpt)).toHaveCount(0);
     await expect(longCard.getByText(mobileShlokaTranslation)).toHaveCount(0);
     await expectPageFitsViewport(page);
 
-    await longCard.getByRole("link", { name: mobileShlokaExcerpt }).click();
+    await longCard.getByRole("link", { name: mobileShlokaTitle }).click();
     await expect(page).toHaveURL(/\/library\/shlokas\/mobile-long-shloka$/);
     await expect(
       page.getByRole("heading", { name: mobileShlokaTitle }),
@@ -393,29 +391,6 @@ async function expectPageFitsViewport(page: Page): Promise<void> {
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-}
-
-async function expectSingleLineEllipsis(locator: Locator): Promise<void> {
-  const metrics = await locator.evaluate((element) => {
-    const rect = element.getBoundingClientRect();
-    const styles = getComputedStyle(element);
-
-    return {
-      clientWidth: element.clientWidth,
-      height: rect.height,
-      lineHeight: Number.parseFloat(styles.lineHeight),
-      overflowX: styles.overflowX,
-      scrollWidth: element.scrollWidth,
-      textOverflow: styles.textOverflow,
-      whiteSpace: styles.whiteSpace,
-    };
-  });
-
-  expect(metrics.whiteSpace).toBe("nowrap");
-  expect(metrics.overflowX).toBe("hidden");
-  expect(metrics.textOverflow).toBe("ellipsis");
-  expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
-  expect(metrics.height).toBeLessThanOrEqual(metrics.lineHeight + 1);
 }
 
 async function expectActiveNavigationLink(

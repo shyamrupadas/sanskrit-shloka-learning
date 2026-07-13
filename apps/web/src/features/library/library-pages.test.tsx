@@ -63,7 +63,7 @@ const sortedLibraryShlokas = [
   },
   {
     code: "gita-chapter-1-2",
-    displayTitle: "Бхагавад-гита, Глава 1 2",
+    displayTitle: "Бхагавад-гита 1.2",
     sourceTitle: "Бхагавад-гита",
     number: "2",
     text: "дхарма-кшетре куру-кшетре\nсамавета юютсавах",
@@ -71,9 +71,9 @@ const sortedLibraryShlokas = [
   },
   {
     code: "gita-chapter-2-10",
-    displayTitle: "Бхагавад-гита, Глава 2 2.10",
+    displayTitle: "Бхагавад-гита 2.10",
     sourceTitle: "Бхагавад-гита",
-    number: "2.10",
+    number: "10",
     text: "там увача хришикешах\nпрахасанн ива бхарата",
     personalStatus: "learning",
     fullTranslation: "Так обратился Хришикеша.",
@@ -82,9 +82,9 @@ const sortedLibraryShlokas = [
 
 const shlokaDetail = {
   code: "gita-chapter-2-2-47",
-  displayTitle: "Бхагавад-гита, Глава 2 2.47",
+  displayTitle: "Бхагавад-гита 2.47",
   sourceTitle: "Бхагавад-гита",
-  number: "2.47",
+  number: "47",
   text: "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани",
   personalStatus: "learning",
   fullTranslation: "Только на действие у тебя право.",
@@ -193,9 +193,9 @@ describe("library pages", () => {
     await user.click(learningTab);
     expect(learningTab).toHaveAttribute("aria-selected", "true");
     expect(
-      await screen.findByText("Бхагавад-гита, Глава 2 2.10"),
+      await screen.findByText("Бхагавад-гита 2.10"),
     ).toBeInTheDocument();
-    const learningTabCard = cardForText("Бхагавад-гита, Глава 2 2.10");
+    const learningTabCard = cardForText("Бхагавад-гита 2.10");
     expect(
       within(learningTabCard).getByRole("button", { name: "Учить" }),
     ).toBeInTheDocument();
@@ -213,8 +213,8 @@ describe("library pages", () => {
     await user.click(allTab);
     expect(allTab).toHaveAttribute("aria-selected", "true");
     const first = await screen.findByText("Амрита 1");
-    const second = screen.getByText("Бхагавад-гита, Глава 1 2");
-    const third = screen.getByText("Бхагавад-гита, Глава 2 2.10");
+    const second = screen.getByText("Бхагавад-гита 1.2");
+    const third = screen.getByText("Бхагавад-гита 2.10");
     expect(
       first.compareDocumentPosition(second) &
         Node.DOCUMENT_POSITION_FOLLOWING,
@@ -224,8 +224,8 @@ describe("library pages", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      screen.getByText("первая кириллическая пада"),
-    ).toBeInTheDocument();
+      screen.queryByText("первая кириллическая пада"),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByText("вторая кириллическая пада"),
     ).not.toBeInTheDocument();
@@ -237,7 +237,7 @@ describe("library pages", () => {
     expect(
       within(amritaCard).getByRole("button", { name: "Буду учить" }),
     ).toBeInTheDocument();
-    const learningCard = cardForText("Бхагавад-гита, Глава 2 2.10");
+    const learningCard = cardForText("Бхагавад-гита 2.10");
     expect(
       within(learningCard).getByLabelText("Статус: Буду учить"),
     ).toBeInTheDocument();
@@ -249,13 +249,13 @@ describe("library pages", () => {
     await user.type(search, "Амрита");
     expect(screen.getByText("Амрита 1")).toBeInTheDocument();
     expect(
-      screen.queryByText("Бхагавад-гита, Глава 1 2"),
+      screen.queryByText("Бхагавад-гита 1.2"),
     ).not.toBeInTheDocument();
 
     await user.clear(search);
     await user.type(search, "2.10");
     expect(
-      screen.getByText("Бхагавад-гита, Глава 2 2.10"),
+      screen.getByText("Бхагавад-гита 2.10"),
     ).toBeInTheDocument();
     expect(screen.queryByText("Амрита 1")).not.toBeInTheDocument();
 
@@ -293,7 +293,7 @@ describe("library pages", () => {
       });
     });
     await user.click(
-      within(cardForText("Бхагавад-гита, Глава 2 2.10")).getByRole("button", {
+      within(cardForText("Бхагавад-гита 2.10")).getByRole("button", {
         name: "Убрать",
       }),
     );
@@ -312,14 +312,14 @@ describe("library pages", () => {
     await user.click(await screen.findByRole("tab", { name: "Все" }));
     await user.click(
       screen.getByRole("link", {
-        name: "карманй эвадхикарас те",
+        name: "Бхагавад-гита 2.47",
       }),
     );
 
     await expectPath("/library/shlokas/gita-chapter-2-2-47");
     expect(
       await screen.findByRole("heading", {
-        name: "Бхагавад-гита, Глава 2 2.47",
+        name: "Бхагавад-гита 2.47",
       }),
     ).toBeInTheDocument();
     expect(
@@ -336,14 +336,14 @@ describe("library pages", () => {
     await user.click(await screen.findByRole("tab", { name: "Все" }));
     await user.click(
       screen.getByRole("link", {
-        name: "Открыть шлоку Бхагавад-гита, Глава 2 2.47",
+        name: "Открыть шлоку Бхагавад-гита 2.47",
       }),
     );
 
     await expectPath("/library/shlokas/gita-chapter-2-2-47");
     expect(
       await screen.findByRole("heading", {
-        name: "Бхагавад-гита, Глава 2 2.47",
+        name: "Бхагавад-гита 2.47",
       }),
     ).toBeInTheDocument();
   });
@@ -398,9 +398,9 @@ function successfulLibraryApi({
         allShlokas: [
           {
             code: "gita-chapter-2-2-47",
-            displayTitle: "Бхагавад-гита, Глава 2 2.47",
+            displayTitle: "Бхагавад-гита 2.47",
             sourceTitle: "Бхагавад-гита",
-            number: "2.47",
+            number: "47",
             text: "карманй эвадхикарас те\nма пхалешу кадачана",
             personalStatus: "available",
           },

@@ -160,11 +160,6 @@ function LibraryShlokaCard({
   tabId: ApiTypes.LibraryTab;
 }) {
   const navigate = useNavigate();
-  const excerpt =
-    shloka.text
-      .split("\n")
-      .find((line) => line.trim().length > 0)
-      ?.trim() ?? "";
   const actions = getLibraryCardActions(tabId, shloka.personalStatus);
 
   return (
@@ -204,7 +199,6 @@ function LibraryShlokaCard({
           variant: presentation.variant,
         };
       })}
-      excerpt={excerpt}
       openLabel={`${strings.library.openShloka} ${shloka.displayTitle}`}
       shlokaCode={shloka.code}
       status={statusLabels[shloka.personalStatus]}

@@ -37,7 +37,7 @@ Accepted: 2026-07-11
 - Экран: `Библиотека — все` (`tCzug`)
 - Экран: `Библиотека — нет результатов` (`LeWUO`)
 - Экран: `Страница шлоки` (`Q0ALx5`)
-- Компонент: `Product / Shloka Card` (`z6MuZx`)
+- Компонент: `Product / Shloka Card` (`Vzs9b`)
 - Компонент: `Product / Empty State` (`RPtlw`)
 - Компонент: `Product / Tabs / Library` (`T8Ktz7`)
 - Компонент: `Product / Review Pack / Active` (`MTM4W`)
@@ -56,7 +56,11 @@ Accepted: 2026-07-11
   behavior разрешены компактные опциональные статус и действие в code
   component `ShlokaCard`; перевод в library card не отображается, а текст
   ограничен первой строкой с ellipsis по контракту `Product / Shloka Card`
-  (`z6MuZx`).
+  (`Vzs9b` на текущей версии Pencil).
+- Последующее решение пользователя от 2026-07-13 отменяет часть решения про
+  excerpt: актуальный `Product / Shloka Card` (`Vzs9b`) показывает только
+  отображаемое название и не показывает паду шлоки или другой фрагмент
+  канонического текста. Компактные status/action в code component сохраняются.
 - Решение пользователя от 2026-07-11 по `UIC-DS-003`: вкладки `Повторяю` и
   `Буду учить` используют общий визуальный контракт `Product / Empty State`
   (`RPtlw`) с продуктовыми текстами API и опциональным action. Dashboard
@@ -94,13 +98,14 @@ Pencil references:
   (`Q0ALx5`).
 - Components: `Core / Button / Primary` (`M6qnk`), `Core / Field / Input`
   (`VvKs5`), `Product / Field / Email` (`PEmail`),
-  `Product / Field / Password` (`PPass`), `Product / Shloka Card` (`z6MuZx`),
+  `Product / Field / Password` (`PPass`), `Product / Shloka Card` (`Vzs9b`),
   `Product / Empty State` (`RPtlw`), `Product / Tabs / Library` (`T8Ktz7`),
   `Product / Want To Learn Block / Empty` (`Kir4Y`),
   `Product / Bottom Navigation` (`S7Pta`).
 - Exceptions: одобренные пользователем 2026-07-11 компактные опциональные
   status/action для `ShlokaCard` и опциональный action для `EmptyState`;
-  перевод и excerpt следуют `Product / Shloka Card` (`z6MuZx`) без exception.
+  перевод скрыт, а решение про excerpt отменено пользователем 2026-07-13 в
+  соответствии с актуальным `Product / Shloka Card` (`Vzs9b`).
   `UIC-DS-001` и `UIC-DS-002` исключены как недостижимые в текущем
   API-контракте. Library tab instances обновлены пользователем в Pencil,
   поэтому exception для active tab не требуется.

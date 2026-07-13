@@ -13,6 +13,7 @@ import {
   type UpdateShlokaRecordInput,
   type UpdateSourceRecordInput,
 } from "./catalog.repository.js";
+import { formatShlokaDisplayTitle } from "./shloka-display-title.js";
 
 interface SourceRow {
   code: string;
@@ -457,11 +458,12 @@ function mapShloka(row: ShlokaRow): ShlokaRecord {
 }
 
 function buildDisplayTitle(row: ShlokaRow): string {
-  const segments = [row.source_title, row.part_title, row.chapter_title].filter(
-    (segment): segment is string => Boolean(segment),
-  );
-
-  return `${segments.join(", ")} ${row.number}`;
+  return formatShlokaDisplayTitle({
+    chapterTitle: row.chapter_title ?? undefined,
+    number: row.number,
+    partTitle: row.part_title ?? undefined,
+    sourceTitle: row.source_title,
+  });
 }
 
 function isUniqueViolation(error: unknown): boolean {

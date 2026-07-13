@@ -200,7 +200,6 @@ function DashboardShlokaList({
     <div className="space-y-2.5">
       {items.map((shloka) => (
         <ShlokaCard
-          excerpt={firstTextLine(shloka.text)}
           key={shloka.code}
           openLabel={`${openLabel} ${shloka.displayTitle}`}
           openTo={openTo}
@@ -287,11 +286,4 @@ function DashboardStatus({
       </Card>
     </section>
   );
-}
-
-function firstTextLine(text: string): string {
-  return text
-    .split("\n")
-    .find((line) => line.trim().length > 0)
-    ?.trim() ?? "";
 }

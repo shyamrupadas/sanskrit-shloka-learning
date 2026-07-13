@@ -30,7 +30,7 @@
 
 - Screens: "Дашборд - обычный" (xJFoj), "Библиотека — все" (tCzug)
 - States: "Повторение — текст скрыт" (M6fBeF)
-- Components: "Product / Bottom Navigation" (S7Pta), "Product / Shloka Card" (z6MuZx)
+- Components: "Product / Bottom Navigation" (S7Pta), "Product / Shloka Card" (Vzs9b)
 ```
 
 Список должен быть точным, но не декоративным: включайте только screens, states и components, которые нужны для реализации или reviewer-проверки. Если `nodeId` устарел, агент ищет актуальный узел по имени через Pencil MCP, обновляет ссылку и явно отмечает замену в задаче или отчете.

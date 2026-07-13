@@ -151,7 +151,7 @@ Accepted: 2026-07-12
 
 ## Further Notes
 
-- Pencil references для этого PRD: `01 Foundations` (`otJrw`), `02 Core Components` (`R1N0L6`), `03 Product Components` (`lgFfS`), `Product / Bottom Navigation` (`S7Pta`), `Product / Shloka Card` (`z6MuZx`), `Product / Empty State` (`RPtlw`), `Product / Tabs / Library` (`T8Ktz7`), `Product / Review Pack / Active` (`MTM4W`), `Product / Review Pack / Completed` (`zE99y`), `Product / Want To Learn Block` (`OPAt8`), `Product / Streak Indicator` (`e16iU`), `Product / Layout / Back Header` (`haku8`), `Product / Layout / Main With Bottom Navigation` (`jZZrV`).
+- Pencil references для этого PRD: `01 Foundations` (`otJrw`), `02 Core Components` (`R1N0L6`), `03 Product Components` (`lgFfS`), `Product / Bottom Navigation` (`S7Pta`), `Product / Shloka Card` (`Vzs9b`), `Product / Empty State` (`RPtlw`), `Product / Tabs / Library` (`T8Ktz7`), `Product / Review Pack / Active` (`MTM4W`), `Product / Review Pack / Completed` (`zE99y`), `Product / Want To Learn Block` (`OPAt8`), `Product / Streak Indicator` (`e16iU`), `Product / Layout / Back Header` (`haku8`), `Product / Layout / Main With Bottom Navigation` (`Uwe4t`).
 - Известные UI-контрактные коллизии перед будущей реализацией: раскрытое состояние пачки повторения после `Показать еще N`; раскрытое состояние списка шлок к заучиванию после `Показать все`; специфичные пустые состояния вкладок `Повторяю` и `Буду учить`.
 - Эти коллизии не должны решаться агентом молча. Перед соответствующими UI-задачами нужно обновить Pencil, изменить требование или явно принять design exception.
 - Детальная нарезка слоев на implementation issues должна быть сделана отдельным шагом.

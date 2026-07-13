@@ -957,7 +957,7 @@ describe("ApiHandlersService admin catalog", () => {
         code: "gita",
         title: "Бхагавад-гита",
         structureType: "chapters",
-        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+        chapters: [{ code: "chapter-1", title: "1", order: 1 }],
       }),
     });
     await handlers.shlokas({
@@ -993,7 +993,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.deepEqual(libraryResponse.body.allShlokas, [
       {
         code: "gita-chapter-1-1",
-        displayTitle: "Бхагавад-гита, Глава 1 1",
+        displayTitle: "Бхагавад-гита 1.1",
         sourceTitle: "Бхагавад-гита",
         number: "1",
         text: "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая",

@@ -31,7 +31,7 @@ Accepted: 2026-07-11
 ## Pencil references
 
 - Компонент: `Product / Bottom Navigation` (`S7Pta`)
-- Компонент: `Product / Layout / Main With Bottom Navigation` (`jZZrV`)
+- Компонент: `Product / Layout / Main With Bottom Navigation` (`Uwe4t`)
 - Компонент: `Product / Layout / Back Header` (`haku8`)
 - Раздел: `02 Core Components` (`R1N0L6`)
 - Раздел: `03 Product Components` (`lgFfS`)

@@ -5795,7 +5795,7 @@
           "children": [
             {
               "type": "frame",
-              "id": "z6MuZx",
+              "id": "Vzs9b",
               "name": "Product / Shloka Card",
               "reusable": true,
               "width": 342,
@@ -5820,7 +5820,7 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "tvgg2",
+                  "id": "gRBtY",
                   "name": "Card Text Block",
                   "width": "fill_container",
                   "layout": "vertical",
@@ -5828,7 +5828,7 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "Y6q1C",
+                      "id": "j5iSZ",
                       "name": "Card Title",
                       "fill": "$text",
                       "textGrowth": "fixed-width",
@@ -5837,24 +5837,12 @@
                       "fontFamily": "$font-ui",
                       "fontSize": "$typo-p1-size",
                       "fontWeight": "$type-weight-bold"
-                    },
-                    {
-                      "type": "text",
-                      "id": "zM2Uc",
-                      "name": "Card Meta",
-                      "fill": "$text-muted",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "дхарма кшетре куру кшетре...",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$type-meta-size",
-                      "fontWeight": "normal"
                     }
                   ]
                 },
                 {
                   "type": "icon",
-                  "id": "ekzDR",
+                  "id": "SqhVy",
                   "name": "Card Click Indicator",
                   "width": 22,
                   "height": 22,
@@ -6942,61 +6930,61 @@
                   "gap": 10,
                   "children": [
                     {
-                      "id": "aPN1l",
+                      "id": "rcUlE",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 1.1",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 1.1"
                         }
                       }
                     },
                     {
-                      "id": "Ix0EQ",
+                      "id": "s3Lnbj",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Иша-упанишада 1",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Иша-упанишада 1"
                         }
                       }
                     },
                     {
-                      "id": "tiFbR",
+                      "id": "d61a7",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 2.13",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 2.13"
                         }
                       }
                     },
                     {
-                      "id": "qFZm5",
+                      "id": "sUe0f",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 2.20",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 2.20"
                         }
                       }
                     },
                     {
-                      "id": "SrOkM",
+                      "id": "ieBAF",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 4.7",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 4.7"
                         }
                       }
@@ -7130,37 +7118,37 @@
                   "gap": 10,
                   "children": [
                     {
-                      "id": "q0Gun",
+                      "id": "fWwdq",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 1.2",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 1.2"
                         }
                       }
                     },
                     {
-                      "id": "dWBPo",
+                      "id": "WyHXK",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Иша-упанишада 1",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Иша-упанишада 1"
                         }
                       }
                     },
                     {
-                      "id": "FwzhE",
+                      "id": "xE4c9",
                       "type": "ref",
-                      "ref": "z6MuZx",
+                      "ref": "Vzs9b",
                       "name": "Бхагавад-гита 2.13",
                       "width": "fill_container",
                       "descendants": {
-                        "Y6q1C": {
+                        "j5iSZ": {
                           "content": "Бхагавад-гита 2.13"
                         }
                       }
@@ -7851,18 +7839,95 @@
               }
             },
             {
+              "type": "frame",
               "id": "SHZM9",
-              "type": "ref",
-              "ref": "jZZrV",
               "name": "Product / Layout / Main With Bottom Navigation Full Size",
+              "clip": true,
               "width": 390,
               "height": 900,
-              "descendants": {
-                "Gpbzr": {
+              "fill": "$bg",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": [
+                0,
+                16,
+                16,
+                16
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ssUjk",
+                  "name": "Status Bar",
+                  "width": 358,
+                  "height": 62,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "B0WyI",
+                      "id": "HDuSP",
+                      "name": "Status Time",
+                      "fill": "$text",
+                      "content": "9:41",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BugY3",
+                      "name": "Status Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "m00FGG",
+                          "name": "Signal Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "signal",
+                          "library": "lucide",
+                          "fill": "$text"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "DXlFC",
+                          "name": "Wifi Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "$text"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "LnwXB",
+                          "name": "Battery Icon",
+                          "width": 18,
+                          "height": 16,
+                          "icon": "battery",
+                          "library": "lucide",
+                          "fill": "$text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "jwYtN",
+                  "name": "Title Header",
+                  "width": 358,
+                  "height": 44,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q6Pzsb",
                       "name": "Header Title",
                       "fill": "$text",
                       "textGrowth": "fixed-width",
@@ -7876,16 +7941,23 @@
                     }
                   ]
                 },
-                "Jixp5": {
+                {
                   "type": "frame",
-                  "id": "jx5tZ",
+                  "id": "UMvXP",
                   "name": "Empty Content Area",
                   "width": 358,
                   "height": 672,
                   "fill": "$bg",
                   "layout": "vertical"
+                },
+                {
+                  "id": "jyJ8r",
+                  "type": "ref",
+                  "ref": "S7Pta",
+                  "name": "Bottom Navigation",
+                  "width": 358
                 }
-              }
+              ]
             }
           ]
         }
@@ -9163,18 +9235,118 @@
                   "gap": 10,
                   "children": [
                     {
+                      "type": "frame",
                       "id": "D8aWB",
-                      "type": "ref",
-                      "ref": "z6MuZx",
                       "name": "Бхагавад-гита 1.2",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": "$radius-lg",
+                      "stroke": "$border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "$shadow-low-color",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "gap": 10,
+                      "padding": "$component-card-padding",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "p7bKez",
+                          "name": "Card Text Block",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tSQqP",
+                              "name": "Card Title",
+                              "fill": "$text",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typo-p1-size",
+                              "fontWeight": "$type-weight-bold"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "u1u3Y",
+                          "name": "Card Click Indicator",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$primary"
+                        }
+                      ]
                     },
                     {
+                      "type": "frame",
                       "id": "kcWl2",
-                      "type": "ref",
-                      "ref": "z6MuZx",
                       "name": "Иша-упанишада 1",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": "$radius-lg",
+                      "stroke": "$border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "$shadow-low-color",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "gap": 10,
+                      "padding": "$component-card-padding",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "rTnnv",
+                          "name": "Card Text Block",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "akkt9",
+                              "name": "Card Title",
+                              "fill": "$text",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typo-p1-size",
+                              "fontWeight": "$type-weight-bold"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "KzXBe",
+                          "name": "Card Click Indicator",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$primary"
+                        }
+                      ]
                     },
                     {
                       "type": "text",
@@ -9326,40 +9498,11 @@
               "fontWeight": "800"
             },
             {
-              "id": "UMAgk",
+              "id": "ZNwsm",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library — Повторяю",
-              "width": "fill_container",
-              "descendants": {
-                "xSkJY": {
-                  "name": "Tab / Active",
-                  "fill": "$surface"
-                },
-                "Wsc2d": {
-                  "name": "Tab Label / Active",
-                  "fill": "$text",
-                  "fontWeight": "$type-weight-bold"
-                },
-                "YJRaD": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "BnIuW": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "RIxNB": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "YcB2s": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                }
-              }
+              "name": "Tabs / Library",
+              "width": "fill_container"
             },
             {
               "type": "frame",
@@ -9370,25 +9513,40 @@
               "gap": 10,
               "children": [
                 {
-                  "id": "J5rOXn",
+                  "id": "s8z3bO",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 1.1",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 1.1"
+                    }
+                  }
                 },
                 {
-                  "id": "PtckN",
+                  "id": "gVpdQ",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Иша-упанишада 1",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Иша-упанишада 1"
+                    }
+                  }
                 },
                 {
-                  "id": "NyX6U",
+                  "id": "LVYFu",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 2.13",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 2.13"
+                    }
+                  }
                 }
               ]
             }
@@ -9503,40 +9661,11 @@
               "fontWeight": "800"
             },
             {
-              "id": "vNoAd",
+              "id": "n4A3n",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library — Буду учить",
-              "width": "fill_container",
-              "descendants": {
-                "xSkJY": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "Wsc2d": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "YJRaD": {
-                  "name": "Tab / Active",
-                  "fill": "$surface"
-                },
-                "BnIuW": {
-                  "name": "Tab Label / Active",
-                  "fill": "$text",
-                  "fontWeight": "$type-weight-bold"
-                },
-                "RIxNB": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "YcB2s": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                }
-              }
+              "name": "Tabs / Library",
+              "width": "fill_container"
             },
             {
               "type": "frame",
@@ -9547,25 +9676,40 @@
               "gap": 10,
               "children": [
                 {
-                  "id": "j5dso",
+                  "id": "XYSbB",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 1.2",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 1.2"
+                    }
+                  }
                 },
                 {
-                  "id": "b9Xrf",
+                  "id": "C6JIQ",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 4.7",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 4.7"
+                    }
+                  }
                 },
                 {
-                  "id": "j0hGWH",
+                  "id": "kTj9N",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 4.8",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 4.8"
+                    }
+                  }
                 }
               ]
             }
@@ -9680,40 +9824,11 @@
               "fontWeight": "800"
             },
             {
-              "id": "Mo9nG",
+              "id": "dxeb5",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library — Все",
-              "width": "fill_container",
-              "descendants": {
-                "xSkJY": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "Wsc2d": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "YJRaD": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "BnIuW": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "RIxNB": {
-                  "name": "Tab / Active",
-                  "fill": "$surface"
-                },
-                "YcB2s": {
-                  "name": "Tab Label / Active",
-                  "fill": "$text",
-                  "fontWeight": "$type-weight-bold"
-                }
-              }
+              "name": "Tabs / Library",
+              "width": "fill_container"
             },
             {
               "id": "SbWdV",
@@ -9786,32 +9901,52 @@
               "gap": 10,
               "children": [
                 {
-                  "id": "sXuuB",
+                  "id": "W1Mg5d",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 1.1",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 1.1"
+                    }
+                  }
                 },
                 {
-                  "id": "Nfj96",
+                  "id": "dUb1K",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 1.2",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 1.2"
+                    }
+                  }
                 },
                 {
-                  "id": "OCXCB",
+                  "id": "vEBqk",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 2.20",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 2.20"
+                    }
+                  }
                 },
                 {
-                  "id": "S2Wgp",
+                  "id": "OJWk7",
                   "type": "ref",
-                  "ref": "z6MuZx",
+                  "ref": "Vzs9b",
                   "name": "Бхагавад-гита 4.7",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "j5iSZ": {
+                      "content": "Бхагавад-гита 4.7"
+                    }
+                  }
                 }
               ]
             }
@@ -9926,40 +10061,11 @@
               "fontWeight": "800"
             },
             {
-              "id": "Us47j",
+              "id": "q0KfQ",
               "type": "ref",
               "ref": "T8Ktz7",
-              "name": "Tabs / Library — Все",
-              "width": "fill_container",
-              "descendants": {
-                "xSkJY": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "Wsc2d": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "YJRaD": {
-                  "name": "Tab / Inactive",
-                  "fill": "$color-transparent"
-                },
-                "BnIuW": {
-                  "name": "Tab Label / Inactive",
-                  "fill": "$text-muted",
-                  "fontWeight": "$type-weight-semibold"
-                },
-                "RIxNB": {
-                  "name": "Tab / Active",
-                  "fill": "$surface"
-                },
-                "YcB2s": {
-                  "name": "Tab Label / Active",
-                  "fill": "$text",
-                  "fontWeight": "$type-weight-bold"
-                }
-              }
+              "name": "Tabs / Library",
+              "width": "fill_container"
             },
             {
               "id": "TzQH5",
@@ -10219,7 +10325,6 @@
       "name": "Заучивание — шлока",
       "clip": true,
       "width": 390,
-      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10229,7 +10334,7 @@
           "type": "frame",
           "id": "WTeiO",
           "name": "Status Bar",
-          "width": 358,
+          "width": "fill_container",
           "height": 62,
           "padding": [
             0,
@@ -10293,8 +10398,7 @@
           "type": "frame",
           "id": "QdURv",
           "name": "Content",
-          "width": 390,
-          "height": 808,
+          "width": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -10303,52 +10407,14 @@
           ],
           "children": [
             {
-              "type": "frame",
-              "id": "Pt5Cw",
-              "name": "Шапка шлоки",
-              "width": 358,
-              "gap": 12,
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "TegnD",
-                  "name": "Заголовок шлоки",
-                  "fill": "#111827",
-                  "content": "Бхагавад-гита 1.1",
-                  "lineHeight": 1.2,
-                  "fontFamily": "Inter",
-                  "fontSize": 24,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "frame",
-                  "id": "VumZV",
-                  "name": "Кнопка перехода в обучение санскриту",
-                  "width": 36,
-                  "height": 36,
-                  "fill": "#EEF4FF",
-                  "cornerRadius": 18,
-                  "stroke": "#D7E4FF",
-                  "strokeWidth": 1,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "GoRt4",
-                      "name": "Иконка вопроса",
-                      "fill": "#2563EB",
-                      "content": "?",
-                      "lineHeight": 1,
-                      "fontFamily": "Inter",
-                      "fontSize": 20,
-                      "fontWeight": "800"
-                    }
-                  ]
-                }
-              ]
+              "type": "text",
+              "id": "qAR2W",
+              "name": "Screen Title",
+              "fill": "$text",
+              "content": "Заучивание",
+              "fontFamily": "$font",
+              "fontSize": 28,
+              "fontWeight": "800"
             },
             {
               "type": "text",
@@ -10366,11 +10432,8 @@
             {
               "type": "frame",
               "id": "Jt9DR",
-              "layoutPosition": "absolute",
-              "x": 16,
-              "y": 694,
               "name": "Learning Actions",
-              "width": 358,
+              "width": "fill_container",
               "layout": "vertical",
               "gap": 10,
               "children": [
@@ -10379,31 +10442,25 @@
                   "type": "ref",
                   "ref": "M6qnk",
                   "name": "Выучил",
-                  "width": "fill_container",
-                  "descendants": {
-                    "aUMci": {
-                      "content": "Выучил"
-                    }
-                  }
+                  "width": "fill_container"
                 },
                 {
                   "id": "kznoP",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Не выучил",
-                  "width": "fill_container",
-                  "descendants": {
-                    "g86340": {
-                      "enabled": false
-                    },
-                    "VZsCN": {
-                      "content": "Не выучил"
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
           ]
+        },
+        {
+          "id": "SNz1e",
+          "type": "ref",
+          "ref": "S7Pta",
+          "name": "Bottom Navigation — Библиотека",
+          "width": 358
         }
       ]
     },
@@ -10415,7 +10472,6 @@
       "name": "Заучивание — подтверждение",
       "clip": true,
       "width": 390,
-      "height": 900,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10425,7 +10481,7 @@
           "type": "frame",
           "id": "H3IPOm",
           "name": "Status Bar",
-          "width": 358,
+          "width": "fill_container",
           "height": 62,
           "padding": [
             0,
@@ -10489,8 +10545,7 @@
           "type": "frame",
           "id": "EQaJS",
           "name": "Content",
-          "width": 390,
-          "height": 808,
+          "width": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -10539,32 +10594,23 @@
               "type": "ref",
               "ref": "M6qnk",
               "name": "Выучить еще",
-              "width": 358,
-              "layoutPosition": "absolute",
-              "x": 16,
-              "y": 686,
-              "descendants": {
-                "aUMci": {
-                  "content": "На дашборд"
-                }
-              }
+              "width": "fill_container"
             },
             {
               "id": "BnZgS",
               "type": "ref",
               "ref": "B9n47J",
               "name": "На дашборд",
-              "width": 358,
-              "layoutPosition": "absolute",
-              "x": 16,
-              "y": 748,
-              "descendants": {
-                "VZsCN": {
-                  "content": "Выучить еще"
-                }
-              }
+              "width": "fill_container"
             }
           ]
+        },
+        {
+          "id": "j7mFF",
+          "type": "ref",
+          "ref": "S7Pta",
+          "name": "Bottom Navigation — Библиотека",
+          "width": 358
         }
       ]
     },
@@ -13226,22 +13272,6 @@
     },
     {
       "type": "frame",
-      "id": "EwoIh",
-      "x": 0,
-      "y": 0,
-      "width": "fit_content(0)",
-      "height": "fit_content(0)"
-    },
-    {
-      "type": "frame",
-      "id": "WDC88",
-      "x": 0,
-      "y": 0,
-      "width": "fit_content(0)",
-      "height": "fit_content(0)"
-    },
-    {
-      "type": "frame",
       "id": "haku8",
       "x": 2269,
       "y": 0,
@@ -13379,7 +13409,7 @@
     },
     {
       "type": "frame",
-      "id": "jZZrV",
+      "id": "Uwe4t",
       "x": 2699,
       "y": 0,
       "name": "Product / Layout / Main With Bottom Navigation",
@@ -13399,7 +13429,7 @@
       "children": [
         {
           "type": "frame",
-          "id": "NVEuM",
+          "id": "D86yk",
           "name": "Status Bar",
           "width": 358,
           "height": 62,
@@ -13408,7 +13438,7 @@
           "children": [
             {
               "type": "text",
-              "id": "Y9yAR",
+              "id": "EwX4l",
               "name": "Status Time",
               "fill": "$text",
               "content": "9:41",
@@ -13418,14 +13448,14 @@
             },
             {
               "type": "frame",
-              "id": "Z2Eh5h",
+              "id": "Y5QP8",
               "name": "Status Icons",
               "gap": 6,
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
-                  "id": "s6n2r9",
+                  "id": "ozxsy",
                   "name": "Signal Icon",
                   "width": 16,
                   "height": 16,
@@ -13435,7 +13465,7 @@
                 },
                 {
                   "type": "icon",
-                  "id": "U9kyd4",
+                  "id": "aaqNv",
                   "name": "Wifi Icon",
                   "width": 16,
                   "height": 16,
@@ -13445,7 +13475,7 @@
                 },
                 {
                   "type": "icon",
-                  "id": "k0ArC",
+                  "id": "AHBDF",
                   "name": "Battery Icon",
                   "width": 18,
                   "height": 16,
@@ -13459,7 +13489,7 @@
         },
         {
           "type": "frame",
-          "id": "Gpbzr",
+          "id": "z5Ns55",
           "name": "Title Header",
           "width": 358,
           "height": 44,
@@ -13469,7 +13499,7 @@
           "children": [
             {
               "type": "text",
-              "id": "RmybS",
+              "id": "kAuVL",
               "name": "Header Title",
               "fill": "$text",
               "textGrowth": "fixed-width",
@@ -13485,10 +13515,10 @@
         },
         {
           "type": "frame",
-          "id": "Jixp5",
+          "id": "qYZ5m",
           "name": "Content Slot",
           "slot": [
-            "z6MuZx",
+            "Vzs9b",
             "OPAt8",
             "MTM4W"
           ],
@@ -13497,7 +13527,7 @@
           "layout": "vertical"
         },
         {
-          "id": "d0qqT",
+          "id": "uqsNH",
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation",

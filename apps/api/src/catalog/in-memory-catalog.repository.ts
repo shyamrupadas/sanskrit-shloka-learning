@@ -8,6 +8,7 @@ import {
   type UpdateShlokaRecordInput,
   type UpdateSourceRecordInput,
 } from "./catalog.repository.js";
+import { formatShlokaDisplayTitle } from "./shloka-display-title.js";
 
 export class InMemoryCatalogRepository implements CatalogRepository {
   private readonly sources = new Map<string, SourceRecord>();
@@ -174,12 +175,13 @@ function cloneShloka(shloka: ShlokaRecord): ShlokaRecord {
 }
 
 function buildDisplayTitle(source: SourceRecord, shloka: ShlokaRecord): string {
-  const segments = [source.title];
+  let partTitle: string | undefined;
+  let chapterTitle: string | undefined;
 
   if (shloka.partCode) {
     const part = source.parts.find((candidate) => candidate.code === shloka.partCode);
     if (part) {
-      segments.push(part.title);
+      partTitle = part.title;
     }
   }
 
@@ -189,9 +191,14 @@ function buildDisplayTitle(source: SourceRecord, shloka: ShlokaRecord): string {
       : source.chapters;
     const chapter = chapters.find((candidate) => candidate.code === shloka.chapterCode);
     if (chapter) {
-      segments.push(chapter.title);
+      chapterTitle = chapter.title;
     }
   }
 
-  return `${segments.join(", ")} ${shloka.number}`;
+  return formatShlokaDisplayTitle({
+    chapterTitle,
+    number: shloka.number,
+    partTitle,
+    sourceTitle: source.title,
+  });
 }

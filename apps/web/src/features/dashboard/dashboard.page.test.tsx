@@ -103,9 +103,12 @@ describe("dashboard page", () => {
     const card = await screen.findByRole("article", {
       name: learningShloka.displayTitle,
     });
+    expect(
+      within(card).queryByText("первая строка 1"),
+    ).not.toBeInTheDocument();
     await user.click(
       within(card).getByRole("link", {
-        name: `первая строка 1`,
+        name: learningShloka.displayTitle,
       }),
     );
 

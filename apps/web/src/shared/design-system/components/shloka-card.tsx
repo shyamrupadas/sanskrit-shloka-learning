@@ -14,7 +14,6 @@ export type ShlokaCardAction = {
 
 export type ShlokaCardProps = {
   actions?: readonly ShlokaCardAction[] | undefined;
-  excerpt: string;
   openLabel: string;
   openTo?:
     | typeof routePaths.libraryShloka
@@ -28,7 +27,6 @@ export type ShlokaCardProps = {
 
 export function ShlokaCard({
   actions = [],
-  excerpt,
   openLabel,
   openTo = routePaths.libraryShloka,
   shlokaCode,
@@ -42,16 +40,12 @@ export function ShlokaCard({
     >
       <div className="flex min-w-0 items-center gap-[var(--component-card-gap)]">
         <Link
-          aria-label={excerpt}
           className="min-w-0 flex-1 rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
           params={{ shlokaCode }}
           to={openTo}
         >
           <span className="block break-words text-[length:var(--font-size-body)] leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]">
             {title}
-          </span>
-          <span className="mt-1.5 block min-w-0 truncate text-[length:var(--font-size-meta)] leading-[var(--line-height-body)] text-muted-foreground">
-            {excerpt}
           </span>
         </Link>
         <Link

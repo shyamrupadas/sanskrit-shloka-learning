@@ -517,7 +517,7 @@ export const designTokens = {
       gap: fromSource(
         10,
         "component-card-gap",
-        "Content gap measured from Product / Shloka Card (z6MuZx); Pencil has no named variable for this value.",
+        "Content gap measured from Product / Shloka Card (Vzs9b); Pencil has no named variable for this value.",
         {
           cssValue: px(10),
           cssVariable: "--component-card-gap",
@@ -526,7 +526,7 @@ export const designTokens = {
       indicatorSize: fromSource(
         22,
         "component-card-indicator-size",
-        "Chevron size measured from Product / Shloka Card (z6MuZx); Pencil has no named variable for this value.",
+        "Chevron size measured from Product / Shloka Card (Vzs9b); Pencil has no named variable for this value.",
         {
           cssValue: px(22),
           cssVariable: "--component-card-indicator-size",
