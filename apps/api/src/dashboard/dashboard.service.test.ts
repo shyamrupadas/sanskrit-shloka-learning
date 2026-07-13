@@ -10,6 +10,7 @@ import type {
 import { DashboardService } from "./dashboard.service.js";
 import { InMemoryReviewHistoryRepository } from "./in-memory-review-history.repository.js";
 import type {
+  CreateReviewHistoryRecordInput,
   ListReviewHistorySummariesInput,
   ReviewHistoryRepository,
   ReviewHistorySummary,
@@ -132,6 +133,73 @@ describe("DashboardService review candidates", () => {
   });
 });
 
+describe("DashboardService review completion", () => {
+  for (const result of [
+    "remembered_without_error",
+    "remembered_with_error",
+    "remembered_with_hint",
+    "forgot",
+  ] as const) {
+    test(`stores ${result} with the account, completion time, and local user day`, async () => {
+      const history = new InMemoryReviewHistoryRepository();
+      const completedAt = new Date("2026-07-12T00:30:00.000Z");
+      const service = createService(
+        [reviewing("review-1", 10)],
+        [],
+        history,
+        () => new Date(completedAt),
+      );
+
+      const response = await service.completeReview(
+        accountId,
+        "review-1",
+        result,
+        "America/Los_Angeles",
+      );
+
+      assert.deepEqual(response, {
+        status: 201,
+        body: {
+          completedAt: completedAt.toISOString(),
+          result,
+          shlokaCode: "review-1",
+          userDay: "2026-07-11",
+        },
+      });
+      const records = history.listRecords(accountId);
+      assert.equal(records.length, 1);
+      assert.equal(records[0]?.accountId, accountId);
+      assert.equal(records[0]?.shlokaCode, "review-1");
+      assert.equal(records[0]?.result, result);
+      assert.equal(records[0]?.completedAt.toISOString(), completedAt.toISOString());
+      assert.equal(records[0]?.userDay, "2026-07-11");
+      assert.ok(records[0]?.id);
+
+      const candidates = await service.getReviewShlokas(
+        accountId,
+        "America/Los_Angeles",
+      );
+      assert.deepEqual(candidates.items, []);
+      assert.equal(candidates.state, "completed");
+    });
+  }
+
+  test("rejects completion for a shloka outside reviewing status", async () => {
+    const history = new InMemoryReviewHistoryRepository();
+    const service = createService([learning("learn-1", 2)], [], history);
+
+    const response = await service.completeReview(
+      accountId,
+      "learn-1",
+      "remembered_without_error",
+      "UTC",
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(history.listRecords(accountId), []);
+  });
+});
+
 describe("DashboardService learning shlokas", () => {
   test("returns three oldest learning shlokas and the stable full list", async () => {
     const statuses = [
@@ -167,8 +235,11 @@ function createService(
   clock: () => Date = () => new Date(now),
 ): DashboardService {
   const shlokaCodes = [...new Set(statuses.map(({ shlokaCode }) => shlokaCode))];
+  const catalogShlokas = shlokaCodes.map(shloka);
   const catalog = {
-    listLibraryShlokas: async () => shlokaCodes.map(shloka),
+    getLibraryShloka: async (shlokaCode: string) =>
+      catalogShlokas.find((candidate) => candidate.code === shlokaCode),
+    listLibraryShlokas: async () => catalogShlokas,
   } as unknown as CatalogService;
   const userLibrary = {
     listShlokaStatuses: async () => cloneStatuses(statuses),
@@ -188,6 +259,10 @@ function reviewHistory(
 class TrackingReviewHistoryRepository implements ReviewHistoryRepository {
   lastInput: ListReviewHistorySummariesInput | undefined;
   summaries: ReviewHistorySummary[] = [];
+
+  async create(_input: CreateReviewHistoryRecordInput): Promise<void> {
+    throw new Error("Unexpected review history write");
+  }
 
   async listSummaries(
     input: ListReviewHistorySummariesInput,

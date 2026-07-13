@@ -51,6 +51,10 @@ const LearnShlokaPage = lazyRouteComponent(
   () => import("@/features/learn-shloka/learn-shloka.page"),
   "LearnShlokaPage",
 );
+const ReviewShlokaPage = lazyRouteComponent(
+  () => import("@/features/review-shloka/review-shloka.page"),
+  "ReviewShlokaPage",
+);
 const LearningPage = lazyRouteComponent(
   () => import("@/features/learning/learning.page"),
   "LearningPage",
@@ -150,6 +154,12 @@ const learnShlokaRoute = createRoute({
   path: routeSegments.learnShloka,
 });
 
+const reviewShlokaRoute = createRoute({
+  component: ReviewShlokaRoute,
+  getParentRoute: () => authenticatedRoute,
+  path: routeSegments.reviewShloka,
+});
+
 const learningRoute = createRoute({
   component: LearningPage,
   getParentRoute: () => authenticatedRoute,
@@ -210,6 +220,7 @@ const routeTree = rootRoute.addChildren([
     libraryRoute,
     shlokaRoute,
     learnShlokaRoute,
+    reviewShlokaRoute,
     learningRoute,
     settingsRoute,
   ]),
@@ -256,6 +267,12 @@ function LearnShlokaRoute() {
   const { shlokaCode } = learnShlokaRoute.useParams();
 
   return <LearnShlokaPage key={shlokaCode} shlokaCode={shlokaCode} />;
+}
+
+function ReviewShlokaRoute() {
+  const { shlokaCode } = reviewShlokaRoute.useParams();
+
+  return <ReviewShlokaPage shlokaCode={shlokaCode} />;
 }
 
 function AdminShlokaEditRoute() {

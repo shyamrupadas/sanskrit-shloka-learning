@@ -19,6 +19,7 @@ export type ShlokaCardProps = {
   openTo?:
     | typeof routePaths.libraryShloka
     | typeof routePaths.learnShloka
+    | typeof routePaths.reviewShloka
     | undefined;
   shlokaCode: string;
   status?: string | undefined;

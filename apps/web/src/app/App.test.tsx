@@ -239,6 +239,7 @@ describe("App auth and empty shell", () => {
     "/dashboard",
     "/library",
     "/library/shlokas/gita-chapter-2-2-47/learn",
+    "/library/shlokas/gita-chapter-2-2-47/review",
     "/learning",
     "/settings",
     "/admin",

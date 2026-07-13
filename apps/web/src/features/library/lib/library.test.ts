@@ -72,9 +72,11 @@ describe("library rules", () => {
     ]);
   });
 
-  it("does not offer an action for a reviewing shloka", () => {
-    for (const tabId of ["reviewing", "learning", "all"] as const) {
-      expect(getLibraryCardActions(tabId, "reviewing")).toEqual([]);
-    }
+  it("offers repeat only for a reviewing shloka on the reviewing tab", () => {
+    expect(getLibraryCardActions("reviewing", "reviewing")).toEqual([
+      { kind: "start-review" },
+    ]);
+    expect(getLibraryCardActions("learning", "reviewing")).toEqual([]);
+    expect(getLibraryCardActions("all", "reviewing")).toEqual([]);
   });
 });

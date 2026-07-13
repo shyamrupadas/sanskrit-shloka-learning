@@ -23,4 +23,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/initial-product/issues/10-review-flow-and-repetition-history.md`
+Нет - можно начинать сразу

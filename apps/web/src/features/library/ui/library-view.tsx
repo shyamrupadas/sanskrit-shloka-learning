@@ -173,17 +173,28 @@ function LibraryShlokaCard({
         const presentation = cardActionPresentations[action.kind];
 
         return {
-          disabled: action.kind === "start-learning" ? false : isUpdating,
+          disabled:
+            action.kind === "start-learning" || action.kind === "start-review"
+              ? false
+              : isUpdating,
           Icon: presentation.Icon,
           label:
-            action.kind !== "start-learning" && isUpdating
+            action.kind !== "start-learning" &&
+            action.kind !== "start-review" &&
+            isUpdating
               ? strings.library.saving
               : presentation.label,
           onClick: () => {
-            if (action.kind === "start-learning") {
+            if (
+              action.kind === "start-learning" ||
+              action.kind === "start-review"
+            ) {
               void navigate({
                 params: { shlokaCode: shloka.code },
-                to: routePaths.learnShloka,
+                to:
+                  action.kind === "start-learning"
+                    ? routePaths.learnShloka
+                    : routePaths.reviewShloka,
               });
               return;
             }
@@ -211,7 +222,7 @@ const statusLabels: Record<ApiTypes.LibraryShlokaStatus, string> = {
 const cardActionPresentations: Record<
   LibraryCardAction["kind"],
   {
-    Icon: LucideIcon;
+    Icon?: LucideIcon;
     label: string;
     variant: "default" | "outline";
   }
@@ -230,5 +241,9 @@ const cardActionPresentations: Record<
     Icon: X,
     label: strings.library.removeFromLearning,
     variant: "outline",
+  },
+  "start-review": {
+    label: strings.library.startReview,
+    variant: "default",
   },
 };

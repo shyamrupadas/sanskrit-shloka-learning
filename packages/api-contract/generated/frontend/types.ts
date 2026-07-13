@@ -80,6 +80,18 @@ export interface CompleteLearningDto {
   remainingLearningShlokas: LibraryShlokaDto[];
 }
 
+export interface CompleteReviewRequest {
+  result: ReviewResult;
+  timeZone: string;
+}
+
+export interface CompletedReviewDto {
+  shlokaCode: string;
+  completedAt: string;
+  userDay: string;
+  result: ReviewResult;
+}
+
 export interface CreateShlokaRequest {
   sourceCode: string;
   partCode?: string;
@@ -183,6 +195,8 @@ export interface RegisterRequest {
   password: string;
   passwordConfirmation: string;
 }
+
+export type ReviewResult = "remembered_without_error" | "remembered_with_error" | "remembered_with_hint" | "forgot";
 
 export interface SourceChapterOptionDto {
   code: string;

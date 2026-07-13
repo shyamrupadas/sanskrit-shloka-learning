@@ -2,6 +2,7 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 export type LibraryCardAction =
   | { kind: "start-learning" }
+  | { kind: "start-review" }
   | {
       kind: "add-to-learning" | "remove-from-learning";
       nextStatus: ApiTypes.UpdateLibraryShlokaStatus;
@@ -36,6 +37,10 @@ export function getLibraryCardActions(
   tabId: ApiTypes.LibraryTab,
   personalStatus: ApiTypes.LibraryShlokaStatus,
 ): LibraryCardAction[] {
+  if (personalStatus === "reviewing" && tabId === "reviewing") {
+    return [{ kind: "start-review" }];
+  }
+
   if (personalStatus === "available" && tabId === "all") {
     return [{
       kind: "add-to-learning",

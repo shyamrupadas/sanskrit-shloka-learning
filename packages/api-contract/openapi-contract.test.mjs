@@ -54,6 +54,27 @@ describe("generated OpenAPI learning contract", () => {
   });
 });
 
+describe("generated OpenAPI review completion contract", () => {
+  test("exposes the authenticated command with result and user timezone", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const operation = openApi.paths?.["/api/library/items/{shlokaCode}/complete-review"]?.post;
+
+    assert.ok(operation);
+    assert.deepEqual(
+      operation.parameters?.map(({ name }) => name),
+      ["shlokaCode", "authorization"],
+    );
+    assert.equal(
+      operation.requestBody?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.CompleteReviewRequest",
+    );
+    assert.equal(
+      operation.responses?.["201"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.CompletedReviewDto",
+    );
+  });
+});
+
 describe("generated OpenAPI dashboard list contract", () => {
   test("exposes independently limited learning and review lists with user timezone", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));

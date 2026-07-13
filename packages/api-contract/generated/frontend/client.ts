@@ -151,6 +151,13 @@ export class ApiClient {
     });
   }
 
+  async completeReview(shlokaCode: string, request: Types.CompleteReviewRequest): Promise<Types.CompletedReviewDto> {
+    return this.#request<Types.CompletedReviewDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}/complete-review`, {
+      method: "POST",
+      body: JSON.stringify(request)
+    });
+  }
+
   async getItem(shlokaCode: string): Promise<Types.LibraryShlokaDto> {
     return this.#request<Types.LibraryShlokaDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}`, {
       method: "GET"

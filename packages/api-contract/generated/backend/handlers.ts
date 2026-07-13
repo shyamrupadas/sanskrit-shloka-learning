@@ -93,6 +93,12 @@ export interface CompleteLearningRequest {
   authorization?: string;
 }
 
+export interface CompleteReviewRequest {
+  body: Types.CompleteReviewRequest;
+  shlokaCode: string;
+  authorization?: string;
+}
+
 export interface GetItemRequest {
   shlokaCode: string;
   authorization?: string;
@@ -126,6 +132,7 @@ export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardD
 export type GetLearningShlokasResponse = ApiHandlerResponse<200, Types.DashboardLearningShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type GetReviewShlokasResponse = ApiHandlerResponse<200, Types.DashboardReviewShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type CompleteLearningResponse = ApiHandlerResponse<200, Types.CompleteLearningDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
+export type CompleteReviewResponse = ApiHandlerResponse<201, Types.CompletedReviewDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type UpdateItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
@@ -149,6 +156,7 @@ export interface ApiHandlers {
   getLearningShlokas(request: GetLearningShlokasRequest): Promise<GetLearningShlokasResponse> | GetLearningShlokasResponse;
   getReviewShlokas(request: GetReviewShlokasRequest): Promise<GetReviewShlokasResponse> | GetReviewShlokasResponse;
   completeLearning(request: CompleteLearningRequest): Promise<CompleteLearningResponse> | CompleteLearningResponse;
+  completeReview(request: CompleteReviewRequest): Promise<CompleteReviewResponse> | CompleteReviewResponse;
   getItem(request: GetItemRequest): Promise<GetItemResponse> | GetItemResponse;
   getLibrary(request: GetLibraryRequest): Promise<GetLibraryResponse> | GetLibraryResponse;
   updateItem(request: UpdateItemRequest): Promise<UpdateItemResponse> | UpdateItemResponse;

@@ -161,6 +161,30 @@ namespace SanskritShlokaLearning {
     @body list: DashboardReviewShlokaListDto;
   }
 
+  enum ReviewResult {
+    rememberedWithoutError: "remembered_without_error",
+    rememberedWithError: "remembered_with_error",
+    rememberedWithHint: "remembered_with_hint",
+    forgot: "forgot",
+  }
+
+  model CompleteReviewRequest {
+    result: ReviewResult;
+    timeZone: string;
+  }
+
+  model CompletedReviewDto {
+    shlokaCode: string;
+    completedAt: string;
+    userDay: string;
+    result: ReviewResult;
+  }
+
+  model CreatedCompletedReviewResponse {
+    @statusCode statusCode: 201;
+    @body review: CompletedReviewDto;
+  }
+
   enum LibraryTab {
     reviewing: "reviewing",
     learning: "learning",
@@ -472,6 +496,14 @@ namespace SanskritShlokaLearning {
     @route("/items/{shlokaCode}/complete-learning")
     op completeLearning(@path shlokaCode: string, @header authorization?: string):
       OkCompleteLearningResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
+
+    @post
+    @route("/items/{shlokaCode}/complete-review")
+    op completeReview(
+      @path shlokaCode: string,
+      @header authorization?: string,
+      @body request: CompleteReviewRequest,
+    ): CreatedCompletedReviewResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
   }
 
   @tag("Admin")

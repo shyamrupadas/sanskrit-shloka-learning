@@ -138,6 +138,10 @@ describe("ApiHandlersService protected resources", () => {
     const completeLearningResponse = await handlers.completeLearning({
       shlokaCode: "missing",
     });
+    const completeReviewResponse = await handlers.completeReview({
+      body: { result: "forgot", timeZone: "UTC" },
+      shlokaCode: "missing",
+    });
     const settingsResponse = await handlers.getSettings({});
     const updateSettingsResponse = await handlers.updateSettings({
       body: { hardMode: true },
@@ -149,6 +153,7 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(libraryResponse.status, 401);
     assert.equal(itemResponse.status, 401);
     assert.equal(completeLearningResponse.status, 401);
+    assert.equal(completeReviewResponse.status, 401);
     assert.equal(settingsResponse.status, 401);
     assert.equal(updateSettingsResponse.status, 401);
   });
@@ -293,6 +298,14 @@ describe("ApiHandlersService protected resources", () => {
       limit: Number.NaN,
       timeZone: "not-a-timezone",
     });
+    const completion = await handlers.completeReview({
+      authorization,
+      body: {
+        result: "invalid" as ApiTypes.ReviewResult,
+        timeZone: "not-a-timezone",
+      },
+      shlokaCode: "missing",
+    });
 
     assert.equal(learning.status, 400);
     assert.deepEqual(learning.body.details, [
@@ -301,6 +314,11 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(review.status, 400);
     assert.deepEqual(review.body.details, [
       "Лимит должен быть положительным целым числом",
+      "Таймзона пользователя должна быть корректной IANA-таймзоной",
+    ]);
+    assert.equal(completion.status, 400);
+    assert.deepEqual(completion.body.details, [
+      "Результат повторения должен быть одним из четырех допустимых значений",
       "Таймзона пользователя должна быть корректной IANA-таймзоной",
     ]);
   });

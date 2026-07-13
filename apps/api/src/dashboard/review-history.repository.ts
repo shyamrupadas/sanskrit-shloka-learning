@@ -11,12 +11,24 @@ export interface ReviewHistorySummary {
   shlokaCode: string;
 }
 
+export interface ReviewHistoryRecord {
+  accountId: string;
+  completedAt: Date;
+  id: string;
+  result: ReviewResult;
+  shlokaCode: string;
+  userDay: string;
+}
+
+export type CreateReviewHistoryRecordInput = ReviewHistoryRecord;
+
 export interface ListReviewHistorySummariesInput {
   accountId: string;
   userDay: string;
 }
 
 export interface ReviewHistoryRepository {
+  create(input: CreateReviewHistoryRecordInput): Promise<void>;
   listSummaries(
     input: ListReviewHistorySummariesInput,
   ): Promise<ReviewHistorySummary[]>;

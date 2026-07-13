@@ -2,6 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { DatabaseService } from "../database/database.service.js";
 import {
+  type CreateReviewHistoryRecordInput,
   type ListReviewHistorySummariesInput,
   type ReviewHistoryRepository,
   type ReviewHistorySummary,
@@ -22,6 +23,31 @@ export class PostgresReviewHistoryRepository
   constructor(
     @Inject(DatabaseService) private readonly database: DatabaseService,
   ) {}
+
+  async create(input: CreateReviewHistoryRecordInput): Promise<void> {
+    await this.database.idempotentWriteQuery(
+      `
+        insert into shloka_reviews (
+          id,
+          account_id,
+          shloka_code,
+          completed_at,
+          user_day,
+          result
+        )
+        values ($1, $2, $3, $4, $5::date, $6)
+        on conflict (id) do nothing
+      `,
+      [
+        input.id,
+        input.accountId,
+        input.shlokaCode,
+        input.completedAt,
+        input.userDay,
+        input.result,
+      ],
+    );
+  }
 
   async listSummaries(
     input: ListReviewHistorySummariesInput,

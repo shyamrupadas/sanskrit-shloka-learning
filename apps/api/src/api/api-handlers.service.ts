@@ -134,6 +134,36 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     };
   }
 
+  async completeReview(
+    request: BackendContract.CompleteReviewRequest,
+  ): Promise<BackendContract.CompleteReviewResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+
+    const result = request.body?.result;
+    const timeZone = request.body?.timeZone;
+    const details = [
+      ...(!isValidReviewResult(result)
+        ? ["Результат повторения должен быть одним из четырех допустимых значений"]
+        : []),
+      ...(typeof timeZone !== "string" || !isValidTimeZone(timeZone)
+        ? ["Таймзона пользователя должна быть корректной IANA-таймзоной"]
+        : []),
+    ];
+    if (details.length > 0 || !isValidReviewResult(result) || typeof timeZone !== "string") {
+      return { status: 400, body: validationError(details) };
+    }
+
+    return this.dashboard.completeReview(
+      session.account.id,
+      request.shlokaCode,
+      result,
+      timeZone,
+    );
+  }
+
   async getLibrary(request: BackendContract.GetLibraryRequest): Promise<BackendContract.GetLibraryResponse> {
     const session = await this.auth.lookupSession(request.authorization);
     if (!session) {
@@ -277,4 +307,11 @@ function emptyDashboard(): ApiTypes.EmptyDashboardDto {
 
 function isValidDashboardLimit(limit: number | undefined): boolean {
   return limit === undefined || (Number.isInteger(limit) && limit > 0);
+}
+
+function isValidReviewResult(value: unknown): value is ApiTypes.ReviewResult {
+  return value === "remembered_without_error" ||
+    value === "remembered_with_error" ||
+    value === "remembered_with_hint" ||
+    value === "forgot";
 }

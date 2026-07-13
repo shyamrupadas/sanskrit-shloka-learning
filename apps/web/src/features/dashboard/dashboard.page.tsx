@@ -8,6 +8,7 @@ import {
   ShlokaCard,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
+import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import {
@@ -130,7 +131,11 @@ function ReviewBlock({
           title={strings.dashboard.reviewEmptyTitle}
         />
       ) : (
-        <DashboardShlokaList items={list.items} />
+        <DashboardShlokaList
+          items={list.items}
+          openLabel={strings.library.startReview}
+          openTo={routePaths.reviewShloka}
+        />
       )}
       <ExpansionActionSlot
         isExpanded={isExpanded}
@@ -188,7 +193,8 @@ function DashboardShlokaList({
   openLabel?: string;
   openTo?:
     | typeof routePaths.libraryShloka
-    | typeof routePaths.learnShloka;
+    | typeof routePaths.learnShloka
+    | typeof routePaths.reviewShloka;
 }) {
   return (
     <div className="space-y-2.5">
@@ -288,8 +294,4 @@ function firstTextLine(text: string): string {
     .split("\n")
     .find((line) => line.trim().length > 0)
     ?.trim() ?? "";
-}
-
-function getBrowserTimeZone(): string {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }

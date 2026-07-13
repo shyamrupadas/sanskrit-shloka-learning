@@ -1,6 +1,8 @@
+import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { notFoundError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
 import {
   USER_LIBRARY_REPOSITORY,
@@ -35,6 +37,57 @@ export class DashboardService {
     private readonly reviewHistory: ReviewHistoryRepository,
     @Inject(DASHBOARD_CLOCK) private readonly now: DashboardClock,
   ) {}
+
+  async completeReview(
+    accountId: string,
+    shlokaCode: string,
+    result: ReviewResult,
+    timeZone: string,
+  ): Promise<
+    | { status: 201; body: ApiTypes.CompletedReviewDto }
+    | { status: 400; body: ApiTypes.ApiError }
+    | { status: 404; body: ApiTypes.ApiError }
+  > {
+    const [shloka, statuses] = await Promise.all([
+      this.catalog.getLibraryShloka(shlokaCode),
+      this.userLibrary.listShlokaStatuses(accountId),
+    ]);
+    if (!shloka) {
+      return { status: 404, body: notFoundError("Шлока не найдена") };
+    }
+    if (
+      statuses.find((status) => status.shlokaCode === shlokaCode)?.status !==
+      "reviewing"
+    ) {
+      return {
+        status: 400,
+        body: validationError([
+          "Только шлоку в статусе «повторяю» можно завершить как повторение",
+        ]),
+      };
+    }
+
+    const completedAt = this.now();
+    const userDay = getUserDay(completedAt, timeZone);
+    await this.reviewHistory.create({
+      accountId,
+      completedAt,
+      id: randomUUID(),
+      result,
+      shlokaCode,
+      userDay,
+    });
+
+    return {
+      status: 201,
+      body: {
+        completedAt: completedAt.toISOString(),
+        result,
+        shlokaCode,
+        userDay,
+      },
+    };
+  }
 
   async getLearningShlokas(
     accountId: string,
@@ -137,6 +190,10 @@ export function isValidTimeZone(timeZone: string): boolean {
   } catch {
     return false;
   }
+}
+
+export function getUserDay(date: Date, timeZone: string): string {
+  return formatUserDay(date, createUserDayFormatter(timeZone));
 }
 
 function rankCandidate(

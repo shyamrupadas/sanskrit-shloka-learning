@@ -62,6 +62,23 @@ export class LibraryController {
       }),
     );
   }
+
+  @Post("items/:shlokaCode/complete-review")
+  async completeReview(
+    @Param("shlokaCode") shlokaCode: string,
+    @Body() body: ApiTypes.CompleteReviewRequest,
+    @Headers("authorization") authorization: string | undefined,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(
+      response,
+      await this.handlers.completeReview({
+        ...withAuthorization(authorization),
+        body,
+        shlokaCode,
+      }),
+    );
+  }
 }
 
 function withAuthorization(authorization: string | undefined): { authorization?: string } {
