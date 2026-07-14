@@ -1094,6 +1094,163 @@ describe("ApiHandlersService admin catalog", () => {
     assert.ok(invalid.body.details?.includes("Заполните все четыре пады шлоки"));
   });
 
+  test("keeps personal progress and review history when canonical catalog data changes", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+    await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "gita",
+        title: "Бхагавад-гита",
+        structureType: "chapters",
+        chapters: [{ code: "chapter-1", title: "1", order: 1 }],
+      }),
+    });
+    await handlers.shlokas({
+      authorization,
+      body: {
+        sourceCode: "gita",
+        chapterCode: "chapter-1",
+        number: "1",
+        padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
+      },
+    });
+
+    const registerAccount = async (email: string) => {
+      const response = await handlers.register({
+        body: {
+          email,
+          password: "123456",
+          passwordConfirmation: "123456",
+        },
+      });
+      assert.equal(response.status, 201);
+      return {
+        accountId: response.body.account.id,
+        authorization: `Bearer ${response.body.accessToken}`,
+      };
+    };
+    const learningAccount = await registerAccount("learning-after-edit@example.com");
+    const reviewingAccount = await registerAccount("reviewing-after-edit@example.com");
+    const createdAt = new Date("2026-07-10T09:00:00.000Z");
+    await Promise.all([
+      handlers.userLibraryRepository.setShlokaStatus({
+        accountId: learningAccount.accountId,
+        createdAt,
+        shlokaCode: "gita-chapter-1-1",
+        status: "learning",
+      }),
+      handlers.userLibraryRepository.setShlokaStatus({
+        accountId: reviewingAccount.accountId,
+        createdAt,
+        shlokaCode: "gita-chapter-1-1",
+        status: "learning",
+      }),
+    ]);
+    assert.equal(
+      (
+        await handlers.userLibraryRepository.markShlokaLearned({
+          accountId: reviewingAccount.accountId,
+          reviewingStartedAt: new Date("2026-07-10T10:00:00.000Z"),
+          reviewingStartedUserDay: "2026-07-10",
+          shlokaCode: "gita-chapter-1-1",
+        })
+      ).kind,
+      "transitioned",
+    );
+    await handlers.reviewHistoryRepository.create({
+      accountId: reviewingAccount.accountId,
+      completedAt: new Date("2026-07-11T09:00:00.000Z"),
+      id: "review-before-catalog-edit",
+      result: "remembered_with_hint",
+      shlokaCode: "gita-chapter-1-1",
+      userDay: "2026-07-11",
+    });
+
+    const learningStatusBefore = await handlers.userLibraryRepository.listShlokaStatuses(
+      learningAccount.accountId,
+    );
+    const reviewingStatusBefore = await handlers.userLibraryRepository.listShlokaStatuses(
+      reviewingAccount.accountId,
+    );
+    const reviewHistoryBefore = handlers.reviewHistoryRepository.listRecords(
+      reviewingAccount.accountId,
+    );
+    assert.equal(learningStatusBefore.at(0)?.status, "learning");
+    assert.equal(reviewingStatusBefore.at(0)?.status, "reviewing");
+    assert.equal(reviewHistoryBefore.length, 1);
+
+    const updatedShloka = await handlers.updateShloka({
+      authorization,
+      shlokaCode: "gita-chapter-1-1",
+      body: {
+        padas: [
+          "обновленная первая",
+          "обновленная вторая",
+          "обновленная третья",
+          "обновленная четвертая",
+        ],
+        fullTranslation: "Обновленный перевод",
+      },
+    });
+    const updatedSource = await handlers.updateSource({
+      authorization,
+      sourceCode: "gita",
+      body: {
+        title: "Гита",
+        chapters: [
+          { code: "chapter-1", title: "Первая глава", order: 1 },
+        ],
+      },
+    });
+    assert.equal(updatedShloka.status, 200);
+    assert.equal(updatedSource.status, 200);
+
+    const learningLibrary = await handlers.getLibrary({
+      authorization: learningAccount.authorization,
+    });
+    const reviewingLibrary = await handlers.getLibrary({
+      authorization: reviewingAccount.authorization,
+    });
+    assert.equal(learningLibrary.status, 200);
+    assert.equal(reviewingLibrary.status, 200);
+    const learningShloka = learningLibrary.body.allShlokas.at(0);
+    const reviewingShloka = reviewingLibrary.body.allShlokas.at(0);
+    assert.ok(learningShloka);
+    assert.ok(reviewingShloka);
+    for (const [shloka, personalStatus] of [
+      [learningShloka, "learning"],
+      [reviewingShloka, "reviewing"],
+    ] as const) {
+      assert.deepEqual(shloka, {
+        code: "gita-chapter-1-1",
+        displayTitle: "Гита, Первая глава 1",
+        fullTranslation: "Обновленный перевод",
+        number: "1",
+        personalStatus,
+        sourceTitle: "Гита",
+        text: "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая",
+      });
+    }
+    assert.deepEqual(
+      await handlers.userLibraryRepository.listShlokaStatuses(
+        learningAccount.accountId,
+      ),
+      learningStatusBefore,
+    );
+    assert.deepEqual(
+      await handlers.userLibraryRepository.listShlokaStatuses(
+        reviewingAccount.accountId,
+      ),
+      reviewingStatusBefore,
+    );
+    assert.deepEqual(
+      handlers.reviewHistoryRepository.listRecords(
+        reviewingAccount.accountId,
+      ),
+      reviewHistoryBefore,
+    );
+  });
+
   test("validates shloka structure, required padas, and unique reference", async () => {
     const { authorization, handlers } = await createAdminHandlers();
     await handlers.sources({

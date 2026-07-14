@@ -1,6 +1,7 @@
 # Первичный PRD продукта
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-14
 
 ## Постановка проблемы
 
