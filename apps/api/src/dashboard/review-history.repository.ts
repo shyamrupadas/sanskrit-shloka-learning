@@ -29,6 +29,7 @@ export interface ListReviewHistorySummariesInput {
 
 export interface ReviewHistoryRepository {
   create(input: CreateReviewHistoryRecordInput): Promise<void>;
+  listActivityDays(accountId: string): Promise<string[]>;
   listSummaries(
     input: ListReviewHistorySummariesInput,
   ): Promise<ReviewHistorySummary[]>;

@@ -5,6 +5,7 @@ import { Check, Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { strings } from "@/shared/i18n";
+import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -13,12 +14,14 @@ export function LearnShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   const auth = useSession();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const timeZone = getBrowserTimeZone();
   const shlokaQuery = useQuery({
     queryFn: () => auth.apiClient.getItem(shlokaCode),
     queryKey: ["library", "shloka", shlokaCode],
   });
   const completeMutation = useMutation({
-    mutationFn: () => auth.apiClient.completeLearning(shlokaCode),
+    mutationFn: () =>
+      auth.apiClient.completeLearning(shlokaCode, { timeZone }),
     onSuccess: () => {
       void queryClient.invalidateQueries({
         exact: true,

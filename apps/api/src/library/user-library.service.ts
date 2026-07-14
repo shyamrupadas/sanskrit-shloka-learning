@@ -3,6 +3,7 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { notFoundError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
+import { getUserDay } from "../shared/user-day.js";
 import {
   USER_LIBRARY_REPOSITORY,
   type UserLibraryRepository,
@@ -136,6 +137,7 @@ export class UserLibraryService {
   async completeLearning(
     accountId: string,
     shlokaCode: string,
+    timeZone: string,
   ): Promise<
     | { status: 200; body: ApiTypes.CompleteLearningDto }
     | { status: 400; body: ApiTypes.ApiError }
@@ -146,9 +148,11 @@ export class UserLibraryService {
       return { status: 404, body: notFoundError("Шлока не найдена") };
     }
 
+    const reviewingStartedAt = this.now();
     const transition = await this.userLibrary.markShlokaLearned({
       accountId,
-      reviewingStartedAt: this.now(),
+      reviewingStartedAt,
+      reviewingStartedUserDay: getUserDay(reviewingStartedAt, timeZone),
       shlokaCode,
     });
     if (transition.kind === "not-learning") {

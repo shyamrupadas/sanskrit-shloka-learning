@@ -3,6 +3,7 @@ export type PersistedLibraryShlokaStatus = "learning" | "reviewing";
 export interface UserShlokaStatusRecord {
   createdAt: Date;
   reviewingStartedAt?: Date;
+  reviewingStartedUserDay?: string;
   shlokaCode: string;
   status: PersistedLibraryShlokaStatus;
 }
@@ -22,6 +23,7 @@ export interface ClearUserShlokaStatusInput {
 export interface MarkShlokaLearnedInput {
   accountId: string;
   reviewingStartedAt: Date;
+  reviewingStartedUserDay: string;
   shlokaCode: string;
 }
 
@@ -29,6 +31,7 @@ export type MarkShlokaLearnedResult =
   | {
       kind: "transitioned" | "already-reviewing";
       reviewingStartedAt: Date;
+      reviewingStartedUserDay?: string;
     }
   | { kind: "not-learning" };
 

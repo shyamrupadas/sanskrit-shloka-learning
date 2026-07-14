@@ -151,6 +151,11 @@ namespace SanskritShlokaLearning {
     state: DashboardReviewListState;
   }
 
+  model DashboardStreakDto {
+    days: int32;
+    continuedToday: boolean;
+  }
+
   model OkDashboardLearningShlokasResponse {
     @statusCode statusCode: 200;
     @body list: DashboardLearningShlokaListDto;
@@ -159,6 +164,11 @@ namespace SanskritShlokaLearning {
   model OkDashboardReviewShlokasResponse {
     @statusCode statusCode: 200;
     @body list: DashboardReviewShlokaListDto;
+  }
+
+  model OkDashboardStreakResponse {
+    @statusCode statusCode: 200;
+    @body streak: DashboardStreakDto;
   }
 
   enum ReviewResult {
@@ -170,6 +180,10 @@ namespace SanskritShlokaLearning {
 
   model CompleteReviewRequest {
     result: ReviewResult;
+    timeZone: string;
+  }
+
+  model CompleteLearningRequestBody {
     timeZone: string;
   }
 
@@ -459,6 +473,13 @@ namespace SanskritShlokaLearning {
       @query limit?: int32,
       @header authorization?: string,
     ): OkDashboardReviewShlokasResponse | ValidationErrorResponse | UnauthorizedResponse;
+
+    @get
+    @route("/streak")
+    op getStreak(
+      @query timeZone: string,
+      @header authorization?: string,
+    ): OkDashboardStreakResponse | ValidationErrorResponse | UnauthorizedResponse;
   }
 
   @tag("Account")
@@ -494,7 +515,11 @@ namespace SanskritShlokaLearning {
 
     @post
     @route("/items/{shlokaCode}/complete-learning")
-    op completeLearning(@path shlokaCode: string, @header authorization?: string):
+    op completeLearning(
+      @path shlokaCode: string,
+      @header authorization?: string,
+      @body request: CompleteLearningRequestBody,
+    ):
       OkCompleteLearningResponse | ValidationErrorResponse | UnauthorizedResponse | NotFoundResponse;
 
     @post

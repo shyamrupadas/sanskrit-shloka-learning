@@ -264,6 +264,10 @@ class TrackingReviewHistoryRepository implements ReviewHistoryRepository {
     throw new Error("Unexpected review history write");
   }
 
+  async listActivityDays(): Promise<string[]> {
+    return [];
+  }
+
   async listSummaries(
     input: ListReviewHistorySummariesInput,
   ): Promise<ReviewHistorySummary[]> {

@@ -16,6 +16,10 @@ interface ReviewHistorySummaryRow {
   shloka_code: string;
 }
 
+interface ReviewActivityDayRow {
+  user_day: string;
+}
+
 @Injectable()
 export class PostgresReviewHistoryRepository
   implements ReviewHistoryRepository
@@ -47,6 +51,20 @@ export class PostgresReviewHistoryRepository
         input.result,
       ],
     );
+  }
+
+  async listActivityDays(accountId: string): Promise<string[]> {
+    const result = await this.database.fastReadQuery<ReviewActivityDayRow>(
+      `
+        select distinct user_day::text as user_day
+        from shloka_reviews
+        where account_id = $1
+        order by user_day desc
+      `,
+      [accountId],
+    );
+
+    return result.rows.map(({ user_day }) => user_day);
   }
 
   async listSummaries(

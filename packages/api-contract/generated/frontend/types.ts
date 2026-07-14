@@ -80,6 +80,10 @@ export interface CompleteLearningDto {
   remainingLearningShlokas: LibraryShlokaDto[];
 }
 
+export interface CompleteLearningRequestBody {
+  timeZone: string;
+}
+
 export interface CompleteReviewRequest {
   result: ReviewResult;
   timeZone: string;
@@ -147,6 +151,11 @@ export interface DashboardShlokaDto {
   code: string;
   displayTitle: string;
   text: string;
+}
+
+export interface DashboardStreakDto {
+  days: number;
+  continuedToday: boolean;
 }
 
 export interface EmptyDashboardDto {

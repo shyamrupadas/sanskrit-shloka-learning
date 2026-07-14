@@ -12,6 +12,7 @@ import { CatalogService } from "../catalog/catalog.service.js";
 import { InMemoryCatalogRepository } from "../catalog/in-memory-catalog.repository.js";
 import { DashboardService } from "../dashboard/dashboard.service.js";
 import { InMemoryReviewHistoryRepository } from "../dashboard/in-memory-review-history.repository.js";
+import { StreakService } from "../dashboard/streak.service.js";
 import { InMemoryUserLibraryRepository } from "../library/in-memory-user-library.repository.js";
 import { UserLibraryService } from "../library/user-library.service.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
@@ -133,9 +134,11 @@ describe("ApiHandlersService protected resources", () => {
     const reviewShlokasResponse = await handlers.getReviewShlokas({
       timeZone: "UTC",
     });
+    const streakResponse = await handlers.getStreak({ timeZone: "UTC" });
     const libraryResponse = await handlers.getLibrary({});
     const itemResponse = await handlers.getItem({ shlokaCode: "missing" });
     const completeLearningResponse = await handlers.completeLearning({
+      body: { timeZone: "UTC" },
       shlokaCode: "missing",
     });
     const completeReviewResponse = await handlers.completeReview({
@@ -150,6 +153,7 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(dashboardResponse.status, 401);
     assert.equal(learningShlokasResponse.status, 401);
     assert.equal(reviewShlokasResponse.status, 401);
+    assert.equal(streakResponse.status, 401);
     assert.equal(libraryResponse.status, 401);
     assert.equal(itemResponse.status, 401);
     assert.equal(completeLearningResponse.status, 401);
@@ -275,6 +279,13 @@ describe("ApiHandlersService protected resources", () => {
         },
       },
     );
+    assert.deepEqual(
+      await handlers.getStreak({ authorization, timeZone: "UTC" }),
+      {
+        status: 200,
+        body: { continuedToday: false, days: 0 },
+      },
+    );
   });
 
   test("validates dashboard list limits and the user timezone", async () => {
@@ -306,6 +317,15 @@ describe("ApiHandlersService protected resources", () => {
       },
       shlokaCode: "missing",
     });
+    const streak = await handlers.getStreak({
+      authorization,
+      timeZone: "not-a-timezone",
+    });
+    const learningCompletion = await handlers.completeLearning({
+      authorization,
+      body: { timeZone: "not-a-timezone" },
+      shlokaCode: "missing",
+    });
 
     assert.equal(learning.status, 400);
     assert.deepEqual(learning.body.details, [
@@ -319,6 +339,14 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(completion.status, 400);
     assert.deepEqual(completion.body.details, [
       "Результат повторения должен быть одним из четырех допустимых значений",
+      "Таймзона пользователя должна быть корректной IANA-таймзоной",
+    ]);
+    assert.equal(streak.status, 400);
+    assert.deepEqual(streak.body.details, [
+      "Таймзона пользователя должна быть корректной IANA-таймзоной",
+    ]);
+    assert.equal(learningCompletion.status, 400);
+    assert.deepEqual(learningCompletion.body.details, [
       "Таймзона пользователя должна быть корректной IANA-таймзоной",
     ]);
   });
@@ -584,7 +612,7 @@ describe("ApiHandlersService admin catalog", () => {
     );
   });
 
-  test("keeps to-learn status per user, completes learning, and preserves reviewing", async () => {
+  test("records learning and review activity while preserving reviewing", async () => {
     const learnedAt = new Date("2026-07-12T09:30:00.000Z");
     let now = learnedAt;
     const { authorization, handlers } = await createAdminHandlers({
@@ -696,6 +724,7 @@ describe("ApiHandlersService admin catalog", () => {
     );
     const completeResponse = await handlers.completeLearning({
       authorization: learnerAuthorization,
+      body: { timeZone: "UTC" },
       shlokaCode: "gita-chapter-2-2-47",
     });
 
@@ -710,6 +739,17 @@ describe("ApiHandlersService admin catalog", () => {
     assert.ok(reviewingRecord);
     assert.equal(reviewingRecord.status, "reviewing");
     assert.equal(reviewingRecord.reviewingStartedAt?.toISOString(), learnedAt.toISOString());
+    assert.equal(reviewingRecord.reviewingStartedUserDay, "2026-07-12");
+    assert.deepEqual(
+      await handlers.getStreak({
+        authorization: learnerAuthorization,
+        timeZone: "UTC",
+      }),
+      {
+        status: 200,
+        body: { continuedToday: true, days: 1 },
+      },
+    );
 
     const removalFromReviewing = await handlers.updateItem({
       authorization: learnerAuthorization,
@@ -729,6 +769,7 @@ describe("ApiHandlersService admin catalog", () => {
       (
         await handlers.completeLearning({
           authorization: learnerAuthorization,
+          body: { timeZone: "UTC" },
           shlokaCode: "gita-chapter-2-2-47",
         })
       ).status,
@@ -743,11 +784,50 @@ describe("ApiHandlersService admin catalog", () => {
       recordAfterDuplicateCompletion?.reviewingStartedAt?.toISOString(),
       learnedAt.toISOString(),
     );
+    assert.equal(
+      recordAfterDuplicateCompletion?.reviewingStartedUserDay,
+      "2026-07-12",
+    );
+    assert.deepEqual(
+      await handlers.getStreak({
+        authorization: learnerAuthorization,
+        timeZone: "UTC",
+      }),
+      {
+        status: 200,
+        body: { continuedToday: false, days: 1 },
+      },
+    );
+
+    assert.equal(
+      (
+        await handlers.completeReview({
+          authorization: learnerAuthorization,
+          body: {
+            result: "remembered_without_error",
+            timeZone: "UTC",
+          },
+          shlokaCode: "gita-chapter-2-2-47",
+        })
+      ).status,
+      201,
+    );
+    assert.deepEqual(
+      await handlers.getStreak({
+        authorization: learnerAuthorization,
+        timeZone: "UTC",
+      }),
+      {
+        status: 200,
+        body: { continuedToday: true, days: 2 },
+      },
+    );
 
     assert.equal(
       (
         await handlers.completeLearning({
           authorization: `Bearer ${otherLearner.body.accessToken}`,
+          body: { timeZone: "UTC" },
           shlokaCode: "gita-chapter-2-2-47",
         })
       ).status,
@@ -767,6 +847,7 @@ describe("ApiHandlersService admin catalog", () => {
       (
         await handlers.completeLearning({
           authorization: learnerAuthorization,
+          body: { timeZone: "UTC" },
           shlokaCode: "missing",
         })
       ).status,
@@ -1087,6 +1168,11 @@ function createHandlers(
     reviewHistoryRepository,
     options.now ?? (() => new Date()),
   );
+  const streak = new StreakService(
+    userLibraryRepository,
+    reviewHistoryRepository,
+    options.now ?? (() => new Date()),
+  );
 
   return Object.assign(
     new ApiHandlersService(
@@ -1094,6 +1180,7 @@ function createHandlers(
       accountSettings,
       catalog,
       dashboard,
+      streak,
       userLibrary,
     ),
     { accounts, reviewHistoryRepository, userLibraryRepository },

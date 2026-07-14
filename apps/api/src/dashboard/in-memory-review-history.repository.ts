@@ -21,6 +21,16 @@ export class InMemoryReviewHistoryRepository
     this.recordsByAccount.set(input.accountId, records);
   }
 
+  async listActivityDays(accountId: string): Promise<string[]> {
+    return [
+      ...new Set(
+        (this.recordsByAccount.get(accountId) ?? []).map(
+          ({ userDay }) => userDay,
+        ),
+      ),
+    ];
+  }
+
   async listSummaries(
     input: ListReviewHistorySummariesInput,
   ): Promise<ReviewHistorySummary[]> {

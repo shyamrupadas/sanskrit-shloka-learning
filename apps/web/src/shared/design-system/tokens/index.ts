@@ -94,9 +94,15 @@ export const designTokens = {
         warningFg: fromPencil("#B45309", "color-warning-fg"),
       },
       streak: {
-        end: fromPencil("#FACC15", "color-streak-flame-end"),
-        inner: fromPencil("#FFF7AD", "color-streak-flame-inner"),
-        start: fromPencil("#F97316", "color-streak-flame-start"),
+        end: fromPencil("#FACC15", "color-streak-flame-end", {
+          cssVariable: "--streak-flame-end",
+        }),
+        inner: fromPencil("#FFF7AD", "color-streak-flame-inner", {
+          cssVariable: "--streak-flame-inner",
+        }),
+        start: fromPencil("#F97316", "color-streak-flame-start", {
+          cssVariable: "--streak-flame-start",
+        }),
       },
     },
   },
@@ -392,7 +398,9 @@ export const designTokens = {
     midColor: fromPencil("#0F172A14", "shadow-mid-color", {
       cssVariable: "--shadow-mid-color",
     }),
-    streak: fromPencil("#F973164D", "shadow-streak-color"),
+    streak: fromPencil("#F973164D", "shadow-streak-color", {
+      cssVariable: "--shadow-streak-color",
+    }),
   },
   components: {
     adminForm: {

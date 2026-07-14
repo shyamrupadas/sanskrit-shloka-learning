@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
@@ -44,6 +45,10 @@ export function DashboardPage() {
       initialLearningLimit,
     ],
   });
+  const streakQuery = useQuery({
+    queryFn: () => auth.apiClient.getStreak(timeZone),
+    queryKey: ["dashboard", "streak", auth.account?.id, timeZone],
+  });
   const reviewExpansion = useMutation({
     mutationFn: () => auth.apiClient.getReviewShlokas(timeZone),
   });
@@ -53,19 +58,24 @@ export function DashboardPage() {
   const authorizationError =
     reviewQuery.error ??
     learningQuery.error ??
+    streakQuery.error ??
     reviewExpansion.error ??
     learningExpansion.error;
 
   useUnauthorizedRedirect(authorizationError);
 
-  if (reviewQuery.isPending || learningQuery.isPending) {
+  if (
+    reviewQuery.isPending ||
+    learningQuery.isPending ||
+    streakQuery.isPending
+  ) {
     return <DashboardStatus title={strings.common.loading} />;
   }
-  if (reviewQuery.error || learningQuery.error) {
+  if (reviewQuery.error || learningQuery.error || streakQuery.error) {
     return (
       <DashboardStatus
         description={getApiErrorMessage(
-          reviewQuery.error ?? learningQuery.error,
+          reviewQuery.error ?? learningQuery.error ?? streakQuery.error,
           strings.dashboard.loadError,
         )}
         title={strings.common.error}
@@ -78,26 +88,109 @@ export function DashboardPage() {
   const hasPersonalShlokas =
     reviewList.hasReviewingShlokas || learningList.hasLearningShlokas;
 
-  if (!hasPersonalShlokas) {
-    return <LearningEmptyState />;
-  }
-
   return (
     <section className="space-y-6">
-      <ReviewBlock
-        isExpanded={Boolean(reviewExpansion.data)}
-        isExpanding={reviewExpansion.isPending}
-        list={reviewList}
-        onExpand={() => reviewExpansion.mutate()}
-      />
-      <LearningBlock
-        isExpanded={Boolean(learningExpansion.data)}
-        isExpanding={learningExpansion.isPending}
-        list={learningList}
-        onExpand={() => learningExpansion.mutate()}
-      />
+      {streakQuery.data.days > 0 ? (
+        <StreakIndicator streak={streakQuery.data} />
+      ) : null}
+      {hasPersonalShlokas ? (
+        <>
+          <ReviewBlock
+            isExpanded={Boolean(reviewExpansion.data)}
+            isExpanding={reviewExpansion.isPending}
+            list={reviewList}
+            onExpand={() => reviewExpansion.mutate()}
+          />
+          <LearningBlock
+            isExpanded={Boolean(learningExpansion.data)}
+            isExpanding={learningExpansion.isPending}
+            list={learningList}
+            onExpand={() => learningExpansion.mutate()}
+          />
+        </>
+      ) : (
+        <LearningEmptyState />
+      )}
     </section>
   );
+}
+
+function StreakIndicator({
+  streak,
+}: {
+  streak: ApiTypes.DashboardStreakDto;
+}) {
+  const gradientId = useId();
+  const stateLabel = streak.continuedToday
+    ? strings.dashboard.streakActive
+    : strings.dashboard.streakPending;
+  const gradientStart = streak.continuedToday
+    ? "var(--streak-flame-start)"
+    : "var(--disabled-foreground)";
+  const gradientEnd = streak.continuedToday
+    ? "var(--streak-flame-end)"
+    : "var(--border-strong)";
+
+  return (
+    <div className="flex justify-end">
+      <div
+        aria-label={`${formatStreakDays(streak.days)}. ${stateLabel}`}
+        className="flex items-center gap-1.5"
+        role="status"
+      >
+        <svg
+          aria-hidden="true"
+          className="size-[25px]"
+          style={
+            streak.continuedToday
+              ? {
+                  filter:
+                    "drop-shadow(0 2px 4px var(--shadow-streak-color))",
+                }
+              : undefined
+          }
+          viewBox="0 0 48 48"
+        >
+          <defs>
+            <linearGradient id={gradientId} x1="0" x2="0" y1="1" y2="0">
+              <stop offset="0" stopColor={gradientStart} />
+              <stop offset="1" stopColor={gradientEnd} />
+            </linearGradient>
+          </defs>
+          <path
+            d="M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z"
+            fill={`url(#${gradientId})`}
+          />
+          <path
+            d="M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z"
+            fill={
+              streak.continuedToday
+                ? "var(--streak-flame-inner)"
+                : "var(--disabled-background)"
+            }
+          />
+        </svg>
+        <span className="font-heading text-[length:var(--font-size-card-title)] leading-[var(--line-height-title)] font-extrabold">
+          {streak.days}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function formatStreakDays(days: number): string {
+  const lastTwoDigits = days % 100;
+  const lastDigit = days % 10;
+  const dayForm =
+    lastTwoDigits >= 11 && lastTwoDigits <= 14
+      ? strings.dashboard.streakDaysMany
+      : lastDigit === 1
+        ? strings.dashboard.streakDay
+        : lastDigit >= 2 && lastDigit <= 4
+          ? strings.dashboard.streakDaysFew
+          : strings.dashboard.streakDaysMany;
+
+  return `${days} ${dayForm} ${strings.dashboard.streakConsecutive}`;
 }
 
 function ReviewBlock({

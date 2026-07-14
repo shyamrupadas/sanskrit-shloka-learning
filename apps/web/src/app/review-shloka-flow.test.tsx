@@ -154,6 +154,11 @@ describe("app review shloka flow", () => {
         name: "Все повторения на сегодня завершены",
       }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("status", {
+        name: "1 день подряд. Серия продолжена сегодня",
+      }),
+    ).toBeInTheDocument();
     expect(api.completions.map(({ body }) => body)).toEqual([
       expect.objectContaining({ result: "remembered_without_error" }),
       expect.objectContaining({ result: "remembered_without_error" }),
@@ -183,6 +188,28 @@ describe("app review shloka flow", () => {
     expect(
       await screen.findByRole("article", { name: firstShloka.displayTitle }),
     ).toBeInTheDocument();
+  });
+
+  it("starts from the reviewing library card and updates today's streak after completion", async () => {
+    const user = userEvent.setup();
+    const api = createReviewApi([firstShloka]);
+    mockApi(api.handle);
+    storeTestSession(session);
+    renderAppAt("/library?tab=reviewing");
+
+    const card = await screen.findByRole("article", {
+      name: firstShloka.displayTitle,
+    });
+    await user.click(within(card).getByRole("button", { name: "Повторить" }));
+    await completeWithoutError(user);
+
+    await expectPath(routePaths.dashboard);
+    expect(
+      await screen.findByRole("status", {
+        name: "1 день подряд. Серия продолжена сегодня",
+      }),
+    ).toBeInTheDocument();
+    expect(api.completions).toHaveLength(1);
   });
 });
 
@@ -243,6 +270,18 @@ function createReviewApi(shlokas: ApiTypes.LibraryShlokaDto[]) {
             items: [],
             remainingCount: 0,
           } satisfies ApiTypes.DashboardLearningShlokaListDto,
+        };
+      }
+      if (
+        request.method === "GET" &&
+        request.path === "/api/dashboard/streak"
+      ) {
+        return {
+          status: 200,
+          body: {
+            continuedToday: completedCodes.size > 0,
+            days: completedCodes.size > 0 ? 1 : 0,
+          } satisfies ApiTypes.DashboardStreakDto,
         };
       }
 

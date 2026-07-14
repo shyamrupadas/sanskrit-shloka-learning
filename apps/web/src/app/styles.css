@@ -159,6 +159,7 @@ body {
   --shadow-low-color: #0F172A0A;
   --shadow-mid: 0 8px 24px 0 #0F172A14;
   --shadow-mid-color: #0F172A14;
+  --shadow-streak-color: #F973164D;
   --sidebar: var(--background);
   --sidebar-accent: var(--accent);
   --sidebar-accent-foreground: var(--accent-foreground);
@@ -175,6 +176,9 @@ body {
   --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
+  --streak-flame-end: #FACC15;
+  --streak-flame-inner: #FFF7AD;
+  --streak-flame-start: #F97316;
   --surface-inset: #EEF2F7;
   --warning: #B45309;
   --warning-background: #FEF3C7;

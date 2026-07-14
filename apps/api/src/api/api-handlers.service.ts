@@ -5,11 +5,10 @@ import { AccountSettingsService } from "../accounts/account-settings.service.js"
 import { AuthService } from "../auth/auth.service.js";
 import { forbiddenError, unauthorizedError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
-import {
-  DashboardService,
-  isValidTimeZone,
-} from "../dashboard/dashboard.service.js";
+import { DashboardService } from "../dashboard/dashboard.service.js";
+import { StreakService } from "../dashboard/streak.service.js";
 import { UserLibraryService } from "../library/user-library.service.js";
+import { isValidTimeZone } from "../shared/user-day.js";
 
 type AdminAuthorizationError =
   | { status: 401; body: ApiTypes.ApiError }
@@ -22,6 +21,7 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     @Inject(AccountSettingsService) private readonly accountSettings: AccountSettingsService,
     @Inject(CatalogService) private readonly catalog: CatalogService,
     @Inject(DashboardService) private readonly dashboard: DashboardService,
+    @Inject(StreakService) private readonly streak: StreakService,
     @Inject(UserLibraryService) private readonly userLibrary: UserLibraryService,
   ) {}
 
@@ -134,6 +134,31 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     };
   }
 
+  async getStreak(
+    request: BackendContract.GetStreakRequest,
+  ): Promise<BackendContract.GetStreakResponse> {
+    const session = await this.auth.lookupSession(request.authorization);
+    if (!session) {
+      return { status: 401, body: unauthorizedError };
+    }
+    if (!isValidTimeZone(request.timeZone)) {
+      return {
+        status: 400,
+        body: validationError([
+          "Таймзона пользователя должна быть корректной IANA-таймзоной",
+        ]),
+      };
+    }
+
+    return {
+      status: 200,
+      body: await this.streak.getStreak(
+        session.account.id,
+        request.timeZone,
+      ),
+    };
+  }
+
   async completeReview(
     request: BackendContract.CompleteReviewRequest,
   ): Promise<BackendContract.CompleteReviewResponse> {
@@ -192,10 +217,20 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     if (!session) {
       return { status: 401, body: unauthorizedError };
     }
+    const timeZone = request.body?.timeZone;
+    if (typeof timeZone !== "string" || !isValidTimeZone(timeZone)) {
+      return {
+        status: 400,
+        body: validationError([
+          "Таймзона пользователя должна быть корректной IANA-таймзоной",
+        ]),
+      };
+    }
 
     return this.userLibrary.completeLearning(
       session.account.id,
       request.shlokaCode,
+      timeZone,
     );
   }
 

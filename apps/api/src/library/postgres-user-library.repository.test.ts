@@ -34,6 +34,7 @@ describe("PostgresUserLibraryRepository", () => {
     const database = new WriteTrackingDatabase([
       {
         reviewing_started_at: learnedAt,
+        reviewing_started_user_day: "2026-07-12",
         transitioned: true,
       },
     ]);
@@ -42,20 +43,58 @@ describe("PostgresUserLibraryRepository", () => {
     const transition = await repository.markShlokaLearned({
       accountId: "account-1",
       reviewingStartedAt: learnedAt,
+      reviewingStartedUserDay: "2026-07-12",
       shlokaCode: "bg-1-1",
     });
 
     assert.deepEqual(transition, {
       kind: "transitioned",
       reviewingStartedAt: learnedAt,
+      reviewingStartedUserDay: "2026-07-12",
     });
     assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'reviewing'"));
     assert.ok(database.idempotentWriteQueries[0]?.includes("reviewing_started_at = $3"));
+    assert.ok(
+      database.idempotentWriteQueries[0]?.includes(
+        "reviewing_started_user_day = $4::date",
+      ),
+    );
     assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'learning'"));
     assert.deepEqual(database.idempotentWriteValues[0], [
       "account-1",
       "bg-1-1",
       learnedAt,
+      "2026-07-12",
+    ]);
+  });
+
+  test("reads the persisted learning activity day for streak calculation", async () => {
+    const learnedAt = new Date("2026-07-12T00:30:00.000Z");
+    const database = {
+      fastReadQuery: async (sql: string, values: readonly unknown[]) => {
+        assert.match(sql, /reviewing_started_user_day::text/);
+        assert.deepEqual(values, ["account-1"]);
+        return result([
+          {
+            created_at: new Date("2026-07-01T00:00:00.000Z"),
+            reviewing_started_at: learnedAt,
+            reviewing_started_user_day: "2026-07-11",
+            shloka_code: "bg-1-1",
+            status: "reviewing",
+          },
+        ]);
+      },
+    } as unknown as DatabaseService;
+    const repository = new PostgresUserLibraryRepository(database);
+
+    assert.deepEqual(await repository.listShlokaStatuses("account-1"), [
+      {
+        createdAt: new Date("2026-07-01T00:00:00.000Z"),
+        reviewingStartedAt: learnedAt,
+        reviewingStartedUserDay: "2026-07-11",
+        shlokaCode: "bg-1-1",
+        status: "reviewing",
+      },
     ]);
   });
 });

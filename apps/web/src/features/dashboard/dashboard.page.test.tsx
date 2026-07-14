@@ -32,6 +32,9 @@ describe("dashboard page", () => {
       if (method === "GET" && path === "/api/dashboard/learning-shlokas") {
         return { status: 200, body: learningList([]) };
       }
+      if (method === "GET" && path === "/api/dashboard/streak") {
+        return { status: 200, body: streak() };
+      }
 
       throw unhandled(method, path);
     });
@@ -57,6 +60,9 @@ describe("dashboard page", () => {
       }
       if (method === "GET" && path === "/api/dashboard/learning-shlokas") {
         return { status: 200, body: learningList([]) };
+      }
+      if (method === "GET" && path === "/api/dashboard/streak") {
+        return { status: 200, body: streak() };
       }
 
       throw unhandled(method, path);
@@ -84,6 +90,7 @@ describe("dashboard page", () => {
     expect(
       screen.getByText("Добавьте шлоки для заучивания из библиотеки."),
     ).toBeInTheDocument();
+    expect(screen.queryByRole("status", { name: /дней подряд/ })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("link", { name: "Добавить" }));
 
@@ -120,6 +127,34 @@ describe("dashboard page", () => {
     ).toBeInTheDocument();
   });
 
+  it.each([
+    {
+      continuedToday: false,
+      stateLabel: "Серия ожидает продолжения сегодня",
+    },
+    {
+      continuedToday: true,
+      stateLabel: "Серия продолжена сегодня",
+    },
+  ])("shows a non-zero streak when $stateLabel", async ({
+    continuedToday,
+    stateLabel,
+  }) => {
+    mockDashboardLists(
+      reviewList(reviewItems.slice(0, 1)),
+      learningList([]),
+      streak({ continuedToday, days: 7 }),
+    );
+
+    renderDashboard();
+
+    expect(
+      await screen.findByRole("status", {
+        name: `7 дней подряд. ${stateLabel}`,
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("requests initial limits and expands both authoritative lists in place", async () => {
     const user = userEvent.setup();
     let reviewRequestCount = 0;
@@ -144,6 +179,9 @@ describe("dashboard page", () => {
               ? learningList(learningItems.slice(0, 3), 2)
               : learningList(learningItems),
         };
+      }
+      if (method === "GET" && path === "/api/dashboard/streak") {
+        return { status: 200, body: streak() };
       }
 
       throw unhandled(method, path);
@@ -241,6 +279,9 @@ describe("dashboard page", () => {
       if (method === "GET" && path === "/api/dashboard/learning-shlokas") {
         return { status: 200, body: learningList(learningItems.slice(0, 3)) };
       }
+      if (method === "GET" && path === "/api/dashboard/streak") {
+        return { status: 200, body: streak() };
+      }
 
       throw unhandled(method, path);
     });
@@ -302,6 +343,7 @@ describe("dashboard page", () => {
 function mockDashboardLists(
   review: ApiTypes.DashboardReviewShlokaListDto,
   learning: ApiTypes.DashboardLearningShlokaListDto,
+  currentStreak: ApiTypes.DashboardStreakDto = streak(),
 ) {
   return mockApi(({ method, path }) => {
     if (method === "GET" && path === "/api/dashboard/review-shlokas") {
@@ -310,9 +352,22 @@ function mockDashboardLists(
     if (method === "GET" && path === "/api/dashboard/learning-shlokas") {
       return { status: 200, body: learning };
     }
+    if (method === "GET" && path === "/api/dashboard/streak") {
+      return { status: 200, body: currentStreak };
+    }
 
     throw unhandled(method, path);
   });
+}
+
+function streak(
+  overrides: Partial<ApiTypes.DashboardStreakDto> = {},
+): ApiTypes.DashboardStreakDto {
+  return {
+    continuedToday: false,
+    days: 0,
+    ...overrides,
+  };
 }
 
 function reviewList(

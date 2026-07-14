@@ -51,6 +51,7 @@ export class LibraryController {
   @Post("items/:shlokaCode/complete-learning")
   async completeLearning(
     @Param("shlokaCode") shlokaCode: string,
+    @Body() body: ApiTypes.CompleteLearningRequestBody,
     @Headers("authorization") authorization: string | undefined,
     @Res({ passthrough: true }) response: { status(code: number): unknown },
   ): Promise<unknown> {
@@ -58,6 +59,7 @@ export class LibraryController {
       response,
       await this.handlers.completeLearning({
         ...withAuthorization(authorization),
+        body,
         shlokaCode,
       }),
     );

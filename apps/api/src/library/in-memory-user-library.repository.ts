@@ -28,6 +28,9 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
         ...(status.reviewingStartedAt
           ? { reviewingStartedAt: new Date(status.reviewingStartedAt) }
           : {}),
+        ...(status.reviewingStartedUserDay
+          ? { reviewingStartedUserDay: status.reviewingStartedUserDay }
+          : {}),
       }));
   }
 
@@ -41,6 +44,9 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
       return {
         kind: "already-reviewing",
         reviewingStartedAt: new Date(current.reviewingStartedAt),
+        ...(current.reviewingStartedUserDay
+          ? { reviewingStartedUserDay: current.reviewingStartedUserDay }
+          : {}),
       };
     }
     if (current?.status !== "learning") {
@@ -51,6 +57,7 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
     this.statuses.set(key, {
       createdAt: new Date(current.createdAt),
       reviewingStartedAt,
+      reviewingStartedUserDay: input.reviewingStartedUserDay,
       shlokaCode: input.shlokaCode,
       status: "reviewing",
     });
@@ -58,6 +65,7 @@ export class InMemoryUserLibraryRepository implements UserLibraryRepository {
     return {
       kind: "transitioned",
       reviewingStartedAt: new Date(reviewingStartedAt),
+      reviewingStartedUserDay: input.reviewingStartedUserDay,
     };
   }
 

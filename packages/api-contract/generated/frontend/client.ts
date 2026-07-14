@@ -145,9 +145,21 @@ export class ApiClient {
     });
   }
 
-  async completeLearning(shlokaCode: string): Promise<Types.CompleteLearningDto> {
+  async getStreak(timeZone: string): Promise<Types.DashboardStreakDto> {
+    const query = new URLSearchParams();
+    query.set("timeZone", String(timeZone));
+    const queryString = query.toString();
+    const path = "/api/dashboard/streak";
+
+    return this.#request<Types.DashboardStreakDto>(`${path}${queryString ? `?${queryString}` : ""}`, {
+      method: "GET"
+    });
+  }
+
+  async completeLearning(shlokaCode: string, request: Types.CompleteLearningRequestBody): Promise<Types.CompleteLearningDto> {
     return this.#request<Types.CompleteLearningDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}/complete-learning`, {
-      method: "POST"
+      method: "POST",
+      body: JSON.stringify(request)
     });
   }
 

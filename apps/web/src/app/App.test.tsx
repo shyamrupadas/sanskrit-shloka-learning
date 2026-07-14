@@ -359,6 +359,13 @@ function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
     return { status: 200, body: emptyDashboardLearningList };
   }
 
+  if (method === "GET" && path === "/api/dashboard/streak") {
+    return {
+      status: 200,
+      body: { continuedToday: false, days: 0 } satisfies ApiTypes.DashboardStreakDto,
+    };
+  }
+
   if (method === "GET" && path === "/api/account/settings") {
     return { status: 200, body: defaultSettings };
   }

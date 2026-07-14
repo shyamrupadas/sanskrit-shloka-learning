@@ -125,6 +125,9 @@ describe("app learn shloka flow", () => {
       }),
     ).toBeInTheDocument();
     expect(completionRequests).toHaveLength(1);
+    expect(completionRequests[0]?.body).toEqual({
+      timeZone: expect.any(String),
+    });
     expect(
       screen.getByRole("button", { name: "Выучить еще" }),
     ).toBeInTheDocument();
@@ -133,6 +136,11 @@ describe("app learn shloka flow", () => {
 
     await expectPath(routePaths.dashboard);
     expect(await screen.findByRole("navigation")).toBeInTheDocument();
+    expect(
+      screen.getByRole("status", {
+        name: "1 день подряд. Серия продолжена сегодня",
+      }),
+    ).toBeInTheDocument();
   });
 
   it.each([
@@ -231,6 +239,18 @@ function learningApi(
         items: [],
         remainingCount: 0,
       } satisfies ApiTypes.DashboardLearningShlokaListDto,
+    };
+  }
+  if (
+    request.method === "GET" &&
+    request.path === "/api/dashboard/streak"
+  ) {
+    return {
+      status: 200,
+      body: {
+        continuedToday: true,
+        days: 1,
+      } satisfies ApiTypes.DashboardStreakDto,
     };
   }
 

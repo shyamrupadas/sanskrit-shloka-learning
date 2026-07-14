@@ -1042,6 +1042,65 @@
         ]
       }
     },
+    "/api/dashboard/streak": {
+      "get": {
+        "operationId": "Dashboard_getStreak",
+        "parameters": [
+          {
+            "name": "timeZone",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardStreakDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
     "/api/library": {
       "get": {
         "operationId": "Library_getLibrary",
@@ -1281,7 +1340,17 @@
         },
         "tags": [
           "Library"
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SanskritShlokaLearning.CompleteLearningRequestBody"
+              }
+            }
+          }
+        }
       }
     },
     "/api/library/items/{shlokaCode}/complete-review": {
@@ -1642,6 +1711,17 @@
           }
         }
       },
+      "SanskritShlokaLearning.CompleteLearningRequestBody": {
+        "type": "object",
+        "required": [
+          "timeZone"
+        ],
+        "properties": {
+          "timeZone": {
+            "type": "string"
+          }
+        }
+      },
       "SanskritShlokaLearning.CompleteReviewRequest": {
         "type": "object",
         "required": [
@@ -1887,6 +1967,22 @@
           },
           "text": {
             "type": "string"
+          }
+        }
+      },
+      "SanskritShlokaLearning.DashboardStreakDto": {
+        "type": "object",
+        "required": [
+          "days",
+          "continuedToday"
+        ],
+        "properties": {
+          "days": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "continuedToday": {
+            "type": "boolean"
           }
         }
       },

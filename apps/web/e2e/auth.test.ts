@@ -183,7 +183,9 @@ for (const viewport of [
     await expect(longCard.getByText(mobileShlokaTranslation)).toHaveCount(0);
     await expectPageFitsViewport(page);
 
-    await longCard.getByRole("link", { name: mobileShlokaTitle }).click();
+    await longCard
+      .getByRole("link", { exact: true, name: mobileShlokaTitle })
+      .click();
     await expect(page).toHaveURL(/\/library\/shlokas\/mobile-long-shloka$/);
     await expect(
       page.getByRole("heading", { name: mobileShlokaTitle }),
@@ -488,6 +490,11 @@ async function mockApi(
       return;
     }
 
+    if (method === "GET" && url.pathname === "/api/dashboard/streak") {
+      await fulfillJson(route, 200, emptyDashboardStreak);
+      return;
+    }
+
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(route, 200, options.library ?? emptyLibrary);
       return;
@@ -550,6 +557,11 @@ const emptyDashboardLearningList = {
   items: [],
   remainingCount: 0,
 } satisfies ApiTypes.DashboardLearningShlokaListDto;
+
+const emptyDashboardStreak = {
+  continuedToday: false,
+  days: 0,
+} satisfies ApiTypes.DashboardStreakDto;
 
 const emptyLibrary = {
   defaultTab: "reviewing",

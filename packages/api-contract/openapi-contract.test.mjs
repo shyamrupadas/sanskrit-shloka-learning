@@ -40,13 +40,17 @@ describe("generated OpenAPI account settings contract", () => {
 });
 
 describe("generated OpenAPI learning contract", () => {
-  test("exposes the authenticated learning completion transition", async () => {
+  test("exposes the authenticated learning transition with the user timezone", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
     const operation = openApi.paths?.["/api/library/items/{shlokaCode}/complete-learning"]?.post;
 
     assert.ok(operation);
     assert.equal(operation.parameters?.[0]?.name, "shlokaCode");
     assert.equal(operation.parameters?.[1]?.name, "authorization");
+    assert.equal(
+      operation.requestBody?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.CompleteLearningRequestBody",
+    );
     assert.equal(
       operation.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
       "#/components/schemas/SanskritShlokaLearning.CompleteLearningDto",
@@ -105,6 +109,26 @@ describe("generated OpenAPI dashboard list contract", () => {
     assert.equal(
       review.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
       "#/components/schemas/SanskritShlokaLearning.DashboardReviewShlokaListDto",
+    );
+  });
+});
+
+describe("generated OpenAPI dashboard streak contract", () => {
+  test("exposes the authenticated streak query with the user timezone", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const operation = openApi.paths?.["/api/dashboard/streak"]?.get;
+
+    assert.ok(operation);
+    assert.deepEqual(
+      operation.parameters?.map(({ in: location, name, required }) => ({ location, name, required })),
+      [
+        { location: "query", name: "timeZone", required: true },
+        { location: "header", name: "authorization", required: false },
+      ],
+    );
+    assert.equal(
+      operation.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.DashboardStreakDto",
     );
   });
 });

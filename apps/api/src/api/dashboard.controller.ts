@@ -46,6 +46,21 @@ export class DashboardController {
       }),
     );
   }
+
+  @Get("streak")
+  async getStreak(
+    @Query("timeZone") timeZone: string | undefined,
+    @Headers("authorization") authorization: string | undefined,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(
+      response,
+      await this.handlers.getStreak({
+        ...withAuthorization(authorization),
+        timeZone: timeZone ?? "",
+      }),
+    );
+  }
 }
 
 function withAuthorization(authorization: string | undefined): { authorization?: string } {

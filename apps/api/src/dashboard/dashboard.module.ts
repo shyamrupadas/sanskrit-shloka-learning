@@ -9,6 +9,7 @@ import {
 } from "./dashboard.service.js";
 import { PostgresReviewHistoryRepository } from "./postgres-review-history.repository.js";
 import { REVIEW_HISTORY_REPOSITORY } from "./review-history.repository.js";
+import { STREAK_CLOCK, StreakService } from "./streak.service.js";
 
 @Module({
   imports: [CatalogModule, DatabaseModule, UserLibraryModule],
@@ -21,8 +22,13 @@ import { REVIEW_HISTORY_REPOSITORY } from "./review-history.repository.js";
       provide: DASHBOARD_CLOCK,
       useValue: () => new Date(),
     },
+    {
+      provide: STREAK_CLOCK,
+      useValue: () => new Date(),
+    },
     DashboardService,
+    StreakService,
   ],
-  exports: [DashboardService],
+  exports: [DashboardService, StreakService],
 })
 export class DashboardModule {}
