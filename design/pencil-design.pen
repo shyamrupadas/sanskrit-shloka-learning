@@ -5834,9 +5834,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "fontFamily": "$font-ui",
+                      "fontFamily": "$font-sanskrit",
                       "fontSize": "$typo-p1-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontWeight": "$type-weight-bold",
+                      "fontStyle": "Italic"
                     }
                   ]
                 },
@@ -6222,7 +6223,8 @@
                   "content": "дхарма-кшетре",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typo-p1-size",
-                  "fontWeight": "$type-weight-bold"
+                  "fontWeight": "$type-weight-bold",
+                  "fontStyle": "Italic"
                 },
                 {
                   "type": "text",
@@ -10289,9 +10291,10 @@
               "width": "fill_container",
               "content": "Бхагавад-гита 1.1",
               "lineHeight": 1.1,
-              "fontFamily": "$font",
+              "fontFamily": "$font-sanskrit",
               "fontSize": 26,
-              "fontWeight": "800"
+              "fontWeight": "800",
+              "fontStyle": "Italic"
             },
             {
               "type": "text",
@@ -10300,11 +10303,12 @@
               "fill": "$text",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
+              "content": "дхр̣тара̄шт̣ра ува̄ча",
               "lineHeight": 1.32,
-              "fontFamily": "$font",
+              "fontFamily": "$font-sanskrit",
               "fontSize": 22,
-              "fontWeight": "700"
+              "fontWeight": "700",
+              "fontStyle": "Italic"
             }
           ]
         },
@@ -10425,9 +10429,10 @@
               "width": "fill_container",
               "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
               "lineHeight": 1.32,
-              "fontFamily": "$font",
+              "fontFamily": "$font-sanskrit",
               "fontSize": 22,
-              "fontWeight": "800"
+              "fontWeight": "800",
+              "fontStyle": "Italic"
             },
             {
               "type": "frame",
@@ -10753,9 +10758,10 @@
                   "name": "Recall Title",
                   "fill": "$text",
                   "content": "Бхагавад-гита 1.1",
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "800",
+                  "fontStyle": "Italic"
                 },
                 {
                   "type": "text",
@@ -10959,9 +10965,10 @@
                   "name": "Recall Title",
                   "fill": "$text",
                   "content": "Бхагавад-гита 1.1",
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "800",
+                  "fontStyle": "Italic"
                 },
                 {
                   "type": "text",
@@ -10972,9 +10979,10 @@
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-...",
                   "lineHeight": 1.35,
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 21,
-                  "fontWeight": "700"
+                  "fontWeight": "700",
+                  "fontStyle": "Italic"
                 }
               ]
             },
@@ -11165,9 +11173,10 @@
                   "name": "Recall Title",
                   "fill": "$text",
                   "content": "Бхагавад-гита 1.1",
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "800",
+                  "fontStyle": "Italic"
                 },
                 {
                   "type": "text",
@@ -11178,9 +11187,10 @@
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\n...",
                   "lineHeight": 1.35,
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 21,
-                  "fontWeight": "700"
+                  "fontWeight": "700",
+                  "fontStyle": "Italic"
                 }
               ]
             },
@@ -11364,9 +11374,10 @@
                   "name": "Recall Title",
                   "fill": "$text",
                   "content": "Бхагавад-гита 1.1",
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "800",
+                  "fontStyle": "Italic"
                 },
                 {
                   "type": "text",
@@ -11377,9 +11388,10 @@
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах",
                   "lineHeight": 1.35,
-                  "fontFamily": "$font",
+                  "fontFamily": "$font-sanskrit",
                   "fontSize": 21,
-                  "fontWeight": "700"
+                  "fontWeight": "700",
+                  "fontStyle": "Italic"
                 }
               ]
             },
@@ -12963,9 +12975,10 @@
                                   "name": "Source Title / Бхагавад-гита",
                                   "fill": "$text",
                                   "content": "Бхагавад-гита",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 16,
-                                  "fontWeight": "800"
+                                  "fontWeight": "800",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "text",
@@ -13031,9 +13044,10 @@
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "2.47 Карманй эвадхикарас те",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
-                                  "fontWeight": "700"
+                                  "fontWeight": "700",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "icon",
@@ -13073,9 +13087,10 @@
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "4.7 Йада йада хи дхармасйа",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
-                                  "fontWeight": "700"
+                                  "fontWeight": "700",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "icon",
@@ -13132,9 +13147,10 @@
                                   "name": "Source Title / Иша Упанишада",
                                   "fill": "$text",
                                   "content": "Иша Упанишада",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 16,
-                                  "fontWeight": "800"
+                                  "fontWeight": "800",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "text",
@@ -13200,9 +13216,10 @@
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "Мантра 1 Ишавасйам идам сарвам",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
-                                  "fontWeight": "700"
+                                  "fontWeight": "700",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "icon",
@@ -13242,9 +13259,10 @@
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "Мантра 15 Хиранмайена патрена",
-                                  "fontFamily": "$font",
+                                  "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
-                                  "fontWeight": "700"
+                                  "fontWeight": "700",
+                                  "fontStyle": "Italic"
                                 },
                                 {
                                   "type": "icon",
@@ -13911,7 +13929,7 @@
     },
     "font-sanskrit": {
       "type": "string",
-      "value": "Inter"
+      "value": "Noto Serif"
     },
     "font-transliteration": {
       "type": "string",
