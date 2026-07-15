@@ -69,7 +69,7 @@ export function LearnShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   return (
     <section className="flex min-h-[calc(100dvh-2.5rem)] min-w-0 flex-1 flex-col">
       <div className="flex min-w-0 items-start justify-between gap-3">
-        <h1 className="break-words font-heading text-2xl leading-[1.2] font-extrabold [overflow-wrap:anywhere]">
+        <h1 className="font-sanskrit-title break-words text-2xl leading-[1.2] font-extrabold [overflow-wrap:anywhere]">
           {shlokaQuery.data.displayTitle}
         </h1>
         <Button
@@ -85,7 +85,7 @@ export function LearnShlokaPage({ shlokaCode }: { shlokaCode: string }) {
 
       <div
         aria-label={strings.shloka.canonicalText}
-        className="mt-4 break-words whitespace-pre-wrap font-[family-name:var(--font-family-sanskrit-token)] text-[length:var(--font-size-sanskrit)] leading-[1.32] font-extrabold [overflow-wrap:anywhere]"
+        className="font-sanskrit-text mt-4 break-words whitespace-pre-wrap text-[length:var(--font-size-sanskrit)] leading-[1.32] font-extrabold [overflow-wrap:anywhere]"
       >
         {shlokaQuery.data.text}
       </div>

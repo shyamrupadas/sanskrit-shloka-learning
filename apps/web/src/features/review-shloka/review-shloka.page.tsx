@@ -6,6 +6,8 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
+import { segmentGraphemes } from "@/shared/lib/unicode";
+import { cn } from "@/shared/lib/utils";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
@@ -193,12 +195,15 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
       </header>
 
       <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
-        <h2 className="break-words font-heading text-lg leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
+        <h2 className="font-sanskrit-title break-words text-lg leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
           {currentShloka.displayTitle}
         </h2>
         <div
           aria-label={recallBodyLabel(stage)}
-          className="break-words whitespace-pre-wrap font-[family-name:var(--font-family-sanskrit-token)] text-[21px] leading-[1.35] font-bold [overflow-wrap:anywhere]"
+          className={cn(
+            "break-words whitespace-pre-wrap text-[21px] leading-[1.35] font-bold [overflow-wrap:anywhere]",
+            stage !== "hidden" && "font-sanskrit-text",
+          )}
         >
           {recallBody(currentShloka.text, stage)}
         </div>
@@ -416,8 +421,8 @@ function recallBody(text: string, stage: ReviewStage): string {
 
   const firstLine = firstTextLine(text);
   if (stage === "hint-one") {
-    const characters = Array.from(firstLine);
-    return `${characters.slice(0, Math.ceil(characters.length / 2)).join("").trimEnd()}...`;
+    const graphemes = segmentGraphemes(firstLine);
+    return `${graphemes.slice(0, Math.ceil(graphemes.length / 2)).join("").trimEnd()}...`;
   }
   if (stage === "hint-two") {
     return `${firstLine}\n...`;

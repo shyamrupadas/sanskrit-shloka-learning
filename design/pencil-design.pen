@@ -5837,7 +5837,7 @@
                       "fontFamily": "$font-sanskrit",
                       "fontSize": "$typo-p1-size",
                       "fontWeight": "$type-weight-bold",
-                      "fontStyle": "Italic"
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -10294,7 +10294,7 @@
               "fontFamily": "$font-sanskrit",
               "fontSize": 26,
               "fontWeight": "800",
-              "fontStyle": "Italic"
+              "fontStyle": "Normal"
             },
             {
               "type": "text",
@@ -10761,7 +10761,7 @@
                   "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
                   "fontWeight": "800",
-                  "fontStyle": "Italic"
+                  "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
@@ -10968,7 +10968,7 @@
                   "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
                   "fontWeight": "800",
-                  "fontStyle": "Italic"
+                  "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
@@ -11176,7 +11176,7 @@
                   "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
                   "fontWeight": "800",
-                  "fontStyle": "Italic"
+                  "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
@@ -11377,7 +11377,7 @@
                   "fontFamily": "$font-sanskrit",
                   "fontSize": 18,
                   "fontWeight": "800",
-                  "fontStyle": "Italic"
+                  "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
@@ -12978,7 +12978,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 16,
                                   "fontWeight": "800",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "text",
@@ -13047,7 +13047,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
                                   "fontWeight": "700",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "icon",
@@ -13090,7 +13090,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
                                   "fontWeight": "700",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "icon",
@@ -13150,7 +13150,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 16,
                                   "fontWeight": "800",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "text",
@@ -13219,7 +13219,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
                                   "fontWeight": "700",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "icon",
@@ -13262,7 +13262,7 @@
                                   "fontFamily": "$font-sanskrit",
                                   "fontSize": 14,
                                   "fontWeight": "700",
-                                  "fontStyle": "Italic"
+                                  "fontStyle": "Normal"
                                 },
                                 {
                                   "type": "icon",

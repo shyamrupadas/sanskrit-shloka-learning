@@ -41,13 +41,13 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         />
       ) : (
         <article className="space-y-4">
-          <h1 className="break-words font-heading text-[26px] leading-[1.1] font-extrabold [overflow-wrap:anywhere]">
+          <h1 className="font-sanskrit-title break-words text-[26px] leading-[1.1] font-extrabold [overflow-wrap:anywhere]">
             {shlokaQuery.data.displayTitle}
           </h1>
 
           <div
             aria-label={strings.shloka.canonicalText}
-            className="break-words whitespace-pre-wrap font-[family-name:var(--font-family-sanskrit-token)] text-[length:var(--font-size-sanskrit)] leading-[1.32] font-bold [overflow-wrap:anywhere]"
+            className="font-sanskrit-text break-words whitespace-pre-wrap text-[length:var(--font-size-sanskrit)] leading-[1.32] font-bold [overflow-wrap:anywhere]"
           >
             {shlokaQuery.data.text}
           </div>

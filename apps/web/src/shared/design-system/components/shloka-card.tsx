@@ -44,7 +44,7 @@ export function ShlokaCard({
           params={{ shlokaCode }}
           to={openTo}
         >
-          <span className="block break-words text-[length:var(--font-size-body)] leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]">
+          <span className="font-sanskrit-title block break-words text-[length:var(--font-size-body)] leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]">
             {title}
           </span>
         </Link>

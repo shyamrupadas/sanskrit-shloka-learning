@@ -102,7 +102,7 @@ function SourceSection({
     <section className="min-w-0 space-y-2">
       <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-card-foreground shadow-[var(--shadow-low)]">
         <div className="min-w-0 space-y-1">
-          <h3 className="break-words text-base leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
+          <h3 className="font-sanskrit-title break-words text-base leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
             {source.title}
           </h3>
           <p className="break-words text-[length:var(--font-size-caption)] font-semibold text-muted-foreground [overflow-wrap:anywhere]">
@@ -132,10 +132,10 @@ function SourceSection({
               key={shloka.code}
             >
               <div className="min-w-0 flex-1 space-y-1">
-                <p className="truncate text-[length:var(--font-size-body-sm)] font-bold">
+                <p className="font-sanskrit-title truncate text-[length:var(--font-size-body-sm)] font-bold">
                   {getShlokaLocation(source, shloka)}
                 </p>
-                <p className="truncate text-[length:var(--font-size-meta)] text-muted-foreground">
+                <p className="font-sanskrit-text truncate text-[length:var(--font-size-meta)] text-muted-foreground">
                   {getShlokaExcerpt(shloka.text)}
                 </p>
               </div>

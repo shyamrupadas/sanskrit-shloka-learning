@@ -1,5 +1,7 @@
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { segmentGraphemes } from "@/shared/lib/unicode";
+
 export function getSourceCaption(
   source: ApiTypes.AdminCatalogSourceDto,
 ): string {
@@ -38,7 +40,11 @@ export function getShlokaLocation(
 
 export function getShlokaExcerpt(text: string): string {
   const excerpt = text.replaceAll(/\s+/g, " ").trim();
-  return excerpt.length > 96 ? `${excerpt.slice(0, 93)}...` : excerpt;
+  const graphemes = segmentGraphemes(excerpt);
+
+  return graphemes.length > 96
+    ? `${graphemes.slice(0, 93).join("")}...`
+    : excerpt;
 }
 
 function formatRuCount(

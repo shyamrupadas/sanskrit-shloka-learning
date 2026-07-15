@@ -224,8 +224,8 @@ export const designTokens = {
         cssValue: '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',
         cssVariable: "--font-family-heading-token",
       }),
-      sanskrit: fromPencil("Inter", "font-sanskrit", {
-        cssValue: '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',
+      sanskrit: fromPencil("Noto Serif", "font-sanskrit", {
+        cssValue: '"Noto Serif", ui-serif, Georgia, serif',
         cssVariable: "--font-family-sanskrit-token",
       }),
       transliteration: fromPencil("Inter", "font-transliteration"),

@@ -30,6 +30,15 @@ const shlokas = [
   },
 ] satisfies ApiTypes.LibraryShlokaDto[];
 
+const diacriticShloka = {
+  code: "bhagavata-1-1",
+  displayTitle: "Бха̄гавата-пура̄н̣а 1.1",
+  sourceTitle: "Бха̄гавата-пура̄н̣а",
+  number: "1.1",
+  text: "дхр̣тара̄шт̣ра ува̄ча",
+  personalStatus: "available",
+} satisfies ApiTypes.LibraryShlokaDto;
+
 describe("library rules", () => {
   it.each([
     ["reviewing", ["amrita-1"]],
@@ -51,6 +60,18 @@ describe("library rules", () => {
         (shloka) => shloka.code,
       ),
     ).toEqual(expectedCodes);
+  });
+
+  it.each([
+    "бхагавата-пурана",
+    "БХАГАВАТА-ПУРАНА",
+    "Бха̄гавата-пура̄н̣а",
+  ])("matches titles by %s without changing the result", (searchQuery) => {
+    const result = getVisibleShlokas("all", [diacriticShloka], searchQuery);
+
+    expect(result).toEqual([diacriticShloka]);
+    expect(result[0]).toBe(diacriticShloka);
+    expect(result[0]?.displayTitle).toBe("Бха̄гавата-пура̄н̣а 1.1");
   });
 
   it("returns the add action only for an available shloka on the all tab", () => {

@@ -1,5 +1,7 @@
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import { normalizeForSearch } from "@/shared/lib/unicode";
+
 export type LibraryCardAction =
   | { kind: "start-learning" }
   | { kind: "start-review" }
@@ -21,13 +23,13 @@ export function getVisibleShlokas(
     return shlokas.filter((shloka) => shloka.personalStatus === "learning");
   }
 
-  const normalizedSearch = normalizeSearch(searchQuery);
+  const normalizedSearch = normalizeForSearch(searchQuery);
   if (!normalizedSearch) {
     return shlokas;
   }
 
   return shlokas.filter((shloka) =>
-    normalizeSearch(
+    normalizeForSearch(
       `${shloka.displayTitle} ${shloka.sourceTitle} ${shloka.number}`,
     ).includes(normalizedSearch),
   );
@@ -60,8 +62,4 @@ export function getLibraryCardActions(
   }
 
   return [];
-}
-
-function normalizeSearch(value: string): string {
-  return value.trim().toLocaleLowerCase("ru");
 }

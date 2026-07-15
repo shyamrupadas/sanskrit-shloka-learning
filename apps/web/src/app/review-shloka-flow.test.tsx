@@ -121,6 +121,32 @@ describe("app review shloka flow", () => {
     await expectPath(routePaths.dashboard);
   });
 
+  it("reveals hints without splitting decomposed grapheme clusters", async () => {
+    const user = userEvent.setup();
+    const text = "дхр̣тара̄шт̣ра ува̄ча\nвторая строка";
+    const shloka = reviewShloka({
+      code: "bhagavata-1-1",
+      displayTitle: "Бха̄гавата-пура̄н̣а 1.1",
+      text,
+    });
+    const api = createReviewApi([shloka]);
+    mockApi(api.handle);
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/bhagavata-1-1/review");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Нужна подсказка" }),
+    );
+    expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
+      "дхр̣тара̄шт̣...",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Ещё подсказка" }));
+    expect(screen.getByLabelText("Канонический текст шлоки").textContent).toBe(
+      "дхр̣тара̄шт̣ра ува̄ча\n...",
+    );
+  });
+
   it("starts from the dashboard, advances through its snapshot, and finishes the day", async () => {
     const user = userEvent.setup();
     const api = createReviewApi([firstShloka, secondShloka]);
