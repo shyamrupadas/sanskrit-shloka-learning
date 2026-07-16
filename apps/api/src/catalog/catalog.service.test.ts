@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
+import { DatabaseUnavailableError } from "../database/database.service.js";
 import {
   type CatalogRepository,
   type CreateShlokaRecordInput,
@@ -68,7 +69,7 @@ describe("CatalogService", () => {
     assert.deepEqual(repository.calls, ["listSources", "listLibraryShlokas"]);
   });
 
-  test("uses stale cached admin catalog when refresh fails with a transient error", async () => {
+  test("fails closed for expired admin catalog data when database refresh fails", async () => {
     const repository = new ConfigurableCatalogRepository();
     const service = new CatalogService(repository);
 
@@ -96,11 +97,11 @@ describe("CatalogService", () => {
     const cached = adminCatalogCache(service);
     assert.ok(cached);
     cached.freshUntil = Date.now() - 1;
-    cached.staleUntil = Date.now() + 60_000;
-    repository.listSourcesResult = Promise.reject(new Error("Query read timeout"));
-    repository.listLibraryShlokasResult = Promise.reject(new Error("Query read timeout"));
+    const databaseError = new DatabaseUnavailableError();
+    repository.listSourcesResult = Promise.reject(databaseError);
+    repository.listLibraryShlokasResult = Promise.reject(databaseError);
 
-    assert.deepEqual(await service.getAdminCatalog(), cached.value);
+    await assert.rejects(service.getAdminCatalog(), (error) => error === databaseError);
     assert.equal(repository.sourceReads, 2);
     assert.equal(repository.shlokaReads, 2);
   });
@@ -142,7 +143,7 @@ describe("CatalogService", () => {
     assert.ok(cached);
     cached.freshUntil = Date.now() - 1;
     cached.staleUntil = Date.now() + 60_000;
-    repository.listLibraryShlokasResult = Promise.reject(new Error("Query read timeout"));
+    repository.listLibraryShlokasResult = Promise.reject(new DatabaseUnavailableError());
 
     assert.deepEqual(await service.listLibraryShlokas(), cached.value);
     assert.equal(repository.shlokaReads, 2);
@@ -316,7 +317,6 @@ class Deferred<T> {
 function adminCatalogCache(service: CatalogService):
   | {
       freshUntil: number;
-      staleUntil: number;
       value: {
         sources: unknown[];
       };
@@ -326,7 +326,6 @@ function adminCatalogCache(service: CatalogService):
     adminCatalogCache:
       | {
           freshUntil: number;
-          staleUntil: number;
           value: {
             sources: unknown[];
           };

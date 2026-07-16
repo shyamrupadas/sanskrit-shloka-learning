@@ -9,6 +9,7 @@ import {
   type CreateSessionInput,
   type UpdateAccountSettingsInput,
 } from "../accounts/account.repository.js";
+import { DatabaseUnavailableError } from "../database/database.service.js";
 import { AuthService } from "./auth.service.js";
 import { PasswordHasher } from "./password-hasher.js";
 import { hashAccessToken } from "./token.js";
@@ -61,7 +62,7 @@ describe("AuthService lookupSession", () => {
     assert.deepEqual(await third, { account: accountRecord, accessToken: "shared-token" });
   });
 
-  test("uses a stale cached session when refresh fails with a transient error", async () => {
+  test("fails closed instead of using an expired session when database refresh fails", async () => {
     const accounts = new DeferredAccountRepository();
     const auth = new AuthService(accounts, {} as PasswordHasher);
     const authorization = "Bearer shared-token";
@@ -76,15 +77,40 @@ describe("AuthService lookupSession", () => {
     const cached = sessionCache(auth).get(tokenHash);
     assert.ok(cached);
     cached.freshUntil = Date.now() - 1;
-    cached.staleUntil = Date.now() + 60_000;
 
     const refreshed = auth.lookupSession(authorization);
     assert.equal(accounts.lookups.length, 2);
     const secondLookup = accounts.lookups[1];
     assert.ok(secondLookup);
-    secondLookup.deferred.reject(new Error("Query read timeout"));
+    const databaseError = new DatabaseUnavailableError();
+    secondLookup.deferred.reject(databaseError);
 
-    assert.deepEqual(await refreshed, { account: accountRecord, accessToken: "shared-token" });
+    await assert.rejects(refreshed, (error) => error === databaseError);
+    assert.equal(sessionCache(auth).has(tokenHash), false);
+  });
+
+  test("bounds the fresh cache and purges expired entries", async () => {
+    const accounts = new ImmediateAccountRepository();
+    const auth = new AuthService(accounts, {} as PasswordHasher);
+
+    for (let index = 0; index <= 1_000; index += 1) {
+      await auth.lookupSession(`Bearer token-${index}`);
+    }
+
+    const cache = sessionCache(auth);
+    assert.equal(cache.size, 1_000);
+    assert.equal(cache.has(hashAccessToken("token-0")), false);
+    assert.equal(cache.has(hashAccessToken("token-1000")), true);
+
+    const expiringTokenHash = hashAccessToken("token-500");
+    const expiring = cache.get(expiringTokenHash);
+    assert.ok(expiring);
+    expiring.freshUntil = Date.now() - 1;
+
+    await auth.lookupSession("Bearer cache-cleanup-trigger");
+
+    assert.equal(cache.has(expiringTokenHash), false);
+    assert.equal(cache.size, 1_000);
   });
 });
 
@@ -132,6 +158,15 @@ class DeferredAccountRepository implements AccountRepository {
   }
 }
 
+class ImmediateAccountRepository extends DeferredAccountRepository {
+  override async findAccountBySessionTokenHash(
+    _tokenHash: string,
+    _now: Date,
+  ): Promise<AccountRecord | undefined> {
+    return accountRecord;
+  }
+}
+
 class Deferred<T> {
   readonly promise: Promise<T>;
   reject!: (error: unknown) => void;
@@ -153,7 +188,6 @@ function sessionCache(auth: AuthService): Map<
       account: AccountRecord;
       accessToken: string;
     };
-    staleUntil: number;
   }
 > {
   return (auth as unknown as {
@@ -165,7 +199,6 @@ function sessionCache(auth: AuthService): Map<
           account: AccountRecord;
           accessToken: string;
         };
-        staleUntil: number;
       }
     >;
   }).sessionCache;

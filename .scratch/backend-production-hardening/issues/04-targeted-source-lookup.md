@@ -28,4 +28,4 @@ Dashboard, streak, review ranking, полные пользовательские
 
 ## Заблокировано
 
-- `.scratch/backend-production-hardening/issues/02-neon-runtime-failure-safety.md`
+Нет - можно начинать сразу

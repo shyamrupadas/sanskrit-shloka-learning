@@ -53,7 +53,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
 
   async createSource(input: CreateSourceRecordInput): Promise<SourceRecord> {
     try {
-      await this.database.query(
+      await this.database.writeQuery(
         `
           with created_source as (
             insert into shloka_sources (code, title, description, structure_type)
@@ -101,7 +101,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
 
   async createShloka(input: CreateShlokaRecordInput): Promise<ShlokaRecord> {
     try {
-      await this.database.query(
+      await this.database.writeQuery(
         `
           with created_shloka as (
             insert into shlokas (
@@ -142,7 +142,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listSources(): Promise<SourceRecord[]> {
-    const result = await this.database.fastReadQuery<SourceRow>(`
+    const result = await this.database.readQuery<SourceRow>(`
       with root_chapters as (
         select
           source_chapters.source_code,
@@ -213,7 +213,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async getShloka(code: string): Promise<ShlokaRecord | undefined> {
-    const result = await this.database.fastReadQuery<ShlokaRow>(
+    const result = await this.database.readQuery<ShlokaRow>(
       libraryShlokasQuery("where shlokas.code = $1"),
       [code],
     );
@@ -221,7 +221,7 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listLibraryShlokas(): Promise<ShlokaRecord[]> {
-    const result = await this.database.fastReadQuery<ShlokaRow>(libraryShlokasQuery());
+    const result = await this.database.readQuery<ShlokaRow>(libraryShlokasQuery());
 
     return result.rows.map(mapShloka);
   }

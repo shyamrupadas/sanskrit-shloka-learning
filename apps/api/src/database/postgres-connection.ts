@@ -4,27 +4,29 @@ export interface PostgresConnectionOptions {
   connectionTimeoutMillis?: number;
   keepAlive?: boolean;
   keepAliveInitialDelayMillis?: number;
-  lockTimeoutMillis?: number;
-  maxLifetimeSeconds?: number;
   queryTimeoutMillis?: number;
-  statementTimeoutMillis?: number;
+}
+
+export interface PostgresPoolOptions extends PostgresConnectionOptions {
+  max: number;
 }
 
 const defaultConnectionOptions = {
   connectionTimeoutMillis: 10_000,
   keepAlive: true,
   keepAliveInitialDelayMillis: 10_000,
-  lockTimeoutMillis: 10_000,
-  maxLifetimeSeconds: 60,
   queryTimeoutMillis: 30_000,
-  statementTimeoutMillis: 30_000,
 } satisfies Required<PostgresConnectionOptions>;
 
 export function createPoolConfig(
   databaseUrl: string,
-  options: PostgresConnectionOptions = {},
+  options: PostgresPoolOptions,
 ): pg.PoolConfig {
-  return createConnectionConfig(databaseUrl, options);
+  return {
+    ...createConnectionConfig(databaseUrl, options),
+    max: options.max,
+    min: 0,
+  };
 }
 
 export function createConnectionConfig(
@@ -37,14 +39,11 @@ export function createConnectionConfig(
     connectionTimeoutMillis: resolvedOptions.connectionTimeoutMillis,
     keepAlive: resolvedOptions.keepAlive,
     keepAliveInitialDelayMillis: resolvedOptions.keepAliveInitialDelayMillis,
-    lock_timeout: resolvedOptions.lockTimeoutMillis,
-    maxLifetimeSeconds: resolvedOptions.maxLifetimeSeconds,
     query_timeout: resolvedOptions.queryTimeoutMillis,
-    statement_timeout: resolvedOptions.statementTimeoutMillis,
   };
 
   if (shouldUseSsl(databaseUrl)) {
-    config.ssl = true;
+    config.ssl = { rejectUnauthorized: true };
   }
 
   return config;
@@ -66,7 +65,14 @@ export function resolveMigrationDatabaseUrl(databaseUrl: string): string {
 }
 
 function shouldUseSsl(databaseUrl: string): boolean {
-  return databaseUrl.includes("sslmode=require") || databaseUrl.includes("neon.tech");
+  const url = new URL(databaseUrl);
+  const sslMode = url.searchParams.get("sslmode");
+
+  return (
+    url.hostname === "neon.tech" ||
+    url.hostname.endsWith(".neon.tech") ||
+    (sslMode !== null && sslMode !== "disable")
+  );
 }
 
 function stripSslMode(databaseUrl: string): string {

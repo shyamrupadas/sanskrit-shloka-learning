@@ -29,7 +29,7 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
   async clearShlokaStatus(input: ClearUserShlokaStatusInput): Promise<boolean> {
-    const result = await this.database.idempotentWriteQuery(
+    const result = await this.database.writeQuery(
       `
         delete from user_shlokas
         where account_id = $1 and shloka_code = $2 and status = 'learning'
@@ -41,7 +41,7 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   }
 
   async listShlokaStatuses(accountId: string): Promise<UserShlokaStatusRecord[]> {
-    const result = await this.database.fastReadQuery<UserShlokaStatusRow>(
+    const result = await this.database.readQuery<UserShlokaStatusRow>(
       `
         select
           shloka_code,
@@ -61,7 +61,7 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   async markShlokaLearned(
     input: MarkShlokaLearnedInput,
   ): Promise<MarkShlokaLearnedResult> {
-    const result = await this.database.idempotentWriteQuery<MarkShlokaLearnedRow>(
+    const result = await this.database.writeQuery<MarkShlokaLearnedRow>(
       `
         with transitioned as (
           update user_shlokas
@@ -113,7 +113,7 @@ export class PostgresUserLibraryRepository implements UserLibraryRepository {
   }
 
   async setShlokaStatus(input: SetUserShlokaStatusInput): Promise<void> {
-    await this.database.idempotentWriteQuery(
+    await this.database.writeQuery(
       `
         insert into user_shlokas (
           account_id,

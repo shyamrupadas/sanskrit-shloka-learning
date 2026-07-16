@@ -5,6 +5,7 @@ import { ApiConfigurationError, loadApiConfig } from "./env.js";
 
 const productionEnvironment = {
   DATABASE_DIRECT_URL: "postgresql://api:direct-secret@ep-direct.neon.tech/app?sslmode=require",
+  DATABASE_POOL_MAX: "7",
   DATABASE_URL: "postgresql://api:pool-secret@ep-pooler.neon.tech/app?sslmode=require",
   FRONTEND_ORIGIN: "https://app.example.com",
   NODE_ENV: "production",
@@ -25,6 +26,7 @@ describe("loadApiConfig", () => {
     assert.equal(dotenvLoads, 0);
     assert.deepEqual(apiConfig, {
       databaseDirectUrl: productionEnvironment.DATABASE_DIRECT_URL,
+      databasePoolMax: 7,
       databaseUrl: productionEnvironment.DATABASE_URL,
       environment: "production",
       frontendOrigin: "https://app.example.com",
@@ -68,6 +70,7 @@ describe("loadApiConfig", () => {
       assert.equal(apiConfig.environment, mode);
       assert.equal(apiConfig.port, 3100);
       assert.equal(apiConfig.frontendOrigin, "http://localhost:5173");
+      assert.equal(apiConfig.databasePoolMax, 5);
       assert.equal(
         apiConfig.databaseDirectUrl,
         "postgresql://postgres:postgres@localhost:5432/sanskrit_shloka_learning",
@@ -80,6 +83,7 @@ describe("loadApiConfig", () => {
     const invalidEnvironments: Array<[string, NodeJS.ProcessEnv, RegExp]> = [
       ["mode", { ...productionEnvironment, NODE_ENV: "staging" }, /NODE_ENV/],
       ["port", { ...productionEnvironment, PORT: "3000oops" }, /PORT/],
+      ["pool maximum", { ...productionEnvironment, DATABASE_POOL_MAX: "0" }, /DATABASE_POOL_MAX/],
       [
         "origin path",
         { ...productionEnvironment, FRONTEND_ORIGIN: "https://app.example.com/login" },

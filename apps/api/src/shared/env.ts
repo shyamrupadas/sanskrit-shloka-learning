@@ -7,6 +7,7 @@ export type ApiEnvironment = "development" | "test" | "production";
 
 export interface ApiConfig {
   databaseDirectUrl: string;
+  databasePoolMax: number;
   databaseUrl: string;
   environment: ApiEnvironment;
   frontendOrigin: string;
@@ -20,6 +21,7 @@ interface ApiConfigDependencies {
 }
 
 const localDefaults = {
+  databasePoolMax: "5",
   databaseUrl: "postgresql://postgres:postgres@localhost:5432/sanskrit_shloka_learning",
   frontendOrigin: "http://localhost:5173",
   port: "3000",
@@ -63,6 +65,12 @@ export function loadApiConfig(
     production ? undefined : localDefaults.databaseUrl,
     issues,
   );
+  const databasePoolMaxValue = requiredValue(
+    environment.DATABASE_POOL_MAX,
+    "DATABASE_POOL_MAX",
+    localDefaults.databasePoolMax,
+    issues,
+  );
   const databaseDirectUrlValue = requiredValue(
     environment.DATABASE_DIRECT_URL,
     "DATABASE_DIRECT_URL",
@@ -73,6 +81,7 @@ export function loadApiConfig(
   const port = parsePort(portValue, issues);
   const frontendOrigin = parseFrontendOrigin(originValue, issues);
   const databaseUrl = parseDatabaseUrl(databaseUrlValue, "DATABASE_URL", issues);
+  const databasePoolMax = parseDatabasePoolMax(databasePoolMaxValue, issues);
   const databaseDirectUrl = parseDatabaseUrl(
     databaseDirectUrlValue,
     "DATABASE_DIRECT_URL",
@@ -91,6 +100,7 @@ export function loadApiConfig(
     issues.length > 0 ||
     port === undefined ||
     frontendOrigin === undefined ||
+    databasePoolMax === undefined ||
     databaseUrl === undefined ||
     databaseDirectUrl === undefined
   ) {
@@ -99,6 +109,7 @@ export function loadApiConfig(
 
   const apiConfig: ApiConfig = {
     databaseDirectUrl,
+    databasePoolMax,
     databaseUrl,
     environment: mode,
     frontendOrigin,
@@ -166,6 +177,22 @@ function parsePort(value: string | undefined, issues: string[]): number | undefi
   }
 
   return port;
+}
+
+function parseDatabasePoolMax(
+  value: string | undefined,
+  issues: string[],
+): number | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (!/^[1-9]\d{0,2}$/.test(value)) {
+    issues.push("DATABASE_POOL_MAX must be an integer between 1 and 999");
+    return undefined;
+  }
+
+  return Number(value);
 }
 
 function parseFrontendOrigin(value: string | undefined, issues: string[]): string | undefined {
@@ -251,6 +278,7 @@ function applyConfigToEnvironment(apiConfig: ApiConfig, environment: NodeJS.Proc
   environment.NODE_ENV = apiConfig.environment;
   environment.PORT = String(apiConfig.port);
   environment.FRONTEND_ORIGIN = apiConfig.frontendOrigin;
+  environment.DATABASE_POOL_MAX = String(apiConfig.databasePoolMax);
   environment.DATABASE_URL = apiConfig.databaseUrl;
   environment.DATABASE_DIRECT_URL = apiConfig.databaseDirectUrl;
 }

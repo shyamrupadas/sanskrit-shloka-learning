@@ -1,6 +1,7 @@
 # Сделать runtime-работу с Neon предсказуемой при сбоях
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-16
 
 ## Родитель
 

@@ -6,18 +6,19 @@ import type { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 import { AppModule } from "./app.module.js";
-import { ApiConfigurationError, loadApiConfig } from "./shared/env.js";
+import { type ApiConfig, ApiConfigurationError, loadApiConfig } from "./shared/env.js";
 import { configureHttpGuardrails } from "./shared/http-guardrails.js";
 
 interface BootstrapDependencies {
-  createApplication?: () => Promise<INestApplication>;
+  createApplication?: (apiConfig: ApiConfig) => Promise<INestApplication>;
   environment?: NodeJS.ProcessEnv;
 }
 
 export async function bootstrap(dependencies: BootstrapDependencies = {}): Promise<void> {
   const apiConfig = loadApiConfig(dependencies.environment ?? process.env);
-  const createApplication = dependencies.createApplication ?? (() => NestFactory.create(AppModule));
-  const app = await createApplication();
+  const createApplication = dependencies.createApplication ??
+    ((config) => NestFactory.create(AppModule.forRoot(config)));
+  const app = await createApplication(apiConfig);
 
   configureHttpGuardrails(app, apiConfig);
   await app.listen(apiConfig.port, apiConfig.host);

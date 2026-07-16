@@ -18,9 +18,7 @@ export async function migrate(): Promise<void> {
 
   const databaseUrl = resolveMigrationDatabaseUrl(apiConfig.databaseUrl);
   const connectionConfig = createConnectionConfig(databaseUrl, migrationConnectionOptions);
-  delete connectionConfig.lock_timeout;
   delete connectionConfig.query_timeout;
-  delete connectionConfig.statement_timeout;
   const client = new Client(connectionConfig);
   let connected = false;
   let closing = false;

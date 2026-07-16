@@ -237,8 +237,8 @@ describe("PostgresCatalogRepository", () => {
     assert.equal(sourceReadQuery.includes("where source_parts.source_code = shloka_sources.code"), false);
   });
 
-  test("loads source hierarchy through fast read queries", async () => {
-    const database = new TimeoutSensitiveReadDatabase();
+  test("loads source hierarchy through safe read queries", async () => {
+    const database = new ReadTrackingDatabase();
     const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
 
     await repository.createSource({
@@ -255,12 +255,11 @@ describe("PostgresCatalogRepository", () => {
       sources.map((source) => source.code),
       ["gita"],
     );
-    assert.equal(database.readQueryAttempts, 0);
-    assert.equal(database.fastReadQueryAttempts, 1);
+    assert.equal(database.readQueryAttempts, 1);
   });
 
-  test("loads library shlokas through fast read queries", async () => {
-    const database = new TimeoutSensitiveReadDatabase();
+  test("loads library shlokas through safe read queries", async () => {
+    const database = new ReadTrackingDatabase();
     const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
 
     await repository.createSource({
@@ -289,12 +288,11 @@ describe("PostgresCatalogRepository", () => {
       shlokas.map((shloka) => shloka.code),
       ["gita-chapter-1-1"],
     );
-    assert.equal(database.readQueryAttempts, 0);
-    assert.equal(database.fastReadQueryAttempts, 1);
+    assert.equal(database.readQueryAttempts, 1);
   });
 
-  test("loads one shloka through a targeted fast read query", async () => {
-    const database = new TimeoutSensitiveReadDatabase();
+  test("loads one shloka through a targeted safe read query", async () => {
+    const database = new ReadTrackingDatabase();
     const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
 
     await repository.createSource({
@@ -321,8 +319,7 @@ describe("PostgresCatalogRepository", () => {
 
     assert.equal(shloka?.code, "gita-chapter-1-1");
     assert.equal(shloka?.displayTitle, "Persisted display title");
-    assert.equal(database.readQueryAttempts, 0);
-    assert.equal(database.fastReadQueryAttempts, 1);
+    assert.equal(database.readQueryAttempts, 1);
     assert.ok(database.directQueries.some((query) => query.includes("where shlokas.code = $1")));
   });
 });
@@ -338,7 +335,7 @@ class TransactionTrackingDatabase {
   private readonly shlokas = new Map<string, ShlokaRowSeed>();
   private readonly padas = new Map<string, string[]>();
 
-  async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+  async writeQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
     values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
@@ -367,14 +364,7 @@ class TransactionTrackingDatabase {
     text: string,
     values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
-    return this.query<Row>(text, values);
-  }
-
-  async fastReadQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
-    text: string,
-    values: readonly unknown[] = [],
-  ): Promise<pg.QueryResult<Row>> {
-    return this.query<Row>(text, values);
+    return this.writeQuery<Row>(text, values);
   }
 
   async transaction<T>(operation: (client: DatabaseExecutor) => Promise<T>): Promise<T> {
@@ -607,24 +597,15 @@ class TransactionTrackingDatabase {
   }
 }
 
-class TimeoutSensitiveReadDatabase extends TransactionTrackingDatabase {
-  fastReadQueryAttempts = 0;
+class ReadTrackingDatabase extends TransactionTrackingDatabase {
   readQueryAttempts = 0;
 
   override async readQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
-    _text: string,
-    _values: readonly unknown[] = [],
-  ): Promise<pg.QueryResult<Row>> {
-    this.readQueryAttempts += 1;
-    throw new Error("Query read timeout");
-  }
-
-  override async fastReadQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
     values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
-    this.fastReadQueryAttempts += 1;
-    return super.fastReadQuery<Row>(text, values);
+    this.readQueryAttempts += 1;
+    return super.readQuery<Row>(text, values);
   }
 }
 

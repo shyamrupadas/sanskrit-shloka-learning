@@ -37,6 +37,7 @@ class GuardrailTestModule {}
 
 const apiConfig = {
   databaseDirectUrl: "postgresql://api:direct-secret@ep-direct.neon.tech/app",
+  databasePoolMax: 5,
   databaseUrl: "postgresql://api:pool-secret@ep-pooler.neon.tech/app",
   environment: "production",
   frontendOrigin: "https://app.example.com",

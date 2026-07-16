@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { notFoundError, validationError } from "../auth/api-error.js";
+import { DatabaseUnavailableError } from "../database/database.service.js";
 import {
   CATALOG_REPOSITORY,
   CatalogConflictError,
@@ -20,7 +21,6 @@ const shlokaPadasRequiredMessage = "Заполните все четыре па�
 
 interface CachedAdminCatalog {
   freshUntil: number;
-  staleUntil: number;
   value: ApiTypes.AdminCatalogDto;
 }
 
@@ -84,35 +84,22 @@ export class CatalogService {
       return this.adminCatalogCache.value;
     }
 
-    try {
-      const [sources, shlokas] = await Promise.all([
-        this.catalog.listSources(),
-        this.catalog.listLibraryShlokas(),
-      ]);
-      const sortedShlokas = shlokas.sort(compareShlokas);
-      const catalog = {
-        sources: sources.map((source) => ({
-          ...toAdminSource(source),
-          shlokas: sortedShlokas
-            .filter((shloka) => shloka.sourceCode === source.code)
-            .map(toAdminCatalogShloka),
-        })),
-      };
+    const [sources, shlokas] = await Promise.all([
+      this.catalog.listSources(),
+      this.catalog.listLibraryShlokas(),
+    ]);
+    const sortedShlokas = shlokas.sort(compareShlokas);
+    const catalog = {
+      sources: sources.map((source) => ({
+        ...toAdminSource(source),
+        shlokas: sortedShlokas
+          .filter((shloka) => shloka.sourceCode === source.code)
+          .map(toAdminCatalogShloka),
+      })),
+    };
 
-      this.setAdminCatalogCache(catalog);
-      return catalog;
-    } catch (error) {
-      if (
-        this.adminCatalogCache &&
-        this.adminCatalogCache.staleUntil > Date.now() &&
-        isTransientCatalogReadError(error)
-      ) {
-        this.logger.warn(`Using cached admin catalog after transient read error: ${errorMessage(error)}`);
-        return this.adminCatalogCache.value;
-      }
-
-      throw error;
-    }
+    this.setAdminCatalogCache(catalog);
+    return catalog;
   }
 
   async getAdminSource(
@@ -232,9 +219,9 @@ export class CatalogService {
       if (
         this.libraryShlokasCache &&
         this.libraryShlokasCache.staleUntil > Date.now() &&
-        isTransientCatalogReadError(error)
+        error instanceof DatabaseUnavailableError
       ) {
-        this.logger.warn(`Using cached library shlokas after transient read error: ${errorMessage(error)}`);
+        this.warnPublicStaleFallback(error);
         return cloneLibraryShlokas(this.libraryShlokasCache.value);
       }
 
@@ -257,9 +244,9 @@ export class CatalogService {
         cachedShloka &&
         this.libraryShlokasCache &&
         this.libraryShlokasCache.staleUntil > Date.now() &&
-        isTransientCatalogReadError(error)
+        error instanceof DatabaseUnavailableError
       ) {
-        this.logger.warn(`Using cached library shloka after transient read error: ${errorMessage(error)}`);
+        this.warnPublicStaleFallback(error);
         return cloneLibraryShloka(cachedShloka);
       }
 
@@ -320,7 +307,6 @@ export class CatalogService {
     const now = Date.now();
     this.adminCatalogCache = {
       freshUntil: now + catalogCacheFreshTtlMs,
-      staleUntil: now + catalogCacheStaleTtlMs,
       value,
     };
   }
@@ -345,6 +331,14 @@ export class CatalogService {
 
   private clearLibraryShlokasCache(): void {
     this.libraryShlokasCache = undefined;
+  }
+
+  private warnPublicStaleFallback(error: DatabaseUnavailableError): void {
+    this.logger.warn(JSON.stringify({
+      category: error.category,
+      event: "catalog_public_stale_fallback",
+      level: "warn",
+    }));
   }
 }
 
@@ -832,34 +826,4 @@ function conflictError(message: string): ApiTypes.ApiError {
     code: "VALIDATION_ERROR",
     message,
   };
-}
-
-function isTransientCatalogReadError(error: unknown): boolean {
-  const code = errorCode(error);
-  if (code && ["57P01", "08003", "08006"].includes(code)) {
-    return true;
-  }
-
-  const message = errorMessage(error);
-  return (
-    message === "Query read timeout" ||
-    message.includes("Connection terminated") ||
-    message.includes("Client has encountered a connection error") ||
-    message.includes("terminating connection due to administrator command") ||
-    message.includes("Couldn't connect to compute node") ||
-    message.includes("network issue") ||
-    message.includes("early eof")
-  );
-}
-
-function errorCode(error: unknown): string | undefined {
-  if (typeof error !== "object" || error === null || !("code" in error)) {
-    return undefined;
-  }
-
-  return typeof error.code === "string" ? error.code : undefined;
-}
-
-function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
 }

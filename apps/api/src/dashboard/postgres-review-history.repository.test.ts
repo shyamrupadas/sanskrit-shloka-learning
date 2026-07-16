@@ -10,7 +10,7 @@ describe("PostgresReviewHistoryRepository", () => {
   test("persists every completed review field", async () => {
     const calls: Array<{ sql: string; values: readonly unknown[] }> = [];
     const database = {
-      idempotentWriteQuery: async (sql: string, values: readonly unknown[]) => {
+      writeQuery: async (sql: string, values: readonly unknown[]) => {
         calls.push({ sql, values });
         return emptyQueryResult();
       },
@@ -42,7 +42,7 @@ describe("PostgresReviewHistoryRepository", () => {
   test("returns distinct local activity days for streak calculation", async () => {
     const calls: Array<{ sql: string; values: readonly unknown[] }> = [];
     const database = {
-      fastReadQuery: async (sql: string, values: readonly unknown[]) => {
+      readQuery: async (sql: string, values: readonly unknown[]) => {
         calls.push({ sql, values });
         return {
           ...emptyQueryResult(),

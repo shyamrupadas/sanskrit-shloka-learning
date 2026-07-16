@@ -29,7 +29,7 @@ export class PostgresReviewHistoryRepository
   ) {}
 
   async create(input: CreateReviewHistoryRecordInput): Promise<void> {
-    await this.database.idempotentWriteQuery(
+    await this.database.writeQuery(
       `
         insert into shloka_reviews (
           id,
@@ -54,7 +54,7 @@ export class PostgresReviewHistoryRepository
   }
 
   async listActivityDays(accountId: string): Promise<string[]> {
-    const result = await this.database.fastReadQuery<ReviewActivityDayRow>(
+    const result = await this.database.readQuery<ReviewActivityDayRow>(
       `
         select distinct user_day::text as user_day
         from shloka_reviews
@@ -70,7 +70,7 @@ export class PostgresReviewHistoryRepository
   async listSummaries(
     input: ListReviewHistorySummariesInput,
   ): Promise<ReviewHistorySummary[]> {
-    const result = await this.database.fastReadQuery<ReviewHistorySummaryRow>(
+    const result = await this.database.readQuery<ReviewHistorySummaryRow>(
       `
         select distinct on (shloka_code)
           shloka_code,

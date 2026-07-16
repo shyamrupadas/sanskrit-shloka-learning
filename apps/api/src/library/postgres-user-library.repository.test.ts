@@ -7,7 +7,7 @@ import type { DatabaseService } from "../database/database.service.js";
 import { PostgresUserLibraryRepository } from "./postgres-user-library.repository.js";
 
 describe("PostgresUserLibraryRepository", () => {
-  test("runs status writes as retryable idempotent database writes", async () => {
+  test("runs status writes once through the non-retrying write seam", async () => {
     const database = new WriteTrackingDatabase();
     const repository = new PostgresUserLibraryRepository(database as unknown as DatabaseService);
 
@@ -22,14 +22,13 @@ describe("PostgresUserLibraryRepository", () => {
       shlokaCode: "bg-1-1",
     });
 
-    assert.equal(database.directQueries.length, 0);
-    assert.equal(database.idempotentWriteQueries.length, 2);
-    assert.ok(database.idempotentWriteQueries[0]?.includes("insert into user_shlokas"));
-    assert.ok(database.idempotentWriteQueries[1]?.includes("delete from user_shlokas"));
-    assert.ok(database.idempotentWriteQueries[1]?.includes("status = 'learning'"));
+    assert.equal(database.writeQueries.length, 2);
+    assert.ok(database.writeQueries[0]?.includes("insert into user_shlokas"));
+    assert.ok(database.writeQueries[1]?.includes("delete from user_shlokas"));
+    assert.ok(database.writeQueries[1]?.includes("status = 'learning'"));
   });
 
-  test("stores the reviewing transition time without overwriting it on retries", async () => {
+  test("stores the reviewing transition time only for a learning row", async () => {
     const learnedAt = new Date("2026-07-12T09:30:00.000Z");
     const database = new WriteTrackingDatabase([
       {
@@ -52,15 +51,15 @@ describe("PostgresUserLibraryRepository", () => {
       reviewingStartedAt: learnedAt,
       reviewingStartedUserDay: "2026-07-12",
     });
-    assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'reviewing'"));
-    assert.ok(database.idempotentWriteQueries[0]?.includes("reviewing_started_at = $3"));
+    assert.ok(database.writeQueries[0]?.includes("status = 'reviewing'"));
+    assert.ok(database.writeQueries[0]?.includes("reviewing_started_at = $3"));
     assert.ok(
-      database.idempotentWriteQueries[0]?.includes(
+      database.writeQueries[0]?.includes(
         "reviewing_started_user_day = $4::date",
       ),
     );
-    assert.ok(database.idempotentWriteQueries[0]?.includes("status = 'learning'"));
-    assert.deepEqual(database.idempotentWriteValues[0], [
+    assert.ok(database.writeQueries[0]?.includes("status = 'learning'"));
+    assert.deepEqual(database.writeValues[0], [
       "account-1",
       "bg-1-1",
       learnedAt,
@@ -71,7 +70,7 @@ describe("PostgresUserLibraryRepository", () => {
   test("reads the persisted learning activity day for streak calculation", async () => {
     const learnedAt = new Date("2026-07-12T00:30:00.000Z");
     const database = {
-      fastReadQuery: async (sql: string, values: readonly unknown[]) => {
+      readQuery: async (sql: string, values: readonly unknown[]) => {
         assert.match(sql, /reviewing_started_user_day::text/);
         assert.deepEqual(values, ["account-1"]);
         return result([
@@ -100,28 +99,19 @@ describe("PostgresUserLibraryRepository", () => {
 });
 
 class WriteTrackingDatabase {
-  readonly directQueries: string[] = [];
-  readonly idempotentWriteQueries: string[] = [];
-  readonly idempotentWriteValues: unknown[][] = [];
+  readonly writeQueries: string[] = [];
+  readonly writeValues: unknown[][] = [];
 
   constructor(
     private readonly idempotentRows: Array<Record<string, unknown>> = [],
   ) {}
 
-  async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
-    text: string,
-    _values: readonly unknown[] = [],
-  ): Promise<pg.QueryResult<Row>> {
-    this.directQueries.push(normalizeQuery(text));
-    return result<Row>([]);
-  }
-
-  async idempotentWriteQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
+  async writeQuery<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
     values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
-    this.idempotentWriteQueries.push(normalizeQuery(text));
-    this.idempotentWriteValues.push([...values]);
+    this.writeQueries.push(normalizeQuery(text));
+    this.writeValues.push([...values]);
     return result<Row>(this.idempotentRows.splice(0) as unknown as Row[]);
   }
 }

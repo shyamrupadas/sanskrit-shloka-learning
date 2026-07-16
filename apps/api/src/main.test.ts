@@ -34,12 +34,23 @@ describe("bootstrap", () => {
 
   test("binds the validated Railway port on all interfaces", async () => {
     const fakeApplication = createFakeApplication();
+    let receivedDatabaseConfig: { databasePoolMax: number; databaseUrl: string } | undefined;
 
     await bootstrap({
-      createApplication: async () => fakeApplication.app,
+      createApplication: async (apiConfig) => {
+        receivedDatabaseConfig = {
+          databasePoolMax: apiConfig.databasePoolMax,
+          databaseUrl: apiConfig.databaseUrl,
+        };
+        return fakeApplication.app;
+      },
       environment: { ...validEnvironment },
     });
 
+    assert.deepEqual(receivedDatabaseConfig, {
+      databasePoolMax: 5,
+      databaseUrl: validEnvironment.DATABASE_URL,
+    });
     assert.deepEqual(fakeApplication.listenCalls, [{ host: "0.0.0.0", port: 4567 }]);
   });
 

@@ -28,7 +28,7 @@ export class PostgresAccountRepository implements AccountRepository {
 
   async createAccount(input: CreateAccountInput): Promise<AccountRecord> {
     try {
-      const result = await this.database.query<AccountRow>(
+      const result = await this.database.writeQuery<AccountRow>(
         `
           insert into accounts (id, email, password_hash)
           values ($1, $2, $3)
@@ -48,7 +48,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async findAccountByEmail(email: string): Promise<AccountRecord | undefined> {
-    const result = await this.database.fastReadQuery<AccountRow>(
+    const result = await this.database.readQuery<AccountRow>(
       `
         select accounts.id, accounts.email, accounts.password_hash,
           coalesce(
@@ -71,7 +71,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async findAccountBySessionTokenHash(tokenHash: string, now: Date): Promise<AccountRecord | undefined> {
-    const result = await this.database.fastReadQuery<AccountRow>(
+    const result = await this.database.readQuery<AccountRow>(
       `
         select accounts.id, accounts.email, accounts.password_hash,
           coalesce(
@@ -96,7 +96,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async getAccountSettings(accountId: string): Promise<AccountSettingsRecord> {
-    const result = await this.database.fastReadQuery<AccountSettingsRow>(
+    const result = await this.database.readQuery<AccountSettingsRow>(
       "select hard_mode from accounts where id = $1",
       [accountId],
     );
@@ -105,7 +105,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async updateAccountSettings(input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord> {
-    const result = await this.database.query<AccountSettingsRow>(
+    const result = await this.database.writeQuery<AccountSettingsRow>(
       `
         update accounts
         set hard_mode = $2
@@ -119,7 +119,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async createSession(input: CreateSessionInput): Promise<void> {
-    await this.database.query(
+    await this.database.writeQuery(
       `
         insert into auth_sessions (id, account_id, token_hash, expires_at)
         values ($1, $2, $3, $4)
@@ -129,7 +129,7 @@ export class PostgresAccountRepository implements AccountRepository {
   }
 
   async deleteSessionByTokenHash(tokenHash: string): Promise<void> {
-    await this.database.query("delete from auth_sessions where token_hash = $1", [tokenHash]);
+    await this.database.writeQuery("delete from auth_sessions where token_hash = $1", [tokenHash]);
   }
 }
 
