@@ -2,24 +2,42 @@ import "reflect-metadata";
 
 import { pathToFileURL } from "node:url";
 
+import type { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 import { AppModule } from "./app.module.js";
-import { loadApiEnv } from "./shared/env.js";
+import { ApiConfigurationError, loadApiConfig } from "./shared/env.js";
+import { configureHttpGuardrails } from "./shared/http-guardrails.js";
 
-export async function bootstrap(): Promise<void> {
-  loadApiEnv();
+interface BootstrapDependencies {
+  createApplication?: () => Promise<INestApplication>;
+  environment?: NodeJS.ProcessEnv;
+}
 
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: true,
-    credentials: true,
-  });
+export async function bootstrap(dependencies: BootstrapDependencies = {}): Promise<void> {
+  const apiConfig = loadApiConfig(dependencies.environment ?? process.env);
+  const createApplication = dependencies.createApplication ?? (() => NestFactory.create(AppModule));
+  const app = await createApplication();
 
-  const port = Number.parseInt(process.env.PORT ?? "3000", 10);
-  await app.listen(port);
+  configureHttpGuardrails(app, apiConfig);
+  await app.listen(apiConfig.port, apiConfig.host);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  await bootstrap();
+  await bootstrap().catch((error: unknown) => {
+    console.error(formatStartupError(error));
+    process.exitCode = 1;
+  });
+}
+
+export function formatStartupError(error: unknown): string {
+  const message = error instanceof ApiConfigurationError
+    ? error.message
+    : "API failed to start";
+
+  return JSON.stringify({
+    event: "startup_failed",
+    level: "error",
+    message,
+  });
 }

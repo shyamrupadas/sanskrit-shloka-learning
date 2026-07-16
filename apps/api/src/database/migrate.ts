@@ -2,7 +2,7 @@ import { pathToFileURL } from "node:url";
 
 import pg from "pg";
 
-import { loadApiEnv, requireEnv } from "../shared/env.js";
+import { loadApiConfig } from "../shared/env.js";
 import { runMigrations } from "./migration-runner.js";
 import { migrations } from "./migrations/index.js";
 import { createConnectionConfig, resolveMigrationDatabaseUrl } from "./postgres-connection.js";
@@ -14,9 +14,9 @@ const migrationConnectionOptions = {
 };
 
 export async function migrate(): Promise<void> {
-  loadApiEnv();
+  const apiConfig = loadApiConfig();
 
-  const databaseUrl = resolveMigrationDatabaseUrl(requireEnv("DATABASE_URL"));
+  const databaseUrl = resolveMigrationDatabaseUrl(apiConfig.databaseUrl);
   const connectionConfig = createConnectionConfig(databaseUrl, migrationConnectionOptions);
   delete connectionConfig.lock_timeout;
   delete connectionConfig.query_timeout;

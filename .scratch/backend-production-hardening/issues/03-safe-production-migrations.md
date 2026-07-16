@@ -31,4 +31,4 @@ Status: ready-for-agent
 
 ## Заблокировано
 
-- `.scratch/backend-production-hardening/issues/01-secure-production-bootstrap.md`
+Нет - можно начинать сразу
