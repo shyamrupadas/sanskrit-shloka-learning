@@ -17,6 +17,7 @@ describe("createPoolConfig", () => {
     );
     assert.equal(config.max, 5);
     assert.equal(config.min, 0);
+    assert.equal(config.idleTimeoutMillis, 240_000);
     assert.equal(config.connectionTimeoutMillis, 10_000);
     assert.equal(config.keepAlive, true);
     assert.equal(config.keepAliveInitialDelayMillis, 10_000);

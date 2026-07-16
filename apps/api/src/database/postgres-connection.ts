@@ -18,6 +18,8 @@ const defaultConnectionOptions = {
   queryTimeoutMillis: 30_000,
 } satisfies Required<PostgresConnectionOptions>;
 
+const runtimePoolIdleTimeoutMillis = 4 * 60_000;
+
 export function createPoolConfig(
   databaseUrl: string,
   options: PostgresPoolOptions,
@@ -26,6 +28,7 @@ export function createPoolConfig(
     ...createConnectionConfig(databaseUrl, options),
     max: options.max,
     min: 0,
+    idleTimeoutMillis: runtimePoolIdleTimeoutMillis,
   };
 }
 
