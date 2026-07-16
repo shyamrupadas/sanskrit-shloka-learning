@@ -112,7 +112,6 @@ function AdminShlokaCreateForm({
     <ShlokaEditorForm
       error={mutation.error}
       form={form}
-      fullTranslationField="textarea"
       isSubmitting={mutation.isPending}
       onSubmit={handleSubmit}
       submitLabel={strings.admin.createShloka}
@@ -149,7 +148,6 @@ function AdminShlokaEditForm({
     <ShlokaEditorForm
       error={mutation.error}
       form={form}
-      fullTranslationField="input"
       isSubmitting={mutation.isPending}
       onSubmit={handleSubmit}
       showCanonicalWarning

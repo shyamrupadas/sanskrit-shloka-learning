@@ -214,6 +214,7 @@ describe("admin shloka editor pages", () => {
     expect((screen.getByLabelText("Часть") as HTMLInputElement).readOnly).toBe(true);
     expect((screen.getByLabelText("Глава") as HTMLInputElement).readOnly).toBe(true);
     expect((screen.getByLabelText("Номер шлоки") as HTMLInputElement).readOnly).toBe(true);
+    expect(screen.getByLabelText("Полный перевод").tagName).toBe("TEXTAREA");
 
     await user.clear(screen.getByLabelText("Пада 1"));
     await user.type(screen.getByLabelText("Пада 1"), "  обновленная первая  ");

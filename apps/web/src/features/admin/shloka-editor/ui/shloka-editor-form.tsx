@@ -17,7 +17,6 @@ import type { ShlokaEditorForm as ShlokaEditorFormModel } from "../model/shloka-
 interface ShlokaEditorFormProps<TRequest> {
   error: unknown;
   form: ShlokaEditorFormModel<TRequest>;
-  fullTranslationField: "input" | "textarea";
   isSubmitting: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
   showCanonicalWarning?: boolean;
@@ -29,7 +28,6 @@ interface ShlokaEditorFormProps<TRequest> {
 export function ShlokaEditorForm<TRequest>({
   error,
   form,
-  fullTranslationField,
   isSubmitting,
   onSubmit,
   showCanonicalWarning = false,
@@ -52,19 +50,11 @@ export function ShlokaEditorForm<TRequest>({
       {wasSuccessful ? <SuccessMessage text={successText} /> : null}
       <ReferenceFields form={form} />
       <PadaFields form={form} />
-      {fullTranslationField === "textarea" ? (
-        <TextareaField
-          label={strings.admin.fullTranslation}
-          onChange={form.setFullTranslation}
-          value={form.fullTranslation}
-        />
-      ) : (
-        <TextField
-          label={strings.admin.fullTranslation}
-          onChange={form.setFullTranslation}
-          value={form.fullTranslation}
-        />
-      )}
+      <TextareaField
+        label={strings.admin.fullTranslation}
+        onChange={form.setFullTranslation}
+        value={form.fullTranslation}
+      />
     </AdminFormLayout>
   );
 }
