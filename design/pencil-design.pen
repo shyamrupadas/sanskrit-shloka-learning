@@ -6680,15 +6680,20 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "u8EuhD",
-                              "name": "Icon Glyph / Nav Home",
+                              "type": "path",
+                              "id": "MVykX",
+                              "name": "Icon Glyph / Nav Home / Reference Rounded",
+                              "geometry": "M12 2.75c-0.62 0-1.21 0.22-1.68 0.62l-5.8 4.93a4.1 4.1 0 0 0-1.42 3.12v5.55a2.03 2.03 0 0 0 2.03 2.03h3.28c0.43 0 0.79-0.35 0.79-0.79v-3.55c0-0.86 0.7-1.56 1.56-1.56h2.48c0.86 0 1.56 0.7 1.56 1.56v3.55c0 0.44 0.35 0.79 0.79 0.79h3.28a2.03 2.03 0 0 0 2.03-2.03v-5.55c0-1.2-0.52-2.34-1.43-3.12l-5.79-4.93a2.58 2.58 0 0 0-1.68-0.62z m-1.75 16.25v-4.28c0-0.45 0.37-0.82 0.82-0.82h1.86c0.45 0 0.82 0.37 0.82 0.82v4.28z",
+                              "fillRule": "evenodd",
+                              "viewBox": [
+                                0,
+                                0,
+                                24,
+                                24
+                              ],
+                              "fill": "$text-muted",
                               "width": 24,
-                              "height": 24,
-                              "icon": "home",
-                              "library": "Material Symbols Rounded",
-                              "weight": 700,
-                              "fill": "$primary"
+                              "height": 24
                             }
                           ]
                         }
@@ -6754,15 +6759,19 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "uhDDB",
-                              "name": "Icon Glyph / Nav Library",
+                              "type": "path",
+                              "id": "QAmN2",
+                              "name": "Icon Glyph / Nav Library / Rounded Book",
+                              "geometry": "M5.6 4.3c2.3 0.09 4.1 0.61 5.34 1.57 0.42 0.33 0.66 0.83 0.66 1.36v10.62c0 0.45-0.52 0.7-0.88 0.43-1.28-0.97-3.1-1.51-5.46-1.62-1.21-0.06-2.16-1.06-2.16-2.27v-7.63c0-1.39 1.13-2.51 2.5-2.46z m12.8 0c-2.3 0.09-4.1 0.61-5.34 1.57-0.42 0.33-0.66 0.83-0.66 1.36v10.62c0 0.45 0.52 0.7 0.88 0.43 1.28-0.97 3.1-1.51 5.46-1.62 1.21-0.06 2.16-1.06 2.16-2.27v-7.63c0-1.39-1.13-2.51-2.5-2.46z",
+                              "viewBox": [
+                                0,
+                                0,
+                                24,
+                                24
+                              ],
+                              "fill": "$text-muted",
                               "width": 24,
-                              "height": 24,
-                              "icon": "menu_book",
-                              "library": "Material Symbols Rounded",
-                              "weight": 700,
-                              "fill": "$primary"
+                              "height": 24
                             }
                           ]
                         }
@@ -6828,15 +6837,19 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "vDJ5t",
-                              "name": "Icon Glyph / Nav Learning",
+                              "type": "path",
+                              "id": "qjK28",
+                              "name": "Icon Glyph / Nav Learning / Rounded Cap",
+                              "geometry": "M12 4.1c-0.42 0-0.83 0.1-1.2 0.29l-7.22 3.69c-1.06 0.54-1.06 2.06 0 2.6l7.22 3.69c0.75 0.38 1.65 0.38 2.4 0l5.95-3.04v4.38c0 0.69 0.56 1.25 1.25 1.25s1.25-0.56 1.25-1.25v-5.88c0-0.69-0.38-1.31-0.99-1.63l-7.46-3.81a2.66 2.66 0 0 0-1.2-0.29z m-5.8 8.45v2.52c0 0.64 0.36 1.23 0.94 1.53l3.66 1.87c0.75 0.38 1.65 0.38 2.4 0l3.66-1.87c0.58-0.3 0.94-0.89 0.94-1.53v-2.52l-4.6 2.35c-0.75 0.38-1.65 0.38-2.4 0z",
+                              "viewBox": [
+                                0,
+                                0,
+                                24,
+                                24
+                              ],
+                              "fill": "$text-muted",
                               "width": 24,
-                              "height": 24,
-                              "icon": "school",
-                              "library": "Material Symbols Rounded",
-                              "weight": 700,
-                              "fill": "$primary"
+                              "height": 24
                             }
                           ]
                         }
@@ -6902,15 +6915,19 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "fbh2i",
-                              "name": "Icon Glyph / Nav More",
+                              "type": "path",
+                              "id": "YBJd7",
+                              "name": "Icon Glyph / Nav More / Reference Rounded Grid",
+                              "geometry": "M6.1 4.35h2.55c0.96 0 1.75 0.79 1.75 1.75v2.55c0 0.96-0.79 1.75-1.75 1.75h-2.55c-0.96 0-1.75-0.79-1.75-1.75v-2.55c0-0.96 0.79-1.75 1.75-1.75z m9.25 0h2.55c0.96 0 1.75 0.79 1.75 1.75v2.55c0 0.96-0.79 1.75-1.75 1.75h-2.55c-0.96 0-1.75-0.79-1.75-1.75v-2.55c0-0.96 0.79-1.75 1.75-1.75z m-9.25 9.25h2.55c0.96 0 1.75 0.79 1.75 1.75v2.55c0 0.96-0.79 1.75-1.75 1.75h-2.55c-0.96 0-1.75-0.79-1.75-1.75v-2.55c0-0.96 0.79-1.75 1.75-1.75z m9.25 0h2.55c0.96 0 1.75 0.79 1.75 1.75v2.55c0 0.96-0.79 1.75-1.75 1.75h-2.55c-0.96 0-1.75-0.79-1.75-1.75v-2.55c0-0.96 0.79-1.75 1.75-1.75z",
+                              "viewBox": [
+                                0,
+                                0,
+                                24,
+                                24
+                              ],
+                              "fill": "$text-muted",
                               "width": 24,
-                              "height": 24,
-                              "icon": "apps",
-                              "library": "Material Symbols Rounded",
-                              "weight": 700,
-                              "fill": "$primary"
+                              "height": 24
                             }
                           ]
                         }
@@ -7370,7 +7387,7 @@
               "name": "Product / Bottom Navigation",
               "reusable": true,
               "width": 390,
-              "height": 64,
+              "height": 68,
               "fill": "$color-surface",
               "cornerRadius": "$radius-none",
               "stroke": "$color-transparent",
@@ -7386,7 +7403,7 @@
                 "blur": 16
               },
               "padding": [
-                6,
+                7,
                 0
               ],
               "children": [
@@ -7399,7 +7416,7 @@
                   "fill": "$color-transparent",
                   "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 2,
+                  "gap": 4,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -7408,13 +7425,13 @@
                       "type": "ref",
                       "ref": "jmeBD",
                       "name": "Icon Instance / Nav Home",
-                      "width": 22,
-                      "height": 22,
+                      "width": 28,
+                      "height": 28,
                       "descendants": {
-                        "u8EuhD": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$primary"
+                        "MVykX": {
+                          "fill": "$primary",
+                          "width": 28,
+                          "height": 28
                         }
                       }
                     },
@@ -7425,7 +7442,7 @@
                       "fill": "$primary",
                       "content": "Главная",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": 13,
                       "fontWeight": "$type-weight-semibold"
                     }
                   ]
@@ -7439,7 +7456,7 @@
                   "fill": "$color-transparent",
                   "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 2,
+                  "gap": 4,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -7448,13 +7465,13 @@
                       "type": "ref",
                       "ref": "XwPxO",
                       "name": "Icon Instance / Nav Library",
-                      "width": 22,
-                      "height": 22,
+                      "width": 28,
+                      "height": 28,
                       "descendants": {
-                        "uhDDB": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
+                        "QAmN2": {
+                          "fill": "$text-muted",
+                          "width": 28,
+                          "height": 28
                         }
                       }
                     },
@@ -7465,7 +7482,7 @@
                       "fill": "$text-muted",
                       "content": "Библиотека",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": 13,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -7479,7 +7496,7 @@
                   "fill": "$color-transparent",
                   "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 2,
+                  "gap": 4,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -7488,13 +7505,13 @@
                       "type": "ref",
                       "ref": "mDfGW",
                       "name": "Icon Instance / Nav Learning",
-                      "width": 22,
-                      "height": 22,
+                      "width": 28,
+                      "height": 28,
                       "descendants": {
-                        "vDJ5t": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
+                        "qjK28": {
+                          "fill": "$text-muted",
+                          "width": 28,
+                          "height": 28
                         }
                       }
                     },
@@ -7505,7 +7522,7 @@
                       "fill": "$text-muted",
                       "content": "Обучение",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": 13,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -7519,7 +7536,7 @@
                   "fill": "$color-transparent",
                   "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 2,
+                  "gap": 4,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -7528,13 +7545,13 @@
                       "type": "ref",
                       "ref": "wmMUD",
                       "name": "Icon Instance / Nav More",
-                      "width": 22,
-                      "height": 22,
+                      "width": 28,
+                      "height": 28,
                       "descendants": {
-                        "fbh2i": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
+                        "YBJd7": {
+                          "fill": "$text-muted",
+                          "width": 28,
+                          "height": 28
                         }
                       }
                     },
@@ -7545,7 +7562,7 @@
                       "fill": "$text-muted",
                       "content": "Еще",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": 13,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -10179,14 +10196,7 @@
                       "ref": "jmeBD",
                       "name": "Icon Instance / Home",
                       "width": 22,
-                      "height": 22,
-                      "descendants": {
-                        "u8EuhD": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$primary"
-                        }
-                      }
+                      "height": 22
                     },
                     {
                       "type": "text",
@@ -10219,14 +10229,7 @@
                       "ref": "XwPxO",
                       "name": "Icon Instance / Library",
                       "width": 22,
-                      "height": 22,
-                      "descendants": {
-                        "uhDDB": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
-                        }
-                      }
+                      "height": 22
                     },
                     {
                       "type": "text",
@@ -10259,14 +10262,7 @@
                       "ref": "mDfGW",
                       "name": "Icon Instance / Learning",
                       "width": 22,
-                      "height": 22,
-                      "descendants": {
-                        "vDJ5t": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
-                        }
-                      }
+                      "height": 22
                     },
                     {
                       "type": "text",
@@ -10299,14 +10295,7 @@
                       "ref": "wmMUD",
                       "name": "Icon Instance / More",
                       "width": 22,
-                      "height": 22,
-                      "descendants": {
-                        "fbh2i": {
-                          "width": 22,
-                          "height": 22,
-                          "fill": "$text-muted"
-                        }
-                      }
+                      "height": 22
                     },
                     {
                       "type": "text",
@@ -13683,14 +13672,7 @@
                   "ref": "jmeBD",
                   "name": "Icon Instance / Home",
                   "width": 22,
-                  "height": 22,
-                  "descendants": {
-                    "u8EuhD": {
-                      "width": 22,
-                      "height": 22,
-                      "fill": "$text-muted"
-                    }
-                  }
+                  "height": 22
                 },
                 {
                   "type": "text",
@@ -13723,14 +13705,7 @@
                   "ref": "XwPxO",
                   "name": "Icon Instance / Library",
                   "width": 22,
-                  "height": 22,
-                  "descendants": {
-                    "uhDDB": {
-                      "width": 22,
-                      "height": 22,
-                      "fill": "$text-muted"
-                    }
-                  }
+                  "height": 22
                 },
                 {
                   "type": "text",
@@ -13763,14 +13738,7 @@
                   "ref": "mDfGW",
                   "name": "Icon Instance / Learning",
                   "width": 22,
-                  "height": 22,
-                  "descendants": {
-                    "vDJ5t": {
-                      "width": 22,
-                      "height": 22,
-                      "fill": "$text-muted"
-                    }
-                  }
+                  "height": 22
                 },
                 {
                   "type": "text",
@@ -13803,14 +13771,7 @@
                   "ref": "wmMUD",
                   "name": "Icon Instance / More",
                   "width": 22,
-                  "height": 22,
-                  "descendants": {
-                    "fbh2i": {
-                      "width": 22,
-                      "height": 22,
-                      "fill": "$primary"
-                    }
-                  }
+                  "height": 22
                 },
                 {
                   "type": "text",
