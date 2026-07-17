@@ -135,6 +135,8 @@ const dashboardRoute = createRoute({
   path: routeSegments.dashboard,
 });
 
+Object.assign(LibraryRoute, { preload: LibraryPage.preload });
+
 const libraryRoute = createRoute({
   component: LibraryRoute,
   getParentRoute: () => authenticatedRoute,

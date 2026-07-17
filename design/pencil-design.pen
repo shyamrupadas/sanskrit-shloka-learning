@@ -3091,19 +3091,6 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon",
-                                  "id": "qNXtu",
-                                  "x": 0,
-                                  "y": 0,
-                                  "name": "Field Leading Icon",
-                                  "enabled": false,
-                                  "width": 18,
-                                  "height": 18,
-                                  "icon": "search",
-                                  "library": "lucide",
-                                  "fill": "$input-icon"
-                                },
-                                {
                                   "type": "text",
                                   "id": "SV0jk",
                                   "name": "Field Placeholder",
@@ -3154,17 +3141,20 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon",
-                                  "id": "xDNiN",
-                                  "x": 0,
-                                  "y": 0,
-                                  "name": "Field Leading Icon",
-                                  "enabled": false,
+                                  "id": "qySly",
+                                  "type": "ref",
+                                  "ref": "dfT7n",
+                                  "name": "Icon Instance / Search",
                                   "width": 18,
                                   "height": 18,
-                                  "icon": "search",
-                                  "library": "lucide",
-                                  "fill": "$input-icon"
+                                  "enabled": false,
+                                  "descendants": {
+                                    "TSpxM": {
+                                      "width": 18,
+                                      "height": 18,
+                                      "fill": "$input-icon"
+                                    }
+                                  }
                                 },
                                 {
                                   "type": "text",
@@ -3415,14 +3405,19 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon",
-                                  "id": "L3ER3",
-                                  "name": "Field Leading Icon",
+                                  "id": "b00X61",
+                                  "type": "ref",
+                                  "ref": "dfT7n",
+                                  "name": "Icon Instance / Search",
                                   "width": 18,
                                   "height": 18,
-                                  "icon": "search",
-                                  "library": "lucide",
-                                  "fill": "$input-icon"
+                                  "descendants": {
+                                    "TSpxM": {
+                                      "width": 18,
+                                      "height": 18,
+                                      "fill": "$input-icon"
+                                    }
+                                  }
                                 },
                                 {
                                   "type": "text",
@@ -3578,17 +3573,20 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "F5ttX",
-                              "x": 0,
-                              "y": 0,
-                              "name": "Field Leading Icon",
-                              "enabled": false,
+                              "id": "Ulr9E",
+                              "type": "ref",
+                              "ref": "dfT7n",
+                              "name": "Icon Instance / Search",
                               "width": 18,
                               "height": 18,
-                              "icon": "search",
-                              "library": "lucide",
-                              "fill": "$input-icon"
+                              "enabled": false,
+                              "descendants": {
+                                "TSpxM": {
+                                  "width": 18,
+                                  "height": 18,
+                                  "fill": "$input-icon"
+                                }
+                              }
                             },
                             {
                               "type": "text",
@@ -3838,14 +3836,19 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "vCs7A",
-                              "name": "Field Leading Icon",
+                              "id": "Ixdah",
+                              "type": "ref",
+                              "ref": "dfT7n",
+                              "name": "Icon Instance / Search",
                               "width": 18,
                               "height": 18,
-                              "icon": "search",
-                              "library": "lucide",
-                              "fill": "$input-icon"
+                              "descendants": {
+                                "TSpxM": {
+                                  "width": 18,
+                                  "height": 18,
+                                  "fill": "$input-icon"
+                                }
+                              }
                             },
                             {
                               "type": "text",
@@ -3901,14 +3904,19 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "xzWum",
-                              "name": "Field Leading Icon",
+                              "id": "BZmYG",
+                              "type": "ref",
+                              "ref": "dfT7n",
+                              "name": "Icon Instance / Search",
                               "width": 18,
                               "height": 18,
-                              "icon": "search",
-                              "library": "lucide",
-                              "fill": "$input-icon"
+                              "descendants": {
+                                "TSpxM": {
+                                  "width": 18,
+                                  "height": 18,
+                                  "fill": "$input-icon"
+                                }
+                              }
                             },
                             {
                               "type": "text",
@@ -4387,14 +4395,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "LQUsb",
-                      "name": "Button Icon",
+                      "id": "MF1ou",
+                      "type": "ref",
+                      "ref": "JUTuI",
+                      "name": "Icon Instance / Arrow Left",
                       "width": 18,
                       "height": 18,
-                      "icon": "arrow-left",
-                      "library": "lucide",
-                      "fill": "$color-text-primary"
+                      "descendants": {
+                        "kwDB5": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$color-text-primary"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -4424,14 +4437,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "J5Y1a",
-                      "name": "Button Icon",
+                      "id": "JSsEU",
+                      "type": "ref",
+                      "ref": "l4ohAg",
+                      "name": "Icon Instance / Trash",
                       "width": 18,
                       "height": 18,
-                      "icon": "trash-2",
-                      "library": "lucide",
-                      "fill": "$button-destructive-fg"
+                      "descendants": {
+                        "J88iN": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$button-destructive-fg"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -4460,14 +4478,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "EjjCN",
-                      "name": "Button Icon",
+                      "id": "z5vGS",
+                      "type": "ref",
+                      "ref": "T0Ail",
+                      "name": "Icon Instance / Plus",
                       "width": 20,
                       "height": 20,
-                      "icon": "plus",
-                      "library": "lucide",
-                      "fill": "$button-secondary-fg"
+                      "descendants": {
+                        "aJi23": {
+                          "width": 20,
+                          "height": 20,
+                          "fill": "$button-secondary-fg"
+                        }
+                      }
                     }
                   ]
                 },
@@ -4744,14 +4767,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "qsIBS",
-                          "name": "Secondary Button Icon",
+                          "id": "j5eGl",
+                          "type": "ref",
+                          "ref": "T0Ail",
+                          "name": "Icon Instance / Plus",
                           "width": 18,
                           "height": 18,
-                          "icon": "plus",
-                          "library": "lucide",
-                          "fill": "$button-secondary-fg"
+                          "descendants": {
+                            "aJi23": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$button-secondary-fg"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -4819,14 +4847,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "NhVSs",
-                          "name": "Button Icon",
+                          "id": "B0XoEq",
+                          "type": "ref",
+                          "ref": "JUTuI",
+                          "name": "Icon Instance / Arrow Left",
                           "width": 18,
                           "height": 18,
-                          "icon": "arrow-left",
-                          "library": "lucide",
-                          "fill": "$color-text-primary"
+                          "descendants": {
+                            "kwDB5": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$color-text-primary"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -4894,14 +4927,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "j1FEUy",
-                          "name": "Button Icon",
+                          "id": "T0tJWn",
+                          "type": "ref",
+                          "ref": "l4ohAg",
+                          "name": "Icon Instance / Trash",
                           "width": 18,
                           "height": 18,
-                          "icon": "trash-2",
-                          "library": "lucide",
-                          "fill": "$button-destructive-fg"
+                          "descendants": {
+                            "J88iN": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$button-destructive-fg"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -4968,14 +5006,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "hCvEj",
-                          "name": "Button Icon",
+                          "id": "j89XSV",
+                          "type": "ref",
+                          "ref": "T0Ail",
+                          "name": "Icon Instance / Plus",
                           "width": 20,
                           "height": 20,
-                          "icon": "plus",
-                          "library": "lucide",
-                          "fill": "$button-secondary-fg"
+                          "descendants": {
+                            "aJi23": {
+                              "width": 20,
+                              "height": 20,
+                              "fill": "$button-secondary-fg"
+                            }
+                          }
                         }
                       ]
                     },
@@ -5071,7 +5114,7 @@
       "name": "02 Core Components",
       "clip": true,
       "width": 900,
-      "height": 720,
+      "height": 1130,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -5218,17 +5261,20 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "RBmUz",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Field Leading Icon",
-                          "enabled": false,
+                          "id": "CGIg1",
+                          "type": "ref",
+                          "ref": "dfT7n",
+                          "name": "Icon Instance / Search",
                           "width": 18,
                           "height": 18,
-                          "icon": "search",
-                          "library": "lucide",
-                          "fill": "$input-icon"
+                          "enabled": false,
+                          "descendants": {
+                            "TSpxM": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$input-icon"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -5282,17 +5328,20 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "pfaQp",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Field Leading Icon",
-                          "enabled": false,
+                          "id": "dDycH",
+                          "type": "ref",
+                          "ref": "dfT7n",
+                          "name": "Icon Instance / Search",
                           "width": 18,
                           "height": 18,
-                          "icon": "search",
-                          "library": "lucide",
-                          "fill": "$input-icon"
+                          "enabled": false,
+                          "descendants": {
+                            "TSpxM": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$input-icon"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -5345,7 +5394,7 @@
                     "GAfNm": {
                       "height": 44
                     },
-                    "RBmUz": {
+                    "CGIg1": {
                       "enabled": true
                     },
                     "ONWjS": {
@@ -5367,7 +5416,7 @@
                     "sbxLS": {
                       "height": 44
                     },
-                    "pfaQp": {
+                    "dDycH": {
                       "enabled": true
                     },
                     "vtoPn": {
@@ -5411,14 +5460,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "g86340",
-                  "name": "Secondary Button Icon",
+                  "id": "nALai",
+                  "type": "ref",
+                  "ref": "T0Ail",
+                  "name": "Icon Instance / Add",
                   "width": 18,
                   "height": 18,
-                  "icon": "plus",
-                  "library": "lucide",
-                  "fill": "$button-secondary-fg"
+                  "descendants": {
+                    "aJi23": {
+                      "width": 18,
+                      "height": 18,
+                      "fill": "$button-secondary-fg"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -5462,14 +5516,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "bfqvS",
-                  "name": "Profile Icon",
+                  "id": "m0cllA",
+                  "type": "ref",
+                  "ref": "Odkce",
+                  "name": "Icon Instance / Profile",
                   "width": 18,
                   "height": 18,
-                  "icon": "user-round",
-                  "library": "lucide",
-                  "fill": "$color-text-primary"
+                  "descendants": {
+                    "G38Hb9": {
+                      "width": 18,
+                      "height": 18,
+                      "fill": "$color-text-primary"
+                    }
+                  }
                 }
               ]
             },
@@ -5490,14 +5549,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "yyK25",
-                  "name": "Back Icon",
+                  "id": "bSkV4",
+                  "type": "ref",
+                  "ref": "JUTuI",
+                  "name": "Icon Instance / Back Arrow",
                   "width": 22,
                   "height": 22,
-                  "icon": "arrow-left",
-                  "library": "lucide",
-                  "fill": "$text"
+                  "descendants": {
+                    "kwDB5": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$text"
+                    }
+                  }
                 }
               ]
             }
@@ -5567,14 +5631,19 @@
                           "fontWeight": "$typo-p1-weight"
                         },
                         {
-                          "type": "icon",
-                          "id": "A80BSw",
-                          "name": "Field Trailing Icon",
+                          "id": "Yxxz7",
+                          "type": "ref",
+                          "ref": "IHxWW",
+                          "name": "Icon Instance / Chevron Down",
                           "width": 18,
                           "height": 18,
-                          "icon": "chevron-down",
-                          "library": "lucide",
-                          "fill": "$input-icon"
+                          "descendants": {
+                            "asCnv": {
+                              "width": 18,
+                              "height": 18,
+                              "fill": "$input-icon"
+                            }
+                          }
                         }
                       ]
                     }
@@ -5647,6 +5716,1354 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "J6ly1Y",
+          "name": "Core Icon Library",
+          "width": 852,
+          "height": 488,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "WS5sM",
+              "x": 0,
+              "y": 0,
+              "name": "Icon Library Header",
+              "width": 852,
+              "height": 24,
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EB3dW",
+                  "name": "Icon Library Title",
+                  "fill": "$color-text-primary",
+                  "content": "Icons",
+                  "fontFamily": "$font-heading",
+                  "fontSize": "$type-section-title-size",
+                  "fontWeight": "$type-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SQO5w",
+              "x": 0,
+              "y": 40,
+              "name": "Icon Grid",
+              "width": 852,
+              "height": 408,
+              "fill": "$color-transparent",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pIfiX",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Icon Tile / Search",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "N3pNT",
+                      "name": "Icon Surface / Search",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dfT7n",
+                          "name": "Core / Icon / Search",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "TSpxM",
+                              "name": "Icon Glyph / Search",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "search",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "BTx9g",
+                      "name": "Icon Name / Search",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Search",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z9cE4",
+                  "x": 146,
+                  "y": 0,
+                  "name": "Icon Tile / Plus",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FkJAJ",
+                      "name": "Icon Surface / Plus",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "T0Ail",
+                          "name": "Core / Icon / Add",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "aJi23",
+                              "name": "Icon Glyph / Add",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "plus",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "CVjJq",
+                      "name": "Icon Name / Plus",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Plus",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "V3Ykc",
+                  "x": 292,
+                  "y": 0,
+                  "name": "Icon Tile / User",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Sy4mw",
+                      "name": "Icon Surface / User",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Odkce",
+                          "name": "Core / Icon / Profile",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "G38Hb9",
+                              "name": "Icon Glyph / Profile",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "user-round",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "dm2Pk",
+                      "name": "Icon Name / User",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "User",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a6jA2",
+                  "x": 438,
+                  "y": 0,
+                  "name": "Icon Tile / ArrowLeft",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TiUfy",
+                      "name": "Icon Surface / ArrowLeft",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "JUTuI",
+                          "name": "Core / Icon / Back Arrow",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "kwDB5",
+                              "name": "Icon Glyph / Back Arrow",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow-left",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "y62WmB",
+                      "name": "Icon Name / ArrowLeft",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "ArrowLeft",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XNsng",
+                  "x": 584,
+                  "y": 0,
+                  "name": "Icon Tile / ChevronLeft",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AFs4Q",
+                      "name": "Icon Surface / ChevronLeft",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "M8u93M",
+                          "name": "Core / Icon / Chevron Left",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "whY0L",
+                              "name": "Icon Glyph / Chevron Left",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "chevron-left",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "B9XnHV",
+                      "name": "Icon Name / ChevronLeft",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "ChevronLeft",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ukSjc",
+                  "x": 730,
+                  "y": 0,
+                  "name": "Icon Tile / ChevronRight",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UKEzA",
+                      "name": "Icon Surface / ChevronRight",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yUHXd",
+                          "name": "Core / Icon / Chevron Right",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "l2eBI",
+                              "name": "Icon Glyph / Chevron Right",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kp8NT",
+                      "name": "Icon Name / ChevronRight",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "ChevronRight",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hluma",
+                  "x": 0,
+                  "y": 144,
+                  "name": "Icon Tile / ChevronDown",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Wqga2",
+                      "name": "Icon Surface / ChevronDown",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "IHxWW",
+                          "name": "Core / Icon / Chevron Down",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "asCnv",
+                              "name": "Icon Glyph / Chevron Down",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Gi7p0",
+                      "name": "Icon Name / ChevronDown",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "ChevronDown",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aDHqq",
+                  "x": 146,
+                  "y": 144,
+                  "name": "Icon Tile / BookOpen",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vcTW4",
+                      "name": "Icon Surface / BookOpen",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "d8hxJ",
+                          "name": "Core / Icon / Book Open",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "F9gft",
+                              "name": "Icon Glyph / Book Open",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "book-open",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "OUHas",
+                      "name": "Icon Name / BookOpen",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "BookOpen",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "b25xXn",
+                  "x": 292,
+                  "y": 144,
+                  "name": "Icon Tile / Trash",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d11Sf",
+                      "name": "Icon Surface / Trash",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "l4ohAg",
+                          "name": "Core / Icon / Trash",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "J88iN",
+                              "name": "Icon Glyph / Trash",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "trash-2",
+                              "library": "lucide",
+                              "fill": "$color-danger"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "hDCWm",
+                      "name": "Icon Name / Trash",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Trash",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ag64l",
+                  "x": 438,
+                  "y": 144,
+                  "name": "Icon Tile / Check",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TUFIj",
+                      "name": "Icon Surface / Check",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Pg6xe",
+                          "name": "Core / Icon / Check",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "gnrAo",
+                              "name": "Icon Glyph / Check",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "check",
+                              "library": "lucide",
+                              "fill": "$success"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "g5P4y9",
+                      "name": "Icon Name / Check",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Check",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "N8kK2",
+                  "x": 584,
+                  "y": 144,
+                  "name": "Icon Tile / FilePlus",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XXdi0",
+                      "name": "Icon Surface / FilePlus",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VxdqV",
+                          "name": "Core / Icon / File Plus",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "UmJY2",
+                              "name": "Icon Glyph / File Plus",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "file-plus",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "l71xjn",
+                      "name": "Icon Name / FilePlus",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "FilePlus",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rrBjQ",
+                  "x": 730,
+                  "y": 144,
+                  "name": "Icon Tile / BookPlus",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "B30Wso",
+                      "name": "Icon Surface / BookPlus",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "krenR",
+                          "name": "Core / Icon / Book Plus",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "y16Ka",
+                              "name": "Icon Glyph / Book Plus",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "book-plus",
+                              "library": "lucide",
+                              "fill": "$color-text-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "KThv7",
+                      "name": "Icon Name / BookPlus",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "BookPlus",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vs7pu",
+                  "x": 0,
+                  "y": 288,
+                  "name": "Icon Tile / Home",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "B60Kqi",
+                      "name": "Icon Surface / Home",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jmeBD",
+                          "name": "Core / Icon / Nav Home",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "u8EuhD",
+                              "name": "Icon Glyph / Nav Home",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "home",
+                              "library": "Material Symbols Rounded",
+                              "weight": 700,
+                              "fill": "$primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "V0LUf",
+                      "name": "Icon Name / Home",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Home",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "coQnB",
+                  "x": 146,
+                  "y": 288,
+                  "name": "Icon Tile / Library",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CEvBO",
+                      "name": "Icon Surface / Library",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XwPxO",
+                          "name": "Core / Icon / Nav Library",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "uhDDB",
+                              "name": "Icon Glyph / Nav Library",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "menu_book",
+                              "library": "Material Symbols Rounded",
+                              "weight": 700,
+                              "fill": "$primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "yna5f",
+                      "name": "Icon Name / Library",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Library",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "w22rur",
+                  "x": 292,
+                  "y": 288,
+                  "name": "Icon Tile / Learning",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "efnwl",
+                      "name": "Icon Surface / Learning",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mDfGW",
+                          "name": "Core / Icon / Nav Learning",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "vDJ5t",
+                              "name": "Icon Glyph / Nav Learning",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "school",
+                              "library": "Material Symbols Rounded",
+                              "weight": 700,
+                              "fill": "$primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "pO5m5",
+                      "name": "Icon Name / Learning",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Learning",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NuIFl",
+                  "x": 438,
+                  "y": 288,
+                  "name": "Icon Tile / More",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "T1V4Ox",
+                      "name": "Icon Surface / More",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "wmMUD",
+                          "name": "Core / Icon / Nav More",
+                          "reusable": true,
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$color-transparent",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "fbh2i",
+                              "name": "Icon Glyph / Nav More",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "apps",
+                              "library": "Material Symbols Rounded",
+                              "weight": 700,
+                              "fill": "$primary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "YVfyR",
+                      "name": "Icon Name / More",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "More",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vFcO1",
+                  "x": 584,
+                  "y": 288,
+                  "name": "Icon Tile / Flame",
+                  "width": 122,
+                  "height": 120,
+                  "fill": "$color-surface",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$color-border",
+                  "strokeWidth": "$stroke-hairline",
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ghYQH",
+                      "name": "Icon Surface / Flame",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "$color-surface-muted",
+                      "cornerRadius": "$radius-md",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ypPyT",
+                          "name": "Core / Icon / Streak Flame",
+                          "reusable": true,
+                          "width": 25,
+                          "height": 25,
+                          "fill": "#FFFFFF00",
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "enabled": false,
+                            "color": "#00000000"
+                          },
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "path",
+                              "id": "DIbot",
+                              "x": 1,
+                              "y": 0,
+                              "name": "Streak Flame Outer",
+                              "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
+                              "viewBox": [
+                                0,
+                                0,
+                                48,
+                                48
+                              ],
+                              "fill": {
+                                "type": "gradient",
+                                "gradientType": "linear",
+                                "enabled": true,
+                                "rotation": 180,
+                                "size": {
+                                  "height": 1
+                                },
+                                "colors": [
+                                  {
+                                    "color": "#F97316",
+                                    "position": 0
+                                  },
+                                  {
+                                    "color": "#FACC15",
+                                    "position": 1
+                                  }
+                                ]
+                              },
+                              "width": 23,
+                              "height": 25,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#F973164D",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 2
+                                },
+                                "blur": 8
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "JUa8C",
+                              "x": 8,
+                              "y": 10,
+                              "name": "Streak Flame Inner",
+                              "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
+                              "viewBox": [
+                                0,
+                                0,
+                                48,
+                                48
+                              ],
+                              "fill": "#FFF7AD",
+                              "width": 10,
+                              "height": 13
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "WWiLz",
+                      "name": "Icon Name / Flame",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": 122,
+                      "content": "Flame",
+                      "textAlign": "center",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$type-caption-size",
+                      "fontWeight": "$type-weight-medium"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -5713,7 +7130,7 @@
                     "I1XCdW": {
                       "content": "Email"
                     },
-                    "RBmUz": {
+                    "CGIg1": {
                       "enabled": false
                     },
                     "ONWjS": {
@@ -5756,7 +7173,7 @@
                     "I1XCdW": {
                       "content": "Пароль"
                     },
-                    "RBmUz": {
+                    "CGIg1": {
                       "enabled": false
                     },
                     "ONWjS": {
@@ -5838,14 +7255,19 @@
                   ]
                 },
                 {
-                  "type": "icon",
-                  "id": "SqhVy",
-                  "name": "Card Click Indicator",
+                  "id": "o89Fk",
+                  "type": "ref",
+                  "ref": "yUHXd",
+                  "name": "Icon Instance / Chevron Right",
                   "width": 22,
                   "height": 22,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$primary"
+                  "descendants": {
+                    "l2eBI": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$primary"
+                    }
+                  }
                 }
               ]
             },
@@ -5876,14 +7298,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "OGAri",
-                      "name": "Empty Icon Glyph",
+                      "id": "FSot8",
+                      "type": "ref",
+                      "ref": "d8hxJ",
+                      "name": "Icon Instance / Book Open",
                       "width": 20,
                       "height": 20,
-                      "icon": "book-open",
-                      "library": "lucide",
-                      "fill": "$primary"
+                      "descendants": {
+                        "F9gft": {
+                          "width": 20,
+                          "height": 20,
+                          "fill": "$primary"
+                        }
+                      }
                     }
                   ]
                 },
@@ -5977,15 +7404,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "rZ9HW",
-                      "name": "Nav Icon / Главная",
+                      "id": "UmJEF",
+                      "type": "ref",
+                      "ref": "jmeBD",
+                      "name": "Icon Instance / Nav Home",
                       "width": 22,
                       "height": 22,
-                      "icon": "home",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$primary"
+                      "descendants": {
+                        "u8EuhD": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$primary"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -6013,15 +7444,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "ivXLv",
-                      "name": "Nav Icon / Библиотека",
+                      "id": "p5239B",
+                      "type": "ref",
+                      "ref": "XwPxO",
+                      "name": "Icon Instance / Nav Library",
                       "width": 22,
                       "height": 22,
-                      "icon": "menu_book",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "uhDDB": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -6049,15 +7484,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "cDiFN",
-                      "name": "Nav Icon / Обучение",
+                      "id": "O2M7dC",
+                      "type": "ref",
+                      "ref": "mDfGW",
+                      "name": "Icon Instance / Nav Learning",
                       "width": 22,
                       "height": 22,
-                      "icon": "school",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "vDJ5t": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -6085,15 +7524,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "l8qX5V",
-                      "name": "Nav Icon / Еще",
+                      "id": "n18urE",
+                      "type": "ref",
+                      "ref": "wmMUD",
+                      "name": "Icon Instance / Nav More",
                       "width": 22,
                       "height": 22,
-                      "icon": "apps",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "fbh2i": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -6297,14 +7740,19 @@
                           "fontWeight": "$type-weight-bold"
                         },
                         {
-                          "type": "icon",
-                          "id": "RkhSj",
-                          "name": "Tip Chevron",
+                          "id": "R79jix",
+                          "type": "ref",
+                          "ref": "yUHXd",
+                          "name": "Icon Instance / Chevron Right",
                           "width": 20,
                           "height": 20,
-                          "icon": "chevron-right",
-                          "library": "lucide",
-                          "fill": "$text-muted"
+                          "descendants": {
+                            "l2eBI": {
+                              "width": 20,
+                              "height": 20,
+                              "fill": "$text-muted"
+                            }
+                          }
                         }
                       ]
                     }
@@ -6347,14 +7795,19 @@
                           "fontWeight": "$type-weight-bold"
                         },
                         {
-                          "type": "icon",
-                          "id": "UGYgR",
-                          "name": "Tip Chevron",
+                          "id": "cRhki",
+                          "type": "ref",
+                          "ref": "IHxWW",
+                          "name": "Icon Instance / Chevron Down",
                           "width": 20,
                           "height": 20,
-                          "icon": "chevron-down",
-                          "library": "lucide",
-                          "fill": "$text-muted"
+                          "descendants": {
+                            "asCnv": {
+                              "width": 20,
+                              "height": 20,
+                              "fill": "$text-muted"
+                            }
+                          }
                         }
                       ]
                     },
@@ -6383,93 +7836,23 @@
           "name": "Product Row / Streak Components",
           "width": "fill_container",
           "gap": "$space-5",
+          "alignItems": "center",
           "children": [
             {
               "type": "frame",
               "id": "e16iU",
-              "name": "Product / Streak Indicator",
+              "name": "Product / Streak Indicator / Active",
               "reusable": true,
               "gap": 6,
               "alignItems": "center",
               "children": [
                 {
-                  "type": "frame",
-                  "id": "IVEfb",
-                  "name": "Streak Flame",
+                  "id": "dKaaI",
+                  "type": "ref",
+                  "ref": "ypPyT",
+                  "name": "Icon Instance / Streak Flame",
                   "width": 25,
-                  "height": 25,
-                  "fill": "#FFFFFF00",
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "enabled": false,
-                    "color": "#00000000"
-                  },
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "path",
-                      "id": "HZYZM",
-                      "x": 1,
-                      "y": 0,
-                      "name": "Streak Flame Outer",
-                      "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
-                      "viewBox": [
-                        0,
-                        0,
-                        48,
-                        48
-                      ],
-                      "fill": {
-                        "type": "gradient",
-                        "gradientType": "linear",
-                        "enabled": true,
-                        "rotation": 180,
-                        "size": {
-                          "height": 1
-                        },
-                        "colors": [
-                          {
-                            "color": "#F97316",
-                            "position": 0
-                          },
-                          {
-                            "color": "#FACC15",
-                            "position": 1
-                          }
-                        ]
-                      },
-                      "width": 23,
-                      "height": 25,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#F973164D",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 8
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "id": "pS8zR",
-                      "x": 8,
-                      "y": 10,
-                      "name": "Streak Flame Inner",
-                      "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
-                      "viewBox": [
-                        0,
-                        0,
-                        48,
-                        48
-                      ],
-                      "fill": "#FFF7AD",
-                      "width": 10,
-                      "height": 13
-                    }
-                  ]
+                  "height": 25
                 },
                 {
                   "type": "text",
@@ -6484,89 +7867,29 @@
               ]
             },
             {
-              "type": "frame",
-              "id": "T0NsbX",
-              "name": "Product States / Streak Indicator",
-              "width": "fill_container",
-              "gap": "$space-5",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "o5M2Wm",
-                  "name": "Inactive closed",
-                  "layout": "vertical",
-                  "gap": "$space-2",
-                  "children": [
-                    {
-                      "id": "PPSJl",
-                      "type": "ref",
-                      "ref": "e16iU",
-                      "name": "Inactive closed Indicator",
-                      "descendants": {
-                        "HZYZM": {
-                          "type": "path",
-                          "id": "mAgVS",
-                          "x": 1,
-                          "y": 0,
-                          "name": "Streak Flame Outer",
-                          "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
-                          "viewBox": [
-                            0,
-                            0,
-                            48,
-                            48
-                          ],
-                          "fill": {
-                            "type": "gradient",
-                            "gradientType": "linear",
-                            "enabled": true,
-                            "rotation": 180,
-                            "size": {
-                              "height": 1
-                            },
-                            "colors": [
-                              {
-                                "color": "$color-icon-muted",
-                                "position": 0
-                              },
-                              {
-                                "color": "$color-border-strong",
-                                "position": 1
-                              }
-                            ]
-                          },
-                          "width": 23,
-                          "height": 25,
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "enabled": false,
-                            "color": "#00000000"
-                          }
-                        },
-                        "pS8zR": {
-                          "type": "path",
-                          "id": "O3gCYS",
-                          "x": 8,
-                          "y": 10,
-                          "name": "Streak Flame Inner",
-                          "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
-                          "viewBox": [
-                            0,
-                            0,
-                            48,
-                            48
-                          ],
-                          "fill": "$color-disabled-bg",
-                          "width": 10,
-                          "height": 13
-                        }
-                      }
-                    }
-                  ]
+              "id": "j1vZr",
+              "type": "ref",
+              "reusable": true,
+              "ref": "e16iU",
+              "name": "Product / Streak Indicator / Inactive",
+              "descendants": {
+                "dKaaI/DIbot": {
+                  "fill": "$color-disabled-fg",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  }
+                },
+                "dKaaI/JUa8C": {
+                  "fill": "$color-surface-muted"
+                },
+                "fUAJN": {
+                  "content": "7",
+                  "fill": "$text"
                 }
-              ]
+              }
             }
           ]
         },
@@ -6600,70 +7923,10 @@
                       "justifyContent": "end",
                       "children": [
                         {
-                          "id": "XWlr5",
+                          "id": "V2Dr9l",
                           "type": "ref",
-                          "ref": "e16iU",
-                          "name": "Inactive Popup Indicator",
-                          "descendants": {
-                            "HZYZM": {
-                              "type": "path",
-                              "id": "czm2B",
-                              "x": 1,
-                              "y": 0,
-                              "name": "Streak Flame Outer",
-                              "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
-                              "viewBox": [
-                                0,
-                                0,
-                                48,
-                                48
-                              ],
-                              "fill": {
-                                "type": "gradient",
-                                "gradientType": "linear",
-                                "enabled": true,
-                                "rotation": 180,
-                                "size": {
-                                  "height": 1
-                                },
-                                "colors": [
-                                  {
-                                    "color": "$color-icon-muted",
-                                    "position": 0
-                                  },
-                                  {
-                                    "color": "$color-border-strong",
-                                    "position": 1
-                                  }
-                                ]
-                              },
-                              "width": 23,
-                              "height": 25,
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "enabled": false,
-                                "color": "#00000000"
-                              }
-                            },
-                            "pS8zR": {
-                              "type": "path",
-                              "id": "u5wmZV",
-                              "x": 8,
-                              "y": 10,
-                              "name": "Streak Flame Inner",
-                              "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
-                              "viewBox": [
-                                0,
-                                0,
-                                48,
-                                48
-                              ],
-                              "fill": "$color-disabled-bg",
-                              "width": 10,
-                              "height": 13
-                            }
-                          }
+                          "ref": "j1vZr",
+                          "name": "Inactive Popup Indicator"
                         }
                       ]
                     },
@@ -6700,70 +7963,10 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "id": "KiT7Q",
+                              "id": "J3MTMn",
                               "type": "ref",
-                              "ref": "e16iU",
-                              "name": "Inactive Popup Popup Indicator",
-                              "descendants": {
-                                "HZYZM": {
-                                  "type": "path",
-                                  "id": "W2Amo",
-                                  "x": 1,
-                                  "y": 0,
-                                  "name": "Streak Flame Outer",
-                                  "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
-                                  "viewBox": [
-                                    0,
-                                    0,
-                                    48,
-                                    48
-                                  ],
-                                  "fill": {
-                                    "type": "gradient",
-                                    "gradientType": "linear",
-                                    "enabled": true,
-                                    "rotation": 180,
-                                    "size": {
-                                      "height": 1
-                                    },
-                                    "colors": [
-                                      {
-                                        "color": "$color-icon-muted",
-                                        "position": 0
-                                      },
-                                      {
-                                        "color": "$color-border-strong",
-                                        "position": 1
-                                      }
-                                    ]
-                                  },
-                                  "width": 23,
-                                  "height": 25,
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "enabled": false,
-                                    "color": "#00000000"
-                                  }
-                                },
-                                "pS8zR": {
-                                  "type": "path",
-                                  "id": "Qmj0n",
-                                  "x": 8,
-                                  "y": 10,
-                                  "name": "Streak Flame Inner",
-                                  "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
-                                  "viewBox": [
-                                    0,
-                                    0,
-                                    48,
-                                    48
-                                  ],
-                                  "fill": "$color-disabled-bg",
-                                  "width": 10,
-                                  "height": 13
-                                }
-                              }
+                              "ref": "j1vZr",
+                              "name": "Inactive Popup Popup Indicator"
                             },
                             {
                               "type": "text",
@@ -7254,7 +8457,7 @@
                         "I1XCdW": {
                           "content": "Код"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7273,7 +8476,7 @@
                         "I1XCdW": {
                           "content": "Название"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7399,7 +8602,7 @@
                             "I1XCdW": {
                               "content": "Название части"
                             },
-                            "RBmUz": {
+                            "CGIg1": {
                               "enabled": false
                             },
                             "ONWjS": {
@@ -7458,7 +8661,7 @@
                                         "I1XCdW": {
                                           "content": "Название главы"
                                         },
-                                        "RBmUz": {
+                                        "CGIg1": {
                                           "enabled": false
                                         },
                                         "ONWjS": {
@@ -7487,7 +8690,7 @@
                                         "I1XCdW": {
                                           "content": "Название главы"
                                         },
-                                        "RBmUz": {
+                                        "CGIg1": {
                                           "enabled": false
                                         },
                                         "ONWjS": {
@@ -7511,14 +8714,19 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "icon",
-                                          "id": "tzY8J",
-                                          "name": "Delete Chapter Icon",
+                                          "id": "G6eeD",
+                                          "type": "ref",
+                                          "ref": "l4ohAg",
+                                          "name": "Icon Instance / Trash",
                                           "width": 18,
                                           "height": 18,
-                                          "icon": "trash-2",
-                                          "library": "lucide",
-                                          "fill": "#DC2626"
+                                          "descendants": {
+                                            "J88iN": {
+                                              "width": 18,
+                                              "height": 18,
+                                              "fill": "#DC2626"
+                                            }
+                                          }
                                         }
                                       ]
                                     }
@@ -7533,8 +8741,7 @@
                               "name": "Add Chapter Button",
                               "width": "fill_container",
                               "descendants": {
-                                "g86340": {
-                                  "icon": "plus",
+                                "nALai/aJi23": {
                                   "fill": "#2563EB"
                                 },
                                 "VZsCN": {
@@ -7551,8 +8758,7 @@
                           "name": "Add Part Button",
                           "width": "fill_container",
                           "descendants": {
-                            "g86340": {
-                              "icon": "plus",
+                            "nALai/aJi23": {
                               "fill": "#2563EB"
                             },
                             "VZsCN": {
@@ -7649,7 +8855,7 @@
                             "I1XCdW": {
                               "content": "Текст"
                             },
-                            "RBmUz": {
+                            "CGIg1": {
                               "enabled": false
                             },
                             "ONWjS": {
@@ -7670,7 +8876,7 @@
                         "I1XCdW": {
                           "content": "1 пада"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7688,7 +8894,7 @@
                         "I1XCdW": {
                           "content": "2 пада"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7706,7 +8912,7 @@
                         "I1XCdW": {
                           "content": "3 пада"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7724,7 +8930,7 @@
                         "I1XCdW": {
                           "content": "4 пада"
                         },
-                        "RBmUz": {
+                        "CGIg1": {
                           "enabled": false
                         },
                         "ONWjS": {
@@ -7862,7 +9068,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "k5I7P",
+                          "id": "xYgUd",
                           "name": "Signal Icon",
                           "width": 16,
                           "height": 16,
@@ -7872,7 +9078,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "HxPP4",
+                          "id": "DH9qO",
                           "name": "Wifi Icon",
                           "width": 16,
                           "height": 16,
@@ -7882,7 +9088,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "f13mzv",
+                          "id": "N8rPIg",
                           "name": "Battery Icon",
                           "width": 18,
                           "height": 16,
@@ -7998,7 +9204,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "ozxsy",
+                          "id": "AoCyA",
                           "name": "Signal Icon",
                           "width": 16,
                           "height": 16,
@@ -8008,7 +9214,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "aaqNv",
+                          "id": "bqEzi",
                           "name": "Wifi Icon",
                           "width": 16,
                           "height": 16,
@@ -8018,7 +9224,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "AHBDF",
+                          "id": "B0lJwe",
                           "name": "Battery Icon",
                           "width": 18,
                           "height": 16,
@@ -8968,15 +10174,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "pO1Ed",
-                      "name": "Nav Icon / Главная",
+                      "id": "h64OK",
+                      "type": "ref",
+                      "ref": "jmeBD",
+                      "name": "Icon Instance / Home",
                       "width": 22,
                       "height": 22,
-                      "icon": "home",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$primary"
+                      "descendants": {
+                        "u8EuhD": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$primary"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -9004,15 +10214,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "Esy5o",
-                      "name": "Nav Icon / Библиотека",
+                      "id": "i80rUH",
+                      "type": "ref",
+                      "ref": "XwPxO",
+                      "name": "Icon Instance / Library",
                       "width": 22,
                       "height": 22,
-                      "icon": "menu_book",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "uhDDB": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -9040,15 +10254,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "yLvWB",
-                      "name": "Nav Icon / Обучение",
+                      "id": "GGKpT",
+                      "type": "ref",
+                      "ref": "mDfGW",
+                      "name": "Icon Instance / Learning",
                       "width": 22,
                       "height": 22,
-                      "icon": "school",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "vDJ5t": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -9076,15 +10294,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "SdZbT",
-                      "name": "Nav Icon / Еще",
+                      "id": "wkFqc",
+                      "type": "ref",
+                      "ref": "wmMUD",
+                      "name": "Icon Instance / More",
                       "width": 22,
                       "height": 22,
-                      "icon": "apps",
-                      "library": "Material Symbols Rounded",
-                      "weight": 700,
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "fbh2i": {
+                          "width": 22,
+                          "height": 22,
+                          "fill": "$text-muted"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -9400,14 +10622,19 @@
                           ]
                         },
                         {
-                          "type": "icon",
-                          "id": "u1u3Y",
-                          "name": "Card Click Indicator",
+                          "id": "Agv5u",
+                          "type": "ref",
+                          "ref": "yUHXd",
+                          "name": "Icon Instance / Chevron Right",
                           "width": 22,
                           "height": 22,
-                          "icon": "chevron-right",
-                          "library": "lucide",
-                          "fill": "$primary"
+                          "descendants": {
+                            "l2eBI": {
+                              "width": 22,
+                              "height": 22,
+                              "fill": "$primary"
+                            }
+                          }
                         }
                       ]
                     },
@@ -9457,14 +10684,19 @@
                           ]
                         },
                         {
-                          "type": "icon",
-                          "id": "KzXBe",
-                          "name": "Card Click Indicator",
+                          "id": "sLbek",
+                          "type": "ref",
+                          "ref": "yUHXd",
+                          "name": "Icon Instance / Chevron Right",
                           "width": 22,
                           "height": 22,
-                          "icon": "chevron-right",
-                          "library": "lucide",
-                          "fill": "$primary"
+                          "descendants": {
+                            "l2eBI": {
+                              "width": 22,
+                              "height": 22,
+                              "fill": "$primary"
+                            }
+                          }
                         }
                       ]
                     },
@@ -9679,9 +10911,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -9689,9 +10918,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -9701,9 +10927,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -9711,9 +10934,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -9890,9 +11110,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -9900,9 +11117,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -9912,9 +11126,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -9922,9 +11133,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -10081,14 +11289,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "Xr6GE",
-                      "name": "Field Leading Icon",
+                      "id": "q6vne5",
+                      "type": "ref",
+                      "ref": "dfT7n",
+                      "name": "Icon Instance / Search",
                       "width": 18,
                       "height": 18,
-                      "icon": "search",
-                      "library": "lucide",
-                      "fill": "$input-icon"
+                      "descendants": {
+                        "TSpxM": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$input-icon"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -10175,9 +11388,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10185,9 +11395,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -10197,9 +11404,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10207,9 +11411,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -10366,14 +11567,19 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "vLnrK",
-                      "name": "Field Leading Icon",
+                      "id": "y7UVwJ",
+                      "type": "ref",
+                      "ref": "dfT7n",
+                      "name": "Icon Instance / Search",
                       "width": 18,
                       "height": 18,
-                      "icon": "search",
-                      "library": "lucide",
-                      "fill": "$input-icon"
+                      "descendants": {
+                        "TSpxM": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$input-icon"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -10423,9 +11629,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10433,9 +11636,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -10445,9 +11645,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10455,9 +11652,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -10567,14 +11761,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "GHH97",
-                  "name": "Back Icon",
+                  "id": "O351iw",
+                  "type": "ref",
+                  "ref": "M8u93M",
+                  "name": "Icon Instance / Chevron Left",
                   "width": 20,
                   "height": 20,
-                  "icon": "chevron-left",
-                  "library": "lucide",
-                  "fill": "$primary"
+                  "descendants": {
+                    "whY0L": {
+                      "width": 20,
+                      "height": 20,
+                      "fill": "$primary"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -10629,9 +11828,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10639,9 +11835,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -10651,9 +11844,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10661,9 +11851,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -10825,9 +12012,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10835,9 +12019,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -10847,9 +12028,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -10857,9 +12035,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -10972,14 +12147,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "sHwci",
-                  "name": "Done Check",
+                  "id": "H05Aa",
+                  "type": "ref",
+                  "ref": "Pg6xe",
+                  "name": "Icon Instance / Check",
                   "width": 26,
                   "height": 26,
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "$success"
+                  "descendants": {
+                    "gnrAo": {
+                      "width": 26,
+                      "height": 26,
+                      "fill": "$success"
+                    }
+                  }
                 }
               ]
             },
@@ -11023,9 +12203,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -11033,9 +12210,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$primary"
             },
             "L6CXp6": {
               "fill": "$primary",
@@ -11045,9 +12219,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$text-muted"
-            },
             "Jl09H": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -11055,9 +12226,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -12188,9 +13356,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "rZ9HW": {
-              "fill": "$text-muted"
-            },
             "M1O7R": {
               "fill": "$text-muted",
               "fontWeight": "$type-weight-medium"
@@ -12198,9 +13363,6 @@
             "bQROH": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "ivXLv": {
-              "fill": "$text-muted"
             },
             "L6CXp6": {
               "fill": "$text-muted",
@@ -12210,9 +13372,6 @@
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
             },
-            "cDiFN": {
-              "fill": "$primary"
-            },
             "Jl09H": {
               "fill": "$primary",
               "fontWeight": "$type-weight-semibold"
@@ -12220,9 +13379,6 @@
             "JIRDA": {
               "fill": "$color-transparent",
               "cornerRadius": "$radius-none"
-            },
-            "l8qX5V": {
-              "fill": "$text-muted"
             },
             "KuIBo": {
               "fill": "$text-muted",
@@ -12476,9 +13632,6 @@
               "name": "Admin Link",
               "width": "fill_container",
               "descendants": {
-                "g86340": {
-                  "icon": "shield-check"
-                },
                 "VZsCN": {
                   "content": "Админка"
                 }
@@ -12525,15 +13678,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "V8OMi",
-                  "name": "Nav Icon / Главная",
+                  "id": "sPPt2",
+                  "type": "ref",
+                  "ref": "jmeBD",
+                  "name": "Icon Instance / Home",
                   "width": 22,
                   "height": 22,
-                  "icon": "home",
-                  "library": "Material Symbols Rounded",
-                  "weight": 700,
-                  "fill": "$text-muted"
+                  "descendants": {
+                    "u8EuhD": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$text-muted"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -12561,15 +13718,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "lKmJb",
-                  "name": "Nav Icon / Библиотека",
+                  "id": "APJkO",
+                  "type": "ref",
+                  "ref": "XwPxO",
+                  "name": "Icon Instance / Library",
                   "width": 22,
                   "height": 22,
-                  "icon": "menu_book",
-                  "library": "Material Symbols Rounded",
-                  "weight": 700,
-                  "fill": "$text-muted"
+                  "descendants": {
+                    "uhDDB": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$text-muted"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -12597,15 +13758,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "T9NG1",
-                  "name": "Nav Icon / Обучение",
+                  "id": "vPi1p",
+                  "type": "ref",
+                  "ref": "mDfGW",
+                  "name": "Icon Instance / Learning",
                   "width": 22,
                   "height": 22,
-                  "icon": "school",
-                  "library": "Material Symbols Rounded",
-                  "weight": 700,
-                  "fill": "$text-muted"
+                  "descendants": {
+                    "vDJ5t": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$text-muted"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -12633,15 +13798,19 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "isOQO",
-                  "name": "Nav Icon / Еще",
+                  "id": "KGcZ3",
+                  "type": "ref",
+                  "ref": "wmMUD",
+                  "name": "Icon Instance / More",
                   "width": 22,
                   "height": 22,
-                  "icon": "apps",
-                  "library": "Material Symbols Rounded",
-                  "weight": 700,
-                  "fill": "$primary"
+                  "descendants": {
+                    "fbh2i": {
+                      "width": 22,
+                      "height": 22,
+                      "fill": "$primary"
+                    }
+                  }
                 },
                 {
                   "type": "text",
@@ -12812,64 +13981,9 @@
                       "id": "B6c4D",
                       "name": "Chapter List",
                       "width": "fill_container",
+                      "height": "fit_content(0)",
                       "layout": "vertical",
-                      "gap": 10,
-                      "children": [
-                        {
-                          "id": "SagXd",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter Name Field",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Название"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Введите название",
-                              "fill": "#B8C3D1"
-                            }
-                          }
-                        },
-                        {
-                          "id": "of7DK",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter Number Field",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Номер"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "1",
-                              "fill": "#0F172A"
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "id": "b3HV0",
-                      "type": "ref",
-                      "ref": "B9n47J",
-                      "name": "Add Chapter Button",
-                      "width": "fill_container",
-                      "descendants": {
-                        "g86340": {
-                          "fill": "#2563EB",
-                          "icon": "plus"
-                        },
-                        "VZsCN": {
-                          "content": "Добавить главу"
-                        }
-                      }
+                      "gap": 10
                     }
                   ]
                 }
@@ -13026,83 +14140,9 @@
                       "id": "T9MVwp",
                       "name": "Chapter List",
                       "width": "fill_container",
+                      "height": "fit_content(0)",
                       "layout": "vertical",
-                      "gap": 10,
-                      "children": [
-                        {
-                          "id": "Z5MumT",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter 1 Field",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Глава 1"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Арджуна-вишада-йога",
-                              "fill": "#0F172A"
-                            }
-                          }
-                        },
-                        {
-                          "id": "Rz1St",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter 2 Field",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Глава 2"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Санкхья-йога",
-                              "fill": "#0F172A"
-                            }
-                          }
-                        },
-                        {
-                          "id": "FYC4C",
-                          "type": "ref",
-                          "ref": "VvKs5",
-                          "name": "Chapter 3 Field",
-                          "width": "fill_container",
-                          "descendants": {
-                            "I1XCdW": {
-                              "content": "Глава 3"
-                            },
-                            "RBmUz": {
-                              "enabled": false
-                            },
-                            "ONWjS": {
-                              "content": "Карма-йога",
-                              "fill": "#0F172A"
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "id": "RMVI2",
-                      "type": "ref",
-                      "ref": "B9n47J",
-                      "name": "Add Chapter Button",
-                      "width": "fill_container",
-                      "descendants": {
-                        "g86340": {
-                          "fill": "#2563EB",
-                          "icon": "plus"
-                        },
-                        "VZsCN": {
-                          "content": "Добавить главу"
-                        }
-                      }
+                      "gap": 10
                     }
                   ]
                 },
@@ -13325,14 +14365,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "aBPvF",
-                          "name": "Link Icon / Новая шлока",
+                          "id": "hau0I",
+                          "type": "ref",
+                          "ref": "VxdqV",
+                          "name": "Icon Instance / File Plus",
                           "width": 20,
                           "height": 20,
-                          "icon": "file-plus",
-                          "library": "lucide",
-                          "fill": "$primary"
+                          "descendants": {
+                            "UmJY2": {
+                              "width": 20,
+                              "height": 20,
+                              "fill": "$primary"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -13347,14 +14392,19 @@
                       ]
                     },
                     {
-                      "type": "icon",
-                      "id": "z1VEXA",
-                      "name": "Link Chevron / Новая шлока",
+                      "id": "zP77J",
+                      "type": "ref",
+                      "ref": "yUHXd",
+                      "name": "Icon Instance / Chevron Right",
                       "width": 18,
                       "height": 18,
-                      "icon": "chevron-right",
-                      "library": "lucide",
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "l2eBI": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$text-muted"
+                        }
+                      }
                     }
                   ]
                 },
@@ -13384,14 +14434,19 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "ncShE",
-                          "name": "Link Icon / Новый источник",
+                          "id": "RkGM2",
+                          "type": "ref",
+                          "ref": "krenR",
+                          "name": "Icon Instance / Book Plus",
                           "width": 20,
                           "height": 20,
-                          "icon": "book-plus",
-                          "library": "lucide",
-                          "fill": "$primary"
+                          "descendants": {
+                            "y16Ka": {
+                              "width": 20,
+                              "height": 20,
+                              "fill": "$primary"
+                            }
+                          }
                         },
                         {
                           "type": "text",
@@ -13406,14 +14461,19 @@
                       ]
                     },
                     {
-                      "type": "icon",
-                      "id": "t1sDh",
-                      "name": "Link Chevron / Новый источник",
+                      "id": "G0W4NY",
+                      "type": "ref",
+                      "ref": "yUHXd",
+                      "name": "Icon Instance / Chevron Right",
                       "width": 18,
                       "height": 18,
-                      "icon": "chevron-right",
-                      "library": "lucide",
-                      "fill": "$text-muted"
+                      "descendants": {
+                        "l2eBI": {
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$text-muted"
+                        }
+                      }
                     }
                   ]
                 },
