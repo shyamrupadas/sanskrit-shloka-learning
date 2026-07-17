@@ -28,6 +28,11 @@ describe("runMigrations", () => {
       client.executedStatements.indexOf("create table first_table") <
         client.executedStatements.indexOf("create table second_table"),
     );
+    assert.ok(
+      client.queries.indexOf("select pg_try_advisory_lock($1) as acquired") <
+        client.queries.indexOf("select id, checksum from schema_migrations order by id"),
+    );
+    assert.equal(client.unlockCount, 1);
   });
 
   test("skips already applied migrations with the same checksum", async () => {
@@ -86,26 +91,60 @@ describe("runMigrations", () => {
       /^begin; create table first_table; create index first_index; insert into schema_migrations .*; commit$/,
     );
   });
+
+  test("rejects a concurrent runner before reading migration history", async () => {
+    const client = new FakeMigrationClient({ lockAcquired: false });
+
+    await assert.rejects(
+      runMigrations(
+        client,
+        [migration("0001_first", ["create table first_table"])],
+        silentLogger,
+      ),
+      /Database migration lock is held by another runner/,
+    );
+
+    assert.deepEqual(client.queries, ["select pg_try_advisory_lock($1) as acquired"]);
+    assert.equal(client.migrationBatches.length, 0);
+    assert.equal(client.unlockCount, 0);
+  });
 });
 
 class FakeMigrationClient implements MigrationExecutor {
   readonly appliedMigrations = new Map<string, string>();
   readonly executedStatements: string[] = [];
   readonly migrationBatches: string[] = [];
+  readonly queries: string[] = [];
   commitCount = 0;
   rollbackCount = 0;
+  unlockCount = 0;
 
-  constructor(private readonly options: { failOnStatement?: string } = {}) {}
+  constructor(
+    private readonly options: {
+      failOnStatement?: string;
+      lockAcquired?: boolean;
+    } = {},
+  ) {}
 
   async query<Row extends pg.QueryResultRow = pg.QueryResultRow>(
     text: string,
     _values: readonly unknown[] = [],
   ): Promise<pg.QueryResult<Row>> {
     const statement = normalizeSql(text);
+    this.queries.push(statement);
 
     if (statement === "rollback") {
       this.rollbackCount += 1;
       return result([]);
+    }
+    if (statement === "select pg_try_advisory_lock($1) as acquired") {
+      return result([
+        { acquired: this.options.lockAcquired ?? true },
+      ] as unknown as Row[]);
+    }
+    if (statement === "select pg_advisory_unlock($1) as released") {
+      this.unlockCount += 1;
+      return result([{ released: true }] as unknown as Row[]);
     }
     if (statement.startsWith("create table if not exists schema_migrations")) {
       return result([]);

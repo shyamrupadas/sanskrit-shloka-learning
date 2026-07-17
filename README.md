@@ -39,6 +39,21 @@ cp apps/api/.env.example apps/api/.env.local
 ```
 
 Set `DATABASE_URL` to the Neon PostgreSQL connection string with `sslmode=require`.
+For production, set `DATABASE_DIRECT_URL` to the separate direct Neon endpoint. Local
+development may omit `DATABASE_DIRECT_URL`; local migrations then use `DATABASE_URL`
+unchanged and never derive a hostname by removing `-pooler`.
+
+Run local migrations from TypeScript:
+
+```sh
+pnpm --filter @sanskrit-shloka-learning/api db:migrate
+```
+
+Use the compiled artifact for Railway pre-deploy after `pnpm build`:
+
+```sh
+pnpm --filter @sanskrit-shloka-learning/api db:migrate:production
+```
 
 Workspace layout:
 

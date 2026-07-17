@@ -24,12 +24,49 @@ interface AppliedMigrationRow extends pg.QueryResultRow {
   checksum: string;
 }
 
+interface AdvisoryLockRow extends pg.QueryResultRow {
+  acquired: boolean;
+}
+
+interface AdvisoryUnlockRow extends pg.QueryResultRow {
+  released: boolean;
+}
+
+// A fixed int8 key gives every deploy of this service the same session-level lock.
+// PostgreSQL releases session-level advisory locks automatically when the connection closes.
+const migrationAdvisoryLockKey = "8247761928473107201";
+
 export async function runMigrations(
   client: MigrationExecutor,
   migrations: readonly Migration[],
   logger: Pick<Console, "log"> = console,
 ): Promise<MigrationRunResult> {
   validateMigrations(migrations);
+  await acquireMigrationLock(client);
+
+  let migrationError: unknown;
+
+  try {
+    return await runLockedMigrations(client, migrations, logger);
+  } catch (error) {
+    migrationError = error;
+    throw error;
+  } finally {
+    try {
+      await releaseMigrationLock(client);
+    } catch (releaseError) {
+      if (migrationError === undefined) {
+        throw releaseError;
+      }
+    }
+  }
+}
+
+async function runLockedMigrations(
+  client: MigrationExecutor,
+  migrations: readonly Migration[],
+  logger: Pick<Console, "log">,
+): Promise<MigrationRunResult> {
   await ensureSchemaMigrationsTable(client);
 
   const appliedRows = await client.query<AppliedMigrationRow>(
@@ -58,6 +95,28 @@ export async function runMigrations(
   }
 
   return result;
+}
+
+async function acquireMigrationLock(client: MigrationExecutor): Promise<void> {
+  const lockResult = await client.query<AdvisoryLockRow>(
+    "select pg_try_advisory_lock($1) as acquired",
+    [migrationAdvisoryLockKey],
+  );
+
+  if (lockResult.rows[0]?.acquired !== true) {
+    throw new Error("Database migration lock is held by another runner");
+  }
+}
+
+async function releaseMigrationLock(client: MigrationExecutor): Promise<void> {
+  const unlockResult = await client.query<AdvisoryUnlockRow>(
+    "select pg_advisory_unlock($1) as released",
+    [migrationAdvisoryLockKey],
+  );
+
+  if (unlockResult.rows[0]?.released !== true) {
+    throw new Error("Failed to release database migration lock");
+  }
 }
 
 export function calculateMigrationChecksum(migration: Migration): string {

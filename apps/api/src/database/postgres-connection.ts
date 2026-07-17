@@ -52,21 +52,6 @@ export function createConnectionConfig(
   return config;
 }
 
-export function resolveMigrationDatabaseUrl(databaseUrl: string): string {
-  const directDatabaseUrl = process.env.DATABASE_DIRECT_URL;
-  if (directDatabaseUrl) {
-    return directDatabaseUrl;
-  }
-
-  const url = new URL(databaseUrl);
-  if (url.hostname.endsWith(".neon.tech") && url.hostname.includes("-pooler")) {
-    url.hostname = url.hostname.replace("-pooler", "");
-    return url.toString();
-  }
-
-  return databaseUrl;
-}
-
 function shouldUseSsl(databaseUrl: string): boolean {
   const url = new URL(databaseUrl);
   const sslMode = url.searchParams.get("sslmode");
