@@ -1,5 +1,4 @@
 import {
-  Outlet,
   createRootRouteWithContext,
   createRoute,
   createRouter,
@@ -8,6 +7,15 @@ import {
 } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import {
+  AdminShlokaEditRoute,
+  AdminSourceEditRoute,
+  LearnShlokaRoute,
+  LibraryRoute,
+  ReviewShlokaRoute,
+  RootRoute,
+  ShlokaRoute,
+} from "@/app/route-components";
 import { routePaths, routeSegments } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 
@@ -39,22 +47,6 @@ const DashboardPage = lazyRouteComponent(
   () => import("@/features/dashboard/dashboard.page"),
   "DashboardPage",
 );
-const LibraryPage = lazyRouteComponent(
-  () => import("@/features/library/library.page"),
-  "LibraryPage",
-);
-const ShlokaPage = lazyRouteComponent(
-  () => import("@/features/library/shloka.page"),
-  "ShlokaPage",
-);
-const LearnShlokaPage = lazyRouteComponent(
-  () => import("@/features/learn-shloka/learn-shloka.page"),
-  "LearnShlokaPage",
-);
-const ReviewShlokaPage = lazyRouteComponent(
-  () => import("@/features/review-shloka/review-shloka.page"),
-  "ReviewShlokaPage",
-);
 const LearningPage = lazyRouteComponent(
   () => import("@/features/learning/learning.page"),
   "LearningPage",
@@ -71,17 +63,9 @@ const AdminSourcePage = lazyRouteComponent(
   loadAdminSourcePages,
   "AdminSourcePage",
 );
-const AdminSourceEditPage = lazyRouteComponent(
-  loadAdminSourcePages,
-  "AdminSourceEditPage",
-);
 const AdminShlokaPage = lazyRouteComponent(
   loadAdminShlokaPages,
   "AdminShlokaPage",
-);
-const AdminShlokaEditPage = lazyRouteComponent(
-  loadAdminShlokaPages,
-  "AdminShlokaEditPage",
 );
 
 const rootRoute = createRootRouteWithContext<RouterContext>()({
@@ -134,8 +118,6 @@ const dashboardRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.dashboard,
 });
-
-Object.assign(LibraryRoute, { preload: LibraryPage.preload });
 
 const libraryRoute = createRoute({
   component: LibraryRoute,
@@ -243,43 +225,6 @@ export function createAppRouter() {
     defaultPreload: "intent",
     routeTree,
   });
-}
-
-function RootRoute() {
-  return <Outlet />;
-}
-
-function AdminSourceEditRoute() {
-  const { sourceCode } = adminSourceEditRoute.useParams();
-  return <AdminSourceEditPage sourceCode={sourceCode} />;
-}
-
-function ShlokaRoute() {
-  const { shlokaCode } = shlokaRoute.useParams();
-  return <ShlokaPage shlokaCode={shlokaCode} />;
-}
-
-function LibraryRoute() {
-  const { tab } = libraryRoute.useSearch();
-
-  return tab ? <LibraryPage initialTab={tab} /> : <LibraryPage />;
-}
-
-function LearnShlokaRoute() {
-  const { shlokaCode } = learnShlokaRoute.useParams();
-
-  return <LearnShlokaPage key={shlokaCode} shlokaCode={shlokaCode} />;
-}
-
-function ReviewShlokaRoute() {
-  const { shlokaCode } = reviewShlokaRoute.useParams();
-
-  return <ReviewShlokaPage shlokaCode={shlokaCode} />;
-}
-
-function AdminShlokaEditRoute() {
-  const { shlokaCode } = adminShlokaEditRoute.useParams();
-  return <AdminShlokaEditPage shlokaCode={shlokaCode} />;
 }
 
 function requireAuthentication(session: SessionContextValue): void {

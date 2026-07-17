@@ -1,7 +1,5 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useMemo,
   useState,
   type ReactNode,
@@ -11,24 +9,13 @@ import {
   type ApiTypes,
 } from "@sanskrit-shloka-learning/api-contract";
 
+import { SessionContext, type SessionContextValue } from "./session-context";
 import {
   clearStoredSession,
   readStoredAccount,
   readStoredToken,
   writeStoredSession,
 } from "./storage";
-
-export interface SessionContextValue {
-  account: ApiTypes.AccountDto | null;
-  accessToken: string | null;
-  apiClient: ApiClient;
-  clearSession: () => void;
-  hasSession: boolean;
-  logout: () => Promise<void>;
-  setSession: (session: ApiTypes.AuthSessionDto) => void;
-}
-
-const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(readStoredToken);
@@ -84,14 +71,4 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   return (
     <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );
-}
-
-export function useSession(): SessionContextValue {
-  const session = useContext(SessionContext);
-
-  if (!session) {
-    throw new Error("useSession must be used inside SessionProvider.");
-  }
-
-  return session;
 }

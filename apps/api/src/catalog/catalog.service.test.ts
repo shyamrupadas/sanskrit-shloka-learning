@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
+import { Logger } from "@nestjs/common";
 
 import { DatabaseUnavailableError } from "../database/database.service.js";
 import {
@@ -134,7 +135,8 @@ describe("CatalogService", () => {
     assert.equal(repository.shlokaReads, 1);
   });
 
-  test("uses stale cached library shlokas when refresh fails with a transient error", async () => {
+  test("uses stale cached library shlokas when refresh fails with a transient error", async (t) => {
+    const warn = t.mock.method(Logger.prototype, "warn", () => undefined);
     const repository = new ConfigurableCatalogRepository();
     const service = new CatalogService(repository);
 
@@ -147,6 +149,14 @@ describe("CatalogService", () => {
 
     assert.deepEqual(await service.listLibraryShlokas(), cached.value);
     assert.equal(repository.shlokaReads, 2);
+    assert.equal(warn.mock.calls.length, 1);
+    const warning = warn.mock.calls[0]?.arguments[0];
+    assert.equal(typeof warning, "string");
+    assert.deepEqual(JSON.parse(warning), {
+      category: "transient_connection",
+      event: "catalog_public_stale_fallback",
+      level: "warn",
+    });
   });
 
   test("uses cached library shloka for item lookups while cache is fresh", async () => {
