@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { pathToFileURL } from "node:url";
 
-import type { INestApplication } from "@nestjs/common";
+import { type INestApplication, ShutdownSignal } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 import { AppModule } from "./app.module.js";
@@ -21,6 +21,7 @@ export async function bootstrap(dependencies: BootstrapDependencies = {}): Promi
   const app = await createApplication(apiConfig);
 
   configureHttpGuardrails(app, apiConfig);
+  app.enableShutdownHooks([ShutdownSignal.SIGTERM]);
   await app.listen(apiConfig.port, apiConfig.host);
 }
 

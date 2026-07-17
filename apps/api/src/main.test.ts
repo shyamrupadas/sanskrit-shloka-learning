@@ -51,6 +51,7 @@ describe("bootstrap", () => {
       databasePoolMax: 5,
       databaseUrl: validEnvironment.DATABASE_URL,
     });
+    assert.deepEqual(fakeApplication.shutdownHookCalls, [["SIGTERM"]]);
     assert.deepEqual(fakeApplication.listenCalls, [{ host: "0.0.0.0", port: 4567 }]);
   });
 
@@ -71,11 +72,16 @@ describe("bootstrap", () => {
 function createFakeApplication(): {
   app: INestApplication;
   listenCalls: Array<{ host: string; port: number }>;
+  shutdownHookCalls: string[][];
 } {
   const listenCalls: Array<{ host: string; port: number }> = [];
+  const shutdownHookCalls: string[][] = [];
   const expressApplication = { set: () => undefined };
   const app = {
     enableCors: () => undefined,
+    enableShutdownHooks: (signals: string[]) => {
+      shutdownHookCalls.push(signals);
+    },
     getHttpAdapter: () => ({ getInstance: () => expressApplication }),
     listen: async (port: number, host: string) => {
       listenCalls.push({ host, port });
@@ -83,5 +89,5 @@ function createFakeApplication(): {
     use: () => app,
   } as unknown as INestApplication;
 
-  return { app, listenCalls };
+  return { app, listenCalls, shutdownHookCalls };
 }

@@ -11,6 +11,7 @@ Initial product discovery / pre-MVP.
 - Product requirements: `docs/prd/0001-initial-product.md`
 - Domain language: `CONTEXT.md`
 - Architecture decisions: `docs/adr/`
+- Railway/Neon production runbook: `docs/operations/railway-production.md`
 
 ## Development
 

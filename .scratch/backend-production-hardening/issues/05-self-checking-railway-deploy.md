@@ -1,6 +1,7 @@
 # Сделать Railway deploy самопроверяемым
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-17
 
 ## Родитель
 

@@ -11,6 +11,42 @@ import {
 } from "./database.service.js";
 
 describe("DatabaseService reads and writes", () => {
+  test("checks readiness once with a short database timeout", async () => {
+    const pool = new FakeQueryPool([result([{ value: 1 }])]);
+    const { database, logs } = databaseHarness(pool);
+
+    await database.checkReadiness();
+
+    assert.deepEqual(pool.queries, ["select 1"]);
+    assert.deepEqual(pool.values, [[]]);
+    assert.deepEqual(pool.queryTimeouts, [1_000]);
+    assert.deepEqual(logs, []);
+  });
+
+  test("fails readiness once and logs only safe diagnostics with pool counters", async () => {
+    const pool = new FakeQueryPool([
+      Object.assign(new Error("connection includes database-secret"), { code: "ECONNRESET" }),
+      result([{ value: 1 }]),
+    ]);
+    const { database, logs } = databaseHarness(pool);
+
+    await assert.rejects(database.checkReadiness(), DatabaseUnavailableError);
+
+    assert.equal(pool.queries.length, 1);
+    assert.deepEqual(logs, [
+      {
+        attempt: 1,
+        category: "transient_connection",
+        durationMs: 1,
+        errorCode: "ECONNRESET",
+        event: "database_readiness_failed",
+        level: "warn",
+        pool: { idle: 2, total: 4, waiting: 1 },
+      },
+    ]);
+    assert.doesNotMatch(JSON.stringify(logs), /database-secret|select 1/);
+  });
+
   test("runs an ordinary safe read once with the bounded client timeout", async () => {
     const pool = new FakeQueryPool([result([{ value: "ok" }])]);
     const { database, logs } = databaseHarness(pool);

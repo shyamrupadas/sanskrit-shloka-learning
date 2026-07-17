@@ -1,6 +1,7 @@
 # Production-hardening бэкенда для первого MVP-релиза
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-17
 
 ## Постановка проблемы
 

@@ -32,6 +32,7 @@ export interface DatabaseWarningLog {
   event:
     | "database_pool_error"
     | "database_read_retry"
+    | "database_readiness_failed"
     | "database_transaction_client_error"
     | "database_unavailable";
   level: "warn";
@@ -74,6 +75,7 @@ const transientConnectionErrorMessages = [
 ];
 const clientQueryTimeoutMessage = "Query read timeout";
 const readQueryTimeoutMillis = 5_000;
+const readinessQueryTimeoutMillis = 1_000;
 const readRetryDelayMillis = 50;
 
 interface QueryConfigWithTimeout extends pg.QueryConfig<unknown[]> {
@@ -109,6 +111,17 @@ export class DatabaseService implements OnModuleDestroy {
 
   async onModuleDestroy(): Promise<void> {
     await this.pool.end();
+  }
+
+  async checkReadiness(): Promise<void> {
+    const startedAt = this.now();
+
+    try {
+      await this.queryWithTimeout("select 1", [], readinessQueryTimeoutMillis);
+    } catch (error) {
+      this.warn("database_readiness_failed", error, startedAt, 1);
+      throw new DatabaseUnavailableError();
+    }
   }
 
   async readQuery<T extends pg.QueryResultRow = pg.QueryResultRow>(
