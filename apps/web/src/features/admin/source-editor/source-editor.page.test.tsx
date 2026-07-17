@@ -27,7 +27,7 @@ const chapterSource = {
   title: "Бхагавад-гита",
   description: "Диалог Кришны и Арджуны",
   structureType: "chapters",
-  chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+  chapters: [{ code: "2", title: "Глава 2", order: 1 }],
   parts: [],
 } satisfies ApiTypes.AdminSourceDto;
 
@@ -39,10 +39,10 @@ const partSource = {
   chapters: [],
   parts: [
     {
-      code: "bhishma-parva",
+      code: "1",
       title: "Бхишма-парва",
       order: 1,
-      chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+      chapters: [{ code: "1", title: "Глава 1", order: 1 }],
     },
   ],
 } satisfies ApiTypes.AdminSourceDto;
@@ -95,18 +95,18 @@ describe("admin source editor pages", () => {
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
     await user.click(screen.getByRole("tab", { name: "Главы" }));
-    await user.type(screen.getByLabelText("Код главы 1"), "chapter-2");
+    await user.type(screen.getByLabelText("Код главы 1"), "2");
     await user.type(screen.getByLabelText("Название главы 1"), "Глава 2");
     await user.click(screen.getByRole("button", { name: "Добавить главу" }));
-    await user.type(screen.getByLabelText("Код главы 2"), "chapter-3");
+    await user.type(screen.getByLabelText("Код главы 2"), "3");
     await user.type(screen.getByLabelText("Название главы 2"), "Глава 3");
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
 
     expect(await screen.findByRole("status")).toHaveTextContent("Источник создан");
     expect(createBody).toEqual({
       chapters: [
-        { code: "chapter-2", order: 1, title: "Глава 2" },
-        { code: "chapter-3", order: 2, title: "Глава 3" },
+        { code: "2", order: 1, title: "Глава 2" },
+        { code: "3", order: 2, title: "Глава 3" },
       ],
       code: "gita",
       structureType: "chapters",
@@ -134,14 +134,14 @@ describe("admin source editor pages", () => {
     expect(
       screen.queryByRole("button", { name: /удалить/i }),
     ).not.toBeInTheDocument();
-    await user.type(screen.getByLabelText("Код части 1"), "bhishma-parva");
+    await user.type(screen.getByLabelText("Код части 1"), "1");
     await user.type(screen.getByLabelText("Название части 1"), "Бхишма-парва");
-    await user.type(screen.getByLabelText("Код главы 1"), "chapter-1");
+    await user.type(screen.getByLabelText("Код главы 1"), "1");
     await user.type(screen.getByLabelText("Название главы 1"), "Глава 1");
     await user.click(screen.getByRole("button", { name: "Добавить часть" }));
-    await user.type(screen.getByLabelText("Код части 2"), "drona-parva");
+    await user.type(screen.getByLabelText("Код части 2"), "2");
     await user.type(screen.getByLabelText("Название части 2"), "Дрона-парва");
-    await user.type(getSecondField("Код главы 1"), "chapter-2");
+    await user.type(getSecondField("Код главы 1"), "2");
     await user.type(getSecondField("Название главы 1"), "Глава 2");
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
 
@@ -151,14 +151,14 @@ describe("admin source editor pages", () => {
       description: "Эпос",
       parts: [
         {
-          chapters: [{ code: "chapter-1", order: 1, title: "Глава 1" }],
-          code: "bhishma-parva",
+          chapters: [{ code: "1", order: 1, title: "Глава 1" }],
+          code: "1",
           order: 1,
           title: "Бхишма-парва",
         },
         {
-          chapters: [{ code: "chapter-2", order: 1, title: "Глава 2" }],
-          code: "drona-parva",
+          chapters: [{ code: "2", order: 1, title: "Глава 2" }],
+          code: "2",
           order: 2,
           title: "Дрона-парва",
         },
@@ -195,15 +195,15 @@ describe("admin source editor pages", () => {
     await user.clear(screen.getByLabelText("Название главы 1"));
     await user.type(screen.getByLabelText("Название главы 1"), "Вторая глава");
     await user.click(screen.getByRole("button", { name: "Добавить главу" }));
-    await user.type(screen.getByLabelText("Код главы 2"), "chapter-3");
+    await user.type(screen.getByLabelText("Код главы 2"), "3");
     await user.type(screen.getByLabelText("Название главы 2"), "Третья глава");
     await user.click(screen.getByRole("button", { name: "Сохранить источник" }));
 
     expect(await screen.findByRole("status")).toHaveTextContent("Источник сохранен");
     expect(updateBody).toEqual({
       chapters: [
-        { code: "chapter-2", order: 1, title: "Вторая глава" },
-        { code: "chapter-3", order: 2, title: "Третья глава" },
+        { code: "2", order: 1, title: "Вторая глава" },
+        { code: "3", order: 2, title: "Третья глава" },
       ],
       description: "Новое описание",
       title: "Гита",
@@ -240,9 +240,9 @@ describe("admin source editor pages", () => {
     await user.clear(screen.getByLabelText("Название главы 1"));
     await user.type(screen.getByLabelText("Название главы 1"), "Первая глава");
     await user.click(screen.getByRole("button", { name: "Добавить часть" }));
-    await user.type(screen.getByLabelText("Код части 2"), "drona-parva");
+    await user.type(screen.getByLabelText("Код части 2"), "2");
     await user.type(screen.getByLabelText("Название части 2"), "Дрона-парва");
-    await user.type(getSecondField("Код главы 1"), "chapter-2");
+    await user.type(getSecondField("Код главы 1"), "2");
     await user.type(getSecondField("Название главы 1"), "Глава 2");
     await user.click(screen.getByRole("button", { name: "Сохранить источник" }));
 
@@ -251,14 +251,14 @@ describe("admin source editor pages", () => {
       description: "Эпос",
       parts: [
         {
-          chapters: [{ code: "chapter-1", order: 1, title: "Первая глава" }],
-          code: "bhishma-parva",
+          chapters: [{ code: "1", order: 1, title: "Первая глава" }],
+          code: "1",
           order: 1,
           title: "Бхишма",
         },
         {
-          chapters: [{ code: "chapter-2", order: 1, title: "Глава 2" }],
-          code: "drona-parva",
+          chapters: [{ code: "2", order: 1, title: "Глава 2" }],
+          code: "2",
           order: 2,
           title: "Дрона-парва",
         },
@@ -276,6 +276,7 @@ describe("admin source editor pages", () => {
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
     await user.click(screen.getByRole("tab", { name: "Главы" }));
+    await user.type(screen.getByLabelText("Код главы 1"), "chapter-1");
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
 
     expect(screen.getByLabelText("Код главы 1")).toBeInvalid();
@@ -407,8 +408,8 @@ function successfulSourceApi({
         title: "Гита",
         description: "Новое описание",
         chapters: [
-          { code: "chapter-2", title: "Вторая глава", order: 1 },
-          { code: "chapter-3", title: "Третья глава", order: 2 },
+          { code: "2", title: "Вторая глава", order: 1 },
+          { code: "3", title: "Третья глава", order: 2 },
         ],
       },
     };
@@ -421,16 +422,16 @@ function successfulSourceApi({
         ...partSource,
         parts: [
           {
-            code: "bhishma-parva",
+            code: "1",
             title: "Бхишма",
             order: 1,
-            chapters: [{ code: "chapter-1", title: "Первая глава", order: 1 }],
+            chapters: [{ code: "1", title: "Первая глава", order: 1 }],
           },
           {
-            code: "drona-parva",
+            code: "2",
             title: "Дрона-парва",
             order: 2,
-            chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+            chapters: [{ code: "2", title: "Глава 2", order: 1 }],
           },
         ],
       },

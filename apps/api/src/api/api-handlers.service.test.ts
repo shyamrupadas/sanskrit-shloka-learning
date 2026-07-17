@@ -446,7 +446,7 @@ describe("ApiHandlersService admin catalog", () => {
         body: validSourceRequest({
           code: "chapters",
           structureType: "chapters",
-          chapters: [{ code: "one", title: "Глава 1", order: 1 }],
+          chapters: [{ code: "1", title: "Глава 1", order: 1 }],
         }),
       })).status,
       201,
@@ -459,10 +459,10 @@ describe("ApiHandlersService admin catalog", () => {
           structureType: "parts",
           parts: [
             {
-              code: "part-one",
+              code: "1",
               title: "Часть 1",
               order: 1,
-              chapters: [{ code: "chapter-one", title: "Глава 1", order: 1 }],
+              chapters: [{ code: "1", title: "Глава 1", order: 1 }],
             },
           ],
         }),
@@ -487,6 +487,26 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(invalidResponse.status, 400);
     assert.ok(invalidResponse.body.details?.includes("Название источника обязательно"));
     assert.ok(invalidResponse.body.details?.includes("Добавьте хотя бы одну главу"));
+
+    const invalidLocationCodes = await handlers.sources({
+      authorization,
+      body: validSourceRequest({
+        code: "invalid-location-codes",
+        structureType: "parts",
+        parts: [
+          {
+            code: "part-one",
+            title: "Часть 1",
+            order: 1,
+            chapters: [{ code: "chapter-one", title: "Глава 1", order: 1 }],
+          },
+        ],
+      }),
+    });
+
+    assert.equal(invalidLocationCodes.status, 400);
+    assert.ok(invalidLocationCodes.body.details?.includes("Код части должен содержать только цифры"));
+    assert.ok(invalidLocationCodes.body.details?.includes("Код главы должен содержать только цифры"));
 
     assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 201);
     assert.equal((await handlers.sources({ authorization, body: validSourceRequest() })).status, 409);
@@ -553,7 +573,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(libraryResponse.status, 200);
     assert.deepEqual(
       libraryResponse.body.allShlokas.map((shloka) => shloka.displayTitle),
-      ["Шримад Бхагаватам, Песнь 1, 1 1", "Шримад Бхагаватам, Песнь 2, 1 1"],
+      ["Шримад Бхагаватам 1.1.1", "Шримад Бхагаватам 2.1.1"],
     );
   });
 
@@ -566,7 +586,7 @@ describe("ApiHandlersService admin catalog", () => {
         code: "gita",
         title: "Бхагавад-гита",
         structureType: "chapters",
-        chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+        chapters: [{ code: "2", title: "Глава 2", order: 1 }],
       }),
     });
     await handlers.sources({
@@ -582,7 +602,7 @@ describe("ApiHandlersService admin catalog", () => {
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-2",
+        chapterCode: "2",
         number: "2.47",
         padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
         fullTranslation: "Только на действие у тебя право.",
@@ -598,7 +618,7 @@ describe("ApiHandlersService admin catalog", () => {
     });
 
     assert.equal(first.status, 201);
-    assert.equal(first.body.code, "gita-chapter-2-2-47");
+    assert.equal(first.body.code, "gita-2-2-47");
     assert.equal(first.body.text, "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани");
     assert.equal(first.body.fullTranslation, "Только на действие у тебя право.");
     assert.equal(first.body.personalStatus, "available");
@@ -608,7 +628,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(libraryResponse.status, 200);
     assert.deepEqual(
       libraryResponse.body.allShlokas.map((shloka) => shloka.code),
-      ["amrita-1", "gita-chapter-2-2-47"],
+      ["amrita-1", "gita-2-2-47"],
     );
   });
 
@@ -625,14 +645,14 @@ describe("ApiHandlersService admin catalog", () => {
         code: "gita",
         title: "Бхагавад-гита",
         structureType: "chapters",
-        chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+        chapters: [{ code: "2", title: "Глава 2", order: 1 }],
       }),
     });
     await handlers.shlokas({
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-2",
+        chapterCode: "2",
         number: "2.47",
         padas: ["карманй эвадхикарас те", "ма пхалешу кадачана", "ма кармапхалахетур бхур", "ма те санго сту акармани"],
       },
@@ -656,7 +676,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     const addResponse = await handlers.updateItem({
       authorization: learnerAuthorization,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
       body: { personalStatus: "learning" },
     });
 
@@ -664,7 +684,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(addResponse.body.personalStatus, "learning");
     const addedItemResponse = await handlers.getItem({
       authorization: learnerAuthorization,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
     });
     assert.equal(addedItemResponse.status, 200);
     assert.equal(addedItemResponse.body.personalStatus, "learning");
@@ -693,14 +713,14 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(otherShloka.personalStatus, "available");
     const otherItemResponse = await handlers.getItem({
       authorization: `Bearer ${otherLearner.body.accessToken}`,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
     });
     assert.equal(otherItemResponse.status, 200);
     assert.equal(otherItemResponse.body.personalStatus, "available");
 
     const removeResponse = await handlers.updateItem({
       authorization: learnerAuthorization,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
       body: { personalStatus: "available" },
     });
 
@@ -716,7 +736,7 @@ describe("ApiHandlersService admin catalog", () => {
       (
         await handlers.updateItem({
           authorization: learnerAuthorization,
-          shlokaCode: "gita-chapter-2-2-47",
+          shlokaCode: "gita-2-2-47",
           body: { personalStatus: "learning" },
         })
       ).status,
@@ -725,7 +745,7 @@ describe("ApiHandlersService admin catalog", () => {
     const completeResponse = await handlers.completeLearning({
       authorization: learnerAuthorization,
       body: { timeZone: "UTC" },
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
     });
 
     assert.equal(completeResponse.status, 200);
@@ -753,13 +773,13 @@ describe("ApiHandlersService admin catalog", () => {
 
     const removalFromReviewing = await handlers.updateItem({
       authorization: learnerAuthorization,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
       body: { personalStatus: "available" },
     });
     assert.equal(removalFromReviewing.status, 400);
     const reviewingItem = await handlers.getItem({
       authorization: learnerAuthorization,
-      shlokaCode: "gita-chapter-2-2-47",
+      shlokaCode: "gita-2-2-47",
     });
     assert.equal(reviewingItem.status, 200);
     assert.equal(reviewingItem.body.personalStatus, "reviewing");
@@ -770,7 +790,7 @@ describe("ApiHandlersService admin catalog", () => {
         await handlers.completeLearning({
           authorization: learnerAuthorization,
           body: { timeZone: "UTC" },
-          shlokaCode: "gita-chapter-2-2-47",
+          shlokaCode: "gita-2-2-47",
         })
       ).status,
       200,
@@ -807,7 +827,7 @@ describe("ApiHandlersService admin catalog", () => {
             result: "remembered_without_error",
             timeZone: "UTC",
           },
-          shlokaCode: "gita-chapter-2-2-47",
+          shlokaCode: "gita-2-2-47",
         })
       ).status,
       201,
@@ -828,7 +848,7 @@ describe("ApiHandlersService admin catalog", () => {
         await handlers.completeLearning({
           authorization: `Bearer ${otherLearner.body.accessToken}`,
           body: { timeZone: "UTC" },
-          shlokaCode: "gita-chapter-2-2-47",
+          shlokaCode: "gita-2-2-47",
         })
       ).status,
       400,
@@ -882,8 +902,8 @@ describe("ApiHandlersService admin catalog", () => {
         title: "Бхагавад-гита",
         structureType: "chapters",
         chapters: [
-          { code: "chapter-1", title: "Глава 1", order: 1 },
-          { code: "chapter-2", title: "Глава 2", order: 2 },
+          { code: "1", title: "Глава 1", order: 1 },
+          { code: "2", title: "Глава 2", order: 2 },
         ],
       }),
     });
@@ -892,7 +912,7 @@ describe("ApiHandlersService admin catalog", () => {
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-2",
+        chapterCode: "2",
         number: "10",
         padas: ["десятая шлока 1", "десятая шлока 2", "десятая шлока 3", "десятая шлока 4"],
       },
@@ -901,7 +921,7 @@ describe("ApiHandlersService admin catalog", () => {
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-1",
+        chapterCode: "1",
         number: "2",
         padas: ["вторая шлока 1", "вторая шлока 2", "вторая шлока 3", "вторая шлока 4"],
       },
@@ -910,7 +930,7 @@ describe("ApiHandlersService admin catalog", () => {
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-2",
+        chapterCode: "2",
         number: "2",
         padas: ["еще одна вторая 1", "еще одна вторая 2", "еще одна вторая 3", "еще одна вторая 4"],
       },
@@ -926,14 +946,14 @@ describe("ApiHandlersService admin catalog", () => {
     assert.ok(gitaSource);
     assert.deepEqual(
       gitaSource.shlokas.map((shloka) => shloka.code),
-      ["gita-chapter-1-2", "gita-chapter-2-2", "gita-chapter-2-10"],
+      ["gita-1-2", "gita-2-2", "gita-2-10"],
     );
 
     const libraryResponse = await handlers.getLibrary({ authorization });
     assert.equal(libraryResponse.status, 200);
     assert.deepEqual(
       libraryResponse.body.allShlokas.map((shloka) => shloka.code),
-      ["gita-chapter-1-2", "gita-chapter-2-2", "gita-chapter-2-10"],
+      ["gita-1-2", "gita-2-2", "gita-2-10"],
     );
   });
 
@@ -947,14 +967,14 @@ describe("ApiHandlersService admin catalog", () => {
         title: "Бхагавад-гита",
         description: "Старое описание",
         structureType: "chapters",
-        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+        chapters: [{ code: "1", title: "Глава 1", order: 1 }],
       }),
     });
     await handlers.shlokas({
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-1",
+        chapterCode: "1",
         number: "1",
         padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
@@ -967,8 +987,8 @@ describe("ApiHandlersService admin catalog", () => {
         title: "Гита",
         description: "Новое описание",
         chapters: [
-          { code: "chapter-1", title: "Первая глава", order: 1 },
-          { code: "chapter-2", title: "Вторая глава", order: 2 },
+          { code: "1", title: "Первая глава", order: 1 },
+          { code: "2", title: "Вторая глава", order: 2 },
         ],
       },
     });
@@ -978,10 +998,10 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(updated.body.description, "Новое описание");
     assert.deepEqual(
       updated.body.chapters.map((chapter) => chapter.code),
-      ["chapter-1", "chapter-2"],
+      ["1", "2"],
     );
 
-    const shlokaResponse = await handlers.getShloka({ authorization, shlokaCode: "gita-chapter-1-1" });
+    const shlokaResponse = await handlers.getShloka({ authorization, shlokaCode: "gita-1-1" });
     assert.equal(shlokaResponse.status, 200);
     assert.equal(shlokaResponse.body.sourceTitle, "Гита");
     assert.equal(shlokaResponse.body.chapterTitle, "Первая глава");
@@ -991,7 +1011,7 @@ describe("ApiHandlersService admin catalog", () => {
       sourceCode: "gita",
       body: {
         title: "Гита",
-        chapters: [{ code: "chapter-2", title: "Вторая глава", order: 2 }],
+        chapters: [{ code: "2", title: "Вторая глава", order: 2 }],
       },
     });
     assert.equal(removedChapter.status, 400);
@@ -1003,8 +1023,8 @@ describe("ApiHandlersService admin catalog", () => {
       body: {
         title: "Гита",
         chapters: [
-          { code: "chapter-1", title: "Первая глава", order: 2 },
-          { code: "chapter-2", title: "Вторая глава", order: 1 },
+          { code: "1", title: "Первая глава", order: 2 },
+          { code: "2", title: "Вторая глава", order: 1 },
         ],
       },
     });
@@ -1018,10 +1038,10 @@ describe("ApiHandlersService admin catalog", () => {
         title: "Гита",
         parts: [
           {
-            code: "part-1",
+            code: "1",
             title: "Часть 1",
             order: 1,
-            chapters: [{ code: "chapter-1", title: "Первая глава", order: 1 }],
+            chapters: [{ code: "1", title: "Первая глава", order: 1 }],
           },
         ],
       },
@@ -1038,14 +1058,14 @@ describe("ApiHandlersService admin catalog", () => {
         code: "gita",
         title: "Бхагавад-гита",
         structureType: "chapters",
-        chapters: [{ code: "chapter-1", title: "1", order: 1 }],
+        chapters: [{ code: "1", title: "1", order: 1 }],
       }),
     });
     await handlers.shlokas({
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-1",
+        chapterCode: "1",
         number: "1",
         padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
@@ -1053,7 +1073,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     const updated = await handlers.updateShloka({
       authorization,
-      shlokaCode: "gita-chapter-1-1",
+      shlokaCode: "gita-1-1",
       body: {
         padas: ["обновленная первая", "обновленная вторая", "обновленная третья", "обновленная четвертая"],
         fullTranslation: "Новый перевод",
@@ -1061,9 +1081,9 @@ describe("ApiHandlersService admin catalog", () => {
     });
 
     assert.equal(updated.status, 200);
-    assert.equal(updated.body.code, "gita-chapter-1-1");
+    assert.equal(updated.body.code, "gita-1-1");
     assert.equal(updated.body.sourceCode, "gita");
-    assert.equal(updated.body.chapterCode, "chapter-1");
+    assert.equal(updated.body.chapterCode, "1");
     assert.equal(updated.body.number, "1");
     assert.deepEqual(updated.body.padas, ["обновленная первая", "обновленная вторая", "обновленная третья", "обновленная четвертая"]);
     assert.equal(updated.body.text, "обновленная первая\nобновленная вторая\nобновленная третья\nобновленная четвертая");
@@ -1073,7 +1093,7 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(libraryResponse.status, 200);
     assert.deepEqual(libraryResponse.body.allShlokas, [
       {
-        code: "gita-chapter-1-1",
+        code: "gita-1-1",
         displayTitle: "Бхагавад-гита 1.1",
         sourceTitle: "Бхагавад-гита",
         number: "1",
@@ -1085,7 +1105,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     const invalid = await handlers.updateShloka({
       authorization,
-      shlokaCode: "gita-chapter-1-1",
+      shlokaCode: "gita-1-1",
       body: {
         padas: [],
       },
@@ -1102,14 +1122,14 @@ describe("ApiHandlersService admin catalog", () => {
         code: "gita",
         title: "Бхагавад-гита",
         structureType: "chapters",
-        chapters: [{ code: "chapter-1", title: "1", order: 1 }],
+        chapters: [{ code: "1", title: "1", order: 1 }],
       }),
     });
     await handlers.shlokas({
       authorization,
       body: {
         sourceCode: "gita",
-        chapterCode: "chapter-1",
+        chapterCode: "1",
         number: "1",
         padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
       },
@@ -1136,13 +1156,13 @@ describe("ApiHandlersService admin catalog", () => {
       handlers.userLibraryRepository.setShlokaStatus({
         accountId: learningAccount.accountId,
         createdAt,
-        shlokaCode: "gita-chapter-1-1",
+        shlokaCode: "gita-1-1",
         status: "learning",
       }),
       handlers.userLibraryRepository.setShlokaStatus({
         accountId: reviewingAccount.accountId,
         createdAt,
-        shlokaCode: "gita-chapter-1-1",
+        shlokaCode: "gita-1-1",
         status: "learning",
       }),
     ]);
@@ -1152,7 +1172,7 @@ describe("ApiHandlersService admin catalog", () => {
           accountId: reviewingAccount.accountId,
           reviewingStartedAt: new Date("2026-07-10T10:00:00.000Z"),
           reviewingStartedUserDay: "2026-07-10",
-          shlokaCode: "gita-chapter-1-1",
+          shlokaCode: "gita-1-1",
         })
       ).kind,
       "transitioned",
@@ -1162,7 +1182,7 @@ describe("ApiHandlersService admin catalog", () => {
       completedAt: new Date("2026-07-11T09:00:00.000Z"),
       id: "review-before-catalog-edit",
       result: "remembered_with_hint",
-      shlokaCode: "gita-chapter-1-1",
+      shlokaCode: "gita-1-1",
       userDay: "2026-07-11",
     });
 
@@ -1181,7 +1201,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     const updatedShloka = await handlers.updateShloka({
       authorization,
-      shlokaCode: "gita-chapter-1-1",
+      shlokaCode: "gita-1-1",
       body: {
         padas: [
           "обновленная первая",
@@ -1198,7 +1218,7 @@ describe("ApiHandlersService admin catalog", () => {
       body: {
         title: "Гита",
         chapters: [
-          { code: "chapter-1", title: "Первая глава", order: 1 },
+          { code: "1", title: "Первая глава", order: 1 },
         ],
       },
     });
@@ -1222,8 +1242,8 @@ describe("ApiHandlersService admin catalog", () => {
       [reviewingShloka, "reviewing"],
     ] as const) {
       assert.deepEqual(shloka, {
-        code: "gita-chapter-1-1",
-        displayTitle: "Гита, Первая глава 1",
+        code: "gita-1-1",
+        displayTitle: "Гита 1.1",
         fullTranslation: "Обновленный перевод",
         number: "1",
         personalStatus,
@@ -1258,7 +1278,7 @@ describe("ApiHandlersService admin catalog", () => {
       body: validSourceRequest({
         code: "gita",
         structureType: "chapters",
-        chapters: [{ code: "chapter-1", title: "Глава 1", order: 1 }],
+        chapters: [{ code: "1", title: "Глава 1", order: 1 }],
       }),
     });
 
@@ -1288,7 +1308,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     const request = {
       sourceCode: "gita",
-      chapterCode: "chapter-1",
+      chapterCode: "1",
       number: "1",
       padas: ["первая пада", "вторая пада", "третья пада", "четвертая пада"],
     };

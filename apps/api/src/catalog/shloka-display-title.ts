@@ -1,32 +1,32 @@
 export interface ShlokaDisplayTitleInput {
-  chapterTitle?: string | undefined;
+  chapterCode?: string | undefined;
   number: string;
-  partTitle?: string | undefined;
+  partCode?: string | undefined;
   sourceTitle: string;
 }
 
 export function formatShlokaDisplayTitle({
-  chapterTitle,
+  chapterCode,
   number,
-  partTitle,
+  partCode,
   sourceTitle,
 }: ShlokaDisplayTitleInput): string {
-  const numericChapterTitle = chapterTitle?.trim();
-  if (
-    !partTitle &&
-    numericChapterTitle &&
-    /^\d+(?:\.\d+)*$/u.test(numericChapterTitle)
-  ) {
-    const reference = number.startsWith(`${numericChapterTitle}.`)
-      ? number
-      : `${numericChapterTitle}.${number}`;
-
-    return `${sourceTitle} ${reference}`;
-  }
-
-  const titleSegments = [sourceTitle, partTitle, chapterTitle].filter(
+  const normalizedPartCode = partCode?.trim();
+  const normalizedChapterCode = chapterCode?.trim();
+  const locationCodes = [normalizedPartCode, normalizedChapterCode].filter(
     (segment): segment is string => Boolean(segment),
   );
+  const locationPrefix = locationCodes.join(".");
+  let reference = number;
 
-  return `${titleSegments.join(", ")} ${number}`;
+  if (locationPrefix && !number.startsWith(`${locationPrefix}.`)) {
+    reference =
+      normalizedPartCode &&
+      normalizedChapterCode &&
+      number.startsWith(`${normalizedChapterCode}.`)
+        ? `${normalizedPartCode}.${number}`
+        : `${locationPrefix}.${number}`;
+  }
+
+  return `${sourceTitle} ${reference}`;
 }

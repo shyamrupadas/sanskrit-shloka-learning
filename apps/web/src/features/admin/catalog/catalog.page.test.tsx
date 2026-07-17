@@ -29,12 +29,12 @@ const catalog = {
       title: "Бхагавад-гита",
       description: "Диалог Кришны и Арджуны",
       structureType: "chapters",
-      chapters: [{ code: "chapter-2", title: "Глава 2", order: 1 }],
+      chapters: [{ code: "2", title: "Глава 2", order: 1 }],
       parts: [],
       shlokas: [
         {
-          code: "gita-chapter-2-2-47",
-          chapterCode: "chapter-2",
+          code: "gita-2-2-47",
+          chapterCode: "2",
           number: "2.47",
           text: "карманй эвадхикарас те\nма пхалешу кадачана",
         },
@@ -48,19 +48,19 @@ const catalog = {
       chapters: [],
       parts: [
         {
-          code: "bhishma-parva",
+          code: "1",
           title: "Бхишма-парва",
           order: 1,
           chapters: [
-            { code: "chapter-1", title: "Глава 1", order: 1 },
+            { code: "1", title: "Глава 1", order: 1 },
           ],
         },
       ],
       shlokas: [
         {
           code: "mahabharata-bhishma-1-1",
-          partCode: "bhishma-parva",
-          chapterCode: "chapter-1",
+          partCode: "1",
+          chapterCode: "1",
           number: "1",
           text: "длинный текст шлоки с пробелами\nи переносами, который должен быть нормализован и сокращен ровно по прежнему правилу отображения",
         },
@@ -124,14 +124,14 @@ describe("admin catalog page", () => {
 
     expect(await screen.findByText("Бхагавад-гита")).toBeInTheDocument();
     expect(screen.getByText("gita · 1 глава")).toBeInTheDocument();
-    expect(screen.getByText("Глава 2 · 2.47")).toBeInTheDocument();
+    expect(screen.getByText("2.47")).toBeInTheDocument();
     expect(
       screen.getByText(
         "карманй эвадхикарас те ма пхалешу кадачана",
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("mahabharata · 1 часть")).toBeInTheDocument();
-    expect(screen.getByText("Бхишма-парва · Глава 1 · 1")).toBeInTheDocument();
+    expect(screen.getByText("1.1.1")).toBeInTheDocument();
     expect(
       screen.getByText(
         "длинный текст шлоки с пробелами и переносами, который должен быть нормализован и сокращен ров...",
@@ -165,7 +165,7 @@ describe("admin catalog page", () => {
       }),
     ).toHaveAttribute(
       "href",
-      "/admin/shlokas/gita-chapter-2-2-47/edit",
+      "/admin/shlokas/gita-2-2-47/edit",
     );
     await user.click(screen.getByRole("link", { name: "Новая шлока" }));
     await expectPath(routePaths.adminShlokaNew);

@@ -52,17 +52,17 @@ describe("PostgresCatalogRepository", () => {
       code: "gita",
       title: "Gita",
       structureType: "chapters",
-      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      chapters: [{ code: "1", title: "Chapter 1", order: 1 }],
       parts: [],
     });
     await repository.createShloka({
-      code: "gita-chapter-1-1",
+      code: "gita-1-1",
       displayTitle: "Persisted display title",
       sourceCode: "gita",
       sourceTitle: "Gita",
-      chapterCode: "chapter-1",
+      chapterCode: "1",
       number: "1",
-      referenceKey: "gita/chapter-1/1",
+      referenceKey: "gita/1/1",
       padas: ["first pada"],
       sortPartOrder: 0,
       sortChapterOrder: 1,
@@ -73,13 +73,13 @@ describe("PostgresCatalogRepository", () => {
       title: "Bhagavad Gita",
       description: "Updated source",
       chapters: [
-        { code: "chapter-1", title: "First Chapter", order: 1 },
-        { code: "chapter-2", title: "Second Chapter", order: 2 },
+        { code: "1", title: "First Chapter", order: 1 },
+        { code: "2", title: "Second Chapter", order: 2 },
       ],
       parts: [],
     });
     const updatedShloka = await repository.updateShloka({
-      code: "gita-chapter-1-1",
+      code: "gita-1-1",
       padas: ["updated first", "updated second"],
       fullTranslation: "Updated translation",
     });
@@ -91,7 +91,7 @@ describe("PostgresCatalogRepository", () => {
       ["First Chapter", "Second Chapter"],
     );
     assert.equal(updatedShloka.sourceTitle, "Bhagavad Gita");
-    assert.equal(updatedShloka.displayTitle, "Bhagavad Gita, First Chapter 1");
+    assert.equal(updatedShloka.displayTitle, "Bhagavad Gita 1.1");
     assert.deepEqual(updatedShloka.padas, ["updated first", "updated second"]);
     assert.equal(updatedShloka.text, "updated first\nupdated second");
     assert.equal(updatedShloka.fullTranslation, "Updated translation");
@@ -136,7 +136,7 @@ describe("PostgresCatalogRepository", () => {
     });
     await repository.createShloka({
       code: "sb-1-1-1",
-      displayTitle: "Srimad Bhagavatam, Canto 1, Chapter 1 1",
+      displayTitle: "Srimad Bhagavatam 1.1.1",
       sourceCode: "sb",
       sourceTitle: "Srimad Bhagavatam",
       partCode: "1",
@@ -149,7 +149,7 @@ describe("PostgresCatalogRepository", () => {
     });
     await repository.createShloka({
       code: "sb-2-1-1",
-      displayTitle: "Srimad Bhagavatam, Canto 2, Chapter 1 1",
+      displayTitle: "Srimad Bhagavatam 2.1.1",
       sourceCode: "sb",
       sourceTitle: "Srimad Bhagavatam",
       partCode: "2",
@@ -170,8 +170,8 @@ describe("PostgresCatalogRepository", () => {
     assert.deepEqual(
       shlokas.map((shloka) => shloka.displayTitle),
       [
-        "Srimad Bhagavatam, Canto 1, Chapter 1 1",
-        "Srimad Bhagavatam, Canto 2, Chapter 1 1",
+        "Srimad Bhagavatam 1.1.1",
+        "Srimad Bhagavatam 2.1.1",
       ],
     );
     assert.ok(

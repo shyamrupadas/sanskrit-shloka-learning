@@ -8,6 +8,7 @@ import { reviewingStartedAtMigration } from "./0006-reviewing-started-at.js";
 import { reviewHistoryMigration } from "./0007-review-history.js";
 import { materializedShlokaDisplayTitleMigration } from "./0008-materialized-shloka-display-title.js";
 import { learningActivityUserDayMigration } from "./0009-learning-activity-user-day.js";
+import { numericSourceLocationCodesMigration } from "./0010-numeric-source-location-codes.js";
 
 export const migrations: readonly Migration[] = [
   initialAuthMigration,
@@ -19,4 +20,5 @@ export const migrations: readonly Migration[] = [
   reviewHistoryMigration,
   materializedShlokaDisplayTitleMigration,
   learningActivityUserDayMigration,
+  numericSourceLocationCodesMigration,
 ];

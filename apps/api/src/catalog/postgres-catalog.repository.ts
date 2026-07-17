@@ -431,20 +431,12 @@ function toShlokaDisplayTitleRows(
   shlokas: ShlokaReferenceRow[],
 ): unknown[] {
   return shlokas.map((shloka) => {
-    const part = shloka.part_code
-      ? source.parts.find((candidate) => candidate.code === shloka.part_code)
-      : undefined;
-    const chapters = part ? part.chapters : source.chapters;
-    const chapter = shloka.chapter_code
-      ? chapters.find((candidate) => candidate.code === shloka.chapter_code)
-      : undefined;
-
     return {
       code: shloka.code,
       display_title: formatShlokaDisplayTitle({
-        ...(chapter ? { chapterTitle: chapter.title } : {}),
+        ...(shloka.chapter_code ? { chapterCode: shloka.chapter_code } : {}),
         number: shloka.number,
-        ...(part ? { partTitle: part.title } : {}),
+        ...(shloka.part_code ? { partCode: shloka.part_code } : {}),
         sourceTitle: source.title,
       }),
     };

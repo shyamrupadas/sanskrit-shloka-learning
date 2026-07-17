@@ -20,8 +20,8 @@ export interface AdminCatalogDto {
 
 export interface AdminCatalogShlokaDto {
   code: string;
-  partCode?: string;
-  chapterCode?: string;
+  partCode?: SourceLocationCode;
+  chapterCode?: SourceLocationCode;
   number: string;
   text: string;
   fullTranslation?: string;
@@ -41,9 +41,9 @@ export interface AdminShlokaDto {
   code: string;
   sourceCode: string;
   sourceTitle: string;
-  partCode?: string;
+  partCode?: SourceLocationCode;
   partTitle?: string;
-  chapterCode?: string;
+  chapterCode?: SourceLocationCode;
   chapterTitle?: string;
   number: string;
   text: string;
@@ -98,21 +98,21 @@ export interface CompletedReviewDto {
 
 export interface CreateShlokaRequest {
   sourceCode: string;
-  partCode?: string;
-  chapterCode?: string;
+  partCode?: SourceLocationCode;
+  chapterCode?: SourceLocationCode;
   number: string;
   padas: string[];
   fullTranslation?: string;
 }
 
 export interface CreateSourceChapterRequest {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
 }
 
 export interface CreateSourcePartRequest {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
   chapters: CreateSourceChapterRequest[];
@@ -208,10 +208,12 @@ export interface RegisterRequest {
 export type ReviewResult = "remembered_without_error" | "remembered_with_error" | "remembered_with_hint" | "forgot";
 
 export interface SourceChapterOptionDto {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
 }
+
+export type SourceLocationCode = string;
 
 export interface SourceOptionDto {
   code: string;
@@ -222,7 +224,7 @@ export interface SourceOptionDto {
 }
 
 export interface SourcePartOptionDto {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
   chapters: SourceChapterOptionDto[];
@@ -246,13 +248,13 @@ export interface UpdateShlokaRequest {
 }
 
 export interface UpdateSourceChapterRequest {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
 }
 
 export interface UpdateSourcePartRequest {
-  code: string;
+  code: SourceLocationCode;
   title: string;
   order: number;
   chapters: UpdateSourceChapterRequest[];

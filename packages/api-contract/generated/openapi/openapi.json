@@ -1499,10 +1499,10 @@
             "type": "string"
           },
           "partCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "chapterCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "number": {
             "type": "string"
@@ -1579,13 +1579,13 @@
             "type": "string"
           },
           "partCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "partTitle": {
             "type": "string"
           },
           "chapterCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "chapterTitle": {
             "type": "string"
@@ -1772,10 +1772,10 @@
             "type": "string"
           },
           "partCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "chapterCode": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "number": {
             "type": "string"
@@ -1800,7 +1800,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"
@@ -1821,7 +1821,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"
@@ -2182,7 +2182,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"
@@ -2192,6 +2192,10 @@
             "format": "int32"
           }
         }
+      },
+      "SanskritShlokaLearning.SourceLocationCode": {
+        "type": "string",
+        "pattern": "^[0-9]+$"
       },
       "SanskritShlokaLearning.SourceOptionDto": {
         "type": "object",
@@ -2236,7 +2240,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"
@@ -2316,7 +2320,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"
@@ -2337,7 +2341,7 @@
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SanskritShlokaLearning.SourceLocationCode"
           },
           "title": {
             "type": "string"

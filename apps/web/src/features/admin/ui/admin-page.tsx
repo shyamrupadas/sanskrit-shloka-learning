@@ -120,14 +120,18 @@ export function WarningMessage({ text }: { text: string }) {
 }
 
 export function TextField({
+  inputMode,
   label,
   onChange,
+  pattern,
   readOnly,
   required,
   value,
 }: {
+  inputMode?: "numeric";
   label: string;
   onChange: (value: string) => void;
+  pattern?: string;
   readOnly?: boolean;
   required?: boolean;
   value: string;
@@ -142,7 +146,9 @@ export function TextField({
       <Input
         className="h-[var(--input-height)] rounded-[var(--input-radius)] bg-card px-[var(--input-padding-x)] text-[length:var(--input-text-size)] read-only:bg-muted read-only:text-muted-foreground"
         id={id}
+        inputMode={inputMode}
         onChange={(event) => onChange(event.currentTarget.value)}
+        pattern={pattern}
         readOnly={readOnly}
         required={required}
         value={value}

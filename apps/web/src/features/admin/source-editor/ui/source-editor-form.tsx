@@ -144,8 +144,10 @@ function ChapterFields({
         {chapters.map((chapter, index) => (
           <div className="grid min-w-0 gap-3 sm:grid-cols-2" key={index}>
             <TextField
+              inputMode="numeric"
               label={`${strings.admin.chapterCode} ${index + 1}`}
               onChange={(code) => onChange(index, { code })}
+              pattern="[0-9]+"
               readOnly={isCodeReadOnly(chapter)}
               required
               value={chapter.code}
@@ -191,8 +193,10 @@ function PartFields<TRequest>({
           >
             <div className="grid min-w-0 gap-3 sm:grid-cols-2">
               <TextField
+                inputMode="numeric"
                 label={`${strings.admin.partCode} ${partIndex + 1}`}
                 onChange={(code) => form.updatePart(partIndex, { code })}
+                pattern="[0-9]+"
                 readOnly={form.isPartCodeReadOnly(part)}
                 required
                 value={part.code}

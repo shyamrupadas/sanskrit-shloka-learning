@@ -269,14 +269,17 @@ namespace SanskritShlokaLearning {
     parts: "parts",
   }
 
+  @pattern("^[0-9]+$")
+  scalar SourceLocationCode extends string;
+
   model CreateSourceChapterRequest {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
   }
 
   model CreateSourcePartRequest {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
     chapters: CreateSourceChapterRequest[];
@@ -292,13 +295,13 @@ namespace SanskritShlokaLearning {
   }
 
   model SourceChapterOptionDto {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
   }
 
   model SourcePartOptionDto {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
     chapters: SourceChapterOptionDto[];
@@ -327,8 +330,8 @@ namespace SanskritShlokaLearning {
 
   model AdminCatalogShlokaDto {
     code: string;
-    partCode?: string;
-    chapterCode?: string;
+    partCode?: SourceLocationCode;
+    chapterCode?: SourceLocationCode;
     number: string;
     text: string;
     fullTranslation?: string;
@@ -369,13 +372,13 @@ namespace SanskritShlokaLearning {
   }
 
   model UpdateSourceChapterRequest {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
   }
 
   model UpdateSourcePartRequest {
-    code: string;
+    code: SourceLocationCode;
     title: string;
     order: int32;
     chapters: UpdateSourceChapterRequest[];
@@ -390,8 +393,8 @@ namespace SanskritShlokaLearning {
 
   model CreateShlokaRequest {
     sourceCode: string;
-    partCode?: string;
-    chapterCode?: string;
+    partCode?: SourceLocationCode;
+    chapterCode?: SourceLocationCode;
     number: string;
     padas: string[];
     fullTranslation?: string;
@@ -406,9 +409,9 @@ namespace SanskritShlokaLearning {
     code: string;
     sourceCode: string;
     sourceTitle: string;
-    partCode?: string;
+    partCode?: SourceLocationCode;
     partTitle?: string;
-    chapterCode?: string;
+    chapterCode?: SourceLocationCode;
     chapterTitle?: string;
     number: string;
     text: string;

@@ -133,7 +133,7 @@ function SourceSection({
             >
               <div className="min-w-0 flex-1 space-y-1">
                 <p className="font-sanskrit-title truncate text-[length:var(--font-size-body-sm)] font-bold">
-                  {getShlokaLocation(source, shloka)}
+                  {getShlokaLocation(shloka)}
                 </p>
                 <p className="font-sanskrit-text truncate text-[length:var(--font-size-meta)] text-muted-foreground">
                   {getShlokaExcerpt(shloka.text)}

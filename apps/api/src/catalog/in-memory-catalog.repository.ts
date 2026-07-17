@@ -175,30 +175,10 @@ function cloneShloka(shloka: ShlokaRecord): ShlokaRecord {
 }
 
 function buildDisplayTitle(source: SourceRecord, shloka: ShlokaRecord): string {
-  let partTitle: string | undefined;
-  let chapterTitle: string | undefined;
-
-  if (shloka.partCode) {
-    const part = source.parts.find((candidate) => candidate.code === shloka.partCode);
-    if (part) {
-      partTitle = part.title;
-    }
-  }
-
-  if (shloka.chapterCode) {
-    const chapters = shloka.partCode
-      ? source.parts.find((part) => part.code === shloka.partCode)?.chapters ?? []
-      : source.chapters;
-    const chapter = chapters.find((candidate) => candidate.code === shloka.chapterCode);
-    if (chapter) {
-      chapterTitle = chapter.title;
-    }
-  }
-
   return formatShlokaDisplayTitle({
-    chapterTitle,
+    ...(shloka.chapterCode ? { chapterCode: shloka.chapterCode } : {}),
     number: shloka.number,
-    partTitle,
+    ...(shloka.partCode ? { partCode: shloka.partCode } : {}),
     sourceTitle: source.title,
   });
 }

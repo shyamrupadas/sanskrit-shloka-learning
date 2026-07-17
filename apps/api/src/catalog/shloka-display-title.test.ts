@@ -4,10 +4,10 @@ import { describe, test } from "node:test";
 import { formatShlokaDisplayTitle } from "./shloka-display-title.js";
 
 describe("formatShlokaDisplayTitle", () => {
-  test("joins a chapter and shloka number with a dot", () => {
+  test("joins a numeric chapter code and shloka number with a dot", () => {
     assert.equal(
       formatShlokaDisplayTitle({
-        chapterTitle: "1",
+        chapterCode: "1",
         number: "1",
         sourceTitle: "Бхагавад-гита",
       }),
@@ -15,7 +15,7 @@ describe("formatShlokaDisplayTitle", () => {
     );
     assert.equal(
       formatShlokaDisplayTitle({
-        chapterTitle: "2",
+        chapterCode: "2",
         number: "2.47",
         sourceTitle: "Бхагавад-гита",
       }),
@@ -33,15 +33,15 @@ describe("formatShlokaDisplayTitle", () => {
     );
   });
 
-  test("keeps descriptive and nested source locations unchanged", () => {
+  test("joins numeric part, chapter, and shloka codes without commas", () => {
     assert.equal(
       formatShlokaDisplayTitle({
-        chapterTitle: "Chapter 1",
-        number: "1",
-        partTitle: "Canto 1",
+        chapterCode: "3",
+        number: "5",
+        partCode: "1",
         sourceTitle: "Srimad Bhagavatam",
       }),
-      "Srimad Bhagavatam, Canto 1, Chapter 1 1",
+      "Srimad Bhagavatam 1.3.5",
     );
   });
 });

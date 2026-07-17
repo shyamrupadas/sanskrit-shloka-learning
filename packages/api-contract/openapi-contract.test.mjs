@@ -21,6 +21,22 @@ describe("generated OpenAPI admin contract", () => {
       assert.equal(lowerPath.includes("import"), false, `${path} must not expose import APIs`);
     }
   });
+
+  test("restricts source part and chapter codes to digits", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const schemas = openApi.components?.schemas ?? {};
+    const locationCodeRef = "#/components/schemas/SanskritShlokaLearning.SourceLocationCode";
+
+    assert.equal(schemas["SanskritShlokaLearning.SourceLocationCode"]?.pattern, "^[0-9]+$");
+    assert.equal(
+      schemas["SanskritShlokaLearning.CreateSourcePartRequest"]?.properties?.code?.$ref,
+      locationCodeRef,
+    );
+    assert.equal(
+      schemas["SanskritShlokaLearning.CreateSourceChapterRequest"]?.properties?.code?.$ref,
+      locationCodeRef,
+    );
+  });
 });
 
 describe("generated OpenAPI account settings contract", () => {

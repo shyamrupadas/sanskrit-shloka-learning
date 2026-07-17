@@ -356,7 +356,7 @@ function normalizeSourceRequest(request: ApiTypes.CreateSourceRequest) {
     parts:
       structureType === "parts"
         ? (request.parts ?? []).map((part) => ({
-            code: normalizeCode(part.code),
+            code: normalizeLocationCode(part.code),
             title: normalizeText(part.title),
             order: normalizeOrder(part.order),
             chapters: normalizeChapters(part.chapters),
@@ -366,8 +366,8 @@ function normalizeSourceRequest(request: ApiTypes.CreateSourceRequest) {
 }
 
 function normalizeShlokaRequest(request: ApiTypes.CreateShlokaRequest): ApiTypes.CreateShlokaRequest {
-  const partCode = optionalCode(request.partCode);
-  const chapterCode = optionalCode(request.chapterCode);
+  const partCode = optionalLocationCode(request.partCode);
+  const chapterCode = optionalLocationCode(request.chapterCode);
   const fullTranslation = optionalText(request.fullTranslation);
 
   return {
@@ -394,7 +394,7 @@ function normalizeUpdateSourceRequest(request: ApiTypes.UpdateSourceRequest, sou
       request.parts === undefined
         ? undefined
         : request.parts.map((part) => ({
-            code: normalizeCode(part.code),
+            code: normalizeLocationCode(part.code),
             title: normalizeText(part.title),
             order: normalizeOrder(part.order),
             chapters: normalizeChapters(part.chapters),
@@ -414,7 +414,7 @@ function normalizeUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): Ap
 
 function normalizeChapters(chapters: ApiTypes.CreateSourceChapterRequest[]): SourceChapterRecord[] {
   return chapters.map((chapter) => ({
-    code: normalizeCode(chapter.code),
+    code: normalizeLocationCode(chapter.code),
     title: normalizeText(chapter.title),
     order: normalizeOrder(chapter.order),
   }));
@@ -443,7 +443,7 @@ function validateSourceRequest(request: ReturnType<typeof normalizeSourceRequest
   validateUniqueOrders(request.parts, "Порядок частей должен быть уникален", details);
 
   for (const part of request.parts) {
-    validateCode(part.code, "Код части", details);
+    validateLocationCode(part.code, "Код части", details);
     requireText(part.title, "Название части обязательно", details);
     if (part.chapters.length === 0) {
       details.push("В каждой части должна быть хотя бы одна глава");
@@ -514,7 +514,7 @@ function validateEditableParts(
   }
 
   for (const part of nextParts) {
-    validateCode(part.code, "Код части", details);
+    validateLocationCode(part.code, "Код части", details);
     requireText(part.title, "Название части обязательно", details);
     if (part.chapters.length === 0) {
       details.push("В каждой части должна быть хотя бы одна глава");
@@ -552,7 +552,7 @@ function validateChapters(chapters: SourceChapterRecord[], details: string[]): v
   validateUniqueOrders(chapters, "Порядок глав должен быть уникален", details);
 
   for (const chapter of chapters) {
-    validateCode(chapter.code, "Код главы", details);
+    validateLocationCode(chapter.code, "Код главы", details);
     requireText(chapter.title, "Название главы обязательно", details);
   }
 }
@@ -625,14 +625,14 @@ function validateShlokaPadas(padas: string[], details: string[]): void {
 
 function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequest) {
   const segments = [source.code];
-  let partTitle: string | undefined;
-  let chapterTitle: string | undefined;
+  let partCode: string | undefined;
+  let chapterCode: string | undefined;
 
   if (request.partCode) {
     const part = source.parts.find((candidate) => candidate.code === request.partCode);
     if (part) {
       segments.push(part.code);
-      partTitle = part.title;
+      partCode = part.code;
     }
   }
 
@@ -643,7 +643,7 @@ function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequ
     const chapter = chapters.find((candidate) => candidate.code === request.chapterCode);
     if (chapter) {
       segments.push(chapter.code);
-      chapterTitle = chapter.title;
+      chapterCode = chapter.code;
     }
   }
 
@@ -653,9 +653,9 @@ function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequ
   return {
     code: segments.join("-"),
     displayTitle: formatShlokaDisplayTitle({
-      chapterTitle,
+      chapterCode,
       number: request.number,
-      partTitle,
+      partCode,
       sourceTitle: source.title,
     }),
     referenceKey: segments.join("/"),
@@ -773,8 +773,12 @@ function normalizeCode(value: string | undefined): string {
     .replace(/^-|-$/g, "");
 }
 
-function optionalCode(value: string | undefined): string | undefined {
-  const normalized = normalizeCode(value);
+function normalizeLocationCode(value: string | undefined): string {
+  return normalizeText(value);
+}
+
+function optionalLocationCode(value: string | undefined): string | undefined {
+  const normalized = normalizeLocationCode(value);
   return normalized || undefined;
 }
 
@@ -799,6 +803,17 @@ function validateCode(code: string, label: string, details: string[]): void {
 
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(code)) {
     details.push(`${label} должен содержать только латинские буквы, цифры и дефисы`);
+  }
+}
+
+function validateLocationCode(code: string, label: string, details: string[]): void {
+  if (!code) {
+    details.push(`${label} обязателен`);
+    return;
+  }
+
+  if (!/^\d+$/u.test(code)) {
+    details.push(`${label} должен содержать только цифры`);
   }
 }
 

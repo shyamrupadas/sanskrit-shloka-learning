@@ -14,28 +14,23 @@ export function getSourceCaption(
   return formatRuCount(source.shlokas.length, "шлока", "шлоки", "шлок");
 }
 
-export function getShlokaLocation(
-  source: ApiTypes.AdminCatalogSourceDto,
-  shloka: ApiTypes.AdminCatalogShlokaDto,
-): string {
-  if (source.structureType === "parts") {
-    const part = source.parts.find(
-      (candidate) => candidate.code === shloka.partCode,
-    );
-    const chapter = part?.chapters.find(
-      (candidate) => candidate.code === shloka.chapterCode,
-    );
-    return [part?.title, chapter?.title, shloka.number]
-      .filter(Boolean)
-      .join(" · ");
+export function getShlokaLocation(shloka: ApiTypes.AdminCatalogShlokaDto): string {
+  const locationCodes = [shloka.partCode, shloka.chapterCode]
+    .filter(Boolean)
+    .join(".");
+
+  if (!locationCodes || shloka.number.startsWith(`${locationCodes}.`)) {
+    return shloka.number;
   }
-  if (source.structureType === "chapters") {
-    const chapter = source.chapters.find(
-      (candidate) => candidate.code === shloka.chapterCode,
-    );
-    return [chapter?.title, shloka.number].filter(Boolean).join(" · ");
+  if (
+    shloka.partCode &&
+    shloka.chapterCode &&
+    shloka.number.startsWith(`${shloka.chapterCode}.`)
+  ) {
+    return `${shloka.partCode}.${shloka.number}`;
   }
-  return shloka.number;
+
+  return `${locationCodes}.${shloka.number}`;
 }
 
 export function getShlokaExcerpt(text: string): string {
