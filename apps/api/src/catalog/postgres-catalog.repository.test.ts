@@ -237,6 +237,52 @@ describe("PostgresCatalogRepository", () => {
     assert.equal(sourceReadQuery.includes("where source_parts.source_code = shloka_sources.code"), false);
   });
 
+  test("loads one source hierarchy through a targeted parameterized read query", async () => {
+    const database = new ReadTrackingDatabase();
+    const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
+
+    await repository.createSource({
+      code: "gita",
+      title: "Gita",
+      structureType: "chapters",
+      chapters: [{ code: "chapter-1", title: "Chapter 1", order: 1 }],
+      parts: [],
+    });
+    await repository.createSource({
+      code: "sb",
+      title: "Srimad Bhagavatam",
+      structureType: "parts",
+      chapters: [],
+      parts: [
+        {
+          code: "1",
+          title: "Canto 1",
+          order: 1,
+          chapters: [
+            { code: "1", title: "Chapter 1", order: 1 },
+            { code: "2", title: "Chapter 2", order: 2 },
+          ],
+        },
+      ],
+    });
+
+    const source = await repository.getSource("sb");
+
+    assert.equal(source?.code, "sb");
+    assert.deepEqual(
+      source?.parts[0]?.chapters.map((chapter) => chapter.code),
+      ["1", "2"],
+    );
+    assert.equal(database.readQueryAttempts, 1);
+
+    const sourceReadQuery = database.directQueries.at(-1);
+    assert.ok(sourceReadQuery);
+    assert.match(sourceReadQuery, /where shloka_sources\.code = \$1/);
+    assert.ok(sourceReadQuery.includes("order by source_chapters.sort_order, source_chapters.code"));
+    assert.ok(sourceReadQuery.includes("order by source_parts.sort_order, source_parts.code"));
+    assert.deepEqual(database.directQueryValues.at(-1), ["sb"]);
+  });
+
   test("loads source hierarchy through safe read queries", async () => {
     const database = new ReadTrackingDatabase();
     const repository = new PostgresCatalogRepository(database as unknown as DatabaseService);
@@ -327,6 +373,7 @@ describe("PostgresCatalogRepository", () => {
 class TransactionTrackingDatabase {
   transactionCount = 0;
   readonly directQueries: string[] = [];
+  readonly directQueryValues: (readonly unknown[])[] = [];
   readonly transactionQueries: string[] = [];
 
   private readonly sources: SourceRowSeed[] = [];
@@ -341,6 +388,7 @@ class TransactionTrackingDatabase {
   ): Promise<pg.QueryResult<Row>> {
     const query = normalizeQuery(text);
     this.directQueries.push(query);
+    this.directQueryValues.push([...values]);
 
     if (query.includes("insert into shloka_sources")) {
       this.applyCreateSource(values);
@@ -351,7 +399,10 @@ class TransactionTrackingDatabase {
       return result<Row>([]);
     }
     if (query.includes("from shloka_sources")) {
-      return result(this.sources.map((source) => this.toSourceRow(source)) as unknown as Row[]);
+      const sources = query.includes("where shloka_sources.code = $1")
+        ? this.sources.filter((source) => source.code === values[0])
+        : this.sources;
+      return result(sources.map((source) => this.toSourceRow(source)) as unknown as Row[]);
     }
     if (query.includes("from shlokas")) {
       return result([...this.shlokas.values()].map((shloka) => this.toShlokaRow(shloka)) as unknown as Row[]);

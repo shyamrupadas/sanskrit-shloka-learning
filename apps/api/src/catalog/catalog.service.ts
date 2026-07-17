@@ -162,8 +162,7 @@ export class CatalogService {
       return { status: 400, body: validationError(requiredDetails) };
     }
 
-    const sources = await this.catalog.listSources();
-    const source = sources.find((candidate) => candidate.code === normalized.sourceCode);
+    const source = await this.catalog.getSource(normalized.sourceCode);
     const details = validateShlokaRequest(normalized, source);
 
     if (details.length > 0 || !source) {

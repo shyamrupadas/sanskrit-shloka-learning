@@ -186,7 +186,24 @@ describe("CatalogService", () => {
     assert.equal(updated.status, 400);
     assert.ok(updated.body.details?.includes("Заполните все четыре пады шлоки"));
     assert.equal(repository.sourceReads, 0);
+    assert.equal(repository.sourceRecordReads, 0);
     assert.equal(repository.shlokaRecordReads, 0);
+  });
+
+  test("loads only the selected source when creating a shloka", async () => {
+    const repository = new ConfigurableCatalogRepository();
+    const service = new CatalogService(repository);
+
+    const created = await service.createShloka({
+      sourceCode: "gita",
+      chapterCode: "chapter-1",
+      number: "1",
+      padas: ["first pada", "second pada", "third pada", "fourth pada"],
+    });
+
+    assert.equal(created.status, 201);
+    assert.equal(repository.sourceRecordReads, 1);
+    assert.equal(repository.sourceReads, 0);
   });
 });
 
@@ -260,6 +277,7 @@ class ConfigurableCatalogRepository implements CatalogRepository {
   listSourcesResult: Promise<SourceRecord[]> = Promise.resolve([sourceRecord]);
   shlokaReads = 0;
   shlokaRecordReads = 0;
+  sourceRecordReads = 0;
   sourceReads = 0;
 
   async createSource(_input: CreateSourceRecordInput): Promise<SourceRecord> {
@@ -267,10 +285,11 @@ class ConfigurableCatalogRepository implements CatalogRepository {
   }
 
   async createShloka(_input: CreateShlokaRecordInput): Promise<ShlokaRecord> {
-    throw new Error("Not implemented");
+    return shlokaRecord;
   }
 
   async getSource(_code: string): Promise<SourceRecord | undefined> {
+    this.sourceRecordReads += 1;
     return sourceRecord;
   }
 

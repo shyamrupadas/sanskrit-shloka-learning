@@ -1,6 +1,7 @@
 # Получать источник шлоки целевым запросом
 
-Status: ready-for-agent
+Status: ready-for-human
+Accepted: 2026-07-17
 
 ## Родитель
 

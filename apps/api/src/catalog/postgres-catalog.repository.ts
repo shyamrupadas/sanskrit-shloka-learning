@@ -142,74 +142,14 @@ export class PostgresCatalogRepository implements CatalogRepository {
   }
 
   async listSources(): Promise<SourceRecord[]> {
-    const result = await this.database.readQuery<SourceRow>(`
-      with root_chapters as (
-        select
-          source_chapters.source_code,
-          jsonb_agg(
-            jsonb_build_object(
-              'code', source_chapters.code,
-              'title', source_chapters.title,
-              'order', source_chapters.sort_order
-            )
-            order by source_chapters.sort_order, source_chapters.code
-          ) as chapters
-        from source_chapters
-        where source_chapters.part_code is null
-        group by source_chapters.source_code
-      ),
-      part_chapters as (
-        select
-          source_chapters.source_code,
-          source_chapters.part_code,
-          jsonb_agg(
-            jsonb_build_object(
-              'code', source_chapters.code,
-              'title', source_chapters.title,
-              'order', source_chapters.sort_order
-            )
-            order by source_chapters.sort_order, source_chapters.code
-          ) as chapters
-        from source_chapters
-        where source_chapters.part_code is not null
-        group by source_chapters.source_code, source_chapters.part_code
-      ),
-      parts as (
-        select
-          source_parts.source_code,
-          jsonb_agg(
-            jsonb_build_object(
-              'code', source_parts.code,
-              'title', source_parts.title,
-              'order', source_parts.sort_order,
-              'chapters', coalesce(part_chapters.chapters, '[]'::jsonb)
-            )
-            order by source_parts.sort_order, source_parts.code
-          ) as parts
-        from source_parts
-        left join part_chapters
-          on part_chapters.source_code = source_parts.source_code
-          and part_chapters.part_code = source_parts.code
-        group by source_parts.source_code
-      )
-      select
-        shloka_sources.code,
-        shloka_sources.title,
-        shloka_sources.description,
-        shloka_sources.structure_type,
-        coalesce(root_chapters.chapters, '[]'::jsonb) as chapters,
-        coalesce(parts.parts, '[]'::jsonb) as parts
-      from shloka_sources
-      left join root_chapters on root_chapters.source_code = shloka_sources.code
-      left join parts on parts.source_code = shloka_sources.code
-      order by shloka_sources.title, shloka_sources.code
-    `);
+    const result = await this.database.readQuery<SourceRow>(sourceHierarchyQuery());
 
     return result.rows.map(mapSource);
   }
 
   async getSource(code: string): Promise<SourceRecord | undefined> {
-    return (await this.listSources()).find((source) => source.code === code);
+    const result = await this.database.readQuery<SourceRow>(sourceHierarchyQuery(true), [code]);
+    return result.rows[0] ? mapSource(result.rows[0]) : undefined;
   }
 
   async getShloka(code: string): Promise<ShlokaRecord | undefined> {
@@ -351,6 +291,79 @@ export class PostgresCatalogRepository implements CatalogRepository {
 
 function toJsonRows(rows: unknown[]): string {
   return JSON.stringify(rows);
+}
+
+function sourceHierarchyQuery(targeted = false): string {
+  const chapterSourcePredicate = targeted ? "and source_chapters.source_code = $1" : "";
+  const partSourcePredicate = targeted ? "where source_parts.source_code = $1" : "";
+  const sourcePredicate = targeted ? "where shloka_sources.code = $1" : "";
+
+  return `
+    with root_chapters as (
+      select
+        source_chapters.source_code,
+        jsonb_agg(
+          jsonb_build_object(
+            'code', source_chapters.code,
+            'title', source_chapters.title,
+            'order', source_chapters.sort_order
+          )
+          order by source_chapters.sort_order, source_chapters.code
+        ) as chapters
+      from source_chapters
+      where source_chapters.part_code is null
+        ${chapterSourcePredicate}
+      group by source_chapters.source_code
+    ),
+    part_chapters as (
+      select
+        source_chapters.source_code,
+        source_chapters.part_code,
+        jsonb_agg(
+          jsonb_build_object(
+            'code', source_chapters.code,
+            'title', source_chapters.title,
+            'order', source_chapters.sort_order
+          )
+          order by source_chapters.sort_order, source_chapters.code
+        ) as chapters
+      from source_chapters
+      where source_chapters.part_code is not null
+        ${chapterSourcePredicate}
+      group by source_chapters.source_code, source_chapters.part_code
+    ),
+    parts as (
+      select
+        source_parts.source_code,
+        jsonb_agg(
+          jsonb_build_object(
+            'code', source_parts.code,
+            'title', source_parts.title,
+            'order', source_parts.sort_order,
+            'chapters', coalesce(part_chapters.chapters, '[]'::jsonb)
+          )
+          order by source_parts.sort_order, source_parts.code
+        ) as parts
+      from source_parts
+      left join part_chapters
+        on part_chapters.source_code = source_parts.source_code
+        and part_chapters.part_code = source_parts.code
+      ${partSourcePredicate}
+      group by source_parts.source_code
+    )
+    select
+      shloka_sources.code,
+      shloka_sources.title,
+      shloka_sources.description,
+      shloka_sources.structure_type,
+      coalesce(root_chapters.chapters, '[]'::jsonb) as chapters,
+      coalesce(parts.parts, '[]'::jsonb) as parts
+    from shloka_sources
+    left join root_chapters on root_chapters.source_code = shloka_sources.code
+    left join parts on parts.source_code = shloka_sources.code
+    ${sourcePredicate}
+    order by shloka_sources.title, shloka_sources.code
+  `;
 }
 
 function libraryShlokasQuery(whereClause = ""): string {
