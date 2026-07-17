@@ -78,7 +78,7 @@ test("logs in and logs out", async ({ page }) => {
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText(session.account.email)).toHaveCount(0);
 
-  await page.getByRole("link", { name: "Настройки" }).click();
+  await page.getByRole("link", { name: "Еще" }).click();
   await expect(page).toHaveURL(/\/settings$/);
   await expect(page.getByText(session.account.email)).toBeVisible();
   await page.getByRole("button", { name: "Выйти" }).click();
@@ -131,7 +131,7 @@ for (const viewport of [
       name: "Основная навигация",
     });
     const dashboardLink = navigation.getByRole("link", {
-      name: "Дашборд",
+      name: "Главная",
     });
     const libraryLink = navigation.getByRole("link", {
       name: "Библиотека",
@@ -140,7 +140,7 @@ for (const viewport of [
       name: "Обучение",
     });
     const settingsLink = navigation.getByRole("link", {
-      name: "Настройки",
+      name: "Еще",
     });
 
     await expect(navigation).toBeVisible();
@@ -269,8 +269,8 @@ async function expectNavigationFitsViewport(
   });
   const navigationItems = [
     {
-      control: navigation.getByRole("link", { name: "Дашборд" }),
-      label: navigation.getByText("Дашборд", { exact: true }),
+      control: navigation.getByRole("link", { name: "Главная" }),
+      label: navigation.getByText("Главная", { exact: true }),
     },
     {
       control: navigation.getByRole("link", { name: "Библиотека" }),
@@ -281,8 +281,8 @@ async function expectNavigationFitsViewport(
       label: navigation.getByText("Обучение", { exact: true }),
     },
     {
-      control: navigation.getByRole("link", { name: "Настройки" }),
-      label: navigation.getByText("Настройки", { exact: true }),
+      control: navigation.getByRole("link", { name: "Еще" }),
+      label: navigation.getByText("Еще", { exact: true }),
     },
   ];
   const [metrics, contract, itemMetrics] = await Promise.all([
@@ -305,7 +305,6 @@ async function expectNavigationFitsViewport(
 
       return {
         height: readNumber("--component-bottom-nav-height"),
-        inset: readNumber("--space-4"),
         maxWidth: readNumber("--component-bottom-nav-width"),
       };
     }),
@@ -336,15 +335,16 @@ async function expectNavigationFitsViewport(
       }),
     ),
   ]);
-  const expectedWidth = Math.min(
-    contract.maxWidth,
-    viewport.width - contract.inset * 2,
-  );
+  const expectedWidth = Math.min(contract.maxWidth, viewport.width);
+  const expectedHorizontalInset = (viewport.width - expectedWidth) / 2;
 
-  expect(metrics.x).toBeCloseTo(contract.inset, 1);
+  expect(metrics.x).toBeCloseTo(expectedHorizontalInset, 1);
   expect(metrics.y).toBeGreaterThanOrEqual(0);
-  expect(viewport.width - metrics.right).toBeCloseTo(contract.inset, 1);
-  expect(viewport.height - metrics.bottom).toBeCloseTo(contract.inset, 1);
+  expect(viewport.width - metrics.right).toBeCloseTo(
+    expectedHorizontalInset,
+    1,
+  );
+  expect(viewport.height - metrics.bottom).toBeCloseTo(0, 1);
   expect(metrics.height).toBeCloseTo(contract.height, 1);
   expect(metrics.width).toBeCloseTo(expectedWidth, 1);
   expect(itemMetrics).toHaveLength(4);

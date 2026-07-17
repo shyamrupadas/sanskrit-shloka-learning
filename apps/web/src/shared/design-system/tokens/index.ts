@@ -433,22 +433,18 @@ export const designTokens = {
       ),
     },
     bottomNavigation: {
-      background: fromPencil(
-        "#FFFFFFE6",
-        "color-surface-translucent",
-        {
-          cssVariable: "--component-bottom-nav-background",
-        },
-      ),
-      border: fromPencil("#E2E8F0", "border", {
+      background: fromPencil("#FFFFFF", "color-surface", {
+        cssVariable: "--component-bottom-nav-background",
+      }),
+      border: fromPencil("#FFFFFF00", "color-transparent", {
         cssVariable: "--component-bottom-nav-border",
       }),
       gap: fromSource(
-        2,
+        0,
         "component-bottom-nav-gap",
         "Item gap measured from Product / Bottom Navigation (S7Pta); Pencil has no named variable for this value.",
         {
-          cssValue: px(2),
+          cssValue: px(0),
           cssVariable: "--component-bottom-nav-gap",
         },
       ),
@@ -456,49 +452,52 @@ export const designTokens = {
         cssValue: px(64),
         cssVariable: "--component-bottom-nav-height",
       }),
-      iconSize: fromPencil(18, "component-nav-icon-size", {
-        cssValue: px(18),
+      iconSize: fromPencil(22, "component-nav-icon-size", {
+        cssValue: px(22),
         cssVariable: "--component-bottom-nav-icon-size",
       }),
       itemGap: fromSource(
-        3,
+        2,
         "component-bottom-nav-item-gap",
         "Item spacing measured from Product / Bottom Navigation (S7Pta); Pencil has no named variable for this value.",
         {
-          cssValue: px(3),
+          cssValue: px(2),
           cssVariable: "--component-bottom-nav-item-gap",
         },
       ),
-      itemRadius: fromPencil(26, "component-nav-item-radius", {
-        cssValue: px(26),
+      itemRadius: fromPencil(0, "radius-none", {
+        cssValue: px(0),
         cssVariable: "--component-bottom-nav-item-radius",
       }),
+      labelSize: fromSource(
+        11,
+        "component-bottom-nav-label-size",
+        "Label size measured from Product / Bottom Navigation (S7Pta); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(11),
+          cssVariable: "--component-bottom-nav-label-size",
+        },
+      ),
       padding: fromSource(
-        6,
+        "6px 0",
         "component-bottom-nav-padding",
         "Container padding measured from Product / Bottom Navigation (S7Pta); Pencil has no named variable for this value.",
         {
-          cssValue: px(6),
           cssVariable: "--component-bottom-nav-padding",
         },
       ),
-      radius: fromSource(
-        32,
-        "component-bottom-nav-radius",
-        "Container radius measured from Product / Bottom Navigation (S7Pta); Pencil has no named variable for this value.",
-        {
-          cssValue: px(32),
-          cssVariable: "--component-bottom-nav-radius",
-        },
-      ),
+      radius: fromPencil(0, "radius-none", {
+        cssValue: px(0),
+        cssVariable: "--component-bottom-nav-radius",
+      }),
       shadow: fromSource(
-        "0 8px 20px 0 #0F172A14",
+        "0 -4px 16px 0 #0F172A14",
         "component-bottom-nav-shadow",
         "Shadow geometry from Product / Bottom Navigation (S7Pta) paired with Pencil shadow-mid-color.",
         { cssVariable: "--component-bottom-nav-shadow" },
       ),
-      width: fromPencil(358, "component-bottom-nav-width", {
-        cssValue: px(358),
+      width: fromPencil(390, "component-bottom-nav-width", {
+        cssValue: px(390),
         cssVariable: "--component-bottom-nav-width",
       }),
     },

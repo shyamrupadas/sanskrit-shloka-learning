@@ -207,7 +207,7 @@ describe("app review shloka flow", () => {
     await user.click(
       await screen.findByRole("button", { name: "Нужна подсказка" }),
     );
-    await user.click(screen.getByRole("link", { name: "Дашборд" }));
+    await user.click(screen.getByRole("link", { name: "Главная" }));
 
     await expectPath(routePaths.dashboard);
     expect(api.completions).toHaveLength(0);

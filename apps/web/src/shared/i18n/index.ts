@@ -204,11 +204,11 @@ export const strings = {
     loadError: "Не удалось загрузить шлоку",
   },
   nav: {
-    dashboard: "Дашборд",
+    dashboard: "Главная",
     library: "Библиотека",
     learning: "Обучение",
     primaryLabel: "Основная навигация",
-    settings: "Настройки",
+    settings: "Еще",
   },
   settings: {
     accountTitle: "Учетная запись",

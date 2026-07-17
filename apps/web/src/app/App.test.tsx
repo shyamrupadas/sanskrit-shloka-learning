@@ -113,7 +113,7 @@ describe("App auth and empty shell", () => {
     await expectPath("/dashboard");
     const navigation = await screen.findByRole("navigation");
     expect(
-      within(navigation).getByRole("link", { name: "Дашборд" }),
+      within(navigation).getByRole("link", { name: "Главная" }),
     ).toHaveAttribute("aria-current", "page");
   });
 
@@ -128,7 +128,7 @@ describe("App auth and empty shell", () => {
       await expectPath("/dashboard");
       const navigation = await screen.findByRole("navigation");
       expect(
-        within(navigation).getByRole("link", { name: "Дашборд" }),
+        within(navigation).getByRole("link", { name: "Главная" }),
       ).toHaveAttribute("aria-current", "page");
     },
   );
@@ -144,7 +144,7 @@ describe("App auth and empty shell", () => {
       name: "Основная навигация",
     });
     const dashboardLink = within(navigation).getByRole("link", {
-      name: "Дашборд",
+      name: "Главная",
     });
     const libraryLink = within(navigation).getByRole("link", {
       name: "Библиотека",
@@ -153,7 +153,7 @@ describe("App auth and empty shell", () => {
       name: "Обучение",
     });
     const settingsLink = within(navigation).getByRole("link", {
-      name: "Настройки",
+      name: "Еще",
     });
 
     expect(dashboardLink).toHaveAttribute("href", "/dashboard");
@@ -191,7 +191,7 @@ describe("App auth and empty shell", () => {
     );
 
     await user.click(
-      within(libraryNavigation).getByRole("link", { name: "Настройки" }),
+      within(libraryNavigation).getByRole("link", { name: "Еще" }),
     );
     await expectPath("/settings");
     await screen.findByRole("heading", { name: "Настройки" });
@@ -200,11 +200,11 @@ describe("App auth and empty shell", () => {
     });
     expectActiveNavigationLink(
       settingsNavigation,
-      within(settingsNavigation).getByRole("link", { name: "Настройки" }),
+      within(settingsNavigation).getByRole("link", { name: "Еще" }),
     );
 
     await user.click(
-      within(settingsNavigation).getByRole("link", { name: "Дашборд" }),
+      within(settingsNavigation).getByRole("link", { name: "Главная" }),
     );
     await expectPath("/dashboard");
     const dashboardNavigation = await screen.findByRole("navigation", {
@@ -212,7 +212,7 @@ describe("App auth and empty shell", () => {
     });
     expectActiveNavigationLink(
       dashboardNavigation,
-      within(dashboardNavigation).getByRole("link", { name: "Дашборд" }),
+      within(dashboardNavigation).getByRole("link", { name: "Главная" }),
     );
   });
 
@@ -289,7 +289,7 @@ describe("App auth and empty shell", () => {
       await expectPath("/dashboard");
       const navigation = await screen.findByRole("navigation");
       expect(
-        within(navigation).getByRole("link", { name: "Дашборд" }),
+        within(navigation).getByRole("link", { name: "Главная" }),
       ).toHaveAttribute("aria-current", "page");
     },
   );

@@ -4,6 +4,14 @@
 @import "@fontsource-variable/inter";
 
 @font-face {
+  font-family: "Material Symbols Rounded";
+  src: url("@fontsource/material-symbols-rounded/files/material-symbols-rounded-latin-700-normal.woff2") format("woff2");
+  font-display: block;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
   font-family: "Noto Serif";
   src: url("../assets/fonts/noto-serif-regular.woff2") format("woff2");
   font-display: swap;
@@ -103,17 +111,18 @@ body {
   --component-admin-form-field-gap: 12px;
   --component-admin-form-nested-inset: 20px;
   --component-admin-form-section-gap: 18px;
-  --component-bottom-nav-background: #FFFFFFE6;
-  --component-bottom-nav-border: #E2E8F0;
-  --component-bottom-nav-gap: 2px;
+  --component-bottom-nav-background: #FFFFFF;
+  --component-bottom-nav-border: #FFFFFF00;
+  --component-bottom-nav-gap: 0px;
   --component-bottom-nav-height: 64px;
-  --component-bottom-nav-icon-size: 18px;
-  --component-bottom-nav-item-gap: 3px;
-  --component-bottom-nav-item-radius: 26px;
-  --component-bottom-nav-padding: 6px;
-  --component-bottom-nav-radius: 32px;
-  --component-bottom-nav-shadow: 0 8px 20px 0 #0F172A14;
-  --component-bottom-nav-width: 358px;
+  --component-bottom-nav-icon-size: 22px;
+  --component-bottom-nav-item-gap: 2px;
+  --component-bottom-nav-item-radius: 0px;
+  --component-bottom-nav-label-size: 11px;
+  --component-bottom-nav-padding: 6px 0;
+  --component-bottom-nav-radius: 0px;
+  --component-bottom-nav-shadow: 0 -4px 16px 0 #0F172A14;
+  --component-bottom-nav-width: 390px;
   --component-card-gap: 10px;
   --component-card-indicator-size: 22px;
   --component-card-padding: 14px;

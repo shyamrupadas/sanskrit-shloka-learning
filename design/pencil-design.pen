@@ -5699,7 +5699,7 @@
               "id": "PEmail",
               "name": "Product / Field / Email",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "layout": "vertical",
               "gap": 8,
               "children": [
@@ -5729,8 +5729,6 @@
                   "name": "Email Error",
                   "enabled": false,
                   "fill": "$danger",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container(0)",
                   "content": "Введите корректный email",
                   "lineHeight": 1.25,
                   "fontFamily": "$font",
@@ -5744,7 +5742,7 @@
               "id": "PPass",
               "name": "Product / Field / Password",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "layout": "vertical",
               "gap": 8,
               "children": [
@@ -5774,8 +5772,6 @@
                   "name": "Password Error",
                   "enabled": false,
                   "fill": "$danger",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container(0)",
                   "content": "Ошибка пароля",
                   "lineHeight": 1.25,
                   "fontFamily": "$font",
@@ -5798,7 +5794,7 @@
               "id": "Vzs9b",
               "name": "Product / Shloka Card",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "fill": "$surface",
               "cornerRadius": "$radius-lg",
               "stroke": "$border",
@@ -5858,7 +5854,7 @@
               "id": "RPtlw",
               "name": "Product / Empty State",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "fill": "$surface",
               "cornerRadius": "$radius-lg",
               "stroke": "$border",
@@ -5946,12 +5942,11 @@
               "id": "S7Pta",
               "name": "Product / Bottom Navigation",
               "reusable": true,
-              "width": 358,
+              "width": 390,
               "height": 64,
-              "fill": "$color-surface-translucent",
-              "cornerRadius": 32,
-              "stroke": "$border",
-              "strokeWidth": "$stroke-hairline",
+              "fill": "$color-surface",
+              "cornerRadius": "$radius-none",
+              "stroke": "$color-transparent",
               "strokeAlignment": "inner",
               "effect": {
                 "type": "shadow",
@@ -5959,45 +5954,48 @@
                 "color": "$shadow-mid-color",
                 "offset": {
                   "x": 0,
-                  "y": 8
+                  "y": -4
                 },
-                "blur": 20
+                "blur": 16
               },
-              "gap": 2,
-              "padding": 6,
+              "padding": [
+                6,
+                0
+              ],
               "children": [
                 {
                   "type": "frame",
                   "id": "X1d4e",
-                  "name": "Nav Item / Дашборд",
+                  "name": "Nav Item / Главная",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$primary-soft",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "fill": "$color-transparent",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
                       "id": "rZ9HW",
-                      "name": "Nav Icon / Дашборд",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "layout-dashboard",
-                      "library": "lucide",
+                      "name": "Nav Icon / Главная",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "home",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$primary"
                     },
                     {
                       "type": "text",
                       "id": "M1O7R",
-                      "name": "Nav Label / Дашборд",
+                      "name": "Nav Label / Главная",
                       "fill": "$primary",
-                      "content": "Дашборд",
+                      "content": "Главная",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontSize": 11,
+                      "fontWeight": "$type-weight-semibold"
                     }
                   ]
                 },
@@ -6008,9 +6006,9 @@
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -6018,10 +6016,11 @@
                       "type": "icon",
                       "id": "ivXLv",
                       "name": "Nav Icon / Библиотека",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "book-open",
-                      "library": "lucide",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "menu_book",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
@@ -6031,7 +6030,7 @@
                       "fill": "$text-muted",
                       "content": "Библиотека",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -6043,9 +6042,9 @@
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -6053,10 +6052,11 @@
                       "type": "icon",
                       "id": "cDiFN",
                       "name": "Nav Icon / Обучение",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "graduation-cap",
-                      "library": "lucide",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "school",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
@@ -6066,7 +6066,7 @@
                       "fill": "$text-muted",
                       "content": "Обучение",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -6074,34 +6074,35 @@
                 {
                   "type": "frame",
                   "id": "JIRDA",
-                  "name": "Nav Item / Настройки",
+                  "name": "Nav Item / Еще",
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
                       "id": "l8qX5V",
-                      "name": "Nav Icon / Настройки",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "settings",
-                      "library": "lucide",
+                      "name": "Nav Icon / Еще",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "apps",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
                       "type": "text",
                       "id": "KuIBo",
-                      "name": "Nav Label / Настройки",
+                      "name": "Nav Label / Еще",
                       "fill": "$text-muted",
-                      "content": "Настройки",
+                      "content": "Еще",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -6113,7 +6114,7 @@
               "id": "T8Ktz7",
               "name": "Product / Tabs / Library",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "height": 42,
               "fill": "$surface-muted",
               "cornerRadius": "$radius-pill",
@@ -6205,7 +6206,7 @@
               "id": "L7MCU",
               "name": "Product / Word Row",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "fill": "$surface",
               "cornerRadius": "$radius-lg",
               "stroke": "$border",
@@ -6255,7 +6256,7 @@
               "type": "frame",
               "id": "h1iXj7",
               "name": "Tip Accordion States",
-              "width": 342,
+              "width": 390,
               "layout": "vertical",
               "gap": "$space-3",
               "children": [
@@ -6264,7 +6265,7 @@
                   "id": "epjBK",
                   "name": "Product / Tip Accordion Item / Collapsed",
                   "reusable": true,
-                  "width": 342,
+                  "width": 390,
                   "fill": "$surface",
                   "cornerRadius": "$radius-lg",
                   "stroke": "$border",
@@ -6314,7 +6315,7 @@
                   "id": "rgPsh",
                   "name": "Product / Tip Accordion Item / Expanded",
                   "reusable": true,
-                  "width": 342,
+                  "width": 390,
                   "fill": "$surface",
                   "cornerRadius": "$radius-lg",
                   "stroke": "$border",
@@ -6899,7 +6900,7 @@
               "id": "MTM4W",
               "name": "Product / Review Pack / Active",
               "reusable": true,
-              "width": 358,
+              "width": 390,
               "layout": "vertical",
               "gap": 22,
               "children": [
@@ -7010,7 +7011,7 @@
               "id": "zE99y",
               "name": "Product / Review Pack / Completed",
               "reusable": true,
-              "width": 358,
+              "width": 390,
               "layout": "vertical",
               "gap": 22,
               "children": [
@@ -7088,7 +7089,7 @@
               "id": "OPAt8",
               "name": "Product / Want To Learn Block",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "layout": "vertical",
               "gap": 10,
               "children": [
@@ -7174,7 +7175,7 @@
               "id": "Kir4Y",
               "name": "Product / Want To Learn Block / Empty",
               "reusable": true,
-              "width": 342,
+              "width": 390,
               "layout": "vertical",
               "gap": 10,
               "children": [
@@ -7231,7 +7232,7 @@
               "id": "QUgwl",
               "name": "Product / Source Admin Form",
               "reusable": true,
-              "width": 358,
+              "width": 390,
               "layout": "vertical",
               "gap": 18,
               "children": [
@@ -7587,7 +7588,7 @@
               "id": "gkqb9",
               "name": "Product / Shloka Admin Form",
               "reusable": true,
-              "width": 358,
+              "width": 390,
               "layout": "vertical",
               "gap": 18,
               "children": [
@@ -7816,34 +7817,10 @@
           "gap": "$space-6",
           "children": [
             {
-              "id": "c1SEd",
-              "type": "ref",
-              "ref": "haku8",
-              "name": "Product / Layout / Back Header Full Size",
-              "width": 390,
-              "height": 900,
-              "descendants": {
-                "m8i6XF": {
-                  "content": "Новая шлока",
-                  "fontSize": "$typo-h1-size",
-                  "fontWeight": "$typo-h1-weight",
-                  "lineHeight": "$typo-h1-line"
-                },
-                "uFSKB": {
-                  "type": "frame",
-                  "id": "DRuMD",
-                  "name": "Empty Content Area",
-                  "width": 358,
-                  "height": 750,
-                  "fill": "$bg",
-                  "layout": "vertical"
-                }
-              }
-            },
-            {
               "type": "frame",
-              "id": "SHZM9",
-              "name": "Product / Layout / Main With Bottom Navigation Full Size",
+              "id": "haku8",
+              "name": "Product / Layout / Back Header",
+              "reusable": true,
               "clip": true,
               "width": 390,
               "height": 900,
@@ -7859,7 +7836,7 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "ssUjk",
+                  "id": "DWBZc",
                   "name": "Status Bar",
                   "width": 358,
                   "height": 62,
@@ -7868,7 +7845,7 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "HDuSP",
+                      "id": "jXbJk",
                       "name": "Status Time",
                       "fill": "$text",
                       "content": "9:41",
@@ -7878,14 +7855,14 @@
                     },
                     {
                       "type": "frame",
-                      "id": "BugY3",
+                      "id": "jfnVz",
                       "name": "Status Icons",
                       "gap": 6,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "icon",
-                          "id": "m00FGG",
+                          "id": "k5I7P",
                           "name": "Signal Icon",
                           "width": 16,
                           "height": 16,
@@ -7895,7 +7872,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "DXlFC",
+                          "id": "HxPP4",
                           "name": "Wifi Icon",
                           "width": 16,
                           "height": 16,
@@ -7905,7 +7882,7 @@
                         },
                         {
                           "type": "icon",
-                          "id": "LnwXB",
+                          "id": "f13mzv",
                           "name": "Battery Icon",
                           "width": 18,
                           "height": 16,
@@ -7919,7 +7896,143 @@
                 },
                 {
                   "type": "frame",
-                  "id": "jwYtN",
+                  "id": "gNwOk",
+                  "name": "Back Header",
+                  "width": 358,
+                  "height": 44,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "e5hwD",
+                      "type": "ref",
+                      "ref": "Qm2hL",
+                      "name": "Back Button"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zxoyR",
+                      "name": "Header Title Slot",
+                      "width": 278,
+                      "height": 44,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "m8i6XF",
+                          "name": "Header Title",
+                          "fill": "$text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заголовок",
+                          "lineHeight": "$typo-h1-line",
+                          "textAlign": "center",
+                          "fontFamily": "$font",
+                          "fontSize": "$typo-h1-size",
+                          "fontWeight": "$typo-h1-weight"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rBvcB",
+                      "name": "Header Right Spacer",
+                      "width": 40,
+                      "height": 40
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uFSKB",
+                  "name": "Content Slot",
+                  "slot": [
+                    "gkqb9",
+                    "QUgwl"
+                  ],
+                  "width": 358,
+                  "height": 750,
+                  "layout": "vertical"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Uwe4t",
+              "name": "Product / Layout / Main With Bottom Navigation",
+              "reusable": true,
+              "clip": true,
+              "width": 390,
+              "height": 900,
+              "fill": "$bg",
+              "layout": "vertical",
+              "gap": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "D86yk",
+                  "name": "Status Bar",
+                  "width": 358,
+                  "height": 62,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EwX4l",
+                      "name": "Status Time",
+                      "fill": "$text",
+                      "content": "9:41",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y5QP8",
+                      "name": "Status Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ozxsy",
+                          "name": "Signal Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "signal",
+                          "library": "lucide",
+                          "fill": "$text"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "aaqNv",
+                          "name": "Wifi Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "$text"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "AHBDF",
+                          "name": "Battery Icon",
+                          "width": 18,
+                          "height": 16,
+                          "icon": "battery",
+                          "library": "lucide",
+                          "fill": "$text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z5Ns55",
                   "name": "Title Header",
                   "width": 358,
                   "height": 44,
@@ -7929,7 +8042,7 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "q6Pzsb",
+                      "id": "kAuVL",
                       "name": "Header Title",
                       "fill": "$text",
                       "textGrowth": "fixed-width",
@@ -7945,19 +8058,23 @@
                 },
                 {
                   "type": "frame",
-                  "id": "UMvXP",
-                  "name": "Empty Content Area",
+                  "id": "qYZ5m",
+                  "name": "Content Slot",
+                  "slot": [
+                    "Vzs9b",
+                    "OPAt8",
+                    "MTM4W"
+                  ],
                   "width": 358,
-                  "height": 672,
-                  "fill": "$bg",
+                  "height": "fill_container",
                   "layout": "vertical"
                 },
                 {
-                  "id": "jyJ8r",
+                  "id": "uqsNH",
                   "type": "ref",
                   "ref": "S7Pta",
                   "name": "Bottom Navigation",
-                  "width": 358
+                  "width": "fill_container"
                 }
               ]
             }
@@ -7973,6 +8090,7 @@
       "name": "Регистрация",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -8319,6 +8437,7 @@
       "name": "Вход",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -8689,6 +8808,7 @@
       "name": "Дашборд - обычный",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "#F8FAFC",
       "layout": "vertical",
       "children": [
@@ -8752,6 +8872,7 @@
           "id": "cWhkH",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 22,
           "padding": [
@@ -8806,24 +8927,17 @@
           "id": "p7YCX",
           "name": "Navigation Wrap",
           "width": "fill_container",
-          "padding": [
-            0,
-            16,
-            14,
-            16
-          ],
           "justifyContent": "center",
           "children": [
             {
               "type": "frame",
               "id": "TZLcx",
-              "name": "Bottom Navigation / Dashboard",
+              "name": "Bottom Navigation / Главная",
               "width": "fill_container",
               "height": 64,
-              "fill": "$color-surface-translucent",
-              "cornerRadius": 32,
-              "stroke": "$border",
-              "strokeWidth": "$stroke-hairline",
+              "fill": "$color-surface",
+              "cornerRadius": "$radius-none",
+              "stroke": "$color-transparent",
               "strokeAlignment": "inner",
               "effect": {
                 "type": "shadow",
@@ -8831,45 +8945,48 @@
                 "color": "$shadow-mid-color",
                 "offset": {
                   "x": 0,
-                  "y": 8
+                  "y": -4
                 },
-                "blur": 20
+                "blur": 16
               },
-              "gap": 2,
-              "padding": 6,
+              "padding": [
+                6,
+                0
+              ],
               "children": [
                 {
                   "type": "frame",
                   "id": "skpsB",
-                  "name": "Nav Item / Дашборд",
+                  "name": "Nav Item / Главная",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$primary-soft",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "fill": "$color-transparent",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
                       "id": "pO1Ed",
-                      "name": "Nav Icon / Дашборд",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "layout-dashboard",
-                      "library": "lucide",
+                      "name": "Nav Icon / Главная",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "home",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$primary"
                     },
                     {
                       "type": "text",
                       "id": "R0eie",
-                      "name": "Nav Label / Дашборд",
+                      "name": "Nav Label / Главная",
                       "fill": "$primary",
-                      "content": "Дашборд",
+                      "content": "Главная",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontSize": 11,
+                      "fontWeight": "$type-weight-semibold"
                     }
                   ]
                 },
@@ -8880,9 +8997,9 @@
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -8890,10 +9007,11 @@
                       "type": "icon",
                       "id": "Esy5o",
                       "name": "Nav Icon / Библиотека",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "book-open",
-                      "library": "lucide",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "menu_book",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
@@ -8903,7 +9021,7 @@
                       "fill": "$text-muted",
                       "content": "Библиотека",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -8915,9 +9033,9 @@
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -8925,10 +9043,11 @@
                       "type": "icon",
                       "id": "yLvWB",
                       "name": "Nav Icon / Обучение",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "graduation-cap",
-                      "library": "lucide",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "school",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
@@ -8938,7 +9057,7 @@
                       "fill": "$text-muted",
                       "content": "Обучение",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -8946,34 +9065,35 @@
                 {
                   "type": "frame",
                   "id": "E7lxOF",
-                  "name": "Nav Item / Настройки",
+                  "name": "Nav Item / Еще",
                   "width": "fill_container",
                   "height": "fill_container",
                   "fill": "$color-transparent",
-                  "cornerRadius": "$component-nav-item-radius",
+                  "cornerRadius": "$radius-none",
                   "layout": "vertical",
-                  "gap": 3,
+                  "gap": 2,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
                       "id": "SdZbT",
-                      "name": "Nav Icon / Настройки",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "settings",
-                      "library": "lucide",
+                      "name": "Nav Icon / Еще",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "apps",
+                      "library": "Material Symbols Rounded",
+                      "weight": 700,
                       "fill": "$text-muted"
                     },
                     {
                       "type": "text",
                       "id": "XQVS6",
-                      "name": "Nav Label / Настройки",
+                      "name": "Nav Label / Еще",
                       "fill": "$text-muted",
-                      "content": "Настройки",
+                      "content": "Еще",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-nav-size",
+                      "fontSize": 11,
                       "fontWeight": "$type-weight-medium"
                     }
                   ]
@@ -8992,6 +9112,7 @@
       "name": "Дашборд - новый пользователь",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -9055,6 +9176,7 @@
           "id": "DbL2j",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "padding": [
             10,
@@ -9077,12 +9199,6 @@
           "id": "vzemZ",
           "name": "Navigation Wrap",
           "width": "fill_container",
-          "padding": [
-            0,
-            16,
-            14,
-            16
-          ],
           "justifyContent": "center",
           "children": [
             {
@@ -9104,6 +9220,7 @@
       "name": "Дашборд - повторения завершены",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -9167,6 +9284,7 @@
           "id": "zJYYb",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 22,
           "padding": [
@@ -9371,12 +9489,6 @@
           "id": "tMUWs",
           "name": "Navigation Wrap",
           "width": "fill_container",
-          "padding": [
-            0,
-            16,
-            14,
-            16
-          ],
           "justifyContent": "center",
           "children": [
             {
@@ -9395,8 +9507,8 @@
           "y": 0,
           "name": "Streak popup open",
           "enabled": false,
-          "width": "fit_content(0)",
-          "height": "fit_content(0)"
+          "width": 0,
+          "height": 0
         }
       ]
     },
@@ -9408,6 +9520,7 @@
       "name": "Библиотека — повторяю",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -9482,6 +9595,7 @@
           "id": "h66zHs",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 14,
           "padding": [
@@ -9559,7 +9673,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -9571,6 +9731,7 @@
       "name": "Библиотека — буду учить",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -9645,6 +9806,7 @@
           "id": "GDpxP",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 14,
           "padding": [
@@ -9722,7 +9884,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -9734,6 +9942,7 @@
       "name": "Библиотека — все",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -9808,6 +10017,7 @@
           "id": "SOpYy",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 14,
           "padding": [
@@ -9959,7 +10169,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -9971,6 +10227,7 @@
       "name": "Библиотека — нет результатов",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10045,6 +10302,7 @@
           "id": "RQoBd",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 14,
           "padding": [
@@ -10159,7 +10417,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -10171,6 +10475,7 @@
       "name": "Страница шлоки",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10245,6 +10550,7 @@
           "id": "bteq3",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -10317,7 +10623,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -10329,6 +10681,7 @@
       "name": "Заучивание — шлока",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10403,6 +10756,7 @@
           "id": "QdURv",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -10465,7 +10819,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -10477,6 +10877,7 @@
       "name": "Заучивание — подтверждение",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10551,6 +10952,7 @@
           "id": "EQaJS",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -10615,7 +11017,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Библиотека",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$primary"
+            },
+            "L6CXp6": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$text-muted"
+            },
+            "Jl09H": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -10627,6 +11075,7 @@
       "name": "Повторение — текст скрыт",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10701,6 +11150,7 @@
           "id": "Pt3iY",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -10822,7 +11272,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358
+          "width": "fill_container"
         }
       ]
     },
@@ -10834,6 +11284,7 @@
       "name": "Повторение — первая подсказка",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -10908,6 +11359,7 @@
           "id": "ss8ml",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -11030,7 +11482,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358
+          "width": "fill_container"
         }
       ]
     },
@@ -11042,6 +11494,7 @@
       "name": "Повторение — вторая подсказка",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -11116,6 +11569,7 @@
           "id": "kPIDg",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -11231,7 +11685,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358
+          "width": "fill_container"
         }
       ]
     },
@@ -11243,6 +11697,7 @@
       "name": "Повторение — полный текст",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -11317,6 +11772,7 @@
           "id": "C0RLb",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -11439,7 +11895,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358
+          "width": "fill_container"
         }
       ]
     },
@@ -11451,6 +11907,7 @@
       "name": "Повторение — результат",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -11525,6 +11982,7 @@
           "id": "B6RLTR",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 18,
           "padding": [
@@ -11591,7 +12049,7 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Повторение",
-          "width": 358
+          "width": "fill_container"
         }
       ]
     },
@@ -11603,6 +12061,7 @@
       "name": "Обучение санскриту",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -11677,6 +12136,7 @@
           "id": "C9yLz2",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -11722,7 +12182,53 @@
           "type": "ref",
           "ref": "S7Pta",
           "name": "Bottom Navigation — Обучение",
-          "width": 358
+          "width": "fill_container",
+          "descendants": {
+            "X1d4e": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "rZ9HW": {
+              "fill": "$text-muted"
+            },
+            "M1O7R": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "bQROH": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "ivXLv": {
+              "fill": "$text-muted"
+            },
+            "L6CXp6": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            },
+            "U1VK6D": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "cDiFN": {
+              "fill": "$primary"
+            },
+            "Jl09H": {
+              "fill": "$primary",
+              "fontWeight": "$type-weight-semibold"
+            },
+            "JIRDA": {
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none"
+            },
+            "l8qX5V": {
+              "fill": "$text-muted"
+            },
+            "KuIBo": {
+              "fill": "$text-muted",
+              "fontWeight": "$type-weight-medium"
+            }
+          }
         }
       ]
     },
@@ -11734,6 +12240,7 @@
       "name": "Настройки",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -11808,6 +12315,7 @@
           "id": "pUvnf",
           "name": "Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -11981,13 +12489,12 @@
         {
           "type": "frame",
           "id": "dQEqg",
-          "name": "Bottom Navigation / Settings",
-          "width": 358,
+          "name": "Bottom Navigation / Еще",
+          "width": "fill_container",
           "height": 64,
-          "fill": "$color-surface-translucent",
-          "cornerRadius": 32,
-          "stroke": "$border",
-          "strokeWidth": "$stroke-hairline",
+          "fill": "$color-surface",
+          "cornerRadius": "$radius-none",
+          "stroke": "$color-transparent",
           "strokeAlignment": "inner",
           "effect": {
             "type": "shadow",
@@ -11995,44 +12502,47 @@
             "color": "$shadow-mid-color",
             "offset": {
               "x": 0,
-              "y": 8
+              "y": -4
             },
-            "blur": 20
+            "blur": 16
           },
-          "gap": 2,
-          "padding": 6,
+          "padding": [
+            6,
+            0
+          ],
           "children": [
             {
               "type": "frame",
               "id": "iMpj7",
-              "name": "Nav Item / Дашборд",
+              "name": "Nav Item / Главная",
               "width": "fill_container",
               "height": "fill_container",
               "fill": "$color-transparent",
-              "cornerRadius": "$component-nav-item-radius",
+              "cornerRadius": "$radius-none",
               "layout": "vertical",
-              "gap": 3,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
                   "id": "V8OMi",
-                  "name": "Nav Icon / Дашборд",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "layout-dashboard",
-                  "library": "lucide",
+                  "name": "Nav Icon / Главная",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "home",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$text-muted"
                 },
                 {
                   "type": "text",
                   "id": "S4QmRI",
-                  "name": "Nav Label / Дашборд",
+                  "name": "Nav Label / Главная",
                   "fill": "$text-muted",
-                  "content": "Дашборд",
+                  "content": "Главная",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$type-nav-size",
+                  "fontSize": 11,
                   "fontWeight": "$type-weight-medium"
                 }
               ]
@@ -12044,9 +12554,9 @@
               "width": "fill_container",
               "height": "fill_container",
               "fill": "$color-transparent",
-              "cornerRadius": "$component-nav-item-radius",
+              "cornerRadius": "$radius-none",
               "layout": "vertical",
-              "gap": 3,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -12054,10 +12564,11 @@
                   "type": "icon",
                   "id": "lKmJb",
                   "name": "Nav Icon / Библиотека",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "book-open",
-                  "library": "lucide",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "menu_book",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$text-muted"
                 },
                 {
@@ -12067,7 +12578,7 @@
                   "fill": "$text-muted",
                   "content": "Библиотека",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$type-nav-size",
+                  "fontSize": 11,
                   "fontWeight": "$type-weight-medium"
                 }
               ]
@@ -12079,9 +12590,9 @@
               "width": "fill_container",
               "height": "fill_container",
               "fill": "$color-transparent",
-              "cornerRadius": "$component-nav-item-radius",
+              "cornerRadius": "$radius-none",
               "layout": "vertical",
-              "gap": 3,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -12089,10 +12600,11 @@
                   "type": "icon",
                   "id": "T9NG1",
                   "name": "Nav Icon / Обучение",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "graduation-cap",
-                  "library": "lucide",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "school",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$text-muted"
                 },
                 {
@@ -12102,7 +12614,7 @@
                   "fill": "$text-muted",
                   "content": "Обучение",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$type-nav-size",
+                  "fontSize": 11,
                   "fontWeight": "$type-weight-medium"
                 }
               ]
@@ -12110,35 +12622,36 @@
             {
               "type": "frame",
               "id": "e0ZlZ",
-              "name": "Nav Item / Настройки",
+              "name": "Nav Item / Еще",
               "width": "fill_container",
               "height": "fill_container",
-              "fill": "$primary-soft",
-              "cornerRadius": "$component-nav-item-radius",
+              "fill": "$color-transparent",
+              "cornerRadius": "$radius-none",
               "layout": "vertical",
-              "gap": 3,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
                   "id": "isOQO",
-                  "name": "Nav Icon / Настройки",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "settings",
-                  "library": "lucide",
+                  "name": "Nav Icon / Еще",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "apps",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$primary"
                 },
                 {
                   "type": "text",
                   "id": "rUNMm",
-                  "name": "Nav Label / Настройки",
+                  "name": "Nav Label / Еще",
                   "fill": "$primary",
-                  "content": "Настройки",
+                  "content": "Еще",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$type-nav-size",
-                  "fontWeight": "$type-weight-bold"
+                  "fontSize": 11,
+                  "fontWeight": "$type-weight-semibold"
                 }
               ]
             }
@@ -12668,6 +13181,7 @@
       "name": "Админка",
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -12759,6 +13273,7 @@
           "id": "Yvnoq",
           "name": "Admin Content",
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
           "padding": [
@@ -13285,271 +13800,6 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "haku8",
-      "x": 2269,
-      "y": 0,
-      "name": "Product / Layout / Back Header",
-      "reusable": true,
-      "clip": true,
-      "width": 390,
-      "height": 900,
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "DWBZc",
-          "name": "Status Bar",
-          "width": 358,
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "jXbJk",
-              "name": "Status Time",
-              "fill": "$text",
-              "content": "9:41",
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "jfnVz",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "k5I7P",
-                  "name": "Signal Icon",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "HxPP4",
-                  "name": "Wifi Icon",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "f13mzv",
-                  "name": "Battery Icon",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery",
-                  "library": "lucide",
-                  "fill": "$text"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "gNwOk",
-          "name": "Back Header",
-          "width": 358,
-          "height": 44,
-          "alignItems": "center",
-          "children": [
-            {
-              "id": "e5hwD",
-              "type": "ref",
-              "ref": "Qm2hL",
-              "name": "Back Button"
-            },
-            {
-              "type": "frame",
-              "id": "zxoyR",
-              "name": "Header Title Slot",
-              "width": 278,
-              "height": 44,
-              "layout": "vertical",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "m8i6XF",
-                  "name": "Header Title",
-                  "fill": "$text",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Заголовок",
-                  "lineHeight": "$typo-h1-line",
-                  "textAlign": "center",
-                  "fontFamily": "$font",
-                  "fontSize": "$typo-h1-size",
-                  "fontWeight": "$typo-h1-weight"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "rBvcB",
-              "name": "Header Right Spacer",
-              "width": 40,
-              "height": 40
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "uFSKB",
-          "width": "fit_content(0)",
-          "height": 750
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "Uwe4t",
-      "x": 2699,
-      "y": 0,
-      "name": "Product / Layout / Main With Bottom Navigation",
-      "reusable": true,
-      "clip": true,
-      "width": 390,
-      "height": 900,
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 14,
-      "padding": [
-        0,
-        16,
-        16,
-        16
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "D86yk",
-          "name": "Status Bar",
-          "width": 358,
-          "height": 62,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "EwX4l",
-              "name": "Status Time",
-              "fill": "$text",
-              "content": "9:41",
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "Y5QP8",
-              "name": "Status Icons",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "ozxsy",
-                  "name": "Signal Icon",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "aaqNv",
-                  "name": "Wifi Icon",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "AHBDF",
-                  "name": "Battery Icon",
-                  "width": 18,
-                  "height": 16,
-                  "icon": "battery",
-                  "library": "lucide",
-                  "fill": "$text"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "z5Ns55",
-          "name": "Title Header",
-          "width": 358,
-          "height": 44,
-          "layout": "vertical",
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "kAuVL",
-              "name": "Header Title",
-              "fill": "$text",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Заголовок",
-              "lineHeight": "$typo-h1-line",
-              "textAlign": "center",
-              "fontFamily": "$font",
-              "fontSize": "$typo-h1-size",
-              "fontWeight": "$typo-h1-weight"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "qYZ5m",
-          "name": "Content Slot",
-          "slot": [
-            "Vzs9b",
-            "OPAt8",
-            "MTM4W"
-          ],
-          "width": 358,
-          "height": 672,
-          "layout": "vertical"
-        },
-        {
-          "id": "uqsNH",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation",
-          "width": 358
         }
       ]
     }
@@ -14209,11 +14459,11 @@
     },
     "component-bottom-nav-width": {
       "type": "number",
-      "value": 358
+      "value": 390
     },
     "component-card-width": {
       "type": "number",
-      "value": 342
+      "value": 390
     },
     "component-empty-icon-size": {
       "type": "number",
@@ -14233,7 +14483,7 @@
     },
     "component-nav-icon-size": {
       "type": "number",
-      "value": 18
+      "value": 22
     },
     "component-popup-radius": {
       "type": "number",

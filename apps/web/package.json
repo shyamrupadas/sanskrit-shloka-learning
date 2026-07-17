@@ -14,6 +14,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@fontsource/material-symbols-rounded": "^5.2.45",
     "@fontsource-variable/inter": "^5.2.8",
     "@sanskrit-shloka-learning/api-contract": "workspace:*",
     "@tanstack/react-query": "^5.100.14",

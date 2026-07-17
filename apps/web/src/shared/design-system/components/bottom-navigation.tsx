@@ -1,11 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import {
-  BookOpen,
-  GraduationCap,
-  LayoutDashboard,
-  Settings,
-  type LucideIcon,
-} from "lucide-react";
 
 import { strings } from "@/shared/i18n";
 import { cn } from "@/shared/lib/utils";
@@ -23,7 +16,7 @@ export type BottomNavigationProps = {
 };
 
 type NavigationItem = {
-  Icon: LucideIcon;
+  icon: NavigationIcon;
   label: string;
   section: BottomNavigationSection;
   to:
@@ -33,27 +26,29 @@ type NavigationItem = {
     | typeof routePaths.settings;
 };
 
+type NavigationIcon = "apps" | "home" | "menu_book" | "school";
+
 const navigationItems = [
   {
-    Icon: LayoutDashboard,
+    icon: "home",
     label: strings.nav.dashboard,
     section: "dashboard",
     to: routePaths.dashboard,
   },
   {
-    Icon: BookOpen,
+    icon: "menu_book",
     label: strings.nav.library,
     section: "library",
     to: routePaths.library,
   },
   {
-    Icon: GraduationCap,
+    icon: "school",
     label: strings.nav.learning,
     section: "learning",
     to: routePaths.learning,
   },
   {
-    Icon: Settings,
+    icon: "apps",
     label: strings.nav.settings,
     section: "settings",
     to: routePaths.settings,
@@ -66,17 +61,14 @@ export function BottomNavigation({
   return (
     <nav
       aria-label={strings.nav.primaryLabel}
-      className="fixed inset-x-4 z-20 mx-auto h-[var(--component-bottom-nav-height)] max-w-[var(--component-bottom-nav-width)] rounded-[var(--component-bottom-nav-radius)] border bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] [border-color:var(--component-bottom-nav-border)] [bottom:max(var(--space-4),env(safe-area-inset-bottom))]"
+      className="fixed inset-x-0 bottom-0 z-20 mx-auto h-[calc(var(--component-bottom-nav-height)+env(safe-area-inset-bottom))] max-w-[var(--component-bottom-nav-width)] rounded-[var(--component-bottom-nav-radius)] bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] outline-1 -outline-offset-1 [outline-color:var(--component-bottom-nav-border)]"
     >
-      <ul className="grid h-full list-none grid-cols-4 gap-[var(--component-bottom-nav-gap)] p-[var(--component-bottom-nav-padding)]">
+      <ul className="grid h-[var(--component-bottom-nav-height)] list-none grid-cols-4 gap-[var(--component-bottom-nav-gap)] p-[var(--component-bottom-nav-padding)]">
         {navigationItems.map((item) => {
           const isActive = activeSection === item.section;
           const content = (
             <>
-              <item.Icon
-                aria-hidden="true"
-                className="size-[var(--component-bottom-nav-icon-size)]"
-              />
+              <NavigationIcon name={item.icon} />
               <span className="max-w-full truncate">{item.label}</span>
             </>
           );
@@ -103,11 +95,22 @@ export function BottomNavigation({
   );
 }
 
+function NavigationIcon({ name }: { name: NavigationIcon }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-flex size-[var(--component-bottom-nav-icon-size)] shrink-0 items-center justify-center font-['Material_Symbols_Rounded'] text-[length:var(--component-bottom-nav-icon-size)] leading-none font-bold [font-feature-settings:'liga'] [font-variation-settings:'FILL'_0,'wght'_700,'GRAD'_0,'opsz'_24]"
+    >
+      {name}
+    </span>
+  );
+}
+
 function getItemClassName(isActive: boolean) {
   return cn(
-    "h-full w-full min-w-0 flex-col gap-[var(--component-bottom-nav-item-gap)] rounded-[var(--component-bottom-nav-item-radius)] border-0 p-1 text-[length:var(--font-size-nav)] leading-tight shadow-none active:translate-y-0 disabled:opacity-100",
+    "h-full w-full min-w-0 flex-col gap-[var(--component-bottom-nav-item-gap)] rounded-[var(--component-bottom-nav-item-radius)] border-0 bg-transparent p-0 text-[length:var(--component-bottom-nav-label-size)] leading-tight shadow-none hover:bg-transparent active:translate-y-0 disabled:opacity-100",
     isActive
-      ? "bg-accent font-bold text-accent-foreground hover:bg-accent hover:text-accent-foreground"
-      : "bg-transparent font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
+      ? "font-semibold text-primary hover:text-primary"
+      : "font-medium text-muted-foreground hover:text-muted-foreground",
   );
 }
