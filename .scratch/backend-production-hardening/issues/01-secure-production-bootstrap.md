@@ -5,7 +5,7 @@ Accepted: 2026-07-16
 
 ## Родитель
 
-`.scratch/backend-production-hardening/PRD.md` — пользовательские истории 9–11, 20–22, 34 и 37.
+`.scratch/backend-production-hardening/spec.md` — пользовательские истории 9–11, 20–22, 34 и 37.
 
 ## Что сделать
 

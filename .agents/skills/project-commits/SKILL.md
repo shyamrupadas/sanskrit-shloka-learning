@@ -31,8 +31,8 @@ description: Create one commit with all current repository changes using this re
 
 - `repo` - root workspace, shared package metadata, root tooling.
 - `agents` - `AGENTS.md`, project skills, agent workflow docs.
-- `scratch` - `.scratch` issues and planning artifacts.
-- `docs` - `docs/`, `CONTEXT.md`, PRDs, ADRs.
+- `scratch` - `.scratch` tickets and planning artifacts.
+- `docs` - `docs/`, `CONTEXT.md`, specs, ADRs.
 - `design` - Pencil files, design requirements, icons, visual assets.
 - `api` - Nest API app outside a narrower scope.
 - `web` - React app outside a narrower scope.

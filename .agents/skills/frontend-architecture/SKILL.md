@@ -13,7 +13,7 @@ description: Audit and evolve the apps/web frontend architecture. Use when Codex
 - `apps/web/AGENTS.md`
 - `docs/architecture/frontend.md`
 - `docs/adr/0003-evolution-design-for-frontend-architecture.md`
-- актуальный issue или PRD в `.scratch/`, если пользователь дал путь
+- актуальный ticket или spec в `.scratch/`, если пользователь дал путь
 
 ## Workflow
 

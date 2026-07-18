@@ -5,7 +5,7 @@ Accepted: 2026-07-10
 
 ## Родитель
 
-`.scratch/frontend-design-system-sync/PRD.md`
+`.scratch/frontend-design-system-sync/spec.md`
 
 ## Что сделать
 
@@ -19,7 +19,7 @@ Accepted: 2026-07-10
 - Текущий CSS entrypoint: `apps/web/src/app/styles.css`.
 - Текущий generic UI каталог: `apps/web/src/shared/ui/`.
 - Текущий shared utils alias: `@/shared/lib/utils`.
-- Найденные на момент подготовки issue primitives: `button`, `card`, `input`, `label`, `switch`, `tabs`, `textarea`.
+- На момент подготовки ticket найдены primitives: `button`, `card`, `input`, `label`, `switch`, `tabs`, `textarea`.
 - Shadcn MCP для текущего набора возвращает canonical add-команду: `pnpm dlx shadcn@latest add @shadcn/button @shadcn/card @shadcn/input @shadcn/label @shadcn/switch @shadcn/tabs @shadcn/textarea`.
 
 ## Критерии приемки

@@ -5,7 +5,7 @@ Accepted: 2026-06-27
 
 ## Родитель
 
-`.scratch/initial-product/PRD.md`
+`.scratch/initial-product/spec.md`
 
 ## Что сделать
 

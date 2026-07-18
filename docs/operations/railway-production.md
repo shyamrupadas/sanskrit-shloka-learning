@@ -32,7 +32,7 @@ Railway variables:
 | `DATABASE_DIRECT_URL` | отдельный direct Neon URL для migrations; hostname не содержит `-pooler` | да |
 | `DATABASE_POOL_MAX` | `5` для единственной небольшой реплики | нет |
 
-Не копируй реальные connection strings, пароли или session tokens в issue, commit,
+Не копируй реальные connection strings, пароли или session tokens в ticket, commit,
 shell history, скриншот или отчет. Runtime и migrations пока могут использовать одну
 DB-роль, но URL обязаны указывать на разные pooled/direct endpoints.
 

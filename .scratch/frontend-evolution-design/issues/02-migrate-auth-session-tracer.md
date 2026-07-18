@@ -5,7 +5,7 @@ Accepted: 2026-07-04
 
 ## Родитель
 
-`.scratch/frontend-evolution-design/PRD.md`
+`.scratch/frontend-evolution-design/spec.md`
 
 ## Что сделать
 
