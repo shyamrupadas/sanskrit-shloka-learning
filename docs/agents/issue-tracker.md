@@ -21,6 +21,15 @@ Triage and implementation lifecycle are separate state machines:
 
 The canonical triage role `ready-for-human` means that implementation requires a human. It does not mean that implementation is complete. `awaiting-human-review` is the only status that means implementation and required checks are complete and the ticket or spec awaits human review. If a human implements a `ready-for-human` ticket, change its status to `awaiting-human-review` before acceptance.
 
+## Dependency graph
+
+- `**Blocked by:**` is either `None — can start immediately` or one or more `NN — Ticket title` references separated by `; `.
+- The two-digit `NN` is the blocker identity and must resolve to exactly one ticket in the same `issues/` directory. The title is for readability; report a mismatch, but resolve the edge by number.
+- `to-tickets` numbers tickets in dependency order. When publishing tickets or changing an edge, require blockers to exist and have lower numbers; reject duplicate, self, missing, ambiguous, or malformed references. This keeps the graph acyclic.
+- Keep published edges after blockers are accepted. Edit them only to correct an explicit planning error or dependency decision, then validate the graph again.
+- A blocker is accepted only when its ticket has an exact top-level `Accepted: YYYY-MM-DD` line directly after `**Status:**`; ignore body mentions.
+- A ticket is on the frontier when it has `**Status:** ready-for-agent`, has no `Accepted:` marker, and every blocker is accepted. Invalid references remain unresolved and must be reported instead of being removed silently.
+
 ## Implementation ticket format
 
 New implementation tickets use the `to-tickets` local template without local alternatives:
@@ -30,7 +39,7 @@ New implementation tickets use the `to-tickets` local template without local alt
 
 **What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective.
 
-**Blocked by:** the numbers/titles of the tickets that gate this one, or "None — can start immediately".
+**Blocked by:** blocker references in the exact `NN — Ticket title; NN — Ticket title` form, or "None — can start immediately".
 
 **Status:** ready-for-agent
 
@@ -42,16 +51,7 @@ Project-specific supporting sections, such as `## Parent`, `## Pencil references
 
 ## UI-contract requirements
 
-Specs and tickets that create or change visible frontend UI must follow `docs/design/frontend-design-system.md`.
-
-- Include `## Pencil references` with human-readable Pencil names and `nodeId` values for relevant screens, states and reusable components.
-- If the UI contract is missing or conflicts with the requirement, include a structured `## UI Contract Collision`; do not leave a free-form note or ask the agent to improvise.
-- Use `docs/design/pencil-design-map.md` as the navigation index for preparing tickets and for reviewer checks.
-- Treat `design/pencil-design.pen` as the canonical UI contract. `design/new-design.pen` is deprecated.
-- Keep functional behavior in spec, domain docs, ADR and API contracts. Pencil references define visual UI, screen states, components and tokens.
-- Backend/API-only tickets do not need Pencil references when they do not introduce a visible user scenario. If they introduce a future user scenario, the spec/ticket must either link to the future UI contract or explicitly state that frontend implementation is blocked until a UI contract exists.
-
-A visible UI ticket without `## Pencil references` or `## UI Contract Collision` is not ready for `ready-for-agent`.
+Specs and tickets that create or change visible frontend UI must follow `docs/design/frontend-design-system.md`, which defines Pencil sources of truth, references, collisions, backend-only exceptions, and final reporting. A visible UI ticket without `## Pencil references` or `## UI Contract Collision` is not ready for `ready-for-agent`.
 
 ## When an agent finishes a ticket
 
@@ -65,6 +65,8 @@ After completing the implementation and required checks:
 ## Publishing to the ticket tracker
 
 `to-spec` creates or updates `.scratch/<feature-slug>/spec.md`. `to-tickets` reads that spec and creates numbered implementation tickets under `.scratch/<feature-slug>/issues/`.
+
+Before publishing implementation tickets, validate the complete graph using `Dependency graph`. Do not publish until every inconsistency is corrected.
 
 ## Wayfinding operations
 
@@ -85,6 +87,14 @@ When the route to the destination is clear, use the map and the relevant resolve
 
 Read the file at the referenced path. The user will normally pass the path or the ticket number directly.
 
+## When an agent starts a ticket
+
+Before implementation, verify that the selected ticket is on the frontier:
+
+- Apply the `Dependency graph` rules to the selected ticket.
+- If the graph is inconsistent, stop and report the invalid references. If any blocker is unresolved, stop and report it.
+- Start implementation only for a frontier ticket. Do not remove or rewrite resolved edges.
+
 ## When a human accepts a ticket
 
 Local markdown tickets do not have a separate "closed" state. When the user says a ticket is accepted, complete, done, or ready to close:
@@ -93,11 +103,10 @@ Local markdown tickets do not have a separate "closed" state. When the user says
 - Accept only a ticket with `**Status:** awaiting-human-review`. `ready-for-human` means that human implementation is still required and is not an acceptance state.
 - Add or update an `Accepted: YYYY-MM-DD` line directly after `**Status:**`.
 - Treat that ticket as complete for dependency resolution.
-- Search the `**Blocked by:**` fields of other `.scratch/<feature-slug>/issues/*.md` files for the accepted ticket number.
-- Remove the accepted ticket number/title from those fields.
-- If a field becomes empty, replace its value with `None — can start immediately`.
+- Keep every ticket's `**Blocked by:**` field unchanged. Acceptance resolves an edge through the referenced ticket's `Accepted:` marker; it does not delete the edge.
+- Evaluate the other `.scratch/<feature-slug>/issues/*.md` files using `Dependency graph`; report invalid references instead of resolving them.
 - If all tickets under the same `.scratch/<feature-slug>/issues/` directory now have `Accepted: YYYY-MM-DD`, change the parent `.scratch/<feature-slug>/spec.md` status to `awaiting-human-review`.
-- Report the next ticket with `**Status:** ready-for-agent` and no unresolved blockers, oldest/lowest-numbered first.
+- Report the next ticket with `**Status:** ready-for-agent` whose referenced blockers are all accepted, oldest/lowest-numbered first.
 
 ## When a spec is accepted
 
