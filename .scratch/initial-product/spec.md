@@ -1,6 +1,6 @@
 # Начальная product spec
 
-Status: ready-for-human
+Status: awaiting-human-review
 Accepted: 2026-07-14
 
 ## Постановка проблемы

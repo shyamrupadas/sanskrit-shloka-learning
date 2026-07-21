@@ -1,17 +1,11 @@
-# Перевести auth, dashboard и library baseline на Pencil design system
+# 07 — Перевести auth, dashboard и library baseline на Pencil design system
 
-Status: ready-for-human
+**What to build:** Перевести видимый baseline экранов auth, dashboard и library на Pencil-синхронизированные tokens и project components, сохранив существующее поведение продукта. После среза пользователь должен видеть согласованный визуальный язык на входе, регистрации, дашборде, библиотеке и странице шлоки, а route-level проверки должны подтверждать пользовательские состояния вместо приватной структуры компонентов.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-11
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Перевести видимый baseline экранов auth, dashboard и library на Pencil-синхронизированные tokens и project components, сохранив существующее поведение продукта. После среза пользователь должен видеть согласованный визуальный язык на входе, регистрации, дашборде, библиотеке и странице шлоки, а route-level проверки должны подтверждать пользовательские состояния вместо приватной структуры компонентов.
-
-## Критерии приемки
 
 - [x] Экраны регистрации и входа используют Pencil-синхронизированную тему, поля и кнопки без изменения auth behavior.
 - [x] Dashboard states используют project components для review pack, want-to-learn block, streak indicator, empty state и shloka card там, где они применимы.
@@ -24,6 +18,10 @@ Accepted: 2026-07-11
 - [x] Existing routes, route params, query keys, localStorage keys, API calls and generated API artifacts не меняются.
 - [x] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
 - [x] Обязательные frontend-проверки проходят.
+
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
 
 ## Pencil references
 
@@ -109,7 +107,3 @@ Pencil references:
   `UIC-DS-001` и `UIC-DS-002` исключены как недостижимые в текущем
   API-контракте. Library tab instances обновлены пользователем в Pencil,
   поэтому exception для active tab не требуется.
-
-## Заблокировано
-
-Нет - можно начинать сразу

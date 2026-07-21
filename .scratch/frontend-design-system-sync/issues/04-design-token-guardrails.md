@@ -1,17 +1,11 @@
-# Добавить guardrails от дрейфа токенов и PWA-цветов
+# 04 — Добавить guardrails от дрейфа токенов и PWA-цветов
 
-Status: ready-for-human
+**What to build:** Добавить автоматические проверки, которые удерживают frontend от возврата к произвольным цветам и несогласованным PWA-артефактам после появления token contract. Guardrails должны быть достаточно строгими для новых drift-ошибок, но не превращать текущую миграцию в полный шумный запрет Tailwind utility classes.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-10
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Добавить автоматические проверки, которые удерживают frontend от возврата к произвольным цветам и несогласованным PWA-артефактам после появления token contract. Guardrails должны быть достаточно строгими для новых drift-ошибок, но не превращать текущую миграцию в полный шумный запрет Tailwind utility classes.
-
-## Критерии приемки
 
 - [x] Проверка запрещает новые произвольные hex/OKLCH цвета в frontend-коде вне token/generator слоя.
 - [x] Проверка PWA colors подтверждает, что theme colors, manifest colors и icon colors синхронизированы с token contract.
@@ -22,13 +16,13 @@ Accepted: 2026-07-10
 - [x] Существующие Tailwind utility classes не запрещаются полностью.
 - [x] Обязательные frontend-проверки проходят.
 
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
+
 ## Pencil references
 
 - Раздел: `01 Foundations` (`otJrw`)
-
-## Заблокировано
-
-Нет - можно начинать сразу
 
 ## Agent report
 

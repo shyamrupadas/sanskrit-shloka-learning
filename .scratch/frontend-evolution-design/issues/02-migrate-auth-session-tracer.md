@@ -1,21 +1,15 @@
-# Перенести auth и session как первый ED-срез
+# 02 — Перенести auth и session как первый ED-срез
 
-Status: ready-for-human
-Accepted: 2026-07-04
-
-## Родитель
-
-`.scratch/frontend-evolution-design/spec.md`
-
-## Что сделать
-
-Провести первый полный tracer bullet через целевую архитектуру: `app` запускает приложение и маршрутизирует auth-экраны, `auth` владеет входом и регистрацией, а `shared` предоставляет session/API-модель и test harness.
+**What to build:** Провести первый полный tracer bullet через целевую архитектуру: `app` запускает приложение и маршрутизирует auth-экраны, `auth` владеет входом и регистрацией, а `shared` предоставляет session/API-модель и test harness.
 
 Session-модуль должен скрывать local storage, восстановление и очистку сессии, создание авторизованного API-клиента, logout и обработку невалидной сессии. Публичный интерфейс auth должен содержать только route-level страницы; формы, hooks и submit-логика остаются внутренними.
 
 Остальные экраны могут временно оставаться в legacy-структуре, но должны продолжать открываться через новый app router до своих вертикальных срезов.
 
-## Критерии приемки
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
+Accepted: 2026-07-04
 
 - [ ] `app` владеет React bootstrap, глобальными providers и router.
 - [ ] Вход и регистрация принадлежат одной фиче `auth` с небольшим public API.
@@ -30,6 +24,6 @@ Session-модуль должен скрывать local storage, восстан
 - [ ] Старые реализации auth/session удалены без постоянных compatibility re-export.
 - [ ] Lint, typecheck и unit-тесты проходят.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-evolution-design/spec.md`

@@ -1,17 +1,11 @@
-# Перевести settings и admin формы на Pencil project components
+# 09 — Перевести settings и admin формы на Pencil project components
 
-Status: ready-for-human
+**What to build:** Перевести settings и admin-интерфейсы на Pencil-синхронизированные tokens, forms и project components, сохранив существующее управление настройками, источниками и шлоками. После среза админка должна использовать тот же дизайн-контракт, что пользовательские экраны, а формы создания и редактирования должны проверяться route-level сценариями через наблюдаемое поведение.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-12
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Перевести settings и admin-интерфейсы на Pencil-синхронизированные tokens, forms и project components, сохранив существующее управление настройками, источниками и шлоками. После среза админка должна использовать тот же дизайн-контракт, что пользовательские экраны, а формы создания и редактирования должны проверяться route-level сценариями через наблюдаемое поведение.
-
-## Критерии приемки
 
 - [x] Settings screen использует Pencil-синхронизированные `SettingsRow`, page header/layout и общую тему без изменения поведения настроек.
 - [x] Admin catalog использует общий визуальный язык приложения без изменения admin routes или actions.
@@ -23,6 +17,10 @@ Accepted: 2026-07-12
 - [x] Existing routes, route params, query keys, localStorage keys, API calls and generated API artifacts не меняются.
 - [x] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
 - [x] Обязательные frontend-проверки проходят.
+
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
 
 ## Pencil references
 
@@ -83,7 +81,3 @@ Pencil references:
 - Exceptions: принятые пользователем 2026-07-11 исключения для отсутствующей
   настройки транслитерации и функционального состава source/shloka forms,
   перечисленные в разделе `Принятые UI-решения`.
-
-## Заблокировано
-
-Нет - можно начинать сразу

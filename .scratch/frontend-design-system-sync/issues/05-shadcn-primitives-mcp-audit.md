@@ -1,28 +1,13 @@
-# Проинспектировать shadcn primitives и закрепить MCP workflow
+# 05 — Проинспектировать shadcn primitives и закрепить MCP workflow
 
-Status: ready-for-human
-Accepted: 2026-07-10
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Провести отдельный аудит всех переиспользуемых generic shadcn/Radix primitives перед созданием Pencil-синхронизированных project components. Цель - убедиться, что `apps/web/src/shared/ui/` является корректным shadcn-слоем, заведенным через shadcn MCP/CLI workflow, а не набором вручную собранных похожих компонентов.
+**What to build:** Провести отдельный аудит всех переиспользуемых generic shadcn/Radix primitives перед созданием Pencil-синхронизированных project components. Цель - убедиться, что `apps/web/src/shared/ui/` является корректным shadcn-слоем, заведенным через shadcn MCP/CLI workflow, а не набором вручную собранных похожих компонентов.
 
 Если текущий primitive создан вручную, расходится с configured shadcn registry item или использует неправильные aliases/imports/dependencies, его нужно нормализовать через shadcn MCP workflow и только затем адаптировать к существующим проектным aliases. Новые shadcn primitives после этой задачи нельзя добавлять вручную по памяти, копипастой или ad hoc-файлом.
 
-## Контекст аудита
+**Blocked by:** None — can start immediately
 
-- Текущий shadcn config: `apps/web/components.json`.
-- Текущий CSS entrypoint: `apps/web/src/app/styles.css`.
-- Текущий generic UI каталог: `apps/web/src/shared/ui/`.
-- Текущий shared utils alias: `@/shared/lib/utils`.
-- На момент подготовки ticket найдены primitives: `button`, `card`, `input`, `label`, `switch`, `tabs`, `textarea`.
-- Shadcn MCP для текущего набора возвращает canonical add-команду: `pnpm dlx shadcn@latest add @shadcn/button @shadcn/card @shadcn/input @shadcn/label @shadcn/switch @shadcn/tabs @shadcn/textarea`.
-
-## Критерии приемки
+**Status:** awaiting-human-review
+Accepted: 2026-07-10
 
 - [ ] Все текущие shadcn/Radix primitives в `apps/web/src/shared/ui/` проинвентаризированы; если перед стартом задачи появились новые primitives, они включены в тот же аудит.
 - [ ] Для каждого primitive выполнена сверка с shadcn MCP registry item для текущего `components.json`, включая imports, named/default exports, `data-slot`, dependencies, aliases, class composition и использование `cn`.
@@ -36,14 +21,23 @@ Accepted: 2026-07-10
 - [ ] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
 - [ ] Обязательные frontend-проверки проходят: `pnpm lint`, `pnpm --filter @sanskrit-shloka-learning/web typecheck`, `pnpm --filter @sanskrit-shloka-learning/web test:unit`.
 
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
+
+## Контекст аудита
+
+- Текущий shadcn config: `apps/web/components.json`.
+- Текущий CSS entrypoint: `apps/web/src/app/styles.css`.
+- Текущий generic UI каталог: `apps/web/src/shared/ui/`.
+- Текущий shared utils alias: `@/shared/lib/utils`.
+- На момент подготовки ticket найдены primitives: `button`, `card`, `input`, `label`, `switch`, `tabs`, `textarea`.
+- Shadcn MCP для текущего набора возвращает canonical add-команду: `pnpm dlx shadcn@latest add @shadcn/button @shadcn/card @shadcn/input @shadcn/label @shadcn/switch @shadcn/tabs @shadcn/textarea`.
+
 ## Pencil references
 
 - Раздел: `01 Foundations` (`otJrw`)
 - Раздел: `02 Core Components` (`R1N0L6`)
-
-## Заблокировано
-
-Нет - можно начинать сразу
 
 ## Не делать
 

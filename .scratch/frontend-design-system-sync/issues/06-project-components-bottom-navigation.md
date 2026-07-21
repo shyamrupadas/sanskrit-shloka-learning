@@ -1,17 +1,11 @@
-# Создать project components и подключить bottom navigation shell
+# 06 — Создать project components и подключить bottom navigation shell
 
-Status: ready-for-human
+**What to build:** Создать начальный слой Pencil-синхронизированных project components поверх существующих shadcn/Radix primitives и применить его к навигационной оболочке приложения. После среза generic UI primitives остаются базовым kit, project components становятся продуктовым языком Sanskrit Shloka Learning, а нижняя навигация визуально содержит четыре раздела, включая `Обучение`.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-11
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Создать начальный слой Pencil-синхронизированных project components поверх существующих shadcn/Radix primitives и применить его к навигационной оболочке приложения. После среза generic UI primitives остаются базовым kit, project components становятся продуктовым языком Sanskrit Shloka Learning, а нижняя навигация визуально содержит четыре раздела, включая `Обучение`.
-
-## Критерии приемки
 
 - [ ] Generic shadcn/Radix primitives остаются отделены от Pencil-синхронизированных project components.
 - [ ] Начальный набор project components включает проверяемый фундамент для `BottomNavigation`, `PageHeader` и общих layout-паттернов, нужных для последующих экранов.
@@ -27,6 +21,10 @@ Accepted: 2026-07-11
 - [ ] Страницы передают в project components смысловые props и не повторяют карточную структуру, цвета, radii и spacing там, где уже есть компонентный контракт.
 - [ ] Existing routes, route params, query keys, localStorage keys, API calls and generated API artifacts не меняются.
 - [ ] Обязательные frontend-проверки проходят.
+
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
 
 ## Pencil references
 
@@ -46,7 +44,3 @@ Accepted: 2026-07-11
 - Будущие расхождения между требованиями, reusable-компонентами и экранными
   Pencil-инстансами должны быть вынесены пользователю до синхронизации кода или
   Pencil.
-
-## Заблокировано
-
-Нет - можно начинать сразу

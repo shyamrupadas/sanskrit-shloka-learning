@@ -1,6 +1,6 @@
 # Production-hardening бэкенда для первого MVP-релиза
 
-Status: ready-for-human
+Status: awaiting-human-review
 Accepted: 2026-07-17
 
 ## Постановка проблемы

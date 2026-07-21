@@ -1,6 +1,6 @@
 # Кириллическая транслитерация с диакритическими знаками
 
-Status: ready-for-human
+Status: awaiting-human-review
 Accepted: 2026-07-15
 
 ## Problem Statement

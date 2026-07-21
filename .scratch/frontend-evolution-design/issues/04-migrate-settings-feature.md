@@ -1,17 +1,11 @@
-# Перенести настройки Учетной записи
+# 04 — Перенести настройки Учетной записи
 
-Status: ready-for-human
+**What to build:** Перенести полный settings-сценарий в самостоятельную фичу: загрузка и сохранение hard mode, отображение данных Учетной записи, переход в Админку для Администратора и logout. Фича использует app-level layout и глобальную session/API-модель, но не импортирует `app` или реализацию `admin`.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-04
-
-## Родитель
-
-`.scratch/frontend-evolution-design/spec.md`
-
-## Что сделать
-
-Перенести полный settings-сценарий в самостоятельную фичу: загрузка и сохранение hard mode, отображение данных Учетной записи, переход в Админку для Администратора и logout. Фича использует app-level layout и глобальную session/API-модель, но не импортирует `app` или реализацию `admin`.
-
-## Критерии приемки
 
 - [ ] Settings route открывает публичную страницу фичи внутри authenticated layout.
 - [ ] Hard mode загружается и сохраняется с прежними pending, success и error states.
@@ -23,6 +17,6 @@ Accepted: 2026-07-04
 - [ ] Внешний вид, API-вызовы, query keys и пользовательское поведение не изменены.
 - [ ] Lint, typecheck и unit-тесты проходят.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-evolution-design/spec.md`

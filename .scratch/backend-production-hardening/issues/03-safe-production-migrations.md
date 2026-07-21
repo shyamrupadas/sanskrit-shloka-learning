@@ -1,21 +1,15 @@
-# Защитить production-миграции
+# 03 — Защитить production-миграции
 
-Status: ready-for-human
-Accepted: 2026-07-17
-
-## Родитель
-
-`.scratch/backend-production-hardening/spec.md` — пользовательские истории 23–29 и 40.
-
-## Что сделать
-
-Сделать production migration path воспроизводимым от Railway pre-deploy command до PostgreSQL: runner запускается из скомпилированного артефакта, требует явный direct Neon URL, получает глобальную advisory-блокировку и завершает deploy ненулевым кодом при любой ошибке.
+**What to build:** Сделать production migration path воспроизводимым от Railway pre-deploy command до PostgreSQL: runner запускается из скомпилированного артефакта, требует явный direct Neon URL, получает глобальную advisory-блокировку и завершает deploy ненулевым кодом при любой ошибке.
 
 Существующие сильные свойства runner сохраняются: упорядоченные migration IDs, checksums, таблица истории и транзакционный batch на одну миграцию. Примененные миграции не редактируются, а эвристическое преобразование pooled hostname в direct hostname удаляется.
 
 Полный zero-downtime framework не создается. Редкая несовместимая миграция выполняется вручную в короткое окно обслуживания.
 
-## Критерии приемки
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
+Accepted: 2026-07-17
 
 - [x] Production migration runner требует `DATABASE_DIRECT_URL`; отсутствие значения завершает команду до подключения к БД.
 - [x] Development может использовать явно документированный локальный fallback, но production никогда не вычисляет direct URL заменой `-pooler` или другой hostname-эвристикой.
@@ -30,9 +24,9 @@ Accepted: 2026-07-17
 - [x] Production build содержит migration runner и зарегистрированные migration definitions в ожидаемом compiled output.
 - [x] Существующие API tests, typecheck и build проходят; новая schema migration для этой задачи не создается и не применяется.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/backend-production-hardening/spec.md` — пользовательские истории 23–29 и 40.
 
 ## Результат
 

@@ -1,17 +1,11 @@
-# Закрепить UI-contract workflow для frontend-задач
+# 01 — Закрепить UI-contract workflow для frontend-задач
 
-Status: ready-for-human
+**What to build:** Сделать Pencil-дизайн обязательным UI-контрактом в агентском workflow: будущие spec, tickets, frontend-задачи и финальные отчеты должны явно ссылаться на Pencil screens/components или возвращать структурированный `UI Contract Collision`. После этого среза агент, reviewer и владелец продукта должны видеть один процесс подготовки UI-задач, а `design/new-design.pen` должен быть помечен deprecated.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-09
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Сделать Pencil-дизайн обязательным UI-контрактом в агентском workflow: будущие spec, tickets, frontend-задачи и финальные отчеты должны явно ссылаться на Pencil screens/components или возвращать структурированный `UI Contract Collision`. После этого среза агент, reviewer и владелец продукта должны видеть один процесс подготовки UI-задач, а `design/new-design.pen` должен быть помечен deprecated.
-
-## Критерии приемки
 
 - [x] Workflow для задач с видимым UI требует Pencil references в формате human-readable name + `nodeId`.
 - [x] Workflow для задач без готового UI-контракта требует structured `UI Contract Collision`, а не свободный комментарий или молчаливую импровизацию.
@@ -24,6 +18,6 @@ Accepted: 2026-07-09
 - [x] Ticket tracker instructions ссылаются на UI-contract workflow для задач, меняющих видимый frontend UI.
 - [x] Проверка не меняет пользовательское поведение приложения и не реализует frontend UI.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-design-system-sync/spec.md`

@@ -1,19 +1,13 @@
-# Перенести dashboard и защищенный layout
+# 03 — Перенести dashboard и защищенный layout
 
-Status: ready-for-human
-Accepted: 2026-07-04
-
-## Родитель
-
-`.scratch/frontend-evolution-design/spec.md`
-
-## Что сделать
-
-Завершить первый защищенный пользовательский путь после входа: app-level guard направляет Пользователя на dashboard, глобальный authenticated layout показывает нижнюю навигацию, а самостоятельная фича `dashboard` загружает и отображает свое состояние.
+**What to build:** Завершить первый защищенный пользовательский путь после входа: app-level guard направляет Пользователя на dashboard, глобальный authenticated layout показывает нижнюю навигацию, а самостоятельная фича `dashboard` загружает и отображает свое состояние.
 
 Глобальная оболочка должна компоновать route content, а не подключаться внутри каждой страницы. Для Админки сохранить отдельный app-level layout без нижней навигации. Legacy-экраны, которые еще не перенесены в фичи, должны временно использовать эти layouts через router и не импортировать `app`.
 
-## Критерии приемки
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
+Accepted: 2026-07-04
 
 - [ ] Пользователь после успешного входа попадает на прежний dashboard route.
 - [ ] Незащищенный Пользователь перенаправляется на вход с прежним поведением.
@@ -27,6 +21,6 @@ Accepted: 2026-07-04
 - [ ] Старая глобальная оболочка и legacy dashboard удалены без compatibility re-export.
 - [ ] Lint, typecheck и unit-тесты проходят.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-evolution-design/spec.md`

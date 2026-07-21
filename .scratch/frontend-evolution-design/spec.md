@@ -1,6 +1,6 @@
 # Evolution Design small для фронтенда
 
-Status: ready-for-human
+Status: awaiting-human-review
 Accepted: 2026-07-08
 
 ## Problem Statement

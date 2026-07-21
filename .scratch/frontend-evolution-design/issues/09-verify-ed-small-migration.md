@@ -1,19 +1,13 @@
-# Удалить legacy-архитектуру и проверить ED small
+# 09 — Удалить legacy-архитектуру и проверить ED small
 
-Status: ready-for-human
-Accepted: 2026-07-05
-
-## Родитель
-
-`.scratch/frontend-evolution-design/spec.md`
-
-## Что сделать
-
-Завершить архитектурную серию после всех независимых feature-срезов: удалить оставшуюся legacy-структуру и временные compatibility imports, провести аудит через project skill, атомарно переключить архитектурные инструкции из migration mode в стабильный режим и подтвердить целевое состояние полным frontend verification.
+**What to build:** Завершить архитектурную серию после всех независимых feature-срезов: удалить оставшуюся legacy-структуру и временные compatibility imports, провести аудит через project skill, атомарно переключить архитектурные инструкции из migration mode в стабильный режим и подтвердить целевое состояние полным frontend verification.
 
 Монолитные app-тесты должны содержать только providers, router, guards и layouts. Поведение каждой фичи должно проверяться рядом с ее публичным интерфейсом. Новую функциональность и визуальный рефакторинг в этот срез не включать.
 
-## Критерии приемки
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
+Accepted: 2026-07-05
 
 - [ ] Верхний уровень frontend source содержит только `app`, `features` и `shared`.
 - [ ] Отдельные верхнеуровневые `pages` и `services` отсутствуют.
@@ -32,6 +26,6 @@ Accepted: 2026-07-05
 - [ ] Lint, typecheck, unit-тесты, production build и E2E проходят.
 - [ ] Маршруты, API-контракт, пользовательское поведение и визуальный дизайн не изменены.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-evolution-design/spec.md`

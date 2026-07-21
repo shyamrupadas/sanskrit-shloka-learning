@@ -1,6 +1,6 @@
 # Синхронизация frontend design system с Pencil
 
-Status: ready-for-human
+Status: awaiting-human-review
 Accepted: 2026-07-12
 
 ## Problem Statement

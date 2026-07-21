@@ -1,17 +1,11 @@
-# Ввести code-token contract и синюю Pencil-тему приложения
+# 03 — Ввести code-token contract и синюю Pencil-тему приложения
 
-Status: ready-for-human
+**What to build:** Создать первый работающий контракт design tokens внутри web-приложения и синхронизировать тему приложения с Pencil: normalized tokens становятся источником для CSS variables, шрифта, синей brand-системы и PWA-производных артефактов. После среза приложение должно визуально перейти с текущей несогласованной темы на Pencil-согласованную основу без изменения маршрутов, API, данных или пользовательских сценариев.
+
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
 Accepted: 2026-07-10
-
-## Родитель
-
-`.scratch/frontend-design-system-sync/spec.md`
-
-## Что сделать
-
-Создать первый работающий контракт design tokens внутри web-приложения и синхронизировать тему приложения с Pencil: normalized tokens становятся источником для CSS variables, шрифта, синей brand-системы и PWA-производных артефактов. После среза приложение должно визуально перейти с текущей несогласованной темы на Pencil-согласованную основу без изменения маршрутов, API, данных или пользовательских сценариев.
-
-## Критерии приемки
 
 - [x] Code-token contract содержит normalized модель: reference palette, semantic colors, typography, spacing, radius, elevation и минимальные component tokens.
 - [x] Каждый code-token имеет явную связь с Pencil variable или source value; несвязанные токены не считаются синхронизированными.
@@ -26,15 +20,15 @@ Accepted: 2026-07-10
 - [x] Backend, схема базы данных и данные не меняются; новые DB migrations не требуются.
 - [x] Обязательные frontend-проверки проходят.
 
+## Parent
+
+`.scratch/frontend-design-system-sync/spec.md`
+
 ## Pencil references
 
 - Раздел: `01 Foundations` (`otJrw`)
 - Раздел: `02 Core Components` (`R1N0L6`)
 - Раздел: `03 Product Components` (`lgFfS`)
-
-## Заблокировано
-
-Нет - можно начинать сразу
 
 ## Agent report
 

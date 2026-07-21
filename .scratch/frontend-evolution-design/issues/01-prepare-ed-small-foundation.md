@@ -1,19 +1,13 @@
-# Подготовить ED small guardrails и shared-фундамент
+# 01 — Подготовить ED small guardrails и shared-фундамент
 
-Status: ready-for-human
-Accepted: 2026-07-04
-
-## Родитель
-
-`.scratch/frontend-evolution-design/spec.md`
-
-## Что сделать
-
-Подготовить безопасный seam для последующих вертикальных срезов: включить автоматическую проверку ED small, создать живую спецификацию frontend-архитектуры, настроить временный migration mode и перенести низкорисковую глобальную инфраструктуру в `shared`. Существующие пользовательские сценарии после prefactoring должны работать без изменений.
+**What to build:** Подготовить безопасный seam для последующих вертикальных срезов: включить автоматическую проверку ED small, создать живую спецификацию frontend-архитектуры, настроить временный migration mode и перенести низкорисковую глобальную инфраструктуру в `shared`. Существующие пользовательские сценарии после prefactoring должны работать без изменений.
 
 Архитектурный workflow вынести в project skill, а scoped agent instructions оставить коротким маршрутизатором. Пока legacy-код остается в проекте, агент должен читать живую спецификацию перед любой frontend-задачей и не использовать legacy как образец.
 
-## Критерии приемки
+**Blocked by:** None — can start immediately
+
+**Status:** awaiting-human-review
+Accepted: 2026-07-04
 
 - [ ] Frontend lint запускается из общего project workflow.
 - [ ] Frontend lint не зависит от build/generate tasks без необходимости и остается быстрой архитектурной проверкой.
@@ -32,6 +26,6 @@ Accepted: 2026-07-04
 - [ ] Внешний вид, маршруты и пользовательское поведение не изменены.
 - [ ] Lint, typecheck и unit-тесты проходят.
 
-## Заблокировано
+## Parent
 
-Нет - можно начинать сразу
+`.scratch/frontend-evolution-design/spec.md`
