@@ -4,7 +4,8 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-07-23
 
 - [ ] Node major 24 закреплён в package metadata и одинаково используется как production runtime constraint и версия Node в CI.
 - [ ] Один backend CI workflow запускается для push в `main` только при изменениях API, API-контракта или их install/build/deployment-зависимостей.

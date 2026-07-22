@@ -1,157 +1,161 @@
 # Railway/Neon production runbook
 
-Runbook рассчитан на одного разработчика, одну долгоживущую Railway-реплику API и
-существующую Neon database. Он не включает serverless, autoscaling, Dockerfile,
-автоматическое продвижение каждого push, CI, APM или постоянный uptime monitor.
-
-## Конфигурация сервиса
-
-Railway service должен использовать корень репозитория как Root Directory и
-`/railway.json` как Config File. Команды в config-as-code запускаются от корня pnpm
-workspace:
-
-- Railpack собирает API и его workspace dependencies;
-- pre-deploy запускает скомпилированный `apps/api/dist/database/migrate.js`;
-- start запускает `apps/api/dist/main.js`;
-- `/health/ready` допускает новую версию в трафик;
-- после `SIGTERM` старой версии дается 10 секунд на graceful shutdown до `SIGKILL`.
-
-В Railway оставь одну реплику в одном регионе и выключи Serverless. Не добавляй
-Dockerfile без отдельной доказанной причины. Значения config-as-code имеют приоритет
-над одноименными настройками dashboard; итоговую конфигурацию каждого deploy проверяй
-на странице deployment details.
-
-Railway variables:
-
-| Variable | Значение и источник | Секрет |
-| --- | --- | --- |
-| `NODE_ENV` | ровно `production` | нет |
-| `PORT` | значение, автоматически предоставленное Railway; не подменять жестко заданным портом | нет |
-| `FRONTEND_ORIGIN` | один точный HTTPS origin production frontend, например `https://app.example.com`, без path, wildcard и завершающего `/` в настройке | нет |
-| `DATABASE_URL` | pooled Neon runtime URL; hostname Neon содержит `-pooler`, query string сохраняется | да |
-| `DATABASE_DIRECT_URL` | отдельный direct Neon URL для migrations; hostname не содержит `-pooler` | да |
-| `DATABASE_POOL_MAX` | `5` для единственной небольшой реплики | нет |
-
-Не копируй реальные connection strings, пароли или session tokens в ticket, commit,
-shell history, скриншот или отчет. Runtime и migrations пока могут использовать одну
-DB-роль, но URL обязаны указывать на разные pooled/direct endpoints.
-
-## Локальная проверка перед deploy
-
-Начинай с чистой установки, соответствующей lockfile, затем выполни от корня
-репозитория:
-
-```sh
-pnpm install --frozen-lockfile
-pnpm test
-pnpm typecheck
-pnpm build
-```
-
-Проверь, что build создал как минимум:
+Runbook описывает первый и последующие production-релизы одного backend-сервиса из
+ветки `main`. Штатная цепочка релиза:
 
 ```text
-apps/api/dist/main.js
-apps/api/dist/database/migrate.js
+backend-related push → Backend CI → Railpack build → compiled migrations
+→ /health/ready → Active
 ```
 
-Для локальной проверки с development/test database можно запустить API и отдельно
-вызвать:
+Frontend-only push не входит в backend release scope и не должен запускать ни
+`Backend CI`, ни Railway deployment. GitHub paths и Railway `watchPatterns` должны
+меняться вместе; сейчас их общий список состоит из:
+
+```text
+apps/api/**
+packages/api-contract/**
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+tsconfig.base.json
+railway.json
+.github/workflows/backend-ci.yml
+```
+
+## Перед началом
+
+Понадобятся:
+
+- существующий Railway Hobby account с правом создать project и подключить GitHub;
+- доступ Railway GitHub App к этому repository;
+- существующая Neon database и доступ к её connection details;
+- существующая пользовательская учётная запись для smoke-check;
+- текущая ветка `main` на GitHub с успешным check `Backend CI / Verify backend release`.
+
+Production и development временно используют одну Neon database. Это принятое
+ограничение MVP: не запускай эксперименты, тесты или ручные destructive SQL-команды
+против неё. Реальные connection strings, пароли и токены нельзя сохранять в repository,
+ticket, commit, shell history, screenshot или отчёт.
+
+## Создание Railway project и backend service
+
+1. В существующем Hobby account создай отдельный Railway Project для production
+   backend. Не добавляй сервис в другой project.
+2. Убедись, что в project есть отдельное environment `production`, и переключись в
+   него перед дальнейшей настройкой.
+3. Создай в этом environment один service из GitHub repository. Если Railway просит
+   расширить доступ GitHub App, разреши только нужный repository.
+4. В Service Settings → Source выбери этот repository и branch `main`.
+5. Оставь Root Directory равным `/`: API использует общий lockfile, workspace config,
+   TypeScript config и `packages/api-contract`.
+6. Используй repository-owned config из корневого `/railway.json`. Не дублируй его
+   build/deploy значения в Dashboard: config фиксирует Railpack, build, pre-deploy,
+   start, readiness и restart policy.
+7. В Deploy settings включи GitHub autodeploy и `Wait for CI`. Не добавляй Railway
+   token или отдельный CLI deploy workflow.
+8. В Networking создай Railway-generated public domain. Custom domain в этом effort
+   не настраивается.
+9. Выбери один регион рядом с регионом существующей Neon database. Оставь ровно одну
+   replica и выключи Serverless. Autoscaling и дополнительные replicas не включай.
+
+После изменения Dashboard может показать staged changes. Пока не применяй их: первый
+запуск выполняется один раз по процедуре bootstrap ниже.
+
+## Production variables
+
+Добавь variables в Railway Dashboard только для environment `production` и этого
+backend service:
+
+| Variable | Точное значение или источник |
+| --- | --- |
+| `NODE_ENV` | `production` |
+| `FRONTEND_ORIGIN` | временно ровно `http://localhost:5173` |
+| `DATABASE_URL` | pooled connection string существующей Neon database; hostname содержит `-pooler` |
+| `DATABASE_DIRECT_URL` | direct connection string той же database; hostname не содержит `-pooler` |
+| `DATABASE_POOL_MAX` | `5` |
+
+В Neon Dashboard открой connection details одной и той же database и скопируй два
+endpoint: pooled URL нужен постоянно работающему API, direct URL — только migration
+runner. Сохрани исходные database name, role и SSL query parameters. Не используй URL
+от другой database или branch.
+
+Не создавай `PORT`: Railway предоставляет его процессу автоматически. Не добавляй
+production secrets в `.env`, GitHub Actions variables или repository. Перед
+bootstrap проверь только наличие и область variables, не выводя их значения в logs.
+
+## Единственный ручной bootstrap
+
+Первый deployment создаётся применением staged changes. Это единственное ручное
+исключение: у него нет свежего push-события, на котором `Wait for CI` мог бы проверить
+новую версию.
+
+1. Открой ветку `main` на GitHub и скопируй полный текущий commit SHA.
+2. Убедись, что именно для этого SHA завершился успешно check
+   `Backend CI / Verify backend release`.
+3. В Railway перед применением staged changes проверь, что source показывает тот же
+   repository, branch `main` и тот же latest commit SHA. При несовпадении остановись:
+   не выбирай другой commit вручную и не обходи CI.
+4. Ещё раз проверь Root Directory `/`, repository config `/railway.json`, variables,
+   generated domain, регион, одну replica и выключенный Serverless.
+5. Один раз примени staged changes и запусти предложенный Railway deployment.
+6. Сразу после создания deployment вернись в Service Settings и проверь, что GitHub
+   autodeploy и `Wait for CI` по-прежнему включены для branch `main`.
+
+После bootstrap не используй ручной deploy как обычный promotion-механизм. Каждый
+следующий backend release должен начинаться подходящим push в `main`: новый push
+отменяет незавершённый backend CI предыдущего commit, а Railway ждёт зелёный CI.
+
+## Проверка первого deployment
+
+Проверяй стадии по порядку на странице deployment details:
+
+1. Builder — `RAILPACK`; build log показывает успешную команду
+   `pnpm --filter @sanskrit-shloka-learning/api... build` и созданные
+   `apps/api/dist/main.js` и `apps/api/dist/database/migrate.js`.
+2. Pre-deploy выполняет скомпилированную команду
+   `node apps/api/dist/database/migrate.js`. Допустимы успешное применение pending
+   migrations или сообщение об их отсутствии; ненулевой exit code должен остановить
+   deployment.
+3. Start выполняет `node apps/api/dist/main.js`; runtime log не содержит startup
+   errors, а процесс слушает предоставленный Railway `PORT` на `0.0.0.0`.
+4. Railway получает `200` от `/health/ready` в пределах healthcheck timeout, после
+   чего deployment получает статус `Active`.
+5. Открой `https://<railway-generated-domain>/health/live` и
+   `https://<railway-generated-domain>/health/ready`: оба endpoint возвращают `200`
+   и безопасный JSON.
+6. Просмотри build, pre-deploy и runtime logs. В них не должно быть connection strings
+   (`postgresql://`), database password, `Authorization`, Bearer token, access token,
+   пользовательского password, SQL values, stack trace или персональных данных. Не
+   вставляй реальные secrets в поле поиска logs.
+
+Railway pre-deploy выполняется после build и останавливает deployment при ошибке:
+<https://docs.railway.com/deployments/pre-deploy-command>. Healthcheck допускает новую
+версию в трафик только после `200`:
+<https://docs.railway.com/deployments/healthchecks>. Healthcheck — release gate, а не
+постоянный uptime monitoring.
+
+## Smoke-check через локальный frontend
+
+Smoke-check использует точный generated API origin, без завершающего `/`:
 
 ```sh
-pnpm --filter @sanskrit-shloka-learning/api start
-curl --fail --silent --show-error http://127.0.0.1:3000/health/live
-curl --fail --silent --show-error http://127.0.0.1:3000/health/ready
+VITE_API_BASE_URL=https://<railway-generated-domain> \
+  pnpm --filter @sanskrit-shloka-learning/web dev
 ```
 
-`/health/live` подтверждает, что Node/Nest обслуживает HTTP, и не обращается к БД.
-`/health/ready` выполняет короткий `SELECT 1`; при недоступности PostgreSQL он
-возвращает безопасный `503` без SQL, connection string, stack trace и сообщения
-драйвера.
+1. Открой адрес Vite `http://localhost:5173` в браузере.
+2. Войди существующим пользователем. Не копируй access token в отчёт.
+3. Открой защищённую страницу, например dashboard или settings, и дождись загрузки
+   данных.
+4. В browser network panel проверь, что запросы уходят на Railway-generated API URL и
+   не блокируются CORS.
 
-Не запускай production migration command локально против Neon production как часть
-обычной проверки. Миграции production запускает отдельный Railway pre-deploy container
-с `DATABASE_DIRECT_URL`.
+Один сценарий подтверждает public routing, точный CORS origin, auth и чтение общей
+Neon database. Отдельные ручные проверки rate limit, запрещённого origin, request ID и
+admin API в первый smoke-check не входят.
 
-## Ручное продвижение первых релизов
-
-Для первых production-релизов отключи GitHub autodeploy и продвигай проверенный commit
-вручную:
-
-1. Сверь commit SHA и успешные локальные `test`, `typecheck`, `build`.
-2. Проверь service variables, одну реплику, Root Directory и путь config-as-code, не
-   раскрывая значения секретов.
-3. Вручную запусти deploy выбранного commit в Railway.
-4. Прочитай build log. Ошибка workspace build должна завершить deploy до запуска
-   migrations.
-5. Прочитай pre-deploy log. Допустимы сообщения об успешно примененных migrations или
-   об отсутствии pending migrations. Любая ошибка должна остановить deploy; не запускай
-   новую версию вручную в обход gate.
-6. Убедись, что start log не содержит startup failure и приложение слушает Railway
-   `PORT` на `0.0.0.0`.
-7. Дождись `200` от `/health/ready` и статуса Active только после healthcheck.
-8. Выполни smoke-check ниже и заполни журнал. Только после него считай релиз
-   подтвержденным.
-
-Railway pre-deploy выполняется после build и не продолжает deployment при ненулевом
-exit code: <https://docs.railway.com/deployments/pre-deploy-command>. Healthcheck
-опрашивает новую версию до `200`, и только затем Railway переключает трафик:
-<https://docs.railway.com/deployments/healthchecks>. Поэтому failed build, migration
-или readiness не должны активировать новую версию.
-
-Healthcheck Railway является deploy gate, а не постоянным monitoring: после активации
-версии Railway перестает опрашивать endpoint. Решение о внешнем uptime monitoring нужно
-принять отдельно после первого релиза; текущая задача его не создает.
-
-## Smoke-check после deploy
-
-Подставляй только публичный API origin. Не вставляй access token или DB URL в команды,
-которые попадут в shell history или отчет.
-
-1. Liveness и readiness возвращают `200` и безопасный JSON:
-
-   ```sh
-   curl --fail --silent --show-error https://api.example.com/health/live
-   curl --fail --silent --show-error https://api.example.com/health/ready
-   ```
-
-2. Запрос с разрешенным Origin содержит ровно настроенный
-   `Access-Control-Allow-Origin`:
-
-   ```sh
-   curl --silent --show-error --dump-header - --output /dev/null \
-     --header 'Origin: https://app.example.com' \
-     https://api.example.com/health/live
-   ```
-
-3. Запрос с запрещенным Origin не содержит `Access-Control-Allow-Origin`. Сам HTTP
-   ответ может быть `200`: CORS запрещает браузеру читать ответ, а не обязан превращать
-   server response в `4xx`.
-
-   ```sh
-   curl --silent --show-error --dump-header - --output /dev/null \
-     --header 'Origin: https://not-allowed.example' \
-     https://api.example.com/health/live
-   ```
-
-4. Через production frontend войди существующим тестовым пользователем. Проверь
-   успешный login и загрузку защищенной страницы. Не копируй Bearer token в отчет.
-5. Через существующую admin-учетную запись прочитай `GET /api/admin/catalog` и проверь
-   хотя бы один ожидаемый источник/шлоку. Затем прочитай одну существующую
-   пользовательскую запись через `GET /api/account/settings` или соответствующий экран
-   frontend.
-6. Последним проверь auth rate limit с одного IP: отправляй заведомо неверный,
-   несекретный login не более 11 раз и убедись, что после лимита ответ стал `429`.
-   Проверка временно ограничит login с этого IP примерно на 15 минут, поэтому не делай
-   ее до остальных auth-проверок.
-7. Отправь безопасный UUID в `X-Request-Id`, проверь тот же `X-Request-Id` в ответе и
-   найди соответствующий JSON `http_request` в Railway logs с методом, route, status и
-   duration.
-8. Просмотри build, pre-deploy и runtime logs. В них не должно быть `postgresql://`,
-   DB-пароля, `Authorization`, Bearer token, password, `accessToken`, SQL values, stack
-   trace или персональных данных. Не добавляй известные секреты как поисковые строки.
-
-Журнал первого smoke-check (заполняется после реального deploy, без секретов):
+Зафиксируй результат без secrets:
 
 ```text
 Дата/время UTC:
@@ -159,58 +163,67 @@ Commit SHA:
 Railway deployment ID:
 Оператор:
 
-[ ] build успешен
-[ ] compiled pre-deploy migrations успешны
-[ ] /health/live = 200
-[ ] /health/ready = 200 до активации версии
-[ ] разрешенный Origin получил точный ACAO
-[ ] запрещенный Origin не получил ACAO
+[ ] Backend CI успешен для того же SHA
+[ ] Railpack build успешен
+[ ] compiled pre-deploy migrations успешны или pending migrations отсутствуют
+[ ] /health/ready = 200 до Active
+[ ] deployment = Active
+[ ] runtime logs без startup errors и явной утечки secrets
 [ ] login существующего пользователя успешен
-[ ] auth rate limit вернул 429
-[ ] чтение каталога успешно
-[ ] чтение существующей пользовательской записи успешно
-[ ] request ID совпал в response и structured log
-[ ] build/pre-deploy/runtime logs проверены на отсутствие секретов
+[ ] защищённая страница загрузилась через Railway API
 
 Результат: PASS / FAIL
-Безопасные замечания (без токенов, URL БД и персональных данных):
+Безопасные замечания:
 ```
 
-## Failed migration
+## Ошибки до активации
 
-Если pre-deploy migration завершилась ошибкой:
+Ошибка CI, Railpack build, pre-deploy migration или readiness означает, что новый
+deployment не стал `Active`. Если уже есть активная версия, она продолжает обслуживать
+трафик; для самого первого deployment предыдущей версии нет.
 
-1. Не активируй новую версию в обход pre-deploy. Предыдущая успешная версия должна
-   оставаться активной.
-2. По безопасному тексту migration log определи класс причины: connection/direct URL,
-   права DB-роли, advisory lock, checksum mismatch или конкретная новая migration. Не
-   печатай `DATABASE_DIRECT_URL` для диагностики.
-3. Не редактируй migration, уже записанную в `schema_migrations`: checksum защищает
-   примененную историю. Исправление оформляй следующей migration.
-4. Если упала еще не примененная migration, устрани первопричину и проверь ее локально.
-   Учти, что более ранние pending migrations могли уже примениться: runner выполняет
-   одну транзакцию на migration, а не одну транзакцию на весь набор. Не откатывай их
-   ручным SQL без отдельного плана восстановления.
-5. Повтори `pnpm test`, `pnpm typecheck`, `pnpm build`, затем вручную перезапусти deploy
-   исправленного commit и снова прочитай pre-deploy log/readiness.
+1. Не обходи упавший gate ручным deploy или отключением migration/readiness.
+2. Диагностируй безопасное сообщение соответствующей стадии, исправь первопричину и
+   отправь новый commit в `main`.
+3. Не редактируй migration, уже записанную в `schema_migrations`. Исправление истории
+   оформляется следующей migration.
+4. Учти, что успешные изменения внешней Neon database автоматически не откатываются,
+   даже если следующая стадия deployment упала.
 
-Для редкой несовместимой migration заранее объяви короткое окно обслуживания. Общий
-zero-downtime expand/migrate/contract framework в текущем MVP не предполагается.
+## Регрессия активной версии и rollback
 
-## Обязательные follow-up задачи
+Railway rollback допустим только для регрессии уже активной версии и только после
+подтверждения, что предыдущий application build совместим с текущей схемой Neon:
 
-- Сразу после первого production deploy отдельно спроектировать безопасный session
-  transport: сохранить opaque server session, перенести token из Bearer/`localStorage`
-  в host-only `Secure`, `HttpOnly`, `SameSite=Strict` cookie и добавить CSRF-защиту.
-- Разделить PostgreSQL runtime и migration roles/credentials с минимально необходимыми
-  правами.
-- Добавить строгую runtime HTTP validation body/path/query на границе API.
-- До второй Railway-реплики заменить in-memory auth rate-limit storage на shared
-  storage; только после этого пересматривать topology и pool size по измерениям.
-- При росте проекта добавить отдельное real-Postgres test environment для SQL и
-  migrations, не направляя автоматические тесты в production Neon.
+1. Сравни migrations между текущим и предыдущим deployment.
+2. Если схема backward-compatible, выбери предыдущий успешный deployment в Railway,
+   выполни rollback/redeploy и повтори readiness и smoke-check.
+3. Если миграция сделала схему несовместимой со старой версией, не выполняй rollback:
+   выпусти forward fix через обычный `main` → CI → Railway pipeline.
+4. Не выполняй обратный SQL вручную без отдельного recovery-плана.
 
-Graceful teardown Railway посылает старой версии `SIGTERM`, а после configured draining
-interval — `SIGKILL`: <https://docs.railway.com/deployments/deployment-teardown>.
-Nest shutdown hook закрывает HTTP application и вызывает DB lifecycle hook, который
-закрывает pool в пределах этого интервала.
+Rollback возвращает application deployment, но не откатывает Neon migrations.
+
+## Условный fallback для `Wait for CI`
+
+Не добавляй Railway CLI pipeline заранее. Если реальный запуск подтверждает, что
+`Wait for CI` отсутствует или ненадёжно связывает deployment с GitHub checks:
+
+1. отключи native GitHub autodeploy, чтобы не было двух конкурирующих механизмов;
+2. зафиксируй наблюдаемое поведение и SHA в отдельном ticket без secrets;
+3. отдельным изменением добавь deploy job после зелёного backend CI, передающий Railway
+   CLI именно проверенный commit;
+4. только тогда создай scoped Railway token в GitHub Secrets;
+5. сохрани прежние Railpack build, compiled pre-deploy migrations и readiness gates.
+
+## Передача будущим efforts
+
+- Frontend production deployment обязан заменить временный
+  `FRONTEND_ORIGIN=http://localhost:5173` на точный production HTTPS origin без path,
+  wildcard и завершающего `/`, передать generated/custom API URL frontend и повторить
+  login/CORS smoke-check.
+- Отдельные Neon environments для development и production остаются следующим
+  database effort; текущий runbook сознательно использует одну существующую database.
+- Custom domains для frontend/API и настройка DNS выполняются отдельным effort.
+- Постоянный monitoring, alerting, cost alerts и Compute hard limit не входят в этот
+  bootstrap и требуют отдельного решения.

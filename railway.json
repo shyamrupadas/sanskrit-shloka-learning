@@ -10,7 +10,8 @@
       "/pnpm-lock.yaml",
       "/pnpm-workspace.yaml",
       "/tsconfig.base.json",
-      "/railway.json"
+      "/railway.json",
+      "/.github/workflows/backend-ci.yml"
     ]
   },
   "deploy": {
@@ -20,7 +21,7 @@
     "startCommand": "node apps/api/dist/main.js",
     "healthcheckPath": "/health/ready",
     "healthcheckTimeout": 30,
-    "drainingSeconds": "10",
+    "drainingSeconds": 10,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }

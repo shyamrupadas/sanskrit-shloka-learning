@@ -1,0 +1,53 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/api/**"
+      - "packages/api-contract/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "tsconfig.base.json"
+      - "railway.json"
+      - ".github/workflows/backend-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify backend release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node from package metadata
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
+      - name: Enable pnpm from package metadata
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build API workspace dependencies
+        run: pnpm --filter "@sanskrit-shloka-learning/api^..." build
+
+      - name: Typecheck API and workspace dependencies
+        run: pnpm --filter @sanskrit-shloka-learning/api... typecheck
+
+      - name: Test API and workspace dependencies
+        run: pnpm --filter @sanskrit-shloka-learning/api... test
+
+      - name: Build API and workspace dependencies
+        run: pnpm --filter @sanskrit-shloka-learning/api... build
