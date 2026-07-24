@@ -1,0 +1,11 @@
+[build]
+  command = "pnpm turbo run build --filter=@sanskrit-shloka-learning/web"
+  publish = "apps/web/dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

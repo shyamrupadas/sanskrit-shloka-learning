@@ -34,7 +34,7 @@ Blocked by: 03 - Выбрать точный release pipeline для backend
 - Config File: стандартный корневой `/railway.json`;
 - Railway-generated public domain;
 - `NODE_ENV=production`;
-- `FRONTEND_ORIGIN=http://localhost:5173`;
+- `FRONTEND_ORIGIN=https://sanskrit-shloka-learning.netlify.app`;
 - `DATABASE_URL`: pooled Neon endpoint;
 - `DATABASE_DIRECT_URL`: direct Neon endpoint для migrations;
 - `DATABASE_POOL_MAX=5`;
@@ -53,9 +53,9 @@ Blocked by: 03 - Выбрать точный release pipeline для backend
 3. API запустился, `/health/ready` прошёл deployment healthcheck, deployment стал `Active`.
 4. В runtime logs нет startup errors и явной утечки секретов.
 
-Минимальный ручной smoke-check выполняется через локальный frontend, запущенный с `VITE_API_BASE_URL=https://<railway-domain>`. Нужно войти существующим пользователем и открыть одну защищённую страницу. Этого достаточно, чтобы для MVP одновременно проверить public routing, разрешённый CORS origin, auth и доступ к общей Neon DB. Отдельные ручные проверки rate limit, запрещённого origin, request ID и admin API в первый smoke-check не входят.
+Минимальный ручной smoke-check выполняется через production frontend на Netlify, настроенный с `VITE_API_BASE_URL=https://<railway-domain>`. Нужно войти существующим пользователем и открыть одну защищённую страницу. Этого достаточно, чтобы для MVP одновременно проверить public routing, разрешённый CORS origin, auth и доступ к общей Neon DB. Отдельные ручные проверки rate limit, запрещённого origin, request ID и admin API в первый smoke-check не входят.
 
-`FRONTEND_ORIGIN=http://localhost:5173` означает не same-origin, а один разрешённый cross-origin frontend. Backend сравнивает браузерный `Origin` с этим точным значением; остальные browser origins не разрешаются.
+`FRONTEND_ORIGIN=https://sanskrit-shloka-learning.netlify.app` означает не same-origin, а один разрешённый cross-origin frontend. Backend сравнивает браузерный `Origin` с этим точным значением; остальные browser origins не разрешаются.
 
 ### 4. Ошибки и rollback
 
@@ -66,6 +66,6 @@ Blocked by: 03 - Выбрать точный release pipeline для backend
 
 ### 5. Передача следующих усилий
 
-Frontend deployment обязан заменить `FRONTEND_ORIGIN=http://localhost:5173` на точный production HTTPS origin и повторить login/CORS smoke-check. Custom `app`/`api` domains и публичный API URL во frontend остаются частью этого отдельного effort.
+Перенос frontend с Netlify на Nginx/VPS обязан заменить `FRONTEND_ORIGIN=https://sanskrit-shloka-learning.netlify.app` на новый точный production HTTPS origin и повторить login/CORS smoke-check. Custom `app`/`api` domains и будущий публичный API URL во frontend остаются частью этого отдельного effort.
 
 Разделение общей Neon DB на development и production и production monitoring/alerting остаются отдельными будущими efforts. Текущий план не добавляет cost alerts, hard limit, APM или uptime monitoring.

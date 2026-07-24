@@ -31,6 +31,7 @@ railway.json
 - доступ Railway GitHub App к этому repository;
 - существующая Neon database и доступ к её connection details;
 - существующая пользовательская учётная запись для smoke-check;
+- текущий production frontend на Netlify, настроенный на Railway-generated API URL;
 - текущая ветка `main` на GitHub с успешным check `Backend CI / Verify backend release`.
 
 Production и development временно используют одну Neon database. Это принятое
@@ -70,7 +71,7 @@ backend service:
 | Variable | Точное значение или источник |
 | --- | --- |
 | `NODE_ENV` | `production` |
-| `FRONTEND_ORIGIN` | временно ровно `http://localhost:5173` |
+| `FRONTEND_ORIGIN` | временно ровно `https://sanskrit-shloka-learning.netlify.app` |
 | `DATABASE_URL` | pooled connection string существующей Neon database; hostname содержит `-pooler` |
 | `DATABASE_DIRECT_URL` | direct connection string той же database; hostname не содержит `-pooler` |
 | `DATABASE_POOL_MAX` | `5` |
@@ -135,20 +136,15 @@ Railway pre-deploy выполняется после build и останавли
 <https://docs.railway.com/deployments/healthchecks>. Healthcheck — release gate, а не
 постоянный uptime monitoring.
 
-## Smoke-check через локальный frontend
+## Smoke-check через production frontend
 
-Smoke-check использует точный generated API origin, без завершающего `/`:
-
-```sh
-VITE_API_BASE_URL=https://<railway-generated-domain> \
-  pnpm --filter @sanskrit-shloka-learning/web dev
-```
-
-1. Открой адрес Vite `http://localhost:5173` в браузере.
-2. Войди существующим пользователем. Не копируй access token в отчёт.
-3. Открой защищённую страницу, например dashboard или settings, и дождись загрузки
+1. Убедись, что Netlify frontend настроен на точный Railway-generated API origin без
+   завершающего `/`.
+2. Открой `https://sanskrit-shloka-learning.netlify.app` в браузере.
+3. Войди существующим пользователем. Не копируй access token в отчёт.
+4. Открой защищённую страницу, например dashboard или settings, и дождись загрузки
    данных.
-4. В browser network panel проверь, что запросы уходят на Railway-generated API URL и
+5. В browser network panel проверь, что запросы уходят на Railway-generated API URL и
    не блокируются CORS.
 
 Один сценарий подтверждает public routing, точный CORS origin, auth и чтение общей
@@ -218,10 +214,10 @@ Rollback возвращает application deployment, но не откатыва
 
 ## Передача будущим efforts
 
-- Frontend production deployment обязан заменить временный
-  `FRONTEND_ORIGIN=http://localhost:5173` на точный production HTTPS origin без path,
-  wildcard и завершающего `/`, передать generated/custom API URL frontend и повторить
-  login/CORS smoke-check.
+- При переносе frontend с Netlify на Nginx/VPS замени временный
+  `FRONTEND_ORIGIN=https://sanskrit-shloka-learning.netlify.app` на новый точный
+  production HTTPS origin без path, wildcard и завершающего `/`, передай актуальный
+  API URL frontend и повтори login/CORS smoke-check.
 - Отдельные Neon environments для development и production остаются следующим
   database effort; текущий runbook сознательно использует одну существующую database.
 - Custom domains для frontend/API и настройка DNS выполняются отдельным effort.
