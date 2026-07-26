@@ -13,6 +13,7 @@ Initial product discovery / pre-MVP.
 - Architecture decisions: `docs/adr/`
 - Railway/Neon production runbook: `docs/operations/railway-production.md`
 - VDS secure-access runbook: `docs/operations/vds-secure-access.md`
+- VDS isolated HTTP platform runbook: `docs/operations/vds-http-platform.md`
 
 ## Development
 

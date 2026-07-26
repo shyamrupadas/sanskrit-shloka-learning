@@ -4,7 +4,9 @@
 
 **Blocked by:** 02 — Обеспечить безопасный административный и automation-доступ к VDS
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
+
+Ручная инструкция: [`docs/operations/vds-http-platform.md`](../../../docs/operations/vds-http-platform.md)
 
 - [ ] Установлены необходимые системные компоненты для раздачи статики и управления TLS; Node.js, package manager и production build toolchain на VDS отсутствуют.
 - [ ] Каждый из четырёх сайтов имеет отдельный document root, принадлежащий automation-пользователю; Nginx имеет только доступ на чтение.
