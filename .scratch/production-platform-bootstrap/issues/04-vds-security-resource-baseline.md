@@ -4,7 +4,9 @@
 
 **Blocked by:** 03 — Поднять изолированную HTTP-платформу для четырёх сайтов
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
+
+Ручная инструкция: [`docs/operations/vds-security-resource-baseline.md`](../../../docs/operations/vds-security-resource-baseline.md)
 
 - [ ] Firewall использует deny incoming / allow outgoing и публикует только TCP-порты `22`, `80` и `443`; фактически слушающие порты сверены с правилами.
 - [ ] Fail2ban защищает SSH через firewall с согласованными ограничениями повторных попыток и подтверждённым active state.

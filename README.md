@@ -14,6 +14,7 @@ Initial product discovery / pre-MVP.
 - Railway/Neon production runbook: `docs/operations/railway-production.md`
 - VDS secure-access runbook: `docs/operations/vds-secure-access.md`
 - VDS isolated HTTP platform runbook: `docs/operations/vds-http-platform.md`
+- VDS security/resource baseline runbook: `docs/operations/vds-security-resource-baseline.md`
 
 ## Development
 
