@@ -12,6 +12,7 @@ Initial product discovery / pre-MVP.
 - Domain language: `CONTEXT.md`
 - Architecture decisions: `docs/adr/`
 - Railway/Neon production runbook: `docs/operations/railway-production.md`
+- VDS secure-access runbook: `docs/operations/vds-secure-access.md`
 
 ## Development
 

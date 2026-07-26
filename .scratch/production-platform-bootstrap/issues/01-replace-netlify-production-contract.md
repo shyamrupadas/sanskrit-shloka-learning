@@ -5,6 +5,7 @@
 **Blocked by:** None — can start immediately
 
 **Status:** awaiting-human-review
+Accepted: 2026-07-26
 
 - [x] Netlify удалён из актуальной production-конфигурации и operational-документации; канонический frontend указан как `https://app.shlokahub.com`.
 - [x] Локальная разработка по-прежнему использует отдельный origin `http://localhost:5173`.
