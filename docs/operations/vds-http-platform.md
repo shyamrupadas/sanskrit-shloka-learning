@@ -155,6 +155,18 @@ else
 fi
 ```
 
+После установки явно включи socket activation Snap. `snapd.service` может оставаться
+`inactive` до первого обращения — обязательный результат здесь именно `active` для
+`snapd.socket`:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now snapd.socket
+sudo systemctl is-active snapd.socket
+```
+
+Не продолжай, если последняя команда не вывела `active`.
+
 Установи Certbot из официального snap-канала:
 
 ```bash
@@ -581,6 +593,10 @@ sudo nginx -T 2>&1 | grep -E \
 фактические certificate paths.
 
 ## 9. Проверить routing локально на VDS
+
+Этот раздел выполняется только в окне `ADMIN` с приглашением `admin@<VDS>:~$`.
+Не запускай эти команды в окне `LOCAL`: там `127.0.0.1` указывает на ноутбук, а не
+на VDS.
 
 Сначала проверь четыре сайта через loopback с явным `Host`:
 
