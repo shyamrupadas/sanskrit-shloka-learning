@@ -4,10 +4,13 @@
 
 **Blocked by:** 04 — Закрепить security- и resource-baseline VDS
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-07-29
 
-- [ ] Connection values landing repository указывают на нового automation-пользователя и новый VDS; private key меняется только при фактической необходимости ротации.
-- [ ] Workflow использует заранее проверенный `SSH_KNOWN_HOSTS`, `StrictHostKeyChecking=yes` и не выполняет runtime `ssh-keyscan`.
-- [ ] Существующие branch trigger, install/build, `rsync --delete`, deploy destination и отсутствие ручного dispatch сохранены.
-- [ ] Первый workflow на новом VDS завершился успешно; артефакт, ownership и HTTP-ответ landing virtual host проверены до DNS cutover.
-- [ ] Отчёт о переносе не раскрывает IP, private key, host-key строку или Secret values.
+- [x] Connection values landing repository указывают на нового automation-пользователя и новый VDS; private key меняется только при фактической необходимости ротации.
+- [x] Workflow использует заранее проверенный `SSH_KNOWN_HOSTS`, `StrictHostKeyChecking=yes` и не выполняет runtime `ssh-keyscan`.
+- [x] Существующие branch trigger, install/build, `rsync --delete`, deploy destination и отсутствие ручного dispatch сохранены.
+- [x] Первый workflow на новом VDS завершился успешно; артефакт, ownership и HTTP-ответ landing virtual host проверены до DNS cutover.
+- [x] Отчёт о переносе не раскрывает IP, private key, host-key строку или Secret values.
+
+Ручная инструкция: [`docs/operations/sadhana-landing-vds-rollout.md`](../../../docs/operations/sadhana-landing-vds-rollout.md)
