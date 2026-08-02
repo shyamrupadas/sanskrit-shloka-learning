@@ -1,6 +1,7 @@
 # Bootstrap общей production-платформы на VDS
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-08-02
 
 ## Problem Statement
 
