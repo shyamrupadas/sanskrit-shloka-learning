@@ -53,7 +53,7 @@ application frontend. Затем поднимается и проверяетс�
 16. Как пользователь, я хочу, чтобы прямое открытие вложенного application route возвращало SPA, чтобы bookmark и обновление страницы работали.
 17. Как владелец сайта, я хочу, чтобы неизвестный `Host` не попадал ни на один из четырёх сайтов, чтобы default virtual host не раскрывал чужой контент.
 18. Как пользователь, я хочу автоматически переходить с HTTP на HTTPS, чтобы production-трафик использовал защищённое соединение.
-19. Как пользователь ShlokaHub, я хочу, чтобы оба `www`-адреса постоянно перенаправляли на соответствующие канонические адреса с сохранением path и query, чтобы не возникало дублей URL.
+19. Как пользователь ShlokaHub, я хочу, чтобы `www`-адрес landing постоянно перенаправлял на канонический адрес с сохранением path и query, чтобы не возникало дублей URL.
 20. Как оператор, я хочу открыть снаружи только TCP-порты `22`, `80` и `443`, чтобы VDS не публиковал ненужные сервисы.
 21. Как оператор, я хочу включить SSH-защиту Fail2ban, чтобы повторные неуспешные попытки входа временно блокировались.
 22. Как оператор, я хочу ограничить рост system journals и сохранить штатную rotation журналов Nginx, UFW и Fail2ban, чтобы 10 ГБ диска не заполнялись логами.
@@ -68,7 +68,7 @@ application frontend. Затем поднимается и проверяетс�
 31. Как владелец ShlokaHub, я хочу привязать `api.shlokahub.com` к существующему Railway backend, чтобы frontend не зависел от generated hostname.
 32. Как оператор, я хочу создать только выданные Railway CNAME и TXT records в режиме Cloudflare `DNS only`, чтобы ownership и TLS API подтверждались штатным способом Railway.
 33. Как пользователь ShlokaHub, я хочу получать успешный readiness-ответ по публичному API domain, чтобы application release мог проверить реальный production маршрут.
-34. Как оператор, я хочу создать четыре статические DNS-записи ShlokaHub в режиме `DNS only`, чтобы TLS статических сайтов выпускал и обновлял Certbot на VDS.
+34. Как оператор, я хочу создать три статические DNS-записи ShlokaHub в режиме `DNS only`, чтобы TLS статических сайтов выпускал и обновлял Certbot на VDS.
 35. Как оператор, я хочу выпускать отдельные certificate groups для landing- и application-имён ShlokaHub, чтобы TLS lifecycle соответствовал границам сайтов.
 36. Как оператор, я хочу проверить автоматическое обновление сертификатов, Nginx-конфигурацию, SSH, firewall, ownership и ресурсы, чтобы платформа была готова до первого ShlokaHub deploy.
 37. Как владелец приложения, я хочу хранить IP, ключи, Railway targets и certificate identifiers только в предназначенных внешних системах, чтобы чувствительные и изменяемые runtime-значения не попали в planning artifacts и repository.
@@ -87,7 +87,7 @@ application frontend. Затем поднимается и проверяетс�
 - Один общий публичный CI-ключ авторизуется для `deploy` и используется workflows четырёх repositories. Это ограниченный MVP-риск; разделение ключей и пользователей отложено.
 - Проверенный SSH host key извлекается через доверенную bootstrap-сессию, сверяется по fingerprint и передаётся workflows как `SSH_KNOWN_HOSTS`. Runtime `ssh-keyscan` не используется, `StrictHostKeyChecking=yes` обязателен.
 - Nginx обслуживает отдельные landing и application virtual hosts для Sadhana и ShlokaHub. Application hosts используют SPA fallback; landing hosts раздают существующие статические пути. Безопасный default host не выдаёт содержимое сайтов.
-- Канонические ShlokaHub URL — `https://shlokahub.com` и `https://app.shlokahub.com`. `www.shlokahub.com` и `www.app.shlokahub.com` выполняют постоянные redirects на соответствующие канонические адреса с сохранением path и query.
+- Канонические ShlokaHub URL — `https://shlokahub.com` и `https://app.shlokahub.com`. Только `www.shlokahub.com` выполняет постоянный redirect на канонический landing с сохранением path и query; `www`-имя для application не поддерживается.
 - UFW использует deny incoming / allow outgoing и публикует только TCP `22`, `80`, `443`. Fail2ban защищает SSH через UFW с согласованными ограничениями повторных попыток.
 - Journald ограничивается размером 200 МБ и обязан оставлять 2 ГБ свободного места; штатные rotation rules остальных журналов проверяются. Security updates выполняются ежедневно, automatic reboot выключен.
 - Если swap отсутствует и после обновления доступно не менее 3 ГБ диска, создаётся swap-файл 1 ГБ. При меньшем запасе сначала освобождается место или повышается тариф; `vm.swappiness` заранее не меняется.
@@ -95,7 +95,7 @@ application frontend. Затем поднимается и проверяетс�
 - Sadhana DNS cutover меняет только A-записи landing, `www` и application на новый VDS в режиме `DNS only`. Railway API CNAME и почтовые записи не меняются.
 - Для Sadhana выпускаются отдельные сертификаты landing-группы и application; `www` landing перенаправляется на канонический landing. Короткое контролируемое окно TLS между DNS cutover и выдачей сертификатов принято.
 - `api.shlokahub.com` добавляется к существующему Railway backend service. Cloudflare получает точные CNAME и TXT, выданные Railway, в режиме `DNS only`; Railway управляет TLS этого имени.
-- Четыре статических имени ShlokaHub получают A-записи на VDS в режиме `DNS only`. Certbot управляет двумя certificate groups: landing с его `www`-именем и application с его `www`-именем.
+- Три статических имени ShlokaHub получают A-записи на VDS в режиме `DNS only`. Certbot управляет двумя certificate groups: landing с его `www`-именем и application без `www`-имени.
 - До первых ShlokaHub deployments пустые roots могут возвращать `404`; готовность платформы определяется корректными DNS, TLS, routing и host checks, а не наличием ещё не выпущенного артефакта.
 - Фактические IP, private key, host-key строка, Railway targets, certificate identifiers и Secret values не записываются в repository или спецификацию. Публичные connection values задаются в repository Variables, чувствительные — в Secrets.
 - Bootstrap считается завершённым только после восстановления обоих production-сайтов Sadhana, успешного публичного `https://api.shlokahub.com/health/ready` и готовности статических ShlokaHub virtual hosts и TLS.

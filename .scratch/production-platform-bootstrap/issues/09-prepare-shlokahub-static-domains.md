@@ -4,10 +4,13 @@
 
 **Blocked by:** 07 — Переключить Sadhana на новый VDS
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-08-02
 
-- [ ] Четыре статических имени ShlokaHub резолвятся на новый VDS через A-записи в режиме `DNS only`.
-- [ ] Выпущены отдельные certificate groups для landing с его `www`-именем и application с его `www`-именем.
-- [ ] HTTP перенаправляется на HTTPS; оба `www`-имени постоянно перенаправляются на соответствующие канонические адреса с сохранением path и query.
-- [ ] Application virtual host поддерживает SPA fallback, неизвестный `Host` не раскрывает сайт, а пустые roots могут безопасно возвращать `404` до будущих deploy.
-- [ ] Nginx проходит синтаксическую проверку, сертификаты проходят dry run обновления, а фактические certificate identifiers не сохранены в repository.
+- [x] Три статических имени ShlokaHub резолвятся на новый VDS через A-записи в режиме `DNS only`.
+- [x] Выпущены отдельные certificate groups для landing с его `www`-именем и application без `www`-имени.
+- [x] HTTP перенаправляется на HTTPS; `www`-имя landing постоянно перенаправляется на канонический адрес с сохранением path и query.
+- [x] Application virtual host поддерживает SPA fallback, неизвестный `Host` не раскрывает сайт, а пустые roots могут безопасно возвращать `404` до будущих deploy.
+- [x] Nginx проходит синтаксическую проверку, сертификаты проходят dry run обновления, а фактические certificate identifiers не сохранены в repository.
+
+Ручная инструкция: [`docs/operations/shlokahub-static-domains.md`](../../../docs/operations/shlokahub-static-domains.md)
