@@ -1,0 +1,131 @@
+name: Application production release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/web/**"
+      - "packages/api-contract/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "tsconfig.base.json"
+      - "turbo.json"
+      - ".github/workflows/application-production-release.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: application-production-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Verify and release application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node from package metadata
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
+      - name: Enable pnpm from package metadata
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web workspace dependencies
+        run: pnpm --filter "@sanskrit-shloka-learning/web^..." build
+
+      - name: Lint web
+        run: pnpm --filter @sanskrit-shloka-learning/web lint
+
+      - name: Typecheck web and workspace dependencies
+        run: pnpm --filter @sanskrit-shloka-learning/web... typecheck
+
+      - name: Test API contract
+        run: pnpm --filter @sanskrit-shloka-learning/api-contract test
+
+      - name: Test web units
+        run: pnpm --filter @sanskrit-shloka-learning/web test:unit
+
+      - name: Verify canonical API URL
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        run: test "$VITE_API_BASE_URL" = "https://api.shlokahub.com"
+
+      - name: Build production application
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        run: pnpm --filter @sanskrit-shloka-learning/web build
+
+      - name: Verify production entry artifact
+        run: test -s apps/web/dist/index.html
+
+      - name: Verify deployment target
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+        run: |
+          test "$DEPLOY_USER" = "deploy"
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?$ ]]
+
+      - name: Prepare trusted SSH configuration
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_KNOWN_HOSTS"
+          install -d -m 700 "$RUNNER_TEMP/shlokahub-ssh"
+          install -m 600 /dev/null "$RUNNER_TEMP/shlokahub-ssh/id_ed25519"
+          install -m 600 /dev/null "$RUNNER_TEMP/shlokahub-ssh/known_hosts"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$RUNNER_TEMP/shlokahub-ssh/id_ed25519"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/shlokahub-ssh/known_hosts"
+          test -s "$RUNNER_TEMP/shlokahub-ssh/id_ed25519"
+          test -s "$RUNNER_TEMP/shlokahub-ssh/known_hosts"
+
+      - name: Synchronize application artifact
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+        run: |
+          rsync \
+            --archive \
+            --compress \
+            --delete \
+            --rsh "ssh -i $RUNNER_TEMP/shlokahub-ssh/id_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$RUNNER_TEMP/shlokahub-ssh/known_hosts" \
+            apps/web/dist/ \
+            "$DEPLOY_USER@$DEPLOY_HOST:/var/www/shlokahub-app/html/"
+
+      - name: Smoke-check production application and API
+        run: |
+          smoke_check() {
+            local status
+            status="$(
+              curl \
+                --fail \
+                --silent \
+                --show-error \
+                --retry 4 \
+                --retry-all-errors \
+                --retry-delay 5 \
+                --retry-max-time 120 \
+                --connect-timeout 10 \
+                --max-time 30 \
+                --output /dev/null \
+                --write-out '%{http_code}' \
+                "$1"
+            )"
+            test "$status" = "200"
+          }
+
+          smoke_check https://app.shlokahub.com/
+          smoke_check https://app.shlokahub.com/login
+          smoke_check https://api.shlokahub.com/health/ready

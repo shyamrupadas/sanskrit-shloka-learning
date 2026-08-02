@@ -1,6 +1,6 @@
 # Автоматический production-выпуск ShlokaHub application
 
-Status: ready-for-agent
+Status: awaiting-human-review
 
 ## Problem Statement
 
