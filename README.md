@@ -14,6 +14,7 @@ Initial product discovery / pre-MVP.
 - Railway/Neon production runbook: `docs/operations/railway-production.md`
 - ShlokaHub API custom-domain runbook: `docs/operations/shlokahub-api-domain.md`
 - ShlokaHub static-domain runbook: `docs/operations/shlokahub-static-domains.md`
+- ShlokaHub application release-inputs runbook: `docs/operations/shlokahub-application-release-inputs.md`
 - VDS secure-access runbook: `docs/operations/vds-secure-access.md`
 - VDS isolated HTTP platform runbook: `docs/operations/vds-http-platform.md`
 - VDS security/resource baseline runbook: `docs/operations/vds-security-resource-baseline.md`
