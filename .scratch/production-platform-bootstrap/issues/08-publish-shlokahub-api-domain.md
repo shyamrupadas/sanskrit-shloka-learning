@@ -4,10 +4,13 @@
 
 **Blocked by:** 07 — Переключить Sadhana на новый VDS
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-08-02
 
-- [ ] `api.shlokahub.com` добавлен к существующему production backend service без создания нового сервиса.
-- [ ] В Cloudflare созданы ровно выданные Railway CNAME и TXT records в режиме `DNS only`.
-- [ ] Railway подтвердил ownership и TLS нового имени, а `https://api.shlokahub.com/health/ready` возвращает `200` и безопасный readiness-ответ.
-- [ ] Railway-generated hostname сохранён после проверки custom domain.
-- [ ] Фактические Railway targets и certificate identifiers не записаны в repository или planning artifacts.
+- [x] `api.shlokahub.com` добавлен к существующему production backend service без создания нового сервиса.
+- [x] В Cloudflare созданы ровно выданные Railway CNAME и TXT records в режиме `DNS only`.
+- [x] Railway подтвердил ownership и TLS нового имени, а `https://api.shlokahub.com/health/ready` возвращает `200` и безопасный readiness-ответ.
+- [x] Railway-generated hostname сохранён после проверки custom domain.
+- [x] Фактические Railway targets и certificate identifiers не записаны в repository или planning artifacts.
+
+Ручная инструкция: [`docs/operations/shlokahub-api-domain.md`](../../../docs/operations/shlokahub-api-domain.md)

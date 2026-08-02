@@ -12,6 +12,7 @@ Initial product discovery / pre-MVP.
 - Domain language: `CONTEXT.md`
 - Architecture decisions: `docs/adr/`
 - Railway/Neon production runbook: `docs/operations/railway-production.md`
+- ShlokaHub API custom-domain runbook: `docs/operations/shlokahub-api-domain.md`
 - VDS secure-access runbook: `docs/operations/vds-secure-access.md`
 - VDS isolated HTTP platform runbook: `docs/operations/vds-http-platform.md`
 - VDS security/resource baseline runbook: `docs/operations/vds-security-resource-baseline.md`
