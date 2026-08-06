@@ -4,14 +4,15 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-08-06
 
-- [ ] Спецификация `shlokahub-application-production-release` принята человеком; автоматические и ручные проверки первого application rollout подтверждены как успешные.
-- [ ] Отдельный landing repository готов к выпуску из ветки `main` и детерминированно предоставляет обязательный release artifact `dist/index.html`; создание и содержимое landing не входят в этот тикет.
-- [ ] Repository Variables содержат deployment host и пользователя `deploy`, а чувствительные значения не ошибочно сохранены как публичные Variables.
-- [ ] Repository Secrets содержат согласованный private SSH key и полную `known_hosts` строку, полученную и сверенную в рамках доверенного bootstrap общей платформы.
-- [ ] Automation-пользователь входит только по ключу, не имеет `sudo`, имеет необходимый доступ к выделенному landing root и не может администрировать Nginx, TLS или системную конфигурацию.
-- [ ] Проверка контура и её отчёт не раскрывают private key, host IP, host-key строку, Secret values, access tokens или иные чувствительные production-данные.
+- [x] Спецификация `shlokahub-application-production-release` принята человеком; автоматические и ручные проверки первого application rollout подтверждены как успешные.
+- [x] Отдельный landing repository готов к выпуску из ветки `master` и детерминированно предоставляет обязательный release artifact `dist/index.html`; создание и содержимое landing не входят в этот тикет.
+- [x] Repository Variables содержат deployment host и пользователя `deploy`, а чувствительные значения не ошибочно сохранены как публичные Variables.
+- [x] Repository Secrets содержат согласованный private SSH key и полную `known_hosts` строку, полученную и сверенную в рамках доверенного bootstrap общей платформы.
+- [x] Automation-пользователь входит только по ключу, не имеет `sudo`, имеет необходимый доступ к выделенному landing root и не может администрировать Nginx, TLS или системную конфигурацию.
+- [x] Проверка контура и её отчёт не раскрывают private key, host IP, host-key строку, Secret values, access tokens или иные чувствительные production-данные.
 
 ## Внешние предусловия
 

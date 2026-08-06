@@ -1,6 +1,7 @@
 # Автоматический production-выпуск ShlokaHub landing
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-08-06
 
 ## Problem Statement
 
@@ -13,14 +14,14 @@ frontend stack намеренно ещё не выбран. При этом пе
 
 Без отдельного release contract landing может выпускаться до готовности application,
 использовать непроверенный SSH host, стереть production root пустым артефактом или
-оставить канонические и `www`-адреса непроверенными. Rollout также нельзя считать
+оставить канонический и `www`-адрес landing непроверенными. Rollout также нельзя считать
 завершённым без фиксации безопасных эксплуатационных данных и наблюдения за
 ограниченными ресурсами общего VDS.
 
 ## Solution
 
 В отдельном ShlokaHub landing repository создаётся минимальная статическая заглушка и
-один последовательный workflow `verify/build → deploy → smoke`. Любой push в `main`
+один последовательный workflow `verify/build → deploy → smoke`. Любой push в `master`
 должен детерминированно предоставить `dist/index.html`: через выбранный позднее
 stack-specific adapter либо как committed static artifact для первого выпуска.
 После artifact guard workflow с проверенным SSH host key выполняет `rsync --delete`
@@ -28,7 +29,7 @@ stack-specific adapter либо как committed static artifact для перв
 
 Landing выпускается только после успешной автоматической и ручной приёмки
 application. Workflow проверяет канонический landing URL и API readiness, а оператор
-проверяет `www` redirects и ресурсы VDS. После четырёх первых deploy фиксируются
+проверяет redirect с `www.shlokahub.com` и ресурсы VDS. После четырёх первых deploy фиксируются
 безопасные эксплуатационные идентификаторы и начинается ограниченный период
 наблюдения за ресурсами; тариф повышается только по измеренным порогам.
 
@@ -42,7 +43,7 @@ application. Workflow проверяет канонический landing URL и
 6. Как разработчик landing, я хочу иметь единый контракт `dist/index.html`, чтобы deploy workflow не зависел от внутреннего устройства будущего stack.
 7. Как разработчик landing, я хочу иметь возможность выпустить committed статический `dist/index.html`, чтобы первая заглушка не требовала package manager и build toolchain.
 8. Как разработчик landing, я хочу после выбора stack использовать pinned runtime, lockfile, frozen install и штатную build-команду, чтобы будущие сборки оставались воспроизводимыми.
-9. Как владелец приложения, я хочу автоматически выпускать landing после каждого push в `main`, чтобы production соответствовал основной ветке без ручного запуска workflow.
+9. Как владелец приложения, я хочу автоматически выпускать landing после каждого push в `master`, чтобы production соответствовал основной ветке без ручного запуска workflow.
 10. Как разработчик landing, я хочу проверять наличие `dist/index.html` до SSH, чтобы пустой артефакт не очистил работающий landing.
 11. Как владелец приложения, я хочу хранить deployment host/user отдельно от SSH Secrets, чтобы публичные connection values и чувствительные key material имели правильные области хранения.
 12. Как разработчик landing, я хочу использовать заранее проверенную `known_hosts` строку, чтобы workflow не доверял runtime `ssh-keyscan`.
@@ -53,7 +54,7 @@ application. Workflow проверяет канонический landing URL и
 17. Как посетитель, я хочу, чтобы канонический landing URL отвечал по HTTPS после deploy, чтобы основная публичная ссылка работала безопасно.
 18. Как владелец приложения, я хочу проверять API readiness вместе с landing release, чтобы завершение rollout подтверждало доступность не только статической страницы, но и production backend.
 19. Как посетитель, я хочу, чтобы `www.shlokahub.com` перенаправлял на канонический landing с сохранением path и query, чтобы старые или альтернативные ссылки не теряли контекст.
-20. Как пользователь application, я хочу, чтобы `www.app.shlokahub.com` перенаправлял на канонический application с сохранением path и query, чтобы весь ShlokaHub URL contract был проверен к завершению rollout.
+20. Как владелец приложения, я хочу исключить `www.app.shlokahub.com` из production URL-контракта, чтобы rollout не зависел от удалённого адреса.
 21. Как разработчик landing, я хочу получать красный workflow при ошибке production smoke-check, чтобы неуспешный выпуск был виден сразу.
 22. Как владелец приложения, я хочу исправлять неуспешный landing release через `git revert` и новый push, чтобы использовать тот же простой rollback contract, что и application.
 23. Как оператор, я хочу повторно проверить память, swap, диск и OOM после landing deploy, чтобы подтвердить, что четвёртый сайт помещается на VDS.
@@ -67,11 +68,11 @@ application. Workflow проверяет канонический landing URL и
 ## Implementation Decisions
 
 - Эта спецификация реализуется после `shlokahub-application-production-release`; landing deploy запрещён до успешных автоматических и ручных application checks.
-- Landing живёт в отдельном repository и выпускается из ветки `main`.
+- Landing живёт в отдельном repository и выпускается из ветки `master`.
 - Первый landing — минимальная статическая заглушка с простым текстом. Конкретный frontend framework или generator не фиксируется.
 - Единственный обязательный build interface — готовый `dist/index.html`. Для первого выпуска допустим committed static artifact без install/build.
 - После появления stack workflow обязан использовать закреплённые runtime/package-manager версии, repository lockfile, frozen/immutable install и штатную production build-команду. Эти команды не выбираются данной спецификацией.
-- Workflow запускается на любой push в `main` без path filters и без ручного `workflow_dispatch`.
+- Workflow запускается на любой push в `master` без path filters и без ручного `workflow_dispatch`.
 - Workflow состоит из одного последовательного job: checkout, опциональный stack-specific install/build, artifact guard, SSH/rsync deploy и smoke.
 - GitHub token получает только `contents: read`.
 - Landing имеет отдельную concurrency group с `cancel-in-progress: false`; следующий deploy ждёт завершения текущего.
@@ -80,8 +81,8 @@ application. Workflow проверяет канонический landing URL и
 - Artifact guard подтверждает `dist/index.html` до SSH и до операции, способной удалить production-файлы.
 - Содержимое `dist/` синхронизируется прямым `rsync --delete` в выделенный ShlokaHub landing root. Node.js, package manager и build tools на VDS не нужны.
 - После deploy workflow автоматически проверяет `https://shlokahub.com/` и `https://api.shlokahub.com/health/ready` с fail-on-error и ограниченными retries.
-- Первый выпуск дополнительно принимается ручной проверкой канонического landing и постоянных redirects с обоих `www`-имён с сохранением path/query.
-- Ошибка smoke-check делает workflow неуспешным, но не откатывает файлы автоматически. Исправление или rollback выполняется через новый commit, обычно `git revert`, и push в `main`.
+- Первый выпуск дополнительно принимается ручной проверкой канонического landing и постоянного redirect с `www.shlokahub.com` с сохранением path/query; `www.app.shlokahub.com` в production URL-контракт не входит.
+- Ошибка smoke-check делает workflow неуспешным, но не откатывает файлы автоматически. Исправление или rollback выполняется через новый commit, обычно `git revert`, и push в `master`.
 - После landing deploy повторно проверяются ресурсы VDS. Фактические эксплуатационные targets/identifiers фиксируются вне repository без key material и Secret values.
 - После каждого из четырёх первых deploy снимаются диск, `MemAvailable`, swap, OOM, load, traffic и размеры журналов; первая неделя наблюдается ежедневно, затем еженедельно.
 - Первый шаг масштабирования — upgrade существующего VDS до 2 ГБ RAM / 50 ГБ диска только по согласованным измеримым признакам. Отдельный VDS заранее не создаётся.
@@ -89,7 +90,7 @@ application. Workflow проверяет канонический landing URL и
 
 ## Testing Decisions
 
-- Главный тестовый шов — публичный production-контракт: `https://shlokahub.com/`, API readiness и оба `www` redirect. Хороший тест проверяет наблюдаемые HTTPS status/Location и сохранение path/query, не внутреннюю структуру landing repository или workflow.
+- Главный тестовый шов — публичный production-контракт: `https://shlokahub.com/`, API readiness и redirect с `www.shlokahub.com`. Хороший тест проверяет наблюдаемые HTTPS status/Location и сохранение path/query, не внутреннюю структуру landing repository или workflow.
 - Artifact guard тестирует единственный стабильный build interface `dist/index.html`. Внутренние файлы будущего stack не входят в контракт спецификации.
 - Автоматический smoke-check запускается после фактического `rsync`, чтобы красный workflow отражал состояние production, а не только локального artifact.
 - API readiness остаётся частью landing smoke-check как сквозная проверка завершённого ShlokaHub rollout.
