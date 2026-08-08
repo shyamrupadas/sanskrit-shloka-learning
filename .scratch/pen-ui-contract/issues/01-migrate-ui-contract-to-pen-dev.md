@@ -5,6 +5,7 @@
 **Blocked by:** None — can start immediately
 
 **Status:** awaiting-human-review
+Accepted: 2026-08-08
 
 - [x] Канонический design artifact переименован с legacy Pencil naming на pen.dev naming без изменения содержимого или визуального контракта.
 - [x] Активные agent instructions, design docs, ADR, specs, tickets и research artifacts используют актуальное имя канонического дизайна и терминологию pen.dev.

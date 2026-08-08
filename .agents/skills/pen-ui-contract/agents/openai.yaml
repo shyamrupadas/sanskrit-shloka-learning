@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pen UI Contract"
+  short_description: "Запускает repository workflow pen.dev UI contract."
+  default_prompt: "Используй $pen-ui-contract, чтобы применить repository workflow UI contract к этой задаче."
