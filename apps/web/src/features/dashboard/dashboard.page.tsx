@@ -352,7 +352,6 @@ function LearningEmptyState({
       <EmptyState
         action={<Link to={routePaths.library}>{strings.dashboard.add}</Link>}
         description={strings.dashboard.emptyDescription}
-        headingLevel={2}
         title={strings.dashboard.emptyTitle}
       />
     </section>

@@ -4,6 +4,8 @@ import { ChevronRight, type LucideIcon } from "lucide-react";
 import { routePaths } from "@/shared/model/routes";
 import { Button } from "@/shared/ui/button";
 
+import { SanskritTypography } from "./typography";
+
 export type ShlokaCardAction = {
   disabled?: boolean | undefined;
   Icon?: LucideIcon | undefined;
@@ -44,9 +46,12 @@ export function ShlokaCard({
           params={{ shlokaCode }}
           to={openTo}
         >
-          <span className="font-sanskrit-title block break-words text-[length:var(--font-size-body)] leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]">
+          <SanskritTypography
+            className="block break-words [overflow-wrap:anywhere]"
+            variant="h3"
+          >
             {title}
-          </span>
+          </SanskritTypography>
         </Link>
         <Link
           aria-label={openLabel}

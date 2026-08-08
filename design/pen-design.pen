@@ -7351,13 +7351,14 @@
                       "type": "text",
                       "id": "j5iSZ",
                       "name": "Card Title",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$typo-p1-size",
-                      "fontWeight": "$type-weight-bold",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold",
                       "fontStyle": "Normal"
                     }
                   ]
@@ -7426,26 +7427,27 @@
                   "type": "text",
                   "id": "U6y4X",
                   "name": "Empty Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Пока нет шлок",
+                  "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$type-card-title-size",
-                  "fontWeight": "$type-weight-bold"
+                  "fontSize": "$typography-h3-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
                   "id": "NuUfs",
                   "name": "Empty Text",
-                  "fill": "$text-muted",
+                  "fill": "$color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Выберите первые шлоки в библиотеке, чтобы начать заучивание и повторение.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font-body",
-                  "fontSize": "$type-body-sm-size",
-                  "fontWeight": "normal"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-normal"
                 },
                 {
                   "id": "Wmath",
@@ -7839,13 +7841,14 @@
                           "type": "text",
                           "id": "FPC9Q",
                           "name": "Tip Title",
-                          "fill": "$text",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Как читать шлоку по строкам",
+                          "lineHeight": "$typography-heading-line",
                           "fontFamily": "$font-ui",
-                          "fontSize": "$typo-p1-size",
-                          "fontWeight": "$type-weight-bold"
+                          "fontSize": "$typography-h3-size",
+                          "fontWeight": "$typography-weight-bold"
                         },
                         {
                           "id": "R79jix",
@@ -7894,13 +7897,14 @@
                           "type": "text",
                           "id": "mxAzt",
                           "name": "Tip Title",
-                          "fill": "$text",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Как читать шлоку по строкам",
+                          "lineHeight": "$typography-heading-line",
                           "fontFamily": "$font-ui",
-                          "fontSize": "$typo-p1-size",
-                          "fontWeight": "$type-weight-bold"
+                          "fontSize": "$typography-h3-size",
+                          "fontWeight": "$typography-weight-bold"
                         },
                         {
                           "id": "cRhki",
@@ -7923,14 +7927,14 @@
                       "type": "text",
                       "id": "W2JXi",
                       "name": "Tip Text",
-                      "fill": "$text-muted",
+                      "fill": "$color-text-secondary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Читайте строку целиком, затем возвращайтесь к словам, которые держат смысл.",
-                      "lineHeight": 1.35,
-                      "fontFamily": "$font-body",
-                      "fontSize": "$type-body-sm-size",
-                      "fontWeight": "normal"
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 }
@@ -9236,15 +9240,15 @@
                           "type": "text",
                           "id": "m8i6XF",
                           "name": "Header Title",
-                          "fill": "$text",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Заголовок",
-                          "lineHeight": "$typo-h1-line",
+                          "lineHeight": "$typography-heading-line",
                           "textAlign": "center",
-                          "fontFamily": "$font",
-                          "fontSize": "$typo-h1-size",
-                          "fontWeight": "$typo-h1-weight"
+                          "fontFamily": "$font-ui",
+                          "fontSize": "$typography-h1-size",
+                          "fontWeight": "$typography-weight-bold"
                         }
                       ]
                     },
@@ -13563,11 +13567,12 @@
               "type": "text",
               "id": "J2cClO",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Настройки",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "type": "frame",
@@ -13588,11 +13593,12 @@
                   "type": "text",
                   "id": "qucNb",
                   "name": "Transliteration Label",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Транслитерация",
-                  "fontFamily": "$font",
-                  "fontSize": 16,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h3-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "frame",
@@ -13673,11 +13679,12 @@
                   "type": "text",
                   "id": "KpOBj",
                   "name": "Hard Mode Label",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Hard mode",
-                  "fontFamily": "$font",
-                  "fontSize": 16,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h3-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "frame",

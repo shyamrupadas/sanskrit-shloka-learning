@@ -2,6 +2,8 @@ import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/shared/ui/button";
 
+import { Typography } from "./typography";
+
 export type PageHeaderBackAction = {
   label: string;
   onClick: () => void;
@@ -14,9 +16,9 @@ export type PageHeaderProps = {
 
 export function PageHeader({ backAction, title }: PageHeaderProps) {
   const titleElement = (
-    <h1 className="truncate text-center font-heading text-[length:var(--font-size-screen-title)] leading-[var(--component-page-header-title-line-height)] font-extrabold">
+    <Typography className="truncate text-center" variant="h1">
       {title}
-    </h1>
+    </Typography>
   );
 
   if (!backAction) {

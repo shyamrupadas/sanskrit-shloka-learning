@@ -1,6 +1,8 @@
 import { useId, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
+import { Typography } from "./typography";
+
 export type TipAccordionItemProps = {
   defaultExpanded?: boolean;
   text: string;
@@ -34,12 +36,14 @@ export function TipAccordionItem({
         />
       </button>
       {isExpanded ? (
-        <p
-          className="mt-2.5 break-words text-[length:var(--font-size-body-sm)] leading-[var(--component-tip-accordion-content-line-height)] text-muted-foreground [overflow-wrap:anywhere]"
+        <Typography
+          className="mt-2.5 break-words [overflow-wrap:anywhere]"
           id={contentId}
+          tone="muted"
+          variant="p2"
         >
           {text}
-        </p>
+        </Typography>
       ) : null}
     </article>
   );

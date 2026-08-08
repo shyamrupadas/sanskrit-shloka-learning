@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { Typography } from "./typography";
+
 export type SettingsRowProps = {
   action?: ReactNode | undefined;
   description?: ReactNode | undefined;
@@ -19,16 +21,21 @@ export function SettingsRow({
     <section className="flex min-w-0 flex-col gap-[var(--component-settings-row-gap)] rounded-[var(--component-settings-row-radius)] border border-border bg-card p-[var(--component-settings-row-padding)] text-card-foreground shadow-[var(--shadow-low)]">
       <div className="flex min-w-0 flex-wrap items-center justify-between gap-[var(--component-settings-row-gap)]">
         <div className="min-w-0 flex-1">
-          <h2
-            className="break-words text-base leading-[var(--line-height-title)] font-bold [overflow-wrap:anywhere]"
+          <Typography
+            className="break-words [overflow-wrap:anywhere]"
             id={titleId}
+            variant="h3"
           >
             {title}
-          </h2>
+          </Typography>
           {description ? (
-            <div className="mt-1 break-words text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] text-muted-foreground [overflow-wrap:anywhere]">
+            <Typography
+              className="mt-1 break-words [overflow-wrap:anywhere]"
+              tone="muted"
+              variant="p2"
+            >
               {description}
-            </div>
+            </Typography>
           ) : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
