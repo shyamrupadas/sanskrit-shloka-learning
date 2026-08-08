@@ -4,20 +4,21 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-08-08
 
-- [ ] Канонический pen.dev Typography System содержит варианты `h1–h3` размером 20/18/16px и `p1–p4` размером 12/14/16/20px.
-- [ ] pen.dev и code-token contract содержат общие line-height 1.25 для заголовков и 1.4 для обычного текста, а также только веса 400/500/700 в новом контракте.
-- [ ] Основной text/foreground token равен `#334155`; связанные foreground aliases синхронизированы, а muted, brand, status, disabled, placeholder, overlay и inverse tokens не изменены.
-- [ ] `Typography` поддерживает согласованные variants, дефолтный `p2`, weights, tones и ограниченный `as`; дефолтные теги соответствуют контракту.
-- [ ] `SanskritTypography` переиспользует публичный контракт `Typography` и меняет только Inter на Noto Serif.
-- [ ] Компоненты не задают внешние отступы и не скрывают layout-решения; безопасные DOM props передаются итоговому элементу.
-- [ ] Публичные exports дизайн-системы дают потребителям оба компонента и необходимые типы.
-- [ ] В документации frontend design system кратко зафиксирована граница: самостоятельный UI-текст использует `Typography`, санскритский — `SanskritTypography`, а интерактивные primitives владеют своей типографикой.
-- [ ] Component tests проверяют наблюдаемый публичный контракт без закрепления полной строки styling-классов.
-- [ ] Token contract tests подтверждают новые значения, pen.dev sources, CSS aliases и сохранение временной совместимости со старыми потребителями.
-- [ ] Существующие маршруты, действия, API-контракт, backend и данные не изменены; новые DB migrations не требуются.
-- [ ] Обязательные frontend-проверки проходят.
+- [x] Канонический pen.dev Typography System содержит варианты `h1–h3` размером 20/18/16px и `p1–p4` размером 12/14/16/20px.
+- [x] pen.dev и code-token contract содержат общие line-height 1.25 для заголовков и 1.4 для обычного текста, а также только веса 400/500/700 в новом контракте.
+- [x] Основной text/foreground token равен `#334155`; связанные foreground aliases синхронизированы, а muted, brand, status, disabled, placeholder, overlay и inverse tokens не изменены.
+- [x] `Typography` поддерживает согласованные variants, дефолтный `p2`, weights, tones и ограниченный `as`; дефолтные теги соответствуют контракту.
+- [x] `SanskritTypography` переиспользует публичный контракт `Typography` и меняет только Inter на Noto Serif.
+- [x] Компоненты не задают внешние отступы и не скрывают layout-решения; безопасные DOM props передаются итоговому элементу.
+- [x] Публичные exports дизайн-системы дают потребителям оба компонента и необходимые типы.
+- [x] В документации frontend design system кратко зафиксирована граница: самостоятельный UI-текст использует `Typography`, санскритский — `SanskritTypography`, а интерактивные primitives владеют своей типографикой.
+- [x] Component tests проверяют наблюдаемый публичный контракт без закрепления полной строки styling-классов.
+- [x] Token contract tests подтверждают новые значения, pen.dev sources, CSS aliases и сохранение временной совместимости со старыми потребителями.
+- [x] Существующие маршруты, действия, API-контракт, backend и данные не изменены; новые DB migrations не требуются.
+- [x] Обязательные frontend-проверки проходят.
 
 ## Parent
 

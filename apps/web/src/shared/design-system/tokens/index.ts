@@ -77,7 +77,7 @@ export const designTokens = {
           "color-surface-translucent",
         ),
         textInverse: fromPencil("#FFFFFF", "color-text-inverse"),
-        textPrimary: fromPencil("#0F172A", "color-text-primary"),
+        textPrimary: fromPencil("#334155", "color-text-primary"),
         textSecondary: fromPencil("#64748B", "color-text-secondary"),
         textTertiary: fromPencil("#94A3B8", "color-text-tertiary"),
         transparent: fromPencil("#FFFFFF00", "color-transparent"),
@@ -126,7 +126,7 @@ export const designTokens = {
       card: fromPencil("#FFFFFF", "color-bg-elevated", {
         cssVariable: "--card",
       }),
-      cardForeground: fromPencil("#0F172A", "color-text-primary", {
+      cardForeground: fromPencil("#334155", "color-text-primary", {
         cssVariable: "--card-foreground",
       }),
       chartDanger: fromPencil("#DC2626", "color-danger", {
@@ -156,11 +156,14 @@ export const designTokens = {
       disabledForeground: fromPencil("#94A3B8", "color-disabled-fg", {
         cssVariable: "--disabled-foreground",
       }),
-      foreground: fromPencil("#0F172A", "color-text-primary", {
+      foreground: fromPencil("#334155", "color-text-primary", {
         cssVariable: "--foreground",
       }),
       input: fromPencil("#D6DEE9", "input-border", {
         cssVariable: "--input",
+      }),
+      inverseForeground: fromPencil("#FFFFFF", "color-text-inverse", {
+        cssVariable: "--inverse-foreground",
       }),
       muted: fromPencil("#F1F5F9", "color-surface-muted", {
         cssVariable: "--muted",
@@ -177,7 +180,7 @@ export const designTokens = {
       popover: fromPencil("#FFFFFF", "color-bg-elevated", {
         cssVariable: "--popover",
       }),
-      popoverForeground: fromPencil("#0F172A", "color-text-primary", {
+      popoverForeground: fromPencil("#334155", "color-text-primary", {
         cssVariable: "--popover-foreground",
       }),
       primary: fromPencil("#2563EB", "color-brand", {
@@ -201,6 +204,9 @@ export const designTokens = {
       surfaceInset: fromPencil("#EEF2F7", "color-surface-inset", {
         cssVariable: "--surface-inset",
       }),
+      success: fromPencil("#15803D", "color-success-fg", {
+        cssVariable: "--success",
+      }),
       warning: fromPencil("#B45309", "color-warning-fg", {
         cssVariable: "--warning",
       }),
@@ -210,6 +216,59 @@ export const designTokens = {
     },
   },
   typography: {
+    contract: {
+      lineHeight: {
+        body: fromPencil(1.4, "typography-body-line", {
+          cssValue: "1.4",
+          cssVariable: "--typography-body-line-height",
+        }),
+        heading: fromPencil(1.25, "typography-heading-line", {
+          cssValue: "1.25",
+          cssVariable: "--typography-heading-line-height",
+        }),
+      },
+      sizes: {
+        h1: fromPencil(20, "typography-h1-size", {
+          cssValue: px(20),
+          cssVariable: "--typography-h1-size",
+        }),
+        h2: fromPencil(18, "typography-h2-size", {
+          cssValue: px(18),
+          cssVariable: "--typography-h2-size",
+        }),
+        h3: fromPencil(16, "typography-h3-size", {
+          cssValue: px(16),
+          cssVariable: "--typography-h3-size",
+        }),
+        p1: fromPencil(12, "typography-p1-size", {
+          cssValue: px(12),
+          cssVariable: "--typography-p1-size",
+        }),
+        p2: fromPencil(14, "typography-p2-size", {
+          cssValue: px(14),
+          cssVariable: "--typography-p2-size",
+        }),
+        p3: fromPencil(16, "typography-p3-size", {
+          cssValue: px(16),
+          cssVariable: "--typography-p3-size",
+        }),
+        p4: fromPencil(20, "typography-p4-size", {
+          cssValue: px(20),
+          cssVariable: "--typography-p4-size",
+        }),
+      },
+      weights: {
+        bold: fromPencil("700", "typography-weight-bold", {
+          cssVariable: "--typography-weight-bold",
+        }),
+        medium: fromPencil("500", "typography-weight-medium", {
+          cssVariable: "--typography-weight-medium",
+        }),
+        normal: fromPencil("400", "typography-weight-normal", {
+          cssVariable: "--typography-weight-normal",
+        }),
+      },
+    },
     families: {
       body: fromPencil("Inter", "font-body", {
         cssValue: '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',

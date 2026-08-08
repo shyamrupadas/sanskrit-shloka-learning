@@ -1,5 +1,5 @@
 {
-  "version": "2.14",
+  "version": "2.17",
   "children": [
     {
       "type": "frame",
@@ -1888,9 +1888,10 @@
                   "name": "Typography Title",
                   "fill": "$color-text-primary",
                   "content": "Typography",
-                  "fontFamily": "$typo-font",
-                  "fontSize": "$typo-h2-size",
-                  "fontWeight": "$typo-h1-weight"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -1899,11 +1900,11 @@
                   "fill": "$color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Единая типографика на Inter: заголовки h1-h3 и параграфы p1-p3 для всех экранов и компонентов.",
-                  "lineHeight": "$typo-p-line",
-                  "fontFamily": "$typo-font",
-                  "fontSize": "$typo-p2-size",
-                  "fontWeight": "normal"
+                  "content": "Единая шкала: Inter для UI, Noto Serif для санскрита; h1–h3, p1–p4, веса 400/500/700.",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-normal"
                 }
               ]
             },
@@ -1925,6 +1926,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -1940,9 +1942,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "h1",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -1951,7 +1953,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-h1-size · 28 / 800 / 1.2",
+                      "content": "typography-h1-size · 20 / 700 / 1.25",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -1964,10 +1966,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Повторение сегодня",
-                      "lineHeight": "$typo-h1-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h1-size",
-                      "fontWeight": "$typo-h1-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -1981,6 +1983,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -1996,9 +1999,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "h2",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -2007,7 +2010,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-h2-size · 22 / 700 / 1.25",
+                      "content": "typography-h2-size · 18 / 700 / 1.25",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -2020,10 +2023,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Библиотека шлок",
-                      "lineHeight": "$typo-h2-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h2-size",
-                      "fontWeight": "$typo-h2-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h2-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -2037,6 +2040,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -2052,9 +2056,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "h3",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -2063,7 +2067,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-h3-size · 18 / 700 / 1.3",
+                      "content": "typography-h3-size · 16 / 700 / 1.25",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -2076,10 +2080,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$typo-h3-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -2093,6 +2097,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -2108,9 +2113,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "p1",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -2119,7 +2124,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-p1-size · 16 / 400 / 1.4",
+                      "content": "typography-p1-size · 12 / 400 / 1.4",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -2128,14 +2133,14 @@
                       "type": "text",
                       "id": "bisLx",
                       "name": "Typography Variant Sample / p1",
-                      "fill": "$color-text-primary",
+                      "fill": "$color-text-secondary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Основной текст для чтения и длинных описаний внутри экранов.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p1-size",
-                      "fontWeight": "$typo-p1-weight"
+                      "content": "Мета-информация и короткие подписи.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 },
@@ -2149,6 +2154,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -2164,9 +2170,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "p2",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -2175,7 +2181,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-p2-size · 14 / 400 / 1.4",
+                      "content": "typography-p2-size · 14 / 400 / 1.4",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -2184,14 +2190,14 @@
                       "type": "text",
                       "id": "kkIKH",
                       "name": "Typography Variant Sample / p2",
-                      "fill": "$color-text-secondary",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Вторичный текст, подсказки и описания карточек.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p2-size",
-                      "fontWeight": "$typo-p2-weight"
+                      "content": "Основной интерфейсный текст и описания.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 },
@@ -2205,6 +2211,7 @@
                     "bottom": 1
                   },
                   "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
                   "gap": 14,
                   "padding": [
                     12,
@@ -2220,9 +2227,9 @@
                       "textGrowth": "fixed-width",
                       "width": 54,
                       "content": "p3",
-                      "fontFamily": "$typo-font",
-                      "fontSize": 16,
-                      "fontWeight": "$typo-h2-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "text",
@@ -2231,7 +2238,7 @@
                       "fill": "$color-text-tertiary",
                       "textGrowth": "fixed-width",
                       "width": 160,
-                      "content": "typo-p3-size · 12 / 500 / 1.4",
+                      "content": "typography-p3-size · 16 / 400 / 1.4",
                       "fontFamily": "$font-data",
                       "fontSize": 10,
                       "fontWeight": "normal"
@@ -2240,14 +2247,71 @@
                       "type": "text",
                       "id": "u4uYCh",
                       "name": "Typography Variant Sample / p3",
-                      "fill": "$color-text-secondary",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Мета-информация, бейджи и короткие подписи.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "content": "Увеличенный текст для чтения.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "t1EfM3",
+                  "name": "Typography Variant / p4",
+                  "width": "fill_container",
+                  "stroke": "$color-border",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "strokeLinejoin": "round",
+                  "gap": 14,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q5S0F4",
+                      "name": "Typography Variant Name / p4",
+                      "fill": "$color-brand",
+                      "textGrowth": "fixed-width",
+                      "width": 54,
+                      "content": "p4",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "text",
+                      "id": "A2xCc",
+                      "name": "Typography Variant Specs / p4",
+                      "fill": "$color-text-tertiary",
+                      "textGrowth": "fixed-width",
+                      "width": 160,
+                      "content": "typography-p4-size · 20 / 400 / 1.4",
+                      "fontFamily": "$font-data",
+                      "fontSize": 10,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oaSYc",
+                      "name": "Typography Variant Sample / p4",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Крупный текст для заметных сообщений.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p4-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 }
@@ -2281,10 +2345,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Повторение сегодня",
-                      "lineHeight": "$typo-h1-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h1-size",
-                      "fontWeight": "$typo-h1-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -2308,10 +2372,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Библиотека шлок",
-                      "lineHeight": "$typo-h2-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h2-size",
-                      "fontWeight": "$typo-h2-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h2-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -2335,10 +2399,10 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$typo-h3-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -2358,14 +2422,14 @@
                       "type": "text",
                       "id": "k1tJJ",
                       "name": "Typography Text",
-                      "fill": "$color-text-primary",
+                      "fill": "$color-text-secondary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Основной текст для чтения и длинных описаний внутри экранов.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p1-size",
-                      "fontWeight": "$typo-p1-weight"
+                      "content": "Мета-информация и короткие подписи.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 },
@@ -2385,14 +2449,14 @@
                       "type": "text",
                       "id": "OLlG7",
                       "name": "Typography Text",
-                      "fill": "$color-text-secondary",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Вторичный текст, подсказки и описания карточек.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p2-size",
-                      "fontWeight": "$typo-p2-weight"
+                      "content": "Основной интерфейсный текст и описания.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 },
@@ -2412,14 +2476,41 @@
                       "type": "text",
                       "id": "x2bKTq",
                       "name": "Typography Text",
-                      "fill": "$color-text-secondary",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Мета-информация, бейджи и короткие подписи.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "content": "Увеличенный текст для чтения.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "d6RBR",
+                  "name": "Typography / p4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RQsZQ",
+                      "name": "Typography Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Крупный текст для заметных сообщений.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p4-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 }
@@ -14872,7 +14963,7 @@
     },
     "text": {
       "type": "color",
-      "value": "#0F172A"
+      "value": "#334155"
     },
     "text-muted": {
       "type": "color",
@@ -14996,7 +15087,7 @@
     },
     "color-text-primary": {
       "type": "color",
-      "value": "#0F172A"
+      "value": "#334155"
     },
     "color-text-secondary": {
       "type": "color",
@@ -15424,7 +15515,7 @@
     },
     "input-label": {
       "type": "color",
-      "value": "#0F172A"
+      "value": "#334155"
     },
     "input-label-size": {
       "type": "number",
@@ -15452,7 +15543,7 @@
     },
     "input-value": {
       "type": "color",
-      "value": "#0F172A"
+      "value": "#334155"
     },
     "color-streak-flame-end": {
       "type": "color",
@@ -15545,6 +15636,54 @@
     "component-tab-height": {
       "type": "number",
       "value": 42
+    },
+    "typography-h1-size": {
+      "type": "number",
+      "value": 20
+    },
+    "typography-h2-size": {
+      "type": "number",
+      "value": 18
+    },
+    "typography-h3-size": {
+      "type": "number",
+      "value": 16
+    },
+    "typography-p1-size": {
+      "type": "number",
+      "value": 12
+    },
+    "typography-p2-size": {
+      "type": "number",
+      "value": 14
+    },
+    "typography-p3-size": {
+      "type": "number",
+      "value": 16
+    },
+    "typography-p4-size": {
+      "type": "number",
+      "value": 20
+    },
+    "typography-heading-line": {
+      "type": "number",
+      "value": 1.25
+    },
+    "typography-body-line": {
+      "type": "number",
+      "value": 1.4
+    },
+    "typography-weight-normal": {
+      "type": "string",
+      "value": "400"
+    },
+    "typography-weight-medium": {
+      "type": "string",
+      "value": "500"
+    },
+    "typography-weight-bold": {
+      "type": "string",
+      "value": "700"
     }
   },
   "fileToken": "b58a9da4-01dd-4423-b0fb-3bdadf142fe1"

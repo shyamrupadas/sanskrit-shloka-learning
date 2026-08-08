@@ -28,3 +28,13 @@ export {
   TipAccordionItem,
   type TipAccordionItemProps,
 } from "./tip-accordion-item";
+export {
+  SanskritTypography,
+  type SanskritTypographyProps,
+  Typography,
+  type TypographyAs,
+  type TypographyProps,
+  type TypographyTone,
+  type TypographyVariant,
+  type TypographyWeight,
+} from "./typography";

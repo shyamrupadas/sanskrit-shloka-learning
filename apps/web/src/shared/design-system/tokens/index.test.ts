@@ -80,6 +80,115 @@ describe("design token contract", () => {
     ]);
   });
 
+  it("exposes the approved typography contract without removing legacy tokens", () => {
+    const typography = designTokens.typography;
+
+    expect(typography.contract).toEqual({
+      lineHeight: {
+        body: expect.objectContaining({
+          source: {
+            name: "typography-body-line",
+            type: "pencil-variable",
+          },
+          value: 1.4,
+        }),
+        heading: expect.objectContaining({
+          source: {
+            name: "typography-heading-line",
+            type: "pencil-variable",
+          },
+          value: 1.25,
+        }),
+      },
+      sizes: {
+        h1: expect.objectContaining({
+          source: { name: "typography-h1-size", type: "pencil-variable" },
+          value: 20,
+        }),
+        h2: expect.objectContaining({
+          source: { name: "typography-h2-size", type: "pencil-variable" },
+          value: 18,
+        }),
+        h3: expect.objectContaining({
+          source: { name: "typography-h3-size", type: "pencil-variable" },
+          value: 16,
+        }),
+        p1: expect.objectContaining({
+          source: { name: "typography-p1-size", type: "pencil-variable" },
+          value: 12,
+        }),
+        p2: expect.objectContaining({
+          source: { name: "typography-p2-size", type: "pencil-variable" },
+          value: 14,
+        }),
+        p3: expect.objectContaining({
+          source: { name: "typography-p3-size", type: "pencil-variable" },
+          value: 16,
+        }),
+        p4: expect.objectContaining({
+          source: { name: "typography-p4-size", type: "pencil-variable" },
+          value: 20,
+        }),
+      },
+      weights: {
+        bold: expect.objectContaining({
+          source: {
+            name: "typography-weight-bold",
+            type: "pencil-variable",
+          },
+          value: "700",
+        }),
+        medium: expect.objectContaining({
+          source: {
+            name: "typography-weight-medium",
+            type: "pencil-variable",
+          },
+          value: "500",
+        }),
+        normal: expect.objectContaining({
+          source: {
+            name: "typography-weight-normal",
+            type: "pencil-variable",
+          },
+          value: "400",
+        }),
+      },
+    });
+
+    expect(designTokens.typography.sizes).toMatchObject({
+      body: { value: 15 },
+      bodySm: { value: 14 },
+      cardTitle: { value: 17 },
+      pageTitle: { value: 24 },
+      screenTitle: { value: 28 },
+      sectionTitle: { value: 20 },
+    });
+    expect(designTokens.typography.weights).toMatchObject({
+      extraBold: { value: "800" },
+      semibold: { value: "600" },
+    });
+  });
+
+  it("synchronizes the softer primary foreground without changing adjacent colors", () => {
+    expect(designTokens.reference.palette.neutral).toMatchObject({
+      overlay: { value: "#0F172A66" },
+      placeholder: { value: "#B8C3D1" },
+      textInverse: { value: "#FFFFFF" },
+      textPrimary: { value: "#334155" },
+      textSecondary: { value: "#64748B" },
+      textTertiary: { value: "#94A3B8" },
+    });
+    expect(designTokens.semantic.color).toMatchObject({
+      cardForeground: { value: "#334155" },
+      disabledForeground: { value: "#94A3B8" },
+      foreground: { value: "#334155" },
+      mutedForeground: { value: "#64748B" },
+      overlay: { value: "#0F172A66" },
+      placeholder: { value: "#B8C3D1" },
+      popoverForeground: { value: "#334155" },
+    });
+  });
+
   it("links every code token to Pencil or a declared source value", () => {
     const tokens = collectDesignTokens();
 
@@ -116,6 +225,13 @@ describe("design token contract", () => {
 
   it("ships the approved Sanskrit font faces and license locally", () => {
     const css = readWebFile("src", "app", "styles.css");
+    const mediumFontCssPath = path.join(
+      webRoot,
+      "node_modules",
+      "@fontsource",
+      "noto-serif",
+      "500.css",
+    );
     const regularFontPath = path.join(
       webRoot,
       "src",
@@ -145,6 +261,7 @@ describe("design token contract", () => {
     expect(designTokens.typography.families.transliteration.value).toBe(
       "Inter",
     );
+    expect(css).toContain('@import "@fontsource/noto-serif/500.css";');
     expect(css).toMatch(
       /@font-face\s*{[^}]*font-family:\s*"Noto Serif";[^}]*noto-serif-regular\.woff2[^}]*font-style:\s*normal;[^}]*font-weight:\s*400;[^}]*}/s,
     );
@@ -152,23 +269,26 @@ describe("design token contract", () => {
       /@font-face\s*{[^}]*font-family:\s*"Noto Serif";[^}]*noto-serif-bold\.woff2[^}]*font-style:\s*normal;[^}]*font-weight:\s*700;[^}]*}/s,
     );
     expect(css).toMatch(
-      /\.font-sanskrit-title\s*{[^}]*font-family:\s*var\(--font-family-sanskrit-token\);[^}]*font-style:\s*normal;[^}]*}/s,
-    );
-    expect(css).toMatch(
-      /\.font-sanskrit-text\s*{[^}]*font-family:\s*var\(--font-family-sanskrit-token\);[^}]*font-style:\s*normal;[^}]*}/s,
+      /\.font-sanskrit-title,\s*\.font-sanskrit-text\s*{[^}]*font-family:\s*var\(--font-family-sanskrit-token\);[^}]*font-style:\s*normal;[^}]*}/s,
     );
     expect(css).not.toMatch(/@font-face\s*{[^}]*(?:https?:)?\/\//s);
+    expect(existsSync(mediumFontCssPath)).toBe(true);
     expect(existsSync(regularFontPath)).toBe(true);
     expect(existsSync(boldFontPath)).toBe(true);
     expect(existsSync(licensePath)).toBe(true);
 
     if (
+      !existsSync(mediumFontCssPath) ||
       !existsSync(regularFontPath) ||
       !existsSync(boldFontPath) ||
       !existsSync(licensePath)
     ) {
       return;
     }
+
+    expect(readFileSync(mediumFontCssPath, "utf8")).toMatch(
+      /@font-face\s*{[^}]*font-family:\s*'Noto Serif';[^}]*font-style:\s*normal;[^}]*font-weight:\s*500;[^}]*}/s,
+    );
 
     expect(
       createHash("sha256")

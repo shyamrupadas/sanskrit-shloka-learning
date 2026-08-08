@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource/noto-serif/500.css";
 
 @font-face {
   font-family: "Material Symbols Rounded";
@@ -94,7 +95,7 @@ body {
   --button-font-size: 15px;
   --button-height: 44px;
   --card: #FFFFFF;
-  --card-foreground: #0F172A;
+  --card-foreground: #334155;
   --chart-1: #2563EB;
   --chart-2: #15803D;
   --chart-3: #B45309;
@@ -149,12 +150,13 @@ body {
   --font-size-sanskrit: 22px;
   --font-size-screen-title: 28px;
   --font-size-section-title: 20px;
-  --foreground: #0F172A;
+  --foreground: #334155;
   --input: #D6DEE9;
   --input-height: 44px;
   --input-padding-x: 12px;
   --input-radius: 8px;
   --input-text-size: 15px;
+  --inverse-foreground: #FFFFFF;
   --line-height-body: 1.4;
   --line-height-reading: 1.6;
   --line-height-sanskrit: 1.75;
@@ -164,7 +166,7 @@ body {
   --overlay: #0F172A66;
   --placeholder: #B8C3D1;
   --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
+  --popover-foreground: #334155;
   --primary: #2563EB;
   --primary-foreground: #FFFFFF;
   --primary-hover: #1D4ED8;
@@ -205,6 +207,19 @@ body {
   --streak-flame-inner: #FFF7AD;
   --streak-flame-start: #F97316;
   --surface-inset: #EEF2F7;
+  --success: #15803D;
+  --typography-body-line-height: 1.4;
+  --typography-h1-size: 20px;
+  --typography-h2-size: 18px;
+  --typography-h3-size: 16px;
+  --typography-heading-line-height: 1.25;
+  --typography-p1-size: 12px;
+  --typography-p2-size: 14px;
+  --typography-p3-size: 16px;
+  --typography-p4-size: 20px;
+  --typography-weight-bold: 700;
+  --typography-weight-medium: 500;
+  --typography-weight-normal: 400;
   --warning: #B45309;
   --warning-background: #FEF3C7;
 }
@@ -222,11 +237,7 @@ body {
 }
 
 @layer utilities {
-  .font-sanskrit-title {
-    font-family: var(--font-family-sanskrit-token);
-    font-style: normal;
-  }
-
+  .font-sanskrit-title,
   .font-sanskrit-text {
     font-family: var(--font-family-sanskrit-token);
     font-style: normal;
