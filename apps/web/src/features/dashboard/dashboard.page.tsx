@@ -7,17 +7,13 @@ import { getApiErrorMessage } from "@/shared/api/errors";
 import {
   EmptyState,
   ShlokaCard,
+  StatusCard,
+  Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
 
 const initialReviewLimit = 5;
 const initialLearningLimit = 3;
@@ -170,9 +166,9 @@ function StreakIndicator({
             }
           />
         </svg>
-        <span className="font-heading text-[length:var(--font-size-card-title)] leading-[var(--line-height-title)] font-extrabold">
+        <Typography as="span" variant="h2">
           {streak.days}
-        </span>
+        </Typography>
       </div>
     </div>
   );
@@ -206,17 +202,17 @@ function ReviewBlock({
 }) {
   return (
     <section className="space-y-2.5">
-      <h1 className="font-heading text-[length:var(--font-size-section-title)] leading-[var(--line-height-title)] font-extrabold">
+      <Typography variant="h1">
         {strings.dashboard.reviewTitle}
-      </h1>
+      </Typography>
       {list.state === "completed" ? (
         <div className="space-y-2.5 rounded-xl bg-green-100 p-4">
-          <h2 className="font-heading text-[length:var(--font-size-card-title)] leading-[var(--line-height-title)] font-extrabold text-green-700">
+          <Typography tone="success" variant="h2">
             {strings.dashboard.reviewCompletedTitle}
-          </h2>
-          <p className="text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)]">
+          </Typography>
+          <Typography variant="p2">
             {strings.dashboard.reviewCompletedDescription}
-          </p>
+          </Typography>
         </div>
       ) : list.items.length === 0 ? (
         <EmptyState
@@ -254,9 +250,9 @@ function LearningBlock({
 }) {
   return (
     <section className="space-y-2.5">
-      <h1 className="font-heading text-[length:var(--font-size-section-title)] leading-[var(--line-height-title)] font-extrabold">
+      <Typography variant="h1">
         {strings.dashboard.wantToLearnTitle}
-      </h1>
+      </Typography>
       {list.items.length > 0 ? (
         <DashboardShlokaList
           items={list.items}
@@ -345,9 +341,9 @@ function LearningEmptyState({
   return (
     <section className="space-y-2.5">
       {showSectionTitle ? (
-        <h1 className="font-heading text-[length:var(--font-size-section-title)] leading-[var(--line-height-title)] font-extrabold">
+        <Typography variant="h1">
           {strings.dashboard.wantToLearnTitle}
-        </h1>
+        </Typography>
       ) : null}
       <EmptyState
         action={<Link to={routePaths.library}>{strings.dashboard.add}</Link>}
@@ -367,15 +363,10 @@ function DashboardStatus({
 }) {
   return (
     <section className="space-y-5">
-      <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
+      <Typography variant="h1">
         {strings.dashboard.title}
-      </h1>
-      <Card className="rounded-lg">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          {description ? <CardDescription>{description}</CardDescription> : null}
-        </CardHeader>
-      </Card>
+      </Typography>
+      <StatusCard description={description} title={title} />
     </section>
   );
 }

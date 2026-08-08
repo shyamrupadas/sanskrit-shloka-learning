@@ -3,11 +3,13 @@ import { Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import {
+  SanskritTypography,
+  StatusCard,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
-
-import { StatusCard } from "./ui/status-card";
 
 export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   const auth = useSession();
@@ -41,16 +43,22 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         />
       ) : (
         <article className="space-y-4">
-          <h1 className="font-sanskrit-title break-words text-[26px] leading-[1.1] font-extrabold [overflow-wrap:anywhere]">
+          <SanskritTypography
+            className="break-words [overflow-wrap:anywhere]"
+            variant="h1"
+          >
             {shlokaQuery.data.displayTitle}
-          </h1>
+          </SanskritTypography>
 
-          <div
+          <SanskritTypography
             aria-label={strings.shloka.canonicalText}
-            className="font-sanskrit-text break-words whitespace-pre-wrap text-[length:var(--font-size-sanskrit)] leading-[1.32] font-bold [overflow-wrap:anywhere]"
+            as="div"
+            className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
+            variant="p4"
+            weight="bold"
           >
             {shlokaQuery.data.text}
-          </div>
+          </SanskritTypography>
         </article>
       )}
     </section>

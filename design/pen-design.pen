@@ -7255,10 +7255,10 @@
                   "enabled": false,
                   "fill": "$danger",
                   "content": "Введите корректный email",
-                  "lineHeight": 1.25,
-                  "fontFamily": "$font",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sans",
+                  "fontSize": "$typography-p1-size",
+                  "fontWeight": "$typography-weight-normal"
                 }
               ]
             },
@@ -7298,10 +7298,10 @@
                   "enabled": false,
                   "fill": "$danger",
                   "content": "Ошибка пароля",
-                  "lineHeight": 1.25,
-                  "fontFamily": "$font",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sans",
+                  "fontSize": "$typography-p1-size",
+                  "fontWeight": "$typography-weight-normal"
                 }
               ]
             }
@@ -7970,11 +7970,12 @@
                   "type": "text",
                   "id": "fUAJN",
                   "name": "Streak Days",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "7",
-                  "fontFamily": "$font-ui",
-                  "fontSize": "$typo-h3-size",
-                  "fontWeight": "$type-weight-extrabold"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sans",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -8231,11 +8232,12 @@
                       "type": "text",
                       "id": "b57Hth",
                       "name": "Review Pack Title",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Повторите шлоки",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$type-weight-extrabold"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -8342,11 +8344,12 @@
                       "type": "text",
                       "id": "uXqzj",
                       "name": "Review Pack Title",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Повторите шлоки",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$type-weight-extrabold"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -8369,22 +8372,23 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Все повторения на сегодня завершены",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$type-card-title-size",
-                      "fontWeight": "$type-weight-extrabold"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
                       "id": "c4Di0p",
                       "name": "Done Text",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Если есть время, выберите шлоку из списка «Буду учить».",
-                      "lineHeight": 1.35,
-                      "fontFamily": "$font-body",
-                      "fontSize": "$type-body-sm-size",
-                      "fontWeight": "normal"
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
                   ]
                 }
@@ -8419,11 +8423,12 @@
                       "type": "text",
                       "id": "IxPEQ",
                       "name": "Want To Learn Title",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Выучите шлоки",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$type-weight-extrabold"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -8505,11 +8510,12 @@
                       "type": "text",
                       "id": "Ahyn4",
                       "name": "Want To Learn Title",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Выучите шлоки",
-                      "fontFamily": "$font-ui",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$type-weight-extrabold"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -9600,11 +9606,12 @@
                       "type": "text",
                       "id": "ghmgk",
                       "name": "Название формы",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Регистрация",
-                      "fontFamily": "$font",
-                      "fontSize": 24,
-                      "fontWeight": "700"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -9723,11 +9730,12 @@
                       "type": "text",
                       "id": "IKEUx",
                       "name": "Текст ссылки",
-                      "fill": "$text-muted",
+                      "fill": "$color-text-secondary",
                       "content": "Уже есть аккаунт?",
-                      "fontFamily": "$font",
-                      "fontSize": 14,
-                      "fontWeight": "normal"
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-normal"
                     },
                     {
                       "type": "text",
@@ -9966,11 +9974,12 @@
                       "type": "text",
                       "id": "H1J3Yg",
                       "name": "Название формы",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Вход",
-                      "fontFamily": "$font",
-                      "fontSize": 24,
-                      "fontWeight": "700"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -10092,11 +10101,12 @@
                           "type": "text",
                           "id": "XkGuC",
                           "name": "Текст ссылки",
-                          "fill": "$text-muted",
+                          "fill": "$color-text-secondary",
                           "content": "Нет аккаунта?",
-                          "fontFamily": "$font",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
+                          "lineHeight": "$typography-body-line",
+                          "fontFamily": "$font-sans",
+                          "fontSize": "$typography-p2-size",
+                          "fontWeight": "$typography-weight-normal"
                         },
                         {
                           "type": "text",
@@ -10644,11 +10654,12 @@
                       "type": "text",
                       "id": "Cxav7",
                       "name": "Буду учить Title",
-                      "fill": "#0F172A",
+                      "fill": "$color-text-primary",
                       "content": "Выучите шлоки",
-                      "fontFamily": "Inter",
-                      "fontSize": 18,
-                      "fontWeight": "800"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -10696,12 +10707,13 @@
                               "type": "text",
                               "id": "tSQqP",
                               "name": "Card Title",
-                              "fill": "$text",
+                              "fill": "$color-text-primary",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "fontFamily": "$font-ui",
-                              "fontSize": "$typo-p1-size",
-                              "fontWeight": "$type-weight-bold"
+                              "lineHeight": "$typography-heading-line",
+                              "fontFamily": "$font-sanskrit",
+                              "fontSize": "$typography-h3-size",
+                              "fontWeight": "$typography-weight-bold"
                             }
                           ]
                         },
@@ -10758,12 +10770,13 @@
                               "type": "text",
                               "id": "akkt9",
                               "name": "Card Title",
-                              "fill": "$text",
+                              "fill": "$color-text-primary",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "fontFamily": "$font-ui",
-                              "fontSize": "$typo-p1-size",
-                              "fontWeight": "$type-weight-bold"
+                              "lineHeight": "$typography-heading-line",
+                              "fontFamily": "$font-sanskrit",
+                              "fontSize": "$typography-h3-size",
+                              "fontWeight": "$typography-weight-bold"
                             }
                           ]
                         },
@@ -10923,11 +10936,12 @@
               "type": "text",
               "id": "OgPdv",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Библиотека",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-sans",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "ZNwsm",
@@ -11122,11 +11136,12 @@
               "type": "text",
               "id": "bHGnD",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Библиотека",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-sans",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "n4A3n",
@@ -11321,11 +11336,12 @@
               "type": "text",
               "id": "wT3n8",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Библиотека",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-sans",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "dxeb5",
@@ -11599,11 +11615,12 @@
               "type": "text",
               "id": "j78Y9",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Библиотека",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-sans",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "q0KfQ",
@@ -11875,28 +11892,28 @@
               "type": "text",
               "id": "jbAGp",
               "name": "Shloka Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Бхагавад-гита 1.1",
-              "lineHeight": 1.1,
+              "lineHeight": "$typography-heading-line",
               "fontFamily": "$font-sanskrit",
-              "fontSize": 26,
-              "fontWeight": "800",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold",
               "fontStyle": "Normal"
             },
             {
               "type": "text",
               "id": "WP8tB",
               "name": "Shloka Lines",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "дхр̣тара̄шт̣ра ува̄ча",
-              "lineHeight": 1.32,
+              "lineHeight": "$typography-body-line",
               "fontFamily": "$font-sanskrit",
-              "fontSize": 22,
-              "fontWeight": "700",
+              "fontSize": "$typography-p4-size",
+              "fontWeight": "$typography-weight-bold",
               "fontStyle": "Normal"
             }
           ]

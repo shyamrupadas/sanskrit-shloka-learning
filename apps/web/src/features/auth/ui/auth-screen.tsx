@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Typography } from "@/shared/design-system/components";
 import { cn } from "@/shared/lib/utils";
 import { Card } from "@/shared/ui/card";
 
@@ -24,13 +25,17 @@ export function AuthScreen({
             : "rounded-xl border border-border shadow-[var(--shadow-high)]",
         )}
       >
-        <h1 className="text-center font-heading text-[length:var(--font-size-page-title)] leading-[var(--line-height-title)] font-bold">
+        <Typography className="text-center" variant="h1">
           {title}
-        </h1>
+        </Typography>
         {children}
-        <p className="flex flex-wrap items-center justify-center gap-1.5 text-sm text-muted-foreground">
+        <Typography
+          className="flex flex-wrap items-center justify-center gap-1.5"
+          tone="muted"
+          variant="p2"
+        >
           {footer}
-        </p>
+        </Typography>
       </Card>
     </main>
   );

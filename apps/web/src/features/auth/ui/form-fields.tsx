@@ -1,3 +1,4 @@
+import { Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -111,8 +112,8 @@ export function FieldError({
   }
 
   return (
-    <p className="text-xs leading-tight text-destructive" id={id} role="alert">
+    <Typography id={id} role="alert" tone="danger" variant="p1">
       {error}
-    </p>
+    </Typography>
   );
 }

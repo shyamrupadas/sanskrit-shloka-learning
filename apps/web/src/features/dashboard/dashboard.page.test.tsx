@@ -42,7 +42,7 @@ describe("dashboard page", () => {
     renderDashboard();
 
     expect(
-      await screen.findByRole("heading", { name: "Дашборд" }),
+      await screen.findByRole("heading", { level: 1, name: "Дашборд" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Загрузка...")).toBeInTheDocument();
   });
@@ -83,7 +83,10 @@ describe("dashboard page", () => {
     renderDashboard();
 
     expect(
-      await screen.findByRole("heading", { name: "Выучите шлоки" }),
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Выучите шлоки",
+      }),
     ).toBeInTheDocument();
     expect(screen.queryByText("Повторите шлоки")).not.toBeInTheDocument();
     expect(screen.getByText("У вас нет шлок для заучивания")).toBeInTheDocument();
@@ -189,7 +192,10 @@ describe("dashboard page", () => {
 
     renderDashboard();
 
-    await screen.findByRole("heading", { name: "Повторите шлоки" });
+    await screen.findByRole("heading", {
+      level: 1,
+      name: "Повторите шлоки",
+    });
     const reviewSection = sectionNamed("Повторите шлоки");
     const learningSection = sectionNamed("Выучите шлоки");
     expect(within(reviewSection).getAllByRole("article")).toHaveLength(5);
@@ -286,7 +292,10 @@ describe("dashboard page", () => {
       throw unhandled(method, path);
     });
     renderDashboard();
-    await screen.findByRole("heading", { name: "Повторите шлоки" });
+    await screen.findByRole("heading", {
+      level: 1,
+      name: "Повторите шлоки",
+    });
     const reviewSection = sectionNamed("Повторите шлоки");
     const expand = within(reviewSection).getByRole("button", {
       name: "Показать еще 3",
@@ -331,7 +340,10 @@ describe("dashboard page", () => {
     renderDashboard();
 
     expect(
-      await screen.findByText("Все повторения на сегодня завершены"),
+      await screen.findByRole("heading", {
+        level: 2,
+        name: "Все повторения на сегодня завершены",
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Если есть время, выберите шлоку из списка «Буду учить»."),
@@ -407,7 +419,9 @@ function dashboardShlokas(
 }
 
 function sectionNamed(name: string): HTMLElement {
-  const section = screen.getByRole("heading", { name }).closest("section");
+  const section = screen
+    .getByRole("heading", { level: 1, name })
+    .closest("section");
   if (!section) {
     throw new Error(`Section not found: ${name}`);
   }

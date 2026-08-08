@@ -7,6 +7,8 @@ import {
   EmptyState,
   LibraryTabs,
   ShlokaCard,
+  StatusCard,
+  Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { Input } from "@/shared/ui/input";
@@ -18,14 +20,13 @@ import {
 } from "../lib/library";
 import type { LibraryModel } from "../model/use-library";
 import { routePaths } from "@/shared/model/routes";
-import { StatusCard } from "./status-card";
 
 export function LibraryView({ model }: { model: LibraryModel }) {
   return (
     <section className="space-y-3.5">
-      <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
+      <Typography variant="h1">
         {strings.library.title}
-      </h1>
+      </Typography>
 
       {model.isLoading ? (
         <StatusCard title={strings.common.loading} />
@@ -111,9 +112,9 @@ function LibraryTabPanel({
         </div>
       ) : null}
       {mutationError ? (
-        <p className="text-sm text-destructive" role="alert">
+        <Typography role="alert" tone="danger" variant="p2">
           {getApiErrorMessage(mutationError, strings.library.saveError)}
-        </p>
+        </Typography>
       ) : null}
       {visibleShlokas.length > 0 ? (
         <div className="space-y-2.5">

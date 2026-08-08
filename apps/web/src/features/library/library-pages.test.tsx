@@ -104,7 +104,10 @@ describe("library pages", () => {
     const loadingView = renderLibraryAt(routePaths.library);
 
     expect(
-      await screen.findByRole("heading", { name: "Библиотека" }),
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Библиотека",
+      }),
     ).toBeInTheDocument();
     expect(screen.getByText("Загрузка...")).toBeInTheDocument();
 
@@ -319,6 +322,7 @@ describe("library pages", () => {
     await expectPath("/library/shlokas/gita-chapter-2-2-47");
     expect(
       await screen.findByRole("heading", {
+        level: 1,
         name: "Бхагавад-гита 2.47",
       }),
     ).toBeInTheDocument();
@@ -343,6 +347,7 @@ describe("library pages", () => {
     await expectPath("/library/shlokas/gita-chapter-2-2-47");
     expect(
       await screen.findByRole("heading", {
+        level: 1,
         name: "Бхагавад-гита 2.47",
       }),
     ).toBeInTheDocument();

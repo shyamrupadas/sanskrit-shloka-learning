@@ -23,6 +23,10 @@ describe("auth pages", () => {
 
     renderAuthAt(routePaths.register);
 
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Регистрация" }),
+    ).toBeInTheDocument();
+
     await user.type(await screen.findByLabelText("Email"), "learner@example.com");
     await user.type(screen.getByLabelText("Пароль", { selector: "input" }), "123");
     await user.type(
@@ -77,6 +81,10 @@ describe("auth pages", () => {
     });
 
     renderAuthAt(routePaths.login);
+
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Вход" }),
+    ).toBeInTheDocument();
 
     await user.type(await screen.findByLabelText("Email"), "learner@example.com");
     await user.type(
