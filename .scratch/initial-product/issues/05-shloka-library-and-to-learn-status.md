@@ -21,7 +21,7 @@ Accepted: 2026-07-13
 
 `.scratch/initial-product/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Экран: `Библиотека — повторяю` (`fLWms`)
 - Экран: `Библиотека — буду учить` (`g0MoYL`)

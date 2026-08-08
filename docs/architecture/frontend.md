@@ -13,7 +13,7 @@ Status: stable
 - `features/<feature>`: route-level страницы, состояние и логика одного
   крупного пользовательского сценария.
 - `shared`: базовые UI-примитивы (`src/shared/ui`), синхронизированные с
-  Pencil токены и проектные компоненты (`src/shared/design-system`), i18n,
+  pen.dev-токены и проектные компоненты (`src/shared/design-system`), i18n,
   API helpers, session-модель, route constants, utilities и test harness.
 
 ## Зависимости

@@ -47,11 +47,11 @@ New implementation tickets use the `to-tickets` local template without local alt
 - [ ] Acceptance criterion 2
 ```
 
-Project-specific supporting sections, such as `## Parent`, `## Pencil references`, or `## UI Contract Collision`, follow the acceptance criteria. Do not publish new implementation tickets with plain `Status:` metadata or `## Заблокировано` / `## Blocked by` sections.
+Project-specific supporting sections, such as `## Parent`, `## pen.dev references`, or `## UI Contract Collision`, follow the acceptance criteria. Do not publish new implementation tickets with plain `Status:` metadata or `## Заблокировано` / `## Blocked by` sections.
 
 ## UI-contract requirements
 
-Specs and tickets that create or change visible frontend UI must follow `docs/design/frontend-design-system.md`, which defines Pencil sources of truth, references, collisions, backend-only exceptions, and final reporting. A visible UI ticket without `## Pencil references` or `## UI Contract Collision` is not ready for `ready-for-agent`.
+Specs and tickets that create or change visible frontend UI must follow `docs/design/frontend-design-system.md`, which defines pen.dev sources of truth, references, collisions, backend-only exceptions, and final reporting. A visible UI ticket without `## pen.dev references` or `## UI Contract Collision` is not ready for `ready-for-agent`.
 
 ## When an agent finishes a ticket
 
@@ -59,7 +59,7 @@ After completing the implementation and required checks:
 
 - Change `**Status:** ready-for-agent` to `**Status:** awaiting-human-review`.
 - Do not add `Accepted:`. Acceptance remains a human action.
-- If the ticket touched visible UI, include the final `Pencil references` report with used screens, components and exceptions.
+- If the ticket touched visible UI, include the final `pen.dev references` report with used screens, components and exceptions.
 - Report the ticket as ready for human review.
 
 ## Publishing to the ticket tracker

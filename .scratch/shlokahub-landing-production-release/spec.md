@@ -103,7 +103,7 @@ application. Workflow проверяет канонический landing URL и
 ## Out of Scope
 
 - Выбор и внедрение полноценного frontend stack для landing.
-- Полноценный marketing-дизайн, интерактивные блоки, формы, аналитика, CMS, SEO effort и Pencil UI contract.
+- Полноценный marketing-дизайн, интерактивные блоки, формы, аналитика, CMS, SEO effort и pen.dev UI contract.
 - Изменение ShlokaHub application или его release workflow.
 - Bootstrap VDS, перенос Sadhana, создание DNS-записей, выпуск сертификатов и Railway custom domain.
 - Cloudflare proxy/CDN/WAF, автоматическое управление DNS и Cloudflare API token.

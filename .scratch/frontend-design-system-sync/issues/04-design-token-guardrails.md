@@ -20,13 +20,13 @@ Accepted: 2026-07-10
 
 `.scratch/frontend-design-system-sync/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Раздел: `01 Foundations` (`otJrw`)
 
 ## Agent report
 
-Pencil references:
+pen.dev references:
 - Screens: none
 - Components/sections: `01 Foundations` (`otJrw`)
 - Exceptions: none

@@ -26,7 +26,7 @@ Accepted: 2026-07-17
 - [ ] Как обязательный post-production follow-up записан переход от Bearer/localStorage к отдельно спроектированному безопасному session transport с HttpOnly cookie и CSRF-защитой.
 - [ ] Как будущие задачи записаны разделение runtime/migration DB-ролей, runtime HTTP validation, shared rate-limit storage до второй реплики и real-Postgres tests при росте проекта.
 - [ ] Автоматические health/lifecycle tests и весь существующий API regression-набор проходят; затем выполнен и задокументирован ручной Railway/Neon smoke-check без вывода секретов.
-- [ ] Frontend UI, Pencil-контракт, продуктовые endpoints и schema БД не меняются; новые DB migrations не требуются.
+- [ ] Frontend UI, pen.dev-контракт, продуктовые endpoints и schema БД не меняются; новые DB migrations не требуются.
 
 ## Parent
 

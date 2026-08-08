@@ -20,7 +20,7 @@ Accepted: 2026-07-14
 
 `.scratch/initial-product/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Экраны: `Админка` (`hS3nD`), `Админка — редактирование шлоки` (`NmyPN`), `Админка — редактирование источника` (`gOpc1`).
 - Компоненты: `Product / Source Admin Form` (`QUgwl`), `Product / Shloka Admin Form` (`gkqb9`).

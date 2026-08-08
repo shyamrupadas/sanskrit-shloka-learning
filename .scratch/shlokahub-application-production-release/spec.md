@@ -108,7 +108,7 @@ Workflow использует минимальные GitHub permissions, пос�
 
 - Bootstrap VDS, перенос Sadhana, Cloudflare DNS, Nginx/TLS и Railway custom domain; это предусловия из `production-platform-bootstrap`.
 - Создание и выпуск ShlokaHub landing; это следующая спецификация.
-- Новая frontend-функциональность, изменение видимого UI или Pencil-контракта.
+- Новая frontend-функциональность, изменение видимого UI или pen.dev-контракта.
 - Изменение API product contract, backend runtime, Railway deployment topology или Neon.
 - Playwright как блокирующий CI gate для каждого production deploy.
 - Ручной `workflow_dispatch`, GitHub Environment approval и отдельный promotion job.

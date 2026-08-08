@@ -33,7 +33,7 @@ description: Create one commit with all current repository changes using this re
 - `agents` - `AGENTS.md`, project skills, agent workflow docs.
 - `scratch` - `.scratch` tickets and planning artifacts.
 - `docs` - `docs/`, `CONTEXT.md`, specs, ADRs.
-- `design` - Pencil files, design requirements, icons, visual assets.
+- `design` - pen.dev files, design requirements, icons, visual assets.
 - `api` - Nest API app outside a narrower scope.
 - `web` - React app outside a narrower scope.
 - `contract` - TypeSpec and generated API contract package.

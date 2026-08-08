@@ -136,7 +136,7 @@ Production bootstrap получит строгую env-конфигурацию,
 ## Вне рамок
 
 - Новая продуктовая функциональность или изменение пользовательских сценариев.
-- Изменение frontend UI, API product contract или Pencil-макетов.
+- Изменение frontend UI, API product contract или pen.dev-макетов.
 - Переход с opaque Bearer session на cookie или access/refresh JWT.
 - CSRF-защита, необходимая будущему cookie-based session transport.
 - Разделение PostgreSQL runtime и migration roles.

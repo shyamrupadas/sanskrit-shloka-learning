@@ -1,16 +1,16 @@
-# 09 — Перевести settings и admin формы на Pencil project components
+# 09 — Перевести settings и admin формы на pen.dev project components
 
-**What to build:** Перевести settings и admin-интерфейсы на Pencil-синхронизированные tokens, forms и project components, сохранив существующее управление настройками, источниками и шлоками. После среза админка должна использовать тот же дизайн-контракт, что пользовательские экраны, а формы создания и редактирования должны проверяться route-level сценариями через наблюдаемое поведение.
+**What to build:** Перевести settings и admin-интерфейсы на pen.dev-синхронизированные tokens, forms и project components, сохранив существующее управление настройками, источниками и шлоками. После среза админка должна использовать тот же дизайн-контракт, что пользовательские экраны, а формы создания и редактирования должны проверяться route-level сценариями через наблюдаемое поведение.
 
 **Blocked by:** None — can start immediately
 
 **Status:** awaiting-human-review
 Accepted: 2026-07-12
 
-- [x] Settings screen использует Pencil-синхронизированные `SettingsRow`, page header/layout и общую тему без изменения поведения настроек.
+- [x] Settings screen использует pen.dev-синхронизированные `SettingsRow`, page header/layout и общую тему без изменения поведения настроек.
 - [x] Admin catalog использует общий визуальный язык приложения без изменения admin routes или actions.
-- [x] Создание и редактирование шлоки используют Pencil-синхронизированный form layout и существующее поведение сохранения.
-- [x] Создание и редактирование источника используют Pencil-синхронизированный form layout для вариантов без глав, с главами и с частями.
+- [x] Создание и редактирование шлоки используют pen.dev-синхронизированный form layout и существующее поведение сохранения.
+- [x] Создание и редактирование источника используют pen.dev-синхронизированный form layout для вариантов без глав, с главами и с частями.
 - [x] Forms используют generic shadcn/Radix primitives через project-level layout, а не локальные произвольные карточки и spacing.
 - [x] Route-level admin/settings tests покрывают пользовательские действия, валидацию и русские UI-строки без проверки приватной структуры components.
 - [x] Playwright или существующий full-app seam проверяет ключевые settings/admin экраны на mobile-first размерах, включая `390x844` и `360x800`.
@@ -22,7 +22,7 @@ Accepted: 2026-07-12
 
 `.scratch/frontend-design-system-sync/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Экран: `Настройки` (`HTlzD`)
 - Экран: `Админка` (`hS3nD`)
@@ -54,7 +54,7 @@ Accepted: 2026-07-12
   админку, данные учетной записи и выход сохранили существующее поведение.
 - Добавлен shared `AdminFormLayout` и синхронизированные component tokens для
   settings rows и admin forms; `PageHeader` используется как общий back header.
-- Admin catalog получил Pencil-иерархию действий, источников и шлок без
+- Admin catalog получил pen.dev-иерархию действий, источников и шлок без
   изменения маршрутов редактирования и пользовательских данных строк.
 - Source forms используют Radix tabs для типа структуры и общий form layout во
   всех вариантах; обязательные коды и запрет удаления сохранены.
@@ -66,7 +66,7 @@ Accepted: 2026-07-12
 - Routes, params, query/localStorage keys, API calls, generated artifacts,
   backend и БД не менялись. Новые DB migrations не требуются.
 
-Pencil references:
+pen.dev references:
 
 - Screens: `Настройки` (`HTlzD`), `Админка` (`hS3nD`),
   `Админка — создание шлоки` (`aUsAL`),
@@ -78,6 +78,6 @@ Pencil references:
 - Components: `Product / Source Admin Form` (`QUgwl`),
   `Product / Shloka Admin Form` (`gkqb9`),
   `Product / Layout / Back Header` (`haku8`).
-- Exceptions: принятые пользователем 2026-07-11 исключения для отсутствующей
-  настройки транслитерации и функционального состава source/shloka forms,
-  перечисленные в разделе `Принятые UI-решения`.
+- Exceptions: `UIE-005` для функционального состава настроек и `UIE-006` для
+  обязательных полей source/shloka forms из
+  `docs/design/pen-ui-contract-exceptions.md`.

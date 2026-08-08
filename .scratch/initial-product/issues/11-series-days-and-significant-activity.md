@@ -20,7 +20,7 @@ Accepted: 2026-07-14
 
 `.scratch/initial-product/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Экраны: `Дашборд - обычный` (`xJFoj`), `Дашборд - новый пользователь` (`iT1Xy`), `Дашборд - повторения завершены` (`V5wKHO`).
 - Состояние: `Product States / Streak Indicator` (`T0NsbX`).

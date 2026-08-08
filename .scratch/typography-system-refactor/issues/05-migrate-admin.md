@@ -10,7 +10,7 @@
 - [ ] Отображаемые названия и канонический санскритский текст в каталоге и формах используют `SanskritTypography` без отдельных размеров или весов.
 - [ ] Form labels, inputs, textarea, select, buttons и tabs продолжают владеть собственной interactive typography.
 - [ ] Веса 600/800 и локальные самостоятельные размеры заменены согласованными weights и variants без несвязанных визуальных изменений.
-- [ ] Pencil admin screens и reusable admin forms синхронизированы с новой шкалой и основным foreground.
+- [ ] pen.dev admin screens и reusable admin forms синхронизированы с новой шкалой и основным foreground.
 - [ ] Создание и редактирование источника шлоки и шлоки сохраняют существующие поля, валидацию, сообщения, действия и доступные имена.
 - [ ] Admin route-level tests проверяют пользовательское поведение и семантические заголовки, не закрепляя приватную композицию Typography.
 - [ ] Длинные названия источников и шлок сохраняют переносы, truncate и mobile layout.
@@ -22,7 +22,7 @@
 
 `.scratch/typography-system-refactor/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Экран: `Админка` (`hS3nD`)
 - Экран: `Админка — создание шлоки` (`aUsAL`)

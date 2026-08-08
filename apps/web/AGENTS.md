@@ -18,10 +18,8 @@ interfaces, зависимостей или ответственности мо�
 `lib` или `test` внутри `src`. Для архитектурного аудита, переноса или
 эволюции модулей используй project skill `$frontend-architecture`.
 
-Для видимых UI-изменений используй `design/pencil-design.pen` как UI-контракт:
-прочитай `docs/design/frontend-design-system.md` и
-`docs/design/pencil-design-map.md`; в отчете укажи Pencil references или
-верни `UI Contract Collision`.
+Для видимых UI-изменений следуй канонической policy
+`docs/design/pen-ui-contract.md`.
 
 Обязательные проверки после frontend-изменений:
 

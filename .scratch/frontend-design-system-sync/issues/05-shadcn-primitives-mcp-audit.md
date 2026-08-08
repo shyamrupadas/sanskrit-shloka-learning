@@ -1,6 +1,6 @@
 # 05 — Проинспектировать shadcn primitives и закрепить MCP workflow
 
-**What to build:** Провести отдельный аудит всех переиспользуемых generic shadcn/Radix primitives перед созданием Pencil-синхронизированных project components. Цель - убедиться, что `apps/web/src/shared/ui/` является корректным shadcn-слоем, заведенным через shadcn MCP/CLI workflow, а не набором вручную собранных похожих компонентов.
+**What to build:** Провести отдельный аудит всех переиспользуемых generic shadcn/Radix primitives перед созданием pen.dev-синхронизированных project components. Цель - убедиться, что `apps/web/src/shared/ui/` является корректным shadcn-слоем, заведенным через shadcn MCP/CLI workflow, а не набором вручную собранных похожих компонентов.
 
 Если текущий primitive создан вручную, расходится с configured shadcn registry item или использует неправильные aliases/imports/dependencies, его нужно нормализовать через shadcn MCP workflow и только затем адаптировать к существующим проектным aliases. Новые shadcn primitives после этой задачи нельзя добавлять вручную по памяти, копипастой или ad hoc-файлом.
 
@@ -34,13 +34,13 @@ Accepted: 2026-07-10
 - На момент подготовки ticket найдены primitives: `button`, `card`, `input`, `label`, `switch`, `tabs`, `textarea`.
 - Shadcn MCP для текущего набора возвращает canonical add-команду: `pnpm dlx shadcn@latest add @shadcn/button @shadcn/card @shadcn/input @shadcn/label @shadcn/switch @shadcn/tabs @shadcn/textarea`.
 
-## Pencil references
+## pen.dev references
 
 - Раздел: `01 Foundations` (`otJrw`)
 - Раздел: `02 Core Components` (`R1N0L6`)
 
 ## Не делать
 
-- Не создавать Pencil project components в этой задаче; это следующий слой.
+- Не создавать pen.dev project components в этой задаче; это следующий слой.
 - Не переводить bottom navigation shell и страницы фич на новый component language.
 - Не менять backend, API-контракт или данные.

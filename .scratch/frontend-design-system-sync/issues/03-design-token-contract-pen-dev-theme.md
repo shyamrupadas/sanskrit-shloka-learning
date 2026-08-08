@@ -1,6 +1,6 @@
-# 03 — Ввести code-token contract и синюю Pencil-тему приложения
+# 03 — Ввести code-token contract и синюю pen.dev-тему приложения
 
-**What to build:** Создать первый работающий контракт design tokens внутри web-приложения и синхронизировать тему приложения с Pencil: normalized tokens становятся источником для CSS variables, шрифта, синей brand-системы и PWA-производных артефактов. После среза приложение должно визуально перейти с текущей несогласованной темы на Pencil-согласованную основу без изменения маршрутов, API, данных или пользовательских сценариев.
+**What to build:** Создать первый работающий контракт design tokens внутри web-приложения и синхронизировать тему приложения с pen.dev: normalized tokens становятся источником для CSS variables, шрифта, синей brand-системы и PWA-производных артефактов. После среза приложение должно визуально перейти с текущей несогласованной темы на pen.dev-согласованную основу без изменения маршрутов, API, данных или пользовательских сценариев.
 
 **Blocked by:** None — can start immediately
 
@@ -8,11 +8,11 @@
 Accepted: 2026-07-10
 
 - [x] Code-token contract содержит normalized модель: reference palette, semantic colors, typography, spacing, radius, elevation и минимальные component tokens.
-- [x] Каждый code-token имеет явную связь с Pencil variable или source value; несвязанные токены не считаются синхронизированными.
+- [x] Каждый code-token имеет явную связь с pen.dev variable или source value; несвязанные токены не считаются синхронизированными.
 - [x] Токены размещены внутри web-приложения и сохраняют переносимую структуру без преждевременного workspace package.
 - [x] CSS variables и frontend theme производятся из token contract или проверяются против него.
-- [x] Текущий frontend primary заменен на Pencil-синхронизированную синюю систему.
-- [x] Типографика приложения использует Pencil-синхронизированный шрифт и размеры как базовую тему.
+- [x] Текущий frontend primary заменен на pen.dev-синхронизированную синюю систему.
+- [x] Типографика приложения использует pen.dev-синхронизированный шрифт и размеры как базовую тему.
 - [x] PWA theme colors, manifest colors и icon colors берутся из design tokens или проверяются против них.
 - [x] Shadcn configuration указывает на фактический CSS entrypoint приложения и актуальные aliases.
 - [x] Focused token contract tests проверяют связь token contract, CSS variables, theme и PWA-производных артефактов.
@@ -24,7 +24,7 @@ Accepted: 2026-07-10
 
 `.scratch/frontend-design-system-sync/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Раздел: `01 Foundations` (`otJrw`)
 - Раздел: `02 Core Components` (`R1N0L6`)
@@ -32,7 +32,7 @@ Accepted: 2026-07-10
 
 ## Agent report
 
-Pencil references:
+pen.dev references:
 - Screens: none
 - Components/sections: "01 Foundations" (`otJrw`), "02 Core Components" (`R1N0L6`), "03 Product Components" (`lgFfS`)
 - Exceptions: none

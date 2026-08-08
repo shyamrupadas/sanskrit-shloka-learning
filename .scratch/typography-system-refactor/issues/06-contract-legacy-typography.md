@@ -1,18 +1,18 @@
 # 06 — Закрыть миграцию и включить типографические guardrails
 
-**What to build:** Завершить contract-этап после миграции всех потребителей: удалить старые общие типографические токены и обходные классы, включить автоматическую защиту нового контракта и подтвердить на уровне всего приложения, что Pencil и frontend используют одну шкалу без функциональных и layout-регрессий.
+**What to build:** Завершить contract-этап после миграции всех потребителей: удалить старые общие типографические токены и обходные классы, включить автоматическую защиту нового контракта и подтвердить на уровне всего приложения, что pen.dev и frontend используют одну шкалу без функциональных и layout-регрессий.
 
 **Blocked by:** 03 — Унифицировать типографику авторизации, дашборда и общей библиотеки шлок; 04 — Унифицировать типографику заучивания, повторения, обучения санскриту и настроек; 05 — Унифицировать типографику админки
 
 **Status:** ready-for-agent
 
-- [ ] В Pencil и code-token contract отсутствуют старые общие screen/page/section/card title, body/body-sm, прежние `typo-*` aliases и веса 600/800; специализированные component tokens сохранены только у controls, которым они принадлежат.
-- [ ] Все Pencil screen и component references разрешаются через новую шкалу `h1–h3`, `p1–p4`, line-height 1.25/1.4 и веса 400/500/700.
-- [ ] Frontend theme, CSS variables, foreground aliases и token metadata полностью синхронизированы с каноническим Pencil-контрактом.
+- [ ] В pen.dev и code-token contract отсутствуют старые общие screen/page/section/card title, body/body-sm, прежние `typo-*` aliases и веса 600/800; специализированные component tokens сохранены только у controls, которым они принадлежат.
+- [ ] Все pen.dev screen и component references разрешаются через новую шкалу `h1–h3`, `p1–p4`, line-height 1.25/1.4 и веса 400/500/700.
+- [ ] Frontend theme, CSS variables, foreground aliases и token metadata полностью синхронизированы с каноническим pen.dev-контрактом.
 - [ ] Автоматический guardrail запрещает прямые самостоятельные `h1–h3` и `p` вне Typography implementations и документированных generic UI-исключений.
 - [ ] Guardrail выявляет ручные общие font-size, line-height и font-weight patterns в feature-коде, но разрешает layout-классы и собственную типографику interactive primitives.
 - [ ] Guardrail покрыт позитивными и негативными fixture tests и не опирается на недокументированный allowlist миграционного долга.
-- [ ] Навигационная Pencil map содержит актуальную ссылку на Typography System и не ссылается на удалённые или заменённые nodes.
+- [ ] Актуальная ссылка на Typography System получена напрямую через Pencil tools и не указывает на удалённый или заменённый node.
 - [ ] Поиск по frontend подтверждает отсутствие старых общих токенов и самостоятельной ручной типографики в областях миграции.
 - [ ] Репрезентативная визуальная проверка дашборда, библиотеки, страницы шлоки, заучивания или повторения, настроек и админки подтверждает единый `h1` 20px, foreground `#334155`, сохранение semantics, переносов и mobile layout.
 - [ ] Полный lint, typecheck, unit, build и e2e regression suite проходит.
@@ -22,7 +22,7 @@
 
 `.scratch/typography-system-refactor/spec.md`
 
-## Pencil references
+## pen.dev references
 
 - Раздел: `01 Foundations` (`otJrw`)
 - Компонент/раздел: `Typography System` (`h4yUQl` или актуальный replacement nodeId)
