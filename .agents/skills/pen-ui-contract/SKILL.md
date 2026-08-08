@@ -16,7 +16,11 @@ description: Применяй repository workflow pen.dev UI contract при ч�
    - для frontend-реализации — `Видимые frontend-изменения`, `UI Contract Collision` и `Responsive/overflow решения`.
 3. Для frontend-работы также прочитай `apps/web/AGENTS.md` и `docs/design/frontend-design-system.md`.
 
-Заверши routing после определения каждой ветки и её target screen или state. Текущий saved reference получи в ветке inspection.
+Заверши routing после определения каждой ветки и её target screen или state:
+
+- live design edit начинай сразу через MCP без CLI preflight;
+- frontend-only задачу начинай с inspection сохранённого дизайна;
+- в задаче design → code сначала заверши MCP-ветку и дождись подтверждения владельца, затем один раз запусти inspection сохранённого дизайна перед code phase.
 
 ## Прочитай сохранённый дизайн
 
@@ -30,15 +34,16 @@ description: Применяй repository workflow pen.dev UI contract при ч�
 
 ## Измени live-дизайн
 
-1. Следуй разделу `Изменение дизайна` до unsaved human-review handoff, используя только MCP-соединение `pencil` с Pen Desktop.
-2. Если изменение вводит visual token, reusable component или pattern, покажи владельцу полученное при inspection доказательство недостаточности существующей design system.
-3. Остановись при любом blocker из этого раздела. Возобнови исходный code scope только после явного подтверждения владельца, что дизайн принят и сохранён.
+1. Сразу вызови `pencil` MCP `get_app_state({ include_schema: true, include_canvas_design: true, include_scripts_and_shaders: false })`, подтверди, что активен `design/pen-design.pen`, и только затем читай или изменяй canvas. Не запускай CLI preflight перед этой веткой.
+2. Следуй разделу `Изменение дизайна` до unsaved human-review handoff, используя только MCP-соединение `pencil` с Pen Desktop.
+3. Если изменение вводит visual token, reusable component или pattern, покажи владельцу полученное через MCP доказательство недостаточности существующей design system.
+4. Остановись при любом blocker из этого раздела. Возобнови исходный code scope только после явного подтверждения владельца, что дизайн принят и сохранён.
 
 Заверши ветку, когда для каждого изменённого state получены требуемые policy layout evidence и screenshot, canvas не сохранён агентом, а владелец подтвердил приёмку и сохранение. Заверши design-only задачу на этом этапе.
 
 ## Реализуй и проверь видимый frontend UI
 
-1. Перед каждой видимой правкой кода повтори inspection сохранённого дизайна для точных утверждённых узлов и state из задачи.
+1. Перед началом code phase выполни inspection сохранённого дизайна для точных утверждённых узлов и state из задачи. Повтори inspection только если владелец принял и сохранил последующее изменение дизайна в рамках той же задачи.
 2. Если обновлённый contract отсутствует или противоречит функциональному требованию, верни точный шаблон `UI Contract Collision` из policy и приостанови code phase до решения владельца.
 3. Реализуй только сопоставленные states и одобренные владельцем exceptions, затем запусти обязательные repository checks.
 4. Следуй разделу `Responsive/overflow решения` и сравни Pen evidence со screenshot через Playwright MCP в одинаковых viewport и state. Повторяй реализацию и сбор evidence, пока все наблюдаемые policy categories не совпадут или не получат одобренный exception.
