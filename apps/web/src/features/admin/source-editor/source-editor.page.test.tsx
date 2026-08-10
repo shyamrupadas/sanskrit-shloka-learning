@@ -64,6 +64,9 @@ describe("admin source editor pages", () => {
     expect(
       await screen.findByRole("button", { name: "Назад" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Новый источник" }),
+    ).toBeInTheDocument();
     await user.type(screen.getByLabelText("Код источника"), "amrita");
     await user.type(screen.getByLabelText("Название"), "Амрита");
     await user.click(screen.getByRole("button", { name: "Создать источник" }));
@@ -95,6 +98,9 @@ describe("admin source editor pages", () => {
     await user.type(await screen.findByLabelText("Код источника"), "gita");
     await user.type(screen.getByLabelText("Название"), "Бхагавад-гита");
     await user.click(screen.getByRole("tab", { name: "Главы" }));
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Главы" }),
+    ).toBeInTheDocument();
     await user.type(screen.getByLabelText("Код главы 1"), "2");
     await user.type(screen.getByLabelText("Название главы 1"), "Глава 2");
     await user.click(screen.getByRole("button", { name: "Добавить главу" }));

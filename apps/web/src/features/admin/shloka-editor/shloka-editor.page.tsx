@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import { Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
@@ -161,7 +162,9 @@ function AdminShlokaEditForm({
 function EmptySources() {
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">{strings.admin.noSources}</p>
+      <Typography tone="muted" variant="p2">
+        {strings.admin.noSources}
+      </Typography>
       <Button asChild className="h-10">
         <Link to={routePaths.adminSourceNew}>
           <Plus />

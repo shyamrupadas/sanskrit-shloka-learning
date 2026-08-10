@@ -91,6 +91,9 @@ describe("admin shloka editor pages", () => {
     expect(
       await screen.findByRole("button", { name: "Назад" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Новая шлока" }),
+    ).toBeInTheDocument();
     await user.selectOptions(await screen.findByLabelText("Источник"), "gita");
     await user.selectOptions(screen.getByLabelText("Глава"), "chapter-2");
     await user.type(screen.getByLabelText("Номер шлоки"), "2.47");

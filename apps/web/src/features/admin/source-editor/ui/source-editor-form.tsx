@@ -1,7 +1,10 @@
 import type { FormEventHandler } from "react";
 import { Plus } from "lucide-react";
 
-import { AdminFormLayout } from "@/shared/design-system/components";
+import {
+  AdminFormLayout,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
@@ -137,9 +140,9 @@ function ChapterFields({
 }) {
   return (
     <section className="min-w-0 space-y-[var(--component-admin-form-field-gap)]">
-      <h2 className="font-heading text-[length:var(--font-size-card-title)] leading-[var(--line-height-title)] font-bold">
+      <Typography as="h2" variant="h3">
         {strings.admin.chaptersHeading}
-      </h2>
+      </Typography>
       <div className="space-y-[var(--component-admin-form-field-gap)]">
         {chapters.map((chapter, index) => (
           <div className="grid min-w-0 gap-3 sm:grid-cols-2" key={index}>
@@ -181,9 +184,9 @@ function PartFields<TRequest>({
 }) {
   return (
     <section className="min-w-0 space-y-[var(--component-admin-form-field-gap)]">
-      <h2 className="font-heading text-[length:var(--font-size-card-title)] leading-[var(--line-height-title)] font-bold">
+      <Typography as="h2" variant="h3">
         {strings.admin.partsHeading}
-      </h2>
+      </Typography>
       <div className="space-y-[var(--component-admin-form-section-gap)]">
         {form.parts.map((part, partIndex) => (
           <section

@@ -122,7 +122,15 @@ describe("admin catalog page", () => {
     storeTestSession(adminSession);
     renderCatalog();
 
-    expect(await screen.findByText("Бхагавад-гита")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { level: 2, name: "Список шлок" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Админка" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Бхагавад-гита" }),
+    ).toBeInTheDocument();
     expect(screen.getByText("gita · 1 глава")).toBeInTheDocument();
     expect(screen.getByText("2.47")).toBeInTheDocument();
     expect(

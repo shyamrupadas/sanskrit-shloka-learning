@@ -3,6 +3,10 @@ import { ChevronRight, Pencil, Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import {
+  SanskritTypography,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { Button } from "@/shared/ui/button";
@@ -52,9 +56,9 @@ export function CatalogView({
         />
       ) : (
         <section className="min-w-0 space-y-3.5">
-          <h2 className="font-heading text-[length:var(--font-size-section-title)] leading-[var(--line-height-title)] font-extrabold">
+          <Typography variant="h2">
             {strings.admin.catalogListTitle}
-          </h2>
+          </Typography>
           <div className="min-w-0 space-y-3.5">
             {catalog?.sources.map((source) => (
               <SourceSection key={source.code} source={source} />
@@ -102,12 +106,20 @@ function SourceSection({
     <section className="min-w-0 space-y-2">
       <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-card-foreground shadow-[var(--shadow-low)]">
         <div className="min-w-0 space-y-1">
-          <h3 className="font-sanskrit-title break-words text-base leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
+          <SanskritTypography
+            className="break-words [overflow-wrap:anywhere]"
+            variant="h3"
+          >
             {source.title}
-          </h3>
-          <p className="break-words text-[length:var(--font-size-caption)] font-semibold text-muted-foreground [overflow-wrap:anywhere]">
+          </SanskritTypography>
+          <Typography
+            className="break-words [overflow-wrap:anywhere]"
+            tone="muted"
+            variant="p1"
+            weight="medium"
+          >
             {source.code} · {getSourceCaption(source)}
-          </p>
+          </Typography>
         </div>
         <Button
           asChild
@@ -132,12 +144,21 @@ function SourceSection({
               key={shloka.code}
             >
               <div className="min-w-0 flex-1 space-y-1">
-                <p className="font-sanskrit-title truncate text-[length:var(--font-size-body-sm)] font-bold">
+                <SanskritTypography
+                  as="p"
+                  className="truncate"
+                  variant="p2"
+                  weight="bold"
+                >
                   {getShlokaLocation(shloka)}
-                </p>
-                <p className="font-sanskrit-text truncate text-[length:var(--font-size-meta)] text-muted-foreground">
+                </SanskritTypography>
+                <SanskritTypography
+                  className="truncate"
+                  tone="muted"
+                  variant="p1"
+                >
                   {getShlokaExcerpt(shloka.text)}
-                </p>
+                </SanskritTypography>
               </div>
               <Button
                 asChild

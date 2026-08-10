@@ -3,15 +3,13 @@ import { useRouter } from "@tanstack/react-router";
 import { ChevronDown, TriangleAlert } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { PageHeader } from "@/shared/design-system/components";
+import {
+  PageHeader,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
+import { Card, CardHeader } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Textarea } from "@/shared/ui/textarea";
@@ -38,9 +36,13 @@ export function AdminShell({
         }}
         title={title}
       />
-      <p className="break-words text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] text-muted-foreground [overflow-wrap:anywhere]">
+      <Typography
+        className="break-words [overflow-wrap:anywhere]"
+        tone="muted"
+        variant="p2"
+      >
         {subtitle}
-      </p>
+      </Typography>
       {children}
     </section>
   );
@@ -56,8 +58,14 @@ export function StatusCard({
   return (
     <Card className="rounded-xl border border-border shadow-[var(--shadow-low)] ring-0">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
+        <Typography as="div" variant="h3">
+          {title}
+        </Typography>
+        {description ? (
+          <Typography as="div" tone="muted" variant="p2">
+            {description}
+          </Typography>
+        ) : null}
       </CardHeader>
     </Card>
   );
@@ -75,12 +83,14 @@ export function FieldError({
   }
 
   return (
-    <p
-      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-destructive"
+    <Typography
+      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2"
       role="alert"
+      tone="danger"
+      variant="p2"
     >
       {getApiErrorMessage(error, fallback)}
-    </p>
+    </Typography>
   );
 }
 
@@ -90,32 +100,40 @@ export function LocalError({ error }: { error: string | null }) {
   }
 
   return (
-    <p
-      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-destructive"
+    <Typography
+      className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2"
       role="alert"
+      tone="danger"
+      variant="p2"
     >
       {error}
-    </p>
+    </Typography>
   );
 }
 
 export function SuccessMessage({ text }: { text: string }) {
   return (
-    <p
-      className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-2 text-[length:var(--font-size-body-sm)] text-primary"
+    <Typography
+      className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-2"
       role="status"
+      tone="brand"
+      variant="p2"
     >
       {text}
-    </p>
+    </Typography>
   );
 }
 
 export function WarningMessage({ text }: { text: string }) {
   return (
-    <p className="flex gap-2 rounded-lg border px-3 py-2 text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] [border-color:var(--warning)] bg-[var(--warning-background)] text-[color:var(--warning)]">
+    <Typography
+      className="flex gap-2 rounded-lg border px-3 py-2 [border-color:var(--warning)] bg-[var(--warning-background)]"
+      tone="warning"
+      variant="p2"
+    >
       <TriangleAlert className="mt-0.5 size-4 shrink-0" />
       <span>{text}</span>
-    </p>
+    </Typography>
   );
 }
 

@@ -8706,11 +8706,12 @@
                           "type": "text",
                           "id": "E7RvK0",
                           "name": "Parts Heading",
-                          "fill": "#0F172A",
+                          "fill": "$color-text-primary",
                           "content": "Части",
-                          "fontFamily": "Inter",
-                          "fontSize": 17,
-                          "fontWeight": "700"
+                          "lineHeight": "$typography-heading-line",
+                          "fontFamily": "$font-sans",
+                          "fontSize": "$typography-h3-size",
+                          "fontWeight": "$typography-weight-bold"
                         },
                         {
                           "id": "tbtlt",
@@ -8749,11 +8750,12 @@
                               "type": "text",
                               "id": "cl0O0",
                               "name": "Chapters Heading",
-                              "fill": "#0F172A",
+                              "fill": "$color-text-primary",
                               "content": "Главы",
-                              "fontFamily": "Inter",
-                              "fontSize": 17,
-                              "fontWeight": "700"
+                              "lineHeight": "$typography-heading-line",
+                              "fontFamily": "$font-sans",
+                              "fontSize": "$typography-h3-size",
+                              "fontWeight": "$typography-weight-bold"
                             },
                             {
                               "type": "frame",
@@ -14065,11 +14067,12 @@
                       "type": "text",
                       "id": "L1cMl",
                       "name": "Chapters Heading",
-                      "fill": "#0F172A",
+                      "fill": "$color-text-primary",
                       "content": "Главы",
-                      "fontFamily": "Inter",
-                      "fontSize": 17,
-                      "fontWeight": "700"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "frame",
@@ -14224,11 +14227,12 @@
                       "type": "text",
                       "id": "s4bMNs",
                       "name": "Chapters Heading",
-                      "fill": "#0F172A",
+                      "fill": "$color-text-primary",
                       "content": "Главы",
-                      "fontFamily": "Inter",
-                      "fontSize": 17,
-                      "fontWeight": "700"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "frame",
@@ -14390,8 +14394,8 @@
         {
           "type": "frame",
           "id": "y4lrJX",
-          "name": "Admin Back Row",
-          "width": "fill_container",
+          "name": "Back Header",
+          "width": 358,
           "height": 44,
           "alignItems": "center",
           "children": [
@@ -14400,6 +14404,39 @@
               "type": "ref",
               "ref": "Qm2hL",
               "name": "Back Button Instance"
+            },
+            {
+              "type": "frame",
+              "id": "qbOOg",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bft2R",
+                  "name": "Screen Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Админка",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-sans",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yZKSY",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
             }
           ]
         },
@@ -14411,21 +14448,7 @@
           "height": "fill_container",
           "layout": "vertical",
           "gap": 16,
-          "padding": [
-            0,
-            16
-          ],
           "children": [
-            {
-              "type": "text",
-              "id": "bft2R",
-              "name": "Screen Title",
-              "fill": "$text",
-              "content": "Админка",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
-            },
             {
               "type": "frame",
               "id": "T2Gca",
@@ -14590,11 +14613,12 @@
                       "type": "text",
                       "id": "WKyZj",
                       "name": "Section Title / Список шлок",
-                      "fill": "$text",
+                      "fill": "$color-text-primary",
                       "content": "Список шлок",
-                      "fontFamily": "$font",
-                      "fontSize": 18,
-                      "fontWeight": "800"
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sans",
+                      "fontSize": "$typography-h2-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -14643,11 +14667,12 @@
                                   "type": "text",
                                   "id": "rHzL1",
                                   "name": "Source Title / Бхагавад-гита",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "content": "Бхагавад-гита",
+                                  "lineHeight": "$typography-heading-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 16,
-                                  "fontWeight": "800",
+                                  "fontSize": "$typography-h3-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
@@ -14656,9 +14681,10 @@
                                   "name": "Source Meta / Бхагавад-гита",
                                   "fill": "$text-muted",
                                   "content": "18 глав",
-                                  "fontFamily": "$font",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
+                                  "lineHeight": "$typography-body-line",
+                                  "fontFamily": "$font-sans",
+                                  "fontSize": "$typography-p1-size",
+                                  "fontWeight": "$typography-weight-medium"
                                 }
                               ]
                             },
@@ -14710,13 +14736,14 @@
                                   "type": "text",
                                   "id": "W7pSl",
                                   "name": "Shloka Title / 2.47 Карманй эвадхикарас те",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "2.47 Карманй эвадхикарас те",
+                                  "lineHeight": "$typography-body-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 14,
-                                  "fontWeight": "700",
+                                  "fontSize": "$typography-p2-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
@@ -14753,13 +14780,14 @@
                                   "type": "text",
                                   "id": "kUKgX",
                                   "name": "Shloka Title / 4.7 Йада йада хи дхармасйа",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "4.7 Йада йада хи дхармасйа",
+                                  "lineHeight": "$typography-body-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 14,
-                                  "fontWeight": "700",
+                                  "fontSize": "$typography-p2-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
@@ -14815,11 +14843,12 @@
                                   "type": "text",
                                   "id": "CoV5X",
                                   "name": "Source Title / Иша Упанишада",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "content": "Иша Упанишада",
+                                  "lineHeight": "$typography-heading-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 16,
-                                  "fontWeight": "800",
+                                  "fontSize": "$typography-h3-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
@@ -14828,9 +14857,10 @@
                                   "name": "Source Meta / Иша Упанишада",
                                   "fill": "$text-muted",
                                   "content": "18 шлок",
-                                  "fontFamily": "$font",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
+                                  "lineHeight": "$typography-body-line",
+                                  "fontFamily": "$font-sans",
+                                  "fontSize": "$typography-p1-size",
+                                  "fontWeight": "$typography-weight-medium"
                                 }
                               ]
                             },
@@ -14882,13 +14912,14 @@
                                   "type": "text",
                                   "id": "HvpRS",
                                   "name": "Shloka Title / Мантра 1 Ишавасйам идам сарвам",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "Мантра 1 Ишавасйам идам сарвам",
+                                  "lineHeight": "$typography-body-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 14,
-                                  "fontWeight": "700",
+                                  "fontSize": "$typography-p2-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
@@ -14925,13 +14956,14 @@
                                   "type": "text",
                                   "id": "dXuwj",
                                   "name": "Shloka Title / Мантра 15 Хиранмайена патрена",
-                                  "fill": "$text",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": 250,
                                   "content": "Мантра 15 Хиранмайена патрена",
+                                  "lineHeight": "$typography-body-line",
                                   "fontFamily": "$font-sanskrit",
-                                  "fontSize": 14,
-                                  "fontWeight": "700",
+                                  "fontSize": "$typography-p2-size",
+                                  "fontWeight": "$typography-weight-bold",
                                   "fontStyle": "Normal"
                                 },
                                 {
