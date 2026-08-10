@@ -52,6 +52,12 @@ describe("settings page", () => {
 
     const settingsView = renderSettings();
 
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Настройки",
+      }),
+    ).toBeInTheDocument();
     expect(await screen.findByText(session.account.email)).toBeInTheDocument();
     const hardModeToggle = await screen.findByRole("switch", {
       name: "Интенсивный режим повторения",

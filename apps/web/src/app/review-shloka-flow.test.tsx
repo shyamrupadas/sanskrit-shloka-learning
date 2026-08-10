@@ -52,6 +52,15 @@ describe("app review shloka flow", () => {
     storeTestSession(session);
     renderAppAt("/library/shlokas/gita-1-1/review");
 
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Повторение" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: firstShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
     expect(await screen.findByLabelText("Текст скрыт")).toHaveTextContent(
       "Произнесите шлоку по памяти.",
     );
@@ -74,6 +83,12 @@ describe("app review shloka flow", () => {
       await user.click(
         screen.getByRole("button", { name: "Оценить результат" }),
       );
+      expect(
+        screen.getByRole("heading", {
+          level: 1,
+          name: "Как получилось?",
+        }),
+      ).toBeInTheDocument();
     }
 
     await user.click(screen.getByRole("button", { name: action }));
@@ -170,7 +185,10 @@ describe("app review shloka flow", () => {
     await expectPath("/library/shlokas/gita-4-7/review");
     expect(await screen.findByText("2 из 2 · без подсказки")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: secondShloka.displayTitle }),
+      screen.getByRole("heading", {
+        level: 2,
+        name: secondShloka.displayTitle,
+      }),
     ).toBeInTheDocument();
     await completeWithoutError(user);
 

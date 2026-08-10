@@ -4,19 +4,17 @@ import { useNavigate } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
+import {
+  SanskritTypography,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { segmentGraphemes } from "@/shared/lib/unicode";
-import { cn } from "@/shared/lib/utils";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
+import { Card, CardHeader } from "@/shared/ui/card";
 
 type ReviewStage = "hidden" | "hint-one" | "hint-two" | "full" | "result";
 type FullTextOutcome = "self" | "hint" | "forgot";
@@ -183,43 +181,50 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     );
   }
 
+  const RecallTypography =
+    stage === "hidden" ? Typography : SanskritTypography;
+
   return (
     <section className="mx-auto w-full max-w-[390px] space-y-[18px]">
       <header className="space-y-2">
-        <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
+        <Typography variant="h1">
           {strings.reviewShloka.title}
-        </h1>
-        <p className="text-sm font-bold text-primary">
-          {currentFlow.currentIndex + 1} из {currentFlow.items.length} · {stageLabel(stage)}
-        </p>
+        </Typography>
+        <Typography tone="brand" variant="p2" weight="bold">
+          {currentFlow.currentIndex + 1} из {currentFlow.items.length} ·{" "}
+          {stageLabel(stage)}
+        </Typography>
       </header>
 
       <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
-        <h2 className="font-sanskrit-title break-words text-lg leading-[var(--line-height-title)] font-extrabold [overflow-wrap:anywhere]">
+        <SanskritTypography
+          className="break-words [overflow-wrap:anywhere]"
+          variant="h2"
+        >
           {currentShloka.displayTitle}
-        </h2>
-        <div
+        </SanskritTypography>
+        <RecallTypography
           aria-label={recallBodyLabel(stage)}
-          className={cn(
-            "break-words whitespace-pre-wrap text-[21px] leading-[1.35] font-bold [overflow-wrap:anywhere]",
-            stage !== "hidden" && "font-sanskrit-text",
-          )}
+          as="div"
+          className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
+          variant="p4"
+          weight="bold"
         >
           {recallBody(currentShloka.text, stage)}
-        </div>
+        </RecallTypography>
       </article>
 
-      <p className="text-sm leading-[1.35] text-muted-foreground">
+      <Typography tone="muted" variant="p2">
         {strings.reviewShloka.instruction}
-      </p>
+      </Typography>
 
       {completionMutation.error ? (
-        <p className="text-sm text-destructive" role="alert">
+        <Typography role="alert" tone="danger" variant="p2">
           {getApiErrorMessage(
             completionMutation.error,
             strings.reviewShloka.saveError,
           )}
-        </p>
+        </Typography>
       ) : null}
 
       <div className="space-y-2.5">
@@ -313,16 +318,16 @@ function ResultStep({
 }) {
   return (
     <section className="mx-auto w-full max-w-[390px] space-y-[18px]">
-      <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
+      <Typography variant="h1">
         {strings.reviewShloka.resultTitle}
-      </h1>
-      <p className="text-[15px] leading-[1.35] text-muted-foreground">
+      </Typography>
+      <Typography tone="muted" variant="p3">
         {strings.reviewShloka.resultDescription}
-      </p>
+      </Typography>
       {saveError ? (
-        <p className="text-sm text-destructive" role="alert">
+        <Typography role="alert" tone="danger" variant="p2">
           {getApiErrorMessage(saveError, strings.reviewShloka.saveError)}
-        </p>
+        </Typography>
       ) : null}
       <div className="space-y-2.5">
         <ReviewButton
@@ -341,9 +346,9 @@ function ResultStep({
           {strings.reviewShloka.recallWithError}
         </ReviewButton>
       </div>
-      <p className="text-sm leading-[1.35] text-muted-foreground">
+      <Typography tone="muted" variant="p2">
         {strings.reviewShloka.finishHint}
-      </p>
+      </Typography>
     </section>
   );
 }
@@ -379,7 +384,9 @@ function ReviewSkeleton() {
       className="mx-auto w-full max-w-[390px] animate-pulse space-y-4"
       role="status"
     >
-      <span className="sr-only">{strings.reviewShloka.loading}</span>
+      <Typography as="span" className="sr-only" variant="p2">
+        {strings.reviewShloka.loading}
+      </Typography>
       <div aria-hidden="true" className="h-8 w-1/2 rounded bg-muted" />
       <div aria-hidden="true" className="h-4 w-1/3 rounded bg-muted" />
       <div aria-hidden="true" className="h-40 rounded-xl bg-muted" />
@@ -397,8 +404,14 @@ function ReviewStatus({
   return (
     <Card className="mx-auto w-full max-w-[390px] rounded-lg">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
+        <Typography as="div" variant="h3">
+          {title}
+        </Typography>
+        {description ? (
+          <Typography tone="muted" variant="p2">
+            {description}
+          </Typography>
+        ) : null}
       </CardHeader>
     </Card>
   );

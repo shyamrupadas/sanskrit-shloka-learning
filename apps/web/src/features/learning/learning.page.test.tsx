@@ -11,7 +11,10 @@ describe("learning page", () => {
     render(<LearningPage />);
 
     expect(
-      screen.getByRole("heading", { name: strings.learning.title }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: strings.learning.title,
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", {

@@ -5,7 +5,10 @@ import { LogOut, Shield } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { SettingsRow } from "@/shared/design-system/components";
+import {
+  SettingsRow,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
@@ -51,12 +54,16 @@ export function SettingsPage() {
   return (
     <section className="min-w-0 space-y-4">
       <div className="space-y-1">
-        <h1 className="font-heading text-[length:var(--font-size-screen-title)] leading-[var(--line-height-title)] font-extrabold">
+        <Typography variant="h1">
           {strings.settings.title}
-        </h1>
-        <p className="break-words text-[length:var(--font-size-body-sm)] leading-[var(--line-height-body)] text-muted-foreground [overflow-wrap:anywhere]">
+        </Typography>
+        <Typography
+          className="break-words [overflow-wrap:anywhere]"
+          tone="muted"
+          variant="p2"
+        >
           {strings.settings.subtitle}
-        </p>
+        </Typography>
       </div>
 
       {settingsQuery.isPending ? (
@@ -88,23 +95,17 @@ export function SettingsPage() {
             settingsMutation.isSuccess || settingsMutation.error ? (
               <>
                 {settingsMutation.isSuccess ? (
-                  <p
-                    className="text-[length:var(--font-size-body-sm)] text-muted-foreground"
-                    role="status"
-                  >
+                  <Typography role="status" tone="muted" variant="p2">
                     {strings.settings.saved}
-                  </p>
+                  </Typography>
                 ) : null}
                 {settingsMutation.error ? (
-                  <p
-                    className="text-[length:var(--font-size-body-sm)] text-destructive"
-                    role="alert"
-                  >
+                  <Typography role="alert" tone="danger" variant="p2">
                     {getApiErrorMessage(
                       settingsMutation.error,
                       strings.settings.saveError,
                     )}
-                  </p>
+                  </Typography>
                 ) : null}
               </>
             ) : null

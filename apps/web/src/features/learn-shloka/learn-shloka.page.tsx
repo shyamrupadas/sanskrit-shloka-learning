@@ -4,6 +4,10 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Check, Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
+import {
+  SanskritTypography,
+  Typography,
+} from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { routePaths } from "@/shared/model/routes";
@@ -69,9 +73,12 @@ export function LearnShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   return (
     <section className="flex min-h-[calc(100dvh-2.5rem)] min-w-0 flex-1 flex-col">
       <div className="flex min-w-0 items-start justify-between gap-3">
-        <h1 className="font-sanskrit-title break-words text-2xl leading-[1.2] font-extrabold [overflow-wrap:anywhere]">
+        <SanskritTypography
+          className="break-words [overflow-wrap:anywhere]"
+          variant="h1"
+        >
           {shlokaQuery.data.displayTitle}
-        </h1>
+        </SanskritTypography>
         <Button
           asChild
           aria-label={strings.learnShloka.openTips}
@@ -83,12 +90,15 @@ export function LearnShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         </Button>
       </div>
 
-      <div
+      <SanskritTypography
         aria-label={strings.shloka.canonicalText}
-        className="font-sanskrit-text mt-4 break-words whitespace-pre-wrap text-[length:var(--font-size-sanskrit)] leading-[1.32] font-extrabold [overflow-wrap:anywhere]"
+        as="div"
+        className="mt-4 break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
+        variant="p4"
+        weight="bold"
       >
         {shlokaQuery.data.text}
-      </div>
+      </SanskritTypography>
 
       <div className="mt-auto space-y-2.5 pt-6">
         <Button
@@ -131,9 +141,12 @@ function CompletedLearning({
       <div className="flex size-14 items-center justify-center rounded-full bg-green-100 text-green-700">
         <Check aria-hidden="true" className="size-6.5" />
       </div>
-      <h1 className="mt-4 break-words font-heading text-[length:var(--font-size-screen-title)] leading-[1.1] font-extrabold [overflow-wrap:anywhere]">
+      <Typography
+        className="mt-4 break-words [overflow-wrap:anywhere]"
+        variant="h1"
+      >
         {strings.learnShloka.completedTitle}
-      </h1>
+      </Typography>
 
       <div className="mt-auto space-y-2.5 pt-6">
         <Button
@@ -192,7 +205,9 @@ function LearnShlokaSkeleton() {
       className="min-w-0 animate-pulse space-y-4"
       role="status"
     >
-      <span className="sr-only">{strings.learnShloka.loading}</span>
+      <Typography as="span" className="sr-only" variant="p2">
+        {strings.learnShloka.loading}
+      </Typography>
       <div aria-hidden="true" className="h-7 w-2/3 rounded bg-muted" />
       <div className="space-y-2.5" role="presentation">
         {Array.from({ length: 4 }, (_, index) => (

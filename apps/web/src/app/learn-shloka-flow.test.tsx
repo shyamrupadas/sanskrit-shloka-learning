@@ -73,6 +73,7 @@ describe("app learn shloka flow", () => {
     await expectPath("/library/shlokas/gita-1-1/learn");
     expect(
       await screen.findByRole("heading", {
+        level: 1,
         name: learningShloka.displayTitle,
       }),
     ).toBeInTheDocument();
@@ -121,6 +122,7 @@ describe("app learn shloka flow", () => {
 
     expect(
       await screen.findByRole("heading", {
+        level: 1,
         name: "Шлока добавлена в повторение",
       }),
     ).toBeInTheDocument();
@@ -191,7 +193,10 @@ describe("app learn shloka flow", () => {
     }
     if (expectedTitle) {
       expect(
-        await screen.findByRole("heading", { name: expectedTitle }),
+        await screen.findByRole("heading", {
+          level: 1,
+          name: expectedTitle,
+        }),
       ).toBeInTheDocument();
       expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
     }

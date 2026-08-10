@@ -7773,35 +7773,37 @@
                   "type": "text",
                   "id": "GIsCs",
                   "name": "Word Sanskrit",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "дхарма-кшетре",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typo-p1-size",
-                  "fontWeight": "$type-weight-bold",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
                   "id": "k0jl6",
                   "name": "Word Transliteration",
-                  "fill": "$primary",
+                  "fill": "$color-brand",
                   "content": "dharma-kṣetre",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-transliteration",
-                  "fontSize": "$type-meta-size",
-                  "fontWeight": "$type-weight-semibold"
+                  "fontSize": "$typography-p1-size",
+                  "fontWeight": "$typography-weight-medium"
                 },
                 {
                   "type": "text",
                   "id": "NGZTG",
                   "name": "Word Translation",
-                  "fill": "$text-muted",
+                  "fill": "$color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "на поле дхармы",
-                  "lineHeight": 1.3,
-                  "fontFamily": "$font-body",
-                  "fontSize": "$type-body-sm-size",
-                  "fontWeight": "normal"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-normal"
                 }
               ]
             },
@@ -12055,25 +12057,28 @@
             {
               "type": "text",
               "id": "qAR2W",
-              "name": "Screen Title",
-              "fill": "$text",
-              "content": "Заучивание",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "name": "Shloka Title",
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Бхагавад-гита 1.1",
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-sanskrit",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "type": "text",
               "id": "F0ditp",
               "name": "Learning Shloka",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-              "lineHeight": 1.32,
+              "lineHeight": "$typography-body-line",
               "fontFamily": "$font-sanskrit",
-              "fontSize": 22,
-              "fontWeight": "800",
+              "fontSize": "$typography-p4-size",
+              "fontWeight": "$typography-weight-bold",
               "fontStyle": "Normal"
             },
             {
@@ -12268,14 +12273,14 @@
               "type": "text",
               "id": "stCkW",
               "name": "Done Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Шлока добавлена в повторение",
-              "lineHeight": 1.1,
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "klT6A",
@@ -12439,21 +12444,23 @@
                   "type": "text",
                   "id": "d2AsoV",
                   "name": "Screen Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Повторение",
-                  "fontFamily": "$font",
-                  "fontSize": 28,
-                  "fontWeight": "800"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
                   "id": "F4qUmS",
                   "name": "Review Progress",
-                  "fill": "$primary",
+                  "fill": "$color-brand",
                   "content": "1 из 3 · без подсказки",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -12475,25 +12482,26 @@
                   "type": "text",
                   "id": "UTz6i",
                   "name": "Recall Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18,
-                  "fontWeight": "800",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
                   "id": "JGfdU",
                   "name": "Recall Body",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Текст скрыт\n\nВспомните первую строку шлоки.",
-                  "lineHeight": 1.35,
-                  "fontFamily": "$font",
-                  "fontSize": 21,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -12501,14 +12509,14 @@
               "type": "text",
               "id": "Aa7S4",
               "name": "Recall Instruction",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             },
             {
               "type": "frame",
@@ -12648,21 +12656,23 @@
                   "type": "text",
                   "id": "B1gGs",
                   "name": "Screen Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Повторение",
-                  "fontFamily": "$font",
-                  "fontSize": 28,
-                  "fontWeight": "800"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
                   "id": "jvsID",
                   "name": "Review Progress",
-                  "fill": "$primary",
+                  "fill": "$color-brand",
                   "content": "1 из 3 · подсказка 1",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -12684,25 +12694,26 @@
                   "type": "text",
                   "id": "DlU11",
                   "name": "Recall Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18,
-                  "fontWeight": "800",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
                   "id": "Q6zBr",
                   "name": "Recall Body",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-...",
-                  "lineHeight": 1.35,
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 21,
-                  "fontWeight": "700",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 }
               ]
@@ -12711,14 +12722,14 @@
               "type": "text",
               "id": "iTpnK",
               "name": "Recall Instruction",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             },
             {
               "type": "frame",
@@ -12858,21 +12869,23 @@
                   "type": "text",
                   "id": "iHgXU",
                   "name": "Screen Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Повторение",
-                  "fontFamily": "$font",
-                  "fontSize": 28,
-                  "fontWeight": "800"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
                   "id": "UIJFo",
                   "name": "Review Progress",
-                  "fill": "$primary",
+                  "fill": "$color-brand",
                   "content": "1 из 3 · подсказка 2",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -12894,25 +12907,26 @@
                   "type": "text",
                   "id": "Lb7v1",
                   "name": "Recall Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18,
-                  "fontWeight": "800",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
                   "id": "Kf6XQ",
                   "name": "Recall Body",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\n...",
-                  "lineHeight": 1.35,
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 21,
-                  "fontWeight": "700",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 }
               ]
@@ -12921,14 +12935,14 @@
               "type": "text",
               "id": "Ld84b",
               "name": "Recall Instruction",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             },
             {
               "type": "frame",
@@ -13061,21 +13075,23 @@
                   "type": "text",
                   "id": "C2u9ee",
                   "name": "Screen Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Повторение",
-                  "fontFamily": "$font",
-                  "fontSize": 28,
-                  "fontWeight": "800"
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
                   "id": "wsZzK",
                   "name": "Review Progress",
-                  "fill": "$primary",
+                  "fill": "$color-brand",
                   "content": "1 из 3 · полный текст",
-                  "fontFamily": "$font",
-                  "fontSize": 14,
-                  "fontWeight": "700"
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -13097,25 +13113,26 @@
                   "type": "text",
                   "id": "WpsPW",
                   "name": "Recall Title",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18,
-                  "fontWeight": "800",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
                 {
                   "type": "text",
                   "id": "CHYyW",
                   "name": "Recall Body",
-                  "fill": "$text",
+                  "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах",
-                  "lineHeight": 1.35,
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 21,
-                  "fontWeight": "700",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 }
               ]
@@ -13124,14 +13141,14 @@
               "type": "text",
               "id": "gKhbp",
               "name": "Recall Instruction",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             },
             {
               "type": "frame",
@@ -13263,26 +13280,27 @@
               "type": "text",
               "id": "KVdNn",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Как получилось?",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "type": "text",
               "id": "Zzmai",
               "name": "Result Text",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Оцените только самостоятельное вспоминание до полного текста. Ошибка не сбивает серию дней.",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 15,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p3-size",
+              "fontWeight": "$typography-weight-normal"
             },
             {
               "id": "Moqyg",
@@ -13302,14 +13320,14 @@
               "type": "text",
               "id": "Q8opct",
               "name": "Flow Finish Hint",
-              "fill": "$text-muted",
+              "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "После последней шлоки откроется завершение пачки и действие «На дашборд».",
-              "lineHeight": 1.35,
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             }
           ]
         },
@@ -13417,11 +13435,12 @@
               "type": "text",
               "id": "Q9chpv",
               "name": "Screen Title",
-              "fill": "$text",
+              "fill": "$color-text-primary",
               "content": "Советы",
-              "fontFamily": "$font",
-              "fontSize": 28,
-              "fontWeight": "800"
+              "lineHeight": "$typography-heading-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "id": "w127n",
