@@ -270,95 +270,21 @@ export const designTokens = {
       },
     },
     families: {
-      body: fromPencil("Inter", "font-body", {
-        cssValue: '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',
-        cssVariable: "--font-family-sans-token",
-      }),
       data: fromPencil("IBM Plex Mono", "font-data", {
         cssValue:
           '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
         cssVariable: "--font-family-data-token",
-      }),
-      heading: fromPencil("Inter", "font-heading", {
-        cssValue: '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',
-        cssVariable: "--font-family-heading-token",
       }),
       sanskrit: fromPencil("Noto Serif", "font-sanskrit", {
         cssValue: '"Noto Serif", ui-serif, Georgia, serif',
         cssVariable: "--font-family-sanskrit-token",
       }),
       transliteration: fromPencil("Inter", "font-transliteration"),
-      ui: fromPencil("Inter", "font-ui"),
-    },
-    lineHeight: {
-      body: fromPencil(1.4, "line-height-body", {
-        cssValue: "1.4",
-        cssVariable: "--line-height-body",
+      ui: fromPencil("Inter", "font-ui", {
+        cssValue:
+          '"Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif',
+        cssVariable: "--font-family-sans-token",
       }),
-      reading: fromPencil(1.6, "line-height-reading", {
-        cssValue: "1.6",
-        cssVariable: "--line-height-reading",
-      }),
-      sanskrit: fromPencil(1.75, "line-height-sanskrit", {
-        cssValue: "1.75",
-        cssVariable: "--line-height-sanskrit",
-      }),
-      tight: fromPencil(1.15, "line-height-tight"),
-      title: fromPencil(1.25, "line-height-title", {
-        cssValue: "1.25",
-        cssVariable: "--line-height-title",
-      }),
-    },
-    sizes: {
-      body: fromPencil(15, "type-body-size", {
-        cssValue: px(15),
-        cssVariable: "--font-size-body",
-      }),
-      bodySm: fromPencil(14, "type-body-sm-size", {
-        cssValue: px(14),
-        cssVariable: "--font-size-body-sm",
-      }),
-      caption: fromPencil(12, "type-caption-size", {
-        cssValue: px(12),
-        cssVariable: "--font-size-caption",
-      }),
-      cardTitle: fromPencil(17, "type-card-title-size", {
-        cssValue: px(17),
-        cssVariable: "--font-size-card-title",
-      }),
-      display: fromPencil(32, "type-display-size"),
-      meta: fromPencil(13, "type-meta-size", {
-        cssValue: px(13),
-        cssVariable: "--font-size-meta",
-      }),
-      nav: fromPencil(10, "type-nav-size", {
-        cssValue: px(10),
-        cssVariable: "--font-size-nav",
-      }),
-      pageTitle: fromPencil(24, "type-page-title-size", {
-        cssValue: px(24),
-        cssVariable: "--font-size-page-title",
-      }),
-      sanskrit: fromPencil(22, "type-sanskrit-size", {
-        cssValue: px(22),
-        cssVariable: "--font-size-sanskrit",
-      }),
-      screenTitle: fromPencil(28, "type-screen-title-size", {
-        cssValue: px(28),
-        cssVariable: "--font-size-screen-title",
-      }),
-      sectionTitle: fromPencil(20, "type-section-title-size", {
-        cssValue: px(20),
-        cssVariable: "--font-size-section-title",
-      }),
-      transliteration: fromPencil(14, "type-transliteration-size"),
-    },
-    weights: {
-      bold: fromPencil("700", "type-weight-bold"),
-      extraBold: fromPencil("800", "type-weight-extrabold"),
-      medium: fromPencil("500", "type-weight-medium"),
-      regular: fromPencil("400", "type-weight-regular"),
-      semibold: fromPencil("600", "type-weight-semibold"),
     },
   },
   spacing: {
@@ -605,15 +531,6 @@ export const designTokens = {
       width: fromPencil(342, "component-card-width"),
     },
     emptyState: {
-      descriptionLineHeight: fromSource(
-        1.35,
-        "component-empty-description-line-height",
-        "Description line height measured from Product / Empty State (RPtlw); Pencil has no named variable for this value.",
-        {
-          cssValue: "1.35",
-          cssVariable: "--component-empty-description-line-height",
-        },
-      ),
       iconSize: fromPencil(42, "component-empty-icon-size", {
         cssValue: px(42),
         cssVariable: "--component-empty-icon-size",
@@ -672,10 +589,6 @@ export const designTokens = {
           cssVariable: "--component-page-header-icon-size",
         },
       ),
-      titleLineHeight: fromPencil(1.2, "typo-h1-line", {
-        cssValue: "1.2",
-        cssVariable: "--component-page-header-title-line-height",
-      }),
     },
     settingsRow: {
       gap: fromSource(
@@ -705,20 +618,15 @@ export const designTokens = {
       border: fromPencil("#E2E8F0", "border", {
         cssVariable: "--component-tip-accordion-border",
       }),
-      contentLineHeight: fromSource(
-        1.35,
-        "component-tip-accordion-content-line-height",
-        "Content line height measured from Product / Tip Accordion Item / Expanded (rgPsh); Pencil has no named component variable for this value.",
-        {
-          cssValue: "1.35",
-          cssVariable: "--component-tip-accordion-content-line-height",
-        },
-      ),
     },
     tabs: {
       height: fromPencil(42, "component-tab-height", {
         cssValue: px(42),
         cssVariable: "--component-tab-height",
+      }),
+      labelSize: fromPencil(12, "type-caption-size", {
+        cssValue: px(12),
+        cssVariable: "--component-tab-label-size",
       }),
     },
   },

@@ -1,6 +1,7 @@
 # Унификация типографического контракта pen.dev и frontend
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-08-10
 
 ## Problem Statement
 

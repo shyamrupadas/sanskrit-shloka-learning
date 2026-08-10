@@ -127,5 +127,7 @@ pen.dev `reusable`-узел не является автоматическим �
 - запрет новых произвольных hex/OKLCH цветов в `apps/web/src` вне token/CSS generator слоя;
 - проверка PWA `theme_color`, manifest colors и icon colors против design tokens;
 - проверка прямых magic-size паттернов сначала для новых проектных компонентов.
+- запрет прямых самостоятельных `h1–h3` и `p` в `src`; path-level exceptions разрешены только реализации `Typography` и generic primitives в `shared/ui`, а причины исключений фиксируются в guardrail config;
+- запрет ручных font-size, line-height и font-weight patterns в feature-коде; layout-классы разрешены, а кнопки, ссылки, поля, labels, tabs и другие перечисленные interactive JSX owners продолжают владеть своей типографикой.
 
 Не нужно сразу запрещать все Tailwind utility classes в страницах. Ограничения ужесточаются постепенно по мере переноса UI на `shared/design-system/components`.

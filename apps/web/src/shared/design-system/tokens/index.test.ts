@@ -80,8 +80,10 @@ describe("design token contract", () => {
     ]);
   });
 
-  it("exposes the approved typography contract without removing legacy tokens", () => {
+  it("exposes only the approved shared typography contract", () => {
     const typography = designTokens.typography;
+
+    expect(Object.keys(typography)).toEqual(["contract", "families"]);
 
     expect(typography.contract).toEqual({
       lineHeight: {
@@ -155,18 +157,51 @@ describe("design token contract", () => {
       },
     });
 
-    expect(designTokens.typography.sizes).toMatchObject({
-      body: { value: 15 },
-      bodySm: { value: 14 },
-      cardTitle: { value: 17 },
-      pageTitle: { value: 24 },
-      screenTitle: { value: 28 },
-      sectionTitle: { value: 20 },
+    expect(typography.families.ui).toMatchObject({
+      source: { name: "font-ui", type: "pencil-variable" },
+      value: "Inter",
     });
-    expect(designTokens.typography.weights).toMatchObject({
-      extraBold: { value: "800" },
-      semibold: { value: "600" },
+    expect(designTokens.components.tabs.labelSize).toMatchObject({
+      cssVariable: "--component-tab-label-size",
+      source: { name: "type-caption-size", type: "pencil-variable" },
+      value: 12,
     });
+
+    const legacyPencilSources = new Set([
+      "font-body",
+      "font-heading",
+      "line-height-body",
+      "line-height-reading",
+      "line-height-sanskrit",
+      "line-height-tight",
+      "line-height-title",
+      "type-body-size",
+      "type-body-sm-size",
+      "type-card-title-size",
+      "type-display-size",
+      "type-meta-size",
+      "type-nav-size",
+      "type-page-title-size",
+      "type-sanskrit-size",
+      "type-screen-title-size",
+      "type-section-title-size",
+      "type-transliteration-size",
+      "type-weight-bold",
+      "type-weight-extrabold",
+      "type-weight-medium",
+      "type-weight-regular",
+      "type-weight-semibold",
+      "typo-h1-line",
+    ]);
+
+    expect(
+      collectDesignTokens()
+        .filter(({ token }) => token.source.type === "pencil-variable")
+        .map(({ token }) => token.source.name)
+        .filter((sourceName) =>
+          sourceName.startsWith("typo-") || legacyPencilSources.has(sourceName),
+        ),
+    ).toEqual([]);
   });
 
   it("synchronizes the softer primary foreground without changing adjacent colors", () => {
@@ -215,6 +250,10 @@ describe("design token contract", () => {
     expect(css).toContain('@import "@fontsource-variable/inter"');
     expect(css).not.toContain("@fontsource-variable/geist");
     expect(css).not.toContain("oklch(");
+    expect(css).not.toMatch(
+      /--(?:font-heading|font-family-heading-token|font-size-(?:body|body-sm|caption|card-title|meta|nav|page-title|sanskrit|screen-title|section-title)|line-height-(?:body|reading|sanskrit|title))\s*:/,
+    );
+    expect(css).not.toMatch(/\.font-sanskrit-(?:title|text)\b/);
 
     for (const { path: tokenPath, token } of cssVariableTokens) {
       expect(declarations.get(token.cssVariable!), tokenPath).toBe(
@@ -267,9 +306,6 @@ describe("design token contract", () => {
     );
     expect(css).toMatch(
       /@font-face\s*{[^}]*font-family:\s*"Noto Serif";[^}]*noto-serif-bold\.woff2[^}]*font-style:\s*normal;[^}]*font-weight:\s*700;[^}]*}/s,
-    );
-    expect(css).toMatch(
-      /\.font-sanskrit-title,\s*\.font-sanskrit-text\s*{[^}]*font-family:\s*var\(--font-family-sanskrit-token\);[^}]*font-style:\s*normal;[^}]*}/s,
     );
     expect(css).not.toMatch(/@font-face\s*{[^}]*(?:https?:)?\/\//s);
     expect(existsSync(mediumFontCssPath)).toBe(true);

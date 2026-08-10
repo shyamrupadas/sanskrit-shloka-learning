@@ -9,7 +9,6 @@
       "name": "01 Foundations",
       "clip": true,
       "width": 900,
-      "height": 4228,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -48,7 +47,7 @@
                   "content": "Основы дизайн-системы",
                   "fontFamily": "$font-sans",
                   "fontSize": 24,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -81,7 +80,7 @@
                   "content": "Color Tokens",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -638,7 +637,7 @@
                   "content": "Semantic Colors",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -684,7 +683,7 @@
                       "content": "Success",
                       "fontFamily": "$font-sans",
                       "fontSize": 13,
-                      "fontWeight": "800"
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -730,7 +729,7 @@
                       "content": "Warning",
                       "fontFamily": "$font-sans",
                       "fontSize": 13,
-                      "fontWeight": "800"
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -776,7 +775,7 @@
                       "content": "Error",
                       "fontFamily": "$font-sans",
                       "fontSize": 13,
-                      "fontWeight": "800"
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -822,7 +821,7 @@
                       "content": "Info",
                       "fontFamily": "$font-sans",
                       "fontSize": 13,
-                      "fontWeight": "800"
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -864,7 +863,7 @@
                   "content": "Spacing Scale",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -1171,7 +1170,7 @@
                   "content": "Radius Scale",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -1428,7 +1427,7 @@
                   "content": "Borders and Elevation",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -1730,7 +1729,7 @@
                   "content": "Screen Metrics",
                   "fontFamily": "$font-sans",
                   "fontSize": 18,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -2549,9 +2548,9 @@
                   "name": "Input Title",
                   "fill": "$color-text-primary",
                   "content": "Inputs",
-                  "fontFamily": "$typo-font",
-                  "fontSize": "$typo-h2-size",
-                  "fontWeight": "$typo-h1-weight"
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -2561,9 +2560,9 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Поля ввода для форм, поиска и длинного текста: состояния, размеры и служебные подписи.",
-                  "lineHeight": "$typo-p-line",
-                  "fontFamily": "$typo-font",
-                  "fontSize": "$typo-p2-size",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
                   "fontWeight": "normal"
                 }
               ]
@@ -2590,9 +2589,9 @@
                       "name": "Input Tokens Title",
                       "fill": "$color-text-primary",
                       "content": "Input Tokens",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -2602,9 +2601,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Цвета, высота, радиус и состояния границы, используемые всеми input-вариантами.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "normal"
                     }
                   ]
@@ -2653,9 +2652,9 @@
                               "name": "Input Token Label / Bg",
                               "fill": "$color-text-primary",
                               "content": "Bg",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2698,9 +2697,9 @@
                               "name": "Input Token Label / Disabled bg",
                               "fill": "$color-text-primary",
                               "content": "Disabled bg",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2743,9 +2742,9 @@
                               "name": "Input Token Label / Border",
                               "fill": "$color-text-primary",
                               "content": "Border",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2788,9 +2787,9 @@
                               "name": "Input Token Label / Focus",
                               "fill": "$color-text-primary",
                               "content": "Focus",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2833,9 +2832,9 @@
                               "name": "Input Token Label / Error",
                               "fill": "$color-text-primary",
                               "content": "Error",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2887,9 +2886,9 @@
                               "name": "Input Token Label / Label",
                               "fill": "$color-text-primary",
                               "content": "Label",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2932,9 +2931,9 @@
                               "name": "Input Token Label / Placeholder",
                               "fill": "$color-text-primary",
                               "content": "Placeholder",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -2977,9 +2976,9 @@
                               "name": "Input Token Label / Value",
                               "fill": "$color-text-primary",
                               "content": "Value",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -3022,9 +3021,9 @@
                               "name": "Input Token Label / Helper",
                               "fill": "$color-text-primary",
                               "content": "Helper",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -3067,9 +3066,9 @@
                               "name": "Input Token Label / Icon",
                               "fill": "$color-text-primary",
                               "content": "Icon",
-                              "fontFamily": "$typo-font",
-                              "fontSize": "$typo-p3-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontFamily": "$font-ui",
+                              "fontSize": "$typography-p1-size",
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "text",
@@ -3111,9 +3110,9 @@
                       "name": "States Title",
                       "fill": "$color-text-primary",
                       "content": "States",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -3123,9 +3122,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Основные состояния поля: empty, filled, focused, error, disabled и search.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "normal"
                     }
                   ]
@@ -3159,9 +3158,9 @@
                               "name": "Field Label",
                               "fill": "$input-label",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3187,9 +3186,9 @@
                                   "name": "Field Placeholder",
                                   "fill": "$input-placeholder",
                                   "content": "Введите email",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             }
@@ -3209,9 +3208,9 @@
                               "name": "Field Label",
                               "fill": "$input-label",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3256,9 +3255,9 @@
                                   "enabled": false,
                                   "fill": "$input-placeholder",
                                   "content": "Введите email",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 },
                                 {
                                   "type": "text",
@@ -3266,9 +3265,9 @@
                                   "name": "Field Value",
                                   "fill": "$input-value",
                                   "content": "user@domain.com",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             }
@@ -3288,9 +3287,9 @@
                               "name": "Field Label",
                               "fill": "$input-label",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3315,9 +3314,9 @@
                                   "name": "Field Value",
                                   "fill": "$input-value",
                                   "content": "user@domain.com",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             },
@@ -3329,10 +3328,10 @@
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "Активное поле",
-                              "lineHeight": "$typo-p-line",
-                              "fontFamily": "$typo-font",
+                              "lineHeight": "$typography-body-line",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-helper-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -3359,9 +3358,9 @@
                               "name": "Field Label",
                               "fill": "$input-label",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3386,9 +3385,9 @@
                                   "name": "Field Value",
                                   "fill": "$input-value",
                                   "content": "user@domain",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             },
@@ -3400,10 +3399,10 @@
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "Введите корректный email",
-                              "lineHeight": "$typo-p-line",
-                              "fontFamily": "$typo-font",
+                              "lineHeight": "$typography-body-line",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-helper-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         },
@@ -3421,9 +3420,9 @@
                               "name": "Field Label",
                               "fill": "$color-text-tertiary",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3448,9 +3447,9 @@
                                   "name": "Field Placeholder",
                                   "fill": "$input-placeholder",
                                   "content": "Недоступно",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             }
@@ -3473,9 +3472,9 @@
                               "enabled": false,
                               "fill": "$input-label",
                               "content": "Email",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-label-size",
-                              "fontWeight": "$typo-p3-weight"
+                              "fontWeight": "$typography-weight-medium"
                             },
                             {
                               "type": "frame",
@@ -3516,9 +3515,9 @@
                                   "name": "Field Placeholder",
                                   "fill": "$input-placeholder",
                                   "content": "Поиск",
-                                  "fontFamily": "$typo-font",
+                                  "fontFamily": "$font-ui",
                                   "fontSize": "$input-text-size",
-                                  "fontWeight": "$typo-p1-weight"
+                                  "fontWeight": "$typography-weight-normal"
                                 }
                               ]
                             }
@@ -3552,9 +3551,9 @@
                       "name": "Sizes Title",
                       "fill": "$color-text-primary",
                       "content": "Sizes",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -3564,9 +3563,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Размеры для плотных списков, стандартных форм и крупных CTA-форм.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "normal"
                     }
                   ]
@@ -3592,9 +3591,9 @@
                           "name": "Field Label",
                           "fill": "$input-label",
                           "content": "Название",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -3619,9 +3618,9 @@
                               "name": "Field Placeholder",
                               "fill": "$input-placeholder",
                               "content": "Короткое поле",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -3641,9 +3640,9 @@
                           "name": "Field Label",
                           "fill": "$input-label",
                           "content": "Название",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -3685,9 +3684,9 @@
                               "name": "Field Placeholder",
                               "fill": "$input-placeholder",
                               "content": "Стандартное поле",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -3707,9 +3706,9 @@
                           "name": "Field Label",
                           "fill": "$input-label",
                           "content": "Название",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -3734,9 +3733,9 @@
                               "name": "Field Placeholder",
                               "fill": "$input-placeholder",
                               "content": "Крупное поле",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -3768,9 +3767,9 @@
                       "name": "Textarea Title",
                       "fill": "$color-text-primary",
                       "content": "Textarea",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -3780,9 +3779,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Многострочный вариант для заметок, переводов и свободного ответа.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "normal"
                     }
                   ]
@@ -3801,9 +3800,9 @@
                       "name": "Field Label",
                       "fill": "$input-label",
                       "content": "Комментарий",
-                      "fontFamily": "$typo-font",
+                      "fontFamily": "$font-ui",
                       "fontSize": "$input-label-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "frame",
@@ -3828,10 +3827,10 @@
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Добавьте заметку о шлоке",
-                          "lineHeight": "$typo-p-line",
-                          "fontFamily": "$typo-font",
+                          "lineHeight": "$typography-body-line",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -3861,9 +3860,9 @@
                       "name": "Search and Password Title",
                       "fill": "$color-text-primary",
                       "content": "Search and Password",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-h3-size",
-                      "fontWeight": "$typo-h3-weight"
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-h3-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
                     {
                       "type": "text",
@@ -3873,9 +3872,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Специализированные поля для поиска по библиотеке и ввода пароля в формах авторизации.",
-                      "lineHeight": "$typo-p-line",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$typo-p3-size",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "normal"
                     }
                   ]
@@ -3904,9 +3903,9 @@
                           "enabled": false,
                           "fill": "$input-label",
                           "content": "Email",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -3947,9 +3946,9 @@
                               "name": "Field Placeholder",
                               "fill": "$input-placeholder",
                               "content": "Поиск",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -3972,9 +3971,9 @@
                           "enabled": false,
                           "fill": "$input-label",
                           "content": "Email",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -4018,9 +4017,9 @@
                               "enabled": false,
                               "fill": "$input-placeholder",
                               "content": "Поиск",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             },
                             {
                               "type": "text",
@@ -4028,9 +4027,9 @@
                               "name": "Field Value",
                               "fill": "$input-value",
                               "content": "гита",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             }
                           ]
                         }
@@ -4050,9 +4049,9 @@
                           "name": "Field Label",
                           "fill": "$input-label",
                           "content": "Пароль",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-label-size",
-                          "fontWeight": "$typo-p3-weight"
+                          "fontWeight": "$typography-weight-medium"
                         },
                         {
                           "type": "frame",
@@ -4077,9 +4076,9 @@
                               "name": "Field Value",
                               "fill": "$input-value",
                               "content": "********",
-                              "fontFamily": "$typo-font",
+                              "fontFamily": "$font-ui",
                               "fontSize": "$input-text-size",
-                              "fontWeight": "$typo-p1-weight"
+                              "fontWeight": "$typography-weight-normal"
                             },
                             {
                               "type": "frame",
@@ -4141,7 +4140,7 @@
                   "content": "Кнопки",
                   "fontFamily": "$font-sans",
                   "fontSize": 24,
-                  "fontWeight": "800"
+                  "fontWeight": "$typography-weight-bold"
                 },
                 {
                   "type": "text",
@@ -4440,7 +4439,7 @@
                       "content": "Повторить",
                       "fontFamily": "$font-sans",
                       "fontSize": "$button-font-sm",
-                      "fontWeight": "600"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -4508,7 +4507,7 @@
                       "content": "Назад",
                       "fontFamily": "$font-sans",
                       "fontSize": "$button-font-md",
-                      "fontWeight": "600"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -4550,7 +4549,7 @@
                       "content": "Удалить",
                       "fontFamily": "$font-sans",
                       "fontSize": "$button-font-md",
-                      "fontWeight": "600"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -4607,7 +4606,7 @@
                       "content": "Недоступно",
                       "fontFamily": "$font-sans",
                       "fontSize": "$button-font-md",
-                      "fontWeight": "600"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -4667,7 +4666,7 @@
                           "content": "Повторить",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-sm",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -4732,7 +4731,7 @@
                           "content": "Повторить",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-md",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -4880,7 +4879,7 @@
                           "content": "Добавить",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-md",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -4960,7 +4959,7 @@
                           "content": "Назад",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-md",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -5040,7 +5039,7 @@
                           "content": "Удалить",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-md",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -5173,7 +5172,7 @@
                           "content": "Недоступно",
                           "fontFamily": "$font-sans",
                           "fontSize": "$button-font-md",
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     },
@@ -5217,9 +5216,9 @@
           "name": "Section Title / Core Components",
           "fill": "$color-text-primary",
           "content": "Core Components",
-          "fontFamily": "$font-heading",
-          "fontSize": "$type-section-title-size",
-          "fontWeight": "$type-weight-bold"
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-h1-size",
+          "fontWeight": "$typography-weight-bold"
         },
         {
           "type": "text",
@@ -5229,10 +5228,10 @@
           "textGrowth": "fixed-width",
           "width": "fill_container",
           "content": "Новые reusable-компоненты, собранные на токенах из 01 Foundations.",
-          "lineHeight": "$line-height-body",
-          "fontFamily": "$font-body",
-          "fontSize": "$type-body-sm-size",
-          "fontWeight": "$type-weight-regular"
+          "lineHeight": "$typography-body-line",
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-p2-size",
+          "fontWeight": "$typography-weight-normal"
         },
         {
           "type": "frame",
@@ -5266,7 +5265,7 @@
                   "content": "Повторить",
                   "fontFamily": "$font-sans",
                   "fontSize": "$button-font-md",
-                  "fontWeight": "$type-weight-semibold"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             },
@@ -5293,7 +5292,7 @@
                   "content": "повторяю",
                   "fontFamily": "$font-ui",
                   "fontSize": "$type-caption-size",
-                  "fontWeight": "$type-weight-semibold"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             }
@@ -5329,9 +5328,9 @@
                       "name": "Field Label",
                       "fill": "$input-label",
                       "content": "Название поля",
-                      "fontFamily": "$typo-font",
+                      "fontFamily": "$font-ui",
                       "fontSize": "$input-label-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "frame",
@@ -5373,9 +5372,9 @@
                           "name": "Field Placeholder",
                           "fill": "$input-placeholder",
                           "content": "Введите значение",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -5396,9 +5395,9 @@
                       "name": "Field Label",
                       "fill": "$input-label",
                       "content": "Название поля",
-                      "fontFamily": "$typo-font",
+                      "fontFamily": "$font-ui",
                       "fontSize": "$input-label-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "frame",
@@ -5443,9 +5442,9 @@
                           "enabled": false,
                           "fill": "$input-placeholder",
                           "content": "Введите значение",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         },
                         {
                           "type": "text",
@@ -5453,9 +5452,9 @@
                           "name": "Field Value",
                           "fill": "$input-value",
                           "content": "Значение",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -5573,7 +5572,7 @@
                   "content": "Добавить",
                   "fontFamily": "$font-sans",
                   "fontSize": "$button-font-md",
-                  "fontWeight": "$type-weight-semibold"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             }
@@ -5688,9 +5687,9 @@
                       "name": "Field Label",
                       "fill": "$input-label",
                       "content": "Источник",
-                      "fontFamily": "$typo-font",
+                      "fontFamily": "$font-ui",
                       "fontSize": "$input-label-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "frame",
@@ -5717,9 +5716,9 @@
                           "name": "Field Placeholder",
                           "fill": "$input-placeholder",
                           "content": "Выберите источник",
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         },
                         {
                           "id": "Yxxz7",
@@ -5765,9 +5764,9 @@
                       "name": "Field Label",
                       "fill": "$input-label",
                       "content": "Перевод",
-                      "fontFamily": "$typo-font",
+                      "fontFamily": "$font-ui",
                       "fontSize": "$input-label-size",
-                      "fontWeight": "$typo-p3-weight"
+                      "fontWeight": "$typography-weight-medium"
                     },
                     {
                       "type": "frame",
@@ -5796,9 +5795,9 @@
                           "width": "fill_container",
                           "content": "Введите перевод",
                           "lineHeight": 1.35,
-                          "fontFamily": "$typo-font",
+                          "fontFamily": "$font-ui",
                           "fontSize": "$input-text-size",
-                          "fontWeight": "$typo-p1-weight"
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -5833,9 +5832,9 @@
                   "name": "Icon Library Title",
                   "fill": "$color-text-primary",
                   "content": "Icons",
-                  "fontFamily": "$font-heading",
-                  "fontSize": "$type-section-title-size",
-                  "fontWeight": "$type-weight-bold"
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
                 }
               ]
             },
@@ -5919,7 +5918,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -5992,7 +5991,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6065,7 +6064,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6138,7 +6137,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6211,7 +6210,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6284,7 +6283,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6357,7 +6356,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6430,7 +6429,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6503,7 +6502,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6576,7 +6575,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6649,7 +6648,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6722,7 +6721,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6801,7 +6800,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6879,7 +6878,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -6957,7 +6956,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7035,7 +7034,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7165,7 +7164,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -7195,9 +7194,9 @@
           "name": "Section Title / Product Components",
           "fill": "$color-text-primary",
           "content": "Product Components",
-          "fontFamily": "$font-heading",
-          "fontSize": "$type-section-title-size",
-          "fontWeight": "$type-weight-bold"
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-h1-size",
+          "fontWeight": "$typography-weight-bold"
         },
         {
           "type": "text",
@@ -7207,10 +7206,10 @@
           "textGrowth": "fixed-width",
           "width": "fill_container",
           "content": "Доменные reusable-компоненты Sanskrit learning, собранные поверх Core Components и Foundations.",
-          "lineHeight": "$line-height-body",
-          "fontFamily": "$font-body",
-          "fontSize": "$type-body-sm-size",
-          "fontWeight": "$type-weight-regular"
+          "lineHeight": "$typography-body-line",
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-p2-size",
+          "fontWeight": "$typography-weight-normal"
         },
         {
           "type": "frame",
@@ -7536,7 +7535,7 @@
                       "content": "Главная",
                       "fontFamily": "$font-ui",
                       "fontSize": 13,
-                      "fontWeight": "$type-weight-semibold"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7576,7 +7575,7 @@
                       "content": "Библиотека",
                       "fontFamily": "$font-ui",
                       "fontSize": 13,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7616,7 +7615,7 @@
                       "content": "Обучение",
                       "fontFamily": "$font-ui",
                       "fontSize": 13,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7656,7 +7655,7 @@
                       "content": "Еще",
                       "fontFamily": "$font-ui",
                       "fontSize": 13,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -7693,7 +7692,7 @@
                       "content": "Повторяю",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -7716,7 +7715,7 @@
                       "content": "Буду учить",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-semibold"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -7739,7 +7738,7 @@
                       "content": "Все",
                       "fontFamily": "$font-ui",
                       "fontSize": "$type-caption-size",
-                      "fontWeight": "$type-weight-semibold"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -8090,8 +8089,8 @@
                               "fill": "$text",
                               "content": "дней подряд",
                               "fontFamily": "$font-ui",
-                              "fontSize": "$type-body-sm-size",
-                              "fontWeight": "$type-weight-extrabold"
+                              "fontSize": "$typography-p2-size",
+                              "fontWeight": "$typography-weight-bold"
                             }
                           ]
                         },
@@ -8103,10 +8102,10 @@
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Повторите или выучите хотя бы одну шлоку для продолжения серии.",
-                          "lineHeight": 1.35,
-                          "fontFamily": "$font-body",
-                          "fontSize": "$type-meta-size",
-                          "fontWeight": "normal"
+                          "lineHeight": "$typography-body-line",
+                          "fontFamily": "$font-ui",
+                          "fontSize": "$typography-p1-size",
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -8180,8 +8179,8 @@
                               "fill": "$text",
                               "content": "дней подряд",
                               "fontFamily": "$font-ui",
-                              "fontSize": "$type-body-sm-size",
-                              "fontWeight": "$type-weight-extrabold"
+                              "fontSize": "$typography-p2-size",
+                              "fontWeight": "$typography-weight-bold"
                             }
                           ]
                         },
@@ -8193,10 +8192,10 @@
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "У вас серия! Вернитесь завтра, чтобы продолжить ее.",
-                          "lineHeight": 1.35,
-                          "fontFamily": "$font-body",
-                          "fontSize": "$type-meta-size",
-                          "fontWeight": "normal"
+                          "lineHeight": "$typography-body-line",
+                          "fontFamily": "$font-ui",
+                          "fontSize": "$typography-p1-size",
+                          "fontWeight": "$typography-weight-normal"
                         }
                       ]
                     }
@@ -8318,8 +8317,8 @@
                       "fill": "$primary",
                       "content": "Показать еще 8",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-body-sm-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 }
@@ -8485,8 +8484,8 @@
                       "fill": "$primary",
                       "content": "Показать все",
                       "fontFamily": "$font-ui",
-                      "fontSize": "$type-body-sm-size",
-                      "fontWeight": "$type-weight-bold"
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 }
@@ -8642,7 +8641,7 @@
                               "content": "Без глав",
                               "fontFamily": "Inter",
                               "fontSize": 12,
-                              "fontWeight": "600"
+                              "fontWeight": "$typography-weight-medium"
                             }
                           ]
                         },
@@ -8665,7 +8664,7 @@
                               "content": "Главы",
                               "fontFamily": "Inter",
                               "fontSize": 12,
-                              "fontWeight": "600"
+                              "fontWeight": "$typography-weight-medium"
                             }
                           ]
                         },
@@ -9117,9 +9116,9 @@
               "name": "Layout Components Title",
               "fill": "$color-text-primary",
               "content": "Лейауты экранов",
-              "fontFamily": "$font-heading",
-              "fontSize": "$type-section-title-size",
-              "fontWeight": "$type-weight-bold"
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-h1-size",
+              "fontWeight": "$typography-weight-bold"
             },
             {
               "type": "text",
@@ -9129,10 +9128,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Полноразмерные каркасы приложения: detail-экран с кнопкой назад и основной экран с нижней навигацией.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-body",
-              "fontSize": "$type-body-sm-size",
-              "fontWeight": "$type-weight-regular"
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             }
           ]
         },
@@ -9376,11 +9375,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Заголовок",
-                      "lineHeight": "$typo-h1-line",
+                      "lineHeight": "$typography-heading-line",
                       "textAlign": "center",
                       "fontFamily": "$font",
-                      "fontSize": "$typo-h1-size",
-                      "fontWeight": "$typo-h1-weight"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold"
                     }
                   ]
                 },
@@ -9446,7 +9445,7 @@
               "content": "9:41",
               "fontFamily": "$font",
               "fontSize": 15,
-              "fontWeight": "600"
+              "fontWeight": "$typography-weight-medium"
             },
             {
               "type": "frame",
@@ -9749,7 +9748,7 @@
                       "content": "Войти",
                       "fontFamily": "$font",
                       "fontSize": 14,
-                      "fontWeight": "600"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -9795,7 +9794,7 @@
               "content": "9:41",
               "fontFamily": "$font",
               "fontSize": 15,
-              "fontWeight": "600"
+              "fontWeight": "$typography-weight-medium"
             },
             {
               "type": "frame",
@@ -10120,7 +10119,7 @@
                           "content": "Зарегистрироваться",
                           "fontFamily": "$font",
                           "fontSize": 14,
-                          "fontWeight": "600"
+                          "fontWeight": "$typography-weight-medium"
                         }
                       ]
                     }
@@ -10315,7 +10314,7 @@
                       "content": "Главная",
                       "fontFamily": "$font-ui",
                       "fontSize": 11,
-                      "fontWeight": "$type-weight-semibold"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -10348,7 +10347,7 @@
                       "content": "Библиотека",
                       "fontFamily": "$font-ui",
                       "fontSize": 11,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -10381,7 +10380,7 @@
                       "content": "Обучение",
                       "fontFamily": "$font-ui",
                       "fontSize": 11,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 },
@@ -10414,7 +10413,7 @@
                       "content": "Еще",
                       "fontFamily": "$font-ui",
                       "fontSize": 11,
-                      "fontWeight": "$type-weight-medium"
+                      "fontWeight": "$typography-weight-medium"
                     }
                   ]
                 }
@@ -11015,7 +11014,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -11023,7 +11022,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -11031,7 +11030,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -11039,7 +11038,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -11215,7 +11214,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -11223,7 +11222,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -11231,7 +11230,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -11239,7 +11238,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -11370,9 +11369,9 @@
                   "enabled": false,
                   "fill": "$input-label",
                   "content": "Email",
-                  "fontFamily": "$typo-font",
+                  "fontFamily": "Inter",
                   "fontSize": "$input-label-size",
-                  "fontWeight": "$typo-p3-weight"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "frame",
@@ -11413,9 +11412,8 @@
                       "name": "Field Placeholder",
                       "fill": "$input-placeholder",
                       "content": "Поиск",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$input-text-size",
-                      "fontWeight": "$typo-p1-weight"
+                      "fontFamily": "Inter",
+                      "fontSize": "$input-text-size"
                     }
                   ]
                 }
@@ -11494,7 +11492,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -11502,7 +11500,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -11510,7 +11508,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -11518,7 +11516,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -11649,9 +11647,9 @@
                   "enabled": false,
                   "fill": "$input-label",
                   "content": "Email",
-                  "fontFamily": "$typo-font",
+                  "fontFamily": "Inter",
                   "fontSize": "$input-label-size",
-                  "fontWeight": "$typo-p3-weight"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "frame",
@@ -11695,9 +11693,8 @@
                       "enabled": false,
                       "fill": "$input-placeholder",
                       "content": "Поиск",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$input-text-size",
-                      "fontWeight": "$typo-p1-weight"
+                      "fontFamily": "Inter",
+                      "fontSize": "$input-text-size"
                     },
                     {
                       "type": "text",
@@ -11705,9 +11702,8 @@
                       "name": "Field Value",
                       "fill": "$input-value",
                       "content": "abc",
-                      "fontFamily": "$typo-font",
-                      "fontSize": "$input-text-size",
-                      "fontWeight": "$typo-p1-weight"
+                      "fontFamily": "Inter",
+                      "fontSize": "$input-text-size"
                     }
                   ]
                 }
@@ -11736,7 +11732,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -11744,7 +11740,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -11752,7 +11748,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -11760,7 +11756,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -11935,7 +11931,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -11943,7 +11939,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -11951,7 +11947,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -11959,7 +11955,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -12122,7 +12118,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -12130,7 +12126,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -12138,7 +12134,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -12146,7 +12142,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -12313,7 +12309,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -12321,7 +12317,7 @@
             },
             "L6CXp6": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -12329,7 +12325,7 @@
             },
             "Jl09H": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -12337,7 +12333,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -13480,7 +13476,7 @@
             },
             "M1O7R": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "bQROH": {
               "fill": "$color-transparent",
@@ -13488,7 +13484,7 @@
             },
             "L6CXp6": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             },
             "U1VK6D": {
               "fill": "$color-transparent",
@@ -13496,7 +13492,7 @@
             },
             "Jl09H": {
               "fill": "$primary",
-              "fontWeight": "$type-weight-semibold"
+              "fontWeight": "$typography-weight-medium"
             },
             "JIRDA": {
               "fill": "$color-transparent",
@@ -13504,7 +13500,7 @@
             },
             "KuIBo": {
               "fill": "$text-muted",
-              "fontWeight": "$type-weight-medium"
+              "fontWeight": "$typography-weight-medium"
             }
           }
         }
@@ -13818,7 +13814,7 @@
                   "content": "Главная",
                   "fontFamily": "$font-ui",
                   "fontSize": 11,
-                  "fontWeight": "$type-weight-medium"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             },
@@ -13851,7 +13847,7 @@
                   "content": "Библиотека",
                   "fontFamily": "$font-ui",
                   "fontSize": 11,
-                  "fontWeight": "$type-weight-medium"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             },
@@ -13884,7 +13880,7 @@
                   "content": "Обучение",
                   "fontFamily": "$font-ui",
                   "fontSize": 11,
-                  "fontWeight": "$type-weight-medium"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             },
@@ -13917,7 +13913,7 @@
                   "content": "Еще",
                   "fontFamily": "$font-ui",
                   "fontSize": 11,
-                  "fontWeight": "$type-weight-semibold"
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             }
@@ -15356,14 +15352,6 @@
       "type": "number",
       "value": 2
     },
-    "font-body": {
-      "type": "string",
-      "value": "Inter"
-    },
-    "font-heading": {
-      "type": "string",
-      "value": "Inter"
-    },
     "font-sanskrit": {
       "type": "string",
       "value": "Noto Serif"
@@ -15376,161 +15364,9 @@
       "type": "string",
       "value": "Inter"
     },
-    "line-height-body": {
-      "type": "number",
-      "value": 1.4
-    },
-    "line-height-reading": {
-      "type": "number",
-      "value": 1.6
-    },
-    "line-height-sanskrit": {
-      "type": "number",
-      "value": 1.75
-    },
-    "line-height-tight": {
-      "type": "number",
-      "value": 1.15
-    },
-    "line-height-title": {
-      "type": "number",
-      "value": 1.25
-    },
-    "type-body-size": {
-      "type": "number",
-      "value": 15
-    },
-    "type-body-sm-size": {
-      "type": "number",
-      "value": 14
-    },
     "type-caption-size": {
       "type": "number",
       "value": 12
-    },
-    "type-card-title-size": {
-      "type": "number",
-      "value": 17
-    },
-    "type-display-size": {
-      "type": "number",
-      "value": 32
-    },
-    "type-meta-size": {
-      "type": "number",
-      "value": 13
-    },
-    "type-nav-size": {
-      "type": "number",
-      "value": 10
-    },
-    "type-page-title-size": {
-      "type": "number",
-      "value": 24
-    },
-    "type-sanskrit-size": {
-      "type": "number",
-      "value": 22
-    },
-    "type-screen-title-size": {
-      "type": "number",
-      "value": 28
-    },
-    "type-section-title-size": {
-      "type": "number",
-      "value": 20
-    },
-    "type-transliteration-size": {
-      "type": "number",
-      "value": 14
-    },
-    "type-weight-bold": {
-      "type": "string",
-      "value": "700"
-    },
-    "type-weight-extrabold": {
-      "type": "string",
-      "value": "800"
-    },
-    "type-weight-medium": {
-      "type": "string",
-      "value": "500"
-    },
-    "type-weight-regular": {
-      "type": "string",
-      "value": "400"
-    },
-    "type-weight-semibold": {
-      "type": "string",
-      "value": "600"
-    },
-    "typo-font": {
-      "type": "string",
-      "value": "Inter"
-    },
-    "typo-h1-line": {
-      "type": "number",
-      "value": 1.2
-    },
-    "typo-h1-size": {
-      "type": "number",
-      "value": 28
-    },
-    "typo-h1-weight": {
-      "type": "string",
-      "value": "800"
-    },
-    "typo-h2-line": {
-      "type": "number",
-      "value": 1.25
-    },
-    "typo-h2-size": {
-      "type": "number",
-      "value": 22
-    },
-    "typo-h2-weight": {
-      "type": "string",
-      "value": "700"
-    },
-    "typo-h3-line": {
-      "type": "number",
-      "value": 1.3
-    },
-    "typo-h3-size": {
-      "type": "number",
-      "value": 18
-    },
-    "typo-h3-weight": {
-      "type": "string",
-      "value": "700"
-    },
-    "typo-p-line": {
-      "type": "number",
-      "value": 1.4
-    },
-    "typo-p1-size": {
-      "type": "number",
-      "value": 16
-    },
-    "typo-p1-weight": {
-      "type": "string",
-      "value": "400"
-    },
-    "typo-p2-size": {
-      "type": "number",
-      "value": 14
-    },
-    "typo-p2-weight": {
-      "type": "string",
-      "value": "400"
-    },
-    "typo-p3-size": {
-      "type": "number",
-      "value": 12
-    },
-    "typo-p3-weight": {
-      "type": "string",
-      "value": "500"
     },
     "input-bg": {
       "type": "color",

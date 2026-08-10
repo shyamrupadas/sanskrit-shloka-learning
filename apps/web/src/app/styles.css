@@ -44,7 +44,6 @@ body {
 }
 
 @theme inline {
-  --font-heading: var(--font-family-heading-token);
   --font-sans: var(--font-family-sans-token);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -119,37 +118,24 @@ body {
   --component-card-gap: 10px;
   --component-card-indicator-size: 22px;
   --component-card-padding: 14px;
-  --component-empty-description-line-height: 1.35;
   --component-empty-icon-size: 42px;
   --component-empty-padding: 18px;
   --component-page-header-action-size: 40px;
   --component-page-header-height: 44px;
   --component-page-header-icon-size: 22px;
-  --component-page-header-title-line-height: 1.2;
   --component-settings-row-gap: 12px;
   --component-settings-row-padding: 14px;
   --component-settings-row-radius: 12px;
   --component-tab-height: 42px;
+  --component-tab-label-size: 12px;
   --component-tip-accordion-border: #E2E8F0;
-  --component-tip-accordion-content-line-height: 1.35;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
   --disabled-background: #E2E8F0;
   --disabled-foreground: #94A3B8;
   --font-family-data-token: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-family-heading-token: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-family-sanskrit-token: "Noto Serif", ui-serif, Georgia, serif;
   --font-family-sans-token: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-size-body: 15px;
-  --font-size-body-sm: 14px;
-  --font-size-card-title: 17px;
-  --font-size-caption: 12px;
-  --font-size-meta: 13px;
-  --font-size-nav: 10px;
-  --font-size-page-title: 24px;
-  --font-size-sanskrit: 22px;
-  --font-size-screen-title: 28px;
-  --font-size-section-title: 20px;
   --foreground: #334155;
   --input: #D6DEE9;
   --input-height: 44px;
@@ -157,10 +143,6 @@ body {
   --input-radius: 8px;
   --input-text-size: 15px;
   --inverse-foreground: #FFFFFF;
-  --line-height-body: 1.4;
-  --line-height-reading: 1.6;
-  --line-height-sanskrit: 1.75;
-  --line-height-title: 1.25;
   --muted: #F1F5F9;
   --muted-foreground: #64748B;
   --overlay: #0F172A66;
@@ -233,13 +215,5 @@ body {
   }
   html {
     @apply font-sans;
-  }
-}
-
-@layer utilities {
-  .font-sanskrit-title,
-  .font-sanskrit-text {
-    font-family: var(--font-family-sanskrit-token);
-    font-style: normal;
   }
 }

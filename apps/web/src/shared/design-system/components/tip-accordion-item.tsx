@@ -27,7 +27,7 @@ export function TipAccordionItem({
         onClick={() => setIsExpanded((current) => !current)}
         type="button"
       >
-        <span className="min-w-0 flex-1 text-base leading-[var(--line-height-title)] font-bold">
+        <span className="min-w-0 flex-1 text-base leading-[var(--typography-heading-line-height)] font-bold">
           {title}
         </span>
         <Indicator

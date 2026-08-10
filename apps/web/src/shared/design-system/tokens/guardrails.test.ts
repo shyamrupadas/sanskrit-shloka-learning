@@ -107,6 +107,25 @@ describe("design token guardrails", () => {
     ]);
   });
 
+  it("documents the only path-level typography markup exceptions", () => {
+    expect(designTokenGuardrailConfig.typographyMarkupExceptions).toEqual([
+      expect.objectContaining({
+        path: "src/shared/design-system/components/typography.tsx",
+        reason: expect.any(String),
+      }),
+      expect.objectContaining({
+        path: "src/shared/ui/",
+        reason: expect.any(String),
+      }),
+    ]);
+    expect(designTokenGuardrailConfig.manualTypographyRestrictedPaths).toEqual([
+      expect.objectContaining({
+        path: "src/features/",
+        reason: expect.any(String),
+      }),
+    ]);
+  });
+
   it("flags arbitrary hex and OKLCH colors outside exception paths", () => {
     const violations = findDesignTokenGuardrailViolations([
       fixture(
@@ -200,5 +219,101 @@ describe("design token guardrails", () => {
         value: "340px",
       },
     ]);
+  });
+
+  it("flags standalone typography markup outside the typography implementation", () => {
+    const violations = findDesignTokenGuardrailViolations([
+      fixture(
+        "src/features/dashboard/ui/dashboard-page.tsx",
+        "<main><h1>Dashboard</h1><p>Summary</p></main>",
+      ),
+      fixture(
+        "src/shared/design-system/components/status-card.tsx",
+        "<article><h2>Status</h2></article>",
+      ),
+    ]);
+
+    expect(
+      violations.map(({ filePath, kind, value }) => ({
+        filePath,
+        kind,
+        value,
+      })),
+    ).toEqual([
+      {
+        filePath: "src/features/dashboard/ui/dashboard-page.tsx",
+        kind: "raw-typography-element",
+        value: "h1",
+      },
+      {
+        filePath: "src/features/dashboard/ui/dashboard-page.tsx",
+        kind: "raw-typography-element",
+        value: "p",
+      },
+      {
+        filePath: "src/shared/design-system/components/status-card.tsx",
+        kind: "raw-typography-element",
+        value: "h2",
+      },
+    ]);
+  });
+
+  it("flags manual common typography in feature code", () => {
+    const violations = findDesignTokenGuardrailViolations([
+      fixture(
+        "src/features/library/ui/library-view.tsx",
+        '<section className="text-xl leading-[1.35] font-semibold" style={{ fontSize: "18px", lineHeight: 1.25, fontWeight: 700 }} />',
+      ),
+      fixture(
+        "src/features/library/ui/library-view.css",
+        ".title { font-size: 18px; line-height: 1.25; font-weight: 700; }",
+      ),
+      fixture(
+        "src/features/library/ui/library-card.tsx",
+        '<Card.Button className="font-bold">Open</Card.Button>',
+      ),
+    ]);
+
+    expect(
+      violations.map(({ kind, value }) => ({ kind, value })),
+    ).toEqual([
+      { kind: "manual-typography", value: "text-xl" },
+      { kind: "manual-typography", value: "leading-[1.35]" },
+      { kind: "manual-typography", value: "font-semibold" },
+      { kind: "manual-typography", value: "fontSize" },
+      { kind: "manual-typography", value: "lineHeight" },
+      { kind: "manual-typography", value: "fontWeight" },
+      { kind: "manual-typography", value: "font-size" },
+      { kind: "manual-typography", value: "line-height" },
+      { kind: "manual-typography", value: "font-weight" },
+      { kind: "manual-typography", value: "font-bold" },
+    ]);
+  });
+
+  it("allows the typography API, layout classes, and control-owned typography", () => {
+    const violations = findDesignTokenGuardrailViolations([
+      fixture(
+        "src/features/library/ui/library-view.tsx",
+        [
+          '<Typography className="truncate text-center" variant="h1">Library</Typography>',
+          '<SanskritTypography className="max-w-full" variant="p3">Text</SanskritTypography>',
+          '<Button onClick={() => undefined} className="text-[15px] font-semibold">Save</Button>',
+          '<Link className="text-sm font-bold">Back</Link>',
+          '<Label className="font-medium">Name</Label>',
+          '<input className="text-[length:var(--input-text-size)]" />',
+          '<TabsTrigger className="text-xs font-medium">All</TabsTrigger>',
+        ].join("\n"),
+      ),
+      fixture(
+        "src/shared/design-system/components/typography.tsx",
+        "const tags = { h1: <h1 />, h2: <h2 />, h3: <h3 />, p: <p /> };",
+      ),
+      fixture(
+        "src/shared/ui/card.tsx",
+        '<section><h3 className="text-base font-medium">Title</h3><p>Description</p></section>',
+      ),
+    ]);
+
+    expect(violations).toEqual([]);
   });
 });

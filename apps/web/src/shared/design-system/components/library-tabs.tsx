@@ -34,7 +34,7 @@ export function LibraryTabs<TValue extends string>({
       <TabsList className="h-[var(--component-tab-height)] w-full rounded-full bg-muted p-1">
         {tabs.map((tab) => (
           <TabsTrigger
-            className="rounded-full px-1 text-[length:var(--font-size-caption)] font-semibold text-muted-foreground data-active:bg-card data-active:font-bold data-active:text-foreground data-active:shadow-[var(--shadow-low)]"
+            className="rounded-full px-1 text-[length:var(--component-tab-label-size)] font-semibold text-muted-foreground data-active:bg-card data-active:font-bold data-active:text-foreground data-active:shadow-[var(--shadow-low)]"
             key={tab.id}
             value={tab.id}
           >
