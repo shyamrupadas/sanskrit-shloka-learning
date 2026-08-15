@@ -20,7 +20,7 @@ for (const viewport of [
       page.getByRole("heading", { name: "Настройки" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("switch", { name: "Интенсивный режим повторения" }),
+      page.getByRole("switch", { name: "Интенсивное повторение" }),
     ).toBeVisible();
     await expect(page.getByText("Транслитерация")).toHaveCount(0);
     await expect(page.getByText(adminSession.account.email)).toBeVisible();

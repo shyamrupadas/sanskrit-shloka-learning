@@ -58,9 +58,14 @@ describe("settings page", () => {
         name: "Настройки",
       }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Управляйте предпочтениями и доступом к учетной записи.",
+      ),
+    ).not.toBeInTheDocument();
     expect(await screen.findByText(session.account.email)).toBeInTheDocument();
     const hardModeToggle = await screen.findByRole("switch", {
-      name: "Интенсивный режим повторения",
+      name: "Интенсивное повторение",
     });
     expect(hardModeToggle).not.toBeChecked();
     expect(screen.queryByText("Транслитерация")).not.toBeInTheDocument();
@@ -85,7 +90,7 @@ describe("settings page", () => {
 
     expect(
       await screen.findByRole("switch", {
-        name: "Интенсивный режим повторения",
+        name: "Интенсивное повторение",
       }),
     ).toBeChecked();
   });
@@ -113,7 +118,7 @@ describe("settings page", () => {
     renderSettings();
 
     const hardModeToggle = await screen.findByRole("switch", {
-      name: "Интенсивный режим повторения",
+      name: "Интенсивное повторение",
     });
     await user.click(hardModeToggle);
 
@@ -144,6 +149,12 @@ describe("settings page", () => {
     expect(
       await screen.findByText(adminSession.account.email),
     ).toBeInTheDocument();
+    expect(screen.getByText("Каталог")).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Пополняйте и исправляйте общую библиотеку шлок.",
+      ),
+    ).not.toBeInTheDocument();
     const adminAction = screen.getByRole("link", { name: "Админка" });
     expect(adminAction).toHaveAttribute("href", routePaths.admin);
 

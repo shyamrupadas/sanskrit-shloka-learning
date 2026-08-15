@@ -53,18 +53,7 @@ export function SettingsPage() {
 
   return (
     <section className="min-w-0 space-y-4">
-      <div className="space-y-1">
-        <Typography variant="h1">
-          {strings.settings.title}
-        </Typography>
-        <Typography
-          className="break-words [overflow-wrap:anywhere]"
-          tone="muted"
-          variant="p2"
-        >
-          {strings.settings.subtitle}
-        </Typography>
-      </div>
+      <Typography variant="h1">{strings.settings.title}</Typography>
 
       {settingsQuery.isPending ? (
         <StatusCard title={strings.common.loading} />
@@ -129,7 +118,6 @@ export function SettingsPage() {
               </Link>
             </Button>
           }
-          description={strings.settings.adminDescription}
           title={strings.settings.adminTitle}
         />
       ) : null}

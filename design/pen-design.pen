@@ -11413,7 +11413,8 @@
                       "fill": "$input-placeholder",
                       "content": "Поиск",
                       "fontFamily": "Inter",
-                      "fontSize": "$input-text-size"
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -11694,7 +11695,8 @@
                       "fill": "$input-placeholder",
                       "content": "Поиск",
                       "fontFamily": "Inter",
-                      "fontSize": "$input-text-size"
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -11703,7 +11705,8 @@
                       "fill": "$input-value",
                       "content": "abc",
                       "fontFamily": "Inter",
-                      "fontSize": "$input-text-size"
+                      "fontSize": "$input-text-size",
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -13714,7 +13717,7 @@
                   "id": "KpOBj",
                   "name": "Hard Mode Label",
                   "fill": "$color-text-primary",
-                  "content": "Hard mode",
+                  "content": "Интенсивное повторение",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-h3-size",
@@ -13747,16 +13750,59 @@
               ]
             },
             {
-              "id": "koTlm",
-              "type": "ref",
-              "ref": "B9n47J",
-              "name": "Admin Link",
+              "type": "frame",
+              "id": "P7sWb",
+              "name": "Catalog Row",
               "width": "fill_container",
-              "descendants": {
-                "VZsCN": {
-                  "content": "Админка"
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "stroke": "#E2E8F0",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "gap": 12,
+              "padding": 14,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OFaDL",
+                  "name": "Catalog Label",
+                  "fill": "#334155",
+                  "content": "Каталог",
+                  "lineHeight": 1.25,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "id": "obxv7",
+                  "type": "ref",
+                  "ref": "B9n47J",
+                  "name": "Admin Link",
+                  "width": "fit_content",
+                  "children": [
+                    {
+                      "id": "nALai",
+                      "type": "ref",
+                      "ref": "nALai",
+                      "children": [
+                        {
+                          "id": "aJi23",
+                          "type": "ref",
+                          "ref": "nALai/aJi23"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "VZsCN",
+                      "type": "ref",
+                      "ref": "VZsCN",
+                      "content": "Админка"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           ]
         },
