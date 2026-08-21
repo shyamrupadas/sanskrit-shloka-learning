@@ -5,6 +5,7 @@
 **Blocked by:** 01 — Перевести UI-контракт на pen.dev workflow
 
 **Status:** awaiting-human-review
+Accepted: 2026-08-22
 
 - [x] Project skill имеет узкий trigger для чтения/изменения канонического `.pen`, подготовки актуальных pen.dev references, создания или изменения видимого frontend UI и visual contract review.
 - [x] Skill отделяет каноническую policy от исполняемой процедуры: читает актуальные project rules по режиму и не дублирует vendor schema или полные описания Pencil tools.

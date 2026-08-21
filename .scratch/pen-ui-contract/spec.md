@@ -1,6 +1,7 @@
 # Безопасный workflow pen.dev UI-контракта
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-08-22
 
 ## Problem Statement
 
