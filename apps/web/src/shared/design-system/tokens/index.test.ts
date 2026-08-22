@@ -75,6 +75,7 @@ describe("design token contract", () => {
       "input",
       "pageHeader",
       "settingsRow",
+      "streakIndicator",
       "tipAccordion",
       "tabs",
     ]);

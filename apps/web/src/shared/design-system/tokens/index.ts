@@ -207,6 +207,12 @@ export const designTokens = {
       success: fromPencil("#15803D", "color-success-fg", {
         cssVariable: "--success",
       }),
+      successBackground: fromPencil("#DCFCE7", "color-success-bg", {
+        cssVariable: "--success-background",
+      }),
+      successBorder: fromPencil("#86EFAC", "color-success-border", {
+        cssVariable: "--success-border",
+      }),
       warning: fromPencil("#B45309", "color-warning-fg", {
         cssVariable: "--warning",
       }),
@@ -613,6 +619,17 @@ export const designTokens = {
         cssValue: px(12),
         cssVariable: "--component-settings-row-radius",
       }),
+    },
+    streakIndicator: {
+      counterSize: fromSource(
+        28,
+        "component-streak-counter-size",
+        "Counter size measured from Product / Streak Page Body states (Vz3kf, ggEJw, W9OIY); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(28),
+          cssVariable: "--component-streak-counter-size",
+        },
+      ),
     },
     tipAccordion: {
       border: fromPencil("#E2E8F0", "border", {

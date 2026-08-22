@@ -47,6 +47,10 @@ const DashboardPage = lazyRouteComponent(
   () => import("@/features/dashboard/dashboard.page"),
   "DashboardPage",
 );
+const StreakPage = lazyRouteComponent(
+  () => import("@/features/streak/streak.page"),
+  "StreakPage",
+);
 const LearningPage = lazyRouteComponent(
   () => import("@/features/learning/learning.page"),
   "LearningPage",
@@ -117,6 +121,12 @@ const dashboardRoute = createRoute({
   component: DashboardPage,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.dashboard,
+});
+
+const streakRoute = createRoute({
+  component: StreakPage,
+  getParentRoute: () => authenticatedRoute,
+  path: routeSegments.streak,
 });
 
 const libraryRoute = createRoute({
@@ -201,6 +211,7 @@ const routeTree = rootRoute.addChildren([
   registerRoute,
   authenticatedRoute.addChildren([
     dashboardRoute,
+    streakRoute,
     libraryRoute,
     shlokaRoute,
     learnShlokaRoute,

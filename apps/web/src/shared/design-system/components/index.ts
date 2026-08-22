@@ -26,6 +26,13 @@ export {
 export { SettingsRow, type SettingsRowProps } from "./settings-row";
 export { StatusCard, type StatusCardProps } from "./status-card";
 export {
+  StreakCounter,
+  StreakIcon,
+  StreakIndicator,
+  type StreakIconProps,
+  type StreakIndicatorProps,
+} from "./streak-indicator";
+export {
   TipAccordionItem,
   type TipAccordionItemProps,
 } from "./tip-accordion-item";

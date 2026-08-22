@@ -93,7 +93,11 @@ describe("dashboard page", () => {
     expect(
       screen.getByText("Добавьте шлоки для заучивания из библиотеки."),
     ).toBeInTheDocument();
-    expect(screen.queryByRole("status", { name: /дней подряд/ })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: "Открыть страницу серии дней: 0 дней подряд",
+      }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("link", { name: "Добавить" }));
 
@@ -141,7 +145,6 @@ describe("dashboard page", () => {
     },
   ])("shows a non-zero streak when $stateLabel", async ({
     continuedToday,
-    stateLabel,
   }) => {
     mockDashboardLists(
       reviewList(reviewItems.slice(0, 1)),
@@ -152,8 +155,8 @@ describe("dashboard page", () => {
     renderDashboard();
 
     expect(
-      await screen.findByRole("status", {
-        name: `7 дней подряд. ${stateLabel}`,
+      await screen.findByRole("link", {
+        name: "Открыть страницу серии дней: 7 дней подряд",
       }),
     ).toBeInTheDocument();
   });

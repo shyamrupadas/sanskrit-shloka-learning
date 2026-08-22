@@ -126,6 +126,7 @@ body {
   --component-settings-row-gap: 12px;
   --component-settings-row-padding: 14px;
   --component-settings-row-radius: 12px;
+  --component-streak-counter-size: 28px;
   --component-tab-height: 42px;
   --component-tab-label-size: 12px;
   --component-tip-accordion-border: #E2E8F0;
@@ -190,6 +191,8 @@ body {
   --streak-flame-start: #F97316;
   --surface-inset: #EEF2F7;
   --success: #15803D;
+  --success-background: #DCFCE7;
+  --success-border: #86EFAC;
   --typography-body-line-height: 1.4;
   --typography-h1-size: 20px;
   --typography-h2-size: 18px;

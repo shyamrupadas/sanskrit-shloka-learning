@@ -103,18 +103,43 @@ describe("app learn shloka flow", () => {
   it("completes learning and offers the dashboard action", async () => {
     const user = userEvent.setup();
     const completionRequests: MockApiRequest[] = [];
+    let completedLearning = false;
     mockApi((request) => {
+      if (
+        request.method === "GET" &&
+        request.path === "/api/dashboard/streak"
+      ) {
+        return {
+          status: 200,
+          body: streak(completedLearning),
+        };
+      }
       if (
         request.method === "POST" &&
         request.path === "/api/library/items/gita-1-1/complete-learning"
       ) {
         completionRequests.push(request);
+        completedLearning = true;
       }
 
       return learningApi(request, { remainingLearningShlokas: [] });
     });
     storeTestSession(session);
-    renderAppAt("/library/shlokas/gita-1-1/learn");
+    renderAppAt(routePaths.dashboard);
+
+    expect(
+      await screen.findByRole("link", {
+        name: "Открыть страницу серии дней: 0 дней подряд",
+      }),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("link", { name: "Библиотека" }));
+    await user.click(
+      await screen.findByRole("tab", { name: "Буду учить" }),
+    );
+    const learningCard = await screen.findByRole("article", {
+      name: learningShloka.displayTitle,
+    });
+    await user.click(within(learningCard).getByRole("button", { name: "Учить" }));
 
     await user.click(
       await screen.findByRole("button", { name: "Выучил" }),
@@ -138,10 +163,21 @@ describe("app learn shloka flow", () => {
 
     await expectPath(routePaths.dashboard);
     expect(await screen.findByRole("navigation")).toBeInTheDocument();
+    const streakLink = screen.getByRole("link", {
+      name: "Открыть страницу серии дней: 1 день подряд",
+    });
+    expect(streakLink).toBeInTheDocument();
+
+    await user.click(streakLink);
+
     expect(
-      screen.getByRole("status", {
-        name: "1 день подряд. Серия продолжена сегодня",
-      }),
+      await screen.findByRole("heading", { level: 1, name: "Подряд" }),
+    ).toBeInTheDocument();
+    expect(await screen.findByText("1 день подряд")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -252,17 +288,7 @@ function learningApi(
   ) {
     return {
       status: 200,
-      body: {
-        continuedToday: true,
-        days: 1,
-        history: [
-          { hasActivity: false, userDay: "2026-07-08" },
-          { hasActivity: false, userDay: "2026-07-09" },
-          { hasActivity: false, userDay: "2026-07-10" },
-          { hasActivity: false, userDay: "2026-07-11" },
-          { hasActivity: true, userDay: "2026-07-12" },
-        ],
-      } satisfies ApiTypes.DashboardStreakDto,
+      body: streak(true),
     };
   }
 
@@ -294,6 +320,20 @@ function learningApi(
   }
 
   throw unhandled(request);
+}
+
+function streak(continuedToday: boolean): ApiTypes.DashboardStreakDto {
+  return {
+    continuedToday,
+    days: continuedToday ? 1 : 0,
+    history: [
+      { hasActivity: false, userDay: "2026-07-08" },
+      { hasActivity: false, userDay: "2026-07-09" },
+      { hasActivity: false, userDay: "2026-07-10" },
+      { hasActivity: false, userDay: "2026-07-11" },
+      { hasActivity: continuedToday, userDay: "2026-07-12" },
+    ],
+  };
 }
 
 function library(

@@ -199,8 +199,8 @@ describe("app review shloka flow", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("status", {
-        name: "1 день подряд. Серия продолжена сегодня",
+      screen.getByRole("link", {
+        name: "Открыть страницу серии дней: 1 день подряд",
       }),
     ).toBeInTheDocument();
     expect(api.completions.map(({ body }) => body)).toEqual([
@@ -239,21 +239,40 @@ describe("app review shloka flow", () => {
     const api = createReviewApi([firstShloka]);
     mockApi(api.handle);
     storeTestSession(session);
-    renderAppAt("/library?tab=reviewing");
+    renderAppAt(routePaths.dashboard);
 
-    const card = await screen.findByRole("article", {
+    expect(
+      await screen.findByRole("link", {
+        name: "Открыть страницу серии дней: 0 дней подряд",
+      }),
+    ).toBeInTheDocument();
+    const card = screen.getByRole("article", {
       name: firstShloka.displayTitle,
     });
-    await user.click(within(card).getByRole("button", { name: "Повторить" }));
+    await user.click(
+      within(card).getByRole("link", {
+        name: `Повторить ${firstShloka.displayTitle}`,
+      }),
+    );
     await completeWithoutError(user);
 
     await expectPath(routePaths.dashboard);
-    expect(
-      await screen.findByRole("status", {
-        name: "1 день подряд. Серия продолжена сегодня",
-      }),
-    ).toBeInTheDocument();
+    const streakLink = await screen.findByRole("link", {
+      name: "Открыть страницу серии дней: 1 день подряд",
+    });
     expect(api.completions).toHaveLength(1);
+
+    await user.click(streakLink);
+
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Подряд" }),
+    ).toBeInTheDocument();
+    expect(await screen.findByText("1 день подряд")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+      ),
+    ).toBeInTheDocument();
   });
 });
 

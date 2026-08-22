@@ -1,6 +1,7 @@
 # Страница «Подряд» и льготный период серии дней
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-08-22
 
 ## Problem Statement
 
