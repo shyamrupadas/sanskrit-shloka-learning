@@ -7069,89 +7069,7 @@
                       "fill": "$color-surface-muted",
                       "cornerRadius": "$radius-md",
                       "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "ypPyT",
-                          "name": "Core / Icon / Streak Flame",
-                          "reusable": true,
-                          "width": 25,
-                          "height": 25,
-                          "fill": "#FFFFFF00",
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "enabled": false,
-                            "color": "#00000000"
-                          },
-                          "layout": "none",
-                          "children": [
-                            {
-                              "type": "path",
-                              "id": "DIbot",
-                              "x": 1,
-                              "y": 0,
-                              "name": "Streak Flame Outer",
-                              "geometry": "M24 2c-3 7-8 11-9 19-1 10 5 18 11 18 7 0 12-6 11-15-1-6-5-10-8-14-1 5-4 7-7 10 0-6 2-18 2-18z",
-                              "viewBox": [
-                                0,
-                                0,
-                                48,
-                                48
-                              ],
-                              "fill": {
-                                "type": "gradient",
-                                "gradientType": "linear",
-                                "enabled": true,
-                                "rotation": 180,
-                                "size": {
-                                  "height": 1
-                                },
-                                "colors": [
-                                  {
-                                    "color": "#F97316",
-                                    "position": 0
-                                  },
-                                  {
-                                    "color": "#FACC15",
-                                    "position": 1
-                                  }
-                                ]
-                              },
-                              "width": 23,
-                              "height": 25,
-                              "effect": {
-                                "type": "shadow",
-                                "shadowType": "outer",
-                                "color": "#F973164D",
-                                "offset": {
-                                  "x": 0,
-                                  "y": 2
-                                },
-                                "blur": 8
-                              }
-                            },
-                            {
-                              "type": "path",
-                              "id": "JUa8C",
-                              "x": 8,
-                              "y": 10,
-                              "name": "Streak Flame Inner",
-                              "geometry": "M25 18c-3 6-4 9-4 14 0 4 3 8 6 8 4 0 7-4 6-9-1-4-4-7-5-12-1 4-3 7-4 9-1-4 1-10 1-10z",
-                              "viewBox": [
-                                0,
-                                0,
-                                48,
-                                48
-                              ],
-                              "fill": "#FFF7AD",
-                              "width": 10,
-                              "height": 13
-                            }
-                          ]
-                        }
-                      ]
+                      "alignItems": "center"
                     },
                     {
                       "type": "text",
@@ -7182,7 +7100,7 @@
       "name": "03 Product Components",
       "clip": true,
       "width": 900,
-      "height": 3560,
+      "height": 3670,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 18,
@@ -7936,268 +7854,6 @@
                       "fontFamily": "$font-ui",
                       "fontSize": "$typography-p2-size",
                       "fontWeight": "$typography-weight-normal"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "p18ZLR",
-          "name": "Product Row / Streak Components",
-          "width": "fill_container",
-          "gap": "$space-5",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "e16iU",
-              "name": "Product / Streak Indicator / Active",
-              "reusable": true,
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "dKaaI",
-                  "type": "ref",
-                  "ref": "ypPyT",
-                  "name": "Icon Instance / Streak Flame",
-                  "width": 25,
-                  "height": 25
-                },
-                {
-                  "type": "text",
-                  "id": "fUAJN",
-                  "name": "Streak Days",
-                  "fill": "$color-text-primary",
-                  "content": "7",
-                  "lineHeight": "$typography-heading-line",
-                  "fontFamily": "$font-sans",
-                  "fontSize": "$typography-h2-size",
-                  "fontWeight": "$typography-weight-bold"
-                }
-              ]
-            },
-            {
-              "id": "j1vZr",
-              "type": "ref",
-              "reusable": true,
-              "ref": "e16iU",
-              "name": "Product / Streak Indicator / Inactive",
-              "descendants": {
-                "dKaaI/DIbot": {
-                  "fill": "$color-disabled-fg",
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "enabled": false,
-                    "color": "#000000"
-                  }
-                },
-                "dKaaI/JUa8C": {
-                  "fill": "$color-surface-muted"
-                },
-                "fUAJN": {
-                  "content": "7",
-                  "fill": "$text"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Qv6Bq",
-          "name": "Product Row / Streak Popup States",
-          "width": "fill_container",
-          "gap": "$space-5",
-          "children": [
-            {
-              "type": "frame",
-              "id": "A6Q0Ee",
-              "name": "Product States / Streak Popup",
-              "width": "fill_container",
-              "gap": "$space-5",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "bI4qr",
-                  "name": "Inactive Popup",
-                  "width": 330,
-                  "layout": "vertical",
-                  "gap": 10,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "F8mv6",
-                      "name": "Inactive Popup Trigger",
-                      "width": "fill_container",
-                      "justifyContent": "end",
-                      "children": [
-                        {
-                          "id": "V2Dr9l",
-                          "type": "ref",
-                          "ref": "j1vZr",
-                          "name": "Inactive Popup Indicator"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "eK0G3",
-                      "name": "Inactive Popup Popup",
-                      "width": "fill_container",
-                      "fill": "$surface",
-                      "cornerRadius": "$component-popup-radius",
-                      "stroke": "$border",
-                      "strokeWidth": "$stroke-hairline",
-                      "strokeAlignment": "inner",
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "$shadow-high-color",
-                        "offset": {
-                          "x": 0,
-                          "y": 10
-                        },
-                        "blur": 28
-                      },
-                      "layout": "vertical",
-                      "gap": "$space-2",
-                      "padding": "$component-card-padding",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "JOgoz",
-                          "name": "Inactive Popup Popup Header",
-                          "width": "fill_container",
-                          "gap": "$space-2",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "J3MTMn",
-                              "type": "ref",
-                              "ref": "j1vZr",
-                              "name": "Inactive Popup Popup Indicator"
-                            },
-                            {
-                              "type": "text",
-                              "id": "krbzY",
-                              "name": "Inactive Popup Popup Title",
-                              "fill": "$text",
-                              "content": "дней подряд",
-                              "fontFamily": "$font-ui",
-                              "fontSize": "$typography-p2-size",
-                              "fontWeight": "$typography-weight-bold"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "PGx5E",
-                          "name": "Inactive Popup Popup Text",
-                          "fill": "$text-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Повторите или выучите хотя бы одну шлоку для продолжения серии.",
-                          "lineHeight": "$typography-body-line",
-                          "fontFamily": "$font-ui",
-                          "fontSize": "$typography-p1-size",
-                          "fontWeight": "$typography-weight-normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "M5DLaI",
-                  "name": "Active Popup",
-                  "width": 330,
-                  "layout": "vertical",
-                  "gap": 10,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "SWQ7B",
-                      "name": "Active Popup Trigger",
-                      "width": "fill_container",
-                      "justifyContent": "end",
-                      "children": [
-                        {
-                          "id": "VhmWB",
-                          "type": "ref",
-                          "ref": "e16iU",
-                          "name": "Active Popup Indicator"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "ZCpRr",
-                      "name": "Active Popup Popup",
-                      "width": "fill_container",
-                      "fill": "$surface",
-                      "cornerRadius": "$component-popup-radius",
-                      "stroke": "$border",
-                      "strokeWidth": "$stroke-hairline",
-                      "strokeAlignment": "inner",
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "$shadow-high-color",
-                        "offset": {
-                          "x": 0,
-                          "y": 10
-                        },
-                        "blur": 28
-                      },
-                      "layout": "vertical",
-                      "gap": "$space-2",
-                      "padding": "$component-card-padding",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "ZpTjW",
-                          "name": "Active Popup Popup Header",
-                          "width": "fill_container",
-                          "gap": "$space-2",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "F8YlE",
-                              "type": "ref",
-                              "ref": "e16iU",
-                              "name": "Active Popup Popup Indicator"
-                            },
-                            {
-                              "type": "text",
-                              "id": "e4tUZa",
-                              "name": "Active Popup Popup Title",
-                              "fill": "$text",
-                              "content": "дней подряд",
-                              "fontFamily": "$font-ui",
-                              "fontSize": "$typography-p2-size",
-                              "fontWeight": "$typography-weight-bold"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "S6yUyl",
-                          "name": "Active Popup Popup Text",
-                          "fill": "$text-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "У вас серия! Вернитесь завтра, чтобы продолжить ее.",
-                          "lineHeight": "$typography-body-line",
-                          "fontFamily": "$font-ui",
-                          "fontSize": "$typography-p1-size",
-                          "fontWeight": "$typography-weight-normal"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -9097,6 +8753,161 @@
                       }
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kC09N",
+          "name": "Product Row / Streak Button States",
+          "width": 360,
+          "height": 92,
+          "fill": "$color-surface",
+          "cornerRadius": "$radius-lg",
+          "stroke": "$border",
+          "strokeWidth": "$stroke-hairline",
+          "strokeAlignment": "inner",
+          "gap": 28,
+          "padding": [
+            12,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "T9MPko",
+              "name": "Активна",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "Q4sXQ",
+                  "type": "ref",
+                  "ref": "BL4l9",
+                  "name": "Button / Активна",
+                  "children": [
+                    {
+                      "id": "x79Zg",
+                      "type": "ref",
+                      "ref": "x79Zg",
+                      "children": [
+                        {
+                          "id": "G8oLW",
+                          "type": "ref",
+                          "ref": "x79Zg/G8oLW"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "RKrzK",
+                      "type": "ref",
+                      "ref": "RKrzK"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "p4lIV",
+                  "name": "State Label",
+                  "fill": "$color-text-secondary",
+                  "content": "Активна",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-caption-size",
+                  "fontWeight": "$typography-weight-medium"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p22Imh",
+              "name": "Приглушена",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "k3r6xY",
+                  "type": "ref",
+                  "ref": "Z8FXTa",
+                  "name": "Button / Приглушена",
+                  "children": [
+                    {
+                      "id": "J4ZR38",
+                      "type": "ref",
+                      "ref": "J4ZR38",
+                      "children": [
+                        {
+                          "id": "faEki",
+                          "type": "ref",
+                          "ref": "J4ZR38/faEki"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "c83i8",
+                      "type": "ref",
+                      "ref": "c83i8"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "cch23",
+                  "name": "State Label",
+                  "fill": "$color-text-secondary",
+                  "content": "Приглушена",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-caption-size",
+                  "fontWeight": "$typography-weight-medium"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G6QsD",
+              "name": "Фокус",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "yjgik",
+                  "type": "ref",
+                  "ref": "Wd6Nq",
+                  "name": "Button / Фокус",
+                  "children": [
+                    {
+                      "id": "ADZGq",
+                      "type": "ref",
+                      "ref": "ADZGq",
+                      "children": [
+                        {
+                          "id": "G8oLW",
+                          "type": "ref",
+                          "ref": "ADZGq/G8oLW"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "WdzSa",
+                      "type": "ref",
+                      "ref": "WdzSa"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "cqHqR",
+                  "name": "State Label",
+                  "fill": "$color-text-secondary",
+                  "content": "Фокус",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$type-caption-size",
+                  "fontWeight": "$typography-weight-medium"
                 }
               ]
             }
@@ -10218,7 +10029,7 @@
               "id": "uqhPD",
               "name": "Header",
               "width": "fill_container",
-              "height": 34,
+              "height": 44,
               "gap": 18,
               "justifyContent": "space_between",
               "alignItems": "center",
@@ -10230,10 +10041,29 @@
                   "name": "Profile Icon Button Instance"
                 },
                 {
-                  "id": "J9nsS",
+                  "id": "GpEmb",
                   "type": "ref",
-                  "ref": "e16iU",
-                  "name": "Streak Indicator Instance"
+                  "ref": "BL4l9",
+                  "name": "Streak Button / Active",
+                  "children": [
+                    {
+                      "id": "x79Zg",
+                      "type": "ref",
+                      "ref": "x79Zg",
+                      "children": [
+                        {
+                          "id": "G8oLW",
+                          "type": "ref",
+                          "ref": "x79Zg/G8oLW"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "RKrzK",
+                      "type": "ref",
+                      "ref": "RKrzK"
+                    }
+                  ]
                 }
               ]
             },
@@ -10492,11 +10322,12 @@
         },
         {
           "type": "frame",
-          "id": "DbL2j",
+          "id": "sOOf1",
           "name": "Content",
           "width": "fill_container",
           "height": "fill_container",
           "layout": "vertical",
+          "gap": 22,
           "padding": [
             10,
             16,
@@ -10505,11 +10336,109 @@
           ],
           "children": [
             {
-              "id": "yPAy6",
+              "type": "frame",
+              "id": "P47yAy",
+              "name": "Top icons row",
+              "width": "fill_container",
+              "height": 44,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "IkaV1",
+                  "type": "ref",
+                  "ref": "Z8FXTa",
+                  "name": "Streak Button / Inactive",
+                  "children": [
+                    {
+                      "id": "J4ZR38",
+                      "type": "ref",
+                      "ref": "J4ZR38",
+                      "children": [
+                        {
+                          "id": "faEki",
+                          "type": "ref",
+                          "ref": "J4ZR38/faEki"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "c83i8",
+                      "type": "ref",
+                      "ref": "c83i8"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "Tdp5V",
               "type": "ref",
               "ref": "Kir4Y",
               "name": "Want To Learn Empty Instance",
-              "width": "fill_container"
+              "width": "fill_container",
+              "children": [
+                {
+                  "id": "a9lzeS",
+                  "type": "ref",
+                  "ref": "a9lzeS",
+                  "children": [
+                    {
+                      "id": "Ahyn4",
+                      "type": "ref",
+                      "ref": "Ahyn4"
+                    }
+                  ]
+                },
+                {
+                  "id": "Ft2QS",
+                  "type": "ref",
+                  "ref": "Ft2QS",
+                  "children": [
+                    {
+                      "id": "y4vgop",
+                      "type": "ref",
+                      "ref": "Ft2QS/y4vgop",
+                      "children": [
+                        {
+                          "id": "FSot8",
+                          "type": "ref",
+                          "ref": "Ft2QS/FSot8",
+                          "children": [
+                            {
+                              "id": "F9gft",
+                              "type": "ref",
+                              "ref": "Ft2QS/FSot8/F9gft"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "U6y4X",
+                      "type": "ref",
+                      "ref": "Ft2QS/U6y4X"
+                    },
+                    {
+                      "id": "NuUfs",
+                      "type": "ref",
+                      "ref": "Ft2QS/NuUfs"
+                    },
+                    {
+                      "id": "Wmath",
+                      "type": "ref",
+                      "ref": "Ft2QS/Wmath",
+                      "children": [
+                        {
+                          "id": "aUMci",
+                          "type": "ref",
+                          "ref": "Ft2QS/Wmath/aUMci"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -10618,16 +10547,35 @@
               "id": "XMRY1",
               "name": "Top icons row",
               "width": "fill_container",
-              "height": 34,
+              "height": 44,
               "gap": 18,
               "justifyContent": "end",
               "alignItems": "center",
               "children": [
                 {
-                  "id": "s7cCE3",
+                  "id": "LvJb5",
                   "type": "ref",
-                  "ref": "e16iU",
-                  "name": "Streak Indicator Instance"
+                  "ref": "BL4l9",
+                  "name": "Streak Button / Active",
+                  "children": [
+                    {
+                      "id": "x79Zg",
+                      "type": "ref",
+                      "ref": "x79Zg",
+                      "children": [
+                        {
+                          "id": "G8oLW",
+                          "type": "ref",
+                          "ref": "x79Zg/G8oLW"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "RKrzK",
+                      "type": "ref",
+                      "ref": "RKrzK"
+                    }
+                  ]
                 }
               ]
             },
@@ -10831,16 +10779,6 @@
               "width": "fill_container"
             }
           ]
-        },
-        {
-          "type": "frame",
-          "id": "pMATo",
-          "x": 0,
-          "y": 0,
-          "name": "Streak popup open",
-          "enabled": false,
-          "width": 0,
-          "height": 0
         }
       ]
     },
@@ -13780,27 +13718,7 @@
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Admin Link",
-                  "width": "fit_content",
-                  "children": [
-                    {
-                      "id": "nALai",
-                      "type": "ref",
-                      "ref": "nALai",
-                      "children": [
-                        {
-                          "id": "aJi23",
-                          "type": "ref",
-                          "ref": "nALai/aJi23"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Админка"
-                    }
-                  ]
+                  "width": "fit_content"
                 }
               ]
             }
@@ -15025,6 +14943,2312 @@
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "qXfWi",
+      "x": -3315,
+      "y": -152,
+      "name": "Core / Icon / Streak Bolt / Active",
+      "reusable": true,
+      "width": 28,
+      "height": 28,
+      "fill": "$color-transparent",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "G8oLW",
+          "name": "Streak Bolt Glyph",
+          "width": 24,
+          "height": 24,
+          "icon": "zap",
+          "library": "lucide",
+          "fill": "$primary"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Hkdae",
+      "x": -3247,
+      "y": -152,
+      "name": "Core / Icon / Streak Bolt / Muted",
+      "reusable": true,
+      "width": 28,
+      "height": 28,
+      "fill": "$color-transparent",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "faEki",
+          "name": "Streak Bolt Glyph",
+          "width": 24,
+          "height": 24,
+          "icon": "zap",
+          "library": "lucide",
+          "fill": "$color-icon-muted"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "BL4l9",
+      "x": -3139,
+      "y": -152,
+      "name": "Product / Streak Button / Active",
+      "reusable": true,
+      "metadata": {
+        "type": "navigation",
+        "action": "open-streak",
+        "accessibleName": "Открыть страницу серии дней"
+      },
+      "height": 44,
+      "fill": "$color-transparent",
+      "cornerRadius": "$radius-md",
+      "gap": 6,
+      "padding": [
+        0,
+        8
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "id": "x79Zg",
+          "type": "ref",
+          "ref": "qXfWi",
+          "name": "Streak Icon / Active",
+          "width": 28,
+          "height": 28,
+          "children": [
+            {
+              "id": "G8oLW",
+              "type": "ref",
+              "ref": "G8oLW"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "RKrzK",
+          "name": "Streak Days",
+          "fill": "$color-text-primary",
+          "content": "7",
+          "lineHeight": "$typography-heading-line",
+          "fontFamily": "$font-sans",
+          "fontSize": "$typography-h2-size",
+          "fontWeight": "$typography-weight-bold"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Z8FXTa",
+      "x": -3038,
+      "y": -152,
+      "name": "Product / Streak Button / Inactive",
+      "reusable": true,
+      "metadata": {
+        "type": "navigation",
+        "action": "open-streak",
+        "accessibleName": "Открыть страницу серии дней"
+      },
+      "height": 44,
+      "fill": "$color-transparent",
+      "cornerRadius": "$radius-md",
+      "gap": 6,
+      "padding": [
+        0,
+        8
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "id": "J4ZR38",
+          "type": "ref",
+          "ref": "Hkdae",
+          "name": "Streak Icon / Muted",
+          "width": 28,
+          "height": 28,
+          "children": [
+            {
+              "id": "faEki",
+              "type": "ref",
+              "ref": "faEki"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "c83i8",
+          "name": "Streak Days",
+          "fill": "$color-text-primary",
+          "content": "0",
+          "lineHeight": "$typography-heading-line",
+          "fontFamily": "$font-sans",
+          "fontSize": "$typography-h2-size",
+          "fontWeight": "$typography-weight-bold"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Wd6Nq",
+      "x": -2935,
+      "y": -152,
+      "name": "Product / Streak Button / Focus",
+      "reusable": true,
+      "metadata": {
+        "type": "navigation",
+        "action": "open-streak",
+        "accessibleName": "Открыть страницу серии дней"
+      },
+      "height": 44,
+      "fill": "$color-transparent",
+      "cornerRadius": "$radius-md",
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "$color-focus-ring",
+        "spread": 3
+      },
+      "gap": 6,
+      "padding": [
+        0,
+        8
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "id": "ADZGq",
+          "type": "ref",
+          "ref": "qXfWi",
+          "name": "Streak Icon / Active",
+          "width": 28,
+          "height": 28,
+          "children": [
+            {
+              "id": "G8oLW",
+              "type": "ref",
+              "ref": "G8oLW"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "WdzSa",
+          "name": "Streak Days",
+          "fill": "$color-text-primary",
+          "content": "7",
+          "lineHeight": "$typography-heading-line",
+          "fontFamily": "$font-sans",
+          "fontSize": "$typography-h2-size",
+          "fontWeight": "$typography-weight-bold"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Vz3kf",
+      "x": -1522,
+      "y": 3854,
+      "name": "Product / Streak Page Body / Zero",
+      "reusable": true,
+      "width": 358,
+      "height": 694,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 28,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "SsiU9",
+          "name": "Streak Summary",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "eGvF1",
+              "name": "Active Streak Icon Hero",
+              "width": 104,
+              "height": 104,
+              "fill": "$primary-soft",
+              "cornerRadius": "$radius-pill",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "sgkaP",
+                  "type": "ref",
+                  "ref": "qXfWi",
+                  "name": "Streak Icon / Active",
+                  "width": 64,
+                  "height": 64,
+                  "children": [
+                    {
+                      "id": "G8oLW",
+                      "type": "ref",
+                      "ref": "G8oLW",
+                      "width": 54,
+                      "height": 54
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Jc3z3",
+              "name": "Streak Counter",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n079Pi",
+                  "name": "Days Count",
+                  "fill": "$color-text-primary",
+                  "content": "0 дней подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 28,
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vOKvy",
+          "name": "Five Day History",
+          "width": 240,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MGEZ1",
+              "name": "History Days",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yEJm5",
+                  "name": "Day 1",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ue1sl",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HVdbg",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Ak8RU",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EfAAu",
+                  "name": "Day 2",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uqU8P",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "В",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iqUMj",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "H2HOd",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QBLyP",
+                  "name": "Day 3",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qvRS0",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "С",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oFoGq",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "xoNN6",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aTPTm",
+                  "name": "Day 4",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "O5VZsn",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "Ч",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "blBoo",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Iphff",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wUlcZ",
+                  "name": "Day 5",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mBNiT",
+                      "name": "Weekday",
+                      "fill": "$color-text-primary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xcVlQ",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "pTWwi",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "oYBnw",
+          "name": "State Message",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": 320,
+          "content": "Повтори или выучи хотя бы одну шлоку, чтобы начать свою серию!",
+          "lineHeight": "$typography-body-line",
+          "textAlign": "center",
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-p3-size",
+          "fontWeight": "$typography-weight-normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ggEJw",
+      "x": -1084,
+      "y": 3854,
+      "name": "Product / Streak Page Body / Waiting Today",
+      "reusable": true,
+      "width": 358,
+      "height": 694,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 28,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "yOs5p",
+          "name": "Streak Summary",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "AFnsm",
+              "name": "Active Streak Icon Hero",
+              "width": 104,
+              "height": 104,
+              "fill": "$primary-soft",
+              "cornerRadius": "$radius-pill",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "FVSwL",
+                  "type": "ref",
+                  "ref": "qXfWi",
+                  "name": "Streak Icon / Active",
+                  "width": 64,
+                  "height": 64,
+                  "children": [
+                    {
+                      "id": "G8oLW",
+                      "type": "ref",
+                      "ref": "G8oLW",
+                      "width": 54,
+                      "height": 54
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f4ljm",
+              "name": "Streak Counter",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nd07c",
+                  "name": "Days Count",
+                  "fill": "$color-text-primary",
+                  "content": "1 день подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 28,
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NdpzR",
+          "name": "Five Day History",
+          "width": 240,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "S5iI4",
+              "name": "History Days",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "AwBgE",
+                  "name": "Day 1",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qlQ9f",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YCAXz",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "omwLi",
+                          "x": 9,
+                          "y": 9,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z6sNsY",
+                  "name": "Day 2",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "W0Lb1",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "В",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nOQGJ",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "rUt2o",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vAyWU",
+                  "name": "Day 3",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ndZdg",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "С",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "E0dz3",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "g34ON3",
+                          "x": 9,
+                          "y": 9,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "L5lAv",
+                  "name": "Day 4",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TEe93",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "Ч",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "J392F",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "xFE0G",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "n3gxc3",
+                  "name": "Day 5",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GqwS7",
+                      "name": "Weekday",
+                      "fill": "$color-text-primary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D3JKn8",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "KP40l",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "JNV54",
+          "name": "State Message",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": 320,
+          "content": "Повтори или выучи хотя бы одну шлоку, чтобы продолжить свою серию!",
+          "lineHeight": "$typography-body-line",
+          "textAlign": "center",
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-p3-size",
+          "fontWeight": "$typography-weight-normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "W9OIY",
+      "x": -646,
+      "y": 3854,
+      "name": "Product / Streak Page Body / Continued Today",
+      "reusable": true,
+      "width": 358,
+      "height": 694,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 28,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "m6RxM",
+          "name": "Streak Summary",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "T0mkS",
+              "name": "Active Streak Icon Hero",
+              "width": 104,
+              "height": 104,
+              "fill": "$primary-soft",
+              "cornerRadius": "$radius-pill",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "PSzos",
+                  "type": "ref",
+                  "ref": "qXfWi",
+                  "name": "Streak Icon / Active",
+                  "width": 64,
+                  "height": 64,
+                  "children": [
+                    {
+                      "id": "G8oLW",
+                      "type": "ref",
+                      "ref": "G8oLW",
+                      "width": 54,
+                      "height": 54
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GWg8P",
+              "name": "Streak Counter",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Snb83",
+                  "name": "Days Count",
+                  "fill": "$color-text-primary",
+                  "content": "7 дней подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 28,
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tn2sU",
+          "name": "Five Day History",
+          "width": 240,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "i2aUu",
+              "name": "History Days",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QKxRM",
+                  "name": "Day 1",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rhCas",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cHbhz",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Q5L5wo",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "arWv2",
+                  "name": "Day 2",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AoT4v",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "В",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n7EBg",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-surface",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-border-strong",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "F6Y8S",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Activity Check",
+                          "enabled": false,
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "t5tiDT",
+                  "name": "Day 3",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q2eayD",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "С",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rY7Ta",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "vpyVT",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "p7dqF",
+                  "name": "Day 4",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uL5Hm",
+                      "name": "Weekday",
+                      "fill": "$color-text-secondary",
+                      "content": "Ч",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-medium"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uOiJs",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "m2N8c0",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z3W2aT",
+                  "name": "Day 5",
+                  "width": 40,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YvXUY",
+                      "name": "Weekday",
+                      "fill": "$color-text-primary",
+                      "content": "П",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t221p",
+                      "name": "Activity Cell",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "$color-success-bg",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$color-success-border",
+                      "strokeWidth": "$stroke-hairline",
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "IMbCS",
+                          "name": "Activity Check",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$color-success-fg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "mhjLv",
+          "name": "State Message",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": 320,
+          "content": "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+          "lineHeight": "$typography-body-line",
+          "textAlign": "center",
+          "fontFamily": "$font-ui",
+          "fontSize": "$typography-p3-size",
+          "fontWeight": "$typography-weight-normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sMGWf",
+      "x": 120,
+      "y": 8429,
+      "name": "Подряд — 0 дней",
+      "metadata": {
+        "type": "screen",
+        "route": "/streak",
+        "state": "zero"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "FeABH",
+          "name": "Status Bar",
+          "width": 358,
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "akcW8",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "z3HZsh",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "xhTZI",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "x1A91",
+                  "name": "Wifi Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "aDnYX",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dEXqm",
+          "name": "Back Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Z078H",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button",
+              "children": [
+                {
+                  "id": "bSkV4",
+                  "type": "ref",
+                  "ref": "bSkV4",
+                  "children": [
+                    {
+                      "id": "kwDB5",
+                      "type": "ref",
+                      "ref": "bSkV4/kwDB5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bEqaQ",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "E9OVbj",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OjjpY",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oqv3G",
+          "name": "Content",
+          "width": 358,
+          "height": 694,
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "yR5DY",
+              "type": "ref",
+              "ref": "Vz3kf",
+              "name": "Streak Page Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "id": "SsiU9",
+                  "type": "ref",
+                  "ref": "SsiU9",
+                  "children": [
+                    {
+                      "id": "eGvF1",
+                      "type": "ref",
+                      "ref": "eGvF1",
+                      "children": [
+                        {
+                          "id": "sgkaP",
+                          "type": "ref",
+                          "ref": "sgkaP",
+                          "children": [
+                            {
+                              "id": "G8oLW",
+                              "type": "ref",
+                              "ref": "sgkaP/G8oLW"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "Jc3z3",
+                      "type": "ref",
+                      "ref": "Jc3z3",
+                      "children": [
+                        {
+                          "id": "n079Pi",
+                          "type": "ref",
+                          "ref": "n079Pi"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "vOKvy",
+                  "type": "ref",
+                  "ref": "vOKvy",
+                  "children": [
+                    {
+                      "id": "MGEZ1",
+                      "type": "ref",
+                      "ref": "MGEZ1",
+                      "children": [
+                        {
+                          "id": "yEJm5",
+                          "type": "ref",
+                          "ref": "yEJm5",
+                          "children": [
+                            {
+                              "id": "Ue1sl",
+                              "type": "ref",
+                              "ref": "Ue1sl"
+                            },
+                            {
+                              "id": "HVdbg",
+                              "type": "ref",
+                              "ref": "HVdbg",
+                              "children": [
+                                {
+                                  "id": "Ak8RU",
+                                  "type": "ref",
+                                  "ref": "Ak8RU"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "EfAAu",
+                          "type": "ref",
+                          "ref": "EfAAu",
+                          "children": [
+                            {
+                              "id": "uqU8P",
+                              "type": "ref",
+                              "ref": "uqU8P"
+                            },
+                            {
+                              "id": "iqUMj",
+                              "type": "ref",
+                              "ref": "iqUMj",
+                              "children": [
+                                {
+                                  "id": "H2HOd",
+                                  "type": "ref",
+                                  "ref": "H2HOd"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "QBLyP",
+                          "type": "ref",
+                          "ref": "QBLyP",
+                          "children": [
+                            {
+                              "id": "qvRS0",
+                              "type": "ref",
+                              "ref": "qvRS0"
+                            },
+                            {
+                              "id": "oFoGq",
+                              "type": "ref",
+                              "ref": "oFoGq",
+                              "children": [
+                                {
+                                  "id": "xoNN6",
+                                  "type": "ref",
+                                  "ref": "xoNN6"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "aTPTm",
+                          "type": "ref",
+                          "ref": "aTPTm",
+                          "children": [
+                            {
+                              "id": "O5VZsn",
+                              "type": "ref",
+                              "ref": "O5VZsn"
+                            },
+                            {
+                              "id": "blBoo",
+                              "type": "ref",
+                              "ref": "blBoo",
+                              "children": [
+                                {
+                                  "id": "Iphff",
+                                  "type": "ref",
+                                  "ref": "Iphff"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "wUlcZ",
+                          "type": "ref",
+                          "ref": "wUlcZ",
+                          "children": [
+                            {
+                              "id": "mBNiT",
+                              "type": "ref",
+                              "ref": "mBNiT"
+                            },
+                            {
+                              "id": "xcVlQ",
+                              "type": "ref",
+                              "ref": "xcVlQ",
+                              "children": [
+                                {
+                                  "id": "pTWwi",
+                                  "type": "ref",
+                                  "ref": "pTWwi"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "oYBnw",
+                  "type": "ref",
+                  "ref": "oYBnw"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nrci3",
+      "x": 610,
+      "y": 8429,
+      "name": "Подряд — ожидает продолжения",
+      "metadata": {
+        "type": "screen",
+        "route": "/streak",
+        "state": "waiting-today"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "Nkopd",
+          "name": "Status Bar",
+          "width": 358,
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "i9trZl",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "VzRMv",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "hgvJO",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "wjGdr",
+                  "name": "Wifi Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "PqC57",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bE02K",
+          "name": "Back Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Enivj",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button",
+              "children": [
+                {
+                  "id": "bSkV4",
+                  "type": "ref",
+                  "ref": "bSkV4",
+                  "children": [
+                    {
+                      "id": "kwDB5",
+                      "type": "ref",
+                      "ref": "bSkV4/kwDB5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RW1cq",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "T3l1Vo",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "B2ju2q",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PVwCF",
+          "name": "Content",
+          "width": 358,
+          "height": 694,
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "d9vg0",
+              "type": "ref",
+              "ref": "ggEJw",
+              "name": "Streak Page Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "id": "yOs5p",
+                  "type": "ref",
+                  "ref": "yOs5p",
+                  "children": [
+                    {
+                      "id": "AFnsm",
+                      "type": "ref",
+                      "ref": "AFnsm",
+                      "children": [
+                        {
+                          "id": "FVSwL",
+                          "type": "ref",
+                          "ref": "FVSwL",
+                          "children": [
+                            {
+                              "id": "G8oLW",
+                              "type": "ref",
+                              "ref": "FVSwL/G8oLW"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "f4ljm",
+                      "type": "ref",
+                      "ref": "f4ljm",
+                      "children": [
+                        {
+                          "id": "nd07c",
+                          "type": "ref",
+                          "ref": "nd07c"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "NdpzR",
+                  "type": "ref",
+                  "ref": "NdpzR",
+                  "children": [
+                    {
+                      "id": "S5iI4",
+                      "type": "ref",
+                      "ref": "S5iI4",
+                      "children": [
+                        {
+                          "id": "AwBgE",
+                          "type": "ref",
+                          "ref": "AwBgE",
+                          "children": [
+                            {
+                              "id": "qlQ9f",
+                              "type": "ref",
+                              "ref": "qlQ9f"
+                            },
+                            {
+                              "id": "YCAXz",
+                              "type": "ref",
+                              "ref": "YCAXz",
+                              "children": [
+                                {
+                                  "id": "omwLi",
+                                  "type": "ref",
+                                  "ref": "omwLi"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "z6sNsY",
+                          "type": "ref",
+                          "ref": "z6sNsY",
+                          "children": [
+                            {
+                              "id": "W0Lb1",
+                              "type": "ref",
+                              "ref": "W0Lb1"
+                            },
+                            {
+                              "id": "nOQGJ",
+                              "type": "ref",
+                              "ref": "nOQGJ",
+                              "children": [
+                                {
+                                  "id": "rUt2o",
+                                  "type": "ref",
+                                  "ref": "rUt2o"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "vAyWU",
+                          "type": "ref",
+                          "ref": "vAyWU",
+                          "children": [
+                            {
+                              "id": "ndZdg",
+                              "type": "ref",
+                              "ref": "ndZdg"
+                            },
+                            {
+                              "id": "E0dz3",
+                              "type": "ref",
+                              "ref": "E0dz3",
+                              "children": [
+                                {
+                                  "id": "g34ON3",
+                                  "type": "ref",
+                                  "ref": "g34ON3"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "L5lAv",
+                          "type": "ref",
+                          "ref": "L5lAv",
+                          "children": [
+                            {
+                              "id": "TEe93",
+                              "type": "ref",
+                              "ref": "TEe93"
+                            },
+                            {
+                              "id": "J392F",
+                              "type": "ref",
+                              "ref": "J392F",
+                              "children": [
+                                {
+                                  "id": "xFE0G",
+                                  "type": "ref",
+                                  "ref": "xFE0G"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "n3gxc3",
+                          "type": "ref",
+                          "ref": "n3gxc3",
+                          "children": [
+                            {
+                              "id": "GqwS7",
+                              "type": "ref",
+                              "ref": "GqwS7"
+                            },
+                            {
+                              "id": "D3JKn8",
+                              "type": "ref",
+                              "ref": "D3JKn8",
+                              "children": [
+                                {
+                                  "id": "KP40l",
+                                  "type": "ref",
+                                  "ref": "KP40l"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "JNV54",
+                  "type": "ref",
+                  "ref": "JNV54"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "O8Klu6",
+      "x": 1100,
+      "y": 8429,
+      "name": "Подряд — продолжено сегодня",
+      "metadata": {
+        "type": "screen",
+        "route": "/streak",
+        "state": "continued-today"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": [
+        0,
+        16,
+        16,
+        16
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "eqrgC",
+          "name": "Status Bar",
+          "width": 358,
+          "height": 62,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "OIvWF",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "Fhw1c",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "M9GkY",
+                  "name": "Signal Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "kJH8G",
+                  "name": "Wifi Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "jdH7t",
+                  "name": "Battery Icon",
+                  "width": 18,
+                  "height": 16,
+                  "icon": "battery",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NizyG",
+          "name": "Back Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "jPcdL",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button",
+              "children": [
+                {
+                  "id": "bSkV4",
+                  "type": "ref",
+                  "ref": "bSkV4",
+                  "children": [
+                    {
+                      "id": "kwDB5",
+                      "type": "ref",
+                      "ref": "bSkV4/kwDB5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kQlxF",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xbPDz",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Подряд",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cQ5de",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TPhez",
+          "name": "Content",
+          "width": 358,
+          "height": 694,
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "ZLXcC",
+              "type": "ref",
+              "ref": "W9OIY",
+              "name": "Streak Page Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "id": "m6RxM",
+                  "type": "ref",
+                  "ref": "m6RxM",
+                  "children": [
+                    {
+                      "id": "T0mkS",
+                      "type": "ref",
+                      "ref": "T0mkS",
+                      "children": [
+                        {
+                          "id": "PSzos",
+                          "type": "ref",
+                          "ref": "PSzos",
+                          "children": [
+                            {
+                              "id": "G8oLW",
+                              "type": "ref",
+                              "ref": "PSzos/G8oLW"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "GWg8P",
+                      "type": "ref",
+                      "ref": "GWg8P",
+                      "children": [
+                        {
+                          "id": "Snb83",
+                          "type": "ref",
+                          "ref": "Snb83"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "tn2sU",
+                  "type": "ref",
+                  "ref": "tn2sU",
+                  "children": [
+                    {
+                      "id": "i2aUu",
+                      "type": "ref",
+                      "ref": "i2aUu",
+                      "children": [
+                        {
+                          "id": "QKxRM",
+                          "type": "ref",
+                          "ref": "QKxRM",
+                          "children": [
+                            {
+                              "id": "rhCas",
+                              "type": "ref",
+                              "ref": "rhCas"
+                            },
+                            {
+                              "id": "cHbhz",
+                              "type": "ref",
+                              "ref": "cHbhz",
+                              "children": [
+                                {
+                                  "id": "Q5L5wo",
+                                  "type": "ref",
+                                  "ref": "Q5L5wo"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "arWv2",
+                          "type": "ref",
+                          "ref": "arWv2",
+                          "children": [
+                            {
+                              "id": "AoT4v",
+                              "type": "ref",
+                              "ref": "AoT4v"
+                            },
+                            {
+                              "id": "n7EBg",
+                              "type": "ref",
+                              "ref": "n7EBg",
+                              "children": [
+                                {
+                                  "id": "F6Y8S",
+                                  "type": "ref",
+                                  "ref": "F6Y8S"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "t5tiDT",
+                          "type": "ref",
+                          "ref": "t5tiDT",
+                          "children": [
+                            {
+                              "id": "Q2eayD",
+                              "type": "ref",
+                              "ref": "Q2eayD"
+                            },
+                            {
+                              "id": "rY7Ta",
+                              "type": "ref",
+                              "ref": "rY7Ta",
+                              "children": [
+                                {
+                                  "id": "vpyVT",
+                                  "type": "ref",
+                                  "ref": "vpyVT"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p7dqF",
+                          "type": "ref",
+                          "ref": "p7dqF",
+                          "children": [
+                            {
+                              "id": "uL5Hm",
+                              "type": "ref",
+                              "ref": "uL5Hm"
+                            },
+                            {
+                              "id": "uOiJs",
+                              "type": "ref",
+                              "ref": "uOiJs",
+                              "children": [
+                                {
+                                  "id": "m2N8c0",
+                                  "type": "ref",
+                                  "ref": "m2N8c0"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "z3W2aT",
+                          "type": "ref",
+                          "ref": "z3W2aT",
+                          "children": [
+                            {
+                              "id": "YvXUY",
+                              "type": "ref",
+                              "ref": "YvXUY"
+                            },
+                            {
+                              "id": "t221p",
+                              "type": "ref",
+                              "ref": "t221p",
+                              "children": [
+                                {
+                                  "id": "IMbCS",
+                                  "type": "ref",
+                                  "ref": "IMbCS"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "mhjLv",
+                  "type": "ref",
+                  "ref": "mhjLv"
                 }
               ]
             }
