@@ -151,9 +151,17 @@ namespace SanskritShlokaLearning {
     state: DashboardReviewListState;
   }
 
+  model DashboardStreakHistoryDayDto {
+    userDay: plainDate;
+    hasActivity: boolean;
+  }
+
   model DashboardStreakDto {
     days: int32;
     continuedToday: boolean;
+    @minItems(5)
+    @maxItems(5)
+    history: DashboardStreakHistoryDayDto[];
   }
 
   model OkDashboardLearningShlokasResponse {

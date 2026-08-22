@@ -378,6 +378,13 @@ function streak(
   return {
     continuedToday: false,
     days: 0,
+    history: [
+      { hasActivity: false, userDay: "2026-07-08" },
+      { hasActivity: false, userDay: "2026-07-09" },
+      { hasActivity: false, userDay: "2026-07-10" },
+      { hasActivity: false, userDay: "2026-07-11" },
+      { hasActivity: false, userDay: "2026-07-12" },
+    ],
     ...overrides,
   };
 }

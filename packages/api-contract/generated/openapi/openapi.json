@@ -1974,7 +1974,8 @@
         "type": "object",
         "required": [
           "days",
-          "continuedToday"
+          "continuedToday",
+          "history"
         ],
         "properties": {
           "days": {
@@ -1982,6 +1983,30 @@
             "format": "int32"
           },
           "continuedToday": {
+            "type": "boolean"
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.DashboardStreakHistoryDayDto"
+            },
+            "minItems": 5,
+            "maxItems": 5
+          }
+        }
+      },
+      "SanskritShlokaLearning.DashboardStreakHistoryDayDto": {
+        "type": "object",
+        "required": [
+          "userDay",
+          "hasActivity"
+        ],
+        "properties": {
+          "userDay": {
+            "type": "string",
+            "format": "date"
+          },
+          "hasActivity": {
             "type": "boolean"
           }
         }

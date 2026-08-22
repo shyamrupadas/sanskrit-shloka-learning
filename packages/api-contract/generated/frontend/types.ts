@@ -156,6 +156,12 @@ export interface DashboardShlokaDto {
 export interface DashboardStreakDto {
   days: number;
   continuedToday: boolean;
+  history: DashboardStreakHistoryDayDto[];
+}
+
+export interface DashboardStreakHistoryDayDto {
+  userDay: string;
+  hasActivity: boolean;
 }
 
 export interface EmptyDashboardDto {

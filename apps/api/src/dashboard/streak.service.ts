@@ -12,6 +12,7 @@ import {
 } from "./review-history.repository.js";
 
 const millisecondsPerCalendarDay = 24 * 60 * 60 * 1_000;
+const maximumStreakGap = 3 * millisecondsPerCalendarDay;
 
 export type StreakClock = () => Date;
 export const STREAK_CLOCK = Symbol("STREAK_CLOCK");
@@ -54,30 +55,47 @@ function calculateStreak(
     .map(parseUserDay)
     .filter((dayTime) => dayTime <= todayTime)
     .sort((left, right) => right - left);
+  const activityDayTimes = new Set(orderedDayTimes);
+  const history = Array.from({ length: 5 }, (_, index) => {
+    const dayTime = todayTime - (4 - index) * millisecondsPerCalendarDay;
+
+    return {
+      hasActivity: activityDayTimes.has(dayTime),
+      userDay: formatUserDay(dayTime),
+    };
+  });
   const latestTime = orderedDayTimes[0];
 
   if (
     latestTime === undefined ||
-    todayTime - latestTime > millisecondsPerCalendarDay
+    todayTime - latestTime > maximumStreakGap
   ) {
-    return { continuedToday: false, days: 0 };
+    return { continuedToday: false, days: 0, history };
   }
 
   let days = 0;
-  let expectedTime = latestTime;
+  let previousTime: number | undefined;
   for (const dayTime of orderedDayTimes) {
-    if (dayTime !== expectedTime) {
+    if (
+      previousTime !== undefined &&
+      previousTime - dayTime > maximumStreakGap
+    ) {
       break;
     }
 
     days += 1;
-    expectedTime -= millisecondsPerCalendarDay;
+    previousTime = dayTime;
   }
 
   return {
     continuedToday: latestTime === todayTime,
     days,
+    history,
   };
+}
+
+function formatUserDay(userDayTime: number): string {
+  return new Date(userDayTime).toISOString().slice(0, 10);
 }
 
 function parseUserDay(userDay: string): number {

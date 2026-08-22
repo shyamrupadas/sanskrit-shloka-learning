@@ -218,7 +218,9 @@ describe("ApiHandlersService protected resources", () => {
   });
 
   test("returns empty dashboard and library for a new account", async () => {
-    const handlers = createHandlers();
+    const handlers = createHandlers({
+      now: () => new Date("2026-08-22T12:00:00.000Z"),
+    });
 
     const registerResponse = await handlers.register({
       body: {
@@ -283,7 +285,17 @@ describe("ApiHandlersService protected resources", () => {
       await handlers.getStreak({ authorization, timeZone: "UTC" }),
       {
         status: 200,
-        body: { continuedToday: false, days: 0 },
+        body: {
+          continuedToday: false,
+          days: 0,
+          history: [
+            { hasActivity: false, userDay: "2026-08-18" },
+            { hasActivity: false, userDay: "2026-08-19" },
+            { hasActivity: false, userDay: "2026-08-20" },
+            { hasActivity: false, userDay: "2026-08-21" },
+            { hasActivity: false, userDay: "2026-08-22" },
+          ],
+        },
       },
     );
   });
@@ -349,6 +361,111 @@ describe("ApiHandlersService protected resources", () => {
     assert.deepEqual(learningCompletion.body.details, [
       "Таймзона пользователя должна быть корректной IANA-таймзоной",
     ]);
+  });
+});
+
+describe("ApiHandlersService streak", () => {
+  test("counts unique meaningful activity days across gaps of up to three calendar days", async () => {
+    const context = await createStreakTestContext(
+      "2026-07-09T12:00:00.000Z",
+    );
+    await addReviewActivity(context, "2026-07-01", 1);
+    await addReviewActivity(context, "2026-07-02", 2);
+    await addLearningActivity(context, "2026-07-04", 1);
+    await addReviewActivity(context, "2026-07-04", 3);
+    await addReviewActivity(context, "2026-07-04", 4);
+    await addReviewActivity(context, "2026-07-07", 5);
+
+    assert.deepEqual(await getStreak(context), {
+      status: 200,
+      body: {
+        continuedToday: false,
+        days: 4,
+        history: [
+          { hasActivity: false, userDay: "2026-07-05" },
+          { hasActivity: false, userDay: "2026-07-06" },
+          { hasActivity: true, userDay: "2026-07-07" },
+          { hasActivity: false, userDay: "2026-07-08" },
+          { hasActivity: false, userDay: "2026-07-09" },
+        ],
+      },
+    });
+  });
+
+  test("keeps the series through the third missed day and ends it on the fourth", async () => {
+    let now = new Date("2026-07-10T23:59:59.999Z");
+    const context = await createStreakTestContext(() => now);
+    await addReviewActivity(context, "2026-07-04", 1);
+    await addReviewActivity(context, "2026-07-07", 2);
+
+    const thirdMissedDay = await getStreak(context);
+    assert.equal(thirdMissedDay.status, 200);
+    assert.equal(thirdMissedDay.body.days, 2);
+
+    now = new Date("2026-07-11T00:00:00.000Z");
+    assert.deepEqual(await getStreak(context), {
+      status: 200,
+      body: {
+        continuedToday: false,
+        days: 0,
+        history: [
+          { hasActivity: true, userDay: "2026-07-07" },
+          { hasActivity: false, userDay: "2026-07-08" },
+          { hasActivity: false, userDay: "2026-07-09" },
+          { hasActivity: false, userDay: "2026-07-10" },
+          { hasActivity: false, userDay: "2026-07-11" },
+        ],
+      },
+    });
+  });
+
+  test("starts a new series at one without clearing recent history", async () => {
+    const context = await createStreakTestContext(
+      "2026-07-12T12:00:00.000Z",
+    );
+    await addReviewActivity(context, "2026-07-08", 1);
+    await addReviewActivity(context, "2026-07-12", 2);
+
+    assert.deepEqual(await getStreak(context), {
+      status: 200,
+      body: {
+        continuedToday: true,
+        days: 1,
+        history: [
+          { hasActivity: true, userDay: "2026-07-08" },
+          { hasActivity: false, userDay: "2026-07-09" },
+          { hasActivity: false, userDay: "2026-07-10" },
+          { hasActivity: false, userDay: "2026-07-11" },
+          { hasActivity: true, userDay: "2026-07-12" },
+        ],
+      },
+    });
+  });
+
+  test("uses the local user day for the series and history across a UTC boundary", async () => {
+    const context = await createStreakTestContext(
+      "2026-07-12T00:30:00.000Z",
+      "America/Los_Angeles",
+    );
+    await addReviewActivity(context, "2026-07-07", 1);
+    await addReviewActivity(context, "2026-07-09", 2);
+    await addReviewActivity(context, "2026-07-11", 3);
+    await addReviewActivity(context, "2026-07-12", 4);
+
+    assert.deepEqual(await getStreak(context), {
+      status: 200,
+      body: {
+        continuedToday: true,
+        days: 3,
+        history: [
+          { hasActivity: true, userDay: "2026-07-07" },
+          { hasActivity: false, userDay: "2026-07-08" },
+          { hasActivity: true, userDay: "2026-07-09" },
+          { hasActivity: false, userDay: "2026-07-10" },
+          { hasActivity: true, userDay: "2026-07-11" },
+        ],
+      },
+    });
   });
 });
 
@@ -767,7 +884,17 @@ describe("ApiHandlersService admin catalog", () => {
       }),
       {
         status: 200,
-        body: { continuedToday: true, days: 1 },
+        body: {
+          continuedToday: true,
+          days: 1,
+          history: [
+            { hasActivity: false, userDay: "2026-07-08" },
+            { hasActivity: false, userDay: "2026-07-09" },
+            { hasActivity: false, userDay: "2026-07-10" },
+            { hasActivity: false, userDay: "2026-07-11" },
+            { hasActivity: true, userDay: "2026-07-12" },
+          ],
+        },
       },
     );
 
@@ -815,7 +942,17 @@ describe("ApiHandlersService admin catalog", () => {
       }),
       {
         status: 200,
-        body: { continuedToday: false, days: 1 },
+        body: {
+          continuedToday: false,
+          days: 1,
+          history: [
+            { hasActivity: false, userDay: "2026-07-09" },
+            { hasActivity: false, userDay: "2026-07-10" },
+            { hasActivity: false, userDay: "2026-07-11" },
+            { hasActivity: true, userDay: "2026-07-12" },
+            { hasActivity: false, userDay: "2026-07-13" },
+          ],
+        },
       },
     );
 
@@ -839,7 +976,17 @@ describe("ApiHandlersService admin catalog", () => {
       }),
       {
         status: 200,
-        body: { continuedToday: true, days: 2 },
+        body: {
+          continuedToday: true,
+          days: 2,
+          history: [
+            { hasActivity: false, userDay: "2026-07-09" },
+            { hasActivity: false, userDay: "2026-07-10" },
+            { hasActivity: false, userDay: "2026-07-11" },
+            { hasActivity: true, userDay: "2026-07-12" },
+            { hasActivity: true, userDay: "2026-07-13" },
+          ],
+        },
       },
     );
 
@@ -1323,6 +1470,79 @@ type TestHandlers = ApiHandlersService & {
   reviewHistoryRepository: InMemoryReviewHistoryRepository;
   userLibraryRepository: InMemoryUserLibraryRepository;
 };
+
+type StreakTestContext = {
+  accountId: string;
+  authorization: string;
+  handlers: TestHandlers;
+  timeZone: string;
+};
+
+async function createStreakTestContext(
+  now: string | (() => Date),
+  timeZone = "UTC",
+): Promise<StreakTestContext> {
+  const handlers = createHandlers({
+    now: typeof now === "string" ? () => new Date(now) : now,
+  });
+  const registration = await handlers.register({
+    body: {
+      email: "learner@example.com",
+      password: "123456",
+      passwordConfirmation: "123456",
+    },
+  });
+  assert.equal(registration.status, 201);
+
+  return {
+    accountId: registration.body.account.id,
+    authorization: `Bearer ${registration.body.accessToken}`,
+    handlers,
+    timeZone,
+  };
+}
+
+async function addReviewActivity(
+  context: StreakTestContext,
+  userDay: string,
+  index: number,
+): Promise<void> {
+  await context.handlers.reviewHistoryRepository.create({
+    accountId: context.accountId,
+    completedAt: new Date(`${userDay}T12:00:00.000Z`),
+    id: `review-${index}`,
+    result: "remembered_without_error",
+    shlokaCode: `review-shloka-${index}`,
+    userDay,
+  });
+}
+
+async function addLearningActivity(
+  context: StreakTestContext,
+  userDay: string,
+  index: number,
+): Promise<void> {
+  const shlokaCode = `learning-shloka-${index}`;
+  await context.handlers.userLibraryRepository.setShlokaStatus({
+    accountId: context.accountId,
+    createdAt: new Date(`${userDay}T10:00:00.000Z`),
+    shlokaCode,
+    status: "learning",
+  });
+  await context.handlers.userLibraryRepository.markShlokaLearned({
+    accountId: context.accountId,
+    reviewingStartedAt: new Date(`${userDay}T12:00:00.000Z`),
+    reviewingStartedUserDay: userDay,
+    shlokaCode,
+  });
+}
+
+function getStreak(context: StreakTestContext) {
+  return context.handlers.getStreak({
+    authorization: context.authorization,
+    timeZone: context.timeZone,
+  });
+}
 
 function createHandlers(
   options: { now?: () => Date } = {},

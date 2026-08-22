@@ -130,9 +130,10 @@ describe("generated OpenAPI dashboard list contract", () => {
 });
 
 describe("generated OpenAPI dashboard streak contract", () => {
-  test("exposes the authenticated streak query with the user timezone", async () => {
+  test("exposes the authenticated streak query with the user timezone and five-day history", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
     const operation = openApi.paths?.["/api/dashboard/streak"]?.get;
+    const schemas = openApi.components?.schemas ?? {};
 
     assert.ok(operation);
     assert.deepEqual(
@@ -145,6 +146,33 @@ describe("generated OpenAPI dashboard streak contract", () => {
     assert.equal(
       operation.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
       "#/components/schemas/SanskritShlokaLearning.DashboardStreakDto",
+    );
+    assert.deepEqual(
+      schemas["SanskritShlokaLearning.DashboardStreakDto"]?.required,
+      ["days", "continuedToday", "history"],
+    );
+    assert.deepEqual(
+      schemas["SanskritShlokaLearning.DashboardStreakDto"]?.properties?.history,
+      {
+        items: {
+          $ref: "#/components/schemas/SanskritShlokaLearning.DashboardStreakHistoryDayDto",
+        },
+        maxItems: 5,
+        minItems: 5,
+        type: "array",
+      },
+    );
+    assert.deepEqual(
+      schemas["SanskritShlokaLearning.DashboardStreakHistoryDayDto"]?.required,
+      ["userDay", "hasActivity"],
+    );
+    assert.equal(
+      schemas["SanskritShlokaLearning.DashboardStreakHistoryDayDto"]?.properties?.userDay?.format,
+      "date",
+    );
+    assert.equal(
+      schemas["SanskritShlokaLearning.DashboardStreakHistoryDayDto"]?.properties?.hasActivity?.type,
+      "boolean",
     );
   });
 });

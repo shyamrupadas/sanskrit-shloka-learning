@@ -255,6 +255,13 @@ function learningApi(
       body: {
         continuedToday: true,
         days: 1,
+        history: [
+          { hasActivity: false, userDay: "2026-07-08" },
+          { hasActivity: false, userDay: "2026-07-09" },
+          { hasActivity: false, userDay: "2026-07-10" },
+          { hasActivity: false, userDay: "2026-07-11" },
+          { hasActivity: true, userDay: "2026-07-12" },
+        ],
       } satisfies ApiTypes.DashboardStreakDto,
     };
   }

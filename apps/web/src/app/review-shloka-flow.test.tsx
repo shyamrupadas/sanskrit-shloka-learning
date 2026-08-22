@@ -325,6 +325,16 @@ function createReviewApi(shlokas: ApiTypes.LibraryShlokaDto[]) {
           body: {
             continuedToday: completedCodes.size > 0,
             days: completedCodes.size > 0 ? 1 : 0,
+            history: [
+              { hasActivity: false, userDay: "2026-07-08" },
+              { hasActivity: false, userDay: "2026-07-09" },
+              { hasActivity: false, userDay: "2026-07-10" },
+              { hasActivity: false, userDay: "2026-07-11" },
+              {
+                hasActivity: completedCodes.size > 0,
+                userDay: "2026-07-12",
+              },
+            ],
           } satisfies ApiTypes.DashboardStreakDto,
         };
       }

@@ -21,6 +21,13 @@ describe("StreakService", () => {
     assert.deepEqual(await service.getStreak(accountId, "UTC"), {
       continuedToday: true,
       days: 1,
+      history: [
+        { hasActivity: false, userDay: "2026-07-08" },
+        { hasActivity: false, userDay: "2026-07-09" },
+        { hasActivity: false, userDay: "2026-07-10" },
+        { hasActivity: false, userDay: "2026-07-11" },
+        { hasActivity: true, userDay: "2026-07-12" },
+      ],
     });
   });
 
@@ -38,30 +45,58 @@ describe("StreakService", () => {
     assert.deepEqual(await pending.getStreak(accountId, "UTC"), {
       continuedToday: false,
       days: 3,
+      history: [
+        { hasActivity: false, userDay: "2026-07-08" },
+        { hasActivity: true, userDay: "2026-07-09" },
+        { hasActivity: true, userDay: "2026-07-10" },
+        { hasActivity: true, userDay: "2026-07-11" },
+        { hasActivity: false, userDay: "2026-07-12" },
+      ],
     });
     assert.deepEqual(await active.getStreak(accountId, "UTC"), {
       continuedToday: true,
       days: 4,
+      history: [
+        { hasActivity: false, userDay: "2026-07-08" },
+        { hasActivity: true, userDay: "2026-07-09" },
+        { hasActivity: true, userDay: "2026-07-10" },
+        { hasActivity: true, userDay: "2026-07-11" },
+        { hasActivity: true, userDay: "2026-07-12" },
+      ],
     });
   });
 
-  test("returns zero after a missed day and resets the next activity to one", async () => {
-    const broken = createService({
+  test("preserves the series during the grace period and continues it on new activity", async () => {
+    const pending = createService({
       now: "2026-07-12T12:00:00.000Z",
       reviewDays: ["2026-07-08", "2026-07-09", "2026-07-10"],
     });
-    const restarted = createService({
+    const continued = createService({
       now: "2026-07-12T12:00:00.000Z",
       reviewDays: ["2026-07-08", "2026-07-09", "2026-07-10", "2026-07-12"],
     });
 
-    assert.deepEqual(await broken.getStreak(accountId, "UTC"), {
+    assert.deepEqual(await pending.getStreak(accountId, "UTC"), {
       continuedToday: false,
-      days: 0,
+      days: 3,
+      history: [
+        { hasActivity: true, userDay: "2026-07-08" },
+        { hasActivity: true, userDay: "2026-07-09" },
+        { hasActivity: true, userDay: "2026-07-10" },
+        { hasActivity: false, userDay: "2026-07-11" },
+        { hasActivity: false, userDay: "2026-07-12" },
+      ],
     });
-    assert.deepEqual(await restarted.getStreak(accountId, "UTC"), {
+    assert.deepEqual(await continued.getStreak(accountId, "UTC"), {
       continuedToday: true,
-      days: 1,
+      days: 4,
+      history: [
+        { hasActivity: true, userDay: "2026-07-08" },
+        { hasActivity: true, userDay: "2026-07-09" },
+        { hasActivity: true, userDay: "2026-07-10" },
+        { hasActivity: false, userDay: "2026-07-11" },
+        { hasActivity: true, userDay: "2026-07-12" },
+      ],
     });
   });
 
@@ -76,6 +111,13 @@ describe("StreakService", () => {
       {
         continuedToday: true,
         days: 2,
+        history: [
+          { hasActivity: false, userDay: "2026-07-07" },
+          { hasActivity: false, userDay: "2026-07-08" },
+          { hasActivity: false, userDay: "2026-07-09" },
+          { hasActivity: true, userDay: "2026-07-10" },
+          { hasActivity: true, userDay: "2026-07-11" },
+        ],
       },
     );
   });
