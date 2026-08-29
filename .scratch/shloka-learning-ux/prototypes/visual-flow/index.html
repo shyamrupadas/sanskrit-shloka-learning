@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Одноразовый mobile-first прототип флоу заучивания шлоки." />
+    <link rel="icon" href="data:," />
+    <title>UI prototype — флоу заучивания</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --page: #e8edf4;
+        --surface: #f8fafc;
+        --paper: #ffffff;
+        --ink: #334155;
+        --muted: #59687b;
+        --line: #d7e0eb;
+        --blue: #2864e8;
+        --blue-dark: #1649b8;
+        --blue-soft: #eaf1ff;
+        --green: #16834a;
+        --green-soft: #dff8e9;
+        --amber: #9a5a0a;
+        --amber-soft: #fff5de;
+        --red: #aa3f37;
+        --red-soft: #fff0ee;
+        --shadow: 0 20px 55px rgb(15 23 42 / 0.16);
+      }
+
+      * { box-sizing: border-box; }
+      html { min-height: 100%; background: var(--page); }
+      body { margin: 0; min-height: 100vh; background: var(--page); color: var(--ink); }
+      button { font: inherit; cursor: pointer; }
+      button:disabled { cursor: default; opacity: 0.52; }
+      button:focus-visible { outline: 3px solid #8eb2ff; outline-offset: 3px; }
+      h1, h2, h3, p, dl, dd { margin: 0; }
+
+      .prototype-note {
+        width: min(1120px, calc(100% - 32px));
+        margin: 18px auto 12px;
+        color: #516176;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      .workspace {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto 96px;
+        display: grid;
+        grid-template-columns: 390px minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+      .phone {
+        position: sticky;
+        top: 14px;
+        width: 390px;
+        height: 844px;
+        overflow: hidden;
+        border: 1px solid #cbd5e1;
+        border-radius: 30px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+      .screen {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+      }
+      .statusbar {
+        height: 44px;
+        flex: 0 0 44px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #314158;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+      .status-icons { letter-spacing: 0.12em; }
+      .content-scroll {
+        min-height: 0;
+        flex: 1;
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+      .ui-button {
+        min-height: 48px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        padding: 11px 16px;
+        font-weight: 750;
+      }
+      .ui-button.primary { background: var(--blue); color: white; }
+      .ui-button.primary:hover { background: var(--blue-dark); }
+      .ui-button.secondary { border-color: var(--line); background: var(--paper); color: var(--blue); }
+      .ui-button.quiet { border-color: transparent; background: transparent; color: var(--blue); }
+      .ui-button.danger { border-color: #efc4bf; background: white; color: var(--red); }
+      .ui-button.small { min-height: 40px; padding: 8px 12px; font-size: 14px; }
+      .text-button { min-height: 40px; border: 0; background: transparent; color: var(--blue); padding: 6px 0; font-weight: 720; }
+      .icon-button { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); }
+      .verse { white-space: pre-line; font-family: "Noto Serif", Georgia, serif; color: #334155; }
+      .supporting { color: var(--muted); font-size: 14px; line-height: 1.5; }
+      .eyebrow { color: var(--blue); font-size: 11px; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
+      .actions { display: grid; gap: 10px; }
+      .banner { border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; font-size: 13px; line-height: 1.45; }
+      .banner.error { border-color: #efb7b1; background: var(--red-soft); color: var(--red); }
+      .banner.warning { border-color: #f0d096; background: var(--amber-soft); color: var(--amber); }
+
+      .attempt-header { display: grid; align-items: center; }
+      .attempt-copy h1 { font-family: "Noto Serif", Georgia, serif; }
+      .main-action-zone { margin-top: auto; }
+
+      /* A — quiet, familiar, bottom-anchored. */
+      [data-variant="A"] .attempt-header {
+        grid-template-columns: 1fr auto 1fr;
+        min-height: 52px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      [data-variant="A"] .attempt-header .screen-title { font-size: 14px; font-weight: 800; text-align: center; }
+      [data-variant="A"] .attempt-header .header-right { justify-self: end; }
+      [data-variant="A"] .attempt-body { min-height: 100%; display: flex; flex-direction: column; padding: 24px 20px 18px; }
+      [data-variant="A"] .attempt-copy { display: grid; gap: 8px; }
+      [data-variant="A"] .attempt-copy h1 { font-size: 29px; line-height: 1.17; }
+      [data-variant="A"] .verse { margin: 30px 0 24px; font-size: 23px; font-weight: 700; line-height: 1.58; }
+      [data-variant="A"] .support-zone { display: grid; grid-template-columns: 1fr; gap: 10px; }
+      [data-variant="A"] .main-action-zone { padding-top: 22px; display: grid; gap: 8px; }
+      [data-variant="A"] .action-note { color: var(--muted); font-size: 12px; line-height: 1.4; text-align: center; }
+
+      /* B — an explicit learning workspace with a support card. */
+      [data-variant="B"] .screen { background: #edf3ff; }
+      [data-variant="B"] .statusbar { background: #173c7d; color: white; }
+      [data-variant="B"] .attempt-header {
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        min-height: 62px;
+        padding: 8px 16px 12px;
+        background: #173c7d;
+        color: white;
+      }
+      [data-variant="B"] .attempt-header .screen-title { font-size: 18px; font-weight: 820; }
+      [data-variant="B"] .attempt-header .text-button { color: white; font-size: 13px; }
+      [data-variant="B"] .attempt-body { min-height: 100%; display: flex; flex-direction: column; padding: 16px; gap: 14px; }
+      [data-variant="B"] .attempt-copy { display: grid; gap: 4px; }
+      [data-variant="B"] .attempt-copy h1 { font-size: 22px; line-height: 1.25; }
+      [data-variant="B"] .reading-field { border: 1px solid #cad9f5; border-radius: 18px; background: white; padding: 20px 18px; box-shadow: 0 8px 22px rgb(31 74 145 / 0.08); }
+      [data-variant="B"] .verse { margin: 0; font-size: 21px; font-weight: 700; line-height: 1.62; }
+      [data-variant="B"] .support-zone { border: 1px solid #cad9f5; border-radius: 16px; background: #f9fbff; padding: 14px; display: grid; gap: 9px; }
+      [data-variant="B"] .support-zone::before { content: "Нужна опора?"; color: var(--ink); font-size: 14px; font-weight: 820; }
+      [data-variant="B"] .support-zone::after { content: "Помощник ведёт по падам, совет даёт короткую подсказку."; grid-row: 2; color: var(--muted); font-size: 12px; line-height: 1.4; }
+      [data-variant="B"] .support-zone .ui-button:first-child { grid-row: 3; }
+      [data-variant="B"] .support-zone .ui-button:last-child { grid-row: 3; }
+      [data-variant="B"] .support-zone { grid-template-columns: 1fr 1fr; }
+      [data-variant="B"] .support-zone::before, [data-variant="B"] .support-zone::after { grid-column: 1 / -1; }
+      [data-variant="B"] .main-action-zone { display: grid; gap: 8px; }
+      [data-variant="B"] .action-note { color: #586a85; font-size: 12px; line-height: 1.4; }
+
+      /* C — editorial, verse first, action follows the reading. */
+      [data-variant="C"] .screen { background: #fffdf8; }
+      [data-variant="C"] .attempt-header {
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        min-height: 52px;
+        padding: 0 16px;
+      }
+      [data-variant="C"] .attempt-header .screen-title { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; text-align: center; }
+      [data-variant="C"] .attempt-body { min-height: 100%; display: flex; flex-direction: column; padding: 18px 22px 20px; }
+      [data-variant="C"] .attempt-copy { display: grid; gap: 10px; padding-bottom: 16px; border-bottom: 2px solid #34435b; }
+      [data-variant="C"] .attempt-copy h1 { font-size: 31px; line-height: 1.08; }
+      [data-variant="C"] .verse { margin: 26px 0 18px; font-size: 24px; font-weight: 650; line-height: 1.68; }
+      [data-variant="C"] .main-action-zone { margin-top: 0; display: grid; gap: 8px; }
+      [data-variant="C"] .main-action-zone .ui-button { border-radius: 2px; }
+      [data-variant="C"] .action-note { color: var(--muted); font-size: 12px; line-height: 1.4; }
+      [data-variant="C"] .support-zone { margin-top: auto; padding-top: 18px; display: flex; justify-content: space-between; border-top: 1px solid #d8d2c5; }
+      [data-variant="C"] .support-zone .ui-button { min-height: 40px; border: 0; background: transparent; padding: 6px 0; }
+
+      .helper-shell { min-height: 100%; display: flex; flex-direction: column; padding: 8px 18px 18px; }
+      .helper-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 48px; }
+      .helper-header strong { text-align: center; }
+      .helper-header .right { justify-self: end; color: var(--muted); font-size: 12px; }
+      .helper-meta { margin-top: 14px; display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; font-weight: 740; }
+      .helper-progress { display: flex; gap: 5px; margin: 10px 0 20px; }
+      .helper-progress span { flex: 1; height: 5px; border-radius: 999px; background: #dae2ec; }
+      .helper-progress span.done { background: var(--blue); }
+      .helper-progress span.current { background: #78a1f8; }
+      .helper-stage { min-height: 370px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; }
+      .helper-stage .verse { margin: 0; font-size: 23px; font-weight: 700; line-height: 1.62; }
+      .memory-cue { display: grid; gap: 9px; max-width: 280px; }
+      .memory-cue strong { font-family: "Noto Serif", Georgia, serif; font-size: 25px; }
+      .helper-actions { margin-top: auto; display: grid; gap: 9px; }
+      [data-variant="B"] .helper-shell { background: #edf3ff; }
+      [data-variant="B"] .helper-progress { width: 8px; position: absolute; left: 20px; top: 150px; bottom: 180px; flex-direction: column; margin: 0; }
+      [data-variant="B"] .helper-progress span { width: 8px; min-height: 16px; }
+      [data-variant="B"] .helper-stage { margin-left: 28px; border: 1px solid #cad9f5; border-radius: 18px; background: white; padding: 20px; }
+      [data-variant="C"] .helper-progress span { height: 2px; border-radius: 0; }
+      [data-variant="C"] .helper-stage { align-items: flex-start; text-align: left; border-top: 2px solid var(--ink); border-bottom: 1px solid #d8d2c5; }
+
+      .success-shell { min-height: 100%; display: flex; flex-direction: column; padding: 34px 20px 20px; }
+      .success-icon { width: 60px; height: 60px; display: grid; place-items: center; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 30px; font-weight: 900; }
+      .success-copy { display: grid; gap: 10px; margin-top: 24px; }
+      .success-copy h1 { font-size: 29px; line-height: 1.18; }
+      .success-actions { margin-top: auto; display: grid; gap: 10px; }
+      .continue-block { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+      [data-variant="B"] .success-shell { background: #edf3ff; }
+      [data-variant="B"] .success-copy { padding: 18px; border-radius: 18px; background: white; border: 1px solid #cad9f5; }
+      [data-variant="B"] .success-icon { margin: 0 auto; }
+      [data-variant="C"] .success-icon { width: auto; height: auto; display: block; background: transparent; color: var(--green); font-family: "Noto Serif", Georgia, serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.12em; }
+      [data-variant="C"] .success-copy { border-top: 2px solid var(--ink); padding-top: 18px; }
+      [data-variant="C"] .success-copy h1 { font-family: "Noto Serif", Georgia, serif; font-size: 34px; }
+      [data-variant="C"] .success-actions .ui-button { border-radius: 2px; }
+
+      .state-shell { min-height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 15px; padding: 24px 20px; }
+      .state-shell h1 { font-size: 27px; line-height: 1.2; }
+      .state-symbol { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 16px; background: var(--blue-soft); color: var(--blue); font-size: 27px; }
+      .skeleton { height: 18px; border-radius: 8px; background: #dfe6ef; }
+      .skeleton.short { width: 58%; }
+      .skeleton.tall { height: 126px; margin-top: 14px; }
+
+      .sheet-backdrop { position: absolute; inset: 0; z-index: 5; display: flex; align-items: end; background: rgb(15 23 42 / 0.48); }
+      .sheet { width: 100%; border-radius: 24px 24px 0 0; background: white; padding: 12px 20px 28px; box-shadow: 0 -20px 50px rgb(15 23 42 / 0.19); }
+      .sheet-handle { width: 42px; height: 4px; margin: 0 auto 18px; border-radius: 999px; background: #cbd5e1; }
+      .sheet-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .sheet-header h2 { font-size: 22px; }
+      .sheet-copy { margin-top: 18px; font-family: "Noto Serif", Georgia, serif; font-size: 18px; line-height: 1.58; }
+      .sheet-count { margin-top: 12px; color: var(--muted); font-size: 12px; }
+      .sheet-actions { margin-top: 20px; display: grid; gap: 9px; }
+      [data-variant="B"] .sheet { border-radius: 16px 16px 0 0; background: #f9fbff; }
+      [data-variant="C"] .sheet { border-radius: 0; background: #fffdf8; border-top: 4px solid var(--ink); }
+
+      .lab { min-width: 0; display: grid; gap: 14px; }
+      .lab-card { border: 1px solid #ccd6e2; border-radius: 16px; background: white; padding: 16px; }
+      .lab-card h2 { font-size: 17px; }
+      .lab-card p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+      .scenario-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 13px; }
+      .scenario-grid button { min-height: 42px; border: 1px solid var(--line); border-radius: 9px; background: #f8fafc; color: var(--ink); padding: 8px 10px; text-align: left; }
+      .scenario-grid button[aria-current="true"] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-dark); font-weight: 780; }
+      .state-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 13px; }
+      .state-grid div { min-width: 0; border-radius: 10px; background: #f3f6fa; padding: 10px; }
+      .state-grid dt { color: var(--muted); font-size: 10px; font-weight: 780; letter-spacing: 0.06em; text-transform: uppercase; }
+      .state-grid dd { margin-top: 4px; font-size: 13px; font-weight: 720; overflow-wrap: anywhere; }
+      .assessment { margin-top: 12px; padding-left: 12px; border-left: 3px solid var(--blue); color: #516176; font-size: 13px; line-height: 1.5; }
+
+      .variant-switcher {
+        position: fixed;
+        z-index: 20;
+        left: 50%;
+        bottom: 18px;
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: 42px minmax(190px, auto) 42px;
+        align-items: center;
+        border: 1px solid rgb(255 255 255 / 0.2);
+        border-radius: 999px;
+        background: #111827;
+        color: white;
+        box-shadow: 0 10px 30px rgb(15 23 42 / 0.35);
+        overflow: hidden;
+      }
+      .variant-switcher button { height: 44px; border: 0; background: transparent; color: white; font-size: 18px; }
+      .variant-label { padding: 0 12px; font-size: 13px; font-weight: 780; text-align: center; }
+
+      @media (max-width: 850px) {
+        .workspace { width: min(100% - 20px, 620px); grid-template-columns: 1fr; }
+        .phone { position: relative; top: 0; margin: 0 auto; }
+      }
+      @media (max-width: 430px) {
+        .prototype-note { width: calc(100% - 24px); }
+        .workspace { width: 100%; }
+        .phone { width: 100%; border-left: 0; border-right: 0; border-radius: 0; }
+        .lab { padding: 0 12px; }
+        .scenario-grid, .state-grid { grid-template-columns: 1fr; }
+        .variant-switcher { bottom: 10px; grid-template-columns: 42px minmax(180px, auto) 42px; }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="prototype-note">Одноразовый UI prototype: три композиции одного флоу. Плавающая тёмная панель не является частью продукта.</p>
+    <main class="workspace">
+      <section class="phone" id="phone" aria-label="Визуальный прототип"></section>
+      <aside class="lab">
+        <section class="lab-card">
+          <h2>Варианты компоновки</h2>
+          <p>Переключение сохраняет текущее состояние флоу.</p>
+          <div class="scenario-grid" id="variant-grid"></div>
+        </section>
+        <section class="lab-card">
+          <h2>Сценарии проверки</h2>
+          <p>Сценарий меняет только стартовое состояние. Дальше используйте действия внутри телефона.</p>
+          <div class="scenario-grid" id="scenario-grid"></div>
+        </section>
+        <section class="lab-card" id="outcome-card" hidden>
+          <h2>Ответ после «Выучил»</h2>
+          <p>Прототип не вызывает API: выберите результат запроса.</p>
+          <div class="scenario-grid">
+            <button data-outcome="success">Статус подтверждён</button>
+            <button data-outcome="unchanged">Статус не изменился</button>
+            <button data-outcome="unknown">Результат неизвестен</button>
+          </div>
+        </section>
+        <section class="lab-card">
+          <h2>Текущее состояние</h2>
+          <p>Полный релевантный state после каждого действия и переключения варианта.</p>
+          <dl class="state-grid" id="state-grid"></dl>
+          <div class="assessment" id="assessment"></div>
+        </section>
+      </aside>
+    </main>
+    <nav class="variant-switcher" aria-label="Варианты прототипа">
+      <button type="button" data-variant-step="-1" aria-label="Предыдущий вариант">←</button>
+      <span class="variant-label" id="variant-label"></span>
+      <button type="button" data-variant-step="1" aria-label="Следующий вариант">→</button>
+    </nav>
+
+    <script>
+      const VARIANTS = {
+        A: "Спокойный фокус",
+        B: "Учебное поле",
+        C: "Текст прежде всего",
+      };
+      const SHLOKA = {
+        title: "Бхагавад-гита 1.1",
+        padas: [
+          "дхарма-кшетре куру-кшетре",
+          "самавета юютсавах",
+          "мамаках пандавашчаива",
+          "кимакурвата санджая",
+        ],
+      };
+      const FRAGMENTS = [
+        { title: "Пада 1", lines: [0] },
+        { title: "Пада 2", lines: [1] },
+        { title: "Пады 1 + 2", lines: [0, 1] },
+        { title: "Пада 3", lines: [2] },
+        { title: "Пада 4", lines: [3] },
+        { title: "Пады 3 + 4", lines: [2, 3] },
+        { title: "Вся шлока", lines: [0, 1, 2, 3] },
+      ];
+      const TIPS = [
+        "Прочитайте одну строку медленно, отвернитесь от экрана и произнесите её по памяти. Затем сверьтесь и добавьте следующую.",
+        "Свяжите каждую строку с коротким образом или действием. Вспоминайте последовательность образов, а не отдельные звуки.",
+        "Если целая строка не вспоминается, восстановите первое слово, затем снова попробуйте произнести строку без подсказки.",
+      ];
+      const SCENARIOS = [
+        ["attempt", "Быстрый путь"],
+        ["helper", "Помощник"],
+        ["tip", "Совет"],
+        ["saving", "Сохранение"],
+        ["success", "Завершение"],
+        ["load-error", "Ошибка загрузки"],
+        ["guard", "Status guard"],
+      ];
+
+      const params = new URLSearchParams(location.search);
+      let variant = VARIANTS[params.get("variant")] ? params.get("variant") : "A";
+
+      function initialState(scenario = "attempt") {
+        return {
+          scenario,
+          screen: scenario === "helper" ? "helper" : scenario,
+          status: scenario === "success" || scenario === "guard" ? "повторяю" : "буду учить",
+          returnTo: "/library?status=to-learn",
+          returnToSource: "Библиотека → Буду учить",
+          helperStep: scenario === "helper" ? 0 : null,
+          helperPhase: scenario === "helper" ? "read" : null,
+          helperProgressStored: false,
+          tipOpen: scenario === "tip",
+          tipPosition: 0,
+          seenTips: scenario === "tip" ? [0] : [],
+          destination: null,
+          lastAction: "Сценарий открыт",
+        };
+      }
+      let state = initialState("attempt");
+
+      function verse(lines = [0, 1, 2, 3]) {
+        return lines.map((index) => SHLOKA.padas[index]).join("\n");
+      }
+
+      function topbar(disabled = false) {
+        const disabledAttribute = disabled ? "disabled" : "";
+        const cancel = `<button class="text-button" data-action="cancel" ${disabledAttribute}>Отмена</button>`;
+        const tip = variant === "A"
+          ? `<button class="text-button header-right" data-action="tip" ${disabledAttribute}>Совет</button>`
+          : '<span class="header-right" aria-hidden="true"></span>';
+        return `<header class="attempt-header">${cancel}<div class="screen-title">Заучивание</div>${tip}</header>`;
+      }
+
+      function attemptScreen() {
+        const saving = state.screen === "saving";
+        const message = state.screen === "save-error"
+          ? '<div class="banner error" role="alert">Не удалось изменить статус. Можно попробовать снова — повторной подтверждённой операции не было.</div>'
+          : state.screen === "save-unknown"
+            ? '<div class="banner warning" role="status">Результат пока неясен. Сначала проверим актуальный статус, не отправляя «Выучил» повторно.</div>'
+            : "";
+        const body = `
+          ${topbar(saving)}
+          <div class="content-scroll">
+            <div class="attempt-body">
+              <div class="attempt-copy">
+                <span class="eyebrow">Шлока для заучивания</span>
+                <h1>${SHLOKA.title}</h1>
+                <p class="supporting">Учите в своём темпе. Решение о результате остаётся за вами.</p>
+              </div>
+              <div class="reading-field"><p class="verse">${verse()}</p></div>
+              ${message}
+              <div class="${variant === "C" ? "main-action-zone" : "support-zone"}">
+                ${variant === "C" ? learnedAction(saving) : supportActions(saving)}
+              </div>
+              <div class="${variant === "C" ? "support-zone" : "main-action-zone"}">
+                ${variant === "C" ? supportActions(saving) : learnedAction(saving)}
+              </div>
+            </div>
+          </div>`;
+        return body + (state.tipOpen ? tipSheet() : "");
+      }
+
+      function supportActions(disabled) {
+        const helper = `<button class="ui-button secondary" data-action="helper" ${disabled ? "disabled" : ""}>Помощник</button>`;
+        const tip = `<button class="ui-button secondary" data-action="tip" ${disabled ? "disabled" : ""}>Совет</button>`;
+        return variant === "A" ? helper : helper + tip;
+      }
+
+      function learnedAction(saving) {
+        return `<button class="ui-button primary" data-action="learned" ${saving ? "disabled" : ""}>${saving ? "Сохраняем…" : "Выучил"}</button>
+          <p class="action-note">Шлока перейдёт в повторение без дополнительного вопроса.</p>`;
+      }
+
+      function tipSheet() {
+        const last = state.tipPosition === TIPS.length - 1;
+        return `<div class="sheet-backdrop" data-action="close-tip">
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="tip-title" data-stop>
+            <div class="sheet-handle"></div>
+            <div class="sheet-header"><h2 id="tip-title">Совет</h2><button class="icon-button" data-action="close-tip" aria-label="Закрыть">×</button></div>
+            <p class="sheet-copy">${TIPS[state.tipPosition]}</p>
+            <p class="sheet-count">${last ? "Все советы этой попытки просмотрены" : `Совет ${state.tipPosition + 1} из ${TIPS.length}`}</p>
+            <div class="sheet-actions">
+              <button class="ui-button secondary" data-action="next-tip" ${last ? "disabled" : ""}>${last ? "Других советов нет" : "Другой совет"}</button>
+              <button class="ui-button quiet small" data-action="all-tips">Все советы</button>
+            </div>
+          </section>
+        </div>`;
+      }
+
+      function helperScreen() {
+        const fragment = FRAGMENTS[state.helperStep];
+        const phaseLabels = { read: "Прочитайте", recall: "Воспроизведите", check: "Сверьтесь" };
+        let stage;
+        if (state.helperPhase === "recall") {
+          stage = `<div class="memory-cue"><span class="eyebrow">Текст скрыт</span><strong>Произнесите по памяти</strong><p class="supporting">Оценки не будет. Когда закончите, откройте текст и сверьтесь сами.</p></div>`;
+        } else {
+          stage = `<span class="eyebrow">${phaseLabels[state.helperPhase]}</span><p class="verse">${verse(fragment.lines)}</p>${state.helperPhase === "check" ? '<p class="supporting">Сравните с тем, что произнесли. Исправьте себя без оценки.</p>' : ""}`;
+        }
+        const primaryLabel = state.helperPhase === "read" ? "Скрыть и повторить" : state.helperPhase === "recall" ? "Показать и сверить" : state.helperStep === FRAGMENTS.length - 1 ? "Вернуться к шлоке" : "Следующий фрагмент";
+        return `<div class="content-scroll"><div class="helper-shell">
+          <header class="helper-header"><button class="text-button" data-action="exit-helper">К шлоке</button><strong>Помощник</strong><span class="right">Не сохраняется</span></header>
+          <div class="helper-meta"><span>${fragment.title}</span><span>${state.helperStep + 1} / ${FRAGMENTS.length}</span></div>
+          <div class="helper-progress" aria-label="Прогресс Помощника">${FRAGMENTS.map((_, index) => `<span class="${index < state.helperStep ? "done" : index === state.helperStep ? "current" : ""}"></span>`).join("")}</div>
+          <section class="helper-stage">${stage}</section>
+          <div class="helper-actions"><button class="ui-button primary" data-action="helper-next">${primaryLabel}</button><button class="ui-button quiet small" data-action="skip-helper">Пропустить фрагмент</button></div>
+        </div></div>`;
+      }
+
+      function successScreen() {
+        return `<div class="content-scroll"><section class="success-shell">
+          <div class="success-icon">✓</div>
+          <div class="success-copy"><span class="eyebrow">Готово</span><h1>Шлока добавлена в повторение</h1><p class="supporting">${SHLOKA.title} теперь появится в расписании повторений.</p></div>
+          <div class="continue-block"><strong>Хотите продолжить?</strong><p class="supporting">Следующая попытка начнётся только после отдельного выбора.</p><button class="ui-button secondary" data-action="next-shloka">Учить следующую</button><button class="ui-button quiet small" data-action="choose-shloka">Выбрать шлоку</button></div>
+          <div class="success-actions"><button class="ui-button primary" data-action="finish">Закончить</button></div>
+        </section></div>`;
+      }
+
+      function stateScreen(kind) {
+        const data = {
+          "load-error": ["!", "Не удалось загрузить шлоку", "Проверьте соединение и попробуйте снова. Статус не изменён."],
+          guard: ["✓", "Шлока уже в повторении", "Эта попытка больше не актуальна. Вернитесь в исходный контекст."],
+          exited: ["↗", "Вы вернулись", `Назначение: ${state.destination || state.returnTo}`],
+          tips: ["↗", "Открыта страница «Советы»", "Нативный Back вернёт к той же незавершённой попытке."],
+        }[kind];
+        const actions = kind === "load-error"
+          ? '<button class="ui-button primary" data-action="retry-load">Попробовать снова</button><button class="ui-button secondary" data-action="cancel">Отмена и возврат</button>'
+          : kind === "tips"
+            ? '<button class="ui-button secondary" data-action="back-from-tips">Вернуться к попытке</button>'
+            : '<button class="ui-button primary" data-action="finish">Вернуться</button>';
+        return `<section class="state-shell"><div class="state-symbol">${data[0]}</div><h1>${data[1]}</h1><p class="supporting">${data[2]}</p><div class="actions">${actions}</div></section>`;
+      }
+
+      function renderScreen() {
+        const content = state.screen === "helper" ? helperScreen()
+          : state.screen === "success" ? successScreen()
+          : ["load-error", "guard", "exited", "tips"].includes(state.screen) ? stateScreen(state.screen)
+          : attemptScreen();
+        document.querySelector("#phone").innerHTML = `<div class="screen" data-variant="${variant}"><div class="statusbar"><span>9:41</span><span class="status-icons">▮▮ ◉ ▣</span></div>${content}</div>`;
+      }
+
+      function renderLab() {
+        document.querySelector("#variant-grid").innerHTML = Object.entries(VARIANTS)
+          .map(([key, label]) => `<button data-variant-key="${key}" aria-current="${variant === key}">${key} — ${label}</button>`)
+          .join("");
+        document.querySelector("#scenario-grid").innerHTML = SCENARIOS.map(([key, label]) => `<button data-scenario="${key}" aria-current="${state.scenario === key}">${label}</button>`).join("");
+        document.querySelector("#outcome-card").hidden = state.screen !== "saving";
+        const helper = state.helperStep === null ? "не активен" : `${state.helperStep + 1}/${FRAGMENTS.length}, ${state.helperPhase}`;
+        const values = [
+          ["Вариант", `${variant} — ${VARIANTS[variant]}`],
+          ["Экран", state.screen],
+          ["Статус шлоки", state.status],
+          ["Помощник", helper],
+          ["Прогресс сохранён", state.helperProgressStored ? "да" : "нет"],
+          ["Советы", state.seenTips.length ? state.seenTips.map((i) => i + 1).join(", ") : "нет"],
+          ["returnTo", state.returnTo],
+          ["Последнее действие", state.lastAction],
+        ];
+        document.querySelector("#state-grid").innerHTML = values.map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join("");
+        document.querySelector("#assessment").textContent = state.screen === "success"
+          ? "Success-state устойчив: новая шлока не открывается без отдельного действия."
+          : state.screen === "helper"
+            ? "Выход из Помощника отбрасывает текущий проход и не меняет статус."
+            : state.tipOpen
+              ? "Совет является modal dialog поверх неизменённой попытки."
+              : "Быстрый путь и поддержка остаются независимыми.";
+        document.querySelector("#variant-label").textContent = `${variant} · ${VARIANTS[variant]}`;
+      }
+
+      function render() {
+        renderScreen();
+        renderLab();
+        document.querySelector(".lab").inert = false;
+        document.querySelector(".variant-switcher").inert = false;
+        if (state.tipOpen) {
+          document.querySelectorAll(".screen > :not(.sheet-backdrop)").forEach((element) => { element.inert = true; });
+          document.querySelector(".lab").inert = true;
+          document.querySelector(".variant-switcher").inert = true;
+          document.querySelector(".sheet .icon-button")?.focus();
+        } else if (pendingFocus) {
+          document.querySelector(pendingFocus)?.focus();
+          pendingFocus = null;
+        }
+      }
+
+      function setScenario(scenario) {
+        state = initialState(scenario);
+        render();
+      }
+
+      function selectVariant(nextVariant) {
+        variant = nextVariant;
+        const next = new URL(location.href);
+        next.searchParams.set("variant", variant);
+        history.replaceState(null, "", next);
+        state.lastAction = `Выбран вариант ${variant}`;
+        render();
+      }
+
+      function cycleVariant(direction) {
+        const keys = Object.keys(VARIANTS);
+        selectVariant(keys[(keys.indexOf(variant) + direction + keys.length) % keys.length]);
+      }
+
+      let pendingFocus = null;
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("[data-stop]")) event.stopPropagation();
+        const scenario = event.target.closest("[data-scenario]")?.dataset.scenario;
+        if (scenario) return setScenario(scenario);
+        const variantKey = event.target.closest("[data-variant-key]")?.dataset.variantKey;
+        if (variantKey) return selectVariant(variantKey);
+        const step = event.target.closest("[data-variant-step]")?.dataset.variantStep;
+        if (step) return cycleVariant(Number(step));
+        const outcome = event.target.closest("[data-outcome]")?.dataset.outcome;
+        if (outcome) {
+          if (outcome === "success") {
+            state.screen = "success";
+            state.status = "повторяю";
+            state.lastAction = "Статус перечитан и подтверждён";
+          } else if (outcome === "unchanged") {
+            state.screen = "save-error";
+            state.lastAction = "Подтверждено: статус не изменился";
+          } else {
+            state.screen = "save-unknown";
+            state.lastAction = "Результат неизвестен; повторная mutation не отправляется";
+          }
+          return render();
+        }
+        const action = event.target.closest("[data-action]")?.dataset.action;
+        if (!action) return;
+        if (action === "tip") {
+          state.tipOpen = true;
+          if (!state.seenTips.includes(state.tipPosition)) state.seenTips.push(state.tipPosition);
+          state.lastAction = "Совет открыт поверх попытки";
+        } else if (action === "close-tip") {
+          state.tipOpen = false;
+          state.lastAction = "Совет закрыт; попытка не изменилась";
+          pendingFocus = "[data-action=tip]";
+        } else if (action === "next-tip") {
+          state.tipPosition = Math.min(state.tipPosition + 1, TIPS.length - 1);
+          if (!state.seenTips.includes(state.tipPosition)) state.seenTips.push(state.tipPosition);
+          state.lastAction = "Показан новый неповторяющийся совет";
+        } else if (action === "all-tips") {
+          state.tipOpen = false;
+          state.screen = "tips";
+          state.lastAction = "Явно открыта существующая страница «Советы»";
+        } else if (action === "back-from-tips") {
+          state.screen = "attempt";
+          state.lastAction = "Browser Back вернул к незавершённой попытке";
+        } else if (action === "helper") {
+          state.screen = "helper";
+          state.helperStep = 0;
+          state.helperPhase = "read";
+          state.lastAction = "Начат несохраняемый проход Помощника";
+        } else if (action === "exit-helper") {
+          state.screen = "attempt";
+          state.helperStep = null;
+          state.helperPhase = null;
+          state.lastAction = "Помощник закрыт; прогресс отброшен";
+        } else if (action === "helper-next") {
+          if (state.helperPhase === "read") state.helperPhase = "recall";
+          else if (state.helperPhase === "recall") state.helperPhase = "check";
+          else if (state.helperStep < FRAGMENTS.length - 1) {
+            state.helperStep += 1;
+            state.helperPhase = "read";
+          } else {
+            state.screen = "attempt";
+            state.helperStep = null;
+            state.helperPhase = null;
+            state.lastAction = "Помощник завершён без изменения статуса";
+          }
+        } else if (action === "skip-helper") {
+          if (state.helperStep < FRAGMENTS.length - 1) {
+            state.helperStep += 1;
+            state.helperPhase = "read";
+            state.lastAction = "Фрагмент пропущен без оценки";
+          } else {
+            state.screen = "attempt";
+            state.helperStep = null;
+            state.helperPhase = null;
+            state.lastAction = "Последний фрагмент пропущен; статус не изменён";
+          }
+        } else if (action === "learned") {
+          state.screen = "saving";
+          state.lastAction = "Отправлена одна команда «Выучил»";
+        } else if (action === "retry-load") {
+          state.screen = "attempt";
+          state.lastAction = "Шлока успешно перечитана";
+        } else if (action === "next-shloka") {
+          state = initialState("attempt");
+          state.lastAction = "Новая попытка начата по отдельному согласию";
+        } else if (action === "choose-shloka") {
+          state.screen = "exited";
+          state.destination = "/library?status=to-learn";
+          state.lastAction = "Цепочка завершена; открыт самостоятельный выбор";
+        } else if (action === "finish" || action === "cancel") {
+          state.screen = "exited";
+          state.destination = state.returnTo;
+          state.lastAction = action === "cancel" ? "Попытка отменена без изменения статуса" : "Флоу завершён";
+        }
+        render();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && state.tipOpen) {
+          state.tipOpen = false;
+          state.lastAction = "Совет закрыт клавишей Escape; попытка не изменилась";
+          pendingFocus = "[data-action=tip]";
+          render();
+          return;
+        }
+        if (event.key === "Tab" && state.tipOpen) {
+          const focusable = [...document.querySelectorAll(".sheet button:not(:disabled)")];
+          const current = focusable.indexOf(document.activeElement);
+          const next = event.shiftKey
+            ? (current <= 0 ? focusable.length - 1 : current - 1)
+            : (current === focusable.length - 1 ? 0 : current + 1);
+          event.preventDefault();
+          focusable[next]?.focus();
+          return;
+        }
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        const tag = event.target.tagName;
+        if (["INPUT", "TEXTAREA", "SELECT"].includes(tag) || event.target.isContentEditable) return;
+        cycleVariant(event.key === "ArrowLeft" ? -1 : 1);
+      });
+
+      render();
+    </script>
+  </body>
+</html>

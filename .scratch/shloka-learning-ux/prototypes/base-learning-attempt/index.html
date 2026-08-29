@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prototype — базовая попытка заучивания</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --text: #334155;
+        --muted: #64748b;
+        --line: #d6dee9;
+        --primary: #2563eb;
+        --primary-soft: #eff6ff;
+        --danger: #b42318;
+        --danger-soft: #fef3f2;
+        --success: #15803d;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #e8edf4;
+        color: var(--text);
+      }
+
+      button, select { font: inherit; }
+      button { cursor: pointer; }
+      button:focus-visible, select:focus-visible {
+        outline: 3px solid #93c5fd;
+        outline-offset: 2px;
+      }
+      button:disabled { cursor: wait; opacity: 0.62; }
+
+      .prototype-shell {
+        width: min(100%, 390px);
+        min-height: 844px;
+        margin: 20px auto 120px;
+        background: var(--bg);
+        box-shadow: 0 22px 70px rgb(15 23 42 / 0.18);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .screen {
+        min-height: 844px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 16px 22px;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: minmax(68px, 1fr) auto minmax(68px, 1fr);
+        align-items: center;
+        min-height: 42px;
+        gap: 8px;
+      }
+
+      .topbar .right { justify-self: end; }
+      .topbar-title { font-size: 14px; font-weight: 700; text-align: center; }
+      .text-action {
+        min-height: 40px;
+        border: 0;
+        background: transparent;
+        color: var(--primary);
+        padding: 0 4px;
+        font-weight: 650;
+      }
+      .icon-action {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 800;
+      }
+
+      h1, h2, p { margin: 0; }
+      h1 { font-family: "Noto Serif", Georgia, serif; font-size: 24px; line-height: 1.25; }
+      .instruction { color: var(--muted); font-size: 15px; line-height: 1.5; }
+      .verse {
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+        font-family: "Noto Serif", Georgia, serif;
+        font-size: 21px;
+        line-height: 1.58;
+        font-weight: 700;
+      }
+      .eyebrow {
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .primary, .secondary {
+        min-height: 48px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 0 16px;
+        font-weight: 750;
+      }
+      .primary { border: 1px solid var(--primary); background: var(--primary); color: white; }
+      .secondary { border: 1px solid var(--line); background: white; color: var(--primary); }
+      .button-note { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.4; text-align: center; }
+
+      .error-banner {
+        border: 1px solid #fecdca;
+        background: var(--danger-soft);
+        color: var(--danger);
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 14px;
+        line-height: 1.45;
+        margin-bottom: 10px;
+      }
+
+      .variant-a .main-copy { display: grid; gap: 10px; margin-top: 28px; }
+      .variant-a .verse { margin-top: 34px; }
+      .variant-a .utility-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+      .variant-a .actions { margin-top: auto; padding-top: 28px; }
+
+      .variant-b .header-copy { display: grid; gap: 8px; margin-top: 20px; }
+      .variant-b .verse-plain { margin-top: 24px; padding: 0 2px; }
+      .variant-b .paths { display: grid; gap: 12px; margin-top: 26px; }
+      .path-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+        padding: 16px;
+      }
+      .path-card.primary-path { border-color: #93c5fd; box-shadow: 0 8px 24px rgb(37 99 235 / 0.08); }
+      .path-title { font-size: 16px; font-weight: 800; }
+      .path-copy { color: var(--muted); font-size: 14px; line-height: 1.45; margin: 6px 0 14px; }
+      .variant-b .footer-tip { margin-top: auto; padding-top: 18px; text-align: center; }
+
+      .variant-c { padding-left: 0; padding-right: 0; }
+      .variant-c .topbar, .variant-c .focus-copy { margin-left: 16px; margin-right: 16px; }
+      .variant-c .focus-copy { display: grid; gap: 8px; margin-top: 18px; }
+      .focus-stage {
+        margin-top: 28px;
+        padding: 36px 20px;
+        background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+        border-top: 1px solid #dbeafe;
+        border-bottom: 1px solid #dbeafe;
+        min-height: 310px;
+        display: flex;
+        align-items: center;
+      }
+      .variant-c .verse { width: 100%; text-align: center; line-height: 1.72; }
+      .action-dock {
+        margin-top: auto;
+        background: white;
+        border-top: 1px solid var(--line);
+        box-shadow: 0 -12px 30px rgb(15 23 42 / 0.08);
+        padding: 14px 16px 22px;
+      }
+      .dock-utilities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+      .loading-body, .fatal-error {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .skeleton { height: 18px; border-radius: 6px; background: #e2e8f0; animation: pulse 1.2s ease-in-out infinite alternate; }
+      .skeleton + .skeleton { margin-top: 12px; }
+      .skeleton.title { width: 62%; height: 26px; margin-bottom: 26px; }
+      .fatal-error { align-items: flex-start; gap: 12px; }
+      .fatal-error h1 { font-family: inherit; font-size: 22px; }
+      .fatal-error .primary, .fatal-error .secondary { width: 100%; }
+      @keyframes pulse { to { opacity: 0.45; } }
+
+      .sheet-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        background: rgb(15 23 42 / 0.42);
+        display: flex;
+        align-items: flex-end;
+      }
+      .sheet {
+        width: 100%;
+        background: white;
+        border-radius: 20px 20px 0 0;
+        padding: 12px 18px 26px;
+        box-shadow: 0 -20px 50px rgb(15 23 42 / 0.18);
+      }
+      .sheet-handle { width: 42px; height: 4px; background: #cbd5e1; border-radius: 999px; margin: 0 auto 18px; }
+      .sheet h2 { font-size: 20px; }
+      .sheet p { margin: 8px 0 18px; color: var(--muted); line-height: 1.5; }
+      .sheet-actions { display: grid; gap: 10px; }
+
+      .outcome {
+        position: absolute;
+        inset: 0;
+        z-index: 11;
+        background: var(--bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px;
+        gap: 14px;
+      }
+      .outcome h2 { font-size: 23px; }
+      .outcome p { color: var(--muted); line-height: 1.5; }
+
+      .prototype-controls {
+        position: fixed;
+        left: 50%;
+        bottom: 14px;
+        z-index: 99;
+        transform: translateX(-50%);
+        width: min(calc(100% - 20px), 720px);
+        border-radius: 16px;
+        background: #0f172a;
+        color: white;
+        box-shadow: 0 14px 50px rgb(15 23 42 / 0.45);
+        padding: 10px;
+      }
+      .control-row { display: grid; grid-template-columns: 42px minmax(160px, 1fr) 42px minmax(145px, 0.8fr); gap: 8px; align-items: center; }
+      .prototype-controls button, .prototype-controls select {
+        height: 38px;
+        border: 1px solid #475569;
+        border-radius: 9px;
+        background: #1e293b;
+        color: white;
+      }
+      .variant-label { text-align: center; font-weight: 750; font-size: 14px; }
+      .state-output { margin-top: 8px; color: #cbd5e1; font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+
+      @media (max-width: 560px) {
+        .prototype-shell { margin: 0 0 132px; box-shadow: none; }
+        .control-row { grid-template-columns: 42px 1fr 42px; }
+        .control-row select { grid-column: 1 / -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="prototype-shell" id="app" aria-live="polite"></main>
+
+    <aside class="prototype-controls" aria-label="Управление прототипом">
+      <div class="control-row">
+        <button id="previous" aria-label="Предыдущий вариант">←</button>
+        <div class="variant-label" id="variant-label"></div>
+        <button id="next" aria-label="Следующий вариант">→</button>
+        <select id="state-select" aria-label="Состояние сценария">
+          <option value="ready">Готово к работе</option>
+          <option value="loading">Загрузка шлоки</option>
+          <option value="load-error">Ошибка загрузки</option>
+          <option value="saving">Сохраняем «Выучил»</option>
+          <option value="save-error">Ошибка «Выучил»</option>
+        </select>
+      </div>
+      <div class="state-output" id="state-output"></div>
+    </aside>
+
+    <script>
+      const variants = {
+        A: { name: "Текст — главный", render: renderVariantA },
+        B: { name: "Два ясных пути", render: renderVariantB },
+        C: { name: "Фокус и action dock", render: renderVariantC },
+      };
+      const variantKeys = Object.keys(variants);
+      const params = new URLSearchParams(location.search);
+      let state = {
+        variant: variants[params.get("variant")] ? params.get("variant") : "A",
+        view: "ready",
+        layer: null,
+        outcome: null,
+        lastAction: "prototype-opened",
+      };
+
+      const verse = "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая";
+      const instruction = "Учите в своём темпе. Когда решите, что готовы перейти к повторению, нажмите «Выучил».";
+
+      function header(center = "Заучивание") {
+        return `<header class="topbar">
+          <button class="text-action" data-action="cancel">Отмена</button>
+          <div class="topbar-title">${center}</div>
+          <button class="icon-action right" data-action="tip" aria-label="Открыть совет">?</button>
+        </header>`;
+      }
+
+      function completionAction() {
+        const saving = state.view === "saving";
+        return `${state.view === "save-error" ? `<div class="error-banner" role="alert">Не удалось изменить статус. Шлока осталась в «Буду учить». Проверьте соединение и попробуйте снова.</div>` : ""}
+          <button class="primary" data-action="learned" ${saving ? "disabled" : ""}>${saving ? "Сохраняем…" : "Выучил"}</button>
+          <p class="button-note">Переведёт шлоку в повторение без дополнительного подтверждения</p>`;
+      }
+
+      function utilities() {
+        return `<button class="secondary" data-action="helper">Помощник</button>
+          <button class="secondary" data-action="tip">Совет</button>`;
+      }
+
+      function renderVariantA() {
+        return `<section class="screen variant-a">
+          ${header()}
+          <div class="main-copy"><span class="eyebrow">Быстрая попытка</span><h1>Бхагавад-гита 1.1</h1><p class="instruction">${instruction}</p></div>
+          <div class="verse" aria-label="Текст шлоки">${verse}</div>
+          <div class="utility-row">${utilities()}</div>
+          <div class="actions">${completionAction()}</div>
+        </section>`;
+      }
+
+      function renderVariantB() {
+        return `<section class="screen variant-b">
+          ${header("Бхагавад-гита 1.1")}
+          <div class="header-copy"><span class="eyebrow">Одна короткая попытка</span><p class="instruction">${instruction}</p></div>
+          <div class="verse verse-plain" aria-label="Текст шлоки">${verse}</div>
+          <div class="paths">
+            <section class="path-card primary-path"><div class="path-title">Готовы продолжить сами?</div><p class="path-copy">Читайте и воспроизводите шлоку столько, сколько нужно.</p>${completionAction()}</section>
+            <section class="path-card"><div class="path-title">Нужна опора?</div><p class="path-copy">«Помощник» проведёт по падам. Его можно закрыть и вернуться к целой шлоке.</p><button class="secondary" data-action="helper">Открыть Помощник</button></section>
+          </div>
+          <div class="footer-tip"><button class="text-action" data-action="tip">Показать совет</button></div>
+        </section>`;
+      }
+
+      function renderVariantC() {
+        return `<section class="screen variant-c">
+          ${header()}
+          <div class="focus-copy"><span class="eyebrow">Бхагавад-гита 1.1</span><p class="instruction">Сосредоточьтесь на тексте. Решение о готовности остаётся за вами.</p></div>
+          <div class="focus-stage"><div class="verse" aria-label="Текст шлоки">${verse}</div></div>
+          <div class="action-dock"><div class="dock-utilities">${utilities()}</div>${completionAction()}</div>
+        </section>`;
+      }
+
+      function renderLoading() {
+        return `<section class="screen">${header()}<div class="loading-body" role="status" aria-label="Загрузка шлоки">
+          <div class="skeleton title"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        </div></section>`;
+      }
+
+      function renderLoadError() {
+        return `<section class="screen">${header()}<div class="fatal-error" role="alert">
+          <span class="eyebrow">Шлока не загрузилась</span><h1>Не удалось открыть попытку</h1><p class="instruction">Проверьте соединение. Статус шлоки не изменился.</p>
+          <button class="primary" data-action="retry">Попробовать снова</button><button class="secondary" data-action="cancel">Отмена и возврат</button>
+        </div></section>`;
+      }
+
+      function renderLayer() {
+        if (!state.layer) return "";
+        if (state.layer === "tip") {
+          return `<div class="sheet-backdrop" data-action="close-layer"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onclick="event.stopPropagation()">
+            <div class="sheet-handle"></div><h2 id="sheet-title">Совет для этой попытки</h2><p>Прочитайте шлоку, отвернитесь от экрана и попробуйте воспроизвести её целиком. Затем снова посмотрите на текст и сверьтесь.</p>
+            <div class="sheet-actions"><button class="primary" data-action="close-layer">Вернуться к шлоке</button><button class="secondary" data-action="next-tip">Другой совет</button></div>
+          </section></div>`;
+        }
+        return `<div class="sheet-backdrop" data-action="close-layer"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div><h2 id="sheet-title">Помощник</h2><p>Пошаговый режим по падам начнётся отдельно. Промежуточный прогресс не сохраняется; закрытие вернёт к целой шлоке.</p>
+          <div class="sheet-actions"><button class="primary" data-action="start-helper">Начать по падам</button><button class="secondary" data-action="close-layer">Остаться здесь</button></div>
+        </section></div>`;
+      }
+
+      function renderOutcome() {
+        if (!state.outcome) return "";
+        const cancelled = state.outcome === "cancelled";
+        return `<section class="outcome" role="status"><span class="eyebrow">Результат действия</span><h2>${cancelled ? "Попытка отменена" : "Переход в Помощник"}</h2>
+          <p>${cancelled ? "Статус шлоки не изменён. Возврат — в исходный контекст; в этом прототипе это «Библиотека → Буду учить»." : "Основной экран остаётся точкой возврата. Детальный пошаговый сценарий решается в отдельном ticket."}</p>
+          <button class="secondary" data-action="reset-outcome">Вернуться в прототип</button></section>`;
+      }
+
+      function render() {
+        const app = document.querySelector("#app");
+        const content = state.view === "loading" ? renderLoading() : state.view === "load-error" ? renderLoadError() : variants[state.variant].render();
+        app.innerHTML = content + renderLayer() + renderOutcome();
+        document.querySelector("#variant-label").textContent = `${state.variant} (${variants[state.variant].name})`;
+        document.querySelector("#state-select").value = state.view;
+        document.querySelector("#state-output").textContent = `state ${JSON.stringify(state)}`;
+        bindActions();
+      }
+
+      function updateVariant(nextVariant) {
+        state = { ...state, variant: nextVariant, layer: null, outcome: null, lastAction: "variant-changed" };
+        const url = new URL(location.href);
+        url.searchParams.set("variant", nextVariant);
+        history.replaceState(null, "", url);
+        render();
+      }
+
+      function cycleVariant(direction) {
+        const current = variantKeys.indexOf(state.variant);
+        updateVariant(variantKeys[(current + direction + variantKeys.length) % variantKeys.length]);
+      }
+
+      function bindActions() {
+        document.querySelectorAll("[data-action]").forEach((element) => element.addEventListener("click", () => act(element.dataset.action)));
+      }
+
+      function act(action) {
+        if (action === "tip") state = { ...state, layer: "tip", lastAction: "tip-opened" };
+        if (action === "helper") state = { ...state, layer: "helper", lastAction: "helper-opened" };
+        if (action === "close-layer") state = { ...state, layer: null, lastAction: "returned-to-attempt" };
+        if (action === "next-tip") state = { ...state, lastAction: "next-nonrepeating-tip-requested" };
+        if (action === "cancel") state = { ...state, layer: null, outcome: "cancelled", lastAction: "attempt-cancelled-without-status-change" };
+        if (action === "start-helper") state = { ...state, layer: null, outcome: "helper", lastAction: "helper-started" };
+        if (action === "reset-outcome") state = { ...state, outcome: null, lastAction: "prototype-reset" };
+        if (action === "learned") state = { ...state, view: "saving", layer: null, lastAction: "completion-request-started" };
+        if (action === "retry") state = { ...state, view: "loading", lastAction: "load-retried" };
+        render();
+      }
+
+      document.querySelector("#previous").addEventListener("click", () => cycleVariant(-1));
+      document.querySelector("#next").addEventListener("click", () => cycleVariant(1));
+      document.querySelector("#state-select").addEventListener("change", (event) => {
+        state = { ...state, view: event.target.value, layer: null, outcome: null, lastAction: `state-forced:${event.target.value}` };
+        render();
+      });
+      document.addEventListener("keydown", (event) => {
+        const target = event.target;
+        if (target.matches("input, textarea, select, [contenteditable]")) return;
+        if (event.key === "ArrowLeft") cycleVariant(-1);
+        if (event.key === "ArrowRight") cycleVariant(1);
+      });
+
+      render();
+    </script>
+  </body>
+</html>

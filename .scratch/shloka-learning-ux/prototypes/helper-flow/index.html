@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>Logic prototype — «Помощник» по падам</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --surface-soft: #f8fafc;
+        --text: #172033;
+        --muted: #5f6b7c;
+        --line: #d7dee8;
+        --accent: #315ea8;
+        --accent-soft: #eaf1ff;
+        --warning: #8a4b08;
+        --warning-soft: #fff7e8;
+        --success: #166534;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      button { font: inherit; cursor: pointer; }
+      button:focus-visible {
+        outline: 3px solid #93b4ed;
+        outline-offset: 2px;
+      }
+      button:disabled { cursor: default; opacity: 0.48; }
+
+      h1, h2, h3, p, dl, dd { margin: 0; }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 28px auto 60px;
+      }
+
+      .intro {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
+      h2 { font-size: 19px; line-height: 1.3; }
+      h3 { font-size: 15px; line-height: 1.35; }
+      .intro p { max-width: 820px; color: var(--muted); line-height: 1.55; }
+
+      .notice {
+        border: 1px solid #f1cf95;
+        border-radius: 12px;
+        background: var(--warning-soft);
+        color: var(--warning);
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(300px, 390px) minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .workspace > * { min-width: 0; }
+
+      .phone {
+        width: 100%;
+        min-height: 700px;
+        border: 1px solid #cbd5e1;
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: 0 18px 50px rgb(15 23 42 / 0.12);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .phone-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 42px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+      }
+
+      .phone-header strong { font-size: 14px; }
+      .quiet-button {
+        border: 0;
+        background: transparent;
+        color: var(--accent);
+        padding: 8px 0;
+        font-weight: 700;
+      }
+
+      .learning-view {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-top: 22px;
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 24px;
+      }
+
+      .progress span {
+        height: 5px;
+        flex: 1;
+        border-radius: 999px;
+        background: #dce3ec;
+      }
+
+      .progress span.done { background: var(--accent); }
+      .progress span.current { background: #7ea3de; }
+
+      .copy { display: grid; gap: 10px; }
+      .instruction { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+      .verse-card {
+        min-height: 220px;
+        margin-top: 28px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 18px;
+        text-align: center;
+      }
+
+      .verse {
+        white-space: pre-line;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1.6;
+      }
+
+      .hidden-cue {
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      .hidden-cue strong { color: var(--text); font-size: 18px; }
+
+      .screen-actions {
+        display: grid;
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 28px;
+      }
+
+      .primary, .secondary {
+        min-height: 46px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 750;
+      }
+
+      .primary { border: 1px solid var(--accent); background: var(--accent); color: white; }
+      .secondary { border: 1px solid var(--line); background: white; color: var(--accent); }
+
+      .side { min-width: 0; display: grid; gap: 16px; }
+      .panel {
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+        padding: 18px;
+      }
+
+      .panel > * { min-width: 0; }
+
+      .panel-heading { display: grid; gap: 5px; margin-bottom: 14px; }
+      .panel-heading p { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+      .state-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .state-item {
+        min-height: 72px;
+        border-radius: 10px;
+        background: var(--surface-soft);
+        padding: 10px;
+      }
+
+      .state-item dt { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+      .state-item dd { margin-top: 6px; font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+      .state-item.wide { grid-column: 1 / -1; }
+      .state-item.ok dd { color: var(--success); }
+      .state-item.warning dd { color: var(--warning); }
+
+      .free-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .free-actions button, .walkthrough button, .tabs button {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--surface);
+        color: var(--text);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      .free-actions button:hover, .walkthrough button:not(:disabled):hover { border-color: #8aa9d8; background: var(--accent-soft); }
+
+      .tabs {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .tabs button {
+        flex: 0 0 auto;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .tabs button[aria-selected="true"] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 800;
+      }
+
+      .walkthrough { display: grid; gap: 12px; margin-top: 14px; }
+      .walkthrough-copy { color: var(--muted); font-size: 14px; line-height: 1.5; }
+      .walkthrough-steps { display: grid; gap: 7px; }
+      .walkthrough button.current { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 750; }
+      .walkthrough button.complete { text-decoration: line-through; }
+
+      @media (max-width: 840px) {
+        .page { width: min(100% - 20px, 560px); margin-top: 14px; }
+        .workspace { grid-template-columns: 1fr; }
+        .phone { min-height: 660px; border-radius: 18px; }
+      }
+
+      @media (max-width: 430px) {
+        .page { width: 100%; margin-top: 0; }
+        .intro, .side { padding-left: 12px; padding-right: 12px; }
+        .phone { min-height: 680px; border-left: 0; border-right: 0; border-radius: 0; }
+        .state-grid, .free-actions { grid-template-columns: 1fr; }
+        .state-item.wide { grid-column: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <span class="eyebrow">Одноразовый logic prototype</span>
+        <h1>«Помощник» по падам</h1>
+        <p>Вопрос прототипа: достаточно ли понятна и мягка модель, где пользователь читает фрагмент, скрывает его, воспроизводит по памяти и сверяется — без автоматической оценки и сохранения промежуточного прогресса?</p>
+        <div class="notice">Внешний вид не является предложением для pen.dev. Здесь проверяются только состояния, тексты действий и разрешённые переходы.</div>
+      </header>
+
+      <div class="workspace">
+        <section class="phone" aria-label="Демонстрация текущего состояния">
+          <header class="phone-header">
+            <strong id="header-title">Бхагавад-гита 1.1</strong>
+            <button class="quiet-button" data-live-action="EXIT">Вернуться</button>
+          </header>
+          <div class="learning-view" id="learning-view" aria-live="polite"></div>
+        </section>
+
+        <aside class="side">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Полное состояние</h2>
+              <p>Обновляется после каждого действия; доменные факты показаны словами, а не JSON.</p>
+            </div>
+            <dl class="state-grid" id="state-grid"></dl>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Свободная проверка</h2>
+              <p>Все действия доступны всегда. Невозможный переход должен быть отклонён с объяснением.</p>
+            </div>
+            <div class="free-actions" id="free-actions"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Пошаговые сценарии</h2>
+              <p>Выбор сценария сбрасывает модель в известное начальное состояние.</p>
+            </div>
+            <div class="tabs" id="scenario-tabs" role="tablist" aria-label="Сценарии проверки"></div>
+            <div class="walkthrough" id="walkthrough" role="tabpanel"></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const padas = [
+        "дхарма-кшетре куру-кшетре",
+        "самавета юютсавах",
+        "мамаках пандавашчаива",
+        "кимакурвата санджая",
+      ];
+
+      const fragments = [
+        { title: "Пада 1", lines: [0] },
+        { title: "Пада 2", lines: [1] },
+        { title: "Пады 1 + 2", lines: [0, 1] },
+        { title: "Пада 3", lines: [2] },
+        { title: "Пада 4", lines: [3] },
+        { title: "Пады 3 + 4", lines: [2, 3] },
+        { title: "Вся шлока", lines: [0, 1, 2, 3] },
+      ];
+
+      const actionLabels = {
+        OPEN: "Открыть «Помощник»",
+        HIDE: "Скрыть и повторить",
+        REVEAL: "Показать и свериться",
+        NEXT: "Дальше",
+        REPEAT: "Повторить этот шаг",
+        SKIP: "Пропустить шаг",
+        EXIT: "Вернуться к полной шлоке",
+        RESTART: "Начать «Помощник» заново",
+      };
+
+      function initialState(message = "Исходная попытка: полный текст открыт") {
+        return {
+          screen: "attempt",
+          stepIndex: null,
+          phase: null,
+          completedSteps: 0,
+          skippedSteps: [],
+          statusChanged: false,
+          progressStored: false,
+          lastAction: "—",
+          message,
+        };
+      }
+
+      function helperStart(message) {
+        return {
+          ...initialState(message),
+          screen: "helper",
+          stepIndex: 0,
+          phase: "read",
+          lastAction: "Открыть «Помощник»",
+        };
+      }
+
+      function reject(state, action, reason) {
+        return { ...state, lastAction: actionLabels[action], message: `Переход отклонён: ${reason}` };
+      }
+
+      function advance(state, skipped = false) {
+        const skippedSteps = skipped && !state.skippedSteps.includes(state.stepIndex)
+          ? [...state.skippedSteps, state.stepIndex]
+          : state.skippedSteps;
+        const completedSteps = Math.max(state.completedSteps, state.stepIndex + 1);
+
+        if (state.stepIndex === fragments.length - 1) {
+          return {
+            ...state,
+            screen: "complete",
+            phase: null,
+            completedSteps,
+            skippedSteps,
+            message: skipped
+              ? "Последний шаг пропущен. «Помощник» завершён без изменения статуса."
+              : "Все шаги пройдены. Решение «Выучил» остаётся за пользователем.",
+          };
+        }
+
+        return {
+          ...state,
+          stepIndex: state.stepIndex + 1,
+          phase: "read",
+          completedSteps,
+          skippedSteps,
+          message: skipped ? "Шаг пропущен; открыт следующий фрагмент." : "Открыт следующий фрагмент.",
+        };
+      }
+
+      function reduce(state, action) {
+        if (action === "OPEN") {
+          if (state.screen !== "attempt") return reject(state, action, "помощник уже открыт");
+          return helperStart("Начат новый несохраняемый проход с первой пады.");
+        }
+
+        if (action === "RESTART") {
+          if (state.screen === "attempt") return reject(state, action, "сначала откройте помощник");
+          return helperStart("Проход начат заново с первой пады; прежний прогресс отброшен.");
+        }
+
+        if (action === "EXIT") {
+          if (state.screen === "attempt") return reject(state, action, "вы уже на исходной попытке");
+          return { ...initialState("Возврат к полной шлоке; промежуточный прогресс отброшен, статус не изменён."), lastAction: actionLabels[action] };
+        }
+
+        if (state.screen !== "helper") return reject(state, action, "действие доступно только внутри помощника");
+
+        if (action === "HIDE") {
+          if (state.phase !== "read") return reject(state, action, "сначала нужен открытый для чтения фрагмент");
+          return { ...state, phase: "recall", lastAction: actionLabels[action], message: "Оригинал скрыт; пользователь воспроизводит фрагмент по памяти." };
+        }
+
+        if (action === "REVEAL") {
+          if (state.phase !== "recall") return reject(state, action, "оригинал показывается только после скрытия");
+          return { ...state, phase: "check", lastAction: actionLabels[action], message: "Оригинал снова открыт для самостоятельной сверки." };
+        }
+
+        if (action === "REPEAT") {
+          if (state.phase !== "check") return reject(state, action, "повтор выбирается после сверки");
+          return { ...state, phase: "read", lastAction: actionLabels[action], message: "Тот же фрагмент открыт для нового цикла без оценки результата." };
+        }
+
+        if (action === "NEXT") {
+          if (state.phase !== "check") return reject(state, action, "перейти дальше можно после сверки");
+          return { ...advance(state), lastAction: actionLabels[action] };
+        }
+
+        if (action === "SKIP") {
+          if (state.phase === "check") return reject(state, action, "после сверки выберите «Дальше» или повторите шаг");
+          return { ...advance(state, true), lastAction: actionLabels[action] };
+        }
+
+        return reject(state, action, "неизвестное действие");
+      }
+
+      const scenarios = [
+        {
+          id: "whole-path",
+          name: "Весь путь",
+          description: "Пройти семь фрагментов без пропусков. Следите, не становится ли повторяющийся цикл утомительным и достаточно ли ясно завершение.",
+          actions: [
+            "OPEN",
+            ...fragments.flatMap(() => ["HIDE", "REVEAL", "NEXT"]),
+            "EXIT",
+          ],
+        },
+        {
+          id: "repeat-skip",
+          name: "Повтор и пропуск",
+          description: "Свериться, добровольно повторить первую паду, а затем пропустить второй шаг. Здесь не должно возникать ощущения экзамена или ошибки.",
+          actions: ["OPEN", "HIDE", "REVEAL", "REPEAT", "HIDE", "REVEAL", "NEXT", "SKIP", "HIDE", "REVEAL", "NEXT"],
+        },
+        {
+          id: "exit-reset",
+          name: "Выход и возврат",
+          description: "Выйти после части пути и открыть помощник снова. Новый запуск должен начаться с первой пады, ничего не сохранив.",
+          actions: ["OPEN", "HIDE", "REVEAL", "NEXT", "EXIT", "OPEN"],
+        },
+        {
+          id: "illegal-order",
+          name: "Неожиданный порядок",
+          description: "Попробовать действия раньше времени. Модель должна сохранить содержательное состояние и объяснить отклонение.",
+          actions: ["REVEAL", "OPEN", "NEXT", "HIDE", "NEXT", "REVEAL"],
+        },
+      ];
+
+      let state = initialState();
+      let activeScenario = scenarios[0].id;
+      let scenarioStep = 0;
+
+      function currentFragment() {
+        return state.stepIndex === null ? null : fragments[state.stepIndex];
+      }
+
+      function fragmentText(fragment = currentFragment()) {
+        return fragment ? fragment.lines.map((index) => padas[index]).join("\n") : padas.join("\n");
+      }
+
+      function phaseLabel() {
+        if (state.screen === "attempt") return "Исходная попытка";
+        if (state.screen === "complete") return "Помощник завершён";
+        return { read: "Прочитать", recall: "Воспроизвести", check: "Свериться" }[state.phase];
+      }
+
+      function renderProgress() {
+        if (state.screen === "attempt") return "";
+        return `<div class="progress" aria-label="Шаг ${Math.min((state.stepIndex ?? 6) + 1, 7)} из 7">${fragments.map((_, index) => {
+          const className = index < state.completedSteps ? "done" : index === state.stepIndex && state.screen === "helper" ? "current" : "";
+          return `<span class="${className}"></span>`;
+        }).join("")}</div>`;
+      }
+
+      function liveAction(action, label, kind = "secondary") {
+        return `<button class="${kind}" data-live-action="${action}">${label}</button>`;
+      }
+
+      function renderAttempt() {
+        return `${renderProgress()}
+          <div class="copy"><span class="eyebrow">Полная шлока</span><h2>Бхагавад-гита 1.1</h2><p class="instruction">Читайте и вспоминайте в своём темпе. «Помощник» — необязательная опора.</p></div>
+          <div class="verse-card"><div class="verse">${fragmentText()}</div></div>
+          <div class="screen-actions">${liveAction("OPEN", "Открыть «Помощник»", "primary")}<p class="instruction">Действие «Выучил» остаётся на исходном продуктовом экране и не моделируется здесь.</p></div>`;
+      }
+
+      function renderHelper() {
+        const fragment = currentFragment();
+        const copy = {
+          read: ["Прочитайте вслух или про себя", "Когда будете готовы, скройте текст и повторите по памяти."],
+          recall: ["Теперь воспроизведите по памяти", "Спешить не нужно. Когда закончите, откройте оригинал."],
+          check: ["Сверьтесь с оригиналом", "Оценивать себя не нужно: повторите этот шаг или двигайтесь дальше."],
+        }[state.phase];
+        const verse = state.phase === "recall"
+          ? `<div class="hidden-cue"><strong>Текст скрыт</strong><span>${fragment.title} · произнесите по памяти</span></div>`
+          : `<div class="verse">${fragmentText(fragment)}</div>`;
+        const primary = state.phase === "read"
+          ? liveAction("HIDE", "Скрыть и повторить", "primary")
+          : state.phase === "recall"
+            ? liveAction("REVEAL", "Показать и свериться", "primary")
+            : liveAction("NEXT", state.stepIndex === fragments.length - 1 ? "Завершить «Помощник»" : "Дальше", "primary");
+        const secondary = state.phase === "check"
+          ? liveAction("REPEAT", "Повторить этот шаг")
+          : liveAction("SKIP", "Пропустить шаг");
+
+        return `${renderProgress()}
+          <div class="copy"><span class="eyebrow">Шаг ${state.stepIndex + 1} из ${fragments.length} · ${fragment.title}</span><h2>${copy[0]}</h2><p class="instruction">${copy[1]}</p></div>
+          <div class="verse-card">${verse}</div>
+          <div class="screen-actions">${primary}${secondary}</div>`;
+      }
+
+      function renderComplete() {
+        return `${renderProgress()}
+          <div class="copy"><span class="eyebrow">Проход завершён</span><h2>Вы прошли все шаги</h2><p class="instruction">«Помощник» ничего не оценил и не изменил статус шлоки. Вернитесь к полному тексту и сами решите, нажимать ли «Выучил».</p></div>
+          <div class="verse-card"><div class="verse">${fragmentText()}</div></div>
+          <div class="screen-actions">${liveAction("EXIT", "Вернуться к полной шлоке", "primary")}${liveAction("RESTART", "Пройти ещё раз")}</div>`;
+      }
+
+      function renderLiveView() {
+        document.querySelector("#header-title").textContent = state.screen === "helper" ? "Помощник" : "Бхагавад-гита 1.1";
+        document.querySelector("[data-live-action='EXIT']").hidden = state.screen === "attempt";
+        document.querySelector("#learning-view").innerHTML = state.screen === "attempt"
+          ? renderAttempt()
+          : state.screen === "helper"
+            ? renderHelper()
+            : renderComplete();
+      }
+
+      function renderState() {
+        const fragment = currentFragment();
+        const skipped = state.skippedSteps.length ? state.skippedSteps.map((index) => fragments[index].title).join(", ") : "Нет";
+        const warning = state.message.startsWith("Переход отклонён");
+        document.querySelector("#state-grid").innerHTML = `
+          <div class="state-item"><dt>Экран</dt><dd>${phaseLabel()}</dd></div>
+          <div class="state-item"><dt>Фрагмент</dt><dd>${fragment ? fragment.title : "Полная шлока"}</dd></div>
+          <div class="state-item"><dt>Пройдено шагов</dt><dd>${state.completedSteps} из ${fragments.length}</dd></div>
+          <div class="state-item"><dt>Пропущено</dt><dd>${skipped}</dd></div>
+          <div class="state-item ok"><dt>Статус шлоки</dt><dd>${state.statusChanged ? "Изменён" : "Не изменён"}</dd></div>
+          <div class="state-item ok"><dt>Прогресс сохранён</dt><dd>${state.progressStored ? "Да" : "Нет"}</dd></div>
+          <div class="state-item wide"><dt>Последнее действие</dt><dd>${state.lastAction}</dd></div>
+          <div class="state-item wide ${warning ? "warning" : ""}"><dt>Что произошло</dt><dd>${state.message}</dd></div>`;
+      }
+
+      function renderFreeActions() {
+        document.querySelector("#free-actions").innerHTML = Object.entries(actionLabels)
+          .map(([action, label]) => `<button data-free-action="${action}">${label}</button>`)
+          .join("");
+      }
+
+      function renderScenarios() {
+        document.querySelector("#scenario-tabs").innerHTML = scenarios.map((scenario) => `
+          <button role="tab" aria-selected="${scenario.id === activeScenario}" data-scenario="${scenario.id}">${scenario.name}</button>`).join("");
+
+        const scenario = scenarios.find((item) => item.id === activeScenario);
+        document.querySelector("#walkthrough").innerHTML = `
+          <p class="walkthrough-copy">${scenario.description}</p>
+          <div class="walkthrough-steps">${scenario.actions.map((action, index) => {
+            const complete = index < scenarioStep;
+            const current = index === scenarioStep;
+            return `<button class="${complete ? "complete" : current ? "current" : ""}" data-scenario-step="${index}" ${current ? "" : "disabled"}>${index + 1}. ${actionLabels[action]}</button>`;
+          }).join("")}</div>`;
+      }
+
+      function dispatch(action, fromWalkthrough = false) {
+        state = reduce(state, action);
+        if (!fromWalkthrough) scenarioStep = 0;
+        render();
+      }
+
+      function bind() {
+        document.querySelectorAll("[data-live-action]").forEach((button) => {
+          button.onclick = () => dispatch(button.dataset.liveAction);
+        });
+        document.querySelectorAll("[data-free-action]").forEach((button) => {
+          button.onclick = () => dispatch(button.dataset.freeAction);
+        });
+        document.querySelectorAll("[data-scenario]").forEach((button) => {
+          button.onclick = () => {
+          activeScenario = button.dataset.scenario;
+          scenarioStep = 0;
+          state = initialState(`Сценарий «${scenarios.find((item) => item.id === activeScenario).name}» готов к запуску.`);
+          render();
+          };
+        });
+        document.querySelectorAll("[data-scenario-step]").forEach((button) => {
+          button.onclick = () => {
+          const scenario = scenarios.find((item) => item.id === activeScenario);
+          const index = Number(button.dataset.scenarioStep);
+          if (index !== scenarioStep) return;
+          state = reduce(state, scenario.actions[index]);
+          scenarioStep += 1;
+          render();
+          };
+        });
+      }
+
+      function render() {
+        renderLiveView();
+        renderState();
+        renderFreeActions();
+        renderScenarios();
+        bind();
+      }
+
+      render();
+    </script>
+  </body>
+</html>

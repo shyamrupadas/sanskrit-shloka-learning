@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>Logic prototype — цельный wireflow заучивания</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --bg: #eef2f7;
+        --surface: #ffffff;
+        --surface-soft: #f8fafc;
+        --text: #172033;
+        --muted: #5f6b7c;
+        --line: #d7dee8;
+        --accent: #315ea8;
+        --accent-soft: #eaf1ff;
+        --danger: #a33a32;
+        --danger-soft: #fff2f0;
+        --success: #166534;
+        --success-soft: #dcfce7;
+        --warning: #8a4b08;
+        --warning-soft: #fff7e8;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); }
+      button, select { font: inherit; }
+      button { cursor: pointer; }
+      button:disabled { cursor: default; opacity: 0.5; }
+      button:focus-visible, select:focus-visible { outline: 3px solid #93b4ed; outline-offset: 2px; }
+      h1, h2, h3, p, dl, dd { margin: 0; }
+
+      .page { width: min(1180px, calc(100% - 32px)); margin: 24px auto 72px; }
+      .intro { display: grid; gap: 9px; margin-bottom: 20px; }
+      .intro h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.12; }
+      .intro p { max-width: 850px; color: var(--muted); line-height: 1.5; }
+      .eyebrow { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+      .notice { border: 1px solid #f1cf95; border-radius: 12px; background: var(--warning-soft); color: var(--warning); padding: 11px 13px; font-size: 13px; line-height: 1.45; }
+
+      .workspace { display: grid; grid-template-columns: minmax(320px, 390px) minmax(0, 1fr); gap: 20px; align-items: start; }
+      .phone {
+        position: sticky;
+        top: 16px;
+        width: 390px;
+        max-width: 100%;
+        min-height: 720px;
+        overflow: hidden;
+        border: 1px solid #cbd5e1;
+        border-radius: 26px;
+        background: var(--surface);
+        box-shadow: 0 18px 50px rgb(15 23 42 / 0.13);
+      }
+      .screen { min-height: 720px; display: flex; flex-direction: column; padding: 18px; background: var(--surface-soft); }
+      .topbar { min-height: 44px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; border-bottom: 1px solid var(--line); margin: -2px 0 18px; padding-bottom: 10px; }
+      .topbar-title { font-size: 14px; font-weight: 800; text-align: center; }
+      .topbar .right { justify-self: end; }
+      .text-action { border: 0; background: transparent; color: var(--accent); padding: 7px 0; font-weight: 750; text-align: left; }
+      .icon-action { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--accent); font-weight: 850; }
+      .copy { display: grid; gap: 9px; }
+      .copy h1, .state-title { font-size: 23px; line-height: 1.25; }
+      .instruction, .supporting { color: var(--muted); font-size: 14px; line-height: 1.52; }
+      .verse { white-space: pre-line; margin: 26px 0; font-family: "Noto Serif", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.55; }
+      .utility-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: auto; padding-top: 16px; }
+      .actions { display: grid; gap: 9px; margin-top: 18px; }
+      .primary, .secondary, .danger {
+        min-height: 46px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 750;
+      }
+      .primary { border: 1px solid var(--accent); background: var(--accent); color: white; }
+      .secondary { border: 1px solid var(--line); background: white; color: var(--accent); }
+      .danger { border: 1px solid #e7b8b3; background: white; color: var(--danger); }
+      .button-note { color: var(--muted); font-size: 12px; line-height: 1.4; text-align: center; }
+      .banner { margin-top: 14px; border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; font-size: 13px; line-height: 1.45; }
+      .banner.error { border-color: #efb8b2; background: var(--danger-soft); color: var(--danger); }
+      .banner.warning { border-color: #f1cf95; background: var(--warning-soft); color: var(--warning); }
+
+      .center-state { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+      .success-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 999px; background: var(--success-soft); color: var(--success); font-size: 29px; font-weight: 900; }
+      .continue-group { margin-top: 30px; border-top: 1px solid var(--line); padding-top: 20px; display: grid; gap: 10px; }
+      .next-copy { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+      .skeletons { display: grid; gap: 12px; margin-top: 12px; }
+      .skeleton { height: 18px; border-radius: 7px; background: #dfe6ee; }
+      .skeleton.short { width: 56%; }
+      .skeleton.tall { height: 82px; margin-top: 18px; }
+
+      .helper-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; font-weight: 750; }
+      .progress { display: flex; gap: 5px; margin: 12px 0 24px; }
+      .progress span { height: 5px; flex: 1; border-radius: 999px; background: #dce3ec; }
+      .progress span.done { background: var(--accent); }
+      .progress span.current { background: #7ea3de; }
+      .fragment-stage { min-height: 260px; margin: 24px 0 0; border: 1px solid var(--line); border-radius: 16px; background: white; display: grid; place-items: center; padding: 22px 16px; text-align: center; }
+      .fragment { white-space: pre-line; font-family: "Noto Serif", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.6; }
+      .hidden-cue { display: grid; gap: 8px; color: var(--muted); line-height: 1.5; }
+      .hidden-cue strong { color: var(--text); font-size: 18px; }
+
+      .sheet-backdrop { position: absolute; inset: 0; z-index: 10; display: flex; align-items: flex-end; background: rgb(15 23 42 / 0.45); }
+      .sheet { width: 100%; border-radius: 20px 20px 0 0; background: white; box-shadow: 0 -20px 50px rgb(15 23 42 / 0.18); padding: 12px 18px 28px; }
+      .sheet-handle { width: 42px; height: 4px; margin: 0 auto 18px; border-radius: 999px; background: #cbd5e1; }
+      .sheet-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .sheet h2 { font-size: 21px; }
+      .sheet-copy { margin-top: 14px; color: var(--text); line-height: 1.58; }
+      .sheet-status { margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+      .side { min-width: 0; display: grid; gap: 16px; }
+      .panel { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: 18px; }
+      .panel-heading { display: grid; gap: 5px; margin-bottom: 14px; }
+      .panel-heading h2 { font-size: 18px; }
+      .panel-heading p { color: var(--muted); font-size: 13px; line-height: 1.45; }
+      .scenario-list, .outcome-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .scenario-list button, .outcome-controls button {
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: white;
+        color: var(--text);
+        padding: 9px 10px;
+        text-align: left;
+      }
+      .scenario-list button[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+      .state-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+      .state-item { min-height: 66px; border-radius: 10px; background: var(--surface-soft); padding: 10px; }
+      .state-item dt { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+      .state-item dd { margin-top: 5px; font-size: 13px; font-weight: 750; overflow-wrap: anywhere; }
+      .state-item.wide { grid-column: 1 / -1; }
+      .route-note { margin-top: 13px; border-left: 3px solid var(--accent); padding-left: 11px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+      @media (max-width: 850px) {
+        .page { width: min(100% - 20px, 600px); margin-top: 14px; }
+        .workspace { grid-template-columns: 1fr; }
+        .phone { position: relative; top: 0; margin: 0 auto; }
+      }
+      @media (max-width: 430px) {
+        .page { width: 100%; margin-top: 0; }
+        .intro, .side { padding-left: 12px; padding-right: 12px; }
+        .intro { padding-top: 14px; }
+        .phone { border-left: 0; border-right: 0; border-radius: 0; }
+        .scenario-list, .outcome-controls, .state-grid { grid-template-columns: 1fr; }
+        .state-item.wide { grid-column: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <span class="eyebrow">Одноразовый logic prototype</span>
+        <h1>Цельный wireflow заучивания</h1>
+        <p>Вопрос: складываются ли принятые решения в один предсказуемый путь, где пользователь понимает последствия каждого выхода, а быстрый путь и «Помощник» не мешают друг другу?</p>
+        <div class="notice">Внешний вид намеренно схематичен. Проверяются пользовательские тексты, состояния и переходы; канонический pen.dev этим прототипом не меняется.</div>
+      </header>
+
+      <div class="workspace">
+        <section class="phone" id="phone" aria-label="Текущее состояние wireflow"></section>
+
+        <aside class="side">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Маршруты проверки</h2>
+              <p>Каждый маршрут начинает сценарий с известного состояния; дальше используйте действия на экране телефона.</p>
+            </div>
+            <div class="scenario-list" id="scenario-list"></div>
+          </section>
+
+          <section class="panel" id="request-panel" hidden>
+            <div class="panel-heading">
+              <h2>Результат запроса «Выучил»</h2>
+              <p>Сеть может ответить однозначно, оставить прежний статус или не позволить определить результат.</p>
+            </div>
+            <div class="outcome-controls">
+              <button data-control="save-success">Успех: статус «повторяю»</button>
+              <button data-control="save-unchanged">Неуспех: статус прежний</button>
+              <button data-control="save-unknown">Результат неизвестен</button>
+            </div>
+          </section>
+
+          <section class="panel" id="completion-panel" hidden>
+            <div class="panel-heading">
+              <h2>Оставшиеся шлоки</h2>
+              <p>Меняет только содержимое устойчивого success-state.</p>
+            </div>
+            <div class="outcome-controls">
+              <button data-remaining="many">Есть несколько</button>
+              <button data-remaining="one">Осталась одна</button>
+              <button data-remaining="none">Список пуст</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Полное состояние</h2>
+              <p>Инспектор показывает доменные последствия, которые интерфейс не должен скрывать.</p>
+            </div>
+            <dl class="state-grid" id="state-grid"></dl>
+            <p class="route-note" id="route-note"></p>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const SHLOKAS = {
+        current: {
+          code: "BG-1.1",
+          title: "Бхагавад-гита 1.1",
+          padas: [
+            "дхарма-кшетре куру-кшетре",
+            "самавета юютсавах",
+            "мамаках пандавашчаива",
+            "кимакурвата санджая",
+          ],
+        },
+        next: {
+          code: "BG-1.2",
+          title: "Бхагавад-гита 1.2",
+          padas: [
+            "санджая увача",
+            "дриштва ту пандаваникам",
+            "вьюдхам дурьодханас тада",
+            "ачарьям упасангамья",
+          ],
+        },
+      };
+
+      const TIPS = [
+        "Читайте каждую строку как отдельную смысловую фразу. Сначала произнесите её медленно, затем соедините со следующей строкой и повторите весь фрагмент без паузы.",
+        "Разберите ключевые слова и свяжите их с общим смыслом строки. Вспоминайте не только звучание, но и последовательность образов или действий, которую передаёт текст.",
+        "Не пытайтесь угадать весь текст сразу. Вспомните первое слово или смысл строки, прочитайте подсказку и затем повторите шлоку целиком ещё раз.",
+      ];
+
+      const FRAGMENTS = [
+        { title: "Пада 1", lines: [0] },
+        { title: "Пада 2", lines: [1] },
+        { title: "Пады 1 + 2", lines: [0, 1] },
+        { title: "Пада 3", lines: [2] },
+        { title: "Пада 4", lines: [3] },
+        { title: "Пады 3 + 4", lines: [2, 3] },
+        { title: "Вся шлока", lines: [0, 1, 2, 3] },
+      ];
+
+      const SCENARIOS = [
+        ["fast", "Быстрый путь"],
+        ["helper", "«Помощник»"],
+        ["tips", "Советы"],
+        ["cancel", "Отмена"],
+        ["direct", "Прямая ссылка"],
+        ["save", "Неоднозначное сохранение"],
+        ["completion", "Завершение"],
+        ["guard", "Status guard"],
+        ["load-error", "Ошибка загрузки"],
+      ];
+
+      function initialState(scenario = "fast") {
+        return {
+          scenario,
+          screen: scenario === "guard" ? "guard-loading" : scenario === "load-error" ? "load-error" : "attempt",
+          shlokaKey: "current",
+          userStatus: scenario === "guard" ? "повторяю" : "буду учить",
+          returnTo: scenario === "direct" ? "/dashboard" : "/library?status=to-learn",
+          returnToSource: scenario === "direct" ? "Дашборд" : "Библиотека → Буду учить",
+          helperStep: scenario === "helper" ? 0 : null,
+          helperPhase: scenario === "helper" ? "read" : null,
+          helperProgressStored: false,
+          tipOpen: scenario === "tips",
+          tipPosition: 0,
+          seenTips: scenario === "tips" ? [0] : [],
+          remaining: scenario === "completion" ? "many" : "many",
+          statusChanged: scenario === "completion",
+          historyMode: "push entry",
+          destination: null,
+          lastAction: scenario === "completion" ? "Успех сохранён; показано устойчивое завершение" : "Сценарий открыт",
+        };
+      }
+
+      let state = initialState("fast");
+      if (state.scenario === "helper") state.screen = "helper";
+      if (state.scenario === "completion") {
+        state.screen = "success";
+        state.userStatus = "повторяю";
+      }
+
+      function currentShloka() { return SHLOKAS[state.shlokaKey]; }
+      function verse(lines = [0, 1, 2, 3]) { return lines.map((index) => currentShloka().padas[index]).join("\n"); }
+      function hasNextTip() { return state.tipPosition < TIPS.length - 1; }
+      function routeLabel() {
+        if (state.destination) return `Точка назначения: ${state.destination}.`;
+        if (state.screen === "success") return "Экран успеха устойчив: перехода не будет до отдельного действия пользователя.";
+        if (state.screen === "helper") return "Выход из «Помощника» отбрасывает несохраняемый прогресс и возвращает к полной шлоке.";
+        return `Явные «Отмена» и «Закончить» используют replace → ${state.returnToSource}; нативный Back не перехватывается.`;
+      }
+
+      function topbar({ title = "Заучивание", left = "Отмена", leftAction = "cancel", right = "Совет", rightAction = "open-tip", leftDisabled = false, rightDisabled = false } = {}) {
+        return `<header class="topbar">
+          <button class="text-action" data-action="${leftAction}" ${leftDisabled ? "disabled" : ""}>${left}</button>
+          <div class="topbar-title">${title}</div>
+          ${right ? `<button class="text-action right" data-action="${rightAction}" ${rightDisabled ? "disabled" : ""}>${right}</button>` : "<span></span>"}
+        </header>`;
+      }
+
+      function attemptScreen(alert = "") {
+        const saving = state.screen === "saving";
+        return `<section class="screen" ${state.tipOpen ? "inert aria-hidden=\"true\"" : ""}>
+          ${topbar({ leftDisabled: saving, rightDisabled: saving })}
+          <div class="copy">
+            <span class="eyebrow">Быстрая попытка</span>
+            <h1>${currentShloka().title}</h1>
+            <p class="instruction">Учите в своём темпе. Когда решите, что готовы перейти к повторению, нажмите «Выучил».</p>
+          </div>
+          ${alert}
+          <div class="verse" aria-label="Текст шлоки">${verse()}</div>
+          <div class="utility-row">
+            <button class="secondary" data-action="open-helper" ${saving ? "disabled" : ""}>Помощник</button>
+            <button class="secondary" data-action="open-tip" ${saving ? "disabled" : ""}>Совет</button>
+          </div>
+          <div class="actions">
+            <button class="primary" data-action="learned" ${saving ? "disabled" : ""}>${saving ? "Сохраняем…" : "Выучил"}</button>
+            <p class="button-note">Переведёт шлоку в повторение без дополнительного подтверждения</p>
+          </div>
+        </section>${state.tipOpen ? tipSheet() : ""}`;
+      }
+
+      function tipSheet() {
+        const exhausted = !hasNextTip();
+        return `<div class="sheet-backdrop" data-action="close-tip">
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="tip-title" onclick="event.stopPropagation()">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+              <h2 id="tip-title">Совет</h2>
+              <button class="icon-action" data-action="close-tip" aria-label="Закрыть совет">×</button>
+            </div>
+            <p class="sheet-copy">${TIPS[state.tipPosition]}</p>
+            ${exhausted ? '<p class="sheet-status" role="status">Все советы этой сессии уже показаны. Можно вернуться к шлоке или открыть полный список.</p>' : ""}
+            <div class="actions">
+              <button class="primary" data-action="next-tip" ${exhausted ? "disabled" : ""}>${exhausted ? "Других советов нет" : "Другой совет"}</button>
+              <button class="text-action" data-action="all-tips">Все советы</button>
+            </div>
+          </section>
+        </div>`;
+      }
+
+      function helperScreen() {
+        const fragment = FRAGMENTS[state.helperStep];
+        const phaseCopy = {
+          read: ["Прочитайте фрагмент", "Прочитайте его несколько раз. Когда будете готовы воспроизвести по памяти, скройте текст."],
+          recall: ["Повторите по памяти", "Произнесите фрагмент вслух или про себя. Оценивать вас никто не будет."],
+          compare: ["Сверьтесь с оригиналом", "Спокойно сравните воспроизведённое с текстом и переходите дальше, когда будете готовы."],
+        }[state.helperPhase];
+        const button = state.helperPhase === "read"
+          ? ["Скрыть и повторить", "helper-hide"]
+          : state.helperPhase === "recall"
+            ? ["Показать и свериться", "helper-reveal"]
+            : state.helperStep === FRAGMENTS.length - 1
+              ? ["Вернуться к шлоке", "exit-helper"]
+              : ["Дальше", "helper-next"];
+        const stage = state.helperPhase === "recall"
+          ? '<div class="hidden-cue"><strong>Текст скрыт</strong><span>Воспроизведите фрагмент в своём темпе.</span></div>'
+          : `<div class="fragment">${verse(fragment.lines)}</div>`;
+
+        return `<section class="screen">
+          ${topbar({ title: "Помощник", left: "К шлоке", leftAction: "exit-helper", right: "", rightAction: "noop" })}
+          <div class="helper-meta"><span>Шаг ${state.helperStep + 1} из ${FRAGMENTS.length}</span><span>${fragment.title}</span></div>
+          <div class="progress" aria-label="Прогресс Помощника">${FRAGMENTS.map((_, index) => `<span class="${index < state.helperStep ? "done" : index === state.helperStep ? "current" : ""}"></span>`).join("")}</div>
+          <div class="copy"><span class="eyebrow">${phaseCopy[0]}</span><h1>${fragment.title}</h1><p class="instruction">${phaseCopy[1]}</p></div>
+          <div class="fragment-stage">${stage}</div>
+          <div class="actions" style="margin-top:auto;padding-top:18px"><button class="primary" data-action="${button[1]}">${button[0]}</button></div>
+        </section>`;
+      }
+
+      function loadingScreen() {
+        return `<section class="screen">${topbar()}<div class="skeletons" role="status" aria-label="Загрузка шлоки"><div class="skeleton short"></div><div class="skeleton"></div><div class="skeleton tall"></div><div class="skeleton"></div></div></section>`;
+      }
+
+      function loadErrorScreen() {
+        return `<section class="screen">${topbar({ right: "", rightAction: "noop" })}<div class="center-state" role="alert">
+          <span class="eyebrow">Шлока не загрузилась</span><h1 class="state-title">Не удалось открыть попытку</h1>
+          <p class="supporting">Проверьте соединение. Статус шлоки не изменился.</p>
+          <div class="actions"><button class="primary" data-action="retry-load">Попробовать снова</button><button class="secondary" data-action="cancel">Отмена и возврат</button></div>
+        </div></section>`;
+      }
+
+      function unknownSaveScreen() {
+        return `<section class="screen">${topbar({ right: "", rightAction: "noop" })}<div class="center-state" role="alert">
+          <span class="eyebrow">Проверяем результат</span><h1 class="state-title">Пока не удалось подтвердить статус</h1>
+          <p class="supporting">Запрос мог выполниться, но ответ не получен. Мы не будем предлагать повторное сохранение, пока не узнаем актуальный статус шлоки.</p>
+          <div class="actions"><button class="primary" data-action="check-again">Проверить снова</button><button class="secondary" data-action="cancel">Отмена и возврат</button></div>
+        </div></section>`;
+      }
+
+      function successScreen() {
+        const nextCopy = state.remaining === "none"
+          ? "В списке «Буду учить» больше нет шлок. Можно закончить или самостоятельно выбрать новую в библиотеке."
+          : state.remaining === "one"
+            ? `${SHLOKAS.next.title} — последняя шлока в вашем списке «Буду учить».`
+            : `${SHLOKAS.next.title} предложена первой из оставшихся шлок в вашем списке «Буду учить».`;
+        return `<section class="screen"><div class="center-state" role="status">
+          <div class="success-icon" aria-hidden="true">✓</div>
+          <h1 class="state-title">Шлока добавлена в повторение</h1>
+          <p class="supporting">${currentShloka().title} теперь в статусе «повторяю». Что делать дальше — решаете вы.</p>
+          <div class="actions"><button class="primary" data-action="finish">Закончить</button><p class="button-note">Флоу завершится; возврат произойдёт в исходный контекст.</p></div>
+          <section class="continue-group" aria-labelledby="continue-title">
+            <span class="eyebrow" id="continue-title">Хотите продолжить?</span>
+            <p class="next-copy">${nextCopy}</p>
+            <div class="actions">
+              ${state.remaining === "none" ? "" : '<button class="secondary" data-action="learn-next">Учить следующую</button>'}
+              <button class="text-action" data-action="choose">${state.remaining === "none" ? "Выбрать шлоку" : "Выбрать другую шлоку"}</button>
+            </div>
+          </section>
+        </div></section>`;
+      }
+
+      function outcomeScreen() {
+        return `<section class="screen"><div class="center-state" role="status">
+          <span class="eyebrow">Модель перехода</span><h1 class="state-title">${state.destination}</h1>
+          <p class="supporting">${state.lastAction}</p>
+          ${state.destination === "Страница «Советы»" ? '<button class="secondary" data-action="browser-back">Browser Back: вернуться в попытку</button>' : ""}
+          <button class="secondary" data-action="reset">Начать проверку заново</button>
+        </div></section>`;
+      }
+
+      function guardScreen() {
+        return `<section class="screen"><div class="center-state" role="status">
+          <span class="eyebrow">Проверка актуального статуса</span><h1 class="state-title">Активная попытка больше недоступна</h1>
+          <p class="supporting">Шлока уже не находится в статусе «буду учить». Маршрут попытки заменяется исходным контекстом и не показывает устаревший экран.</p>
+          <button class="primary" data-action="guard-redirect">Вернуться в исходный контекст</button>
+        </div></section>`;
+      }
+
+      function renderPhone() {
+        if (state.screen === "guard-loading") return guardScreen();
+        if (state.screen === "loading") return loadingScreen();
+        if (state.screen === "load-error") return loadErrorScreen();
+        if (state.screen === "helper") return helperScreen();
+        if (state.screen === "saving") return attemptScreen();
+        if (state.screen === "save-unknown") return unknownSaveScreen();
+        if (state.screen === "success") return successScreen();
+        if (state.screen === "outcome") return outcomeScreen();
+        const alert = state.screen === "attempt-error" ? '<div class="banner error" role="alert">Не удалось изменить статус. Шлока осталась в «Буду учить». Проверьте соединение и попробуйте снова.</div>' : "";
+        return attemptScreen(alert);
+      }
+
+      function setScenario(name) {
+        state = initialState(name);
+        if (name === "helper") state.screen = "helper";
+        if (name === "completion") {
+          state.screen = "success";
+          state.userStatus = "повторяю";
+        }
+        render();
+      }
+
+      function act(action) {
+        if (action === "noop") return;
+        if (action === "open-tip") {
+          state.tipOpen = true;
+          if (!state.seenTips.includes(state.tipPosition)) state.seenTips.push(state.tipPosition);
+          state.lastAction = "Совет открыт поверх неизменённой попытки";
+        }
+        if (action === "close-tip") {
+          state.tipOpen = false;
+          state.lastAction = "Совет закрыт; фокус возвращается на вызвавшее действие";
+        }
+        if (action === "next-tip" && hasNextTip()) {
+          state.tipPosition += 1;
+          state.seenTips.push(state.tipPosition);
+          state.lastAction = "Показан следующий ещё не просмотренный совет";
+        }
+        if (action === "all-tips") {
+          state.tipOpen = false;
+          state.screen = "outcome";
+          state.destination = "Страница «Советы»";
+          state.historyMode = "push; Back восстанавливает попытку";
+          state.lastAction = "Открыт существующий полный список; редизайн страницы не входит в карту";
+        }
+        if (action === "browser-back") {
+          state.screen = "attempt";
+          state.destination = null;
+          state.historyMode = "native Back";
+          state.lastAction = "Незавершённая попытка восстановлена вместе с серией советов";
+        }
+        if (action === "open-helper") {
+          state.screen = "helper";
+          state.helperStep = 0;
+          state.helperPhase = "read";
+          state.lastAction = "«Помощник» начат с первой пады; промежуточный прогресс не сохраняется";
+        }
+        if (action === "helper-hide") {
+          state.helperPhase = "recall";
+          state.lastAction = "Текст скрыт; автоматической оценки нет";
+        }
+        if (action === "helper-reveal") {
+          state.helperPhase = "compare";
+          state.lastAction = "Оригинал показан для самостоятельной сверки";
+        }
+        if (action === "helper-next") {
+          state.helperStep += 1;
+          state.helperPhase = "read";
+          state.lastAction = `Открыт шаг ${state.helperStep + 1} из ${FRAGMENTS.length}`;
+        }
+        if (action === "exit-helper") {
+          state.screen = "attempt";
+          state.helperStep = null;
+          state.helperPhase = null;
+          state.lastAction = "Возврат к полной шлоке; прогресс «Помощника» отброшен, статус не изменён";
+        }
+        if (action === "learned") {
+          state.screen = "saving";
+          state.tipOpen = false;
+          state.lastAction = "Запрос смены статуса отправлен; конфликтующие действия недоступны";
+        }
+        if (action === "cancel") {
+          state.screen = "outcome";
+          state.destination = state.returnToSource;
+          state.historyMode = "replace";
+          state.lastAction = "Попытка завершена без изменения статуса; маршрут попытки удалён из ближайшего Back";
+        }
+        if (action === "retry-load") {
+          state.screen = "loading";
+          state.lastAction = "Загрузка повторена; статус не менялся";
+        }
+        if (action === "check-again") {
+          state.screen = "saving";
+          state.lastAction = "Актуальный статус запрошен повторно; новый mutation-запрос не отправлен";
+        }
+        if (action === "finish") {
+          state.screen = "outcome";
+          state.destination = state.returnToSource;
+          state.historyMode = "replace";
+          state.lastAction = "Завершённая попытка заменена исходным контекстом";
+        }
+        if (action === "learn-next") {
+          state.screen = "attempt";
+          state.shlokaKey = "next";
+          state.userStatus = "буду учить";
+          state.statusChanged = false;
+          state.tipOpen = false;
+          state.tipPosition = 0;
+          state.seenTips = [];
+          state.historyMode = "replace; returnTo перенесён";
+          state.lastAction = "Новая попытка начата только после явного «Учить следующую»";
+        }
+        if (action === "choose") {
+          state.screen = "outcome";
+          state.destination = "Библиотека — выбор шлоки";
+          state.historyMode = "replace; прежняя цепочка завершена";
+          state.lastAction = "Открыт самостоятельный выбор; выбранная позже шлока начнёт новую цепочку возврата";
+        }
+        if (action === "guard-redirect") {
+          state.screen = "outcome";
+          state.destination = state.returnToSource;
+          state.historyMode = "replace";
+          state.lastAction = "Устаревший маршрут попытки заменён исходным контекстом";
+        }
+        if (action === "reset") setScenario(state.scenario);
+        render();
+      }
+
+      function control(action) {
+        if (action === "save-success") {
+          state.screen = "success";
+          state.userStatus = "повторяю";
+          state.statusChanged = true;
+          state.lastAction = "Перечитывание подтвердило переход в повторение";
+        }
+        if (action === "save-unchanged") {
+          state.screen = "attempt-error";
+          state.userStatus = "буду учить";
+          state.statusChanged = false;
+          state.lastAction = "Перечитывание подтвердило прежний статус; повторная попытка доступна";
+        }
+        if (action === "save-unknown") {
+          state.screen = "save-unknown";
+          state.userStatus = "неизвестно";
+          state.statusChanged = false;
+          state.lastAction = "Система честно не утверждает, состоялся ли переход";
+        }
+        render();
+      }
+
+      function renderScenarios() {
+        document.querySelector("#scenario-list").innerHTML = SCENARIOS.map(([key, label]) => `<button data-scenario="${key}" aria-current="${state.scenario === key}">${label}</button>`).join("");
+      }
+
+      function renderState() {
+        const helperProgress = state.helperStep === null ? "не запущен" : `${state.helperStep + 1}/${FRAGMENTS.length}, ${state.helperPhase}`;
+        const rows = [
+          ["Экран", state.screen],
+          ["Шлока", currentShloka().title],
+          ["Статус", state.userStatus],
+          ["returnTo", state.returnTo],
+          ["History", state.historyMode],
+          ["Помощник", helperProgress],
+          ["Прогресс сохранён", state.helperProgressStored ? "да" : "нет"],
+          ["Советы просмотрены", state.seenTips.length ? state.seenTips.map((index) => index + 1).join(", ") : "нет"],
+          ["Последнее действие", state.lastAction, "wide"],
+        ];
+        document.querySelector("#state-grid").innerHTML = rows.map(([term, value, className = ""]) => `<div class="state-item ${className}"><dt>${term}</dt><dd>${value}</dd></div>`).join("");
+        document.querySelector("#route-note").textContent = routeLabel();
+      }
+
+      function bind() {
+        document.querySelectorAll("[data-action]").forEach((element) => element.addEventListener("click", (event) => {
+          if (event.currentTarget.disabled) return;
+          act(event.currentTarget.dataset.action);
+        }));
+        document.querySelectorAll("[data-scenario]").forEach((element) => element.addEventListener("click", () => setScenario(element.dataset.scenario)));
+        document.querySelectorAll("[data-control]").forEach((element) => element.addEventListener("click", () => control(element.dataset.control)));
+        document.querySelectorAll("[data-remaining]").forEach((element) => element.addEventListener("click", () => {
+          state.remaining = element.dataset.remaining;
+          state.lastAction = "Изменено тестовое количество оставшихся шлок";
+          render();
+        }));
+      }
+
+      function render() {
+        document.querySelector("#phone").innerHTML = renderPhone();
+        document.querySelector("#request-panel").hidden = state.screen !== "saving";
+        document.querySelector("#completion-panel").hidden = state.screen !== "success";
+        renderScenarios();
+        renderState();
+        bind();
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && state.tipOpen) act("close-tip");
+      });
+
+      render();
+    </script>
+  </body>
+</html>

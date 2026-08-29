@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prototype — завершение заучивания</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --text: #334155;
+        --muted: #64748b;
+        --line: #d6dee9;
+        --primary: #2563eb;
+        --primary-soft: #eff6ff;
+        --success: #15803d;
+        --success-soft: #dcfce7;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: #e8edf4; color: var(--text); }
+      button, select { font: inherit; }
+      button { cursor: pointer; }
+      button:focus-visible, select:focus-visible {
+        outline: 3px solid #93c5fd;
+        outline-offset: 2px;
+      }
+      button:disabled { cursor: not-allowed; opacity: 0.5; }
+      h1, h2, p { margin: 0; }
+
+      .prototype-shell {
+        width: min(100%, 390px);
+        min-height: 844px;
+        margin: 20px auto 132px;
+        overflow: hidden;
+        position: relative;
+        background: var(--bg);
+        box-shadow: 0 22px 70px rgb(15 23 42 / 0.18);
+      }
+      .screen { min-height: 844px; display: flex; flex-direction: column; padding: 48px 16px 24px; }
+      .success-icon {
+        width: 56px;
+        height: 56px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--success-soft);
+        color: var(--success);
+        font-size: 32px;
+        line-height: 1;
+      }
+      .title { margin-top: 18px; font-size: 28px; line-height: 1.18; letter-spacing: -0.02em; }
+      .summary { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+      .eyebrow {
+        color: var(--success);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .primary, .secondary, .quiet {
+        min-height: 48px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 0 16px;
+        font-weight: 750;
+      }
+      .primary { border: 1px solid var(--primary); background: var(--primary); color: white; }
+      .secondary { border: 1px solid var(--line); background: white; color: var(--primary); }
+      .quiet { border: 0; background: transparent; color: var(--primary); }
+      .button-note { margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.4; text-align: center; }
+      .actions { display: grid; gap: 10px; }
+      .next-title { font-family: Georgia, "Times New Roman", serif; font-size: 18px; line-height: 1.25; font-weight: 700; }
+      .next-copy { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+      .variant-a .actions { margin-top: auto; padding-top: 30px; }
+      .variant-a .continue-group { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+      .variant-a .continue-group .eyebrow { color: var(--primary); }
+      .variant-a .continue-group .actions { margin-top: 12px; padding-top: 0; }
+
+      .variant-b { padding: 0; }
+      .variant-b .success-band { padding: 48px 20px 28px; background: white; border-bottom: 1px solid var(--line); }
+      .variant-b .success-band .success-icon { width: 44px; height: 44px; font-size: 25px; }
+      .variant-b .success-band .title { margin-top: 14px; font-size: 24px; }
+      .variant-b .next-area { padding: 28px 16px 18px; }
+      .next-card {
+        margin-top: 12px;
+        padding: 18px;
+        border: 1px solid #bfdbfe;
+        border-radius: 16px;
+        background: linear-gradient(180deg, white 0%, var(--primary-soft) 100%);
+        box-shadow: 0 12px 30px rgb(37 99 235 / 0.08);
+      }
+      .next-card .actions { margin-top: 18px; }
+      .variant-b .finish-row { margin-top: auto; padding: 14px 16px 24px; }
+
+      .variant-c { justify-content: center; text-align: center; }
+      .variant-c .success-icon { margin: 0 auto; }
+      .variant-c .choice-copy { max-width: 320px; margin: 12px auto 0; color: var(--muted); line-height: 1.5; }
+      .variant-c .intent-actions { margin-top: 34px; display: grid; gap: 10px; }
+      .sheet-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        align-items: flex-end;
+        background: rgb(15 23 42 / 0.42);
+      }
+      .sheet {
+        width: 100%;
+        padding: 12px 18px 26px;
+        border-radius: 20px 20px 0 0;
+        background: white;
+        box-shadow: 0 -20px 50px rgb(15 23 42 / 0.18);
+        text-align: left;
+      }
+      .sheet-handle { width: 42px; height: 4px; margin: 0 auto 18px; border-radius: 999px; background: #cbd5e1; }
+      .sheet h2 { font-size: 21px; }
+      .sheet p { margin-top: 8px; color: var(--muted); line-height: 1.5; }
+      .sheet .actions { margin-top: 18px; }
+
+      .outcome {
+        position: absolute;
+        inset: 0;
+        z-index: 12;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 14px;
+        padding: 28px;
+        background: var(--bg);
+      }
+      .outcome h2 { font-size: 24px; }
+      .outcome p { color: var(--muted); line-height: 1.5; }
+      .outcome .secondary { margin-top: 8px; }
+
+      .prototype-controls {
+        position: fixed;
+        left: 50%;
+        bottom: 14px;
+        z-index: 99;
+        transform: translateX(-50%);
+        width: min(calc(100% - 20px), 720px);
+        padding: 10px;
+        border-radius: 16px;
+        background: #0f172a;
+        color: white;
+        box-shadow: 0 14px 50px rgb(15 23 42 / 0.45);
+      }
+      .controls-summary { display: none; }
+      .controls-body { display: block; }
+      .control-row { display: grid; grid-template-columns: 42px minmax(160px, 1fr) 42px minmax(180px, 0.9fr); gap: 8px; align-items: center; }
+      .prototype-controls button, .prototype-controls select {
+        height: 38px;
+        border: 1px solid #475569;
+        border-radius: 9px;
+        background: #1e293b;
+        color: white;
+      }
+      .variant-label { text-align: center; font-weight: 750; font-size: 14px; }
+      .state-output { margin-top: 8px; color: #cbd5e1; font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+
+      @media (max-width: 560px) {
+        .prototype-shell { margin: 0 0 144px; box-shadow: none; }
+        .controls-summary {
+          display: block;
+          cursor: pointer;
+          color: #cbd5e1;
+          font-size: 12px;
+          font-weight: 750;
+          text-align: center;
+        }
+        .prototype-controls[open] .controls-summary { margin-bottom: 8px; }
+        .prototype-controls:not([open]) {
+          top: 10px;
+          right: 10px;
+          bottom: auto;
+          left: auto;
+          width: auto;
+          transform: none;
+          padding: 8px 12px;
+        }
+        .prototype-controls:not([open]) .controls-body { display: none; }
+        .control-row { grid-template-columns: 42px 1fr 42px; }
+        .control-row select { grid-column: 1 / -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="prototype-shell" id="app" aria-live="polite"></main>
+
+    <details class="prototype-controls" open>
+      <summary class="controls-summary">Панель прототипа</summary>
+      <div class="controls-body" aria-label="Управление прототипом">
+        <div class="control-row">
+          <button id="previous" aria-label="Предыдущий вариант">←</button>
+          <div class="variant-label" id="variant-label"></div>
+          <button id="next" aria-label="Следующий вариант">→</button>
+          <select id="remaining-select" aria-label="Оставшиеся шлоки">
+            <option value="many">Есть несколько следующих</option>
+            <option value="one">Осталась одна</option>
+            <option value="none">Список «Буду учить» пуст</option>
+          </select>
+        </div>
+        <div class="state-output" id="state-output"></div>
+      </div>
+    </details>
+
+    <script>
+      // Three completion-state variants, switchable via ?variant=A|B|C, in a standalone throwaway prototype.
+      const variants = {
+        A: { name: "Лестница действий", render: renderVariantA },
+        B: { name: "Превью следующей", render: renderVariantB },
+        C: { name: "Сначала намерение", render: renderVariantC },
+      };
+      const variantKeys = Object.keys(variants);
+      const params = new URLSearchParams(location.search);
+      let state = {
+        variant: variants[params.get("variant")] ? params.get("variant") : "A",
+        remaining: "many",
+        layer: null,
+        outcome: null,
+        lastAction: "completion-shown-without-navigation",
+      };
+
+      const nextShloka = {
+        displayTitle: "Бхагавад-гита 1.2",
+        text: "санджая увача\nдриштва ту пандаваникам",
+      };
+
+      function successHeader() {
+        return `<div class="success-icon" aria-hidden="true">✓</div>
+          <h1 class="title">Шлока добавлена в повторение</h1>
+          <p class="summary">Бхагавад-гита 1.1 теперь в статусе «повторяю». Что делать дальше — решаете вы.</p>`;
+      }
+
+      function hasNext() { return state.remaining !== "none"; }
+
+      function directNextButton(className = "secondary") {
+        if (!hasNext()) return "";
+        return `<button class="${className}" data-action="learn-next">Учить следующую</button>`;
+      }
+
+      function chooseButton(label = "Выбрать следующую шлоку", className = "quiet") {
+        return `<button class="${className}" data-action="choose-next">${label}</button>`;
+      }
+
+      function nextExplanation() {
+        if (state.remaining === "none") {
+          return "В списке «Буду учить» больше нет шлок. Можно закончить или самостоятельно выбрать новую из общей библиотеки.";
+        }
+        if (state.remaining === "one") {
+          return `${nextShloka.displayTitle} — последняя шлока в вашем списке «Буду учить».`;
+        }
+        return `${nextShloka.displayTitle} предложена первой из оставшихся шлок в вашем списке «Буду учить».`;
+      }
+
+      function renderVariantA() {
+        return `<section class="screen variant-a">
+          ${successHeader()}
+          <div class="actions">
+            <button class="primary" data-action="finish">Закончить</button>
+            <p class="button-note">Флоу завершится; возврат произойдёт в исходный контекст.</p>
+          </div>
+          <section class="continue-group" aria-labelledby="continue-title-a">
+            <div class="eyebrow" id="continue-title-a">Хотите продолжить?</div>
+            <p class="next-copy">${nextExplanation()}</p>
+            <div class="actions">
+              ${directNextButton()}
+              ${chooseButton(hasNext() ? "Выбрать другую шлоку" : "Выбрать шлоку")}
+            </div>
+          </section>
+        </section>`;
+      }
+
+      function renderVariantB() {
+        const card = hasNext()
+          ? `<article class="next-card">
+              <div class="eyebrow">Следующая в вашем списке</div>
+              <h2 class="next-title">${nextShloka.displayTitle}</h2>
+              <p class="next-copy">${nextShloka.text.replace("\n", " · ")}</p>
+              <div class="actions">
+                ${directNextButton("primary")}
+                ${chooseButton(state.remaining === "one" ? "Выбрать другую шлоку" : "Посмотреть остальные", "secondary")}
+              </div>
+            </article>`
+          : `<article class="next-card">
+              <div class="eyebrow">Список завершён</div>
+              <h2 class="next-title">В «Буду учить» больше нет шлок</h2>
+              <p class="next-copy">Новую шлоку можно выбрать из общей библиотеки — только если вы хотите продолжить сейчас.</p>
+              <div class="actions">${chooseButton("Выбрать шлоку", "secondary")}</div>
+            </article>`;
+
+        return `<section class="screen variant-b">
+          <div class="success-band">${successHeader()}</div>
+          <section class="next-area" aria-labelledby="next-title-b">
+            <div class="eyebrow" id="next-title-b">Продолжить заучивание</div>
+            ${card}
+          </section>
+          <div class="finish-row"><button class="quiet" data-action="finish">Закончить</button></div>
+        </section>`;
+      }
+
+      function renderVariantC() {
+        return `<section class="screen variant-c">
+          ${successHeader()}
+          <p class="choice-copy">Экран остаётся открытым, пока вы явно не выберете завершение или новое заучивание.</p>
+          <div class="intent-actions">
+            <button class="primary" data-action="finish">Закончить</button>
+            <button class="secondary" data-action="open-continuation">Продолжить заучивание</button>
+          </div>
+        </section>`;
+      }
+
+      function renderContinuationSheet() {
+        if (state.layer !== "continuation") return "";
+        return `<div class="sheet-backdrop" data-action="close-layer">
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="continuation-title" onclick="event.stopPropagation()">
+            <div class="sheet-handle"></div>
+            <h2 id="continuation-title">Как продолжить?</h2>
+            <p>${nextExplanation()}</p>
+            <div class="actions">
+              ${directNextButton("primary")}
+              ${chooseButton(hasNext() ? "Выбрать другую шлоку" : "Выбрать шлоку", "secondary")}
+              <button class="quiet" data-action="close-layer">Остаться на экране успеха</button>
+            </div>
+          </section>
+        </div>`;
+      }
+
+      function renderOutcome() {
+        if (!state.outcome) return "";
+        const outcomes = {
+          finish: {
+            title: "Заучивание закончено",
+            copy: "После отдельного нажатия «Закончить» приложение возвращает пользователя в исходный контекст. Точный маршрут определяет отдельное решение карты.",
+          },
+          next: {
+            title: `Открывается ${nextShloka.displayTitle}`,
+            copy: "Новый флоу запускается только после отдельного нажатия «Учить следующую». Успешный переход предыдущей шлоки сам по себе ничего не открывает.",
+          },
+          choose: {
+            title: "Открывается выбор шлоки",
+            copy: "Пользователь явно выбрал поиск следующей шлоки. Экран выбора не считается уже начатой попыткой заучивания.",
+          },
+        };
+        const outcome = outcomes[state.outcome];
+        return `<section class="outcome" role="status">
+          <span class="eyebrow">Результат явного действия</span>
+          <h2>${outcome.title}</h2>
+          <p>${outcome.copy}</p>
+          <button class="secondary" data-action="reset-outcome">Вернуться к экрану успеха</button>
+        </section>`;
+      }
+
+      function render() {
+        document.querySelector("#app").innerHTML = variants[state.variant].render() + renderContinuationSheet() + renderOutcome();
+        document.querySelector("#variant-label").textContent = `${state.variant} (${variants[state.variant].name})`;
+        document.querySelector("#remaining-select").value = state.remaining;
+        document.querySelector("#state-output").textContent = `state ${JSON.stringify(state)}`;
+        document.querySelectorAll("[data-action]").forEach((element) => {
+          element.addEventListener("click", () => act(element.dataset.action));
+        });
+      }
+
+      function updateVariant(nextVariant) {
+        state = { ...state, variant: nextVariant, layer: null, outcome: null, lastAction: "variant-changed" };
+        const url = new URL(location.href);
+        url.searchParams.set("variant", nextVariant);
+        history.replaceState(null, "", url);
+        render();
+      }
+
+      function cycleVariant(direction) {
+        const current = variantKeys.indexOf(state.variant);
+        updateVariant(variantKeys[(current + direction + variantKeys.length) % variantKeys.length]);
+      }
+
+      function act(action) {
+        if (action === "finish") state = { ...state, layer: null, outcome: "finish", lastAction: "finish-explicitly-confirmed" };
+        if (action === "learn-next") state = { ...state, layer: null, outcome: "next", lastAction: "next-learning-explicitly-started" };
+        if (action === "choose-next") state = { ...state, layer: null, outcome: "choose", lastAction: "next-selection-explicitly-opened" };
+        if (action === "open-continuation") state = { ...state, layer: "continuation", lastAction: "continuation-options-opened" };
+        if (action === "close-layer") state = { ...state, layer: null, lastAction: "continuation-options-closed" };
+        if (action === "reset-outcome") state = { ...state, outcome: null, lastAction: "completion-restored" };
+        render();
+      }
+
+      document.querySelector("#previous").addEventListener("click", () => cycleVariant(-1));
+      document.querySelector("#next").addEventListener("click", () => cycleVariant(1));
+      document.querySelector("#remaining-select").addEventListener("change", (event) => {
+        state = { ...state, remaining: event.target.value, layer: null, outcome: null, lastAction: `remaining-forced:${event.target.value}` };
+        render();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.target.matches("input, textarea, select, [contenteditable]")) return;
+        if (event.key === "ArrowLeft") cycleVariant(-1);
+        if (event.key === "ArrowRight") cycleVariant(1);
+      });
+
+      render();
+    </script>
+  </body>
+</html>
