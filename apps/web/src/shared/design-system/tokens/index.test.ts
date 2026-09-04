@@ -73,6 +73,7 @@ describe("design token contract", () => {
       "card",
       "emptyState",
       "input",
+      "learningAttempt",
       "pageHeader",
       "settingsRow",
       "streakIndicator",
@@ -166,6 +167,13 @@ describe("design token contract", () => {
       cssVariable: "--component-tab-label-size",
       source: { name: "type-caption-size", type: "pencil-variable" },
       value: 12,
+    });
+    expect(designTokens.components.learningAttempt).toMatchObject({
+      canonicalTextLineHeight: { value: 1.55 },
+      canonicalTextSize: { value: 22 },
+      stateTitleSize: { value: 27 },
+      titleLineHeight: { value: 1.18 },
+      titleSize: { value: 28 },
     });
 
     const legacyPencilSources = new Set([

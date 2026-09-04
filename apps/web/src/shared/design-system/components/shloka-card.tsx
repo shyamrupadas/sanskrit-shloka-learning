@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 
-import { routePaths } from "@/shared/model/routes";
+import {
+  routePaths,
+  type LearnShlokaReturnTo,
+} from "@/shared/model/routes";
 import { Button } from "@/shared/ui/button";
 
 import { SanskritTypography } from "./typography";
@@ -17,6 +20,7 @@ export type ShlokaCardAction = {
 export type ShlokaCardProps = {
   actions?: readonly ShlokaCardAction[] | undefined;
   openLabel: string;
+  openSearch?: { returnTo: LearnShlokaReturnTo } | undefined;
   openTo?:
     | typeof routePaths.libraryShloka
     | typeof routePaths.learnShloka
@@ -30,11 +34,14 @@ export type ShlokaCardProps = {
 export function ShlokaCard({
   actions = [],
   openLabel,
+  openSearch,
   openTo = routePaths.libraryShloka,
   shlokaCode,
   status,
   title,
 }: ShlokaCardProps) {
+  const searchProps = openSearch ? { search: openSearch } : {};
+
   return (
     <article
       aria-label={title}
@@ -44,6 +51,7 @@ export function ShlokaCard({
         <Link
           className="min-w-0 flex-1 rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
           params={{ shlokaCode }}
+          {...searchProps}
           to={openTo}
         >
           <SanskritTypography
@@ -57,6 +65,7 @@ export function ShlokaCard({
           aria-label={openLabel}
           className="flex size-[var(--component-card-indicator-size)] shrink-0 items-center justify-center rounded-full text-primary outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50"
           params={{ shlokaCode }}
+          {...searchProps}
           to={openTo}
         >
           <ChevronRight aria-hidden="true" className="size-full" />

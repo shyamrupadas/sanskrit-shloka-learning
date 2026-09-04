@@ -35,3 +35,32 @@ export const routeSegments = {
   adminShlokaNew: "admin/shlokas/new",
   adminShlokaEdit: "admin/shlokas/$shlokaCode/edit",
 } as const;
+
+export type LibraryTabRoute = "all" | "learning" | "reviewing";
+
+export type LearnShlokaReturnTo =
+  | typeof routePaths.dashboard
+  | typeof routePaths.library
+  | `${typeof routePaths.library}?tab=${LibraryTabRoute}`;
+
+export const learnShlokaReturnTo = {
+  dashboard: routePaths.dashboard,
+  library: (tab: LibraryTabRoute): LearnShlokaReturnTo =>
+    `${routePaths.library}?tab=${tab}` as LearnShlokaReturnTo,
+} as const;
+
+export function parseLearnShlokaReturnTo(value: unknown): LearnShlokaReturnTo {
+  if (value === routePaths.dashboard || value === routePaths.library) {
+    return value;
+  }
+
+  if (
+    value === `${routePaths.library}?tab=reviewing` ||
+    value === `${routePaths.library}?tab=learning` ||
+    value === `${routePaths.library}?tab=all`
+  ) {
+    return value as LearnShlokaReturnTo;
+  }
+
+  return learnShlokaReturnTo.dashboard;
+}

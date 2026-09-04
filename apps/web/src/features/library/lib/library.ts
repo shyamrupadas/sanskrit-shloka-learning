@@ -56,7 +56,7 @@ export function getLibraryCardActions(
       nextStatus: "available",
     } as const;
 
-    return tabId === "learning"
+    return tabId === "learning" || tabId === "all"
       ? [{ kind: "start-learning" }, removeAction]
       : [removeAction];
   }

@@ -12,7 +12,7 @@ import {
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
-import { routePaths } from "@/shared/model/routes";
+import { learnShlokaReturnTo, routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
 const initialReviewLimit = 5;
@@ -214,6 +214,11 @@ function DashboardShlokaList({
         <ShlokaCard
           key={shloka.code}
           openLabel={`${openLabel} ${shloka.displayTitle}`}
+          openSearch={
+            openTo === routePaths.learnShloka
+              ? { returnTo: learnShlokaReturnTo.dashboard }
+              : undefined
+          }
           openTo={openTo}
           shlokaCode={shloka.code}
           title={shloka.displayTitle}

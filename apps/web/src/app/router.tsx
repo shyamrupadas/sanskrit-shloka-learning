@@ -16,7 +16,11 @@ import {
   RootRoute,
   ShlokaRoute,
 } from "@/app/route-components";
-import { routePaths, routeSegments } from "@/shared/model/routes";
+import {
+  parseLearnShlokaReturnTo,
+  routePaths,
+  routeSegments,
+} from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
 
 interface RouterContext {
@@ -143,9 +147,27 @@ const shlokaRoute = createRoute({
 });
 
 const learnShlokaRoute = createRoute({
+  beforeLoad: ({ location, params, search }) => {
+    const rawSearch = location.search as Record<string, unknown>;
+
+    if (
+      Object.keys(rawSearch).length !== 1 ||
+      rawSearch.returnTo !== search.returnTo
+    ) {
+      throw redirect({
+        params,
+        replace: true,
+        search,
+        to: routePaths.learnShloka,
+      });
+    }
+  },
   component: LearnShlokaRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.learnShloka,
+  validateSearch: (search: Record<string, unknown>) => ({
+    returnTo: parseLearnShlokaReturnTo(search.returnTo),
+  }),
 });
 
 const reviewShlokaRoute = createRoute({

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
@@ -29,8 +29,11 @@ const thirdLearningShloka = shloka({
 });
 
 describe("app learn shloka flow", () => {
-  it("shows the accepted title-and-four-lines skeleton without bottom navigation", async () => {
+  it("shows the accepted loading shell and lets the user cancel to the dashboard", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
     mockApi((request) => {
+      requests.push(request);
       if (isSessionRequest(request)) {
         return { status: 200, body: session };
       }
@@ -51,53 +54,272 @@ describe("app learn shloka flow", () => {
       await screen.findByRole("status", { name: "Загрузка шлоки" }),
     ).toBeInTheDocument();
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Отмена" }));
+
+    await expectPath(routePaths.dashboard);
+    expect(window.history.length).toBe(historyLength);
+    expect(
+      requests.some(({ method }) => method !== "GET"),
+    ).toBe(false);
   });
 
-  it("opens from the to-learn card and returns there without a completion request", async () => {
+  it.each([
+    {
+      entryPath: routePaths.dashboard,
+      expectedReturnTo: routePaths.dashboard,
+      expectedSearch: "",
+      label: "dashboard",
+    },
+    {
+      entryPath: "/library?tab=learning",
+      expectedReturnTo: "/library?tab=learning",
+      expectedSearch: "?tab=learning",
+      label: "to-learn library tab",
+    },
+    {
+      entryPath: "/library?tab=all",
+      expectedReturnTo: "/library?tab=all",
+      expectedSearch: "?tab=all",
+      label: "all library tab",
+    },
+  ])("round-trips the $label origin without a mutation", async ({
+    entryPath,
+    expectedReturnTo,
+    expectedSearch,
+  }) => {
     const user = userEvent.setup();
     const requests: MockApiRequest[] = [];
     mockApi((request) => {
       requests.push(request);
       return learningApi(request, {
+        dashboardLearningShlokas: [learningShloka],
         libraryShlokas: [learningShloka],
       });
     });
     storeTestSession(session);
-    renderAppAt("/library?tab=learning");
+    renderAppAt(entryPath);
 
-    const card = await screen.findByRole("article", {
-      name: learningShloka.displayTitle,
-    });
-    await user.click(within(card).getByRole("button", { name: "Учить" }));
+    if (entryPath === routePaths.dashboard) {
+      await user.click(
+        await screen.findByRole("link", {
+          name: `Учить ${learningShloka.displayTitle}`,
+        }),
+      );
+    } else {
+      const card = await screen.findByRole("article", {
+        name: learningShloka.displayTitle,
+      });
+      await user.click(within(card).getByRole("button", { name: "Учить" }));
+    }
 
     await expectPath("/library/shlokas/gita-1-1/learn");
+    expect(new URLSearchParams(window.location.search).get("returnTo")).toBe(
+      expectedReturnTo,
+    );
     expect(
       await screen.findByRole("heading", {
         level: 1,
         name: learningShloka.displayTitle,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
-      /дхарма-кшетре куру-кшетре\s+самавета юютсавах\s+мамаках пандавашчаива\s+кимакурвата санджая/,
+    expect(screen.getAllByLabelText("Канонический текст шлоки")).toHaveLength(
+      1,
+    );
+    expect(screen.getByLabelText("Канонический текст шлоки").textContent).toBe(
+      learningShloka.text,
     );
     expect(
       screen.getByRole("link", { name: "Советы по заучиванию" }),
     ).toHaveAttribute("href", routePaths.learning);
+    expect(
+      screen.getByRole("button", { name: "Помощник" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Выучил" })).toBeInTheDocument();
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Не выучил" }));
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Отмена" }));
 
-    await expectPath(routePaths.library);
-    expect(window.location.search).toBe("?tab=learning");
-    expect(
-      await screen.findByRole("tab", { name: "Буду учить" }),
-    ).toHaveAttribute("aria-selected", "true");
+    await expectPath(new URL(entryPath, window.location.origin).pathname);
+    expect(window.location.search).toBe(expectedSearch);
+    expect(window.history.length).toBe(historyLength);
     expect(
       requests.some(
         ({ method, path }) =>
           method === "POST" && path.endsWith("/complete-learning"),
       ),
     ).toBe(false);
+  });
+
+  it.each([
+    ["missing", ""],
+    ["external", "https://example.com/phishing"],
+    ["auth", "/login"],
+    ["admin", "/admin"],
+    ["cyclic", "/library/shlokas/gita-1-1/learn"],
+    ["unknown", "/not-a-route"],
+    ["invalid query", "/library?tab=learning&unsafe=true"],
+  ])("normalizes a %s returnTo to the dashboard", async (_, returnTo) => {
+    const user = userEvent.setup();
+    mockApi((request) => learningApi(request));
+    storeTestSession(session);
+    const search = returnTo
+      ? `?${new URLSearchParams({ returnTo }).toString()}`
+      : "";
+    renderAppAt(`/library/shlokas/gita-1-1/learn${search}`);
+
+    await waitFor(() => {
+      expect(new URLSearchParams(window.location.search).get("returnTo")).toBe(
+        routePaths.dashboard,
+      );
+    });
+    await screen.findByRole("heading", {
+      level: 1,
+      name: learningShloka.displayTitle,
+    });
+    await user.click(
+      screen.getByRole("button", { name: "Отмена" }),
+    );
+
+    await expectPath(routePaths.dashboard);
+  });
+
+  it("retries a failed load once and opens the active attempt", async () => {
+    const user = userEvent.setup();
+    let itemGetCount = 0;
+    mockApi((request) => {
+      if (
+        request.method === "GET" &&
+        request.path === "/api/library/items/gita-1-1"
+      ) {
+        itemGetCount += 1;
+        return itemGetCount === 1
+          ? { status: 500 }
+          : { status: 200, body: learningShloka };
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Не удалось загрузить шлоку",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Отмена и возврат" }),
+    ).toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", { name: "Попробовать снова" }),
+    );
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: learningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    expect(itemGetCount).toBe(2);
+  });
+
+  it("returns from a load error without sending a mutation", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      if (
+        request.method === "GET" &&
+        request.path === "/api/library/items/gita-1-1"
+      ) {
+        return { status: 500 };
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt(
+      "/library/shlokas/gita-1-1/learn?returnTo=%2Flibrary%3Ftab%3Dlearning",
+    );
+
+    const historyLength = window.history.length;
+    await user.click(
+      await screen.findByRole("button", { name: "Отмена и возврат" }),
+    );
+
+    await expectPath(routePaths.library);
+    expect(window.location.search).toBe("?tab=learning");
+    expect(window.history.length).toBe(historyLength);
+    expect(requests.every(({ method }) => method === "GET")).toBe(true);
+  });
+
+  it("shows a reviewing status guard and returns without a mutation", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      if (
+        request.method === "GET" &&
+        request.path === "/api/library/items/gita-1-1"
+      ) {
+        return {
+          status: 200,
+          body: { ...learningShloka, personalStatus: "reviewing" },
+        };
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    const returnTo = "/library?tab=all";
+    renderAppAt(
+      `/library/shlokas/gita-1-1/learn?${new URLSearchParams({ returnTo }).toString()}`,
+    );
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока уже в повторении",
+      }),
+    ).toBeInTheDocument();
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Вернуться" }));
+
+    await expectPath(routePaths.library);
+    expect(window.location.search).toBe("?tab=all");
+    expect(window.history.length).toBe(historyLength);
+    expect(requests.every(({ method }) => method === "GET")).toBe(true);
+  });
+
+  it("safely leaves an attempt whose current status is unavailable", async () => {
+    mockApi((request) => {
+      if (
+        request.method === "GET" &&
+        request.path === "/api/library/items/gita-1-1"
+      ) {
+        return {
+          status: 200,
+          body: { ...learningShloka, personalStatus: "available" },
+        };
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await expectPath(routePaths.dashboard);
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("heading", {
+          level: 1,
+          name: learningShloka.displayTitle,
+        }),
+      ).not.toBeInTheDocument();
+    });
   });
 
   it("completes learning and offers the dashboard action", async () => {
@@ -242,6 +464,7 @@ describe("app learn shloka flow", () => {
 function learningApi(
   request: MockApiRequest,
   options: {
+    dashboardLearningShlokas?: ApiTypes.LibraryShlokaDto[];
     libraryShlokas?: ApiTypes.LibraryShlokaDto[];
     remainingLearningShlokas?: ApiTypes.LibraryShlokaDto[];
   } = {},
@@ -273,11 +496,13 @@ function learningApi(
     request.method === "GET" &&
     request.path === "/api/dashboard/learning-shlokas"
   ) {
+    const items = options.dashboardLearningShlokas ?? [];
+
     return {
       status: 200,
       body: {
-        hasLearningShlokas: false,
-        items: [],
+        hasLearningShlokas: items.length > 0,
+        items,
         remainingCount: 0,
       } satisfies ApiTypes.DashboardLearningShlokaListDto,
     };

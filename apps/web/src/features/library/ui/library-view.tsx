@@ -19,7 +19,7 @@ import {
   type LibraryCardAction,
 } from "../lib/library";
 import type { LibraryModel } from "../model/use-library";
-import { routePaths } from "@/shared/model/routes";
+import { learnShlokaReturnTo, routePaths } from "@/shared/model/routes";
 
 export function LibraryView({ model }: { model: LibraryModel }) {
   return (
@@ -185,13 +185,18 @@ function LibraryShlokaCard({
               action.kind === "start-learning" ||
               action.kind === "start-review"
             ) {
-              void navigate({
-                params: { shlokaCode: shloka.code },
-                to:
-                  action.kind === "start-learning"
-                    ? routePaths.learnShloka
-                    : routePaths.reviewShloka,
-              });
+              if (action.kind === "start-learning") {
+                void navigate({
+                  params: { shlokaCode: shloka.code },
+                  search: { returnTo: learnShlokaReturnTo.library(tabId) },
+                  to: routePaths.learnShloka,
+                });
+              } else {
+                void navigate({
+                  params: { shlokaCode: shloka.code },
+                  to: routePaths.reviewShloka,
+                });
+              }
               return;
             }
 

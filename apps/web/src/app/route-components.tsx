@@ -70,8 +70,15 @@ Object.assign(LibraryRoute, { preload: LibraryPage.preload });
 
 export function LearnShlokaRoute() {
   const { shlokaCode } = learnShlokaRouteApi.useParams();
+  const { returnTo } = learnShlokaRouteApi.useSearch();
 
-  return <LearnShlokaPage key={shlokaCode} shlokaCode={shlokaCode} />;
+  return (
+    <LearnShlokaPage
+      key={shlokaCode}
+      returnTo={returnTo}
+      shlokaCode={shlokaCode}
+    />
+  );
 }
 
 export function ReviewShlokaRoute() {

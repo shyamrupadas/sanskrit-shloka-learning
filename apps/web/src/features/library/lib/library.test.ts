@@ -89,6 +89,7 @@ describe("library rules", () => {
       { kind: "remove-from-learning", nextStatus: "available" },
     ]);
     expect(getLibraryCardActions("all", "learning")).toEqual([
+      { kind: "start-learning" },
       { kind: "remove-from-learning", nextStatus: "available" },
     ]);
   });

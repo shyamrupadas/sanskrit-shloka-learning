@@ -567,6 +567,54 @@ export const designTokens = {
         cssVariable: "--input-text-size",
       }),
     },
+    learningAttempt: {
+      canonicalTextLineHeight: fromSource(
+        1.55,
+        "component-learning-attempt-canonical-text-line-height",
+        "Canonical text line height measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
+        {
+          cssValue: "1.55",
+          cssVariable:
+            "--component-learning-attempt-canonical-text-line-height",
+        },
+      ),
+      canonicalTextSize: fromSource(
+        22,
+        "component-learning-attempt-canonical-text-size",
+        "Canonical text size measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(22),
+          cssVariable: "--component-learning-attempt-canonical-text-size",
+        },
+      ),
+      stateTitleSize: fromSource(
+        27,
+        "component-learning-attempt-state-title-size",
+        "State title and symbol size measured from Заучивание — ошибка загрузки (Z3V3cv) and Заучивание — status guard (oLEhU); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(27),
+          cssVariable: "--component-learning-attempt-state-title-size",
+        },
+      ),
+      titleLineHeight: fromSource(
+        1.18,
+        "component-learning-attempt-title-line-height",
+        "Title line height measured from Заучивание — шлока (QPXXW), Заучивание — ошибка загрузки (Z3V3cv), and Заучивание — status guard (oLEhU); Pencil has no named component variable for this value.",
+        {
+          cssValue: "1.18",
+          cssVariable: "--component-learning-attempt-title-line-height",
+        },
+      ),
+      titleSize: fromSource(
+        28,
+        "component-learning-attempt-title-size",
+        "Shloka title size measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(28),
+          cssVariable: "--component-learning-attempt-title-size",
+        },
+      ),
+    },
     pageHeader: {
       actionSize: fromSource(
         40,

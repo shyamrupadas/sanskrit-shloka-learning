@@ -120,6 +120,11 @@ body {
   --component-card-padding: 14px;
   --component-empty-icon-size: 42px;
   --component-empty-padding: 18px;
+  --component-learning-attempt-canonical-text-line-height: 1.55;
+  --component-learning-attempt-canonical-text-size: 22px;
+  --component-learning-attempt-state-title-size: 27px;
+  --component-learning-attempt-title-line-height: 1.18;
+  --component-learning-attempt-title-size: 28px;
   --component-page-header-action-size: 40px;
   --component-page-header-height: 44px;
   --component-page-header-icon-size: 22px;
