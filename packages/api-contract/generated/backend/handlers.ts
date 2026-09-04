@@ -140,7 +140,7 @@ export type GetReviewShlokasResponse = ApiHandlerResponse<200, Types.DashboardRe
 export type GetStreakResponse = ApiHandlerResponse<200, Types.DashboardStreakDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type CompleteLearningResponse = ApiHandlerResponse<200, Types.CompleteLearningDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type CompleteReviewResponse = ApiHandlerResponse<201, Types.CompletedReviewDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
-export type GetItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
+export type GetItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDetailsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError> | ApiHandlerResponse<500, Types.DataIntegrityApiError>;
 export type GetLibraryResponse = ApiHandlerResponse<200, Types.LibraryResponseDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type UpdateItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 

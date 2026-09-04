@@ -74,6 +74,61 @@ describe("generated OpenAPI learning contract", () => {
   });
 });
 
+describe("generated OpenAPI library shloka contract", () => {
+  test("separates the detailed shloka response from compact library responses", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const schemas = openApi.components?.schemas ?? {};
+    const itemPath = openApi.paths?.["/api/library/items/{shlokaCode}"];
+    const detailsSchema = schemas["SanskritShlokaLearning.LibraryShlokaDetailsDto"];
+    const compactSchema = schemas["SanskritShlokaLearning.LibraryShlokaDto"];
+
+    assert.equal(
+      itemPath?.get?.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDetailsDto",
+    );
+    assert.equal(
+      itemPath?.get?.responses?.["500"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.DataIntegrityApiError",
+    );
+    assert.deepEqual(
+      schemas["SanskritShlokaLearning.DataIntegrityApiError"]?.properties?.code?.enum,
+      ["DATA_INTEGRITY_ERROR"],
+    );
+    assert.ok(detailsSchema?.required?.includes("padas"));
+    assert.ok(detailsSchema?.required?.includes("code"));
+    assert.equal(detailsSchema?.properties?.text?.type, "string");
+    assert.deepEqual(detailsSchema?.properties?.padas, {
+      items: { $ref: "#/components/schemas/SanskritShlokaLearning.NonEmptyString" },
+      maxItems: 4,
+      minItems: 4,
+      type: "array",
+    });
+    assert.deepEqual(schemas["SanskritShlokaLearning.NonEmptyString"], {
+      minLength: 1,
+      type: "string",
+    });
+    assert.equal(compactSchema?.properties?.padas, undefined);
+    assert.ok(schemas["SanskritShlokaLearning.ErrorCode"]?.enum?.includes("DATA_INTEGRITY_ERROR"));
+
+    assert.equal(
+      schemas["SanskritShlokaLearning.LibraryResponseDto"]?.properties?.allShlokas?.items?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto",
+    );
+    assert.equal(
+      itemPath?.patch?.responses?.["200"]?.content?.["application/json"]?.schema?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto",
+    );
+    assert.equal(
+      schemas["SanskritShlokaLearning.CompleteLearningDto"]?.properties?.shloka?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto",
+    );
+    assert.equal(
+      schemas["SanskritShlokaLearning.CompleteLearningDto"]?.properties?.remainingLearningShlokas?.items?.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto",
+    );
+  });
+});
+
 describe("generated OpenAPI review completion contract", () => {
   test("exposes the authenticated command with result and user timezone", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));

@@ -12,7 +12,7 @@ import {
   type UpdateShlokaRecordInput,
   type UpdateSourceRecordInput,
 } from "./catalog.repository.js";
-import { CatalogService } from "./catalog.service.js";
+import { CatalogService, ShlokaDataIntegrityError } from "./catalog.service.js";
 
 describe("CatalogService", () => {
   test("loads admin catalog sources and shlokas concurrently", async () => {
@@ -177,6 +177,44 @@ describe("CatalogService", () => {
     assert.equal(repository.shlokaRecordReads, 0);
   });
 
+  test("returns the detailed shloka with four padas in canonical order", async () => {
+    const repository = new ConfigurableCatalogRepository();
+    repository.getShlokaResult = Promise.resolve(validDetailedShlokaRecord);
+    const service = new CatalogService(repository);
+
+    assert.deepEqual(await service.getLibraryShlokaDetails("gita-chapter-1-1"), {
+      code: "gita-chapter-1-1",
+      displayTitle: "Gita, Chapter 1 1",
+      number: "1",
+      padas: ["first pada", "second pada", "third pada", "fourth pada"],
+      sourceTitle: "Gita",
+      text: "first pada\nsecond pada\nthird pada\nfourth pada",
+    });
+  });
+
+  test("rejects structurally invalid detailed shlokas", async () => {
+    const invalidRecords = [
+      { padas: ["first pada", "second pada", "third pada"] },
+      { padas: ["first pada", " ", "third pada", "fourth pada"] },
+      { padas: ["first pada", "second pada", "third pada", "fourth pada", "fifth pada"] },
+      { text: "stored text does not match the padas" },
+    ];
+
+    for (const overrides of invalidRecords) {
+      const repository = new ConfigurableCatalogRepository();
+      repository.getShlokaResult = Promise.resolve({
+        ...validDetailedShlokaRecord,
+        ...overrides,
+      });
+      const service = new CatalogService(repository);
+
+      await assert.rejects(
+        service.getLibraryShlokaDetails("gita-chapter-1-1"),
+        ShlokaDataIntegrityError,
+      );
+    }
+  });
+
   test("rejects incomplete shloka padas before catalog reads", async () => {
     const repository = new ConfigurableCatalogRepository();
     const service = new CatalogService(repository);
@@ -238,6 +276,12 @@ const shlokaRecord = {
   sourceCode: "gita",
   sourceTitle: "Gita",
   text: "first pada",
+} satisfies ShlokaRecord;
+
+const validDetailedShlokaRecord = {
+  ...shlokaRecord,
+  padas: ["first pada", "second pada", "third pada", "fourth pada"],
+  text: "first pada\nsecond pada\nthird pada\nfourth pada",
 } satisfies ShlokaRecord;
 
 class DeferredCatalogRepository implements CatalogRepository {

@@ -15,6 +15,11 @@ export const forbiddenError: ApiTypes.ApiError = {
   message: "Недостаточно прав",
 };
 
+export const dataIntegrityError = {
+  code: "DATA_INTEGRITY_ERROR",
+  message: "Не удалось загрузить шлоку",
+} satisfies ApiTypes.DataIntegrityApiError;
+
 export function notFoundError(message: string): ApiTypes.ApiError {
   return {
     code: "NOT_FOUND",

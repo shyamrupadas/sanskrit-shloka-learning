@@ -19,6 +19,23 @@ const catalogCacheStaleTtlMs = 5 * 60_000;
 const shlokaPadaCount = 4;
 const shlokaPadasRequiredMessage = "Заполните все четыре пады шлоки";
 
+export class ShlokaDataIntegrityError extends Error {
+  constructor() {
+    super("Detailed shloka data violates its structural invariant");
+    this.name = "ShlokaDataIntegrityError";
+  }
+}
+
+export interface LibraryShlokaDetails {
+  code: string;
+  displayTitle: string;
+  sourceTitle: string;
+  number: string;
+  text: string;
+  padas: string[];
+  fullTranslation?: string;
+}
+
 interface CachedAdminCatalog {
   freshUntil: number;
   value: ApiTypes.AdminCatalogDto;
@@ -251,6 +268,26 @@ export class CatalogService {
 
       throw error;
     }
+  }
+
+  async getLibraryShlokaDetails(shlokaCode: string): Promise<LibraryShlokaDetails | undefined> {
+    const shloka = await this.catalog.getShloka(shlokaCode);
+    if (!shloka) {
+      return undefined;
+    }
+    if (!hasValidDetailedShlokaStructure(shloka)) {
+      throw new ShlokaDataIntegrityError();
+    }
+
+    return {
+      code: shloka.code,
+      displayTitle: shloka.displayTitle,
+      sourceTitle: shloka.sourceTitle,
+      number: shloka.number,
+      text: shloka.text,
+      padas: [...shloka.padas],
+      ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
+    };
   }
 
   async getAdminShloka(
@@ -618,9 +655,15 @@ function validateUpdateShlokaRequest(request: ApiTypes.UpdateShlokaRequest): str
 }
 
 function validateShlokaPadas(padas: string[], details: string[]): void {
-  if (padas.length !== shlokaPadaCount || padas.some((pada) => !pada)) {
+  if (!hasFourNonEmptyPadas(padas)) {
     details.push(shlokaPadasRequiredMessage);
   }
+}
+
+function hasFourNonEmptyPadas(padas: unknown): padas is string[] {
+  return Array.isArray(padas) &&
+    padas.length === shlokaPadaCount &&
+    padas.every((pada) => typeof pada === "string" && pada.trim().length > 0);
 }
 
 function buildReference(source: SourceRecord, request: ApiTypes.CreateShlokaRequest) {
@@ -732,6 +775,11 @@ function toLibraryShloka(shloka: ShlokaRecord): ApiTypes.LibraryShlokaDto {
     personalStatus: "available",
     ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
+}
+
+function hasValidDetailedShlokaStructure(shloka: ShlokaRecord): boolean {
+  return hasFourNonEmptyPadas(shloka.padas) &&
+    shloka.text === shloka.padas.join("\n");
 }
 
 function cloneLibraryShlokas(shlokas: ApiTypes.LibraryShlokaDto[]): ApiTypes.LibraryShlokaDto[] {

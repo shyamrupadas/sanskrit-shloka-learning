@@ -3,8 +3,14 @@ import type { ApiTypes, BackendContract } from "@sanskrit-shloka-learning/api-co
 
 import { AccountSettingsService } from "../accounts/account-settings.service.js";
 import { AuthService } from "../auth/auth.service.js";
-import { forbiddenError, unauthorizedError, validationError } from "../auth/api-error.js";
-import { CatalogService } from "../catalog/catalog.service.js";
+import {
+  dataIntegrityError,
+  forbiddenError,
+  notFoundError,
+  unauthorizedError,
+  validationError,
+} from "../auth/api-error.js";
+import { CatalogService, ShlokaDataIntegrityError } from "../catalog/catalog.service.js";
 import { DashboardService } from "../dashboard/dashboard.service.js";
 import { StreakService } from "../dashboard/streak.service.js";
 import { UserLibraryService } from "../library/user-library.service.js";
@@ -207,7 +213,17 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
       return { status: 401, body: unauthorizedError };
     }
 
-    return this.userLibrary.getShloka(session.account.id, request.shlokaCode);
+    try {
+      const shloka = await this.userLibrary.getShloka(session.account.id, request.shlokaCode);
+      return shloka
+        ? { status: 200, body: shloka }
+        : { status: 404, body: notFoundError("Шлока не найдена") };
+    } catch (error) {
+      if (error instanceof ShlokaDataIntegrityError) {
+        return { status: 500, body: dataIntegrityError };
+      }
+      throw error;
+    }
   }
 
   async completeLearning(

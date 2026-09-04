@@ -164,6 +164,11 @@ export interface DashboardStreakHistoryDayDto {
   hasActivity: boolean;
 }
 
+export interface DataIntegrityApiError {
+  code: "DATA_INTEGRITY_ERROR";
+  message: string;
+}
+
 export interface EmptyDashboardDto {
   hasPersonalShlokas: false;
   showStreak: false;
@@ -171,12 +176,23 @@ export interface EmptyDashboardDto {
   primaryAction: DashboardPrimaryActionDto;
 }
 
-export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND";
+export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND" | "DATA_INTEGRITY_ERROR";
 
 export interface LibraryResponseDto {
   defaultTab: LibraryTab;
   tabs: LibraryTabDto[];
   allShlokas: LibraryShlokaDto[];
+}
+
+export interface LibraryShlokaDetailsDto {
+  code: string;
+  displayTitle: string;
+  sourceTitle: string;
+  number: string;
+  text: string;
+  personalStatus: LibraryShlokaStatus;
+  fullTranslation?: string;
+  padas: NonEmptyString[];
 }
 
 export interface LibraryShlokaDto {
@@ -204,6 +220,8 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
+
+export type NonEmptyString = string;
 
 export interface RegisterRequest {
   email: string;

@@ -170,8 +170,8 @@ export class ApiClient {
     });
   }
 
-  async getItem(shlokaCode: string): Promise<Types.LibraryShlokaDto> {
-    return this.#request<Types.LibraryShlokaDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}`, {
+  async getItem(shlokaCode: string): Promise<Types.LibraryShlokaDetailsDto> {
+    return this.#request<Types.LibraryShlokaDetailsDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}`, {
       method: "GET"
     });
   }

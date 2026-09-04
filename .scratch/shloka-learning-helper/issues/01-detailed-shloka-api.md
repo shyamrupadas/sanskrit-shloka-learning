@@ -4,7 +4,8 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-09-04
 
 - [ ] TypeSpec определяет отдельный `LibraryShlokaDetailsDto`, сохраняющий поля компактного представления и добавляющий обязательный массив `padas` минимум и максимум из четырёх непустых строк; детальный GET возвращает этот DTO.
 - [ ] Компактный `LibraryShlokaDto` остаётся контрактом списков, изменения статуса и завершения заучивания и не получает `padas`; generated OpenAPI, frontend client и backend handler types обновлены только генерацией из TypeSpec.

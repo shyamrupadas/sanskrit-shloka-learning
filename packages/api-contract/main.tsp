@@ -23,6 +23,7 @@ namespace SanskritShlokaLearning {
     unauthorized: "UNAUTHORIZED",
     forbidden: "FORBIDDEN",
     notFound: "NOT_FOUND",
+    dataIntegrityError: "DATA_INTEGRITY_ERROR",
   }
 
   model ValidationErrorResponse {
@@ -48,6 +49,16 @@ namespace SanskritShlokaLearning {
   model ConflictErrorResponse {
     @statusCode statusCode: 409;
     @body error: ApiError;
+  }
+
+  model DataIntegrityErrorResponse {
+    @statusCode statusCode: 500;
+    @body error: DataIntegrityApiError;
+  }
+
+  model DataIntegrityApiError {
+    code: "DATA_INTEGRITY_ERROR";
+    message: string;
   }
 
   model AccountDto {
@@ -251,9 +262,24 @@ namespace SanskritShlokaLearning {
     fullTranslation?: string;
   }
 
+  @minLength(1)
+  scalar NonEmptyString extends string;
+
+  model LibraryShlokaDetailsDto {
+    ...LibraryShlokaDto;
+    @minItems(4)
+    @maxItems(4)
+    padas: NonEmptyString[];
+  }
+
   model OkLibraryResponse {
     @statusCode statusCode: 200;
     @body library: LibraryResponseDto;
+  }
+
+  model OkLibraryShlokaDetailsResponse {
+    @statusCode statusCode: 200;
+    @body shloka: LibraryShlokaDetailsDto;
   }
 
   model OkLibraryShlokaResponse {
@@ -517,7 +543,7 @@ namespace SanskritShlokaLearning {
     @get
     @route("/items/{shlokaCode}")
     op getItem(@path shlokaCode: string, @header authorization?: string):
-      OkLibraryShlokaResponse | UnauthorizedResponse | NotFoundResponse;
+      OkLibraryShlokaDetailsResponse | UnauthorizedResponse | NotFoundResponse | DataIntegrityErrorResponse;
 
     @patch
     @route("/items/{shlokaCode}")

@@ -1168,7 +1168,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDetailsDto"
                 }
               }
             }
@@ -1189,6 +1189,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.DataIntegrityApiError"
                 }
               }
             }
@@ -2011,6 +2021,24 @@
           }
         }
       },
+      "SanskritShlokaLearning.DataIntegrityApiError": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "DATA_INTEGRITY_ERROR"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "SanskritShlokaLearning.EmptyDashboardDto": {
         "type": "object",
         "required": [
@@ -2051,7 +2079,8 @@
           "EMAIL_ALREADY_REGISTERED",
           "UNAUTHORIZED",
           "FORBIDDEN",
-          "NOT_FOUND"
+          "NOT_FOUND",
+          "DATA_INTEGRITY_ERROR"
         ]
       },
       "SanskritShlokaLearning.LibraryResponseDto": {
@@ -2076,6 +2105,49 @@
             "items": {
               "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaDto"
             }
+          }
+        }
+      },
+      "SanskritShlokaLearning.LibraryShlokaDetailsDto": {
+        "type": "object",
+        "required": [
+          "code",
+          "displayTitle",
+          "sourceTitle",
+          "number",
+          "text",
+          "personalStatus",
+          "padas"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "displayTitle": {
+            "type": "string"
+          },
+          "sourceTitle": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "personalStatus": {
+            "$ref": "#/components/schemas/SanskritShlokaLearning.LibraryShlokaStatus"
+          },
+          "fullTranslation": {
+            "type": "string"
+          },
+          "padas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.NonEmptyString"
+            },
+            "minItems": 4,
+            "maxItems": 4
           }
         }
       },
@@ -2167,6 +2239,10 @@
             "minLength": 6
           }
         }
+      },
+      "SanskritShlokaLearning.NonEmptyString": {
+        "type": "string",
+        "minLength": 1
       },
       "SanskritShlokaLearning.RegisterRequest": {
         "type": "object",

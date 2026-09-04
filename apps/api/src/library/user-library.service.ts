@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { notFoundError, validationError } from "../auth/api-error.js";
-import { CatalogService } from "../catalog/catalog.service.js";
+import { CatalogService, type LibraryShlokaDetails } from "../catalog/catalog.service.js";
 import { getUserDay } from "../shared/user-day.js";
 import {
   USER_LIBRARY_REPOSITORY,
@@ -11,6 +11,10 @@ import {
 
 export type UserLibraryClock = () => Date;
 export const USER_LIBRARY_CLOCK = Symbol("USER_LIBRARY_CLOCK");
+
+export interface UserLibraryShlokaDetails extends LibraryShlokaDetails {
+  personalStatus: "available" | "learning" | "reviewing";
+}
 
 @Injectable()
 export class UserLibraryService {
@@ -42,23 +46,20 @@ export class UserLibraryService {
   async getShloka(
     accountId: string,
     shlokaCode: string,
-  ): Promise<{ status: 200; body: ApiTypes.LibraryShlokaDto } | { status: 404; body: ApiTypes.ApiError }> {
+  ): Promise<UserLibraryShlokaDetails | undefined> {
     const [shloka, statuses] = await Promise.all([
-      this.catalog.getLibraryShloka(shlokaCode),
+      this.catalog.getLibraryShlokaDetails(shlokaCode),
       this.userLibrary.listShlokaStatuses(accountId),
     ]);
     if (!shloka) {
-      return { status: 404, body: notFoundError("Шлока не найдена") };
+      return undefined;
     }
 
     const personalStatus = statuses.find((status) => status.shlokaCode === shlokaCode)?.status ?? "available";
 
     return {
-      status: 200,
-      body: {
-        ...shloka,
-        personalStatus,
-      },
+      ...shloka,
+      personalStatus,
     };
   }
 

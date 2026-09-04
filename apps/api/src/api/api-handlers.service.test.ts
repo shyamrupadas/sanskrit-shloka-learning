@@ -8,7 +8,7 @@ import { AccountSettingsService } from "../accounts/account-settings.service.js"
 import { InMemoryAccountRepository } from "../accounts/in-memory-account.repository.js";
 import { AuthService } from "../auth/auth.service.js";
 import { PasswordHasher } from "../auth/password-hasher.js";
-import { CatalogService } from "../catalog/catalog.service.js";
+import { CatalogService, ShlokaDataIntegrityError } from "../catalog/catalog.service.js";
 import { InMemoryCatalogRepository } from "../catalog/in-memory-catalog.repository.js";
 import { DashboardService } from "../dashboard/dashboard.service.js";
 import { InMemoryReviewHistoryRepository } from "../dashboard/in-memory-review-history.repository.js";
@@ -160,6 +160,37 @@ describe("ApiHandlersService protected resources", () => {
     assert.equal(completeReviewResponse.status, 401);
     assert.equal(settingsResponse.status, 401);
     assert.equal(updateSettingsResponse.status, 401);
+  });
+
+  test("returns a safe data integrity error for a corrupt detailed shloka", async () => {
+    const catalog = {
+      getLibraryShlokaDetails: async () => {
+        throw new ShlokaDataIntegrityError();
+      },
+    } as unknown as CatalogService;
+    const handlers = createHandlers({ catalog });
+    const registration = await handlers.register({
+      body: {
+        email: "learner@example.com",
+        password: "123456",
+        passwordConfirmation: "123456",
+      },
+    });
+    assert.equal(registration.status, 201);
+
+    const response = await handlers.getItem({
+      authorization: `Bearer ${registration.body.accessToken}`,
+      shlokaCode: "corrupt-shloka",
+    });
+
+    assert.deepEqual(response, {
+      status: 500,
+      body: {
+        code: "DATA_INTEGRITY_ERROR",
+        message: "Не удалось загрузить шлоку",
+      },
+    });
+    assert.doesNotMatch(JSON.stringify(response), /structural invariant|storage|pada/i);
   });
 
   test("saves hard mode between sessions without changing MVP dashboard behavior", async () => {
@@ -790,6 +821,7 @@ describe("ApiHandlersService admin catalog", () => {
     const initialShloka = initialLibrary.body.allShlokas.at(0);
     assert.ok(initialShloka);
     assert.equal(initialShloka.personalStatus, "available");
+    assert.equal("padas" in initialShloka, false);
 
     const addResponse = await handlers.updateItem({
       authorization: learnerAuthorization,
@@ -799,6 +831,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     assert.equal(addResponse.status, 200);
     assert.equal(addResponse.body.personalStatus, "learning");
+    assert.equal("padas" in addResponse.body, false);
     const addedItemResponse = await handlers.getItem({
       authorization: learnerAuthorization,
       shlokaCode: "gita-2-2-47",
@@ -809,6 +842,12 @@ describe("ApiHandlersService admin catalog", () => {
       addedItemResponse.body.text,
       "карманй эвадхикарас те\nма пхалешу кадачана\nма кармапхалахетур бхур\nма те санго сту акармани",
     );
+    assert.deepEqual(addedItemResponse.body.padas, [
+      "карманй эвадхикарас те",
+      "ма пхалешу кадачана",
+      "ма кармапхалахетур бхур",
+      "ма те санго сту акармани",
+    ]);
     const afterAddLibrary = await handlers.getLibrary({ authorization: learnerAuthorization });
     assert.equal(afterAddLibrary.status, 200);
     const afterAddShloka = afterAddLibrary.body.allShlokas.at(0);
@@ -867,6 +906,7 @@ describe("ApiHandlersService admin catalog", () => {
 
     assert.equal(completeResponse.status, 200);
     assert.equal(completeResponse.body.shloka.personalStatus, "reviewing");
+    assert.equal("padas" in completeResponse.body.shloka, false);
     assert.deepEqual(completeResponse.body.remainingLearningShlokas, []);
     const reviewingRecord = (
       await handlers.userLibraryRepository.listShlokaStatuses(
@@ -1545,13 +1585,13 @@ function getStreak(context: StreakTestContext) {
 }
 
 function createHandlers(
-  options: { now?: () => Date } = {},
+  options: { catalog?: CatalogService; now?: () => Date } = {},
 ): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
   const auth = new AuthService(accounts, passwordHasher);
   const accountSettings = new AccountSettingsService(accounts);
-  const catalog = new CatalogService(new InMemoryCatalogRepository());
+  const catalog = options.catalog ?? new CatalogService(new InMemoryCatalogRepository());
   const userLibraryRepository = new InMemoryUserLibraryRepository();
   const userLibrary = new UserLibraryService(
     catalog,
