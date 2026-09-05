@@ -567,6 +567,35 @@ export const designTokens = {
         cssVariable: "--input-text-size",
       }),
     },
+    learningAdvice: {
+      textLineHeight: fromSource(
+        1.58,
+        "component-learning-advice-text-line-height",
+        "Advice text line height measured from Заучивание — совет (MfM5u) and Заучивание — советы исчерпаны (GBSHa); Pencil has no named component variable for this value.",
+        {
+          cssValue: "1.58",
+          cssVariable: "--component-learning-advice-text-line-height",
+        },
+      ),
+      textSize: fromSource(
+        18,
+        "component-learning-advice-text-size",
+        "Advice text size measured from Заучивание — совет (MfM5u) and Заучивание — советы исчерпаны (GBSHa); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(18),
+          cssVariable: "--component-learning-advice-text-size",
+        },
+      ),
+      titleSize: fromSource(
+        22,
+        "component-learning-advice-title-size",
+        "Advice sheet title size measured from Заучивание — совет (MfM5u) and Заучивание — советы исчерпаны (GBSHa); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(22),
+          cssVariable: "--component-learning-advice-title-size",
+        },
+      ),
+    },
     learningAttempt: {
       canonicalTextLineHeight: fromSource(
         1.55,

@@ -18504,7 +18504,7 @@
                   "gap": 9,
                   "children": [
                     {
-                      "id": "jKUHm",
+                      "id": "b4B1p",
                       "type": "ref",
                       "ref": "B9n47J",
                       "name": "Другой совет",
@@ -18513,29 +18513,16 @@
                       "fill": "$button-secondary-bg",
                       "stroke": "$color-border",
                       "opacity": 1,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
+                      "descendants": {
+                        "nALai": {
+                          "enabled": false
                         },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
+                        "VZsCN": {
                           "content": "Другой совет",
                           "fontSize": 15,
                           "fill": "$button-secondary-fg"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",
@@ -18990,7 +18977,7 @@
                   "gap": 9,
                   "children": [
                     {
-                      "id": "D8RGAd",
+                      "id": "HdFmi",
                       "type": "ref",
                       "ref": "B9n47J",
                       "name": "Других советов нет",
@@ -18999,29 +18986,16 @@
                       "fill": "$color-disabled-bg",
                       "stroke": "$color-border",
                       "opacity": 0.7,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
+                      "descendants": {
+                        "nALai": {
+                          "enabled": false
                         },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
+                        "VZsCN": {
                           "content": "Других советов нет",
                           "fontSize": 15,
                           "fill": "$color-disabled-fg"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",

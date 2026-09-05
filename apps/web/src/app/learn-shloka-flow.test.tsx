@@ -1,9 +1,10 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
 
 import { App } from "@/app/App";
+import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import {
   expectPath,
@@ -130,8 +131,8 @@ describe("app learn shloka flow", () => {
       learningShloka.text,
     );
     expect(
-      screen.getByRole("link", { name: "Советы по заучиванию" }),
-    ).toHaveAttribute("href", routePaths.learning);
+      screen.getByRole("button", { name: "Совет" }),
+    ).toHaveAttribute("aria-haspopup", "dialog");
     expect(
       screen.getByRole("button", { name: "Помощник" }),
     ).toBeInTheDocument();
@@ -254,6 +255,189 @@ describe("app learn shloka flow", () => {
     expect(window.location.search).toBe("?tab=learning");
     expect(window.history.length).toBe(historyLength);
     expect(requests.every(({ method }) => method === "GET")).toBe(true);
+  });
+
+  it("keeps a non-repeating advice series across the complete dialog focus lifecycle", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    const adviceTrigger = await screen.findByRole("button", {
+      name: "Совет",
+    });
+    await user.click(adviceTrigger);
+
+    const dialog = await screen.findByRole("dialog", { name: "Совет" });
+    const closeButton = within(dialog).getByRole("button", {
+      name: "Закрыть совет",
+    });
+    const anotherAdviceButton = within(dialog).getByRole("button", {
+      name: "Другой совет",
+    });
+    const allAdviceLink = within(dialog).getByRole("link", {
+      name: "Все советы",
+    });
+    await waitFor(() => {
+      expect(closeButton).toHaveFocus();
+    });
+    expect(
+      screen.queryByRole("button", { name: "Выучил" }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(dialog).getByText(strings.learning.tips[0]!.text),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText("Совет 1 из 3")).toBeInTheDocument();
+
+    await user.tab();
+    expect(anotherAdviceButton).toHaveFocus();
+    await user.tab();
+    expect(allAdviceLink).toHaveFocus();
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.click(anotherAdviceButton);
+    expect(
+      within(dialog).getByText(strings.learning.tips[1]!.text),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText("Совет 2 из 3")).toBeInTheDocument();
+    await user.click(closeButton);
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(adviceTrigger).toHaveFocus();
+    await user.click(adviceTrigger);
+
+    const reopenedDialog = await screen.findByRole("dialog", {
+      name: "Совет",
+    });
+    expect(
+      within(reopenedDialog).getByText(strings.learning.tips[1]!.text),
+    ).toBeInTheDocument();
+    await user.click(
+      within(reopenedDialog).getByRole("button", {
+        name: "Другой совет",
+      }),
+    );
+
+    expect(
+      within(reopenedDialog).getByText(strings.learning.tips[2]!.text),
+    ).toBeInTheDocument();
+    expect(
+      within(reopenedDialog).queryByText(/Совет \d из \d/),
+    ).not.toBeInTheDocument();
+    expect(
+      within(reopenedDialog).getByRole("button", {
+        name: "Других советов нет",
+      }),
+    ).toBeDisabled();
+
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(adviceTrigger).toHaveFocus();
+    expect(
+      requests.some(({ method }) => method !== "GET"),
+    ).toBe(false);
+  });
+
+  it("restores the unfinished attempt and advice series after native Back", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    const attemptPath = "/library/shlokas/gita-1-1/learn";
+    renderAppAt(attemptPath);
+
+    await user.click(
+      await screen.findByRole("button", { name: "Совет" }),
+    );
+    const dialog = await screen.findByRole("dialog", { name: "Совет" });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Другой совет" }),
+    );
+    await user.click(
+      within(dialog).getByRole("link", { name: "Все советы" }),
+    );
+
+    await expectPath(routePaths.learning);
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Советы" }),
+    ).toBeInTheDocument();
+    act(() => {
+      window.history.back();
+    });
+
+    await expectPath(attemptPath);
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: learningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Совет" }));
+
+    const restoredDialog = await screen.findByRole("dialog", {
+      name: "Совет",
+    });
+    expect(
+      within(restoredDialog).getByText(strings.learning.tips[1]!.text),
+    ).toBeInTheDocument();
+    expect(
+      requests.some(({ method }) => method !== "GET"),
+    ).toBe(false);
+  });
+
+  it("starts a fresh advice series for a new attempt", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      return learningApi(request, {
+        dashboardLearningShlokas: [learningShloka],
+      });
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Совет" }),
+    );
+    const dialog = await screen.findByRole("dialog", { name: "Совет" });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Другой совет" }),
+    );
+    await user.click(
+      within(dialog).getByRole("button", { name: "Закрыть совет" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Отмена" }));
+
+    await expectPath(routePaths.dashboard);
+    await user.click(
+      await screen.findByRole("link", {
+        name: `Учить ${learningShloka.displayTitle}`,
+      }),
+    );
+    await expectPath("/library/shlokas/gita-1-1/learn");
+    await user.click(
+      await screen.findByRole("button", { name: "Совет" }),
+    );
+
+    const freshDialog = await screen.findByRole("dialog", {
+      name: "Совет",
+    });
+    expect(
+      within(freshDialog).getByText(strings.learning.tips[0]!.text),
+    ).toBeInTheDocument();
+    expect(within(freshDialog).getByText("Совет 1 из 3")).toBeInTheDocument();
+    expect(
+      requests.some(({ method }) => method !== "GET"),
+    ).toBe(false);
   });
 
   it("shows a reviewing status guard and returns without a mutation", async () => {

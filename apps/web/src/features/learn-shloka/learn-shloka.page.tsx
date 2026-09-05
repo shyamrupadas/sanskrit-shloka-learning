@@ -1,6 +1,6 @@
 import { useEffect, type CSSProperties } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { Check, Plus } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
@@ -18,6 +18,11 @@ import {
 } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
+
+import {
+  LearnShlokaAdviceDialog,
+} from "./learn-shloka-advice";
+import { clearLearnShlokaAdviceAttempt } from "./learn-shloka-advice-history";
 
 const attemptTitleTypography = {
   "--typography-h1-size": "var(--component-learning-attempt-title-size)",
@@ -59,6 +64,7 @@ export function LearnShlokaPage({
     mutationFn: () =>
       auth.apiClient.completeLearning(shlokaCode, { timeZone }),
     onSuccess: () => {
+      clearLearnShlokaAdviceAttempt();
       void queryClient.invalidateQueries({
         exact: true,
         queryKey: ["library"],
@@ -83,6 +89,7 @@ export function LearnShlokaPage({
       return;
     }
 
+    clearLearnShlokaAdviceAttempt();
     void navigateToReturnTo(navigate, returnTo);
   }, [
     completeMutation.data,
@@ -93,6 +100,7 @@ export function LearnShlokaPage({
   ]);
 
   const cancel = () => {
+    clearLearnShlokaAdviceAttempt();
     void navigateToReturnTo(navigate, returnTo);
   };
 
@@ -132,9 +140,9 @@ export function LearnShlokaPage({
   return (
     <section className="flex min-h-dvh min-w-0 flex-1 flex-col">
       <LearnShlokaHeader
+        adviceShlokaCode={shlokaCode}
         cancelDisabled={completeMutation.isPending}
         onCancel={cancel}
-        showAdvice
       />
 
       <div className="flex min-w-0 flex-1 flex-col px-5 pt-6 pb-4">
@@ -197,13 +205,13 @@ export function LearnShlokaPage({
 }
 
 function LearnShlokaHeader({
+  adviceShlokaCode,
   cancelDisabled = false,
   onCancel,
-  showAdvice = false,
 }: {
+  adviceShlokaCode?: string;
   cancelDisabled?: boolean;
   onCancel: () => void;
-  showAdvice?: boolean;
 }) {
   return (
     <header className="grid h-[52px] shrink-0 grid-cols-[100px_1fr_100px] items-center border-b border-border px-5">
@@ -218,14 +226,8 @@ function LearnShlokaHeader({
       <Typography as="span" className="text-center" variant="p2" weight="bold">
         {strings.learnShloka.title}
       </Typography>
-      {showAdvice ? (
-        <Link
-          aria-label={strings.learnShloka.openTips}
-          className="justify-self-end rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50"
-          to={routePaths.learning}
-        >
-          {strings.learnShloka.advice}
-        </Link>
+      {adviceShlokaCode ? (
+        <LearnShlokaAdviceDialog shlokaCode={adviceShlokaCode} />
       ) : null}
     </header>
   );

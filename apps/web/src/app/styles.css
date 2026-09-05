@@ -122,6 +122,9 @@ body {
   --component-empty-padding: 18px;
   --component-learning-attempt-canonical-text-line-height: 1.55;
   --component-learning-attempt-canonical-text-size: 22px;
+  --component-learning-advice-text-line-height: 1.58;
+  --component-learning-advice-text-size: 18px;
+  --component-learning-advice-title-size: 22px;
   --component-learning-attempt-state-title-size: 27px;
   --component-learning-attempt-title-line-height: 1.18;
   --component-learning-attempt-title-size: 28px;

@@ -174,6 +174,12 @@ export const strings = {
   },
   learnShloka: {
     advice: "Совет",
+    adviceClose: "Закрыть совет",
+    adviceExhausted: "Других советов нет",
+    adviceNext: "Другой совет",
+    advicePosition: (current: number, total: number) =>
+      `Совет ${current} из ${total}`,
+    allAdvice: "Все советы",
     alreadyReviewing: "Шлока уже в повторении",
     cancel: "Отмена",
     cancelAndReturn: "Отмена и возврат",
@@ -187,7 +193,6 @@ export const strings = {
     loadErrorTitle: "Не удалось загрузить шлоку",
     loading: "Загрузка шлоки",
     notComplete: "Не выучил",
-    openTips: "Советы по заучиванию",
     retryLoad: "Попробовать снова",
     returnAction: "Вернуться",
     title: "Заучивание",
