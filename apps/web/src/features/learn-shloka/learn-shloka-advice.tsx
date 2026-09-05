@@ -17,8 +17,10 @@ import {
 } from "./learn-shloka-advice-history";
 
 export function LearnShlokaAdviceDialog({
+  disabled = false,
   shlokaCode,
 }: {
+  disabled?: boolean;
   shlokaCode: string;
 }) {
   const tips = strings.learning.tips;
@@ -36,7 +38,8 @@ export function LearnShlokaAdviceDialog({
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <button
-          className="justify-self-end rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="justify-self-end rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:text-[var(--disabled-foreground)]"
+          disabled={disabled}
           type="button"
         >
           {strings.learnShloka.advice}

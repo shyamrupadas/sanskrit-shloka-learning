@@ -147,6 +147,15 @@ export const designTokens = {
       destructive: fromPencil("#DC2626", "color-danger", {
         cssVariable: "--destructive",
       }),
+      dangerBackground: fromPencil("#FEE2E2", "color-danger-soft", {
+        cssVariable: "--danger-background",
+      }),
+      dangerBorder: fromSource(
+        "#FCA5A5",
+        "color-danger-border",
+        "Danger banner border measured from Заучивание — ошибка подтверждена (Ql5lM); Pencil has no named semantic variable for this value.",
+        { cssVariable: "--danger-border" },
+      ),
       destructiveForeground: fromPencil("#FFFFFF", "color-text-inverse", {
         cssVariable: "--destructive-foreground",
       }),
@@ -218,6 +227,9 @@ export const designTokens = {
       }),
       warningBackground: fromPencil("#FEF3C7", "color-warning-bg", {
         cssVariable: "--warning-background",
+      }),
+      warningBorder: fromPencil("#FCD34D", "color-warning-border", {
+        cssVariable: "--warning-border",
       }),
     },
   },
@@ -614,6 +626,26 @@ export const designTokens = {
         {
           cssValue: px(22),
           cssVariable: "--component-learning-attempt-canonical-text-size",
+        },
+      ),
+      recoveryBannerPaddingY: fromSource(
+        11,
+        "component-learning-attempt-recovery-banner-padding-y",
+        "Recovery banner vertical padding measured from Заучивание — ошибка подтверждена (Ql5lM) and Заучивание — статус неизвестен (LICPw); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(11),
+          cssVariable:
+            "--component-learning-attempt-recovery-banner-padding-y",
+        },
+      ),
+      recoveryBannerTextSize: fromSource(
+        13,
+        "component-learning-attempt-recovery-banner-text-size",
+        "Recovery banner text size measured from Заучивание — ошибка подтверждена (Ql5lM) and Заучивание — статус неизвестен (LICPw); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(13),
+          cssVariable:
+            "--component-learning-attempt-recovery-banner-text-size",
         },
       ),
       stateTitleSize: fromSource(

@@ -28,6 +28,9 @@ const thirdLearningShloka = shloka({
   code: "gita-4-8",
   displayTitle: "Бхагавад-гита 4.8",
 });
+const learningItemPath = "/api/library/items/gita-1-1";
+const completeLearningPath = `${learningItemPath}/complete-learning`;
+const libraryPath = "/api/library";
 
 describe("app learn shloka flow", () => {
   it("shows the accepted loading shell and lets the user cancel to the dashboard", async () => {
@@ -506,6 +509,481 @@ describe("app learn shloka flow", () => {
     });
   });
 
+  it("sends one completion while all conflicting actions stay disabled and native Back remains available", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      if (isSessionRequest(request)) {
+        return { status: 200, body: session };
+      }
+      if (request.method === "GET" && request.path === learningItemPath) {
+        return { status: 200, body: learningShloka };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        return new Promise<MockApiResponse>(() => undefined);
+      }
+
+      throw unhandled(request);
+    });
+    storeTestSession(session);
+    window.history.pushState({}, "", routePaths.dashboard);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(screen.getByRole("button", { name: "Сохраняем…" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Отмена" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Совет" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Помощник" })).toBeDisabled();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+    expect(requests.find(({ path }) => path === completeLearningPath)?.body).toEqual({
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    });
+
+    act(() => {
+      window.history.back();
+    });
+
+    await expectPath(routePaths.dashboard);
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+  });
+
+  it("does not clear a new attempt advice series after an old completion resolves", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let resolveCompletion!: (response: MockApiResponse) => void;
+    const completion = new Promise<MockApiResponse>((resolve) => {
+      resolveCompletion = resolve;
+    });
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        return completion;
+      }
+
+      return learningApi(request, {
+        dashboardLearningShlokas: [secondLearningShloka],
+      });
+    });
+    storeTestSession(session);
+    window.history.pushState({}, "", routePaths.dashboard);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+    act(() => {
+      window.history.back();
+    });
+    await expectPath(routePaths.dashboard);
+    await user.click(
+      await screen.findByRole("link", {
+        name: `Учить ${secondLearningShloka.displayTitle}`,
+      }),
+    );
+    await expectPath("/library/shlokas/gita-4-7/learn");
+
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    const dialog = await screen.findByRole("dialog", { name: "Совет" });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Другой совет" }),
+    );
+    await user.click(
+      within(dialog).getByRole("button", { name: "Закрыть совет" }),
+    );
+
+    await act(async () => {
+      resolveCompletion({
+        status: 200,
+        body: {
+          remainingLearningShlokas: [secondLearningShloka],
+          shloka: { ...learningShloka, personalStatus: "reviewing" },
+        } satisfies ApiTypes.CompleteLearningDto,
+      });
+      await completion;
+    });
+
+    await user.click(screen.getByRole("button", { name: "Совет" }));
+    const reopenedDialog = await screen.findByRole("dialog", {
+      name: "Совет",
+    });
+    await user.click(
+      within(reopenedDialog).getByRole("link", { name: "Все советы" }),
+    );
+    await expectPath(routePaths.learning);
+    act(() => {
+      window.history.back();
+    });
+    await expectPath("/library/shlokas/gita-4-7/learn");
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    const restoredDialog = await screen.findByRole("dialog", {
+      name: "Совет",
+    });
+    expect(
+      within(restoredDialog).getByText(strings.learning.tips[1]!.text),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+  });
+
+  it("requires an explicit retry after a confirmed completion error", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let completionCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        completionCount += 1;
+        if (completionCount === 1) {
+          return {
+            status: 400,
+            body: {
+              code: "VALIDATION_ERROR",
+              message: "Переход не состоялся",
+            } satisfies ApiTypes.ApiError,
+          };
+        }
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      await screen.findByText(
+        "Не удалось изменить статус. Можно попробовать снова — повторной подтверждённой операции не было.",
+      ),
+    ).toHaveAttribute("role", "alert");
+    expect(screen.getByRole("button", { name: "Попробовать снова" })).toBeEnabled();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Попробовать снова" }));
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+  });
+
+  it("treats an unreadable completion response as success only after GET confirms reviewing", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let itemGetCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "GET" && request.path === learningItemPath) {
+        itemGetCount += 1;
+        return {
+          status: 200,
+          body:
+            itemGetCount === 1
+              ? learningShloka
+              : { ...learningShloka, personalStatus: "reviewing" },
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        return { status: 200 };
+      }
+
+      return learningApi(request, {
+        libraryShlokas: [secondLearningShloka],
+      });
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${libraryPath}`,
+    ]);
+    await user.click(screen.getByRole("button", { name: "Выучить еще" }));
+    await expectPath("/library/shlokas/gita-4-7/learn");
+  });
+
+  it("keeps recovery read-only when the authoritative library refresh fails", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let itemGetCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "GET" && request.path === learningItemPath) {
+        itemGetCount += 1;
+        return {
+          status: 200,
+          body:
+            itemGetCount === 1
+              ? learningShloka
+              : { ...learningShloka, personalStatus: "reviewing" },
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        return { status: 200 };
+      }
+      if (request.method === "GET" && request.path === libraryPath) {
+        return {
+          status: 503,
+          body: {
+            code: "DATA_INTEGRITY_ERROR",
+            message: "Библиотека временно недоступна",
+          } satisfies ApiTypes.ApiError,
+        };
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      await screen.findByRole("button", { name: "Проверить статус" }),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${libraryPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Проверить статус" }));
+
+    await waitFor(() => {
+      expect(completionSequence(requests)).toEqual([
+        `GET ${learningItemPath}`,
+        `POST ${completeLearningPath}`,
+        `GET ${learningItemPath}`,
+        `GET ${libraryPath}`,
+        `GET ${learningItemPath}`,
+        `GET ${libraryPath}`,
+      ]);
+    });
+    expect(
+      screen.getByRole("button", { name: "Проверить статус" }),
+    ).toBeInTheDocument();
+  });
+
+  it("allows an explicit retry only after GET confirms learning", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let completionCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        completionCount += 1;
+        if (completionCount === 1) {
+          return {
+            status: 500,
+            body: {
+              code: "DATA_INTEGRITY_ERROR",
+              message: "Не удалось получить результат",
+            } satisfies ApiTypes.ApiError,
+          };
+        }
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      await screen.findByRole("button", { name: "Попробовать снова" }),
+    ).toBeEnabled();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Попробовать снова" }));
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+  });
+
+  it("uses the safe guard when GET resolves an ambiguous result to another status", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let itemGetCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "GET" && request.path === learningItemPath) {
+        itemGetCount += 1;
+        return {
+          status: 200,
+          body:
+            itemGetCount === 1
+              ? learningShloka
+              : { ...learningShloka, personalStatus: "available" },
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        throw new TypeError("Connection lost after sending request");
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    await expectPath(routePaths.dashboard);
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+    ]);
+  });
+
+  it("checks an unknown result with GET only until learning is confirmed and retry is explicit", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let itemGetCount = 0;
+    let completionCount = 0;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "GET" && request.path === learningItemPath) {
+        itemGetCount += 1;
+        if (itemGetCount === 1 || itemGetCount === 4) {
+          return { status: 200, body: learningShloka };
+        }
+
+        return {
+          status: 503,
+          body: {
+            code: "DATA_INTEGRITY_ERROR",
+            message: "Статус временно недоступен",
+          } satisfies ApiTypes.ApiError,
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        completionCount += 1;
+        if (completionCount === 1) {
+          throw new TypeError("Connection lost after sending request");
+        }
+      }
+
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      await screen.findByText(
+        "Результат пока неясен. Сначала проверим актуальный статус, не отправляя «Выучил» повторно.",
+      ),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Проверить статус" }));
+
+    expect(
+      await screen.findByRole("button", { name: "Проверить статус" }),
+    ).toBeEnabled();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${learningItemPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Проверить статус" }));
+
+    expect(
+      await screen.findByRole("button", { name: "Попробовать снова" }),
+    ).toBeEnabled();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${learningItemPath}`,
+    ]);
+
+    await user.click(screen.getByRole("button", { name: "Попробовать снова" }));
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).toBeInTheDocument();
+    expect(completionSequence(requests)).toEqual([
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${learningItemPath}`,
+      `GET ${learningItemPath}`,
+      `POST ${completeLearningPath}`,
+    ]);
+  });
+
   it("completes learning and offers the dashboard action", async () => {
     const user = userEvent.setup();
     const completionRequests: MockApiRequest[] = [];
@@ -790,6 +1268,17 @@ function shloka(
 
 function isSessionRequest({ method, path }: MockApiRequest): boolean {
   return method === "GET" && path === "/api/auth/session";
+}
+
+function completionSequence(requests: MockApiRequest[]): string[] {
+  return requests
+    .filter(
+      ({ path }) =>
+        path === libraryPath ||
+        path === learningItemPath ||
+        path === completeLearningPath,
+    )
+    .map(({ method, path }) => `${method} ${path}`);
 }
 
 function renderAppAt(path: string) {

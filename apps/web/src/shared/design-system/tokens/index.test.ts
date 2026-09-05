@@ -172,6 +172,8 @@ describe("design token contract", () => {
     expect(designTokens.components.learningAttempt).toMatchObject({
       canonicalTextLineHeight: { value: 1.55 },
       canonicalTextSize: { value: 22 },
+      recoveryBannerPaddingY: { value: 11 },
+      recoveryBannerTextSize: { value: 13 },
       stateTitleSize: { value: 27 },
       titleLineHeight: { value: 1.18 },
       titleSize: { value: 28 },

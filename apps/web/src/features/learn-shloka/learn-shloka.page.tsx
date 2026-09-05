@@ -1,8 +1,11 @@
-import { useEffect, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Check, Plus } from "lucide-react";
-import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
+import {
+  ApiClientError,
+  type ApiTypes,
+} from "@sanskrit-shloka-learning/api-contract";
 
 import {
   SanskritTypography,
@@ -24,6 +27,8 @@ import {
 } from "./learn-shloka-advice";
 import { clearLearnShlokaAdviceAttempt } from "./learn-shloka-advice-history";
 
+type CompletionRecovery = "idle" | "checking" | "retry" | "unknown";
+
 const attemptTitleTypography = {
   "--typography-h1-size": "var(--component-learning-attempt-title-size)",
   "--typography-heading-line-height":
@@ -44,6 +49,17 @@ const attemptStateTitleTypography = {
     "var(--component-learning-attempt-title-line-height)",
 } as CSSProperties;
 
+const attemptRecoveryBannerTypography = {
+  "--typography-p2-size":
+    "var(--component-learning-attempt-recovery-banner-text-size)",
+} as CSSProperties;
+
+const disabledCompletionAction = {
+  backgroundColor: "var(--disabled-background)",
+  color: "var(--disabled-foreground)",
+  opacity: 0.8,
+} as CSSProperties;
+
 export function LearnShlokaPage({
   returnTo,
   shlokaCode,
@@ -55,6 +71,19 @@ export function LearnShlokaPage({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const timeZone = getBrowserTimeZone();
+  const [completionRecovery, setCompletionRecovery] =
+    useState<CompletionRecovery>("idle");
+  const [completionResult, setCompletionResult] =
+    useState<ApiTypes.CompleteLearningDto>();
+  const [verificationError, setVerificationError] = useState<unknown>();
+  const isMounted = useRef(true);
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
   const shlokaQuery = useQuery({
     queryFn: () => auth.apiClient.getItem(shlokaCode),
     queryKey: ["library", "shloka", shlokaCode],
@@ -63,20 +92,93 @@ export function LearnShlokaPage({
   const completeMutation = useMutation({
     mutationFn: () =>
       auth.apiClient.completeLearning(shlokaCode, { timeZone }),
-    onSuccess: () => {
-      clearLearnShlokaAdviceAttempt();
-      void queryClient.invalidateQueries({
-        exact: true,
-        queryKey: ["library"],
-      });
-      void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+    onError: (error) => {
+      if (isConfirmedCompletionError(error)) {
+        if (isMounted.current) {
+          setCompletionRecovery("retry");
+        }
+        return;
+      }
+
+      void checkCompletionStatus();
     },
+    onSuccess: acceptCompletion,
   });
 
-  useUnauthorizedRedirect(shlokaQuery.error ?? completeMutation.error);
+  useUnauthorizedRedirect(
+    shlokaQuery.error ?? completeMutation.error ?? verificationError,
+  );
+
+  function acceptCompletion(result: ApiTypes.CompleteLearningDto): void {
+    void queryClient.invalidateQueries({
+      exact: true,
+      queryKey: ["library"],
+    });
+    void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+    if (!isMounted.current) {
+      return;
+    }
+
+    setCompletionResult(result);
+    clearLearnShlokaAdviceAttempt();
+  }
+
+  async function checkCompletionStatus(): Promise<void> {
+    if (isMounted.current) {
+      setCompletionRecovery("checking");
+      setVerificationError(undefined);
+    }
+
+    try {
+      const currentShloka = await auth.apiClient.getItem(shlokaCode);
+
+      if (currentShloka.personalStatus === "reviewing") {
+        const library = await auth.apiClient.getLibrary();
+        queryClient.setQueryData(["library"], library);
+        acceptCompletion({
+          remainingLearningShlokas: library.allShlokas.filter(
+            (candidate) => candidate.personalStatus === "learning",
+          ),
+          shloka: currentShloka,
+        });
+        queryClient.setQueryData(
+          ["library", "shloka", shlokaCode],
+          currentShloka,
+        );
+        return;
+      }
+
+      queryClient.setQueryData(
+        ["library", "shloka", shlokaCode],
+        currentShloka,
+      );
+      if (currentShloka.personalStatus === "learning") {
+        if (isMounted.current) {
+          setCompletionRecovery("retry");
+        }
+        return;
+      }
+
+      if (isMounted.current) {
+        setCompletionRecovery("idle");
+      }
+    } catch (error) {
+      if (isMounted.current) {
+        setVerificationError(error);
+        setCompletionRecovery("unknown");
+      }
+    }
+  }
+
+  const completeLearning = (): void => {
+    setCompletionRecovery("idle");
+    setVerificationError(undefined);
+    completeMutation.reset();
+    completeMutation.mutate();
+  };
 
   useEffect(() => {
-    if (completeMutation.data) {
+    if (completionResult) {
       return;
     }
 
@@ -92,7 +194,7 @@ export function LearnShlokaPage({
     clearLearnShlokaAdviceAttempt();
     void navigateToReturnTo(navigate, returnTo);
   }, [
-    completeMutation.data,
+    completionResult,
     navigate,
     returnTo,
     shlokaQuery.data?.personalStatus,
@@ -111,12 +213,10 @@ export function LearnShlokaPage({
   ) {
     return <LearnShlokaSkeleton onCancel={cancel} />;
   }
-  if (completeMutation.data) {
+  if (completionResult) {
     return (
       <CompletedLearning
-        remainingLearningShlokas={
-          completeMutation.data.remainingLearningShlokas
-        }
+        remainingLearningShlokas={completionResult.remainingLearningShlokas}
       />
     );
   }
@@ -137,11 +237,18 @@ export function LearnShlokaPage({
     return null;
   }
 
+  const actionsDisabled =
+    completeMutation.isPending || completionRecovery === "checking";
+  const completionAction = getCompletionAction(
+    completeMutation.isPending,
+    completionRecovery,
+  );
+
   return (
     <section className="flex min-h-dvh min-w-0 flex-1 flex-col">
       <LearnShlokaHeader
         adviceShlokaCode={shlokaCode}
-        cancelDisabled={completeMutation.isPending}
+        actionsDisabled={actionsDisabled}
         onCancel={cancel}
       />
 
@@ -177,6 +284,29 @@ export function LearnShlokaPage({
             {shlokaQuery.data.text}
           </SanskritTypography>
 
+          {completionRecovery === "retry" ? (
+            <Typography
+              className="rounded-xl border px-3 py-[var(--component-learning-attempt-recovery-banner-padding-y)] [border-color:var(--danger-border)] bg-[var(--danger-background)]"
+              role="alert"
+              style={attemptRecoveryBannerTypography}
+              tone="danger"
+              variant="p2"
+            >
+              {strings.learnShloka.completionConfirmedError}
+            </Typography>
+          ) : null}
+          {completionRecovery === "unknown" ? (
+            <Typography
+              className="rounded-xl border px-3 py-[var(--component-learning-attempt-recovery-banner-padding-y)] [border-color:var(--warning-border)] bg-[var(--warning-background)]"
+              role="alert"
+              style={attemptRecoveryBannerTypography}
+              tone="warning"
+              variant="p2"
+            >
+              {strings.learnShloka.completionUnknown}
+            </Typography>
+          ) : null}
+
           <Button
             className="h-[52px] w-full text-[15px] text-primary"
             disabled
@@ -190,14 +320,23 @@ export function LearnShlokaPage({
 
       <div className="sticky bottom-0 mt-auto bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]">
         <Button
-          className="h-[52px] w-full text-[15px] font-medium"
-          disabled={completeMutation.isPending}
-          onClick={() => completeMutation.mutate()}
+          className={
+            completeMutation.isPending || completionRecovery !== "idle"
+              ? "h-[52px] w-full text-[16px] font-bold"
+              : "h-[52px] w-full text-[15px] font-medium"
+          }
+          disabled={actionsDisabled}
+          onClick={
+            completionRecovery === "unknown"
+              ? () => {
+                  void checkCompletionStatus();
+                }
+              : completeLearning
+          }
+          style={actionsDisabled ? disabledCompletionAction : undefined}
           type="button"
         >
-          {completeMutation.isPending
-            ? strings.learnShloka.completing
-            : strings.learnShloka.complete}
+          {completionAction}
         </Button>
       </div>
     </section>
@@ -205,19 +344,19 @@ export function LearnShlokaPage({
 }
 
 function LearnShlokaHeader({
+  actionsDisabled = false,
   adviceShlokaCode,
-  cancelDisabled = false,
   onCancel,
 }: {
+  actionsDisabled?: boolean;
   adviceShlokaCode?: string;
-  cancelDisabled?: boolean;
   onCancel: () => void;
 }) {
   return (
     <header className="grid h-[52px] shrink-0 grid-cols-[100px_1fr_100px] items-center border-b border-border px-5">
       <button
-        className="w-fit rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
-        disabled={cancelDisabled}
+        className="w-fit rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:text-[var(--disabled-foreground)]"
+        disabled={actionsDisabled}
         onClick={onCancel}
         type="button"
       >
@@ -227,9 +366,39 @@ function LearnShlokaHeader({
         {strings.learnShloka.title}
       </Typography>
       {adviceShlokaCode ? (
-        <LearnShlokaAdviceDialog shlokaCode={adviceShlokaCode} />
+        <LearnShlokaAdviceDialog
+          disabled={actionsDisabled}
+          shlokaCode={adviceShlokaCode}
+        />
       ) : null}
     </header>
+  );
+}
+
+function getCompletionAction(
+  isPending: boolean,
+  recovery: CompletionRecovery,
+): string {
+  if (isPending) {
+    return strings.learnShloka.completing;
+  }
+  if (recovery === "checking") {
+    return strings.learnShloka.checkingStatus;
+  }
+  if (recovery === "retry") {
+    return strings.learnShloka.retryCompletion;
+  }
+  if (recovery === "unknown") {
+    return strings.learnShloka.checkStatus;
+  }
+
+  return strings.learnShloka.complete;
+}
+
+function isConfirmedCompletionError(error: unknown): boolean {
+  return (
+    error instanceof ApiClientError &&
+    (error.status === 400 || error.status === 401 || error.status === 404)
   );
 }
 
