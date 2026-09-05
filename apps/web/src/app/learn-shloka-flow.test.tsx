@@ -15,11 +15,21 @@ import {
   type MockApiResponse,
 } from "@/shared/test/harness";
 
+const learningPadas = [
+  "дхарма-кшетре куру-кшетре",
+  "самавета юютсавах",
+  "мамаках пандавашчаива",
+  "кимакурвата санджая",
+];
 const learningShloka = shloka({
   code: "gita-1-1",
   displayTitle: "Бхагавад-гита 1.1",
-  text: "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
+  text: learningPadas.join("\n"),
 });
+const learningShlokaDetails = {
+  ...learningShloka,
+  padas: learningPadas,
+} satisfies ApiTypes.LibraryShlokaDetailsDto;
 const secondLearningShloka = shloka({
   code: "gita-4-7",
   displayTitle: "Бхагавад-гита 4.7",
@@ -156,6 +166,155 @@ describe("app learn shloka flow", () => {
     ).toBe(false);
   });
 
+  it("walks all seven helper fragments through read, recall, and check before returning to the same attempt", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt(
+      "/library/shlokas/gita-1-1/learn?returnTo=%2Flibrary%3Ftab%3Dlearning",
+    );
+
+    const attemptUrl = window.location.href;
+    const historyLength = window.history.length;
+    await user.click(
+      await screen.findByRole("button", { name: "Помощник" }),
+    );
+
+    expect(window.location.href).toBe(attemptUrl);
+    expect(window.history.length).toBe(historyLength);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Помощник" }),
+    ).toBeInTheDocument();
+
+    const fragments = [
+      { label: "Пада 1", text: learningPadas[0] },
+      { label: "Пада 2", text: learningPadas[1] },
+      { label: "Пады 1 + 2", text: learningPadas.slice(0, 2).join("\n") },
+      { label: "Пада 3", text: learningPadas[2] },
+      { label: "Пада 4", text: learningPadas[3] },
+      { label: "Пады 3 + 4", text: learningPadas.slice(2).join("\n") },
+      { label: "Вся шлока", text: learningPadas.join("\n") },
+    ];
+
+    for (const [index, fragment] of fragments.entries()) {
+      const position = index + 1;
+      expect(screen.getByText(fragment.label)).toBeInTheDocument();
+      expect(screen.getByText(`${position} / 7`)).toBeInTheDocument();
+      expect(
+        screen.getByRole("progressbar", { name: "Прогресс помощника" }),
+      ).toHaveAttribute("aria-valuenow", String(position));
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Прочитайте и запомните",
+      );
+      expect(screen.getByLabelText("Текущий фрагмент шлоки").textContent).toBe(
+        fragment.text,
+      );
+      expect(
+        within(
+          screen.getByRole("group", { name: "Действие помощника" }),
+        ).getAllByRole("button"),
+      ).toHaveLength(1);
+
+      await user.click(
+        screen.getByRole("button", { name: "Скрыть и повторить" }),
+      );
+
+      expect(screen.getByRole("status")).toHaveTextContent("Текст скрыт");
+      expect(screen.getByText("Произнесите по памяти")).toBeInTheDocument();
+      expect(
+        screen.queryByLabelText("Текущий фрагмент шлоки"),
+      ).not.toBeInTheDocument();
+
+      await user.click(
+        screen.getByRole("button", { name: "Показать и свериться" }),
+      );
+
+      expect(screen.getByRole("status")).toHaveTextContent("Сверьтесь");
+      expect(screen.getByLabelText("Текущий фрагмент шлоки").textContent).toBe(
+        fragment.text,
+      );
+
+      await user.click(
+        screen.getByRole("button", {
+          name:
+            position === fragments.length
+              ? "Вернуться к шлоке"
+              : "Следующий фрагмент",
+        }),
+      );
+    }
+
+    expect(window.location.href).toBe(attemptUrl);
+    expect(window.history.length).toBe(historyLength);
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: learningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Канонический текст шлоки").textContent).toBe(
+      learningShloka.text,
+    );
+    expect(
+      requests.some(({ method }) => method !== "GET"),
+    ).toBe(false);
+  });
+
+  it.each([
+    { actions: [], phase: "read" },
+    { actions: ["Скрыть и повторить"], phase: "recall" },
+    {
+      actions: ["Скрыть и повторить", "Показать и свериться"],
+      phase: "check",
+    },
+  ])("returns early from the $phase phase and re-enters from the first pada", async ({
+    actions,
+  }) => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    mockApi((request) => {
+      requests.push(request);
+      return learningApi(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Помощник" }),
+    );
+    for (const action of actions) {
+      await user.click(screen.getByRole("button", { name: action }));
+    }
+
+    await user.click(screen.getByRole("button", { name: "К шлоке" }));
+
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: learningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Канонический текст шлоки").textContent).toBe(
+      learningShloka.text,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Помощник" }));
+
+    expect(screen.getByText("Пада 1")).toBeInTheDocument();
+    expect(screen.getByText("1 / 7")).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Прочитайте и запомните",
+    );
+    expect(screen.getByLabelText("Текущий фрагмент шлоки").textContent).toBe(
+      learningPadas[0],
+    );
+    expect(requests.every(({ method }) => method === "GET")).toBe(true);
+  });
+
   it.each([
     ["missing", ""],
     ["external", "https://example.com/phishing"],
@@ -199,8 +358,14 @@ describe("app learn shloka flow", () => {
       ) {
         itemGetCount += 1;
         return itemGetCount === 1
-          ? { status: 500 }
-          : { status: 200, body: learningShloka };
+          ? {
+              status: 500,
+              body: {
+                code: "DATA_INTEGRITY_ERROR",
+                message: "Не удалось загрузить шлоку",
+              },
+            }
+          : { status: 200, body: learningShlokaDetails };
       }
 
       return learningApi(request);
@@ -217,6 +382,12 @@ describe("app learn shloka flow", () => {
     expect(
       screen.getByRole("button", { name: "Отмена и возврат" }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Помощник" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Канонический текст шлоки"),
+    ).not.toBeInTheDocument();
     await user.click(
       screen.getByRole("button", { name: "Попробовать снова" }),
     );
@@ -1364,7 +1535,7 @@ function learningApi(
   if (request.method === "GET" && itemMatch) {
     const code = decodeURIComponent(itemMatch[1] ?? "");
     const item = [
-      learningShloka,
+      learningShlokaDetails,
       secondLearningShloka,
       thirdLearningShloka,
     ].find((candidate) => candidate.code === code);

@@ -84,7 +84,9 @@ export const designTokens = {
       },
       status: {
         infoBg: fromPencil("#DBEAFE", "color-info-bg"),
-        infoBorder: fromPencil("#93C5FD", "color-info-border"),
+        infoBorder: fromPencil("#93C5FD", "color-info-border", {
+          cssVariable: "--info-border",
+        }),
         infoFg: fromPencil("#2563EB", "color-info-fg"),
         successBg: fromPencil("#DCFCE7", "color-success-bg"),
         successBorder: fromPencil("#86EFAC", "color-success-border"),

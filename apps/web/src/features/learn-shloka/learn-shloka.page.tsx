@@ -27,6 +27,13 @@ import {
 import { clearLearnShlokaAdviceAttempt } from "./learn-shloka-advice-history";
 
 type CompletionRecovery = "idle" | "checking" | "retry" | "unknown";
+type HelperPhase = "check" | "read" | "recall";
+
+type HelperState = {
+  fragmentIndex: number;
+  phase: HelperPhase;
+  shlokaCode: string;
+};
 
 const attemptTitleTypography = {
   "--typography-h1-size": "var(--component-learning-attempt-title-size)",
@@ -75,6 +82,7 @@ export function LearnShlokaPage({
   const [completionResult, setCompletionResult] =
     useState<ApiTypes.CompleteLearningDto>();
   const [verificationError, setVerificationError] = useState<unknown>();
+  const [helperState, setHelperState] = useState<HelperState>();
   const isMounted = useRef(true);
   useEffect(() => {
     isMounted.current = true;
@@ -238,6 +246,24 @@ export function LearnShlokaPage({
     return null;
   }
 
+  const activeHelperState =
+    helperState?.shlokaCode === shlokaCode ? helperState : undefined;
+
+  if (activeHelperState) {
+    return (
+      <LearnShlokaHelper
+        onChange={(nextState) => {
+          setHelperState({ ...nextState, shlokaCode });
+        }}
+        onReturn={() => {
+          setHelperState(undefined);
+        }}
+        padas={shlokaQuery.data.padas}
+        state={activeHelperState}
+      />
+    );
+  }
+
   const actionsDisabled =
     completeMutation.isPending || completionRecovery === "checking";
   const completionAction = getCompletionAction(
@@ -310,7 +336,14 @@ export function LearnShlokaPage({
 
           <Button
             className="h-[52px] w-full text-[15px] text-primary"
-            disabled
+            disabled={actionsDisabled}
+            onClick={() => {
+              setHelperState({
+                fragmentIndex: 0,
+                phase: "read",
+                shlokaCode,
+              });
+            }}
             type="button"
             variant="outline"
           >
@@ -338,6 +371,186 @@ export function LearnShlokaPage({
           type="button"
         >
           {completionAction}
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+function LearnShlokaHelper({
+  onChange,
+  onReturn,
+  padas,
+  state,
+}: {
+  onChange: (state: Pick<HelperState, "fragmentIndex" | "phase">) => void;
+  onReturn: () => void;
+  padas: string[];
+  state: HelperState;
+}) {
+  const fragments = [
+    {
+      label: strings.learnShloka.helperPada(1),
+      text: padas.slice(0, 1).join("\n"),
+    },
+    {
+      label: strings.learnShloka.helperPada(2),
+      text: padas.slice(1, 2).join("\n"),
+    },
+    {
+      label: strings.learnShloka.helperPadas(1, 2),
+      text: padas.slice(0, 2).join("\n"),
+    },
+    {
+      label: strings.learnShloka.helperPada(3),
+      text: padas.slice(2, 3).join("\n"),
+    },
+    {
+      label: strings.learnShloka.helperPada(4),
+      text: padas.slice(3, 4).join("\n"),
+    },
+    {
+      label: strings.learnShloka.helperPadas(3, 4),
+      text: padas.slice(2, 4).join("\n"),
+    },
+    { label: strings.learnShloka.helperWholeShloka, text: padas.join("\n") },
+  ] as const;
+  const fragment = fragments[state.fragmentIndex] ?? fragments[0];
+  const position = state.fragmentIndex + 1;
+  const isLastFragment = position === fragments.length;
+  const phaseLabel = {
+    check: strings.learnShloka.helperPhaseCheck,
+    read: strings.learnShloka.helperPhaseRead,
+    recall: strings.learnShloka.helperPhaseRecall,
+  }[state.phase];
+  const actionLabel =
+    state.phase === "read"
+      ? strings.learnShloka.helperHide
+      : state.phase === "recall"
+        ? strings.learnShloka.helperShow
+        : isLastFragment
+          ? strings.learnShloka.helperReturn
+          : strings.learnShloka.helperNext;
+
+  const advance = (): void => {
+    if (state.phase === "read") {
+      onChange({ fragmentIndex: state.fragmentIndex, phase: "recall" });
+      return;
+    }
+    if (state.phase === "recall") {
+      onChange({ fragmentIndex: state.fragmentIndex, phase: "check" });
+      return;
+    }
+    if (isLastFragment) {
+      onReturn();
+      return;
+    }
+
+    onChange({ fragmentIndex: state.fragmentIndex + 1, phase: "read" });
+  };
+
+  return (
+    <section
+      aria-labelledby="learn-shloka-helper-title"
+      className="flex h-dvh min-h-0 min-w-0 flex-none flex-col"
+    >
+      <header className="grid h-[52px] shrink-0 grid-cols-[100px_1fr_100px] items-center px-5">
+        <button
+          className="w-fit rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50"
+          onClick={onReturn}
+          type="button"
+        >
+          {strings.learnShloka.helperBack}
+        </button>
+        <Typography
+          as="h1"
+          className="text-center"
+          id="learn-shloka-helper-title"
+          variant="p2"
+          weight="bold"
+        >
+          {strings.learnShloka.helper}
+        </Typography>
+        <span aria-hidden="true" />
+      </header>
+
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col px-5 pb-[18px]">
+        <div className="flex h-[22px] shrink-0 items-center justify-between">
+          <Typography tone="muted" variant="p1" weight="bold">
+            {fragment.label}
+          </Typography>
+          <Typography tone="muted" variant="p1" weight="bold">
+            {position} / {fragments.length}
+          </Typography>
+        </div>
+
+        <div
+          aria-label={strings.learnShloka.helperProgress}
+          aria-valuemax={fragments.length}
+          aria-valuemin={1}
+          aria-valuenow={position}
+          aria-valuetext={`${fragment.label}, ${position} / ${fragments.length}`}
+          className="flex h-[5px] shrink-0 gap-[5px]"
+          role="progressbar"
+        >
+          {fragments.map((candidate, index) => (
+            <span
+              aria-hidden="true"
+              className={`h-[5px] min-w-0 flex-1 rounded-full ${
+                index < state.fragmentIndex
+                  ? "bg-primary"
+                  : index === state.fragmentIndex
+                    ? "bg-[var(--info-border)]"
+                    : "bg-border"
+              }`}
+              key={candidate.label}
+            />
+          ))}
+        </div>
+
+        <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+          <div className="flex min-h-full min-w-0 flex-col items-center justify-center gap-4 py-4 text-center">
+            <Typography
+              aria-live="polite"
+              className="tracking-[0.09em] uppercase"
+              role="status"
+              tone="brand"
+              variant="p1"
+              weight="bold"
+            >
+              {phaseLabel}
+            </Typography>
+            {state.phase === "recall" ? (
+              <Typography className="w-full" variant="p4" weight="bold">
+                {strings.learnShloka.helperMemoryPrompt}
+              </Typography>
+            ) : (
+              <SanskritTypography
+                aria-label={strings.learnShloka.helperCurrentFragment}
+                as="div"
+                className="w-full break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
+                style={attemptCanonicalTextTypography}
+                variant="p4"
+                weight="bold"
+              >
+                {fragment.text}
+              </SanskritTypography>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div
+        aria-label={strings.learnShloka.helperAction}
+        className="sticky bottom-0 mt-auto bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]"
+        role="group"
+      >
+        <Button
+          className="h-[52px] w-full text-[15px] font-medium"
+          onClick={advance}
+          type="button"
+        >
+          {actionLabel}
         </Button>
       </div>
     </section>
