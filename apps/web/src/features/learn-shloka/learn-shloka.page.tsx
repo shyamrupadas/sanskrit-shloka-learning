@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Check, Plus } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   ApiClientError,
   type ApiTypes,
@@ -14,7 +14,6 @@ import {
 import { strings } from "@/shared/i18n";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import {
-  learnShlokaReturnTo,
   routePaths,
   type LearnShlokaReturnTo,
   type LibraryTabRoute,
@@ -216,7 +215,9 @@ export function LearnShlokaPage({
   if (completionResult) {
     return (
       <CompletedLearning
+        completedShloka={completionResult.shloka}
         remainingLearningShlokas={completionResult.remainingLearningShlokas}
+        returnTo={returnTo}
       />
     );
   }
@@ -474,73 +475,109 @@ function LearnShlokaStatusGuard({ onReturn }: { onReturn: () => void }) {
 }
 
 function CompletedLearning({
+  completedShloka,
   remainingLearningShlokas,
+  returnTo,
 }: {
+  completedShloka: ApiTypes.LibraryShlokaDto;
   remainingLearningShlokas: ApiTypes.LibraryShlokaDto[];
+  returnTo: LearnShlokaReturnTo;
 }) {
   const navigate = useNavigate();
+  const nextShloka = remainingLearningShlokas[0];
 
   return (
-    <section className="flex min-h-dvh min-w-0 flex-1 flex-col px-5 py-6">
-      <div className="flex size-14 items-center justify-center rounded-full bg-green-100 text-green-700">
-        <Check aria-hidden="true" className="size-6.5" />
-      </div>
-      <Typography
-        className="mt-4 break-words [overflow-wrap:anywhere]"
-        variant="h1"
-      >
-        {strings.learnShloka.completedTitle}
-      </Typography>
+    <section className="flex min-h-dvh min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col justify-between px-5 pt-[34px] pb-5">
+        <div className="min-w-0 space-y-6">
+          <div className="flex size-[60px] items-center justify-center rounded-full bg-green-100 text-green-700">
+            <Check aria-hidden="true" className="size-7" />
+          </div>
 
-      <div className="mt-auto space-y-2.5 pt-6">
+          <div className="space-y-2.5">
+            <Typography
+              as="p"
+              className="tracking-[0.09em] uppercase"
+              tone="brand"
+              variant="p1"
+              weight="bold"
+            >
+              {strings.learnShloka.completedEyebrow}
+            </Typography>
+            <Typography
+              className="break-words [overflow-wrap:anywhere]"
+              style={attemptStateTitleTypography}
+              variant="h1"
+            >
+              {strings.learnShloka.completedTitle}
+            </Typography>
+            <Typography tone="muted" variant="p2">
+              {strings.learnShloka.completedDescription(
+                completedShloka.displayTitle,
+              )}
+            </Typography>
+          </div>
+
+          <div className="space-y-2.5 border-t border-border pt-[18px]">
+            <Typography variant="p3" weight="bold">
+              {strings.learnShloka.continueTitle}
+            </Typography>
+            {nextShloka ? (
+              <Button
+                className="h-[52px] w-full text-[15px] font-medium text-primary"
+                onClick={() => {
+                  void navigate({
+                    params: { shlokaCode: nextShloka.code },
+                    replace: true,
+                    search: { returnTo },
+                    to: routePaths.learnShloka,
+                  });
+                }}
+                type="button"
+                variant="outline"
+              >
+                {strings.learnShloka.learnNext}
+              </Button>
+            ) : (
+              <Typography tone="muted" variant="p2">
+                {strings.learnShloka.noNextShloka}
+              </Typography>
+            )}
+            <Button
+              className={
+                nextShloka
+                  ? "h-10 w-full text-[14px] font-bold text-primary"
+                  : "h-[52px] w-full text-[15px] font-medium text-primary"
+              }
+              onClick={() => {
+                void navigate({
+                  replace: true,
+                  search: { tab: "all" },
+                  to: routePaths.library,
+                });
+              }}
+              type="button"
+              variant={nextShloka ? "ghost" : "outline"}
+            >
+              {strings.learnShloka.chooseAnother}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="sticky bottom-0 mt-auto bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]">
         <Button
-          className="h-11 w-full text-[15px] font-semibold"
+          className="h-[52px] w-full text-[16px] font-bold"
           onClick={() => {
-            void navigate({ to: routePaths.dashboard });
+            void navigateToReturnTo(navigate, returnTo);
           }}
           type="button"
         >
-          {strings.learnShloka.toDashboard}
-        </Button>
-        <Button
-          className="h-11 w-full text-[15px] font-semibold text-primary"
-          onClick={() => {
-            void navigateToMoreLearning(navigate, remainingLearningShlokas);
-          }}
-          type="button"
-          variant="outline"
-        >
-          <Plus aria-hidden="true" />
-          {strings.learnShloka.learnMore}
+          {strings.learnShloka.finish}
         </Button>
       </div>
     </section>
   );
-}
-
-async function navigateToMoreLearning(
-  navigate: ReturnType<typeof useNavigate>,
-  remainingLearningShlokas: ApiTypes.LibraryShlokaDto[],
-): Promise<void> {
-  if (remainingLearningShlokas.length > 1) {
-    await navigate({
-      search: { tab: "learning" },
-      to: routePaths.library,
-    });
-    return;
-  }
-
-  const remainingShloka = remainingLearningShlokas[0];
-  if (remainingShloka) {
-    await navigate({
-      params: { shlokaCode: remainingShloka.code },
-      search: { returnTo: learnShlokaReturnTo.dashboard },
-      to: routePaths.learnShloka,
-    });
-    return;
-  }
-
-  await navigate({ search: { tab: "all" }, to: routePaths.library });
 }
 
 async function navigateToReturnTo(

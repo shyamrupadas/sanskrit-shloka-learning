@@ -734,8 +734,11 @@ describe("app learn shloka flow", () => {
       `GET ${learningItemPath}`,
       `GET ${libraryPath}`,
     ]);
-    await user.click(screen.getByRole("button", { name: "Выучить еще" }));
+    await user.click(screen.getByRole("button", { name: "Учить следующую" }));
     await expectPath("/library/shlokas/gita-4-7/learn");
+    expect(new URLSearchParams(window.location.search).get("returnTo")).toBe(
+      routePaths.dashboard,
+    );
   });
 
   it("keeps recovery read-only when the authoritative library refresh fails", async () => {
@@ -984,7 +987,7 @@ describe("app learn shloka flow", () => {
     ]);
   });
 
-  it("completes learning and offers the dashboard action", async () => {
+  it("keeps the confirmed success visible and finishes in the original dashboard", async () => {
     const user = userEvent.setup();
     const completionRequests: MockApiRequest[] = [];
     let completedLearning = false;
@@ -1006,7 +1009,10 @@ describe("app learn shloka flow", () => {
         completedLearning = true;
       }
 
-      return learningApi(request, { remainingLearningShlokas: [] });
+      return learningApi(request, {
+        dashboardLearningShlokas: [learningShloka],
+        remainingLearningShlokas: [],
+      });
     });
     storeTestSession(session);
     renderAppAt(routePaths.dashboard);
@@ -1016,14 +1022,11 @@ describe("app learn shloka flow", () => {
         name: "Открыть страницу серии дней: 0 дней подряд",
       }),
     ).toBeInTheDocument();
-    await user.click(screen.getByRole("link", { name: "Библиотека" }));
     await user.click(
-      await screen.findByRole("tab", { name: "Буду учить" }),
+      await screen.findByRole("link", {
+        name: `Учить ${learningShloka.displayTitle}`,
+      }),
     );
-    const learningCard = await screen.findByRole("article", {
-      name: learningShloka.displayTitle,
-    });
-    await user.click(within(learningCard).getByRole("button", { name: "Учить" }));
 
     await user.click(
       await screen.findByRole("button", { name: "Выучил" }),
@@ -1040,12 +1043,23 @@ describe("app learn shloka flow", () => {
       timeZone: expect.any(String),
     });
     expect(
-      screen.getByRole("button", { name: "Выучить еще" }),
+      screen.getByText(
+        `${learningShloka.displayTitle} теперь появится в расписании повторений.`,
+      ),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Учить следующую" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Выбрать другую" }),
+    ).toBeInTheDocument();
+    await expectPath("/library/shlokas/gita-1-1/learn");
 
-    await user.click(screen.getByRole("button", { name: "На дашборд" }));
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Закончить" }));
 
     await expectPath(routePaths.dashboard);
+    expect(window.history.length).toBe(historyLength);
     expect(await screen.findByRole("navigation")).toBeInTheDocument();
     const streakLink = screen.getByRole("link", {
       name: "Открыть страницу серии дней: 1 день подряд",
@@ -1065,26 +1079,206 @@ describe("app learn shloka flow", () => {
     ).toBeInTheDocument();
   });
 
+  it("refetches the library boundary before finishing in the original tab", async () => {
+    const user = userEvent.setup();
+    const requests: MockApiRequest[] = [];
+    let completedLearning = false;
+    mockApi((request) => {
+      requests.push(request);
+      if (request.method === "GET" && request.path === libraryPath) {
+        return {
+          status: 200,
+          body: library([
+            {
+              ...learningShloka,
+              personalStatus: completedLearning ? "reviewing" : "learning",
+            },
+          ]),
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        completedLearning = true;
+      }
+
+      return learningApi(request, { remainingLearningShlokas: [] });
+    });
+    storeTestSession(session);
+    renderAppAt(routePaths.library);
+
+    await user.click(
+      await screen.findByRole("tab", { name: "Буду учить" }),
+    );
+    const learningCard = await screen.findByRole("article", {
+      name: learningShloka.displayTitle,
+    });
+    await user.click(
+      within(learningCard).getByRole("button", { name: "Учить" }),
+    );
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Закончить" }));
+
+    await expectPath(routePaths.library);
+    expect(window.location.search).toBe("?tab=learning");
+    expect(
+      requests.filter(
+        ({ method, path }) => method === "GET" && path === libraryPath,
+      ),
+    ).toHaveLength(2);
+    expect(
+      await screen.findByText("Пока нет шлок для заучивания"),
+    ).toBeInTheDocument();
+  });
+
+  it("starts the next shloka without temporary state from an ambiguous completion", async () => {
+    const user = userEvent.setup();
+    let firstItemGetCount = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === learningItemPath) {
+        firstItemGetCount += 1;
+        return {
+          status: 200,
+          body:
+            firstItemGetCount === 1
+              ? learningShloka
+              : { ...learningShloka, personalStatus: "reviewing" },
+        };
+      }
+      if (request.method === "POST" && request.path === completeLearningPath) {
+        throw new TypeError("Connection lost after sending request");
+      }
+
+      return learningApi(request, {
+        libraryShlokas: [secondLearningShloka],
+      });
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    const dialog = await screen.findByRole("dialog", { name: "Совет" });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Другой совет" }),
+    );
+    await user.click(
+      within(dialog).getByRole("button", { name: "Закрыть совет" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Выучил" }));
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Учить следующую" }));
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: secondLearningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", {
+        level: 1,
+        name: "Шлока добавлена в повторение",
+      }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Выучил" })).toBeEnabled();
+
+    await user.click(screen.getByRole("button", { name: "Совет" }));
+    const freshDialog = await screen.findByRole("dialog", { name: "Совет" });
+    expect(
+      within(freshDialog).getByText(strings.learning.tips[0]!.text),
+    ).toBeInTheDocument();
+    expect(within(freshDialog).getByText("Совет 1 из 3")).toBeInTheDocument();
+  });
+
   it.each([
     {
-      expectedPath: routePaths.library,
-      expectedTab: "learning",
-      label: "opens the to-learn selection when several shlokas remain",
+      label: "several shlokas remain",
       remaining: [secondLearningShloka, thirdLearningShloka],
     },
     {
-      expectedPath: "/library/shlokas/gita-4-7/learn",
-      expectedTitle: secondLearningShloka.displayTitle,
-      label: "opens the only remaining shloka directly",
+      label: "one shloka remains",
       remaining: [secondLearningShloka],
     },
+  ])("starts the first current shloka when $label", async ({ remaining }) => {
+    const user = userEvent.setup();
+    mockApi((request) =>
+      learningApi(request, {
+        libraryShlokas: remaining,
+        remainingLearningShlokas: remaining,
+      }),
+    );
+    storeTestSession(session);
+    const returnTo = "/library?tab=reviewing";
+    renderAppAt(
+      `/library/shlokas/gita-1-1/learn?${new URLSearchParams({ returnTo }).toString()}`,
+    );
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Учить следующую" }));
+
+    await expectPath("/library/shlokas/gita-4-7/learn");
+    expect(new URLSearchParams(window.location.search).get("returnTo")).toBe(
+      returnTo,
+    );
+    expect(window.history.length).toBe(historyLength);
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: secondLearningShloka.displayTitle,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+  });
+
+  it("omits the next action when no current learning shloka remains", async () => {
+    const user = userEvent.setup();
+    mockApi((request) =>
+      learningApi(request, {
+        libraryShlokas: [],
+        remainingLearningShlokas: [],
+      }),
+    );
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+
+    await user.click(
+      await screen.findByRole("button", { name: "Выучил" }),
+    );
+
+    expect(
+      screen.queryByRole("button", { name: "Учить следующую" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "В списке «Буду учить» больше нет шлок. Можно выбрать другую самостоятельно.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Выбрать другую" }),
+    ).toBeInTheDocument();
+  });
+
+  it.each([
     {
-      expectedPath: routePaths.library,
-      expectedTab: "all",
-      label: "opens all shlokas when none remain",
-      remaining: [],
+      label: "several shlokas remain",
+      remaining: [secondLearningShloka, thirdLearningShloka],
     },
-  ])("$label", async ({ expectedPath, expectedTab, expectedTitle, remaining }) => {
+    {
+      label: "one shloka remains",
+      remaining: [secondLearningShloka],
+    },
+    { label: "no shloka remains", remaining: [] },
+  ])("opens independent selection when $label", async ({ remaining }) => {
     const user = userEvent.setup();
     mockApi((request) =>
       learningApi(request, {
@@ -1098,28 +1292,15 @@ describe("app learn shloka flow", () => {
     await user.click(
       await screen.findByRole("button", { name: "Выучил" }),
     );
-    await user.click(
-      await screen.findByRole("button", { name: "Выучить еще" }),
-    );
+    const historyLength = window.history.length;
+    await user.click(screen.getByRole("button", { name: "Выбрать другую" }));
 
-    await expectPath(expectedPath);
-    if (expectedTab) {
-      expect(window.location.search).toBe(`?tab=${expectedTab}`);
-      expect(
-        await screen.findByRole("tab", {
-          name: expectedTab === "learning" ? "Буду учить" : "Все",
-        }),
-      ).toHaveAttribute("aria-selected", "true");
-    }
-    if (expectedTitle) {
-      expect(
-        await screen.findByRole("heading", {
-          level: 1,
-          name: expectedTitle,
-        }),
-      ).toBeInTheDocument();
-      expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
-    }
+    await expectPath(routePaths.library);
+    expect(window.location.search).toBe("?tab=all");
+    expect(window.history.length).toBe(historyLength);
+    expect(
+      await screen.findByRole("tab", { name: "Все" }),
+    ).toHaveAttribute("aria-selected", "true");
   });
 });
 

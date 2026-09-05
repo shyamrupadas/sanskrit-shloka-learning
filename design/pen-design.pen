@@ -12242,34 +12242,21 @@
                       "fontWeight": "700"
                     },
                     {
-                      "id": "ZtKiI",
+                      "id": "Tr820",
                       "type": "ref",
                       "ref": "B9n47J",
                       "name": "Учить следующую",
                       "width": "fill_container",
                       "height": 52,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
+                      "descendants": {
+                        "nALai": {
+                          "enabled": false
                         },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
+                        "VZsCN": {
                           "content": "Учить следующую",
                           "fontSize": 15
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",
@@ -12326,22 +12313,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "SEY5V",
+              "id": "TNIh8",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Закончить",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Закончить",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }
