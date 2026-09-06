@@ -11960,15 +11960,28 @@
                   "name": "Помощник",
                   "width": "fill_container",
                   "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "children": [
+                    {
+                      "id": "nALai",
+                      "type": "ref",
+                      "ref": "nALai",
+                      "enabled": false,
+                      "children": [
+                        {
+                          "id": "aJi23",
+                          "type": "ref",
+                          "ref": "nALai/aJi23"
+                        }
+                      ]
                     },
-                    "VZsCN": {
+                    {
+                      "id": "VZsCN",
+                      "type": "ref",
+                      "ref": "VZsCN",
                       "content": "Помощник",
                       "fontSize": 15
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -12008,13 +12021,16 @@
               "name": "Выучил",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -12232,15 +12248,28 @@
                       "name": "Учить следующую",
                       "width": "fill_container",
                       "height": 52,
-                      "descendants": {
-                        "nALai": {
-                          "enabled": false
+                      "children": [
+                        {
+                          "id": "nALai",
+                          "type": "ref",
+                          "ref": "nALai",
+                          "enabled": false,
+                          "children": [
+                            {
+                              "id": "aJi23",
+                              "type": "ref",
+                              "ref": "nALai/aJi23"
+                            }
+                          ]
                         },
-                        "VZsCN": {
+                        {
+                          "id": "VZsCN",
+                          "type": "ref",
+                          "ref": "VZsCN",
                           "content": "Учить следующую",
                           "fontSize": 15
                         }
-                      }
+                      ]
                     },
                     {
                       "type": "frame",
@@ -12303,13 +12332,16 @@
               "name": "Закончить",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Закончить",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -16992,13 +17024,16 @@
               "name": "Скрыть и повторить",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Скрыть и повторить",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -17332,13 +17367,16 @@
               "name": "Показать и свериться",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Показать и свериться",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -17672,13 +17710,16 @@
               "name": "Следующий фрагмент",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Следующий фрагмент",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -18012,13 +18053,16 @@
               "name": "Вернуться к шлоке",
               "width": "fill_container",
               "height": 52,
-              "descendants": {
-                "aUMci": {
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
                   "content": "Вернуться к шлоке",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              }
+              ]
             }
           ]
         }
@@ -18469,16 +18513,29 @@
                       "fill": "$button-secondary-bg",
                       "stroke": "$color-border",
                       "opacity": 1,
-                      "descendants": {
-                        "nALai": {
-                          "enabled": false
+                      "children": [
+                        {
+                          "id": "nALai",
+                          "type": "ref",
+                          "ref": "nALai",
+                          "enabled": false,
+                          "children": [
+                            {
+                              "id": "aJi23",
+                              "type": "ref",
+                              "ref": "nALai/aJi23"
+                            }
+                          ]
                         },
-                        "VZsCN": {
+                        {
+                          "id": "VZsCN",
+                          "type": "ref",
+                          "ref": "VZsCN",
                           "content": "Другой совет",
                           "fontSize": 15,
                           "fill": "$button-secondary-fg"
                         }
-                      }
+                      ]
                     },
                     {
                       "type": "frame",
@@ -18942,16 +18999,29 @@
                       "fill": "$color-disabled-bg",
                       "stroke": "$color-border",
                       "opacity": 0.7,
-                      "descendants": {
-                        "nALai": {
-                          "enabled": false
+                      "children": [
+                        {
+                          "id": "nALai",
+                          "type": "ref",
+                          "ref": "nALai",
+                          "enabled": false,
+                          "children": [
+                            {
+                              "id": "aJi23",
+                              "type": "ref",
+                              "ref": "nALai/aJi23"
+                            }
+                          ]
                         },
-                        "VZsCN": {
+                        {
+                          "id": "VZsCN",
+                          "type": "ref",
+                          "ref": "VZsCN",
                           "content": "Других советов нет",
                           "fontSize": 15,
                           "fill": "$color-disabled-fg"
                         }
-                      }
+                      ]
                     },
                     {
                       "type": "frame",

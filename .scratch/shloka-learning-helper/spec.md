@@ -1,6 +1,7 @@
 # Помощник заучивания
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-09-06
 
 ## Problem Statement
 

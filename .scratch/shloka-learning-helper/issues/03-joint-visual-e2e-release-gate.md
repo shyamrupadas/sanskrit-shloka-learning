@@ -4,15 +4,16 @@
 
 **Blocked by:** 02 — Линейный проход Помощника внутри попытки
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
+Accepted: 2026-09-06
 
-- [ ] Перед проверкой приняты все четыре билета базового флоу и билет `02` Помощника; действие `Помощник` доступно и работоспособно, а частичный hidden, disabled или no-op rollout отсутствует.
-- [ ] Сохранённые pen.dev states перечитаны через установленный read-only workflow, а screenshots приложения и Pen сопоставлены при одинаковом viewport 390×844 и одинаковых состояниях по композиции, размерам, spacing, typography, colors, controls и state semantics.
-- [ ] Visual review охватывает все 16 references обеих спецификаций и не обнаруживает clipping/overlap; длинные шлока и пады сохраняют scroll, читаемость и достижимость `Bottom Action Dock` без изменения иерархии или набора действий.
-- [ ] Совместный целевой Playwright E2E проходит базовую попытку, вход в Помощник, досрочный или финальный возврат и последующий `Выучил`, проверяя отсутствие mutation-команд внутри Помощника и рабочую границу входа/возврата.
-- [ ] Browser-history E2E защищает нативный Back со страницы всех советов, replace после `Отмена` и `Закончить`, перенос исходного `returnTo` через `Учить следующую` и невозможность вернуть завершённую попытку ближайшим Back/Forward.
-- [ ] Генерация и тесты API-контракта, целевые API tests, lint, web и API typecheck, web unit/integration tests, web build и совместный Playwright E2E проходят.
-- [ ] Финальный отчёт перечисляет проверенные pen.dev references, evidence приложения, категории visual review, все одобренные exceptions и того, кто закрыл visual review; при недоступном evidence gate остаётся открытым до явной ручной проверки владельца.
+- [x] Перед проверкой приняты все четыре билета базового флоу и билет `02` Помощника; действие `Помощник` доступно и работоспособно, а частичный hidden, disabled или no-op rollout отсутствует.
+- [x] Сохранённые pen.dev states перечитаны через установленный read-only workflow, а screenshots приложения и Pen сопоставлены при одинаковом viewport 390×844 и одинаковых состояниях по композиции, размерам, spacing, typography, colors, controls и state semantics.
+- [x] Visual review охватывает все 16 references обеих спецификаций и не обнаруживает clipping/overlap; длинные шлока и пады сохраняют scroll, читаемость и достижимость `Bottom Action Dock` без изменения иерархии или набора действий.
+- [x] Совместный целевой Playwright E2E проходит базовую попытку, вход в Помощник, досрочный или финальный возврат и последующий `Выучил`, проверяя отсутствие mutation-команд внутри Помощника и рабочую границу входа/возврата.
+- [x] Browser-history E2E защищает нативный Back со страницы всех советов, replace после `Отмена` и `Закончить`, перенос исходного `returnTo` через `Учить следующую` и невозможность вернуть завершённую попытку ближайшим Back/Forward.
+- [x] Генерация и тесты API-контракта, целевые API tests, lint, web и API typecheck, web unit/integration tests, web build и совместный Playwright E2E проходят.
+- [x] Финальный отчёт перечисляет проверенные pen.dev references, evidence приложения, категории visual review, все одобренные exceptions и того, кто закрыл visual review; при недоступном evidence gate остаётся открытым до явной ручной проверки владельца.
 
 ## pen.dev references
 
@@ -33,10 +34,10 @@
 - `Помощник — свериться` (`AU1bg`)
 - `Помощник — вся шлока` (`jejdI`)
 
-## Предварительный отчёт
+## Финальный отчёт
 
-- Saved Pen evidence: 2026-09-06 все 16 references выше перечитаны через `.agents/skills/pen-ui-contract/scripts/read-only-pen.sh` с актуальной schema, `resolveVariables: true` и `resolveInstances: true`. Проверка layout не выявила `partially clipped` или `fully clipped`; `UWOdl` подтверждает scroll-контракт длинной шлоки для viewport 390×844.
+- Saved Pen evidence: 2026-09-06 после приёмки зависимостей все 16 references выше повторно перечитаны через `.agents/skills/pen-ui-contract/scripts/read-only-pen.sh` с актуальной schema, `resolveVariables: true` и `resolveInstances: true`. Проверка layout не выявила `partially clipped` или `fully clipped`; `UWOdl` подтверждает scroll-контракт длинной шлоки для viewport 390×844.
 - Application evidence: владелец продукта 2026-09-06 подтвердил ручную проверку всех состояний при viewport 390×844. Playwright в Chromium дополнительно прошёл базовую попытку, ранний и финальный возврат из Помощника, последующий `Выучил`, переход на все советы и Back, `Отмена`, `Учить следующую`, `Закончить` и ближайшие Back/Forward.
 - Visual review categories: композиция, размеры, spacing, typography, colors, controls, state semantics, clipping/overlap, scroll/overflow и достижимость `Bottom Action Dock`.
 - Одобренные exceptions: отсутствуют.
-- Visual review подтверждён владельцем продукта, а технические проверки предварительно выполнены агентом. Release gate остаётся открытым: сначала нужна отдельная приёмка билета базового флоу `04`, затем проверки должны быть повторены на принятом состоянии.
+- Visual review закрыт владельцем продукта; технический release gate повторно закрыт агентом после приёмки всех зависимостей.
