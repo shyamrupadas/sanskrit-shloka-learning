@@ -130,6 +130,8 @@ body {
   --component-learning-attempt-recovery-banner-text-size: 13px;
   --component-learning-attempt-title-line-height: 1.18;
   --component-learning-attempt-title-size: 28px;
+  --component-learning-helper-memory-prompt-line-height: 1.18;
+  --component-learning-helper-memory-prompt-size: 25px;
   --component-page-header-action-size: 40px;
   --component-page-header-height: 44px;
   --component-page-header-icon-size: 22px;

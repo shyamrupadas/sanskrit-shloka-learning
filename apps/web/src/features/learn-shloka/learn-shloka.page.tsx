@@ -60,6 +60,13 @@ const attemptRecoveryBannerTypography = {
     "var(--component-learning-attempt-recovery-banner-text-size)",
 } as CSSProperties;
 
+const helperMemoryPromptTypography = {
+  "--typography-h1-size":
+    "var(--component-learning-helper-memory-prompt-size)",
+  "--typography-heading-line-height":
+    "var(--component-learning-helper-memory-prompt-line-height)",
+} as CSSProperties;
+
 const disabledCompletionAction = {
   backgroundColor: "var(--disabled-background)",
   color: "var(--disabled-foreground)",
@@ -354,11 +361,7 @@ export function LearnShlokaPage({
 
       <div className="sticky bottom-0 mt-auto bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]">
         <Button
-          className={
-            completeMutation.isPending || completionRecovery !== "idle"
-              ? "h-[52px] w-full text-[16px] font-bold"
-              : "h-[52px] w-full text-[15px] font-medium"
-          }
+          className="h-[52px] w-full text-[16px] font-bold"
           disabled={actionsDisabled}
           onClick={
             completionRecovery === "unknown"
@@ -521,9 +524,14 @@ function LearnShlokaHelper({
               {phaseLabel}
             </Typography>
             {state.phase === "recall" ? (
-              <Typography className="w-full" variant="p4" weight="bold">
+              <SanskritTypography
+                as="p"
+                className="w-full"
+                style={helperMemoryPromptTypography}
+                variant="h1"
+              >
                 {strings.learnShloka.helperMemoryPrompt}
-              </Typography>
+              </SanskritTypography>
             ) : (
               <SanskritTypography
                 aria-label={strings.learnShloka.helperCurrentFragment}
@@ -546,7 +554,7 @@ function LearnShlokaHelper({
         role="group"
       >
         <Button
-          className="h-[52px] w-full text-[15px] font-medium"
+          className="h-[52px] w-full text-[16px] font-bold"
           onClick={advance}
           type="button"
         >

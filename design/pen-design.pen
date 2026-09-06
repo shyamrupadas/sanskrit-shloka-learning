@@ -11954,34 +11954,21 @@
                   "fontWeight": "700"
                 },
                 {
-                  "id": "p23vuS",
+                  "id": "n4ZrmX",
                   "type": "ref",
                   "ref": "B9n47J",
                   "name": "Помощник",
                   "width": "fill_container",
                   "height": 52,
-                  "children": [
-                    {
-                      "id": "nALai",
-                      "type": "ref",
-                      "ref": "nALai",
-                      "enabled": false,
-                      "children": [
-                        {
-                          "id": "aJi23",
-                          "type": "ref",
-                          "ref": "nALai/aJi23"
-                        }
-                      ]
+                  "descendants": {
+                    "nALai": {
+                      "enabled": false
                     },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
+                    "VZsCN": {
                       "content": "Помощник",
                       "fontSize": 15
                     }
-                  ]
+                  }
                 }
               ]
             }
@@ -12015,22 +12002,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "YxIIX",
+              "id": "hZ6sn",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Выучил",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }
@@ -17002,22 +16986,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "nEDRK",
+              "id": "GqFfR",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Скрыть и повторить",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Скрыть и повторить",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }
@@ -17345,22 +17326,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "o0bzI0",
+              "id": "o6BXP9",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Показать и свериться",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Показать и свериться",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }
@@ -17688,22 +17666,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "iflI0",
+              "id": "TXy9e",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Следующий фрагмент",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Следующий фрагмент",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }
@@ -18031,22 +18006,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "A9FxLj",
+              "id": "Iq173",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Вернуться к шлоке",
               "width": "fill_container",
               "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
+              "descendants": {
+                "aUMci": {
                   "content": "Вернуться к шлоке",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
-              ]
+              }
             }
           ]
         }

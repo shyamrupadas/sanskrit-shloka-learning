@@ -678,6 +678,27 @@ export const designTokens = {
         },
       ),
     },
+    learningHelper: {
+      memoryPromptLineHeight: fromSource(
+        1.18,
+        "component-learning-helper-memory-prompt-line-height",
+        "Memory prompt line height measured from Помощник — воспроизвести (ZmCht/i63n7); Pencil has no named component variable for this value.",
+        {
+          cssValue: "1.18",
+          cssVariable:
+            "--component-learning-helper-memory-prompt-line-height",
+        },
+      ),
+      memoryPromptSize: fromSource(
+        25,
+        "component-learning-helper-memory-prompt-size",
+        "Memory prompt size measured from Помощник — воспроизвести (ZmCht/i63n7); Pencil has no named component variable for this value.",
+        {
+          cssValue: px(25),
+          cssVariable: "--component-learning-helper-memory-prompt-size",
+        },
+      ),
+    },
     pageHeader: {
       actionSize: fromSource(
         40,

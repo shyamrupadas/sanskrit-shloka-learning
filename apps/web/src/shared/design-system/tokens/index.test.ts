@@ -75,6 +75,7 @@ describe("design token contract", () => {
       "input",
       "learningAdvice",
       "learningAttempt",
+      "learningHelper",
       "pageHeader",
       "settingsRow",
       "streakIndicator",
@@ -182,6 +183,10 @@ describe("design token contract", () => {
       textLineHeight: { value: 1.58 },
       textSize: { value: 18 },
       titleSize: { value: 22 },
+    });
+    expect(designTokens.components.learningHelper).toMatchObject({
+      memoryPromptLineHeight: { value: 1.18 },
+      memoryPromptSize: { value: 25 },
     });
 
     const legacyPencilSources = new Set([
