@@ -4,26 +4,44 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 const accessTokenStorageKey = "sanskrit-shloka-learning.access-token";
 const accountStorageKey = "sanskrit-shloka-learning.account";
 
+type ObservedRequest = { method: string; pathname: string };
+
+const firstShlokaPadas = [
+  "первая строка",
+  "вторая строка",
+  "третья строка",
+  "четвертая строка",
+];
 const firstShloka = shloka({
   code: "gita-1-1",
   displayTitle: "Бхагавад-гита 1.1",
+  text: firstShlokaPadas.join("\n"),
 });
+const secondShlokaPadas = [
+  "первая пада второй шлоки",
+  "вторая пада второй шлоки",
+  "третья пада второй шлоки",
+  "четвертая пада второй шлоки",
+];
 const secondShloka = shloka({
   code: "gita-4-7",
   displayTitle: "Бхагавад-гита 4.7",
+  text: secondShlokaPadas.join("\n"),
 });
 
 test("replaces completed attempts while preserving the original return route", async ({
   page,
 }) => {
-  await storeSession(page);
-  await mockLearningApi(page);
-  await page.goto("/library?tab=learning");
+  await openFirstLearningAttempt(page);
 
-  const firstCard = page.getByRole("article", {
-    name: firstShloka.displayTitle,
-  });
-  await firstCard.getByRole("button", { name: "Учить" }).click();
+  await page.getByRole("button", { name: "Совет" }).click();
+  await page
+    .getByRole("dialog", { name: "Совет" })
+    .getByRole("link", { name: "Все советы" })
+    .click();
+  await expect(page).toHaveURL(/\/learning$/);
+  await expect(page.getByRole("heading", { name: "Советы" })).toBeVisible();
+  await page.goBack();
   await expectLearnRoute(page, firstShloka.code);
 
   await page.getByRole("button", { name: "Выучил" }).click();
@@ -72,6 +90,81 @@ test("replaces completed attempts while preserving the original return route", a
   ).toHaveCount(0);
 });
 
+test("keeps the helper non-mutating before the learner completes the attempt", async ({
+  page,
+}) => {
+  const requests: ObservedRequest[] = [];
+  await openFirstLearningAttempt(page, requests);
+
+  await page.getByRole("button", { name: "Помощник" }).click();
+  await expect(page.getByRole("heading", { name: "Помощник" })).toBeVisible();
+  await page.getByRole("button", { name: "Скрыть и повторить" }).click();
+  await expect(page.getByText("Произнесите по памяти")).toBeVisible();
+  await page.getByRole("button", { name: "К шлоке" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: firstShloka.displayTitle }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Помощник" }).click();
+  await expect(page.getByText("Пада 1")).toBeVisible();
+  await expect(page.getByText("1 / 7")).toBeVisible();
+
+  for (let fragmentIndex = 0; fragmentIndex < 7; fragmentIndex += 1) {
+    await page.getByRole("button", { name: "Скрыть и повторить" }).click();
+    await page.getByRole("button", { name: "Показать и свериться" }).click();
+    await page
+      .getByRole("button", {
+        name:
+          fragmentIndex === 6
+            ? "Вернуться к шлоке"
+            : "Следующий фрагмент",
+      })
+      .click();
+  }
+
+  await expect(
+    page.getByRole("heading", { name: firstShloka.displayTitle }),
+  ).toBeVisible();
+  expect(requests.every(({ method }) => method === "GET")).toBe(true);
+
+  await page.getByRole("button", { name: "Выучил" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Шлока добавлена в повторение" }),
+  ).toBeVisible();
+  expect(
+    requests.filter(
+      ({ method, pathname }) =>
+        method === "POST" &&
+        pathname === `/api/library/items/${firstShloka.code}/complete-learning`,
+    ),
+  ).toHaveLength(1);
+});
+
+test("replaces a cancelled attempt in browser history", async ({ page }) => {
+  await openFirstLearningAttempt(page);
+  await page.getByRole("button", { name: "Отмена" }).click();
+
+  await expect(page).toHaveURL(/\/library\?tab=learning$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/library\?tab=learning$/);
+  await page.goForward();
+  await expect(page).toHaveURL(/\/library\?tab=learning$/);
+});
+
+async function openFirstLearningAttempt(
+  page: Page,
+  requests: ObservedRequest[] = [],
+): Promise<void> {
+  await storeSession(page);
+  await mockLearningApi(page, requests);
+  await page.goto("/library?tab=learning");
+  await page
+    .getByRole("article", { name: firstShloka.displayTitle })
+    .getByRole("button", { name: "Учить" })
+    .click();
+  await expectLearnRoute(page, firstShloka.code);
+}
+
 async function expectLearnRoute(page: Page, shlokaCode: string): Promise<void> {
   await expect(page).toHaveURL(
     new RegExp(`/library/shlokas/${shlokaCode}/learn\\?`),
@@ -104,7 +197,10 @@ async function storeSession(page: Page): Promise<void> {
   );
 }
 
-async function mockLearningApi(page: Page): Promise<void> {
+async function mockLearningApi(
+  page: Page,
+  requests: ObservedRequest[] = [],
+): Promise<void> {
   const statuses = new Map<string, ApiTypes.LibraryShlokaDto["personalStatus"]>([
     [firstShloka.code, "learning"],
     [secondShloka.code, "learning"],
@@ -114,6 +210,7 @@ async function mockLearningApi(page: Page): Promise<void> {
     const request = route.request();
     const url = new URL(request.url());
     const method = request.method();
+    requests.push({ method, pathname: url.pathname });
 
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(
@@ -134,8 +231,12 @@ async function mockLearningApi(page: Page): Promise<void> {
       const item = findShloka(decodeURIComponent(itemMatch[1] ?? ""));
       await fulfillJson(route, 200, {
         ...item,
+        padas:
+          item.code === firstShloka.code
+            ? firstShlokaPadas
+            : secondShlokaPadas,
         personalStatus: statuses.get(item.code) ?? "available",
-      });
+      } satisfies ApiTypes.LibraryShlokaDetailsDto);
       return;
     }
 

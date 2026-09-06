@@ -32,3 +32,11 @@
 - `Помощник — воспроизвести` (`ZmCht`)
 - `Помощник — свериться` (`AU1bg`)
 - `Помощник — вся шлока` (`jejdI`)
+
+## Предварительный отчёт
+
+- Saved Pen evidence: 2026-09-06 все 16 references выше перечитаны через `.agents/skills/pen-ui-contract/scripts/read-only-pen.sh` с актуальной schema, `resolveVariables: true` и `resolveInstances: true`. Проверка layout не выявила `partially clipped` или `fully clipped`; `UWOdl` подтверждает scroll-контракт длинной шлоки для viewport 390×844.
+- Application evidence: владелец продукта 2026-09-06 подтвердил ручную проверку всех состояний при viewport 390×844. Playwright в Chromium дополнительно прошёл базовую попытку, ранний и финальный возврат из Помощника, последующий `Выучил`, переход на все советы и Back, `Отмена`, `Учить следующую`, `Закончить` и ближайшие Back/Forward.
+- Visual review categories: композиция, размеры, spacing, typography, colors, controls, state semantics, clipping/overlap, scroll/overflow и достижимость `Bottom Action Dock`.
+- Одобренные exceptions: отсутствуют.
+- Visual review подтверждён владельцем продукта, а технические проверки предварительно выполнены агентом. Release gate остаётся открытым: сначала нужна отдельная приёмка билета базового флоу `04`, затем проверки должны быть повторены на принятом состоянии.
