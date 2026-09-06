@@ -36,10 +36,11 @@ description: Применяй repository workflow pen.dev UI contract при ч�
 
 1. Сразу вызови `pencil` MCP `get_app_state({ include_schema: true, include_canvas_design: true, include_scripts_and_shaders: false })`, подтверди, что активен `design/pen-design.pen`, и только затем читай или изменяй canvas. Не запускай CLI preflight перед этой веткой.
 2. Следуй разделу `Изменение дизайна` до unsaved human-review handoff, используя только MCP-соединение `pencil` с Pen Desktop.
-3. Если изменение вводит visual token, reusable component или pattern, покажи владельцу полученное через MCP доказательство недостаточности существующей design system.
-4. Остановись при любом blocker из этого раздела. Возобнови исходный code scope только после явного подтверждения владельца, что дизайн принят и сохранён.
+3. Для изменённых `ref` зафиксируй ожидаемые descendant properties и проверь их через `resolveInstances: true` до screenshot. Имя `ref` не заменяет проверку вложенного контента.
+4. Если изменение вводит visual token, reusable component или pattern, покажи владельцу полученное через MCP доказательство недостаточности существующей design system.
+5. Остановись при любом blocker из этого раздела. Возобнови исходный code scope только после human save и успешной read-only проверки изменённых узлов.
 
-Заверши ветку, когда для каждого изменённого state получены требуемые policy layout evidence и screenshot, canvas не сохранён агентом, а владелец подтвердил приёмку и сохранение. Заверши design-only задачу на этом этапе.
+Заверши ветку после layout evidence, screenshot, human save и успешной проверки сохранённого состояния по policy.
 
 ## Реализуй и проверь видимый frontend UI
 
