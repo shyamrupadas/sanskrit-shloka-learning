@@ -32,7 +32,7 @@ describe("bootstrap", () => {
     assert.equal(applicationCreated, false);
   });
 
-  test("binds the validated Railway port on all interfaces", async () => {
+  test("binds the validated platform port on all interfaces", async () => {
     const fakeApplication = createFakeApplication();
     let receivedDatabaseConfig: { databasePoolMax: number; databaseUrl: string } | undefined;
 

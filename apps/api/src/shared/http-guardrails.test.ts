@@ -46,6 +46,8 @@ const apiConfig = {
 } satisfies ApiConfig;
 
 const openApplications: INestApplication[] = [];
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 afterEach(async () => {
   await Promise.all(openApplications.splice(0).map((app) => app.close()));
@@ -116,21 +118,71 @@ describe("HTTP guardrails", () => {
 
     const unsafeRequestId = "session-token-that-must-not-enter-logs";
     const regeneratedResponse = await fetch(`${testApp.url}/api/auth/session`, {
-      headers: { "X-Request-Id": unsafeRequestId },
+      headers: {
+        "X-Railway-Request-Id": "018f47a2-34bc-7def-8abc-abcdefabcdef",
+        "X-Request-Id": unsafeRequestId,
+      },
     });
     await regeneratedResponse.json();
-    assert.notEqual(regeneratedResponse.headers.get("x-request-id"), unsafeRequestId);
+    assert.match(regeneratedResponse.headers.get("x-request-id") ?? "", uuidPattern);
+    assert.notEqual(
+      regeneratedResponse.headers.get("x-request-id"),
+      "018f47a2-34bc-7def-8abc-abcdefabcdef",
+    );
     assert.doesNotMatch(JSON.stringify(testApp.logs), new RegExp(unsafeRequestId));
+
+    const generatedResponse = await fetch(`${testApp.url}/api/auth/session`);
+    assert.match(generatedResponse.headers.get("x-request-id") ?? "", uuidPattern);
   });
 
-  test("throttles only login and register and ignores spoofed forwarded addresses", async () => {
-    const testApp = await startTestApplication({
-      authRateLimit: { limit: 2, windowMs: 60_000 },
-    });
+  test("uses a forwarded client address only behind a trusted immediate proxy", async () => {
+    const trustedProxyApp = await startTestApplication(
+      { authRateLimit: { limit: 1, windowMs: 60_000 } },
+      "10.0.0.10",
+    );
 
-    const firstResponse = await postWithSpoofedClientAddress(testApp.url, "/api/auth/login", "198.51.100.1");
-    const secondResponse = await postWithSpoofedClientAddress(testApp.url, "/api/auth/login", "198.51.100.2");
-    const limitedResponse = await postWithSpoofedClientAddress(testApp.url, "/api/auth/register", "198.51.100.3");
+    const firstClientResponse = await postWithForwardedClientAddress(
+      trustedProxyApp.url,
+      "/api/auth/login",
+      "198.51.100.1",
+    );
+    const secondClientResponse = await postWithForwardedClientAddress(
+      trustedProxyApp.url,
+      "/api/auth/login",
+      "198.51.100.2",
+    );
+    const repeatedClientResponse = await postWithForwardedClientAddress(
+      trustedProxyApp.url,
+      "/api/auth/register",
+      "198.51.100.1",
+    );
+
+    assert.equal(firstClientResponse.status, 201);
+    assert.equal(secondClientResponse.status, 201);
+    assert.equal(repeatedClientResponse.status, 429);
+  });
+
+  test("throttles only login and register and ignores forwarded addresses from an untrusted peer", async () => {
+    const testApp = await startTestApplication(
+      { authRateLimit: { limit: 2, windowMs: 60_000 } },
+      "100.1.2.3",
+    );
+
+    const firstResponse = await postWithForwardedClientAddress(
+      testApp.url,
+      "/api/auth/login",
+      "198.51.100.1",
+    );
+    const secondResponse = await postWithForwardedClientAddress(
+      testApp.url,
+      "/api/auth/login",
+      "198.51.100.2",
+    );
+    const limitedResponse = await postWithForwardedClientAddress(
+      testApp.url,
+      "/api/auth/register",
+      "198.51.100.3",
+    );
 
     assert.equal(firstResponse.status, 201);
     assert.equal(secondResponse.status, 201);
@@ -138,6 +190,7 @@ describe("HTTP guardrails", () => {
     assert.match(limitedResponse.headers.get("ratelimit") ?? "", /r=0/);
     assert.equal(testApp.logs.at(-1)?.route, "/api/auth/register");
     assert.equal(testApp.logs.at(-1)?.status, 429);
+    assert.doesNotMatch(JSON.stringify(testApp.logs), /198\.51\.100\.[123]/);
 
     const sessionResponse = await fetch(`${testApp.url}/api/auth/session`, {
       headers: { "X-Forwarded-For": "198.51.100.4" },
@@ -146,13 +199,25 @@ describe("HTTP guardrails", () => {
   });
 });
 
-async function startTestApplication(options: HttpGuardrailOptions = {}): Promise<{
+async function startTestApplication(
+  options: HttpGuardrailOptions = {},
+  socketPeerAddress?: string,
+): Promise<{
   logs: AccessLogEntry[];
   url: string;
 }> {
   const logs: AccessLogEntry[] = [];
   const app = await NestFactory.create(GuardrailTestModule, { logger: false });
   openApplications.push(app);
+  if (socketPeerAddress) {
+    app.use((request: { socket: object }, _response: unknown, next: () => void) => {
+      Object.defineProperty(request.socket, "remoteAddress", {
+        configurable: true,
+        value: socketPeerAddress,
+      });
+      next();
+    });
+  }
   configureHttpGuardrails(app, apiConfig, {
     ...options,
     writeAccessLog: (entry) => logs.push(entry),
@@ -162,7 +227,7 @@ async function startTestApplication(options: HttpGuardrailOptions = {}): Promise
   return { logs, url: await app.getUrl() };
 }
 
-async function postWithSpoofedClientAddress(
+async function postWithForwardedClientAddress(
   url: string,
   path: string,
   address: string,

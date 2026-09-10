@@ -55,10 +55,9 @@ const corsHeaders = ["Content-Type", "Authorization"] as const;
 const requestIdPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-// Railway routes public HTTP traffic over its private network. Trust only those
-// immediate proxy ranges, never an unconditional X-Forwarded-For chain.
-const railwayProxyRanges = ["linklocal", "uniquelocal", "100.0.0.0/8"] as const;
-const railwayProxyAddresses = createRailwayProxyBlockList();
+// Hosting ingress proxies reach the API from internal networks. Trust only an
+// immediate peer in these ranges, never an arbitrary forwarding chain.
+const trustedInternalProxyAddresses = createTrustedInternalProxyBlockList();
 
 export function configureHttpGuardrails(
   app: INestApplication,
@@ -66,7 +65,7 @@ export function configureHttpGuardrails(
   options: HttpGuardrailOptions = {},
 ): void {
   const expressApplication = app.getHttpAdapter().getInstance() as ExpressApplication;
-  expressApplication.set("trust proxy", railwayProxyRanges);
+  expressApplication.set("trust proxy", trustImmediateInternalProxy);
 
   app.use(createAccessLogMiddleware(options.writeAccessLog));
   app.use(helmet({ contentSecurityPolicy: false }));
@@ -134,11 +133,6 @@ function resolveRequestId(headers: IncomingHttpHeaders): string {
     return requestId;
   }
 
-  const railwayRequestId = singleHeader(headers["x-railway-request-id"]);
-  if (railwayRequestId && requestIdPattern.test(railwayRequestId)) {
-    return railwayRequestId;
-  }
-
   return randomUUID();
 }
 
@@ -161,15 +155,15 @@ function authRateLimitKey(request: {
   socket: { remoteAddress?: string };
 }): string {
   const remoteAddress = request.socket.remoteAddress;
-  const railwayClientAddress = singleHeader(request.headers["x-real-ip"]);
+  const forwardedClientAddress = singleHeader(request.headers["x-real-ip"]);
 
   if (
     remoteAddress &&
-    railwayClientAddress &&
-    isRailwayProxyAddress(remoteAddress) &&
-    isIP(railwayClientAddress) !== 0
+    forwardedClientAddress &&
+    isTrustedInternalProxyAddress(remoteAddress) &&
+    isIP(forwardedClientAddress) !== 0
   ) {
-    return ipKeyGenerator(railwayClientAddress);
+    return ipKeyGenerator(forwardedClientAddress);
   }
 
   return ipKeyGenerator(remoteAddress ?? "unknown-client");
@@ -179,28 +173,32 @@ function singleHeader(value: string | string[] | undefined): string | undefined 
   return typeof value === "string" ? value : undefined;
 }
 
-function createRailwayProxyBlockList(): BlockList {
+function createTrustedInternalProxyBlockList(): BlockList {
   const blockList = new BlockList();
   blockList.addSubnet("10.0.0.0", 8, "ipv4");
   blockList.addSubnet("172.16.0.0", 12, "ipv4");
   blockList.addSubnet("192.168.0.0", 16, "ipv4");
   blockList.addSubnet("169.254.0.0", 16, "ipv4");
-  blockList.addSubnet("100.0.0.0", 8, "ipv4");
+  blockList.addSubnet("100.64.0.0", 10, "ipv4");
   blockList.addSubnet("fc00::", 7, "ipv6");
   blockList.addSubnet("fe80::", 10, "ipv6");
   return blockList;
 }
 
-function isRailwayProxyAddress(address: string): boolean {
+function trustImmediateInternalProxy(address: string, hop: number): boolean {
+  return hop === 0 && isTrustedInternalProxyAddress(address);
+}
+
+function isTrustedInternalProxyAddress(address: string): boolean {
   const normalizedAddress = normalizeIpAddress(address);
   const family = isIP(normalizedAddress);
 
   if (family === 4) {
-    return railwayProxyAddresses.check(normalizedAddress, "ipv4");
+    return trustedInternalProxyAddresses.check(normalizedAddress, "ipv4");
   }
 
   if (family === 6) {
-    return railwayProxyAddresses.check(normalizedAddress, "ipv6");
+    return trustedInternalProxyAddresses.check(normalizedAddress, "ipv6");
   }
 
   return false;

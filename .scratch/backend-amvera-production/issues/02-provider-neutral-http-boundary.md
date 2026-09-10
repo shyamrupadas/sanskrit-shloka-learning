@@ -4,15 +4,15 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
 
-- [ ] Имена и поведение HTTP guardrails не зависят от Railway, при этом безусловный `trust proxy` и доверие произвольной forwarding chain не вводятся.
-- [ ] Валидный forwarded client address используется для auth rate limiting только тогда, когда непосредственный socket peer входит в явно доверенный внутренний proxy range.
-- [ ] Forwarded headers от публичного, неизвестного или некорректного peer игнорируются, поэтому клиент не может подменой заголовка обойти rate limiting.
-- [ ] Валидный `X-Request-Id` продолжается, а при его отсутствии или некорректном значении API генерирует новый UUID; Railway-specific request ID больше не используется.
-- [ ] Access logs не раскрывают authorization data, пользовательские данные или значения недоверенных заголовков.
-- [ ] Backend-тесты покрывают доверенный и недоверенный proxy, продолжение валидного request ID и генерацию UUID; обязательные backend-проверки проходят.
-- [ ] CORS, маршруты, публичный API-контракт и остальное поведение HTTP boundary не изменены.
+- [x] Имена и поведение HTTP guardrails не зависят от Railway, при этом безусловный `trust proxy` и доверие произвольной forwarding chain не вводятся.
+- [x] Валидный forwarded client address используется для auth rate limiting только тогда, когда непосредственный socket peer входит в явно доверенный внутренний proxy range.
+- [x] Forwarded headers от публичного, неизвестного или некорректного peer игнорируются, поэтому клиент не может подменой заголовка обойти rate limiting.
+- [x] Валидный `X-Request-Id` продолжается, а при его отсутствии или некорректном значении API генерирует новый UUID; Railway-specific request ID больше не используется.
+- [x] Access logs не раскрывают authorization data, пользовательские данные или значения недоверенных заголовков.
+- [x] Backend-тесты покрывают доверенный и недоверенный proxy, продолжение валидного request ID и генерацию UUID; обязательные backend-проверки проходят.
+- [x] CORS, маршруты, публичный API-контракт и остальное поведение HTTP boundary не изменены.
 
 ## Parent
 
