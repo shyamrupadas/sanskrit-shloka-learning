@@ -23,8 +23,8 @@ repository-level path filter, поэтому изменение только fro
 Neon в GitHub Actions или связывать репозиторий с Amvera CLI. Нужен небольшой,
 воспроизводимый container-based процесс, который сохраняет главные гарантии Railway:
 frontend-only изменения не выпускают backend, непроверенный backend commit не
-доходит до deployment, миграции завершаются до запуска API, а трафик поступает только
-в готовое приложение.
+доходит до deployment, миграции завершаются до запуска API, а готовность приложения
+проверяется вручную через health endpoints перед переключением домена.
 
 ## Solution
 
@@ -46,9 +46,10 @@ Backend получает умеренно оптимизированную multi
 Контейнер при каждом старте сначала выполняет существующий compiled migration
 runner через direct endpoint Neon и только после успеха заменяет стартовый процесс
 на NestJS API. Для одной реплики повторный запуск безопасен благодаря таблице
-применённых миграций, checksum и PostgreSQL advisory lock. В Amvera вручную
-настраивается только readiness probe на `/health/ready`; liveness, startup probe и
-Docker healthcheck для временного MVP не добавляются.
+применённых миграций, checksum и PostgreSQL advisory lock. Готовность API и
+подключение к Neon проверяются вручную через `/health/live` и `/health/ready`.
+Настройка Kubernetes probes исключена из временного MVP по решению пользователя
+от 2026-09-11; автоматический допуск трафика по `/health/ready` не гарантируется.
 
 Первый deployment проверяется через бесплатный домен Amvera. После успешных
 миграций, readiness и пользовательского smoke-check канонический
@@ -91,8 +92,8 @@ Docker healthcheck для временного MVP не добавляются.
 30. Как владелец приложения, я хочу, чтобы ошибка миграции предотвращала запуск API, чтобы новая версия не работала поверх неподготовленной схемы.
 31. Как владелец приложения, я хочу, чтобы после успешной миграции стартовый процесс передавал управление непосредственно Node.js, чтобы API корректно получал SIGTERM и выполнял graceful shutdown.
 32. Как владелец приложения, я хочу запускать одну реплику API, чтобы миграции при старте не конкурировали между несколькими одновременно создаваемыми контейнерами.
-33. Как пользователь, я хочу, чтобы Amvera направляла трафик только в API с успешным `/health/ready`, чтобы запросы не попадали в процесс без соединения с Neon.
-34. Как владелец приложения, я хочу ограничиться одной readiness probe, чтобы временный deployment не обрастал преждевременной системой health checks.
+33. Как владелец приложения, я хочу проверить успешный `/health/ready` перед переключением домена, чтобы подтвердить соединение API с Neon.
+34. Как владелец приложения, я хочу ограничиться ручной проверкой health endpoints, чтобы упростить настройку временного deployment.
 35. Как разработчик, я хочу сохранить строгую обработку proxy headers после Railway, чтобы rate limiting различал реальных клиентов и не доверял подделанному адресу от прямого клиента.
 36. Как разработчик, я хочу убрать зависимость request tracing от Railway-specific request ID, чтобы API генерировал или продолжал безопасный идентификатор независимо от hosting provider.
 37. Как владелец приложения, я хочу сначала проверить API через бесплатный HTTPS-домен Amvera, чтобы подтвердить работу deployment до изменения канонического DNS.
@@ -129,14 +130,14 @@ Docker healthcheck для временного MVP не добавляются.
 - В Amvera вручную подключаются текущий GitHub repository, push event и target branch `amvera-api`. Для приватного repository владелец предоставляет Amvera минимально достаточный GitHub read token по инструкции платформы; этот token не сохраняется в repository.
 - Первый promotion подтверждает, что внешний Amvera webhook получает push служебной ветки, выполненный через `GITHUB_TOKEN`. Если наблюдаемая интеграция Amvera игнорирует такой push, допускается узкий fallback: отдельный fine-grained GitHub token только с минимальным правом обновлять contents этого repository, сохранённый как GitHub secret и используемый только promotion job. Схема со служебной веткой при этом не меняется.
 - GitHub `Workflow runs` webhook не используется: он не даёт подтверждённой фильтрации по конкретному backend workflow при наличии независимого frontend workflow. Amvera CLI/API, прямой push в Amvera repository и публикация image в registry также не входят в основной путь.
-- Amvera readiness настраивается вручную как HTTP probe пути `/health/ready` на порту `80` с разумными небольшими interval/timeout и запасом на запуск. Отдельные startup probe, liveness probe и Docker healthcheck не добавляются. Завершившийся с ошибкой процесс перезапускается платформой, а readiness отвечает только за допуск трафика.
+- По решению пользователя от 2026-09-11 Kubernetes readiness probe исключена из объёма переезда. `/health/ready` проверяется вручную на бесплатном и каноническом доменах. Автоматическое исключение экземпляра из трафика при недоступности Neon в этом MVP не обеспечивается нашей конфигурацией. Доступность настройки probes на выбранном тарифе не подтверждена.
 - Railway-specific proxy terminology и request ID fallback в HTTP guardrails заменяются provider-neutral контрактом. Валидный `X-Request-Id` может продолжаться; при его отсутствии API генерирует UUID. Railway-only request ID после завершения coexistence не является частью контракта.
 - Адрес клиента для auth rate limiting может браться из ingress forwarding header только когда непосредственный socket peer принадлежит явно доверенному внутреннему proxy range. Безусловный `trust proxy`, доверие произвольной длине forwarding chain или принятие forwarded address от публичного peer запрещены. Реальное поведение Amvera ingress подтверждается при bootstrap без записи чувствительных headers в отчёт.
 - Переезд выполняется поэтапно. Сначала repository получает Docker/CI/promotion возможность без отключения Railway. Затем создаётся `amvera-api`, Amvera подключается к ней, получает variables/secrets и бесплатный HTTPS domain, после чего выполняются deployment и smoke-check.
 - Smoke-check бесплатного Amvera origin подтверждает успешную Docker build, migration startup, readiness, отсутствие startup errors и явных секретов в logs. Пользовательский smoke-check через production frontend подтверждает CORS, вход существующей учетной записью, auth и загрузку одной защищённой страницы.
 - После успешного generated-origin smoke-check в Amvera добавляется `api.shlokahub.com`. В Cloudflare удаляются конфликтующие Railway records и создаются точные `A` и `TXT`, выданные Amvera; на время verification используются настройки DNS, совместимые с прямой проверкой ownership и выпуском Let's Encrypt certificate.
 - Cutover линейный: специальное уменьшение TTL, traffic splitting и автоматический rollback не требуются. После готовности TLS повторяются `/health/live`, `/health/ready` и пользовательский smoke-check через `https://api.shlokahub.com`.
-- Railway service, provider-specific config и устаревшие Railway operational instructions удаляются только после успешного канонического smoke-check. Документация repository должна описывать Amvera bootstrap, variables, webhook, probes, логи, DNS, проверку и завершение Railway coexistence.
+- Railway service, provider-specific config и устаревшие Railway operational instructions удаляются только после успешного канонического smoke-check. Документация repository должна описывать Amvera bootstrap, variables, webhook, ручные health-проверки, логи, DNS, проверку и завершение Railway coexistence.
 - Канонический API origin не меняется, поэтому production frontend build configuration и видимый UI не требуют изменений.
 - Новые DB migrations и изменения публичного API-контракта для переезда не требуются.
 
@@ -163,7 +164,7 @@ Docker healthcheck для временного MVP не добавляются.
 - Docker Compose, несколько container process types, workers, cron jobs или отдельный migration service в Amvera.
 - Несколько API replicas. Перед масштабированием startup migrations должны быть заменены отдельным release job.
 - Zero-downtime DNS migration, traffic splitting, canary release и автоматический быстрый rollback.
-- Startup probe, liveness probe, Docker healthcheck, постоянный uptime monitoring, alerting и новая observability-платформа.
+- Kubernetes readiness probe, startup probe, liveness probe, Docker healthcheck, постоянный uptime monitoring, alerting и новая observability-платформа.
 - Amvera CLI, MCP, собственный API client или отдельный GitHub-to-Amvera credentials-based deploy pipeline.
 - Создание отдельного backend repository или перенос frontend из текущего monorepo.
 - Оптимизации Docker build через remote BuildKit cache, custom base image, distroless runtime или архитектурно-зависимые native images.

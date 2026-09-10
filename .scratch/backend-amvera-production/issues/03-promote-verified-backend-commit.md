@@ -5,6 +5,7 @@
 **Blocked by:** 01 — Собрать переносимый production-контейнер API
 
 **Status:** awaiting-human-review
+Accepted: 2026-09-10
 
 - [x] Backend CI запускается для изменений API, API-контракта, влияющих workspace/toolchain metadata, container contract и самого backend workflow, но не для frontend-only изменений.
 - [x] Verify job сохраняет существующие typecheck, tests и production build и дополнительно собирает тот же финальный production target, который будет использовать Amvera.
