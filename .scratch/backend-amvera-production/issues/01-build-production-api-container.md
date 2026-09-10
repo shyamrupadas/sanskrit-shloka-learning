@@ -4,16 +4,16 @@
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** awaiting-human-review
 
-- [ ] Финальный production target собирается из чистого repository context на Node 24 с точной версией pnpm из package metadata и установкой по frozen lockfile.
-- [ ] Сборка охватывает API и необходимые workspace-зависимости, но не выполняет frontend build.
-- [ ] Слой runtime содержит compiled API, необходимые workspace artifacts и production dependencies, но не содержит frontend, TypeScript sources, devDependencies или build toolchain.
-- [ ] Build context исключает локальные environment-файлы, dependencies, build outputs, Git metadata, `.scratch` и test artifacts, сохраняя нужные API-контракт и workspace metadata.
-- [ ] Контейнер запускается непривилегированным пользователем и не требует persistent volume или записи в application filesystem.
-- [ ] При старте compiled migration runner использует direct database endpoint; ошибка миграции предотвращает запуск API, а после успеха стартовый процесс через process replacement передаёт управление Node.js.
-- [ ] Runtime принимает platform-provided `PORT` и production variables только при запуске; database URLs и другие production secrets не требуются для Docker build и не встроены в image.
-- [ ] Финальный production target успешно собирается локально; отдельные liveness/startup probes, Docker healthcheck, registry и Amvera-specific manifest не добавлены.
+- [x] Финальный production target собирается из чистого repository context на Node 24 с точной версией pnpm из package metadata и установкой по frozen lockfile.
+- [x] Сборка охватывает API и необходимые workspace-зависимости, но не выполняет frontend build.
+- [x] Слой runtime содержит compiled API, необходимые workspace artifacts и production dependencies, но не содержит frontend, TypeScript sources, devDependencies или build toolchain.
+- [x] Build context исключает локальные environment-файлы, dependencies, build outputs, Git metadata, `.scratch` и test artifacts, сохраняя нужные API-контракт и workspace metadata.
+- [x] Контейнер запускается непривилегированным пользователем и не требует persistent volume или записи в application filesystem.
+- [x] При старте compiled migration runner использует direct database endpoint; ошибка миграции предотвращает запуск API, а после успеха стартовый процесс через process replacement передаёт управление Node.js.
+- [x] Runtime принимает platform-provided `PORT` и production variables только при запуске; database URLs и другие production secrets не требуются для Docker build и не встроены в image.
+- [x] Финальный production target успешно собирается локально; отдельные liveness/startup probes, Docker healthcheck, registry и Amvera-specific manifest не добавлены.
 
 ## Parent
 
