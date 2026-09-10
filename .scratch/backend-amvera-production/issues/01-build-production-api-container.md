@@ -5,6 +5,7 @@
 **Blocked by:** None — can start immediately
 
 **Status:** awaiting-human-review
+Accepted: 2026-09-10
 
 - [x] Финальный production target собирается из чистого repository context на Node 24 с точной версией pnpm из package metadata и установкой по frozen lockfile.
 - [x] Сборка охватывает API и необходимые workspace-зависимости, но не выполняет frontend build.

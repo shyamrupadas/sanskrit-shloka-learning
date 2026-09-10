@@ -5,6 +5,7 @@
 **Blocked by:** None — can start immediately
 
 **Status:** awaiting-human-review
+Accepted: 2026-09-10
 
 - [x] Имена и поведение HTTP guardrails не зависят от Railway, при этом безусловный `trust proxy` и доверие произвольной forwarding chain не вводятся.
 - [x] Валидный forwarded client address используется для auth rate limiting только тогда, когда непосредственный socket peer входит в явно доверенный внутренний proxy range.
