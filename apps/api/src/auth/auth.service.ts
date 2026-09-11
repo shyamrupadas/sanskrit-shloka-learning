@@ -14,13 +14,6 @@ import { PasswordHasher } from "./password-hasher.js";
 import { createAccessToken, hashAccessToken, parseBearerToken } from "./token.js";
 
 const sessionTtlMs = 30 * 24 * 60 * 60 * 1000;
-const sessionLookupCacheFreshTtlMs = 30_000;
-const sessionLookupCacheMaxEntries = 1_000;
-
-interface CachedSessionLookup {
-  freshUntil: number;
-  session: SessionLookup;
-}
 
 export interface SessionLookup {
   account: AccountRecord;
@@ -29,9 +22,6 @@ export interface SessionLookup {
 
 @Injectable()
 export class AuthService {
-  private readonly sessionCache = new Map<string, CachedSessionLookup>();
-  private readonly sessionLookups = new Map<string, Promise<SessionLookup | undefined>>();
-
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly accounts: AccountRepository,
@@ -112,12 +102,10 @@ export class AuthService {
     const tokenHash = hashAccessToken(token);
     const account = await this.accounts.findAccountBySessionTokenHash(tokenHash, new Date());
     if (!account) {
-      this.deleteSessionCache(tokenHash);
       return { status: 401, body: unauthorizedError };
     }
 
     await this.accounts.deleteSessionByTokenHash(tokenHash);
-    this.deleteSessionCache(tokenHash);
     return { status: 204 };
   }
 
@@ -128,78 +116,8 @@ export class AuthService {
     }
 
     const tokenHash = hashAccessToken(accessToken);
-    const now = Date.now();
-    this.deleteExpiredSessionCache(now);
-    const cached = this.sessionCache.get(tokenHash);
-    if (cached && cached.freshUntil > now) {
-      return cached.session;
-    }
-
-    const existingLookup = this.sessionLookups.get(tokenHash);
-    if (existingLookup) {
-      return existingLookup;
-    }
-
-    const lookup = this.lookupSessionByTokenHash(tokenHash, accessToken);
-    this.sessionLookups.set(tokenHash, lookup);
-    void lookup.then(
-      () => this.deleteSessionLookup(tokenHash, lookup),
-      () => this.deleteSessionLookup(tokenHash, lookup),
-    );
-
-    return lookup;
-  }
-
-  private async lookupSessionByTokenHash(
-    tokenHash: string,
-    accessToken: string,
-  ): Promise<SessionLookup | undefined> {
     const account = await this.accounts.findAccountBySessionTokenHash(tokenHash, new Date());
-    if (!account) {
-      this.deleteSessionCache(tokenHash);
-      return undefined;
-    }
-
-    const session = { account, accessToken };
-    this.setSessionCache(tokenHash, session);
-    return session;
-  }
-
-  private deleteSessionLookup(tokenHash: string, lookup: Promise<SessionLookup | undefined>): void {
-    if (this.sessionLookups.get(tokenHash) === lookup) {
-      this.sessionLookups.delete(tokenHash);
-    }
-  }
-
-  private setSessionCache(tokenHash: string, session: SessionLookup): void {
-    const now = Date.now();
-    this.deleteExpiredSessionCache(now);
-    this.sessionCache.delete(tokenHash);
-
-    while (this.sessionCache.size >= sessionLookupCacheMaxEntries) {
-      const oldestTokenHash = this.sessionCache.keys().next().value;
-      if (typeof oldestTokenHash !== "string") {
-        break;
-      }
-      this.sessionCache.delete(oldestTokenHash);
-    }
-
-    this.sessionCache.set(tokenHash, {
-      freshUntil: now + sessionLookupCacheFreshTtlMs,
-      session,
-    });
-  }
-
-  private deleteExpiredSessionCache(now: number): void {
-    for (const [tokenHash, cached] of this.sessionCache) {
-      if (cached.freshUntil <= now) {
-        this.sessionCache.delete(tokenHash);
-      }
-    }
-  }
-
-  private deleteSessionCache(tokenHash: string): void {
-    this.sessionCache.delete(tokenHash);
+    return account ? { account, accessToken } : undefined;
   }
 
   private async createSession(account: AccountRecord): Promise<string> {

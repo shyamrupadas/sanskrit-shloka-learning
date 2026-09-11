@@ -1,205 +1,109 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
-import {
-  type AccountRecord,
-  type AccountRepository,
-  type AccountSettingsRecord,
-  type CreateAccountInput,
-  type CreateSessionInput,
-  type UpdateAccountSettingsInput,
-} from "../accounts/account.repository.js";
+import { InMemoryAccountRepository } from "../accounts/in-memory-account.repository.js";
 import { DatabaseUnavailableError } from "../database/database.service.js";
 import { AuthService } from "./auth.service.js";
 import { PasswordHasher } from "./password-hasher.js";
 import { hashAccessToken } from "./token.js";
 
-describe("AuthService lookupSession", () => {
-  test("coalesces concurrent lookups for the same access token", async () => {
-    const accounts = new DeferredAccountRepository();
-    const auth = new AuthService(accounts, {} as PasswordHasher);
-    const authorization = "Bearer shared-token";
+describe("AuthService session authorization", () => {
+  test("rejects a previously authorized session exactly when it expires", async (context) => {
+    context.mock.timers.enable({ apis: ["Date"], now: 1_000_000 });
+    const { auth } = await createSessionFixture({ expiresAt: new Date(Date.now() + 1_000) });
 
-    const first = auth.lookupSession(authorization);
-    const second = auth.lookupSession(authorization);
+    assert.equal((await auth.getSession(authorization)).status, 200);
+    context.mock.timers.tick(1_000);
 
-    assert.equal(accounts.lookups.length, 1);
-    const firstLookup = accounts.lookups[0];
-    assert.ok(firstLookup);
-    assert.equal(firstLookup.tokenHash, hashAccessToken("shared-token"));
-
-    firstLookup.deferred.resolve(accountRecord);
-    const [firstSession, secondSession] = await Promise.all([first, second]);
-
-    assert.deepEqual(firstSession, { account: accountRecord, accessToken: "shared-token" });
-    assert.deepEqual(secondSession, { account: accountRecord, accessToken: "shared-token" });
-
-    const cached = await auth.lookupSession(authorization);
-    assert.equal(accounts.lookups.length, 1);
-    assert.deepEqual(cached, { account: accountRecord, accessToken: "shared-token" });
+    assert.equal((await auth.getSession(authorization)).status, 401);
   });
 
-  test("clears coalesced lookups after repository errors", async () => {
-    const accounts = new DeferredAccountRepository();
-    const auth = new AuthService(accounts, {} as PasswordHasher);
-    const authorization = "Bearer shared-token";
-    const lookupError = new Error("lookup failed");
+  test("rejects a previously authorized session immediately after it is revoked", async () => {
+    const { auth, accounts } = await createSessionFixture();
 
-    const first = auth.lookupSession(authorization);
-    const second = auth.lookupSession(authorization);
+    assert.equal((await auth.getSession(authorization)).status, 200);
+    await accounts.deleteSessionByTokenHash(tokenHash);
 
-    assert.equal(accounts.lookups.length, 1);
-    const firstLookup = accounts.lookups[0];
-    assert.ok(firstLookup);
-    firstLookup.deferred.reject(lookupError);
-    await assert.rejects(Promise.all([first, second]), (error) => error === lookupError);
-
-    const third = auth.lookupSession(authorization);
-    assert.equal(accounts.lookups.length, 2);
-    const thirdLookup = accounts.lookups[1];
-    assert.ok(thirdLookup);
-    thirdLookup.deferred.resolve(accountRecord);
-    assert.deepEqual(await third, { account: accountRecord, accessToken: "shared-token" });
+    assert.equal((await auth.getSession(authorization)).status, 401);
   });
 
-  test("fails closed instead of using an expired session when database refresh fails", async () => {
-    const accounts = new DeferredAccountRepository();
-    const auth = new AuthService(accounts, {} as PasswordHasher);
-    const authorization = "Bearer shared-token";
+  test("uses current roles after previously authorizing an administrator", async (context) => {
+    const { auth, accounts, account } = await createSessionFixture();
+    account.roles = ["admin"];
+    const lookup = accounts.findAccountBySessionTokenHash.bind(accounts);
+    context.mock.method(accounts, "findAccountBySessionTokenHash", async (hash: string, now: Date) => {
+      const current = await lookup(hash, now);
+      return current ? { ...current, roles: [...current.roles] } : undefined;
+    });
 
-    const first = auth.lookupSession(authorization);
-    const firstLookup = accounts.lookups[0];
-    assert.ok(firstLookup);
-    firstLookup.deferred.resolve(accountRecord);
-    assert.deepEqual(await first, { account: accountRecord, accessToken: "shared-token" });
+    assert.deepEqual((await auth.lookupSession(authorization))?.account.roles, ["admin"]);
+    account.roles = [];
 
-    const tokenHash = hashAccessToken("shared-token");
-    const cached = sessionCache(auth).get(tokenHash);
-    assert.ok(cached);
-    cached.freshUntil = Date.now() - 1;
+    assert.deepEqual((await auth.lookupSession(authorization))?.account.roles, []);
+  });
 
-    const refreshed = auth.lookupSession(authorization);
-    assert.equal(accounts.lookups.length, 2);
-    const secondLookup = accounts.lookups[1];
-    assert.ok(secondLookup);
+  test("fails closed on a database error after successful authorization and can recover", async (context) => {
+    const { auth, accounts } = await createSessionFixture();
+    assert.equal((await auth.getSession(authorization)).status, 200);
     const databaseError = new DatabaseUnavailableError();
-    secondLookup.deferred.reject(databaseError);
+    const lookup = context.mock.method(accounts, "findAccountBySessionTokenHash", async () => {
+      throw databaseError;
+    });
 
-    await assert.rejects(refreshed, (error) => error === databaseError);
-    assert.equal(sessionCache(auth).has(tokenHash), false);
+    await assert.rejects(auth.getSession(authorization), (error) => error === databaseError);
+    lookup.mock.restore();
+
+    assert.equal((await auth.getSession(authorization)).status, 200);
   });
 
-  test("bounds the fresh cache and purges expired entries", async () => {
-    const accounts = new ImmediateAccountRepository();
-    const auth = new AuthService(accounts, {} as PasswordHasher);
+  test("does not reuse an in-flight authorization result for requests after revocation", async (context) => {
+    const { auth, accounts } = await createSessionFixture();
+    const lookup = accounts.findAccountBySessionTokenHash.bind(accounts);
+    const captured = new Deferred<void>();
+    const release = new Deferred<void>();
+    context.mock.method(accounts, "findAccountBySessionTokenHash", async (hash: string, now: Date) => {
+      const account = await lookup(hash, now);
+      captured.resolve();
+      await release.promise;
+      return account;
+    }, { times: 1 });
 
-    for (let index = 0; index <= 1_000; index += 1) {
-      await auth.lookupSession(`Bearer token-${index}`);
-    }
+    const beforeRevocation = auth.getSession(authorization);
+    await captured.promise;
+    await accounts.deleteSessionByTokenHash(tokenHash);
+    const afterRevocation = auth.getSession(authorization);
+    release.resolve();
 
-    const cache = sessionCache(auth);
-    assert.equal(cache.size, 1_000);
-    assert.equal(cache.has(hashAccessToken("token-0")), false);
-    assert.equal(cache.has(hashAccessToken("token-1000")), true);
-
-    const expiringTokenHash = hashAccessToken("token-500");
-    const expiring = cache.get(expiringTokenHash);
-    assert.ok(expiring);
-    expiring.freshUntil = Date.now() - 1;
-
-    await auth.lookupSession("Bearer cache-cleanup-trigger");
-
-    assert.equal(cache.has(expiringTokenHash), false);
-    assert.equal(cache.size, 1_000);
+    const [before, after] = await Promise.all([beforeRevocation, afterRevocation]);
+    assert.equal(before.status, 200);
+    assert.equal(after.status, 401);
+    assert.equal((await auth.getSession(authorization)).status, 401);
   });
 });
 
-const accountRecord = {
-  id: "account-1",
-  email: "learner@example.com",
-  passwordHash: "hash",
-  roles: [],
-} satisfies AccountRecord;
+const accessToken = "session-token";
+const authorization = `Bearer ${accessToken}`;
+const tokenHash = hashAccessToken(accessToken);
 
-class DeferredAccountRepository implements AccountRepository {
-  readonly lookups: Array<{
-    deferred: Deferred<AccountRecord | undefined>;
-    tokenHash: string;
-  }> = [];
+async function createSessionFixture({ expiresAt = new Date(Date.now() + 60_000) } = {}) {
+  const accounts = new InMemoryAccountRepository();
+  const account = await accounts.createAccount({
+    id: "account-1",
+    email: "learner@example.com",
+    passwordHash: "hash",
+  });
+  await accounts.createSession({ id: "session-1", accountId: account.id, tokenHash, expiresAt });
 
-  async createAccount(_input: CreateAccountInput): Promise<AccountRecord> {
-    throw new Error("Not implemented");
-  }
-
-  async findAccountByEmail(_email: string): Promise<AccountRecord | undefined> {
-    throw new Error("Not implemented");
-  }
-
-  async findAccountBySessionTokenHash(tokenHash: string, _now: Date): Promise<AccountRecord | undefined> {
-    const deferred = new Deferred<AccountRecord | undefined>();
-    this.lookups.push({ deferred, tokenHash });
-    return deferred.promise;
-  }
-
-  async getAccountSettings(_accountId: string): Promise<AccountSettingsRecord> {
-    throw new Error("Not implemented");
-  }
-
-  async updateAccountSettings(_input: UpdateAccountSettingsInput): Promise<AccountSettingsRecord> {
-    throw new Error("Not implemented");
-  }
-
-  async createSession(_input: CreateSessionInput): Promise<void> {
-    throw new Error("Not implemented");
-  }
-
-  async deleteSessionByTokenHash(_tokenHash: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
-}
-
-class ImmediateAccountRepository extends DeferredAccountRepository {
-  override async findAccountBySessionTokenHash(
-    _tokenHash: string,
-    _now: Date,
-  ): Promise<AccountRecord | undefined> {
-    return accountRecord;
-  }
+  return { accounts, account, auth: new AuthService(accounts, {} as PasswordHasher) };
 }
 
 class Deferred<T> {
   readonly promise: Promise<T>;
-  reject!: (error: unknown) => void;
   resolve!: (value: T) => void;
 
   constructor() {
-    this.promise = new Promise<T>((resolve, reject) => {
+    this.promise = new Promise<T>((resolve) => {
       this.resolve = resolve;
-      this.reject = reject;
     });
   }
-}
-
-function sessionCache(auth: AuthService): Map<
-  string,
-  {
-    freshUntil: number;
-    session: {
-      account: AccountRecord;
-      accessToken: string;
-    };
-  }
-> {
-  return (auth as unknown as {
-    sessionCache: Map<
-      string,
-      {
-        freshUntil: number;
-        session: {
-          account: AccountRecord;
-          accessToken: string;
-        };
-      }
-    >;
-  }).sessionCache;
 }
