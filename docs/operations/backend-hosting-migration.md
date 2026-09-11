@@ -111,7 +111,10 @@ Docker socket, эквивалентный root. Для deployment следует
    площадку доступной на время отката.
 5. **После переноса.** Удалять старые площадки и образы только после подтверждённого
    периода стабильности; удалить Amvera promotion job и служебную ветку `amvera-api`,
-   зафиксировать рабочие image digests и процедуру rollback.
+   временный скрипт [`.github/scripts/backend-release.mjs`](../../.github/scripts/backend-release.mjs),
+   его тесты `.github/scripts/backend-release.test.mjs` и их вызовы из backend workflow.
+   Скрипт выпуска через релизную ветку Amvera не переносится в VDS pipeline с
+   immutable images. Зафиксировать рабочие image digests и процедуру rollback.
 
 ## Минимальный мониторинг и пороги решения
 
