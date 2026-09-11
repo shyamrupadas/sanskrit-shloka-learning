@@ -52,7 +52,7 @@ runner через direct endpoint Neon и только после успеха �
 от 2026-09-11; автоматический допуск трафика по `/health/ready` не гарантируется.
 
 Первый deployment проверяется через бесплатный домен Amvera. После успешных
-миграций, readiness и пользовательского smoke-check канонический
+миграций и ручных health-проверок канонический
 `api.shlokahub.com` линейно переключается с Railway на выданные Amvera DNS records.
 Быстрый rollback и zero-downtime cutover не требуются, поскольку активных
 пользователей нет; Railway удаляется только после подтверждённой работы канонического
@@ -111,7 +111,7 @@ runner через direct endpoint Neon и только после успеха �
 
 - Спецификация продолжает принятые архитектурные решения: API остаётся отдельным NestJS deployable application в pnpm monorepo, а Neon — внешней PostgreSQL database. Новый ADR не требуется, потому что конкретный provider уже намеренно оставлен заменяемой инфраструктурной деталью.
 - Amvera является временным container runtime перед VDS. Выбранный тариф, регион и доступные ресурсы не пересматриваются.
-- Repository-owned deployment contract строится вокруг корневого Dockerfile. Отдельный Amvera manifest не добавляется, пока не появится настройка, которую нельзя выразить Dockerfile или выполнить вручную в Dashboard; Amvera должна использовать свой стандартный порт `80` и предоставляемую переменную `PORT`.
+- Repository-owned deployment contract строится вокруг корневого Dockerfile. Отдельный Amvera manifest не добавляется, пока не появится настройка, которую нельзя выразить Dockerfile или выполнить вручную в Dashboard; Amvera использует порт `80`; в Dashboard явно задаётся runtime-переменная `PORT=80`.
 - Docker image использует multi-stage build на Debian slim с Node 24. Alpine не выбирается, чтобы не вводить musl-совместимость и дополнительные различия с текущим runtime.
 - Toolchain включает Corepack и точную версию pnpm из package metadata. Install выполняется по frozen lockfile только для API и его workspace-зависимостей.
 - Dependency metadata копируется до исходников, чтобы Docker layer с установкой зависимостей переиспользовался при изменениях кода без изменения lockfile или manifests. Сложные удалённые BuildKit caches для временной площадки не вводятся.
@@ -120,7 +120,7 @@ runner через direct endpoint Neon и только после успеха �
 - Финальный контейнер запускается непривилегированным пользователем и не требует writable application filesystem или persistent volume.
 - Runtime entrypoint последовательно выполняет compiled migration runner, а после его успешного завершения через process replacement запускает compiled NestJS API. Отдельного Amvera pre-deploy hook нет; ручные локальные миграции не являются штатной частью release flow.
 - Существующие миграции остаются идемпотентными по registry/checksum и используют PostgreSQL advisory lock. Целевая Amvera-топология ограничена одной репликой. Переход к нескольким репликам требует сначала вынести миграции в отдельный release job.
-- Runtime получает `NODE_ENV=production`, точный `FRONTEND_ORIGIN=https://app.shlokahub.com`, pooled `DATABASE_URL`, direct `DATABASE_DIRECT_URL` той же Neon database и `DATABASE_POOL_MAX=5`. Database URLs создаются как secrets; нечувствительные значения могут быть обычными variables. `PORT` вручную не задаётся.
+- Runtime получает `NODE_ENV=production`, точный `FRONTEND_ORIGIN=https://app.shlokahub.com`, pooled `DATABASE_URL`, direct `DATABASE_DIRECT_URL` той же Neon database и `DATABASE_POOL_MAX=5`. Database URLs создаются как secrets; нечувствительные значения могут быть обычными variables. `PORT=80` задаётся вручную как обычная переменная с этапом «Запуск».
 - Backend CI сохраняет существующие typecheck, tests и production build и добавляет сборку финального production Docker target. Docker image не публикуется в GHCR для Amvera: Amvera получает source commit и сама собирает тот же Dockerfile.
 - Backend-related path filters включают API, API-контракт, root dependency/workspace metadata, TypeScript build configuration, Dockerfile, Docker ignore rules и сам Backend CI. Изменения только frontend, frontend release или общих документов не должны запускать backend release.
 - После успешного verify job отдельный promotion job передвигает постоянную ветку `amvera-api` на точный проверенный commit. Ветка создаётся первым успешным promotion и дальше обновляется только fast-forward; force push запрещён.
@@ -132,9 +132,9 @@ runner через direct endpoint Neon и только после успеха �
 - GitHub `Workflow runs` webhook не используется: он не даёт подтверждённой фильтрации по конкретному backend workflow при наличии независимого frontend workflow. Amvera CLI/API, прямой push в Amvera repository и публикация image в registry также не входят в основной путь.
 - По решению пользователя от 2026-09-11 Kubernetes readiness probe исключена из объёма переезда. `/health/ready` проверяется вручную на бесплатном и каноническом доменах. Автоматическое исключение экземпляра из трафика при недоступности Neon в этом MVP не обеспечивается нашей конфигурацией. Доступность настройки probes на выбранном тарифе не подтверждена.
 - Railway-specific proxy terminology и request ID fallback в HTTP guardrails заменяются provider-neutral контрактом. Валидный `X-Request-Id` может продолжаться; при его отсутствии API генерирует UUID. Railway-only request ID после завершения coexistence не является частью контракта.
-- Адрес клиента для auth rate limiting может браться из ingress forwarding header только когда непосредственный socket peer принадлежит явно доверенному внутреннему proxy range. Безусловный `trust proxy`, доверие произвольной длине forwarding chain или принятие forwarded address от публичного peer запрещены. Реальное поведение Amvera ingress подтверждается при bootstrap без записи чувствительных headers в отчёт.
+- Адрес клиента для auth rate limiting может браться из ingress forwarding header только когда непосредственный socket peer принадлежит явно доверенному внутреннему proxy range. Безусловный `trust proxy`, доверие произвольной длине forwarding chain или принятие forwarded address от публичного peer запрещены. Ручная проверка поведения Amvera ingress при bootstrap исключена по решению пользователя от 2026-09-11; реализация proxy contract сохраняется.
 - Переезд выполняется поэтапно. Сначала repository получает Docker/CI/promotion возможность без отключения Railway. Затем создаётся `amvera-api`, Amvera подключается к ней, получает variables/secrets и бесплатный HTTPS domain, после чего выполняются deployment и smoke-check.
-- Smoke-check бесплатного Amvera origin подтверждает успешную Docker build, migration startup, readiness, отсутствие startup errors и явных секретов в logs. Пользовательский smoke-check через production frontend подтверждает CORS, вход существующей учетной записью, auth и загрузку одной защищённой страницы.
+- Smoke-check бесплатного Amvera origin подтверждает успешную Docker build, migration startup, readiness, отсутствие startup errors и явных секретов в logs. Пользовательский smoke-check через production frontend выполняется после переключения канонического домена в тикете 05.
 - После успешного generated-origin smoke-check в Amvera добавляется `api.shlokahub.com`. В Cloudflare удаляются конфликтующие Railway records и создаются точные `A` и `TXT`, выданные Amvera; на время verification используются настройки DNS, совместимые с прямой проверкой ownership и выпуском Let's Encrypt certificate.
 - Cutover линейный: специальное уменьшение TTL, traffic splitting и автоматический rollback не требуются. После готовности TLS повторяются `/health/live`, `/health/ready` и пользовательский smoke-check через `https://api.shlokahub.com`.
 - Railway service, provider-specific config и устаревшие Railway operational instructions удаляются только после успешного канонического smoke-check. Документация repository должна описывать Amvera bootstrap, variables, webhook, ручные health-проверки, логи, DNS, проверку и завершение Railway coexistence.
@@ -182,3 +182,11 @@ runner через direct endpoint Neon и только после успеха �
 - Новые DB migrations не требуются.
 - Источники по Amvera: [Docker](https://docs.amvera.ru/applications/configuration/docker.html), [GitHub webhook](https://docs.amvera.ru/applications/git/webhooks.html), [variables и secrets](https://docs.amvera.ru/applications/configuration/variables.html), [network и domains](https://docs.amvera.ru/applications/configuration/network.html), [Kubernetes probes](https://docs.amvera.ru/general/k8sprobe.html), [migration pattern](https://docs.amvera.ru/applications/configuration/heroku-migration.html).
 - Источник по promotion token: [GitHub `GITHUB_TOKEN`](https://docs.github.com/en/actions/concepts/security/github_token).
+
+## Приёмка bootstrap — 2026-09-11
+
+Пользователь подтвердил успешную проверку и принял тикет 04. Из его объёма
+исключены пункты 8–10 инструкции: вход через подмену API origin в браузере,
+ручная проверка client-IP/rate limiting и заполнение отдельного отчёта. Эти
+проверки не выполнялись и не считаются пройденными. Проверки канонического
+домена в тикете 05 сохраняются.

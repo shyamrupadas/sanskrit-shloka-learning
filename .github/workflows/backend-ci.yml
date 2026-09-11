@@ -62,6 +62,7 @@ jobs:
       - name: Build final production image
         run: docker build --target production .
 
+  # Amvera bootstrap: verify webhook delivery after connecting the release branch.
   promote:
     name: Promote verified backend commit
     needs: verify
