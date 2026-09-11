@@ -5,7 +5,7 @@
 hosts. До первых deploy пустые document roots безопасно возвращают `404`.
 
 Все изменения в Cloudflare и на VDS выполняет владелец вручную. Runbook не меняет
-`api.shlokahub.com`, Railway, release workflows или содержимое будущих артефактов.
+`api.shlokahub.com`, backend deployment, release workflows или содержимое будущих артефактов.
 Фактические IPv4, certificate identifiers и certificate paths нельзя переносить
 в repository, `.scratch`, commit message или итоговый отчёт.
 
@@ -19,13 +19,13 @@ hosts. До первых deploy пустые document roots безопасно �
 
 Не меняются:
 
-- `api.shlokahub.com` и выданные Railway `CNAME`/`TXT`;
+- `api.shlokahub.com` и выданные Amvera `A`/`TXT`;
 - остальные DNS records, nameservers и общие настройки Cloudflare;
 - Cloudflare SSL/TLS mode, Universal SSL, redirects, Workers и proxy rules;
 - Sadhana virtual hosts и сертификаты;
 - `/etc/nginx/sites-available/00-default-deny`;
 - document roots, bootstrap-файлы и права пользователя `deploy`;
-- firewall, SSH и Railway.
+- firewall, SSH и backend deployment.
 
 ## 1. Подготовить локальную сессию
 
@@ -80,7 +80,7 @@ exit
 же IPv4, `DNS only` и `TTL Auto`, оставь её и не создавай дубликат.
 
 Отдельно визуально убедись, что `api.shlokahub.com` по-прежнему содержит ровно
-выданные Railway records. Не копируй их target или verification value в заметку.
+выданные Amvera records. Не копируй их target или verification value в заметку.
 
 ## 3. Создать три A-записи
 
@@ -696,7 +696,7 @@ fi
 [ ] Три A-записи указывают на новый VDS
 [ ] Все три A-записи оставлены в DNS only
 [ ] Конфликтующие AAAA/CNAME/NS отсутствуют
-[ ] Railway records api.shlokahub.com не менялись
+[ ] DNS records api.shlokahub.com не менялись
 [ ] Landing certificate group покрывает canonical и www
 [ ] Application certificate group покрывает canonical
 [ ] Landing и application используют разные сертификаты
@@ -719,7 +719,7 @@ fi
 - certificate names, serials, fingerprints, paths или renewal filenames;
 - полный вывод `certbot certificates`, `certbot renew` или `nginx -T`;
 - SSH host-key строку, ключи, Cloudflare account/zone identifiers;
-- Railway targets, TXT values, service или deployment identifiers;
+- API targets, TXT values, service или deployment identifiers;
 - screenshots, на которых видны эти значения.
 
 ## Откат

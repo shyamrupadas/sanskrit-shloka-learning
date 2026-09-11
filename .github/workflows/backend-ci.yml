@@ -15,7 +15,6 @@ on:
       - "Dockerfile"
       - ".dockerignore"
       - "docker/api-entrypoint.sh"
-      - "railway.json"
       - ".github/workflows/backend-ci.yml"
 
 permissions:

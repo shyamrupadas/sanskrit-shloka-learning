@@ -44,7 +44,7 @@ test -n "$(sed -n 's/^Accepted: //p' \
 
 Принятый отчёт уже подтверждает application document root, DNS/TLS,
 `api.shlokahub.com`, production CORS и automation account. Если после приёмки
-менялись VDS, SSH host keys, DNS, TLS, Railway custom domain или CORS, остановись и
+менялись VDS, SSH host keys, DNS, TLS, API custom domain или CORS, остановись и
 повтори соответствующие проверки:
 
 - SSH host key — сначала
@@ -54,9 +54,9 @@ test -n "$(sed -n 's/^Accepted: //p' \
 - document root и Nginx — [HTTP-платформа](vds-http-platform.md);
 - DNS и TLS application —
   [статические домены](shlokahub-static-domains.md);
-- Railway custom domain — [API domain](shlokahub-api-domain.md);
+- API custom domain — [API domain](amvera-domain-cutover.md);
 - production CORS —
-  [Railway production](railway-production.md#смена-канонического-production-origin).
+  [Amvera production](amvera-production.md#проверка-production-cors).
 
 После проверки заново зафиксируй безопасный итог и получи человеческую приёмку
 затронутой части `production-platform-bootstrap` до продолжения этого runbook.

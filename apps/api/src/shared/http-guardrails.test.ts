@@ -119,7 +119,7 @@ describe("HTTP guardrails", () => {
     const unsafeRequestId = "session-token-that-must-not-enter-logs";
     const regeneratedResponse = await fetch(`${testApp.url}/api/auth/session`, {
       headers: {
-        "X-Railway-Request-Id": "018f47a2-34bc-7def-8abc-abcdefabcdef",
+        "X-Provider-Request-Id": "018f47a2-34bc-7def-8abc-abcdefabcdef",
         "X-Request-Id": unsafeRequestId,
       },
     });

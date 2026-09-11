@@ -1,7 +1,11 @@
-# Настройка backend в Amvera
+# Production backend в Amvera
 
-Результат: API работает на бесплатном HTTPS-домене Amvera, подключается к Neon
-и обслуживает вход и защищённую страницу приложения.
+Production API работает в Amvera на `https://api.shlokahub.com`, использует Neon
+и обслуживает frontend `https://app.shlokahub.com`. Amvera — временная площадка
+до перехода на VDS. Бесплатный HTTPS-домен используется для первоначальной проверки.
+
+Для работающего приложения смотри раздел «Обычный выпуск backend» ниже.
+Разделы 1–7 описывают первоначальную настройку.
 
 Выполняй шаги по порядку. Если приложение или подключение уже создано, открой
 его и сверь значения с соответствующим шагом.
@@ -298,6 +302,68 @@ curl --silent --show-error --max-time 30 --include --request OPTIONS \
 ```
 
 **Результат:** у контрольного ответа отсутствует `Access-Control-Allow-Origin`.
+
+## Обычный выпуск backend
+
+```text
+backend-related push в main → Backend CI → amvera-api
+  → push webhook → Docker build в Amvera → startup migrations → API
+  → ручная проверка канонического HTTPS-домена и сайта
+```
+
+1. Внеси backend-изменение через обычный review/merge в `main`.
+2. Дождись успешных `verify` и `promote` в Backend CI. Проверка включает typecheck,
+   тесты, production build и сборку Docker image. При ошибке `amvera-api` не обновляется.
+3. Сверь SHA проверенного commit с `amvera-api` и исходным commit сборки Amvera.
+   Убедись, что push webhook доставлен и новая сборка завершилась.
+4. В логах приложения проверь успех миграций и запуска API, отсутствие startup
+   errors и явной утечки секретов. При ошибке миграции API не запускается.
+5. Выполни [проверку API и сайта](amvera-domain-cutover.md#4-проверить-api-и-сайт):
+   оба health endpoint — `200`, вход существующей учётной записью и загрузка данных
+   защищённой страницы успешны. Автоматический допуск трафика по readiness не настроен.
+
+`amvera-api` — указатель на проверенный backend release. Ветка обновляется CI
+обычным fast-forward push; ручные commits, PR в эту ветку и force push не используются.
+Изменения только frontend или документации не запускают Backend CI; точный список
+путей задан в [workflow](../../.github/workflows/backend-ci.yml).
+
+Контейнер запускает compiled migrations через direct Neon endpoint при каждом
+старте, затем заменяет стартовый процесс на API. Runtime работает через pooled
+endpoint. Сохраняй **одну реплику**: перед масштабированием миграции нужно вынести
+в отдельный release step. Ручной запуск миграций с ноутбука не входит в обычный выпуск.
+
+При неудачном CI исправь ошибку и выпусти новый commit через `main`. Если CI прошёл,
+а deployment не появился, проверь доставку webhook и настройки из шага 5.5.
+Если не прошли миграции или health-check, разбери ошибку запуска и подключения к Neon
+до подтверждения выпуска; не меняй release-ветку вручную.
+
+## Проверка production CORS
+
+Runtime-переменная `FRONTEND_ORIGIN` должна быть равна `https://app.shlokahub.com`.
+После её изменения примени настройки в Amvera и перезапусти приложение. Для проверки
+канонического API задай в Терминале:
+
+```bash
+AMVERA_API_ORIGIN='https://api.shlokahub.com'
+```
+
+Выполни команды шага 7.3: разрешённый origin получает `204` и соответствующий
+`Access-Control-Allow-Origin`, контрольный origin — ответ без этого заголовка.
+Затем повтори вход и открытие защищённой страницы на production frontend.
+
+## Будущий переход на VDS
+
+Существующий Dockerfile остаётся основой сборки. При переходе на VDS:
+
+1. Замени Amvera promotion на выпуск immutable image по commit SHA/digest;
+   запускай на сервере конкретный проверенный digest.
+2. Вынеси compiled migrations в отдельный release step до замены API-контейнера
+   и до увеличения числа реплик. Убери их из startup entrypoint для новой схемы.
+3. После принятой проверки VDS отключи интеграцию Amvera, удали promotion job
+   и служебную ветку `amvera-api`.
+
+Это будущая работа; текущий выпуск не требует registry или Amvera CLI.
+План ресурсов и этапов: [перенос backend на VDS](backend-hosting-migration.md).
 
 ## Резервный token при подтверждённой проблеме доставки promotion
 

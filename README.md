@@ -11,8 +11,8 @@ Initial product discovery / pre-MVP.
 - Product spec: `.scratch/initial-product/spec.md`
 - Domain language: `CONTEXT.md`
 - Architecture decisions: `docs/adr/`
-- Railway/Neon production runbook: `docs/operations/railway-production.md`
-- ShlokaHub API custom-domain runbook: `docs/operations/shlokahub-api-domain.md`
+- Amvera/Neon production runbook: [настройка и обычный выпуск backend](docs/operations/amvera-production.md)
+- ShlokaHub API custom-domain runbook: [домен API в Amvera](docs/operations/amvera-domain-cutover.md)
 - ShlokaHub static-domain runbook: `docs/operations/shlokahub-static-domains.md`
 - ShlokaHub application release-inputs runbook: `docs/operations/shlokahub-application-release-inputs.md`
 - VDS secure-access runbook: `docs/operations/vds-secure-access.md`
@@ -56,11 +56,15 @@ Run local migrations from TypeScript:
 pnpm --filter @sanskrit-shloka-learning/api db:migrate
 ```
 
-Use the compiled artifact for Railway pre-deploy after `pnpm build`:
+For a manual run of compiled migrations after `pnpm build`:
 
 ```sh
 pnpm --filter @sanskrit-shloka-learning/api db:migrate:production
 ```
+
+Production in Amvera runs compiled migrations automatically at container startup,
+before the API starts. Keep one replica; a separate release step for migrations is
+required before scaling. See the [production runbook](docs/operations/amvera-production.md).
 
 Workspace layout:
 
