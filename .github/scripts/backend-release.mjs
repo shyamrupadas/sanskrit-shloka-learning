@@ -6,7 +6,7 @@ import { appendFileSync } from "node:fs";
 const backendPaths = [
   "apps/api", "packages/api-contract", "package.json", "pnpm-lock.yaml",
   "pnpm-workspace.yaml", "tsconfig.base.json", "turbo.json", "Dockerfile",
-  ".dockerignore", "docker/api-entrypoint.sh", ".github/workflows/backend-ci.yml",
+  ".dockerignore", "amvera.yaml", "docker/api-entrypoint.sh", ".github/workflows/backend-ci.yml",
   ".github/scripts", ".npmrc", ".pnpmfile.cjs", "patches",
 ];
 const sourceRef = "refs/heads/main";

@@ -28,7 +28,7 @@ RUN pnpm --filter "@sanskrit-shloka-learning/api..." build \
 
 FROM node:24-bookworm-slim AS production
 
-ENV NODE_ENV=production
+ENV NODE_ENV=production PORT=8080
 
 WORKDIR /app
 
@@ -37,6 +37,6 @@ COPY docker/api-entrypoint.sh /usr/local/bin/api-entrypoint
 
 USER node
 
-EXPOSE 80
+EXPOSE 8080
 
 ENTRYPOINT ["api-entrypoint"]
