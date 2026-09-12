@@ -21,7 +21,10 @@ Initial product discovery / pre-MVP.
 
 ## Development
 
-Package manager: `pnpm@11.5.0` via Corepack.
+Runtime: Node.js 24.15+ (24.x LTS). Package manager: `pnpm@12.4.1` via Corepack.
+
+Builds and typechecks use TypeScript 7 (`@typescript/native`). The `typescript`
+alias provides the TypeScript 6 API required by ESLint and other tooling.
 
 ```sh
 corepack enable pnpm

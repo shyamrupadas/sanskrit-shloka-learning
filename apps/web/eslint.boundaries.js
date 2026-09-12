@@ -38,40 +38,42 @@ export const edSmallBoundariesConfig = {
   },
   rules: {
     "boundaries/no-unknown-files": "error",
-    "boundaries/no-unknown": "error",
+    "boundaries/no-unknown-dependencies": "error",
     "boundaries/dependencies": [
       "error",
       {
         default: "allow",
         message:
-          "ED small dependency violation: ${file.type} must not import ${dependency.type}.",
-        rules: [
+          "ED small dependency violation: {{from.element.type}} must not import {{to.element.type}}.",
+        policies: [
           {
-            from: { type: ["app", "shared", "feature"] },
+            from: { element: { type: ["app", "shared", "feature"] } },
             disallow: {
               dependency: outsideTargetElement,
-              to: { type: "feature" },
+              to: { element: { type: "feature" } },
             },
             message:
               "Import feature modules through their public API: index.ts(x) or route-level *.page.tsx.",
           },
           {
-            from: { type: ["app", "shared", "feature"] },
+            from: { element: { type: ["app", "shared", "feature"] } },
             allow: {
               dependency: outsideTargetElement,
               to: {
-                internalPath: ["index.ts", "index.tsx", "*.page.tsx"],
-                type: "feature",
+                element: {
+                  internalPath: ["index.ts", "index.tsx", "*.page.tsx"],
+                  type: "feature",
+                },
               },
             },
           },
           {
-            from: { type: "shared" },
-            disallow: { to: { type: ["app", "feature"] } },
+            from: { element: { type: "shared" } },
+            disallow: { to: { element: { type: ["app", "feature"] } } },
           },
           {
-            from: { type: "feature" },
-            disallow: { to: { type: "app" } },
+            from: { element: { type: "feature" } },
+            disallow: { to: { element: { type: "app" } } },
           },
         ],
       },

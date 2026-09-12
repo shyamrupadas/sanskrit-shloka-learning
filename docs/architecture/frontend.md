@@ -42,7 +42,7 @@ ED medium.
 ## Guardrails
 
 - `boundaries/no-unknown-files` запрещает frontend-файлы вне описанных элементов.
-- `boundaries/no-unknown` запрещает локальные зависимости, которые не попали в
+- `boundaries/no-unknown-dependencies` запрещает локальные зависимости, которые не попали в
   `app`, `features` или `shared`.
 - Workspace-пакеты вроде API contract считаются внешними зависимостями через
   `boundaries/flag-as-external`; локальные импорты через `@/` остаются под
