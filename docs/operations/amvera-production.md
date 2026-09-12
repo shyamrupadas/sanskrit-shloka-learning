@@ -14,6 +14,12 @@ API запускается пользователем `node` и слушает �
 Amvera направляет трафик сервиса на порт контейнера. Внешний HTTPS-домен остаётся
 прежним. Dockerfile задаёт `PORT=8080` по умолчанию.
 
+В `amvera.yaml` явно задана секция `meta` с `environment: docker` и
+`toolchain.name: docker`. Хотя Docker-документация Amvera допускает её отсутствие,
+deployment 2026-09-12 отклонил файл без неё с ошибкой
+`Configuration file amvera.yaml must contain section 'meta'`.
+Проверка запуска Docker-образа в CI не проверяет валидатор конфигурации Amvera.
+
 При переходе со старого deployment обязательно:
 
 1. Во вкладке «Переменные» поменяй существующий runtime `PORT` с `80` на `8080`.
