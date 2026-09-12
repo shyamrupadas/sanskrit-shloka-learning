@@ -78,7 +78,42 @@ jobs:
         run: pnpm --filter @sanskrit-shloka-learning/api... build
 
       - name: Build final production image
-        run: docker build --target production .
+        run: docker build --target production --tag shlokahub-api:ci .
+
+      - name: Verify non-root API startup on the container port
+        run: |
+          # Exercise the compiled API with Linux privileged-port restrictions.
+          # Skip startup migrations: this smoke test has no database or network.
+          docker run --rm --interactive --network none --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --sysctl net.ipv4.ip_unprivileged_port_start=1024 \
+            --env FRONTEND_ORIGIN=https://app.example.invalid \
+            --env DATABASE_URL=postgresql://fixture:fixture@db.invalid/app \
+            --env DATABASE_DIRECT_URL=postgresql://fixture:fixture@direct.invalid/app \
+            --entrypoint node shlokahub-api:ci --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { bootstrap } from "./dist/main.js";
+
+          const timeout = setTimeout(() => {
+            console.error("Container startup smoke test timed out");
+            process.exit(1);
+          }, 15_000);
+          try {
+            assert.notEqual(process.getuid(), 0);
+            assert.equal(process.env.PORT, "8080");
+            await bootstrap();
+            const response = await fetch("http://127.0.0.1:8080/health/live");
+            assert.equal(response.status, 200);
+            assert.deepEqual(await response.json(), { status: "ok" });
+            console.log("Non-root container startup: PASS");
+            process.exit(0);
+          } catch (error) {
+            console.error(error);
+            process.exit(1);
+          } finally {
+            clearTimeout(timeout);
+          }
+          NODE
 
   promote:
     name: Promote verified backend commit
