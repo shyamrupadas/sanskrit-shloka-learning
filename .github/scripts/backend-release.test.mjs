@@ -137,7 +137,7 @@ test("build, contract, migration and CI inputs trigger verification", (t) => {
   for (const path of [
     "apps/api/src/database/migrations/001.ts", "packages/api-contract/generated/server.ts",
     "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json", "turbo.json",
-    "Dockerfile", ".dockerignore", "docker/api-entrypoint.sh",
+    "Dockerfile", ".dockerignore", "amvera.yaml", "docker/api-entrypoint.sh",
     ".github/workflows/backend-ci.yml", ".github/scripts/backend-release.mjs",
   ]) {
     f.main(f.commit({ ...baseline, [path]: "changed" }, f.base));
