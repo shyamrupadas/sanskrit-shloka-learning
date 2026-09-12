@@ -4,35 +4,54 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "apps/api/**"
-      - "packages/api-contract/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - "tsconfig.base.json"
-      - "turbo.json"
-      - "Dockerfile"
-      - ".dockerignore"
-      - "docker/api-entrypoint.sh"
-      - ".github/workflows/backend-ci.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: backend-ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Cover planning (including no-op decisions), verification and promotion.
+  # Each queued run checks current main, including manual runs and reruns.
+  group: backend-ci-refs/heads/main
+  cancel-in-progress: false
 
 jobs:
+  prepare:
+    name: Plan backend release
+    runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.plan.outputs.source_sha }}
+      release_sha: ${{ steps.plan.outputs.release_sha }}
+      changed: ${{ steps.plan.outputs.changed }}
+    steps:
+      - name: Check out current main after acquiring the release queue
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node from package metadata
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
+      - name: Test backend release behavior
+        run: node --test .github/scripts/backend-release.test.mjs
+
+      - name: Compare backend inputs with the last release
+        id: plan
+        run: node .github/scripts/backend-release.mjs plan
+
   verify:
     name: Verify backend release
+    needs: prepare
+    if: needs.prepare.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ needs.prepare.outputs.source_sha }}
           persist-credentials: false
 
       - name: Set up Node from package metadata
@@ -61,10 +80,9 @@ jobs:
       - name: Build final production image
         run: docker build --target production .
 
-  # Amvera bootstrap: verify webhook delivery after connecting the release branch.
   promote:
     name: Promote verified backend commit
-    needs: verify
+    needs: [prepare, verify]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -72,10 +90,16 @@ jobs:
       - name: Check out verified commit with full history
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ needs.prepare.outputs.source_sha }}
           fetch-depth: 0
 
-      - name: Fast-forward Amvera release branch
-        # Never force push: divergent history or a newer release must fail
-        # instead of rolling back. Checkout uses the job's default GITHUB_TOKEN.
-        run: git push origin "${GITHUB_SHA}:refs/heads/amvera-api"
+      - name: Set up Node from package metadata
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
+      - name: Publish verified tree as a fast-forward release commit
+        env:
+          SOURCE_SHA: ${{ needs.prepare.outputs.source_sha }}
+          EXPECTED_RELEASE_SHA: ${{ needs.prepare.outputs.release_sha }}
+        run: node .github/scripts/backend-release.mjs promote

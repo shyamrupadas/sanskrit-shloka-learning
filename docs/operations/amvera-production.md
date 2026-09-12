@@ -180,12 +180,16 @@ push webhook. Доставку push проверишь при первом за�
 2. Открой запуск для только что созданного commit.
 3. Дождись зелёного результата у **Verify backend release**, затем у
    **Promote verified backend commit**.
-4. Скопируй идентификатор commit из этого запуска. Далее он обозначен как
-   **release SHA**.
+4. В Summary запуска найди запись `Promoted release … from verified source …`.
+   Скопируй **release SHA** и **source SHA** отдельно: первый обозначает релизный
+   commit, второй — проверенный commit из `main`.
 5. Открой [ветку amvera-api](https://github.com/shyamrupadas/sanskrit-shloka-learning/tree/amvera-api).
    Открой её последний commit и сравни SHA с release SHA.
 
-**Результат:** оба задания CI успешны, `amvera-api` указывает на release SHA.
+**Результат:** все три задания CI успешны, `amvera-api` указывает на release SHA.
+Сообщение релизного commit содержит `Source-Commit: <source SHA>`; его дерево файлов
+точно совпадает с деревом source SHA. Если Summary сообщает о пропуске устаревшего
+commit, дождись следующего запуска, который проверит актуальный `main`.
 Если задание красное, открой его и скопируй текст ошибки упавшего шага для разбора.
 
 ### 5.3. Проверить доставку push в Amvera
@@ -306,15 +310,23 @@ curl --silent --show-error --max-time 30 --include --request OPTIONS \
 ## Обычный выпуск backend
 
 ```text
-backend-related push в main → Backend CI → amvera-api
+push в main → очередь Backend CI → сравнение с последним релизом
+  → при изменениях: проверка source SHA → новый релизный commit → amvera-api
   → push webhook → Docker build в Amvera → startup migrations → API
   → ручная проверка канонического HTTPS-домена и сайта
 ```
 
-1. Внеси backend-изменение через обычный review/merge в `main`.
-2. Дождись успешных `verify` и `promote` в Backend CI. Проверка включает typecheck,
-   тесты, production build и сборку Docker image. При ошибке `amvera-api` не обновляется.
-3. Сверь SHA проверенного commit с `amvera-api` и исходным commit сборки Amvera.
+1. Внеси изменение в `main`. Amend и последующий push переписанного `main`
+   поддерживаются; вручную исправлять историю `amvera-api` после amend не нужно.
+2. Дождись успешных `prepare`, `verify` и `promote` в Backend CI. Если backend inputs
+   совпадают с последним релизом, `prepare` сообщает об отсутствии изменений,
+   а `verify` и `promote` штатно пропускаются. При изменениях проверка включает
+   typecheck, тесты, production build и сборку Docker image. При ошибке проверки
+   `amvera-api` не обновляется.
+3. Возьми source SHA и release SHA из Summary запуска. Сверь release SHA с
+   `amvera-api` и исходным commit сборки Amvera; source SHA — с полем `Source-Commit`
+   релизного commit. SHA события, открытого в Actions, может отличаться от source SHA:
+   после получения очереди workflow выбирает актуальный `main`.
    Убедись, что push webhook доставлен и новая сборка завершилась.
 4. В логах приложения проверь успех миграций и запуска API, отсутствие startup
    errors и явной утечки секретов. При ошибке миграции API не запускается.
@@ -322,10 +334,39 @@ backend-related push в main → Backend CI → amvera-api
    оба health endpoint — `200`, вход существующей учётной записью и загрузка данных
    защищённой страницы успешны. Автоматический допуск трафика по readiness не настроен.
 
-`amvera-api` — указатель на проверенный backend release. Ветка обновляется CI
-обычным fast-forward push; ручные commits, PR в эту ветку и force push не используются.
-Изменения только frontend или документации не запускают Backend CI; точный список
-путей задан в [workflow](../../.github/workflows/backend-ci.yml).
+`amvera-api` — история релизных commits, которую изменяет только CI обычным
+fast-forward push. Каждый новый commit содержит точное дерево проверенного source SHA;
+его первый родитель — предыдущий релиз, второй — source SHA. Для первого релиза
+единственный родитель — source SHA. Слияния содержимого файлов нет: удалённые файлы
+не возвращаются, разрешение конфликтов не добавляет непроверенный код. Ручные commits,
+PR в эту ветку, merge-back в `main` и force push релизной ветки не используются.
+
+Workflow запускается на каждый push в `main`. Общая concurrency group охватывает
+планирование, проверку и продвижение; `cancel-in-progress: false` сохраняет выполняющийся
+выпуск. Каждый следующий запуск после получения очереди заново выбирает текущий `main`
+и сравнивает его с последним релизом. Это относится также к ручному `Run workflow`
+и повторным запускам. SHA фиксируется на все последующие jobs.
+
+Сравниваются снимки файлов, независимо от общего предка коммитов. Единый список
+backend inputs задан в [скрипте выпуска](../../.github/scripts/backend-release.mjs):
+API (включая тесты и миграции), API-контракт, зависимости, workspace/toolchain metadata,
+Docker и backend CI. Изменения только frontend/документации и amend сообщения дают
+успешный пропуск, если неопубликованных backend-изменений нет. Изменение тестов или
+настроек сборки запускает проверку. При добавлении новых входов сборки обновляй этот список.
+
+Перед продвижением CI проверяет актуальность source SHA и неизменность предыдущего
+релиза. Устаревший source SHA даёт успешный пропуск; неожиданное изменение релизной
+ветки, ошибка чтения Git или отказ push остаются ошибками. Если новый push приходит
+между последней проверкой и публикацией, предыдущая проверенная версия может успеть
+отправиться; следующий запуск проверит новое состояние относительно уже отправленного
+релиза. `amvera-api` подтверждает отправку проверенных исходников, а не успешный запуск
+приложения в Amvera.
+
+Локальная проверка поведения CI без сети и production-действий:
+
+```bash
+node --test .github/scripts/backend-release.test.mjs
+```
 
 Контейнер запускает compiled migrations через direct Neon endpoint при каждом
 старте, затем заменяет стартовый процесс на API. Runtime работает через pooled
@@ -334,6 +375,9 @@ endpoint. Сохраняй **одну реплику**: перед масшта�
 
 При неудачном CI исправь ошибку и выпусти новый commit через `main`. Если CI прошёл,
 а deployment не появился, проверь доставку webhook и настройки из шага 5.5.
+`Run workflow` повторяет оценку текущего `main`; при совпадении backend inputs он
+не отправляет повторный release. Для уже отправленного релиза с неудачным deployment
+после устранения причины повтори доставку webhook или сборку через Amvera.
 Если не прошли миграции или health-check, разбери ошибку запуска и подключения к Neon
 до подтверждения выпуска; не меняй release-ветку вручную.
 
@@ -360,7 +404,11 @@ AMVERA_API_ORIGIN='https://api.shlokahub.com'
 2. Вынеси compiled migrations в отдельный release step до замены API-контейнера
    и до увеличения числа реплик. Убери их из startup entrypoint для новой схемы.
 3. После принятой проверки VDS отключи интеграцию Amvera, удали promotion job
-   и служебную ветку `amvera-api`.
+   и служебную ветку `amvera-api`. Удали временный скрипт
+   [`.github/scripts/backend-release.mjs`](../../.github/scripts/backend-release.mjs),
+   его тесты `.github/scripts/backend-release.test.mjs` и их вызовы из backend workflow.
+   Этот скрипт обслуживает выпуск через релизную ветку Amvera; в VDS pipeline с
+   immutable images он не нужен.
 
 Это будущая работа; текущий выпуск не требует registry или Amvera CLI.
 План ресурсов и этапов: [перенос backend на VDS](backend-hosting-migration.md).
@@ -383,7 +431,7 @@ AMVERA_API_ORIGIN='https://api.shlokahub.com'
       - name: Check out verified commit with full history
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ needs.prepare.outputs.source_sha }}
           fetch-depth: 0
           token: ${{ secrets.AMVERA_PROMOTION_TOKEN }}
 ```
@@ -392,5 +440,5 @@ AMVERA_API_ORIGIN='https://api.shlokahub.com'
 7. Повтори проверки шага 5 для нового запуска CI и нового release SHA.
 8. Сохрани срок действия token и напоминание о ротации в менеджере паролей.
 
-**Результат:** проверенный commit продвинут в `amvera-api`, webhook доставлен,
+**Результат:** релизный commit с проверенным деревом опубликован в `amvera-api`, webhook доставлен,
 Amvera собрала тот же release SHA.
