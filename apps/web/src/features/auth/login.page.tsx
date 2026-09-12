@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { flushSync } from "react-dom";
 import { Link, useRouter } from "@tanstack/react-router";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
@@ -33,7 +34,8 @@ export function LoginPage() {
         email: email.trim(),
         password,
       });
-      session.setSession(nextSession);
+      // Route guards must receive the updated session before navigation starts.
+      flushSync(() => session.setSession(nextSession));
       await router.navigate({ replace: true, to: routePaths.dashboard });
     } catch (caughtError) {
       setError(getApiErrorMessage(caughtError, strings.auth.loginError));

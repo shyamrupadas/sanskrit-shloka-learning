@@ -160,7 +160,7 @@ describe.each(componentCases)(
       expect(text).toHaveAttribute("class", "mt-4");
       expect(text).toHaveAttribute("data-purpose", "description");
       expect(text).toHaveAttribute("id", "description");
-      expect(text).toHaveStyle({ marginTop: "1rem" });
+      expect(text.style.marginTop).toBe("1rem");
 
       await user.click(text);
       expect(onClick).toHaveBeenCalledOnce();
