@@ -185,7 +185,7 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     stage === "hidden" ? Typography : SanskritTypography;
 
   return (
-    <section className="mx-auto w-full max-w-[390px] space-y-[18px]">
+    <section className="w-full space-y-[18px]">
       <header className="space-y-2">
         <Typography variant="h1">
           {strings.reviewShloka.title}
@@ -317,7 +317,7 @@ function ResultStep({
   saveError: Error | null;
 }) {
   return (
-    <section className="mx-auto w-full max-w-[390px] space-y-[18px]">
+    <section className="w-full space-y-[18px]">
       <Typography variant="h1">
         {strings.reviewShloka.resultTitle}
       </Typography>
@@ -381,7 +381,7 @@ function ReviewSkeleton() {
   return (
     <section
       aria-label={strings.reviewShloka.loading}
-      className="mx-auto w-full max-w-[390px] animate-pulse space-y-4"
+      className="w-full animate-pulse space-y-4"
       role="status"
     >
       <Typography as="span" className="sr-only" variant="p2">
@@ -402,7 +402,7 @@ function ReviewStatus({
   title: string;
 }) {
   return (
-    <Card className="mx-auto w-full max-w-[390px] rounded-lg">
+    <Card className="w-full rounded-lg">
       <CardHeader>
         <Typography as="div" variant="h3">
           {title}
