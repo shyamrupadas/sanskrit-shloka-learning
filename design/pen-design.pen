@@ -11674,10 +11674,10 @@
               "fill": "$color-text-primary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "дхр̣тара̄шт̣ра ува̄ча",
+              "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
               "lineHeight": "$typography-body-line",
               "fontFamily": "$font-sanskrit",
-              "fontSize": "$typography-p4-size",
+              "fontSize": "$typography-p3-size",
               "fontWeight": "$typography-weight-bold",
               "fontStyle": "Normal"
             }
@@ -11959,29 +11959,7 @@
                   "ref": "B9n47J",
                   "name": "Помощник",
                   "width": "fill_container",
-                  "height": 52,
-                  "children": [
-                    {
-                      "id": "nALai",
-                      "type": "ref",
-                      "ref": "nALai",
-                      "enabled": false,
-                      "children": [
-                        {
-                          "id": "aJi23",
-                          "type": "ref",
-                          "ref": "nALai/aJi23"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "VZsCN",
-                      "type": "ref",
-                      "ref": "VZsCN",
-                      "content": "Помощник",
-                      "fontSize": 15
-                    }
-                  ]
+                  "height": 52
                 }
               ]
             }
@@ -12020,17 +11998,7 @@
               "ref": "M6qnk",
               "name": "Выучил",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Выучил",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -12152,17 +12120,7 @@
                       "ref": "Pg6xe",
                       "name": "Success Check",
                       "width": 28,
-                      "height": 28,
-                      "children": [
-                        {
-                          "id": "gnrAo",
-                          "type": "ref",
-                          "ref": "gnrAo",
-                          "width": 28,
-                          "height": 28,
-                          "fill": "$color-success-fg"
-                        }
-                      ]
+                      "height": 28
                     }
                   ]
                 },
@@ -12208,7 +12166,8 @@
                       "content": "Бхагавад-гита 1.1 теперь появится в расписании повторений.",
                       "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 14
+                      "fontSize": 14,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -12247,29 +12206,7 @@
                       "ref": "B9n47J",
                       "name": "Учить следующую",
                       "width": "fill_container",
-                      "height": 52,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
-                          "content": "Учить следующую",
-                          "fontSize": 15
-                        }
-                      ]
+                      "height": 52
                     },
                     {
                       "type": "frame",
@@ -12331,17 +12268,7 @@
               "ref": "M6qnk",
               "name": "Закончить",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Закончить",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -17023,17 +16950,7 @@
               "ref": "M6qnk",
               "name": "Скрыть и повторить",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Скрыть и повторить",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -17366,17 +17283,7 @@
               "ref": "M6qnk",
               "name": "Показать и свериться",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Показать и свериться",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -17709,17 +17616,7 @@
               "ref": "M6qnk",
               "name": "Следующий фрагмент",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Следующий фрагмент",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -18052,17 +17949,7 @@
               "ref": "M6qnk",
               "name": "Вернуться к шлоке",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Вернуться к шлоке",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -18481,7 +18368,8 @@
                   "content": "Прочитайте одну строку медленно, отвернитесь от экрана и произнесите её по памяти. Затем сверьтесь и добавьте следующую.",
                   "lineHeight": 1.58,
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18
+                  "fontSize": 18,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -18493,7 +18381,8 @@
                   "content": "Совет 1 из 3",
                   "lineHeight": 1.4,
                   "fontFamily": "$font-ui",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -18512,30 +18401,7 @@
                       "height": 52,
                       "fill": "$button-secondary-bg",
                       "stroke": "$color-border",
-                      "opacity": 1,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
-                          "content": "Другой совет",
-                          "fontSize": 15,
-                          "fill": "$button-secondary-fg"
-                        }
-                      ]
+                      "opacity": 1
                     },
                     {
                       "type": "frame",
@@ -18979,7 +18845,8 @@
                   "content": "Если целая строка не вспоминается, восстановите первое слово, затем снова попробуйте произнести строку без подсказки.",
                   "lineHeight": 1.58,
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": 18
+                  "fontSize": 18,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -18998,30 +18865,7 @@
                       "height": 52,
                       "fill": "$color-disabled-bg",
                       "stroke": "$color-border",
-                      "opacity": 0.7,
-                      "children": [
-                        {
-                          "id": "nALai",
-                          "type": "ref",
-                          "ref": "nALai",
-                          "enabled": false,
-                          "children": [
-                            {
-                              "id": "aJi23",
-                              "type": "ref",
-                              "ref": "nALai/aJi23"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "VZsCN",
-                          "type": "ref",
-                          "ref": "VZsCN",
-                          "content": "Других советов нет",
-                          "fontSize": 15,
-                          "fill": "$color-disabled-fg"
-                        }
-                      ]
+                      "opacity": 0.7
                     },
                     {
                       "type": "frame",
@@ -19604,7 +19448,8 @@
                       "content": "Не удалось изменить статус. Можно попробовать снова — повторной подтверждённой операции не было.",
                       "lineHeight": 1.45,
                       "fontFamily": "$font-ui",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -19930,7 +19775,8 @@
                       "content": "Результат пока неясен. Сначала проверим актуальный статус, не отправляя «Выучил» повторно.",
                       "lineHeight": 1.45,
                       "fontFamily": "$font-ui",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -20336,7 +20182,8 @@
               "content": "Проверьте соединение и попробуйте снова.",
               "lineHeight": "$typography-body-line",
               "fontFamily": "$font-ui",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -20374,17 +20221,7 @@
               "ref": "M6qnk",
               "name": "Попробовать снова",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Попробовать снова",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             },
             {
               "id": "iUYGz",
@@ -20392,29 +20229,7 @@
               "ref": "B9n47J",
               "name": "Отмена и возврат",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "nALai",
-                  "type": "ref",
-                  "ref": "nALai",
-                  "enabled": false,
-                  "children": [
-                    {
-                      "id": "aJi23",
-                      "type": "ref",
-                      "ref": "nALai/aJi23"
-                    }
-                  ]
-                },
-                {
-                  "id": "VZsCN",
-                  "type": "ref",
-                  "ref": "VZsCN",
-                  "content": "Отмена и возврат",
-                  "fontSize": 15
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -20582,17 +20397,7 @@
               "ref": "M6qnk",
               "name": "Вернуться",
               "width": "fill_container",
-              "height": 52,
-              "children": [
-                {
-                  "id": "aUMci",
-                  "type": "ref",
-                  "ref": "aUMci",
-                  "content": "Вернуться",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "height": 52
             }
           ]
         }
@@ -20767,7 +20572,8 @@
                       "content": "Бхагавад-гита 1.1 теперь появится в расписании повторений.",
                       "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 14
+                      "fontSize": 14,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -20810,7 +20616,8 @@
                       "content": "В списке «Буду учить» больше нет шлок. Можно выбрать другую самостоятельно.",
                       "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 14
+                      "fontSize": 14,
+                      "fontWeight": "normal"
                     },
                     {
                       "id": "IsKoq",
