@@ -16155,7 +16155,7 @@
           "fill": "$color-text-primary",
           "textGrowth": "fixed-width",
           "width": 320,
-          "content": "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+          "content": "Отлично! Возвращайся завтра, чтобы продолжить серию.",
           "lineHeight": "$typography-body-line",
           "textAlign": "center",
           "fontFamily": "$font-ui",
