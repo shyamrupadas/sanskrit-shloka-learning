@@ -3,10 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { Dialog } from "radix-ui";
 
-import {
-  SanskritTypography,
-  Typography,
-} from "@/shared/design-system/components";
+import { Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { Button } from "@/shared/ui/button";
@@ -77,7 +74,7 @@ export function LearnShlokaAdviceDialog({
             </Dialog.Close>
           </div>
           <Dialog.Description asChild>
-            <SanskritTypography
+            <Typography
               className="mt-[18px] break-words [overflow-wrap:anywhere]"
               style={
                 {
@@ -90,7 +87,7 @@ export function LearnShlokaAdviceDialog({
               variant="p3"
             >
               {tip.text}
-            </SanskritTypography>
+            </Typography>
           </Dialog.Description>
           {hasAnotherTip ? (
             <Typography className="mt-[18px]" tone="muted" variant="p1">
