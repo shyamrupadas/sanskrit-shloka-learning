@@ -185,49 +185,50 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     stage === "hidden" ? Typography : SanskritTypography;
 
   return (
-    <section className="w-full space-y-[18px]">
-      <header className="space-y-2">
-        <Typography variant="h1">
-          {strings.reviewShloka.title}
+    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
+      <div className="min-h-0 min-w-0 flex-1 space-y-[18px] overflow-y-auto px-5 pt-5 pb-[18px]">
+        <header className="space-y-2">
+          <Typography variant="h1">
+            {strings.reviewShloka.title}
+          </Typography>
+          <Typography tone="brand" variant="p2" weight="bold">
+            {stageLabel(stage)}
+          </Typography>
+        </header>
+
+        <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
+          <SanskritTypography
+            className="break-words [overflow-wrap:anywhere]"
+            variant="h2"
+          >
+            {currentShloka.displayTitle}
+          </SanskritTypography>
+          <RecallTypography
+            aria-label={recallBodyLabel(stage)}
+            as="div"
+            className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
+            variant="p4"
+            weight="bold"
+          >
+            {recallBody(currentShloka.text, stage)}
+          </RecallTypography>
+        </article>
+
+        <Typography tone="muted" variant="p2">
+          {strings.reviewShloka.instruction}
         </Typography>
-        <Typography tone="brand" variant="p2" weight="bold">
-          {currentFlow.currentIndex + 1} из {currentFlow.items.length} ·{" "}
-          {stageLabel(stage)}
-        </Typography>
-      </header>
 
-      <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
-        <SanskritTypography
-          className="break-words [overflow-wrap:anywhere]"
-          variant="h2"
-        >
-          {currentShloka.displayTitle}
-        </SanskritTypography>
-        <RecallTypography
-          aria-label={recallBodyLabel(stage)}
-          as="div"
-          className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
-          variant="p4"
-          weight="bold"
-        >
-          {recallBody(currentShloka.text, stage)}
-        </RecallTypography>
-      </article>
+        {completionMutation.error ? (
+          <Typography role="alert" tone="danger" variant="p2">
+            {getApiErrorMessage(
+              completionMutation.error,
+              strings.reviewShloka.saveError,
+            )}
+          </Typography>
+        ) : null}
+      </div>
 
-      <Typography tone="muted" variant="p2">
-        {strings.reviewShloka.instruction}
-      </Typography>
-
-      {completionMutation.error ? (
-        <Typography role="alert" tone="danger" variant="p2">
-          {getApiErrorMessage(
-            completionMutation.error,
-            strings.reviewShloka.saveError,
-          )}
-        </Typography>
-      ) : null}
-
-      <div className="space-y-2.5">
+      <div className="sticky bottom-0 mt-auto shrink-0 space-y-2.5 bg-card px-5 pt-3 pb-[calc(var(--space-3)+env(safe-area-inset-bottom))] shadow-[var(--component-bottom-nav-shadow)]">
         {stage === "hidden" ? (
           <>
             <ReviewButton
@@ -317,19 +318,25 @@ function ResultStep({
   saveError: Error | null;
 }) {
   return (
-    <section className="w-full space-y-[18px]">
-      <Typography variant="h1">
-        {strings.reviewShloka.resultTitle}
-      </Typography>
-      <Typography tone="muted" variant="p3">
-        {strings.reviewShloka.resultDescription}
-      </Typography>
-      {saveError ? (
-        <Typography role="alert" tone="danger" variant="p2">
-          {getApiErrorMessage(saveError, strings.reviewShloka.saveError)}
+    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
+      <div className="min-h-0 min-w-0 flex-1 space-y-[18px] overflow-y-auto px-5 pt-5 pb-[18px]">
+        <Typography variant="h1">
+          {strings.reviewShloka.resultTitle}
         </Typography>
-      ) : null}
-      <div className="space-y-2.5">
+        <Typography tone="muted" variant="p3">
+          {strings.reviewShloka.resultDescription}
+        </Typography>
+        {saveError ? (
+          <Typography role="alert" tone="danger" variant="p2">
+            {getApiErrorMessage(saveError, strings.reviewShloka.saveError)}
+          </Typography>
+        ) : null}
+        <Typography tone="muted" variant="p2">
+          {strings.reviewShloka.finishHint}
+        </Typography>
+      </div>
+
+      <div className="sticky bottom-0 mt-auto shrink-0 space-y-2.5 bg-card px-5 pt-3 pb-[calc(var(--space-3)+env(safe-area-inset-bottom))] shadow-[var(--component-bottom-nav-shadow)]">
         <ReviewButton
           disabled={isPending}
           onClick={() => onComplete("remembered_without_error")}
@@ -346,9 +353,6 @@ function ResultStep({
           {strings.reviewShloka.recallWithError}
         </ReviewButton>
       </div>
-      <Typography tone="muted" variant="p2">
-        {strings.reviewShloka.finishHint}
-      </Typography>
     </section>
   );
 }
@@ -366,7 +370,7 @@ function ReviewButton({
 }) {
   return (
     <Button
-      className="h-11 w-full text-[15px] font-semibold"
+      className="h-[52px] w-full text-[16px] font-bold"
       disabled={disabled}
       onClick={onClick}
       type="button"
@@ -381,7 +385,7 @@ function ReviewSkeleton() {
   return (
     <section
       aria-label={strings.reviewShloka.loading}
-      className="w-full animate-pulse space-y-4"
+      className="w-full animate-pulse space-y-4 p-5"
       role="status"
     >
       <Typography as="span" className="sr-only" variant="p2">
@@ -402,18 +406,20 @@ function ReviewStatus({
   title: string;
 }) {
   return (
-    <Card className="w-full rounded-lg">
-      <CardHeader>
-        <Typography as="div" variant="h3">
-          {title}
-        </Typography>
-        {description ? (
-          <Typography tone="muted" variant="p2">
-            {description}
+    <div className="p-5">
+      <Card className="w-full rounded-lg">
+        <CardHeader>
+          <Typography as="div" variant="h3">
+            {title}
           </Typography>
-        ) : null}
-      </CardHeader>
-    </Card>
+          {description ? (
+            <Typography tone="muted" variant="p2">
+              {description}
+            </Typography>
+          ) : null}
+        </CardHeader>
+      </Card>
+    </div>
   );
 }
 

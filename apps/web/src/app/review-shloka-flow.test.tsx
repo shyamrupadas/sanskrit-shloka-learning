@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
@@ -179,11 +179,11 @@ describe("app review shloka flow", () => {
     );
 
     await expectPath("/library/shlokas/gita-1-1/review");
-    expect(await screen.findByText("1 из 2 · без подсказки")).toBeInTheDocument();
+    expect(await screen.findByText("без подсказки")).toBeInTheDocument();
     await completeWithoutError(user);
 
     await expectPath("/library/shlokas/gita-4-7/review");
-    expect(await screen.findByText("2 из 2 · без подсказки")).toBeInTheDocument();
+    expect(await screen.findByText("без подсказки")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 2,
@@ -225,9 +225,11 @@ describe("app review shloka flow", () => {
     await user.click(
       await screen.findByRole("button", { name: "Нужна подсказка" }),
     );
-    await user.click(screen.getByRole("link", { name: "Главная" }));
+    await act(async () => {
+      window.history.back();
+    });
 
-    await expectPath(routePaths.dashboard);
+    await expectPath(routePaths.library);
     expect(api.completions).toHaveLength(0);
     expect(
       await screen.findByRole("article", { name: firstShloka.displayTitle }),

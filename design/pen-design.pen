@@ -12244,7 +12244,6 @@
       "height": 844,
       "fill": "$bg",
       "layout": "vertical",
-      "gap": 14,
       "alignItems": "center",
       "children": [
         {
@@ -12320,8 +12319,10 @@
           "layout": "vertical",
           "gap": 18,
           "padding": [
-            0,
-            16
+            20,
+            20,
+            18,
+            20
           ],
           "children": [
             {
@@ -12346,9 +12347,9 @@
                 {
                   "type": "text",
                   "id": "F4qUmS",
-                  "name": "Review Progress",
+                  "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "1 из 3 · без подсказки",
+                  "content": "без подсказки",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
@@ -12389,7 +12390,7 @@
                   "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Текст скрыт\n\nВспомните первую строку шлоки.",
+                  "content": "Текст скрыт\n\nПроизнесите шлоку по памяти.",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p4-size",
@@ -12409,39 +12410,66 @@
               "fontFamily": "$font-ui",
               "fontSize": "$typography-p2-size",
               "fontWeight": "$typography-weight-normal"
-            },
-            {
-              "type": "frame",
-              "id": "rRkTE",
-              "name": "Review Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "BKj71",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Primary Review Action",
-                  "width": "fill_container"
-                },
-                {
-                  "id": "usyZg",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Secondary Review Action",
-                  "width": "fill_container"
-                }
-              ]
             }
           ]
         },
         {
-          "id": "o8y0rA",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Повторение",
-          "width": "fill_container"
+          "type": "frame",
+          "id": "rRkTE",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "ewK7l",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Вспомнил",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Вспомнил",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            },
+            {
+              "id": "AVoWK",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Нужна подсказка",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Нужна подсказка",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -12456,7 +12484,6 @@
       "height": 844,
       "fill": "$bg",
       "layout": "vertical",
-      "gap": 14,
       "alignItems": "center",
       "children": [
         {
@@ -12532,8 +12559,10 @@
           "layout": "vertical",
           "gap": 18,
           "padding": [
-            0,
-            16
+            20,
+            20,
+            18,
+            20
           ],
           "children": [
             {
@@ -12558,9 +12587,9 @@
                 {
                   "type": "text",
                   "id": "jvsID",
-                  "name": "Review Progress",
+                  "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "1 из 3 · подсказка 1",
+                  "content": "подсказка 1",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
@@ -12601,7 +12630,7 @@
                   "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "дхарма-кшетре куру-...",
+                  "content": "дхарма-кшетре...",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
@@ -12622,39 +12651,66 @@
               "fontFamily": "$font-ui",
               "fontSize": "$typography-p2-size",
               "fontWeight": "$typography-weight-normal"
-            },
-            {
-              "type": "frame",
-              "id": "HBSAr",
-              "name": "Review Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "AFWVi",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Primary Review Action",
-                  "width": "fill_container"
-                },
-                {
-                  "id": "zO75K",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Secondary Review Action",
-                  "width": "fill_container"
-                }
-              ]
             }
           ]
         },
         {
-          "id": "amAD2",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Повторение",
-          "width": "fill_container"
+          "type": "frame",
+          "id": "HBSAr",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "GM9yg",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Вспомнил",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Вспомнил",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            },
+            {
+              "id": "m1FtUb",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Ещё подсказка",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Ещё подсказка",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -12669,7 +12725,6 @@
       "height": 844,
       "fill": "$bg",
       "layout": "vertical",
-      "gap": 14,
       "alignItems": "center",
       "children": [
         {
@@ -12745,8 +12800,10 @@
           "layout": "vertical",
           "gap": 18,
           "padding": [
-            0,
-            16
+            20,
+            20,
+            18,
+            20
           ],
           "children": [
             {
@@ -12771,9 +12828,9 @@
                 {
                   "type": "text",
                   "id": "UIJFo",
-                  "name": "Review Progress",
+                  "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "1 из 3 · подсказка 2",
+                  "content": "подсказка 2",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
@@ -12835,32 +12892,66 @@
               "fontFamily": "$font-ui",
               "fontSize": "$typography-p2-size",
               "fontWeight": "$typography-weight-normal"
-            },
-            {
-              "type": "frame",
-              "id": "cclV9",
-              "name": "Review Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "dbxkw",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Primary Review Action",
-                  "width": "fill_container"
-                }
-              ]
             }
           ]
         },
         {
-          "id": "y2bxp",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Повторение",
-          "width": "fill_container"
+          "type": "frame",
+          "id": "cclV9",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "L9bzv",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Вспомнил",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Вспомнил",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            },
+            {
+              "id": "U5hQ4i",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Показать весь текст",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Показать весь текст",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -12869,13 +12960,12 @@
       "id": "s0VvGA",
       "x": 1362,
       "y": 6209,
-      "name": "Повторение — полный текст",
+      "name": "Повторение — полный текст / без подсказки",
       "clip": true,
       "width": 390,
       "height": 844,
       "fill": "$bg",
       "layout": "vertical",
-      "gap": 14,
       "alignItems": "center",
       "children": [
         {
@@ -12951,8 +13041,10 @@
           "layout": "vertical",
           "gap": 18,
           "padding": [
-            0,
-            16
+            20,
+            20,
+            18,
+            20
           ],
           "children": [
             {
@@ -12977,9 +13069,9 @@
                 {
                   "type": "text",
                   "id": "wsZzK",
-                  "name": "Review Progress",
+                  "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "1 из 3 · полный текст",
+                  "content": "полный текст",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
@@ -13041,39 +13133,51 @@
               "fontFamily": "$font-ui",
               "fontSize": "$typography-p2-size",
               "fontWeight": "$typography-weight-normal"
-            },
-            {
-              "type": "frame",
-              "id": "hdjQO",
-              "name": "Review Actions",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "yxkXb",
-                  "type": "ref",
-                  "ref": "M6qnk",
-                  "name": "Primary Review Action",
-                  "width": "fill_container"
-                },
-                {
-                  "id": "wRrJM",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Secondary Review Action",
-                  "width": "fill_container"
-                }
-              ]
             }
           ]
         },
         {
-          "id": "K8fTd",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Повторение",
-          "width": "fill_container"
+          "type": "frame",
+          "id": "hdjQO",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "Z5PKj",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Оценить результат",
+              "width": "fill_container",
+              "height": 52,
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
+                  "content": "Оценить результат",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -13088,7 +13192,6 @@
       "height": 844,
       "fill": "$bg",
       "layout": "vertical",
-      "gap": 14,
       "alignItems": "center",
       "children": [
         {
@@ -13164,8 +13267,10 @@
           "layout": "vertical",
           "gap": 18,
           "padding": [
-            0,
-            16
+            20,
+            20,
+            18,
+            20
           ],
           "children": [
             {
@@ -13195,20 +13300,6 @@
               "fontWeight": "$typography-weight-normal"
             },
             {
-              "id": "Moqyg",
-              "type": "ref",
-              "ref": "M6qnk",
-              "name": "Все правильно",
-              "width": "fill_container"
-            },
-            {
-              "id": "NDcna",
-              "type": "ref",
-              "ref": "B9n47J",
-              "name": "Сделал ошибку",
-              "width": "fill_container"
-            },
-            {
               "type": "text",
               "id": "Q8opct",
               "name": "Flow Finish Hint",
@@ -13224,11 +13315,78 @@
           ]
         },
         {
-          "id": "bZyQj",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Повторение",
-          "width": "fill_container"
+          "type": "frame",
+          "id": "Y783mx",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "LYXW2",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Все правильно",
+              "width": "fill_container",
+              "height": 52,
+              "children": [
+                {
+                  "id": "aUMci",
+                  "type": "ref",
+                  "ref": "aUMci",
+                  "content": "Все правильно",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "id": "SOoxx",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Сделал ошибку",
+              "width": "fill_container",
+              "height": 52,
+              "children": [
+                {
+                  "id": "nALai",
+                  "type": "ref",
+                  "ref": "nALai",
+                  "enabled": false,
+                  "children": [
+                    {
+                      "id": "aJi23",
+                      "type": "ref",
+                      "ref": "nALai/aJi23"
+                    }
+                  ]
+                },
+                {
+                  "id": "VZsCN",
+                  "type": "ref",
+                  "ref": "VZsCN",
+                  "content": "Сделал ошибку",
+                  "fontSize": "$button-font-lg",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
