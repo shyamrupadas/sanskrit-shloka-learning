@@ -54,8 +54,8 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
             aria-label={strings.shloka.canonicalText}
             as="div"
             className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
-            variant="p3"
-            weight="bold"
+            variant="p4"
+            weight="medium"
           >
             {shlokaQuery.data.text}
           </SanskritTypography>

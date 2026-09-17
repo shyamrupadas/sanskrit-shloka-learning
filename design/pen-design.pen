@@ -11677,52 +11677,11 @@
               "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
               "lineHeight": "$typography-body-line",
               "fontFamily": "$font-sanskrit",
-              "fontSize": "$typography-p3-size",
-              "fontWeight": "$typography-weight-bold",
+              "fontSize": "$typography-p4-size",
+              "fontWeight": "$typography-weight-medium",
               "fontStyle": "Normal"
             }
           ]
-        },
-        {
-          "id": "Fhsai",
-          "type": "ref",
-          "ref": "S7Pta",
-          "name": "Bottom Navigation — Библиотека",
-          "width": "fill_container",
-          "descendants": {
-            "X1d4e": {
-              "fill": "$color-transparent",
-              "cornerRadius": "$radius-none"
-            },
-            "M1O7R": {
-              "fill": "$text-muted",
-              "fontWeight": "$typography-weight-medium"
-            },
-            "bQROH": {
-              "fill": "$color-transparent",
-              "cornerRadius": "$radius-none"
-            },
-            "L6CXp6": {
-              "fill": "$primary",
-              "fontWeight": "$typography-weight-medium"
-            },
-            "U1VK6D": {
-              "fill": "$color-transparent",
-              "cornerRadius": "$radius-none"
-            },
-            "Jl09H": {
-              "fill": "$text-muted",
-              "fontWeight": "$typography-weight-medium"
-            },
-            "JIRDA": {
-              "fill": "$color-transparent",
-              "cornerRadius": "$radius-none"
-            },
-            "KuIBo": {
-              "fill": "$text-muted",
-              "fontWeight": "$typography-weight-medium"
-            }
-          }
         }
       ]
     },

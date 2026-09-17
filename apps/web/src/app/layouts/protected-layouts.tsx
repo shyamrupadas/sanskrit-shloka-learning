@@ -39,7 +39,11 @@ export function AuthenticatedLayout() {
 }
 
 function isBottomNavigationHiddenPath(pathname: string): boolean {
-  return pathname === routePaths.streak || isLearningAttemptPath(pathname);
+  return (
+    pathname === routePaths.streak ||
+    /^\/library\/shlokas\/[^/]+\/?$/.test(pathname) ||
+    isLearningAttemptPath(pathname)
+  );
 }
 
 function isLearningAttemptPath(pathname: string): boolean {

@@ -166,7 +166,7 @@ Accepted: 2026-07-14
 - После завершения всех кандидатов на день дашборд показывает встроенное состояние завершения, а не модальное окно.
 - `Серия дней` считается по дню пользователя. Значимая активность - завершенное повторение или перевод шлоки в `повторяю`.
 - Индикатор серии дней имеет два состояния: ожидает первой значимой активности сегодня или уже продолжена сегодня.
-- Страница шлоки в MVP минимальная: отображаемое название, текст, возврат в библиотеку и нижняя навигация общего shell.
+- Страница шлоки в MVP минимальная: отображаемое название, текст, возврат в библиотеку.
 - `Обучение санскриту` - статический список раскрывающихся советов. CMS, курсы, квизы и прогресс в этом разделе не входят в MVP.
 - Основные frontend-модули: auth, dashboard, shloka library, shloka detail, learn shloka, review shloka, Sanskrit learning, settings, admin sources, admin shlokas, app shell/navigation, i18n, API client.
 - Основные backend-модули: authentication/accounts, authorization/roles, shloka catalog, source catalog, user shloka progress, repetition history, repetition algorithm, streak calculation, settings/preferences, admin library management.

@@ -255,25 +255,15 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("opens library routes inside the authenticated layout", async () => {
+  it("opens the library inside the authenticated layout", async () => {
     mockApi(successfulApi);
     storeTestSession(session);
 
-    const libraryView = renderAppAt("/library");
+    renderAppAt("/library");
 
     const libraryNavigation = await screen.findByRole("navigation");
     expect(
       within(libraryNavigation).getByRole("link", {
-        name: "Библиотека",
-      }),
-    ).toHaveAttribute("aria-current", "page");
-
-    libraryView.unmount();
-    renderAppAt("/library/shlokas/gita-chapter-2-2-47");
-
-    const shlokaNavigation = await screen.findByRole("navigation");
-    expect(
-      within(shlokaNavigation).getByRole("link", {
         name: "Библиотека",
       }),
     ).toHaveAttribute("aria-current", "page");
