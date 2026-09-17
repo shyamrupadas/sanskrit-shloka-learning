@@ -294,9 +294,9 @@ describe("app review shloka flow", () => {
     expect(api.completions).toHaveLength(0);
   });
 
-  it.each(["Закончить", "Выбрать другую"])(
-    "allows %s without starting the next review",
-    async (action) => {
+  it(
+    "offers only next review or finish on completion",
+    async () => {
       const user = userEvent.setup();
       const api = createReviewApi([firstShloka, secondShloka]);
       mockApi(api.handle);
@@ -307,19 +307,15 @@ describe("app review shloka flow", () => {
       expect(
         await screen.findByRole("button", { name: "Повторить следующую" }),
       ).toBeInTheDocument();
-      await user.click(screen.getByRole("button", { name: action }));
+      expect(
+        screen.queryByRole("button", { name: "Выбрать другую" }),
+      ).not.toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Закончить" }));
 
-      await expectPath(
-        action === "Закончить" ? routePaths.dashboard : routePaths.library,
-      );
+      await expectPath(routePaths.dashboard);
       expect(
         await screen.findByRole("article", { name: secondShloka.displayTitle }),
       ).toBeInTheDocument();
-      if (action === "Выбрать другую") {
-        expect(new URLSearchParams(window.location.search).get("tab")).toBe(
-          "reviewing",
-        );
-      }
       expect(api.completions).toHaveLength(1);
     },
   );

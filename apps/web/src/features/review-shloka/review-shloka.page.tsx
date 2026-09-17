@@ -424,20 +424,6 @@ function CompletedReview({
             >
               {strings.reviewShloka.reviewNext}
             </Button>
-            <Button
-              className="h-10 w-full text-[14px] font-bold text-primary"
-              onClick={() => {
-                void navigate({
-                  replace: true,
-                  search: { tab: "reviewing" },
-                  to: routePaths.library,
-                });
-              }}
-              type="button"
-              variant="ghost"
-            >
-              {strings.reviewShloka.chooseAnother}
-            </Button>
           </div>
         </div>
       </div>

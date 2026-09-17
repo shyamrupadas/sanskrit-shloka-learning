@@ -229,7 +229,6 @@ export const strings = {
     title: "Заучивание",
   },
   reviewShloka: {
-    chooseAnother: "Выбрать другую",
     completeHinted: "Завершить",
     completedDescription: (displayTitle: string) =>
       `Результат повторения шлоки «${displayTitle}» сохранён.`,
