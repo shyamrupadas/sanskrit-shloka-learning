@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useCanGoBack, useNavigate, useRouter } from "@tanstack/react-router";
+import { Check } from "lucide-react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
+  PageHeader,
   SanskritTypography,
   Typography,
 } from "@/shared/design-system/components";
@@ -16,8 +18,15 @@ import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 import { Card, CardHeader } from "@/shared/ui/card";
 
-type ReviewStage = "hidden" | "hint-one" | "hint-two" | "full" | "result";
+type ReviewStage = "hidden" | "hint-one" | "hint-two" | "full" | "completed";
 type FullTextOutcome = "self" | "hint" | "forgot";
+
+const completedTitleTypography = {
+  "--typography-h1-size":
+    "var(--component-learning-attempt-state-title-size)",
+  "--typography-heading-line-height":
+    "var(--component-learning-attempt-title-line-height)",
+} as CSSProperties;
 
 interface ReviewFlow {
   currentIndex: number;
@@ -108,17 +117,23 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   if (!flow) {
     if (shlokaQuery.error || candidatesQuery.error) {
       return (
-        <ReviewStatus
-          description={getApiErrorMessage(
-            shlokaQuery.error ?? candidatesQuery.error,
-            strings.reviewShloka.loadError,
-          )}
-          title={strings.common.error}
-        />
+        <ReviewLayout>
+          <ReviewStatus
+            description={getApiErrorMessage(
+              shlokaQuery.error ?? candidatesQuery.error,
+              strings.reviewShloka.loadError,
+            )}
+            title={strings.common.error}
+          />
+        </ReviewLayout>
       );
     }
 
-    return <ReviewSkeleton />;
+    return (
+      <ReviewLayout>
+        <ReviewSkeleton />
+      </ReviewLayout>
+    );
   }
 
   const currentFlow = flow;
@@ -127,10 +142,15 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     return null;
   }
 
-  const completeAndAdvance = (result: ApiTypes.ReviewResult): void => {
+  const completeReview = (result: ApiTypes.ReviewResult): void => {
     completionMutation.mutate(
       { result, shlokaCode: currentShloka.code },
-      { onSuccess: advance },
+      {
+        onSuccess: () => {
+          markReviewQueriesStale();
+          finishReview();
+        },
+      },
     );
   };
   const revealAfterFailure = (): void => {
@@ -148,6 +168,14 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
 
   function markReviewQueriesStale(): void {
     void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+  }
+
+  function finishReview(): void {
+    if (currentFlow.currentIndex + 1 < currentFlow.items.length) {
+      setStage("completed");
+    } else {
+      void navigate({ replace: true, to: routePaths.dashboard });
+    }
   }
 
   function advance(): void {
@@ -171,13 +199,14 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     });
   }
 
-  if (stage === "result") {
+  if (stage === "completed") {
     return (
-      <ResultStep
-        isPending={completionMutation.isPending}
-        onComplete={completeAndAdvance}
-        saveError={completionMutation.error}
-      />
+      <ReviewLayout>
+        <CompletedReview
+          displayTitle={currentShloka.displayTitle}
+          onNext={advance}
+        />
+      </ReviewLayout>
     );
   }
 
@@ -185,16 +214,11 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
     stage === "hidden" ? Typography : SanskritTypography;
 
   return (
-    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
+    <ReviewLayout>
       <div className="min-h-0 min-w-0 flex-1 space-y-[18px] overflow-y-auto px-5 pt-5 pb-[18px]">
-        <header className="space-y-2">
-          <Typography variant="h1">
-            {strings.reviewShloka.title}
-          </Typography>
-          <Typography tone="brand" variant="p2" weight="bold">
-            {stageLabel(stage)}
-          </Typography>
-        </header>
+        <Typography tone="brand" variant="p2" weight="bold">
+          {stageLabel(stage)}
+        </Typography>
 
         <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
           <SanskritTypography
@@ -215,7 +239,9 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         </article>
 
         <Typography tone="muted" variant="p2">
-          {strings.reviewShloka.instruction}
+          {stage === "full" && fullTextOutcome === "self"
+            ? strings.reviewShloka.resultDescription
+            : strings.reviewShloka.instruction}
         </Typography>
 
         {completionMutation.error ? (
@@ -278,17 +304,28 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
           </>
         ) : null}
         {stage === "full" && fullTextOutcome === "self" ? (
-          <ReviewButton
-            disabled={completionMutation.isPending}
-            onClick={() => setStage("result")}
-          >
-            {strings.reviewShloka.evaluate}
-          </ReviewButton>
+          <>
+            <ReviewButton
+              disabled={completionMutation.isPending}
+              onClick={() => completeReview("remembered_without_error")}
+            >
+              {completionMutation.isPending
+                ? strings.reviewShloka.completing
+                : strings.reviewShloka.recallCorrect}
+            </ReviewButton>
+            <ReviewButton
+              disabled={completionMutation.isPending}
+              onClick={() => completeReview("remembered_with_error")}
+              variant="outline"
+            >
+              {strings.reviewShloka.recallWithError}
+            </ReviewButton>
+          </>
         ) : null}
         {stage === "full" && fullTextOutcome === "hint" ? (
           <ReviewButton
             disabled={completionMutation.isPending}
-            onClick={() => completeAndAdvance("remembered_with_hint")}
+            onClick={() => completeReview("remembered_with_hint")}
           >
             {completionMutation.isPending
               ? strings.reviewShloka.completing
@@ -298,62 +335,124 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         {stage === "full" && fullTextOutcome === "forgot" ? (
           <ReviewButton
             disabled={completionMutation.isPending}
-            onClick={advance}
+            onClick={finishReview}
           >
             {strings.reviewShloka.next}
           </ReviewButton>
         ) : null}
       </div>
+    </ReviewLayout>
+  );
+}
+
+function ReviewLayout({ children }: { children: React.ReactNode }) {
+  const canGoBack = useCanGoBack();
+  const navigate = useNavigate();
+  const router = useRouter();
+
+  return (
+    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
+      <div className="shrink-0 px-5 pt-5">
+        <PageHeader
+          backAction={{
+            label: strings.common.back,
+            onClick: () => {
+              if (canGoBack) {
+                router.history.back();
+              } else {
+                void navigate({ replace: true, to: routePaths.dashboard });
+              }
+            },
+          }}
+          title={strings.reviewShloka.title}
+        />
+      </div>
+      {children}
     </section>
   );
 }
 
-function ResultStep({
-  isPending,
-  onComplete,
-  saveError,
+function CompletedReview({
+  displayTitle,
+  onNext,
 }: {
-  isPending: boolean;
-  onComplete: (result: ApiTypes.ReviewResult) => void;
-  saveError: Error | null;
+  displayTitle: string;
+  onNext: () => void;
 }) {
+  const navigate = useNavigate();
+
   return (
-    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
-      <div className="min-h-0 min-w-0 flex-1 space-y-[18px] overflow-y-auto px-5 pt-5 pb-[18px]">
-        <Typography variant="h1">
-          {strings.reviewShloka.resultTitle}
-        </Typography>
-        <Typography tone="muted" variant="p3">
-          {strings.reviewShloka.resultDescription}
-        </Typography>
-        {saveError ? (
-          <Typography role="alert" tone="danger" variant="p2">
-            {getApiErrorMessage(saveError, strings.reviewShloka.saveError)}
-          </Typography>
-        ) : null}
-        <Typography tone="muted" variant="p2">
-          {strings.reviewShloka.finishHint}
-        </Typography>
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between overflow-y-auto px-5 pt-[34px] pb-5">
+        <div className="min-w-0 space-y-6">
+          <div className="flex size-[60px] items-center justify-center rounded-full bg-green-100 text-green-700">
+            <Check aria-hidden="true" className="size-7" />
+          </div>
+
+          <div className="space-y-2.5">
+            <Typography
+              as="p"
+              className="tracking-[0.09em] uppercase"
+              tone="brand"
+              variant="p1"
+              weight="bold"
+            >
+              {strings.reviewShloka.completedEyebrow}
+            </Typography>
+            <Typography
+              as="h2"
+              className="break-words [overflow-wrap:anywhere]"
+              style={completedTitleTypography}
+              variant="h1"
+            >
+              {strings.reviewShloka.completedTitle}
+            </Typography>
+            <Typography tone="muted" variant="p2">
+              {strings.reviewShloka.completedDescription(displayTitle)}
+            </Typography>
+          </div>
+
+          <div className="space-y-2.5 border-t border-border pt-[18px]">
+            <Typography variant="p3" weight="bold">
+              {strings.reviewShloka.continueTitle}
+            </Typography>
+            <Button
+              className="h-[52px] w-full text-[15px] font-medium text-primary"
+              onClick={onNext}
+              type="button"
+              variant="outline"
+            >
+              {strings.reviewShloka.reviewNext}
+            </Button>
+            <Button
+              className="h-10 w-full text-[14px] font-bold text-primary"
+              onClick={() => {
+                void navigate({
+                  replace: true,
+                  search: { tab: "reviewing" },
+                  to: routePaths.library,
+                });
+              }}
+              type="button"
+              variant="ghost"
+            >
+              {strings.reviewShloka.chooseAnother}
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="sticky bottom-0 mt-auto shrink-0 space-y-2.5 bg-card px-5 pt-3 pb-[calc(var(--space-3)+env(safe-area-inset-bottom))] shadow-[var(--component-bottom-nav-shadow)]">
+      <div className="sticky bottom-0 mt-auto shrink-0 bg-card px-5 pt-3 pb-[calc(var(--space-3)+env(safe-area-inset-bottom))] shadow-[var(--component-bottom-nav-shadow)]">
         <ReviewButton
-          disabled={isPending}
-          onClick={() => onComplete("remembered_without_error")}
+          disabled={false}
+          onClick={() => {
+            void navigate({ replace: true, to: routePaths.dashboard });
+          }}
         >
-          {isPending
-            ? strings.reviewShloka.completing
-            : strings.reviewShloka.recallCorrect}
-        </ReviewButton>
-        <ReviewButton
-          disabled={isPending}
-          onClick={() => onComplete("remembered_with_error")}
-          variant="outline"
-        >
-          {strings.reviewShloka.recallWithError}
+          {strings.reviewShloka.finish}
         </ReviewButton>
       </div>
-    </section>
+    </div>
   );
 }
 

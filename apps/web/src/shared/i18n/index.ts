@@ -229,12 +229,16 @@ export const strings = {
     title: "Заучивание",
   },
   reviewShloka: {
+    chooseAnother: "Выбрать другую",
     completeHinted: "Завершить",
+    completedDescription: (displayTitle: string) =>
+      `Результат повторения шлоки «${displayTitle}» сохранён.`,
+    completedEyebrow: "Готово",
+    completedTitle: "Повторение завершено",
     completing: "Сохраняем...",
-    evaluate: "Оценить результат",
+    continueTitle: "Хотите продолжить?",
+    finish: "Закончить",
     forgot: "Показать весь текст",
-    finishHint:
-      "После последней шлоки откроется завершение пачки и действие «На дашборд».",
     fullText: "полный текст",
     hintOne: "подсказка 1",
     hintTwo: "подсказка 2",
@@ -250,8 +254,8 @@ export const strings = {
     recallPrompt: "Произнесите шлоку по памяти.",
     recallWithError: "Сделал ошибку",
     resultDescription:
-      "Оцените только самостоятельное вспоминание до полного текста. Ошибка не сбивает серию дней.",
-    resultTitle: "Как получилось?",
+      "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+    reviewNext: "Повторить следующую",
     saveError: "Не удалось сохранить результат повторения",
     selfRecall: "без подсказки",
     textHidden: "Текст скрыт",

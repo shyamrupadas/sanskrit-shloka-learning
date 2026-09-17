@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
@@ -25,7 +25,7 @@ const secondShloka = reviewShloka({
 });
 
 describe("app review shloka flow", () => {
-  it.each([
+  it.each(([
     {
       action: "Все правильно",
       path: "self",
@@ -41,13 +41,16 @@ describe("app review shloka flow", () => {
       path: "hint",
       result: "remembered_with_hint",
     },
-  ] as const)("records $result only after its completion action", async ({
+  ] as const).flatMap((scenario) =>
+    [false, true].map((hasNext) => ({ ...scenario, hasNext })),
+  ))("records $result and finishes with hasNext=$hasNext", async ({
     action,
+    hasNext,
     path,
     result,
   }) => {
     const user = userEvent.setup();
-    const api = createReviewApi([firstShloka]);
+    const api = createReviewApi(hasNext ? [firstShloka, secondShloka] : [firstShloka]);
     mockApi(api.handle);
     storeTestSession(session);
     renderAppAt("/library/shlokas/gita-1-1/review");
@@ -56,7 +59,7 @@ describe("app review shloka flow", () => {
       await screen.findByRole("heading", { level: 1, name: "Повторение" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", {
+      await screen.findByRole("heading", {
         level: 2,
         name: firstShloka.displayTitle,
       }),
@@ -79,29 +82,40 @@ describe("app review shloka flow", () => {
     );
     expect(api.completions).toHaveLength(0);
 
-    if (path === "self") {
-      await user.click(
-        screen.getByRole("button", { name: "Оценить результат" }),
-      );
-      expect(
-        screen.getByRole("heading", {
-          level: 1,
-          name: "Как получилось?",
-        }),
-      ).toBeInTheDocument();
-    }
+    expect(
+      screen.queryByRole("button", { name: "Оценить результат" }),
+    ).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: action }));
 
+    if (hasNext) {
+      expect(
+        await screen.findByRole("heading", { name: "Повторение завершено" }),
+      ).toBeInTheDocument();
+      await expectPath("/library/shlokas/gita-1-1/review");
+      expect(
+        screen.getByText(
+          `Результат повторения шлоки «${firstShloka.displayTitle}» сохранён.`,
+        ),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Повторить следующую" }),
+      ).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Закончить" }));
+    }
     await expectPath(routePaths.dashboard);
+    expect(
+      screen.queryByRole("heading", { name: "Повторение завершено" }),
+    ).not.toBeInTheDocument();
     await waitFor(() => expect(api.completions).toHaveLength(1));
     expect(api.completions[0]?.body).toMatchObject({ result });
     expect(api.completions[0]?.body).toHaveProperty("timeZone");
+    expect(api.completions).toHaveLength(1);
   });
 
-  it("records forgot when the full text is revealed after both hints", async () => {
+  it.each([false, true])("records forgot on reveal and finishes on Next with hasNext=%s", async (hasNext) => {
     const user = userEvent.setup();
-    const api = createReviewApi([firstShloka]);
+    const api = createReviewApi(hasNext ? [firstShloka, secondShloka] : [firstShloka]);
     mockApi(api.handle);
     storeTestSession(session);
     renderAppAt("/library/shlokas/gita-1-1/review");
@@ -133,7 +147,20 @@ describe("app review shloka flow", () => {
     expect(api.completions[0]?.body).toMatchObject({ result: "forgot" });
 
     await user.click(screen.getByRole("button", { name: "Дальше" }));
+    if (hasNext) {
+      expect(
+        await screen.findByRole("heading", { name: "Повторение завершено" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Повторить следующую" }),
+      ).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Закончить" }));
+    }
     await expectPath(routePaths.dashboard);
+    expect(
+      screen.queryByRole("heading", { name: "Повторение завершено" }),
+    ).not.toBeInTheDocument();
+    expect(api.completions).toHaveLength(1);
   });
 
   it("reveals hints without splitting decomposed grapheme clusters", async () => {
@@ -182,6 +209,11 @@ describe("app review shloka flow", () => {
     expect(await screen.findByText("без подсказки")).toBeInTheDocument();
     await completeWithoutError(user);
 
+    await expectPath("/library/shlokas/gita-1-1/review");
+    expect(api.completions).toHaveLength(1);
+    await user.click(
+      await screen.findByRole("button", { name: "Повторить следующую" }),
+    );
     await expectPath("/library/shlokas/gita-4-7/review");
     expect(await screen.findByText("без подсказки")).toBeInTheDocument();
     expect(
@@ -193,6 +225,9 @@ describe("app review shloka flow", () => {
     await completeWithoutError(user);
 
     await expectPath(routePaths.dashboard);
+    expect(
+      screen.queryByRole("heading", { name: "Повторение завершено" }),
+    ).not.toBeInTheDocument();
     expect(
       await screen.findByRole("heading", {
         name: "Все повторения на сегодня завершены",
@@ -209,31 +244,121 @@ describe("app review shloka flow", () => {
     ]);
   });
 
-  it("starts from the reviewing library card and exits without side effects", async () => {
+  it.each(["hidden", "hint", "full", "completed"])(
+    "returns from the %s stage to the library via Back without saving another result",
+    async (stage) => {
+      const user = userEvent.setup();
+      const api = createReviewApi([firstShloka, secondShloka]);
+      mockApi(api.handle);
+      storeTestSession(session);
+      renderAppAt("/library?tab=reviewing");
+
+      const card = await screen.findByRole("article", {
+        name: firstShloka.displayTitle,
+      });
+      await user.click(within(card).getByRole("button", { name: "Повторить" }));
+
+      await expectPath("/library/shlokas/gita-1-1/review");
+      await screen.findByRole("button", { name: "Вспомнил" });
+      if (stage === "hint") {
+        await user.click(screen.getByRole("button", { name: "Нужна подсказка" }));
+      } else if (stage === "full") {
+        await user.click(screen.getByRole("button", { name: "Вспомнил" }));
+      } else if (stage === "completed") {
+        await completeWithoutError(user);
+        await screen.findByRole("heading", { name: "Повторение завершено" });
+      }
+      await user.click(screen.getByRole("button", { name: "Назад" }));
+
+      await expectPath(routePaths.library);
+      expect(new URLSearchParams(window.location.search).get("tab")).toBe(
+        "reviewing",
+      );
+      expect(api.completions).toHaveLength(stage === "completed" ? 1 : 0);
+      expect(
+        await screen.findByRole("article", { name: firstShloka.displayTitle }),
+      ).toBeInTheDocument();
+    },
+  );
+
+  it("returns to the dashboard via Back when opened directly", async () => {
     const user = userEvent.setup();
     const api = createReviewApi([firstShloka]);
     mockApi(api.handle);
     storeTestSession(session);
-    renderAppAt("/library?tab=reviewing");
+    renderAppAt("/library/shlokas/gita-1-1/review");
 
-    const card = await screen.findByRole("article", {
-      name: firstShloka.displayTitle,
-    });
-    await user.click(within(card).getByRole("button", { name: "Повторить" }));
+    await user.click(await screen.findByRole("button", { name: "Назад" }));
 
-    await expectPath("/library/shlokas/gita-1-1/review");
-    await user.click(
-      await screen.findByRole("button", { name: "Нужна подсказка" }),
-    );
-    await act(async () => {
-      window.history.back();
-    });
-
-    await expectPath(routePaths.library);
+    await expectPath(routePaths.dashboard);
     expect(api.completions).toHaveLength(0);
+  });
+
+  it.each(["Закончить", "Выбрать другую"])(
+    "allows %s without starting the next review",
+    async (action) => {
+      const user = userEvent.setup();
+      const api = createReviewApi([firstShloka, secondShloka]);
+      mockApi(api.handle);
+      storeTestSession(session);
+      renderAppAt("/library/shlokas/gita-1-1/review");
+
+      await completeWithoutError(user);
+      expect(
+        await screen.findByRole("button", { name: "Повторить следующую" }),
+      ).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: action }));
+
+      await expectPath(
+        action === "Закончить" ? routePaths.dashboard : routePaths.library,
+      );
+      expect(
+        await screen.findByRole("article", { name: secondShloka.displayTitle }),
+      ).toBeInTheDocument();
+      if (action === "Выбрать другую") {
+        expect(new URLSearchParams(window.location.search).get("tab")).toBe(
+          "reviewing",
+        );
+      }
+      expect(api.completions).toHaveLength(1);
+    },
+  );
+
+  it("keeps the full text and rating actions when saving fails, then completes on retry", async () => {
+    const user = userEvent.setup();
+    const api = createReviewApi([firstShloka]);
+    let failCompletion = true;
+    mockApi((request) => {
+      if (
+        request.method === "POST" &&
+        request.path === "/api/library/items/gita-1-1/complete-review" &&
+        failCompletion
+      ) {
+        failCompletion = false;
+        return { status: 503 };
+      }
+      return api.handle(request);
+    });
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/review");
+
+    await user.click(await screen.findByRole("button", { name: "Вспомнил" }));
+    await user.click(screen.getByRole("button", { name: "Сделал ошибку" }));
+
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    expect(screen.getByLabelText("Канонический текст шлоки")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Все правильно" })).toBeEnabled();
     expect(
-      await screen.findByRole("article", { name: firstShloka.displayTitle }),
-    ).toBeInTheDocument();
+      screen.queryByRole("heading", { name: "Повторение завершено" }),
+    ).not.toBeInTheDocument();
+    expect(api.completions).toHaveLength(0);
+
+    await user.click(screen.getByRole("button", { name: "Сделал ошибку" }));
+    await expectPath(routePaths.dashboard);
+    expect(api.completions).toHaveLength(1);
+    expect(api.completions[0]?.body).toMatchObject({
+      result: "remembered_with_error",
+    });
   });
 
   it("starts from the reviewing library card and updates today's streak after completion", async () => {
@@ -284,7 +409,6 @@ async function completeWithoutError(
   await user.click(
     await screen.findByRole("button", { name: "Вспомнил" }),
   );
-  await user.click(screen.getByRole("button", { name: "Оценить результат" }));
   await user.click(screen.getByRole("button", { name: "Все правильно" }));
 }
 
