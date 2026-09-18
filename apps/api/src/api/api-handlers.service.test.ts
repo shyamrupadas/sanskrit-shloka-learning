@@ -908,6 +908,16 @@ describe("ApiHandlersService admin catalog", () => {
     assert.equal(completeResponse.body.shloka.personalStatus, "reviewing");
     assert.equal("padas" in completeResponse.body.shloka, false);
     assert.deepEqual(completeResponse.body.remainingLearningShlokas, []);
+    const immediateReview = await handlers.getReviewShlokas({
+      authorization: learnerAuthorization,
+      timeZone: "UTC",
+    });
+    assert.equal(immediateReview.status, 200);
+    assert.deepEqual(
+      immediateReview.body.items.map(({ code }) => code),
+      ["gita-2-2-47"],
+    );
+    assert.equal(immediateReview.body.state, "active");
     const reviewingRecord = (
       await handlers.userLibraryRepository.listShlokaStatuses(
         learner.body.account.id,
@@ -1604,6 +1614,7 @@ function createHandlers(
     userLibraryRepository,
     reviewHistoryRepository,
     options.now ?? (() => new Date()),
+    { reviewLearnedShlokasImmediately: true },
   );
   const streak = new StreakService(
     userLibraryRepository,
