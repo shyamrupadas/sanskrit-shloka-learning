@@ -1245,7 +1245,7 @@ describe("app learn shloka flow", () => {
     expect(await screen.findByText("1 день подряд")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+        "Отлично! Возвращайся завтра, чтобы продолжить серию.",
       ),
     ).toBeInTheDocument();
   });

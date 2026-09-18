@@ -68,7 +68,7 @@ export function BottomNavigation({
   return (
     <nav
       aria-label={strings.nav.primaryLabel}
-      className="fixed inset-x-0 bottom-0 z-20 mx-auto h-[calc(var(--component-bottom-nav-height)+env(safe-area-inset-bottom))] max-w-[var(--component-bottom-nav-width)] rounded-[var(--component-bottom-nav-radius)] bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] outline-1 -outline-offset-1 [outline-color:var(--component-bottom-nav-border)]"
+      className="fixed inset-x-0 bottom-0 z-20 mx-auto h-[calc(var(--component-bottom-nav-height)+env(safe-area-inset-bottom))] w-full max-w-3xl rounded-[var(--component-bottom-nav-radius)] bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] outline-1 -outline-offset-1 [outline-color:var(--component-bottom-nav-border)]"
     >
       <ul className="grid h-[var(--component-bottom-nav-height)] list-none grid-cols-4 gap-[var(--component-bottom-nav-gap)] p-[var(--component-bottom-nav-padding)]">
         {navigationItems.map((item) => {

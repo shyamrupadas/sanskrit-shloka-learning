@@ -3,6 +3,7 @@ import { describe, test } from "node:test";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import type { CatalogService } from "../catalog/catalog.service.js";
+import type { FeatureConfig } from "../features/feature-config.js";
 import type {
   UserLibraryRepository,
   UserShlokaStatusRecord,
@@ -20,6 +21,42 @@ const accountId = "account-1";
 const now = new Date("2026-07-12T12:00:00.000Z");
 
 describe("DashboardService review candidates", () => {
+  for (const immediate of [true, false]) {
+    test(`respects immediate=${immediate} across local midnight and excludes completed reviews`, async () => {
+      const learnedAt = new Date("2026-07-12T06:59:00.000Z");
+      let currentTime = learnedAt;
+      const service = createService(
+        [reviewing("newly-learned", 0, learnedAt.toISOString())],
+        [],
+        new InMemoryReviewHistoryRepository(),
+        () => new Date(currentTime),
+        { reviewLearnedShlokasImmediately: immediate },
+      );
+
+      const beforeMidnight = await service.getReviewShlokas(accountId, "America/Los_Angeles");
+      assert.deepEqual(
+        beforeMidnight.items.map(({ code }) => code),
+        immediate ? ["newly-learned"] : [],
+      );
+      assert.equal(beforeMidnight.state, immediate ? "active" : "empty");
+
+      currentTime = new Date("2026-07-12T07:00:00.000Z");
+      const afterMidnight = await service.getReviewShlokas(accountId, "America/Los_Angeles");
+      assert.deepEqual(afterMidnight.items.map(({ code }) => code), ["newly-learned"]);
+
+      const completed = await service.completeReview(
+        accountId,
+        "newly-learned",
+        "forgot",
+        "America/Los_Angeles",
+      );
+      assert.equal(completed.status, 201);
+      const afterReview = await service.getReviewShlokas(accountId, "America/Los_Angeles");
+      assert.deepEqual(afterReview.items, []);
+      assert.equal(afterReview.state, "completed");
+    });
+  }
+
   test("excludes ineligible shlokas and applies every priority with deterministic ordering", async () => {
     const statuses = [
       reviewing("forgot-new", 20),
@@ -61,6 +98,7 @@ describe("DashboardService review candidates", () => {
         "error-tie-b",
         "hint",
         "young",
+        "started-today",
         "overdue",
         "other",
       ],
@@ -109,7 +147,7 @@ describe("DashboardService review candidates", () => {
     );
     history.summaries = [
       {
-        ...summary("candidate-2", "remembered_without_error", 0),
+        ...summary("same-local-day", "remembered_without_error", 0),
         completedToday: true,
       },
     ];
@@ -122,14 +160,14 @@ describe("DashboardService review candidates", () => {
     assert.equal(history.lastInput?.userDay, "2026-07-11");
     assert.deepEqual(
       beforeManualReview.items.map(({ code }) => code),
-      ["candidate-1"],
+      ["same-local-day"],
     );
-    assert.equal(beforeManualReview.remainingCount, 1);
+    assert.equal(beforeManualReview.remainingCount, 2);
     assert.deepEqual(
       afterManualReview.items.map(({ code }) => code),
       ["candidate-1"],
     );
-    assert.equal(afterManualReview.remainingCount, 0);
+    assert.equal(afterManualReview.remainingCount, 1);
   });
 });
 
@@ -140,15 +178,22 @@ describe("DashboardService review completion", () => {
     "remembered_with_hint",
     "forgot",
   ] as const) {
-    test(`stores ${result} with the account, completion time, and local user day`, async () => {
+    test(`stores ${result} and removes a newly learned shloka from today's candidates`, async () => {
       const history = new InMemoryReviewHistoryRepository();
       const completedAt = new Date("2026-07-12T00:30:00.000Z");
       const service = createService(
-        [reviewing("review-1", 10)],
+        [reviewing("review-1", 0, "2026-07-11T23:00:00.000Z")],
         [],
         history,
         () => new Date(completedAt),
       );
+
+      const beforeReview = await service.getReviewShlokas(
+        accountId,
+        "America/Los_Angeles",
+      );
+      assert.deepEqual(beforeReview.items.map(({ code }) => code), ["review-1"]);
+      assert.equal(beforeReview.state, "active");
 
       const response = await service.completeReview(
         accountId,
@@ -233,6 +278,7 @@ function createService(
   summaries: ReviewHistorySummary[] = [],
   history: ReviewHistoryRepository = reviewHistory(summaries),
   clock: () => Date = () => new Date(now),
+  features: FeatureConfig = { reviewLearnedShlokasImmediately: true },
 ): DashboardService {
   const shlokaCodes = [...new Set(statuses.map(({ shlokaCode }) => shlokaCode))];
   const catalogShlokas = shlokaCodes.map(shloka);
@@ -245,7 +291,7 @@ function createService(
     listShlokaStatuses: async () => cloneStatuses(statuses),
   } as unknown as UserLibraryRepository;
 
-  return new DashboardService(catalog, userLibrary, history, clock);
+  return new DashboardService(catalog, userLibrary, history, clock, features);
 }
 
 function reviewHistory(

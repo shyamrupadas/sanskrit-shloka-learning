@@ -123,7 +123,7 @@ export const strings = {
   streak: {
     backToDashboard: "На дашборд",
     continuedMessage:
-      "Ты в ударе! Возвращайся завтра, чтобы продолжить серию.",
+      "Отлично! Возвращайся завтра, чтобы продолжить серию.",
     continueMessage:
       "Повтори или выучи хотя бы одну шлоку, чтобы продолжить свою серию!",
     historyLabel: "Активность за последние пять дней",
@@ -230,11 +230,14 @@ export const strings = {
   },
   reviewShloka: {
     completeHinted: "Завершить",
+    completedDescription: (displayTitle: string) =>
+      `Результат повторения шлоки «${displayTitle}» сохранён.`,
+    completedEyebrow: "Готово",
+    completedTitle: "Повторение завершено",
     completing: "Сохраняем...",
-    evaluate: "Оценить результат",
+    continueTitle: "Хотите продолжить?",
+    finish: "Закончить",
     forgot: "Показать весь текст",
-    finishHint:
-      "После последней шлоки откроется завершение пачки и действие «На дашборд».",
     fullText: "полный текст",
     hintOne: "подсказка 1",
     hintTwo: "подсказка 2",
@@ -250,8 +253,8 @@ export const strings = {
     recallPrompt: "Произнесите шлоку по памяти.",
     recallWithError: "Сделал ошибку",
     resultDescription:
-      "Оцените только самостоятельное вспоминание до полного текста. Ошибка не сбивает серию дней.",
-    resultTitle: "Как получилось?",
+      "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+    reviewNext: "Повторить следующую",
     saveError: "Не удалось сохранить результат повторения",
     selfRecall: "без подсказки",
     textHidden: "Текст скрыт",

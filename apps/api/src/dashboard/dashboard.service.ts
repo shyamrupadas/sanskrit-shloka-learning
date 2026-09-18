@@ -4,6 +4,7 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { notFoundError, validationError } from "../auth/api-error.js";
 import { CatalogService } from "../catalog/catalog.service.js";
+import { FEATURE_CONFIG, type FeatureConfig } from "../features/feature-config.js";
 import {
   USER_LIBRARY_REPOSITORY,
   type UserLibraryRepository,
@@ -41,6 +42,7 @@ export class DashboardService {
     @Inject(REVIEW_HISTORY_REPOSITORY)
     private readonly reviewHistory: ReviewHistoryRepository,
     @Inject(DASHBOARD_CLOCK) private readonly now: DashboardClock,
+    @Inject(FEATURE_CONFIG) private readonly features: FeatureConfig,
   ) {}
 
   async completeReview(
@@ -148,7 +150,8 @@ export class DashboardService {
     const candidates = reviewingStatuses
       .filter(
         (status) =>
-          formatUserDay(status.reviewingStartedAt, formatter) !== userDay &&
+          (this.features.reviewLearnedShlokasImmediately ||
+            formatUserDay(status.reviewingStartedAt, formatter) !== userDay) &&
           !summaryByCode.get(status.shlokaCode)?.completedToday,
       )
       .map((status) => {

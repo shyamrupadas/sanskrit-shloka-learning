@@ -1,20 +1,20 @@
 import {
+  createLazyRoute,
   createRootRouteWithContext,
   createRoute,
   createRouter,
-  lazyRouteComponent,
+  Outlet,
   redirect,
 } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import {
-  AdminShlokaEditRoute,
-  AdminSourceEditRoute,
-  LearnShlokaRoute,
-  LibraryRoute,
-  ReviewShlokaRoute,
-  RootRoute,
-  ShlokaRoute,
+  loadAdminShlokaEditRoute,
+  loadAdminSourceEditRoute,
+  loadLearnShlokaRoute,
+  loadLibraryRoute,
+  loadReviewShlokaRoute,
+  loadShlokaRoute,
 } from "@/app/route-components";
 import {
   parseLearnShlokaReturnTo,
@@ -27,57 +27,8 @@ interface RouterContext {
   session: SessionContextValue;
 }
 
-const loadProtectedLayouts = () =>
-  import("@/app/layouts/protected-layouts");
-const loadAdminSourcePages = () =>
-  import("@/features/admin/source-editor.page");
-const loadAdminShlokaPages = () =>
-  import("@/features/admin/shloka-editor.page");
-
-const AuthenticatedLayout = lazyRouteComponent(
-  loadProtectedLayouts,
-  "AuthenticatedLayout",
-);
-const AdminLayout = lazyRouteComponent(loadProtectedLayouts, "AdminLayout");
-const LoginPage = lazyRouteComponent(
-  () => import("@/features/auth/login.page"),
-  "LoginPage",
-);
-const RegisterPage = lazyRouteComponent(
-  () => import("@/features/auth/register.page"),
-  "RegisterPage",
-);
-const DashboardPage = lazyRouteComponent(
-  () => import("@/features/dashboard/dashboard.page"),
-  "DashboardPage",
-);
-const StreakPage = lazyRouteComponent(
-  () => import("@/features/streak/streak.page"),
-  "StreakPage",
-);
-const LearningPage = lazyRouteComponent(
-  () => import("@/features/learning/learning.page"),
-  "LearningPage",
-);
-const SettingsPage = lazyRouteComponent(
-  () => import("@/features/settings/settings.page"),
-  "SettingsPage",
-);
-const AdminCatalogPage = lazyRouteComponent(
-  () => import("@/features/admin/catalog.page"),
-  "AdminCatalogPage",
-);
-const AdminSourcePage = lazyRouteComponent(
-  loadAdminSourcePages,
-  "AdminSourcePage",
-);
-const AdminShlokaPage = lazyRouteComponent(
-  loadAdminShlokaPages,
-  "AdminShlokaPage",
-);
-
 const rootRoute = createRootRouteWithContext<RouterContext>()({
-  component: RootRoute,
+  component: Outlet,
 });
 
 const indexRoute = createRoute({
@@ -96,9 +47,11 @@ const loginRoute = createRoute({
       throw redirect({ to: routePaths.dashboard });
     }
   },
-  component: LoginPage,
   getParentRoute: () => rootRoute,
   path: routeSegments.login,
+}).lazy(async () => {
+  const { LoginPage } = await import("@/features/auth/login.page");
+  return createLazyRoute("/login")({ component: LoginPage });
 });
 
 const registerRoute = createRoute({
@@ -107,44 +60,50 @@ const registerRoute = createRoute({
       throw redirect({ to: routePaths.dashboard });
     }
   },
-  component: RegisterPage,
   getParentRoute: () => rootRoute,
   path: routeSegments.register,
+}).lazy(async () => {
+  const { RegisterPage } = await import("@/features/auth/register.page");
+  return createLazyRoute("/register")({ component: RegisterPage });
 });
 
 const authenticatedRoute = createRoute({
   beforeLoad: ({ context }) => {
     requireAuthentication(context.session);
   },
-  component: AuthenticatedLayout,
   getParentRoute: () => rootRoute,
   id: "authenticated",
+}).lazy(async () => {
+  const { AuthenticatedLayout } = await import("@/app/layouts/protected-layouts");
+  return createLazyRoute("/authenticated")({ component: AuthenticatedLayout });
 });
 
 const dashboardRoute = createRoute({
-  component: DashboardPage,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.dashboard,
+}).lazy(async () => {
+  const { DashboardPage } = await import("@/features/dashboard/dashboard.page");
+  return createLazyRoute("/authenticated/dashboard")({ component: DashboardPage });
 });
 
 const streakRoute = createRoute({
-  component: StreakPage,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.streak,
+}).lazy(async () => {
+  const { StreakPage } = await import("@/features/streak/streak.page");
+  return createLazyRoute("/authenticated/streak")({ component: StreakPage });
 });
 
 const libraryRoute = createRoute({
-  component: LibraryRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.library,
   validateSearch: parseLibrarySearch,
-});
+}).lazy(loadLibraryRoute);
 
 const shlokaRoute = createRoute({
-  component: ShlokaRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.libraryShloka,
-});
+}).lazy(loadShlokaRoute);
 
 const learnShlokaRoute = createRoute({
   beforeLoad: ({ location, params, search }) => {
@@ -162,70 +121,82 @@ const learnShlokaRoute = createRoute({
       });
     }
   },
-  component: LearnShlokaRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.learnShloka,
   validateSearch: (search: Record<string, unknown>) => ({
     returnTo: parseLearnShlokaReturnTo(search.returnTo),
   }),
-});
+}).lazy(loadLearnShlokaRoute);
 
 const reviewShlokaRoute = createRoute({
-  component: ReviewShlokaRoute,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.reviewShloka,
-});
+}).lazy(loadReviewShlokaRoute);
 
 const learningRoute = createRoute({
-  component: LearningPage,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.learning,
+}).lazy(async () => {
+  const { LearningPage } = await import("@/features/learning/learning.page");
+  return createLazyRoute("/authenticated/learning")({ component: LearningPage });
 });
 
 const settingsRoute = createRoute({
-  component: SettingsPage,
   getParentRoute: () => authenticatedRoute,
   path: routeSegments.settings,
+}).lazy(async () => {
+  const { SettingsPage } = await import("@/features/settings/settings.page");
+  return createLazyRoute("/authenticated/settings")({ component: SettingsPage });
 });
 
 const adminLayoutRoute = createRoute({
   beforeLoad: ({ context }) => {
     requireAdmin(context.session);
   },
-  component: AdminLayout,
   getParentRoute: () => rootRoute,
   id: "admin-layout",
+}).lazy(async () => {
+  const { AdminLayout } = await import("@/app/layouts/protected-layouts");
+  return createLazyRoute("/admin-layout")({ component: AdminLayout });
 });
 
 const adminRoute = createRoute({
-  component: AdminCatalogPage,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.admin,
+}).lazy(async () => {
+  const { AdminCatalogPage } = await import("@/features/admin/catalog.page");
+  return createLazyRoute("/admin-layout/admin")({ component: AdminCatalogPage });
 });
 
 const adminSourceRoute = createRoute({
-  component: AdminSourcePage,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminSourceNew,
+}).lazy(async () => {
+  const { AdminSourcePage } = await import("@/features/admin/source-editor.page");
+  return createLazyRoute("/admin-layout/admin/sources/new")({
+    component: AdminSourcePage,
+  });
 });
 
 const adminSourceEditRoute = createRoute({
-  component: AdminSourceEditRoute,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminSourceEdit,
-});
+}).lazy(loadAdminSourceEditRoute);
 
 const adminShlokaRoute = createRoute({
-  component: AdminShlokaPage,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminShlokaNew,
+}).lazy(async () => {
+  const { AdminShlokaPage } = await import("@/features/admin/shloka-editor.page");
+  return createLazyRoute("/admin-layout/admin/shlokas/new")({
+    component: AdminShlokaPage,
+  });
 });
 
 const adminShlokaEditRoute = createRoute({
-  component: AdminShlokaEditRoute,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminShlokaEdit,
-});
+}).lazy(loadAdminShlokaEditRoute);
 
 const routeTree = rootRoute.addChildren([
   indexRoute,

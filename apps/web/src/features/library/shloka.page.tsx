@@ -55,7 +55,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
             as="div"
             className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
             variant="p4"
-            weight="bold"
+            weight="medium"
           >
             {shlokaQuery.data.text}
           </SanskritTypography>

@@ -11,7 +11,7 @@ import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
 export function AuthenticatedLayout() {
   const location = useLocation();
-  const isLearningAttempt = isLearningAttemptPath(location.pathname);
+  const isShlokaPractice = isShlokaPracticePath(location.pathname);
   const shouldHideBottomNavigation = isBottomNavigationHiddenPath(
     location.pathname,
   );
@@ -20,10 +20,10 @@ export function AuthenticatedLayout() {
     <ProtectedLayout>
       <main
         className={
-          isLearningAttempt
-            ? "mx-auto flex min-h-dvh w-full max-w-[390px] flex-col"
+          isShlokaPractice
+            ? "mx-auto flex min-h-dvh w-full max-w-3xl flex-col"
             : shouldHideBottomNavigation
-            ? "mx-auto flex min-h-dvh w-full max-w-[390px] flex-col px-4 py-5"
+            ? "mx-auto flex min-h-dvh w-full max-w-3xl flex-col px-4 py-5"
             : "mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pt-5 pb-[calc(var(--component-bottom-nav-height)+var(--space-8)+env(safe-area-inset-bottom))] sm:px-6"
         }
       >
@@ -39,14 +39,15 @@ export function AuthenticatedLayout() {
 }
 
 function isBottomNavigationHiddenPath(pathname: string): boolean {
-  return pathname === routePaths.streak || isLearningAttemptPath(pathname);
+  return (
+    pathname === routePaths.streak ||
+    /^\/library\/shlokas\/[^/]+\/?$/.test(pathname) ||
+    isShlokaPracticePath(pathname)
+  );
 }
 
-function isLearningAttemptPath(pathname: string): boolean {
-  return (
-    pathname.startsWith(`${routePaths.library}/shlokas/`) &&
-    pathname.endsWith("/learn")
-  );
+function isShlokaPracticePath(pathname: string): boolean {
+  return /^\/library\/shlokas\/[^/]+\/(?:learn|review)\/?$/.test(pathname);
 }
 
 export function AdminLayout() {

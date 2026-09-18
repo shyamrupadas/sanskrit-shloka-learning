@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 
 import { CatalogModule } from "../catalog/catalog.module.js";
 import { DatabaseModule } from "../database/database.module.js";
+import { FeaturesModule } from "../features/features.module.js";
 import { UserLibraryModule } from "../library/user-library.module.js";
 import {
   DASHBOARD_CLOCK,
@@ -12,7 +13,7 @@ import { REVIEW_HISTORY_REPOSITORY } from "./review-history.repository.js";
 import { STREAK_CLOCK, StreakService } from "./streak.service.js";
 
 @Module({
-  imports: [CatalogModule, DatabaseModule, UserLibraryModule],
+  imports: [CatalogModule, DatabaseModule, FeaturesModule, UserLibraryModule],
   providers: [
     {
       provide: REVIEW_HISTORY_REPOSITORY,
