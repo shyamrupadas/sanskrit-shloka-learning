@@ -15,6 +15,7 @@ import { InMemoryReviewHistoryRepository } from "../dashboard/in-memory-review-h
 import { StreakService } from "../dashboard/streak.service.js";
 import { InMemoryUserLibraryRepository } from "../library/in-memory-user-library.repository.js";
 import { UserLibraryService } from "../library/user-library.service.js";
+import type { LearningTipRepository } from "../learning/learning-tip.repository.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
 
 describe("ApiHandlersService auth", () => {
@@ -1595,7 +1596,7 @@ function getStreak(context: StreakTestContext) {
 }
 
 function createHandlers(
-  options: { catalog?: CatalogService; now?: () => Date; tips?: { list(locale: string): Promise<ApiTypes.LearningTipDto[]> } } = {},
+  options: { catalog?: CatalogService; now?: () => Date; tips?: Partial<LearningTipRepository> } = {},
 ): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
@@ -1630,7 +1631,12 @@ function createHandlers(
       dashboard,
       streak,
       userLibrary,
-      options.tips ?? { list: async () => [] },
+      {
+        list: async () => [],
+        create: async () => { throw new Error("Unexpected tip creation"); },
+        update: async () => { throw new Error("Unexpected tip update"); },
+        ...options.tips,
+      },
     ),
     { accounts, reviewHistoryRepository, userLibraryRepository },
   );
@@ -1670,6 +1676,46 @@ function validSourceRequest(overrides: Partial<ApiTypes.CreateSourceRequest> = {
 
 
 describe("ApiHandlersService learning tips", () => {
+  test("validates both fields independently of the client without writing invalid input", async () => {
+    const { authorization, handlers } = await createAdminHandlers();
+    for (const body of [null, {}, { title: 1, text: "Текст" }, { title: "\n\t ", text: "Текст" },
+      { title: "Совет", text: "\n\t " }, { title: "я".repeat(121), text: "Текст" },
+      { title: "Совет", text: "я".repeat(2001) }]) {
+      const request = { authorization, body: body as ApiTypes.SaveLearningTipRequest };
+      assert.equal((await handlers.tips(request)).status, 400);
+      assert.equal((await handlers.updateTip({ ...request, tipId: "old" })).status, 400);
+    }
+  });
+  test("publishes complete Russian tips for common reading and restricts writes to admins", async () => {
+    const items: ApiTypes.LearningTipDto[] = [{ id: "old", title: "Прежний", text: "Текст" }];
+    const handlers = createHandlers({ tips: {
+      list: async () => items,
+      create: async (body) => { const tip = { id: "new", ...body }; items.push(tip); return tip; },
+      update: async (id, body) => {
+        const index = items.findIndex((tip) => tip.id === id);
+        if (index < 0) return undefined;
+        return items[index] = { id, ...body };
+      },
+    } });
+    const body = { title: "  Совет  ", text: "  Строка\n\n<b>Обычный текст</b>  " };
+    assert.equal((await handlers.tips({ body })).status, 401);
+    assert.equal((await handlers.updateTip({ tipId: "old", body })).status, 401);
+    const registration = await handlers.register({ body: { email: "editor@example.com", password: "123456", passwordConfirmation: "123456" } });
+    assert.equal(registration.status, 201);
+    const authorization = `Bearer ${registration.body.accessToken}`;
+    assert.equal((await handlers.tips({ authorization, body })).status, 403);
+    assert.equal((await handlers.updateTip({ authorization, tipId: "old", body })).status, 403);
+    handlers.accounts.grantRole(registration.body.account.id, "admin");
+    assert.deepEqual(await handlers.tips({ authorization, body }), {
+      status: 201, body: { id: "new", title: "Совет", text: "Строка\n\n<b>Обычный текст</b>" },
+    });
+    assert.equal((await handlers.updateTip({ authorization, tipId: "old", body: { title: "Изменённый", text: "Новый текст" } })).status, 200);
+    assert.deepEqual((await handlers.getTips({ authorization })).body, { items: [
+      { id: "old", title: "Изменённый", text: "Новый текст" },
+      { id: "new", title: "Совет", text: "Строка\n\n<b>Обычный текст</b>" },
+    ] });
+    assert.equal((await handlers.updateTip({ authorization, tipId: "missing", body })).status, 404);
+  });
   test("requires a session and serves Russian tips to a non-admin, including an empty list", async () => {
     const locales: string[] = [];
     let items = [

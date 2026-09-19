@@ -30,7 +30,7 @@ export function ModalContent({
           className,
         )}
       >
-        <div aria-hidden="true" className="mx-auto mb-[var(--component-modal-handle-gap)] h-1 w-[var(--component-modal-handle-width)] rounded-full bg-border-strong md:hidden" />
+        <div aria-hidden="true" className="mx-auto mb-[var(--component-modal-handle-gap)] h-1 w-[var(--component-modal-handle-width)] rounded-full bg-[var(--border-strong)] md:hidden" />
         {children}
       </Dialog.Content>
     </Dialog.Portal>

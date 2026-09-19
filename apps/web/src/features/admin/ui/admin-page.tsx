@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from "react";
-import { useRouter } from "@tanstack/react-router";
-import { ChevronDown, TriangleAlert } from "lucide-react";
+import { Link, useRouter } from "@tanstack/react-router";
+import { ChevronDown, ChevronLeft, TriangleAlert } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
+import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 import { routePaths } from "@/shared/model/routes";
 import { Card, CardHeader } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
@@ -15,34 +16,41 @@ import { Label } from "@/shared/ui/label";
 import { Textarea } from "@/shared/ui/textarea";
 
 export function AdminShell({
-  backTo = routePaths.admin,
+  backTo = isAdminLearningEnabled() ? routePaths.adminCatalog : routePaths.admin,
+  backLabel = strings.admin.catalogTitle,
   children,
   subtitle,
   title,
 }: {
-  backTo?: typeof routePaths.admin | typeof routePaths.settings;
+  backTo?: typeof routePaths.admin | typeof routePaths.settings | typeof routePaths.adminCatalog | typeof routePaths.adminLearning;
+  backLabel?: string;
   children: ReactNode;
-  subtitle: string;
+  subtitle?: string;
   title: string;
 }) {
   const router = useRouter();
 
   return (
-    <section className="min-w-0 space-y-4">
-      <PageHeader
+    <section className={isAdminLearningEnabled() ? "min-w-0 space-y-5" : "min-w-0 space-y-4"}>
+      {isAdminLearningEnabled() ? <>
+        <Link className="inline-flex w-fit items-center gap-2 rounded-md text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50" to={backTo}>
+          <ChevronLeft aria-hidden="true" className="size-5" />{backLabel}
+        </Link>
+        <Typography as="h1" variant="p4" weight="bold">{title}</Typography>
+      </> : <PageHeader
         backAction={{
           label: strings.common.back,
           onClick: () => void router.navigate({ to: backTo }),
         }}
         title={title}
-      />
-      <Typography
+      />}
+      {subtitle ? <Typography
         className="break-words [overflow-wrap:anywhere]"
         tone="muted"
         variant="p2"
       >
         {subtitle}
-      </Typography>
+      </Typography> : null}
       {children}
     </section>
   );

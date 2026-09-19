@@ -7,6 +7,7 @@ import {
   type BottomNavigationSection,
 } from "@/shared/design-system/components";
 import { routePaths } from "@/shared/model/routes";
+import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 
 export function AuthenticatedLayout() {
@@ -53,7 +54,7 @@ function isShlokaPracticePath(pathname: string): boolean {
 export function AdminLayout() {
   return (
     <ProtectedLayout>
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-5 sm:px-6">
+      <main className={`mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 ${isAdminLearningEnabled() ? "py-6" : "py-5 sm:px-6"}`}>
         <Outlet />
       </main>
     </ProtectedLayout>

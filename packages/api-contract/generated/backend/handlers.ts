@@ -27,6 +27,11 @@ export interface SourcesRequest {
   authorization?: string;
 }
 
+export interface TipsRequest {
+  body: Types.SaveLearningTipRequest;
+  authorization?: string;
+}
+
 export interface GetCatalogRequest {
   authorization?: string;
 }
@@ -54,6 +59,12 @@ export interface UpdateShlokaRequest {
 export interface UpdateSourceRequest {
   body: Types.UpdateSourceRequest;
   sourceCode: string;
+  authorization?: string;
+}
+
+export interface UpdateTipRequest {
+  body: Types.SaveLearningTipRequest;
+  tipId: string;
   authorization?: string;
 }
 
@@ -128,12 +139,14 @@ export type GetSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsD
 export type UpdateSettingsResponse = ApiHandlerResponse<200, Types.AccountSettingsDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type SourcesResponse = ApiHandlerResponse<201, Types.SourceOptionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
+export type TipsResponse = ApiHandlerResponse<201, Types.LearningTipDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
 export type GetCatalogResponse = ApiHandlerResponse<200, Types.AdminCatalogDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
 export type GetShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetOptionsResponse = ApiHandlerResponse<200, Types.AdminSourceOptionsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
 export type UpdateShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type UpdateSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
+export type UpdateTipResponse = ApiHandlerResponse<200, Types.LearningTipDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetSessionResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type LoginResponse = ApiHandlerResponse<200, Types.AuthSessionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type LogoutResponse = ApiHandlerResponse<204> | ApiHandlerResponse<401, Types.ApiError>;
@@ -154,12 +167,14 @@ export interface ApiHandlers {
   updateSettings(request: UpdateSettingsRequest): Promise<UpdateSettingsResponse> | UpdateSettingsResponse;
   shlokas(request: ShlokasRequest): Promise<ShlokasResponse> | ShlokasResponse;
   sources(request: SourcesRequest): Promise<SourcesResponse> | SourcesResponse;
+  tips(request: TipsRequest): Promise<TipsResponse> | TipsResponse;
   getCatalog(request: GetCatalogRequest): Promise<GetCatalogResponse> | GetCatalogResponse;
   getShloka(request: GetShlokaRequest): Promise<GetShlokaResponse> | GetShlokaResponse;
   getSource(request: GetSourceRequest): Promise<GetSourceResponse> | GetSourceResponse;
   getOptions(request: GetOptionsRequest): Promise<GetOptionsResponse> | GetOptionsResponse;
   updateShloka(request: UpdateShlokaRequest): Promise<UpdateShlokaResponse> | UpdateShlokaResponse;
   updateSource(request: UpdateSourceRequest): Promise<UpdateSourceResponse> | UpdateSourceResponse;
+  updateTip(request: UpdateTipRequest): Promise<UpdateTipResponse> | UpdateTipResponse;
   getSession(request: GetSessionRequest): Promise<GetSessionResponse> | GetSessionResponse;
   login(request: LoginRequest): Promise<LoginResponse> | LoginResponse;
   logout(request: LogoutRequest): Promise<LogoutResponse> | LogoutResponse;

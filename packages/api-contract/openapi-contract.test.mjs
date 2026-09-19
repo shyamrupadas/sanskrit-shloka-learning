@@ -3,6 +3,21 @@ import { readFile } from "node:fs/promises";
 import { describe, test } from "node:test";
 
 describe("generated OpenAPI admin contract", () => {
+  test("publishes complete tips with bounded fields and admin authorization responses", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    for (const operation of [openApi.paths["/api/admin/learning/tips"].post, openApi.paths["/api/admin/learning/tips/{tipId}"].patch]) {
+      assert.ok(operation.parameters.some((parameter) => parameter.name === "authorization"));
+      for (const status of ["400", "401", "403"]) assert.ok(operation.responses[status]);
+      assert.equal(operation.requestBody.content["application/json"].schema.$ref, "#/components/schemas/SanskritShlokaLearning.SaveLearningTipRequest");
+    }
+    const schema = openApi.components.schemas["SanskritShlokaLearning.SaveLearningTipRequest"];
+    assert.deepEqual(schema.required, ["title", "text"]);
+    assert.deepEqual(Object.keys(schema.properties), ["title", "text"]);
+    assert.equal(schema.properties.title.maxLength, 120);
+    assert.equal(schema.properties.text.maxLength, 2000);
+    assert.equal(schema.properties.title.minLength, 1);
+    assert.equal(schema.properties.text.minLength, 1);
+  });
   test("exposes catalog editing routes without delete, publish, hide, or import APIs", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
     const paths = openApi.paths ?? {};

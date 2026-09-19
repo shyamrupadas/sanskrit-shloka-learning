@@ -31,14 +31,31 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     @Inject(DashboardService) private readonly dashboard: DashboardService,
     @Inject(StreakService) private readonly streak: StreakService,
     @Inject(UserLibraryService) private readonly userLibrary: UserLibraryService,
-    @Inject(LEARNING_TIP_REPOSITORY) private readonly tips: LearningTipRepository,
+    @Inject(LEARNING_TIP_REPOSITORY) private readonly learningTips: LearningTipRepository,
   ) {}
 
   async getTips(request: BackendContract.GetTipsRequest): Promise<BackendContract.GetTipsResponse> {
     if (!(await this.auth.lookupSession(request.authorization))) {
       return { status: 401, body: unauthorizedError };
     }
-    return { status: 200, body: { items: await this.tips.list("ru") } };
+    return { status: 200, body: { items: await this.learningTips.list("ru") } };
+  }
+
+  async tips(request: BackendContract.TipsRequest): Promise<BackendContract.TipsResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) return adminError;
+    const body = normalizeTip(request.body);
+    if (!body) return { status: 400, body: validationError(["Заголовок должен содержать от 1 до 120 символов, текст — от 1 до 2000."]) };
+    return { status: 201, body: await this.learningTips.create(body) };
+  }
+
+  async updateTip(request: BackendContract.UpdateTipRequest): Promise<BackendContract.UpdateTipResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) return adminError;
+    const body = normalizeTip(request.body);
+    if (!body) return { status: 400, body: validationError(["Заголовок должен содержать от 1 до 120 символов, текст — от 1 до 2000."]) };
+    const tip = await this.learningTips.update(request.tipId, body);
+    return tip ? { status: 200, body: tip } : { status: 404, body: notFoundError("Совет не найден") };
   }
 
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
@@ -368,6 +385,15 @@ function emptyDashboard(): ApiTypes.EmptyDashboardDto {
 
 function isValidDashboardLimit(limit: number | undefined): boolean {
   return limit === undefined || (Number.isInteger(limit) && limit > 0);
+}
+
+function normalizeTip(value: unknown): ApiTypes.SaveLearningTipRequest | undefined {
+  if (!value || typeof value !== "object" || !("title" in value) || !("text" in value) ||
+    typeof value.title !== "string" || typeof value.text !== "string") return undefined;
+  const title = value.title.trim();
+  const text = value.text.trim();
+  if (!title || [...title].length > 120 || !text || [...text].length > 2000) return undefined;
+  return { title, text };
 }
 
 function isValidReviewResult(value: unknown): value is ApiTypes.ReviewResult {

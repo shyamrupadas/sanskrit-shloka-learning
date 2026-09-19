@@ -8,6 +8,25 @@ import { sendContractResponse } from "./contract-response.js";
 export class AdminController {
   constructor(@Inject(ApiHandlersService) private readonly handlers: ApiHandlersService) {}
 
+  @Post("learning/tips")
+  async createTip(
+    @Headers("authorization") authorization: string | undefined,
+    @Body() body: ApiTypes.SaveLearningTipRequest,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(response, await this.handlers.tips({ ...withAuthorization(authorization), body }));
+  }
+
+  @Patch("learning/tips/:tipId")
+  async updateTip(
+    @Headers("authorization") authorization: string | undefined,
+    @Param("tipId") tipId: string,
+    @Body() body: ApiTypes.SaveLearningTipRequest,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(response, await this.handlers.updateTip({ ...withAuthorization(authorization), tipId, body }));
+  }
+
   @Get("catalog")
   async getCatalog(
     @Headers("authorization") authorization: string | undefined,

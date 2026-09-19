@@ -22,6 +22,7 @@ import {
   routeSegments,
 } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
+import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 
 interface RouterContext {
   session: SessionContextValue;
@@ -164,8 +165,49 @@ const adminRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.admin,
 }).lazy(async () => {
+  const { AdminHomePage } = await import("@/features/admin/home.page");
+  return createLazyRoute("/admin-layout/admin")({ component: AdminHomePage });
+});
+
+function requireAdminLearning(): void {
+  if (!isAdminLearningEnabled()) throw redirect({ to: routePaths.admin });
+}
+
+const adminCatalogRoute = createRoute({
+  beforeLoad: requireAdminLearning,
+  getParentRoute: () => adminLayoutRoute,
+  path: routeSegments.adminCatalog,
+}).lazy(async () => {
   const { AdminCatalogPage } = await import("@/features/admin/catalog.page");
-  return createLazyRoute("/admin-layout/admin")({ component: AdminCatalogPage });
+  return createLazyRoute("/admin-layout/admin/catalog")({ component: AdminCatalogPage });
+});
+
+const adminLearningRoute = createRoute({
+  beforeLoad: requireAdminLearning,
+  getParentRoute: () => adminLayoutRoute,
+  path: routeSegments.adminLearning,
+  validateSearch: (search: Record<string, unknown>): { published?: boolean } => search.published === true ? { published: true } : {},
+}).lazy(async () => {
+  const { AdminTipsPage } = await import("@/features/admin/tips.page");
+  return createLazyRoute("/admin-layout/admin/learning")({ component: AdminTipsPage });
+});
+
+const adminTipNewRoute = createRoute({
+  beforeLoad: requireAdminLearning,
+  getParentRoute: () => adminLayoutRoute,
+  path: routeSegments.adminTipNew,
+}).lazy(async () => {
+  const { AdminTipEditorPage } = await import("@/features/admin/tip-editor.page");
+  return createLazyRoute("/admin-layout/admin/learning/new")({ component: AdminTipEditorPage });
+});
+
+const adminTipEditRoute = createRoute({
+  beforeLoad: requireAdminLearning,
+  getParentRoute: () => adminLayoutRoute,
+  path: routeSegments.adminTipEdit,
+}).lazy(async () => {
+  const { AdminTipEditorPage } = await import("@/features/admin/tip-editor.page");
+  return createLazyRoute("/admin-layout/admin/learning/$tipId/edit")({ component: AdminTipEditorPage });
 });
 
 const adminSourceRoute = createRoute({
@@ -214,6 +256,10 @@ const routeTree = rootRoute.addChildren([
   ]),
   adminLayoutRoute.addChildren([
     adminRoute,
+    adminCatalogRoute,
+    adminLearningRoute,
+    adminTipNewRoute,
+    adminTipEditRoute,
     adminSourceRoute,
     adminSourceEditRoute,
     adminShlokaRoute,
