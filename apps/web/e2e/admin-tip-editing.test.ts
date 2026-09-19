@@ -1,9 +1,6 @@
 import { expect, test } from "@playwright/test";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-// Run the joint release smoke with VITE_ADMIN_LEARNING_ENABLED=true against a fresh Vite server.
-test.skip(process.env.VITE_ADMIN_LEARNING_ENABLED !== "true", "Requires the joint admin release preview");
-
 test("protects native Back, persists order and deletion, and keeps catalog forms reachable", async ({ page }) => {
   const session = {
     account: { id: "admin", email: "admin@example.com", roles: ["admin"] }, accessToken: "admin-token",

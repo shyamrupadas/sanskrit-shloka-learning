@@ -4,13 +4,10 @@ import { BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
-import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 
 import { AdminShell } from "./ui/admin-page";
-import { AdminCatalogPage } from "./catalog.page";
 
 export function AdminHomePage() {
-  if (!isAdminLearningEnabled()) return <AdminCatalogPage />;
   return (
     <AdminShell backTo={routePaths.settings} backLabel={strings.nav.settings} title={strings.admin.adminTitle}>
       {[

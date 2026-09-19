@@ -1,6 +1,7 @@
 # Советы из БД
 
 Status: awaiting-human-review
+Accepted: 2026-09-22
 
 ## Problem Statement
 

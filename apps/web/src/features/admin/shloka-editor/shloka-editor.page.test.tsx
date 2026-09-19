@@ -89,7 +89,7 @@ describe("admin shloka editor pages", () => {
     renderShlokaEditor(routePaths.adminShlokaNew);
 
     expect(
-      await screen.findByRole("button", { name: "Назад" }),
+      await screen.findByRole("link", { name: "Каталог шлок" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: "Новая шлока" }),
@@ -119,8 +119,8 @@ describe("admin shloka editor pages", () => {
       fullTranslation: "Полный перевод шлоки",
     });
 
-    await user.click(screen.getByRole("button", { name: "Назад" }));
-    await expectPath(routePaths.admin);
+    await user.click(screen.getByRole("link", { name: "Каталог шлок" }));
+    await expectPath(routePaths.adminCatalog);
   });
 
   it("follows source structure while selecting source, part, and chapter", async () => {
@@ -316,7 +316,7 @@ function createShlokaEditorTestRouter() {
   const adminRoute = createRoute({
     component: () => <h1>Admin catalog</h1>,
     getParentRoute: () => rootRoute,
-    path: routeSegments.admin,
+    path: routeSegments.adminCatalog,
   });
   const shlokaNewRoute = createRoute({
     component: AdminShlokaPage,

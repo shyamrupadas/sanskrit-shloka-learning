@@ -2,15 +2,12 @@ import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { onlineManager } from "@tanstack/react-query";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
-import { afterEach, expect, it, vi } from "vitest";
+import { expect, it } from "vitest";
 
 import { adminSession, expectPath, mockApi, storeTestSession, session, type MockApiResponse } from "@/shared/test/harness";
 import { App } from "./App";
 
-afterEach(() => vi.unstubAllEnvs());
-
 it("moves only in available directions and preserves the confirmed list on failure", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(adminSession);
   const first = { id: "first", title: "Первый", text: "Первый текст" };
   const second = { id: "second", title: "Второй", text: "Второй текст" };
@@ -46,7 +43,6 @@ it("moves only in available directions and preserves the confirmed list on failu
 });
 
 it("confirms deletion by title, permits cancellation, retains failed deletion and deletes the last tip", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(adminSession);
   let deletes = 0;
   let fail = true;
@@ -80,7 +76,6 @@ it("confirms deletion by title, permits cancellation, retains failed deletion an
 });
 
 it("creates and edits published tips, retains failed input and confirms cancellation", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(adminSession);
   let items: ApiTypes.LearningTipDto[] = [];
   let failSave = true;
@@ -141,7 +136,6 @@ it("creates and edits published tips, retains failed input and confirms cancella
 });
 
 it("retains the edit buffer if the connection returns while reading is unavailable", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(adminSession);
   let unavailable = false;
   mockApi(({ method, path }) => {
@@ -164,7 +158,6 @@ it("retains the edit buffer if the connection returns while reading is unavailab
 });
 
 it("distinguishes pending, failed and empty reading and allows retry", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(adminSession);
   let finish!: (response: MockApiResponse) => void;
   let failed = false;
@@ -188,7 +181,6 @@ it("distinguishes pending, failed and empty reading and allows retry", async () 
 });
 
 it.each(["/admin", "/admin/catalog", "/admin/learning", "/admin/learning/new", "/admin/learning/tip/edit"])("denies a regular user the protected route %s", async (path) => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
   storeTestSession(session);
   mockApi(({ method, path: apiPath }) => {
     if (method === "GET" && apiPath === "/api/auth/session") return { status: 200, body: session };
@@ -201,17 +193,16 @@ it.each(["/admin", "/admin/catalog", "/admin/learning", "/admin/learning/new", "
   expect(screen.queryByRole("link", { name: "Админка" })).not.toBeInTheDocument();
 });
 
-it("keeps the new administration disabled until the joint release", async () => {
-  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "false");
+it("opens the tip editor directly in the ordinary application", async () => {
   storeTestSession(adminSession);
   mockApi(({ method, path }) => {
     if (method === "GET" && path === "/api/auth/session") return { status: 200, body: adminSession };
-    if (method === "GET" && path === "/api/admin/catalog") return { status: 200, body: { sources: [] } };
+    if (method === "GET" && path === "/api/learning/tips") return { status: 200, body: { items: [] } };
     throw new Error(`Unexpected request: ${method} ${path}`);
   });
   window.history.replaceState({}, "", "/admin/learning/new");
   render(<App />);
-  await expectPath("/admin");
-  expect(await screen.findByRole("link", { name: "Новая шлока" })).toBeVisible();
-  expect(screen.queryByRole("link", { name: /Обучение/ })).not.toBeInTheDocument();
+  expect(await screen.findByRole("heading", { name: "Новый совет" })).toBeVisible();
+  await expectPath("/admin/learning/new");
+  expect(screen.getByLabelText("Заголовок *")).toBeVisible();
 });

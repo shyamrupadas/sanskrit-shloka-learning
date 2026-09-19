@@ -285,8 +285,11 @@ describe("App auth and empty shell", () => {
     },
   );
 
-  it("opens the catalog inside the existing admin guard and layout", async () => {
+  it("opens the admin sections and catalog inside the existing guard and layout", async () => {
     mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return { status: 200, body: adminSession };
+      }
       if (
         request.method === "GET" &&
         request.path === "/api/admin/catalog"
@@ -300,7 +303,10 @@ describe("App auth and empty shell", () => {
 
     renderAppAt("/admin");
 
-    await screen.findByRole("main");
+    expect(await screen.findByRole("link", { name: /Обучение/ })).toBeVisible();
+    await userEvent.click(screen.getByRole("link", { name: /Каталог шлок/ }));
+    await expectPath("/admin/catalog");
+    expect(await screen.findByRole("heading", { name: "Каталог шлок" })).toBeVisible();
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 });
