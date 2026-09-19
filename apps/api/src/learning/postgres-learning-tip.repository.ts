@@ -4,6 +4,12 @@ import { randomUUID } from "node:crypto";
 import { DatabaseService } from "../database/database.service.js";
 import type { LearningTipContent, LearningTipRecord, LearningTipRepository } from "./learning-tip.repository.js";
 
+const listTipsSql = `select tip.id, translation.title, translation.text
+       from learning_tips tip
+       join learning_tip_translations translation on translation.tip_id = tip.id
+       where translation.locale = $1
+       order by tip.sort_order, tip.id`;
+
 @Injectable()
 export class PostgresLearningTipRepository implements LearningTipRepository {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
@@ -37,13 +43,41 @@ export class PostgresLearningTipRepository implements LearningTipRepository {
 
   async list(locale: string): Promise<LearningTipRecord[]> {
     const result = await this.database.readQuery<LearningTipRecord>(
-      `select tip.id, translation.title, translation.text
-       from learning_tips tip
-       join learning_tip_translations translation on translation.tip_id = tip.id
-       where translation.locale = $1
-       order by tip.sort_order, tip.id`,
+      listTipsSql,
       [locale],
     );
     return result.rows;
+  }
+
+  async move(id: string, direction: "up" | "down"): Promise<LearningTipRecord[] | "not-found" | "edge"> {
+    return this.database.transaction(async (executor) => {
+      // Share the append lock so adjacent positions cannot change while swapping.
+      await executor.query("lock table learning_tips in exclusive mode");
+      const { rows } = await executor.query<{ id: string; sort_order: number }>(
+        "select id, sort_order from learning_tips order by sort_order, id",
+      );
+      const index = rows.findIndex((tip) => tip.id === id);
+      const current = rows[index];
+      if (!current) return "not-found";
+      const adjacent = rows[index + (direction === "up" ? -1 : 1)];
+      if (!adjacent) return "edge";
+      await executor.query(
+        `update learning_tips
+         set sort_order = case id when $1 then $4 when $2 then $3 end
+         where id in ($1, $2)`,
+        [current.id, adjacent.id, current.sort_order, adjacent.sort_order],
+      );
+      return (await executor.query<LearningTipRecord>(listTipsSql, ["ru"])).rows;
+    });
+  }
+
+  async delete(id: string): Promise<LearningTipRecord[] | undefined> {
+    return this.database.transaction(async (executor) => {
+      await executor.query("lock table learning_tips in exclusive mode");
+      // The existing FK cascades deletion to every language version.
+      const result = await executor.query("delete from learning_tips where id = $1 returning id", [id]);
+      if (result.rows.length === 0) return undefined;
+      return (await executor.query<LearningTipRecord>(listTipsSql, ["ru"])).rows;
+    });
   }
 }

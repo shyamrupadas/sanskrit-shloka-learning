@@ -58,6 +58,26 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     return tip ? { status: 200, body: tip } : { status: 404, body: notFoundError("Совет не найден") };
   }
 
+  async move(request: BackendContract.MoveRequest): Promise<BackendContract.MoveResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) return adminError;
+    const direction = request.body?.direction;
+    if (direction !== "up" && direction !== "down") {
+      return { status: 400, body: validationError(["Укажите направление up или down."]) };
+    }
+    const items = await this.learningTips.move(request.tipId, direction);
+    if (items === "not-found") return { status: 404, body: notFoundError("Совет не найден") };
+    if (items === "edge") return { status: 400, body: validationError(["Совет уже находится на краю списка."]) };
+    return { status: 200, body: { items } };
+  }
+
+  async deleteTip(request: BackendContract.DeleteTipRequest): Promise<BackendContract.DeleteTipResponse> {
+    const adminError = await this.authorizeAdmin(request.authorization);
+    if (adminError) return adminError;
+    const items = await this.learningTips.delete(request.tipId);
+    return items ? { status: 200, body: { items } } : { status: 404, body: notFoundError("Совет не найден") };
+  }
+
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
     return this.auth.register(request.body);
   }

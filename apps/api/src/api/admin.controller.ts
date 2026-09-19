@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Headers, Inject, Param, Patch, Post, Res } from "@nestjs/common";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { ApiHandlersService } from "./api-handlers.service.js";
@@ -25,6 +25,25 @@ export class AdminController {
     @Res({ passthrough: true }) response: { status(code: number): unknown },
   ): Promise<unknown> {
     return sendContractResponse(response, await this.handlers.updateTip({ ...withAuthorization(authorization), tipId, body }));
+  }
+
+  @Post("learning/tips/:tipId/move")
+  async moveTip(
+    @Headers("authorization") authorization: string | undefined,
+    @Param("tipId") tipId: string,
+    @Body() body: ApiTypes.MoveLearningTipRequest,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(response, await this.handlers.move({ ...withAuthorization(authorization), tipId, body }));
+  }
+
+  @Delete("learning/tips/:tipId")
+  async deleteTip(
+    @Headers("authorization") authorization: string | undefined,
+    @Param("tipId") tipId: string,
+    @Res({ passthrough: true }) response: { status(code: number): unknown },
+  ): Promise<unknown> {
+    return sendContractResponse(response, await this.handlers.deleteTip({ ...withAuthorization(authorization), tipId }));
   }
 
   @Get("catalog")

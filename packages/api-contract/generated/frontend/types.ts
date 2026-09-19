@@ -231,6 +231,10 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface MoveLearningTipRequest {
+  direction: "up" | "down";
+}
+
 export type NonEmptyString = string;
 
 export interface RegisterRequest {

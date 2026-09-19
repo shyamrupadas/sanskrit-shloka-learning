@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { onlineManager } from "@tanstack/react-query";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
@@ -8,6 +8,76 @@ import { adminSession, expectPath, mockApi, storeTestSession, session, type Mock
 import { App } from "./App";
 
 afterEach(() => vi.unstubAllEnvs());
+
+it("moves only in available directions and preserves the confirmed list on failure", async () => {
+  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
+  storeTestSession(adminSession);
+  const first = { id: "first", title: "Первый", text: "Первый текст" };
+  const second = { id: "second", title: "Второй", text: "Второй текст" };
+  let finish!: (response: MockApiResponse) => void;
+  mockApi(({ method, path, body }) => {
+    if (method === "GET" && path === "/api/auth/session") return { status: 200, body: adminSession };
+    if (method === "GET" && path === "/api/learning/tips") return { status: 200, body: { items: [first, second] } };
+    if (method === "POST" && path === "/api/admin/learning/tips/first/move") {
+      if ((body as ApiTypes.MoveLearningTipRequest).direction === "up") return { status: 200, body: { items: [first, second] } };
+      expect(body).toEqual({ direction: "down" });
+      return new Promise<MockApiResponse>((resolve) => { finish = resolve; });
+    }
+    throw new Error(`Unexpected request: ${method} ${path}`);
+  });
+  window.history.replaceState({}, "", "/admin/learning");
+  render(<App />);
+  const user = userEvent.setup();
+  expect(await screen.findByRole("button", { name: "Поднять совет Первый" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Опустить совет Второй" })).toBeDisabled();
+  await user.click(screen.getByRole("button", { name: "Опустить совет Первый" }));
+  expect(screen.getByRole("button", { name: "Поднять совет Второй" })).toBeDisabled();
+  expect(screen.getAllByRole("article").map((card) => within(card).getByRole("heading").textContent)).toEqual(["Первый", "Второй"]);
+  finish({ status: 503 });
+  expect(await screen.findByRole("alert")).toHaveTextContent("Не удалось изменить порядок");
+  expect(screen.getAllByRole("article").map((card) => within(card).getByRole("heading").textContent)).toEqual(["Первый", "Второй"]);
+  await user.click(screen.getByRole("button", { name: "Опустить совет Первый" }));
+  finish({ status: 200, body: { items: [second, first] } });
+  await waitFor(() => expect(screen.getAllByRole("article").map((card) => within(card).getByRole("heading").textContent)).toEqual(["Второй", "Первый"]));
+  expect(screen.getByRole("button", { name: "Поднять совет Второй" })).toBeDisabled();
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Поднять совет Первый" }));
+  await waitFor(() => expect(screen.getAllByRole("article").map((card) => within(card).getByRole("heading").textContent)).toEqual(["Первый", "Второй"]));
+});
+
+it("confirms deletion by title, permits cancellation, retains failed deletion and deletes the last tip", async () => {
+  vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");
+  storeTestSession(adminSession);
+  let deletes = 0;
+  let fail = true;
+  mockApi(({ method, path }) => {
+    if (method === "GET" && path === "/api/auth/session") return { status: 200, body: adminSession };
+    if (method === "GET" && path === "/api/learning/tips") return { status: 200, body: { items: [{ id: "last", title: "Последний совет", text: "Текст" }] } };
+    if (method === "DELETE" && path === "/api/admin/learning/tips/last") {
+      deletes++;
+      return fail ? { status: 503 } : { status: 200, body: { items: [] } };
+    }
+    throw new Error(`Unexpected request: ${method} ${path}`);
+  });
+  window.history.replaceState({}, "", "/admin/learning");
+  render(<App />);
+  const user = userEvent.setup();
+  expect(await screen.findByRole("button", { name: "Поднять совет Последний совет" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Опустить совет Последний совет" })).toBeDisabled();
+  await user.click(screen.getByRole("button", { name: "Удалить Последний совет" }));
+  expect(await screen.findByRole("dialog")).toHaveTextContent("Совет «Последний совет» будет удалён навсегда. Восстановить его невозможно.");
+  await user.click(screen.getByRole("button", { name: "Отмена" }));
+  expect(deletes).toBe(0);
+  await user.click(screen.getByRole("button", { name: "Удалить Последний совет" }));
+  await user.click(screen.getByRole("button", { name: "Удалить навсегда" }));
+  expect(await screen.findByRole("alert")).toHaveTextContent("Не удалось удалить совет");
+  expect(screen.getByRole("heading", { name: "Последний совет" })).toBeVisible();
+  fail = false;
+  await user.click(screen.getByRole("button", { name: "Удалить Последний совет" }));
+  await user.click(screen.getByRole("button", { name: "Удалить навсегда" }));
+  expect(await screen.findByRole("link", { name: "Добавить первый совет" })).toBeVisible();
+  expect(screen.queryByRole("article")).not.toBeInTheDocument();
+});
 
 it("creates and edits published tips, retains failed input and confirms cancellation", async () => {
   vi.stubEnv("VITE_ADMIN_LEARNING_ENABLED", "true");

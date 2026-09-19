@@ -1635,6 +1635,8 @@ function createHandlers(
         list: async () => [],
         create: async () => { throw new Error("Unexpected tip creation"); },
         update: async () => { throw new Error("Unexpected tip update"); },
+        move: async () => { throw new Error("Unexpected tip move"); },
+        delete: async () => { throw new Error("Unexpected tip deletion"); },
         ...options.tips,
       },
     ),
@@ -1676,6 +1678,55 @@ function validSourceRequest(overrides: Partial<ApiTypes.CreateSourceRequest> = {
 
 
 describe("ApiHandlersService learning tips", () => {
+  test("restricts moves and deletion to admins and publishes their confirmed order, including empty", async () => {
+    let items = [
+      { id: "first", title: "Первый", text: "Первый текст" },
+      { id: "second", title: "Второй", text: "Второй текст" },
+    ];
+    const original = structuredClone(items);
+    const handlers = createHandlers({ tips: {
+      list: async () => structuredClone(items),
+      move: async (id, direction) => {
+        const index = items.findIndex((tip) => tip.id === id);
+        if (index < 0) return "not-found";
+        const target = index + (direction === "up" ? -1 : 1);
+        if (!items[target]) return "edge";
+        [items[index], items[target]] = [items[target]!, items[index]!];
+        return structuredClone(items);
+      },
+      delete: async (id) => {
+        if (!items.some((tip) => tip.id === id)) return undefined;
+        items = items.filter((tip) => tip.id !== id);
+        return structuredClone(items);
+      },
+      create: async (body) => { const tip = { id: "new", ...body }; items.push(tip); return tip; },
+    } });
+    const move = { tipId: "first", body: { direction: "down" as const } };
+    assert.equal((await handlers.move(move)).status, 401);
+    assert.equal((await handlers.deleteTip({ tipId: "first" })).status, 401);
+    const registration = await handlers.register({ body: { email: "sort@example.com", password: "123456", passwordConfirmation: "123456" } });
+    assert.equal(registration.status, 201);
+    const authorization = `Bearer ${registration.body.accessToken}`;
+    assert.equal((await handlers.move({ ...move, authorization })).status, 403);
+    assert.equal((await handlers.deleteTip({ tipId: "first", authorization })).status, 403);
+    assert.deepEqual(items, original);
+    handlers.accounts.grantRole(registration.body.account.id, "admin");
+    for (const body of [null, {}, { direction: "sideways" }]) {
+      assert.equal((await handlers.move({ ...move, authorization, body: body as ApiTypes.MoveLearningTipRequest })).status, 400);
+    }
+    assert.equal((await handlers.move({ ...move, authorization, tipId: "missing" })).status, 404);
+    assert.equal((await handlers.move({ ...move, authorization, body: { direction: "up" } })).status, 400);
+    assert.deepEqual(await handlers.move({ ...move, authorization }), { status: 200, body: { items: [original[1], original[0]] } });
+    assert.deepEqual((await handlers.getTips({ authorization })).body, { items: [original[1], original[0]] });
+    const created = await handlers.tips({ authorization, body: { title: "Новый", text: "Текст" } });
+    assert.equal(created.status, 201);
+    assert.deepEqual((await handlers.getTips({ authorization })).body, { items: [original[1], original[0], created.body] });
+    assert.equal((await handlers.deleteTip({ authorization, tipId: "missing" })).status, 404);
+    assert.deepEqual(await handlers.deleteTip({ authorization, tipId: "first" }), { status: 200, body: { items: [original[1], created.body] } });
+    await handlers.deleteTip({ authorization, tipId: "second" });
+    assert.deepEqual(await handlers.deleteTip({ authorization, tipId: "new" }), { status: 200, body: { items: [] } });
+    assert.deepEqual(await handlers.getTips({ authorization }), { status: 200, body: { items: [] } });
+  });
   test("validates both fields independently of the client without writing invalid input", async () => {
     const { authorization, handlers } = await createAdminHandlers();
     for (const body of [null, {}, { title: 1, text: "Текст" }, { title: "\n\t ", text: "Текст" },

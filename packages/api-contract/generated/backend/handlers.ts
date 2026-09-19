@@ -32,6 +32,11 @@ export interface TipsRequest {
   authorization?: string;
 }
 
+export interface DeleteTipRequest {
+  tipId: string;
+  authorization?: string;
+}
+
 export interface GetCatalogRequest {
   authorization?: string;
 }
@@ -47,6 +52,12 @@ export interface GetSourceRequest {
 }
 
 export interface GetOptionsRequest {
+  authorization?: string;
+}
+
+export interface MoveRequest {
+  body: Types.MoveLearningTipRequest;
+  tipId: string;
   authorization?: string;
 }
 
@@ -140,10 +151,12 @@ export type UpdateSettingsResponse = ApiHandlerResponse<200, Types.AccountSettin
 export type ShlokasResponse = ApiHandlerResponse<201, Types.LibraryShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type SourcesResponse = ApiHandlerResponse<201, Types.SourceOptionDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type TipsResponse = ApiHandlerResponse<201, Types.LearningTipDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
+export type DeleteTipResponse = ApiHandlerResponse<200, Types.LearningTipListDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetCatalogResponse = ApiHandlerResponse<200, Types.AdminCatalogDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
 export type GetShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetOptionsResponse = ApiHandlerResponse<200, Types.AdminSourceOptionsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError>;
+export type MoveResponse = ApiHandlerResponse<200, Types.LearningTipListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type UpdateShlokaResponse = ApiHandlerResponse<200, Types.AdminShlokaDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type UpdateSourceResponse = ApiHandlerResponse<200, Types.AdminSourceDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError> | ApiHandlerResponse<409, Types.ApiError>;
 export type UpdateTipResponse = ApiHandlerResponse<200, Types.LearningTipDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<403, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
@@ -168,10 +181,12 @@ export interface ApiHandlers {
   shlokas(request: ShlokasRequest): Promise<ShlokasResponse> | ShlokasResponse;
   sources(request: SourcesRequest): Promise<SourcesResponse> | SourcesResponse;
   tips(request: TipsRequest): Promise<TipsResponse> | TipsResponse;
+  deleteTip(request: DeleteTipRequest): Promise<DeleteTipResponse> | DeleteTipResponse;
   getCatalog(request: GetCatalogRequest): Promise<GetCatalogResponse> | GetCatalogResponse;
   getShloka(request: GetShlokaRequest): Promise<GetShlokaResponse> | GetShlokaResponse;
   getSource(request: GetSourceRequest): Promise<GetSourceResponse> | GetSourceResponse;
   getOptions(request: GetOptionsRequest): Promise<GetOptionsResponse> | GetOptionsResponse;
+  move(request: MoveRequest): Promise<MoveResponse> | MoveResponse;
   updateShloka(request: UpdateShlokaRequest): Promise<UpdateShlokaResponse> | UpdateShlokaResponse;
   updateSource(request: UpdateSourceRequest): Promise<UpdateSourceResponse> | UpdateSourceResponse;
   updateTip(request: UpdateTipRequest): Promise<UpdateTipResponse> | UpdateTipResponse;

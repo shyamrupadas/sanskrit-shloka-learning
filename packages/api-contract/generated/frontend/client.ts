@@ -55,6 +55,12 @@ export class ApiClient {
     });
   }
 
+  async deleteTip(tipId: string): Promise<Types.LearningTipListDto> {
+    return this.#request<Types.LearningTipListDto>(`/api/admin/learning/tips/${encodeURIComponent(tipId)}`, {
+      method: "DELETE"
+    });
+  }
+
   async getCatalog(): Promise<Types.AdminCatalogDto> {
     return this.#request<Types.AdminCatalogDto>("/api/admin/catalog", {
       method: "GET"
@@ -76,6 +82,13 @@ export class ApiClient {
   async getOptions(): Promise<Types.AdminSourceOptionsDto> {
     return this.#request<Types.AdminSourceOptionsDto>("/api/admin/sources/options", {
       method: "GET"
+    });
+  }
+
+  async move(tipId: string, request: Types.MoveLearningTipRequest): Promise<Types.LearningTipListDto> {
+    return this.#request<Types.LearningTipListDto>(`/api/admin/learning/tips/${encodeURIComponent(tipId)}/move`, {
+      method: "POST",
+      body: JSON.stringify(request)
     });
   }
 

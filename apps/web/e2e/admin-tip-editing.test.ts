@@ -1,11 +1,10 @@
 import { expect, test } from "@playwright/test";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
-// The production-default suite keeps checking the old catalog while ticket 03 is pending.
-// Run this preview with VITE_ADMIN_LEARNING_ENABLED=true against a fresh Vite server.
+// Run the joint release smoke with VITE_ADMIN_LEARNING_ENABLED=true against a fresh Vite server.
 test.skip(process.env.VITE_ADMIN_LEARNING_ENABLED !== "true", "Requires the joint admin release preview");
 
-test("protects native Back and keeps catalog forms reachable through the new administration", async ({ page }) => {
+test("protects native Back, persists order and deletion, and keeps catalog forms reachable", async ({ page }) => {
   const session = {
     account: { id: "admin", email: "admin@example.com", roles: ["admin"] }, accessToken: "admin-token",
   } satisfies ApiTypes.AuthSessionDto;
@@ -27,6 +26,15 @@ test("protects native Back and keeps catalog forms reachable through the new adm
       const tip = { id: "new", ...route.request().postDataJSON() as ApiTypes.SaveLearningTipRequest };
       items = [...items, tip];
       return route.fulfill({ status: 201, json: tip });
+    }
+    if (method === "POST" && path === "/api/admin/learning/tips/new/move") {
+      expect(route.request().postDataJSON()).toEqual({ direction: "up" });
+      items = [items[1]!, items[0]!];
+      return route.fulfill({ json: { items } });
+    }
+    if (method === "DELETE" && ["/api/admin/learning/tips/first", "/api/admin/learning/tips/new"].includes(path)) {
+      items = items.filter((tip) => tip.id !== path.split("/").at(-1));
+      return route.fulfill({ json: { items } });
     }
     throw new Error(`Unexpected request: ${method} ${path}`);
   });
@@ -50,6 +58,18 @@ test("protects native Back and keeps catalog forms reachable through the new adm
   await page.getByRole("button", { name: "Сохранить", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("Совет опубликован");
   await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Поднять совет Опубликованный совет" }).click();
+  await expect(page.getByRole("article").first()).toContainText("Опубликованный совет");
+  await page.reload();
+  await expect(page.getByRole("article").first()).toContainText("Опубликованный совет");
+  await page.getByRole("button", { name: "Удалить Читайте по строкам" }).click();
+  await page.getByRole("button", { name: "Удалить навсегда", exact: true }).click();
+  await expect(page.getByRole("article")).toHaveCount(1);
+  await page.getByRole("button", { name: "Удалить Опубликованный совет" }).click();
+  await page.getByRole("button", { name: "Удалить навсегда", exact: true }).click();
+  await expect(page.getByRole("link", { name: "Добавить первый совет" })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("link", { name: "Добавить первый совет" })).toBeVisible();
   await page.getByRole("link", { name: "Админка", exact: true }).click();
   await page.getByRole("link", { name: /Каталог шлок/ }).click();
   await expect(page.getByRole("heading", { name: "Каталог шлок", exact: true })).toBeVisible();

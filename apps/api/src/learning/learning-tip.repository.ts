@@ -13,4 +13,6 @@ export interface LearningTipRepository {
   list(locale: string): Promise<LearningTipRecord[]>;
   create(content: LearningTipContent): Promise<LearningTipRecord>;
   update(id: string, content: LearningTipContent): Promise<LearningTipRecord | undefined>;
+  move(id: string, direction: "up" | "down"): Promise<LearningTipRecord[] | "not-found" | "edge">;
+  delete(id: string): Promise<LearningTipRecord[] | undefined>;
 }

@@ -1,6 +1,7 @@
 name: Application production release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -24,6 +25,7 @@ concurrency:
 jobs:
   release:
     name: Verify and release application
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -63,6 +65,8 @@ jobs:
       - name: Build production application
         env:
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+          # Enable only after the deployed admin API passes the ticket 03 smoke.
+          VITE_ADMIN_LEARNING_ENABLED: ${{ vars.VITE_ADMIN_LEARNING_ENABLED }}
         run: pnpm --filter @sanskrit-shloka-learning/web build
 
       - name: Verify production entry artifact
