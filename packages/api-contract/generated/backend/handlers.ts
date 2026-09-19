@@ -93,6 +93,10 @@ export interface GetStreakRequest {
   authorization?: string;
 }
 
+export interface GetTipsRequest {
+  authorization?: string;
+}
+
 export interface CompleteLearningRequest {
   body: Types.CompleteLearningRequestBody;
   shlokaCode: string;
@@ -138,6 +142,7 @@ export type GetDashboardResponse = ApiHandlerResponse<200, Types.EmptyDashboardD
 export type GetLearningShlokasResponse = ApiHandlerResponse<200, Types.DashboardLearningShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type GetReviewShlokasResponse = ApiHandlerResponse<200, Types.DashboardReviewShlokaListDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
 export type GetStreakResponse = ApiHandlerResponse<200, Types.DashboardStreakDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError>;
+export type GetTipsResponse = ApiHandlerResponse<200, Types.LearningTipListDto> | ApiHandlerResponse<401, Types.ApiError>;
 export type CompleteLearningResponse = ApiHandlerResponse<200, Types.CompleteLearningDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type CompleteReviewResponse = ApiHandlerResponse<201, Types.CompletedReviewDto> | ApiHandlerResponse<400, Types.ApiError> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError>;
 export type GetItemResponse = ApiHandlerResponse<200, Types.LibraryShlokaDetailsDto> | ApiHandlerResponse<401, Types.ApiError> | ApiHandlerResponse<404, Types.ApiError> | ApiHandlerResponse<500, Types.DataIntegrityApiError>;
@@ -163,6 +168,7 @@ export interface ApiHandlers {
   getLearningShlokas(request: GetLearningShlokasRequest): Promise<GetLearningShlokasResponse> | GetLearningShlokasResponse;
   getReviewShlokas(request: GetReviewShlokasRequest): Promise<GetReviewShlokasResponse> | GetReviewShlokasResponse;
   getStreak(request: GetStreakRequest): Promise<GetStreakResponse> | GetStreakResponse;
+  getTips(request: GetTipsRequest): Promise<GetTipsResponse> | GetTipsResponse;
   completeLearning(request: CompleteLearningRequest): Promise<CompleteLearningResponse> | CompleteLearningResponse;
   completeReview(request: CompleteReviewRequest): Promise<CompleteReviewResponse> | CompleteReviewResponse;
   getItem(request: GetItemRequest): Promise<GetItemResponse> | GetItemResponse;

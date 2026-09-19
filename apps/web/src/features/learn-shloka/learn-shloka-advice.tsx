@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { Dialog } from "radix-ui";
@@ -6,11 +6,14 @@ import { Dialog } from "radix-ui";
 import { ModalContent, Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
+import { useSession } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 
 import {
-  readLearnShlokaAdviceTipIndex,
-  writeLearnShlokaAdviceTipIndex,
+  attachLearnShlokaAdviceAttempt,
+  loadLearnShlokaAdvice,
+  readLearnShlokaAdviceAttempt,
+  writeLearnShlokaAdviceAttempt,
 } from "./learn-shloka-advice-history";
 
 export function LearnShlokaAdviceDialog({
@@ -20,19 +23,51 @@ export function LearnShlokaAdviceDialog({
   disabled?: boolean;
   shlokaCode: string;
 }) {
-  const tips = strings.learning.tips;
-  const [tipIndex, setTipIndex] = useState(() =>
-    readLearnShlokaAdviceTipIndex(shlokaCode, tips.length),
+  const { apiClient } = useSession();
+  const [attempt, setAttempt] = useState(() =>
+    readLearnShlokaAdviceAttempt(shlokaCode),
   );
-  const tip = tips[tipIndex]!;
-  const hasAnotherTip = tipIndex < tips.length - 1;
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const active = useRef(false);
+  const pending = useRef(false);
+  const tips = attempt.tips;
+  const tipIndex = attempt.tipIndex;
+  const tip = tips?.[tipIndex];
+  const hasAnotherTip = tips !== null && tipIndex < tips.length - 1;
+  const description = tip?.text ?? (
+    loading || (!failed && tips === null)
+      ? strings.learning.loading
+      : failed ? strings.learning.error : strings.learning.empty
+  );
 
   useEffect(() => {
-    writeLearnShlokaAdviceTipIndex(shlokaCode, tipIndex);
-  }, [shlokaCode, tipIndex]);
+    active.current = true;
+    attachLearnShlokaAdviceAttempt(attempt);
+    return () => { active.current = false; };
+  }, [attempt]);
+
+  async function loadTips(): Promise<void> {
+    if (tips !== null || pending.current) return;
+    pending.current = true;
+    setLoading(true);
+    setFailed(false);
+    try {
+      const captured = await loadLearnShlokaAdvice(
+        attempt.id,
+        () => apiClient.getTips(),
+      );
+      if (active.current && captured) setAttempt(captured);
+    } catch {
+      if (active.current) setFailed(true);
+    } finally {
+      pending.current = false;
+      if (active.current) setLoading(false);
+    }
+  }
 
   return (
-    <Dialog.Root>
+    <Dialog.Root onOpenChange={(open) => { if (open) void loadTips(); }}>
       <Dialog.Trigger asChild>
         <button
           className="justify-self-end rounded-sm text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:text-[var(--disabled-foreground)]"
@@ -70,9 +105,17 @@ export function LearnShlokaAdviceDialog({
             </Button>
           </Dialog.Close>
         </div>
+        {tip ? (
+          <Typography
+            className="mt-4 break-words [overflow-wrap:anywhere]"
+            variant="h2"
+          >
+            {tip.title}
+          </Typography>
+        ) : null}
         <Dialog.Description asChild>
           <Typography
-            className="mt-[18px] break-words [overflow-wrap:anywhere]"
+            className="mt-4 whitespace-pre-wrap break-words [overflow-wrap:anywhere]"
             style={
               {
                 "--typography-body-line-height":
@@ -83,29 +126,38 @@ export function LearnShlokaAdviceDialog({
             }
             variant="p3"
           >
-            {tip.text}
+            {description}
           </Typography>
         </Dialog.Description>
         {hasAnotherTip ? (
-          <Typography className="mt-[18px]" tone="muted" variant="p1">
+          <Typography className="mt-4" tone="muted" variant="p1">
             {strings.learnShloka.advicePosition(
               tipIndex + 1,
-              tips.length,
+              tips!.length,
             )}
           </Typography>
         ) : null}
-        <div className="mt-[18px] space-y-[9px]">
-          <Button
-            className="h-[52px] w-full text-[15px] text-primary disabled:bg-[var(--disabled-background)] disabled:text-[var(--disabled-foreground)] disabled:opacity-70"
-            disabled={!hasAnotherTip}
-            onClick={() => setTipIndex((current) => current + 1)}
+        <div className="mt-4 space-y-[9px]">
+          {tip || failed ? (
+            <Button
+            className={`h-[52px] w-full text-[15px] ${failed ? "" : "text-primary"} disabled:bg-[var(--disabled-background)] disabled:text-[var(--disabled-foreground)] disabled:opacity-70`}
+            disabled={!failed && !hasAnotherTip}
+            onClick={() => {
+              if (failed) { void loadTips(); return; }
+              if (hasAnotherTip) {
+                const next = { ...attempt, tipIndex: tipIndex + 1 };
+                writeLearnShlokaAdviceAttempt(next);
+                setAttempt(next);
+              }
+            }}
             type="button"
-            variant="outline"
+            variant={failed ? "default" : "outline"}
           >
-            {hasAnotherTip
+            {failed ? strings.learning.retry : hasAnotherTip
               ? strings.learnShloka.adviceNext
               : strings.learnShloka.adviceExhausted}
-          </Button>
+            </Button>
+          ) : null}
           <Button
             asChild
             className="h-10 w-full text-sm font-bold"

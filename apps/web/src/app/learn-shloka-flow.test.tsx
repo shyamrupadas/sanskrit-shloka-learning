@@ -4,7 +4,6 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
 
 import { App } from "@/app/App";
-import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import {
   expectPath,
@@ -14,6 +13,12 @@ import {
   type MockApiRequest,
   type MockApiResponse,
 } from "@/shared/test/harness";
+
+const adviceTips = [
+  { id: "tip-a", title: "Смысл", text: "Совет с сервера: сначала разберите смысл." },
+  { id: "tip-b", title: "Звучание", text: "Совет с сервера: повторите строку вслух." },
+  { id: "tip-c", title: "Память", text: "Совет с сервера: вспомните без подсказки." },
+] satisfies ApiTypes.LearningTipDto[];
 
 const learningPadas = [
   "дхарма-кшетре куру-кшетре",
@@ -434,8 +439,10 @@ describe("app learn shloka flow", () => {
   it("keeps a non-repeating advice series across the complete dialog focus lifecycle", async () => {
     const user = userEvent.setup();
     const requests: MockApiRequest[] = [];
+    let items = adviceTips;
     mockApi((request) => {
       requests.push(request);
+      if (request.method === "GET" && request.path === "/api/learning/tips") return { status: 200, body: { items } };
       return learningApi(request);
     });
     storeTestSession(session);
@@ -444,13 +451,14 @@ describe("app learn shloka flow", () => {
     const adviceTrigger = await screen.findByRole("button", {
       name: "Совет",
     });
+    expect(requests.some((request) => request.path === "/api/learning/tips")).toBe(false);
     await user.click(adviceTrigger);
 
     const dialog = await screen.findByRole("dialog", { name: "Совет" });
     const closeButton = within(dialog).getByRole("button", {
       name: "Закрыть совет",
     });
-    const anotherAdviceButton = within(dialog).getByRole("button", {
+    const anotherAdviceButton = await within(dialog).findByRole("button", {
       name: "Другой совет",
     });
     const allAdviceLink = within(dialog).getByRole("link", {
@@ -463,10 +471,11 @@ describe("app learn shloka flow", () => {
       screen.queryByRole("button", { name: "Выучил" }),
     ).not.toBeInTheDocument();
     expect(
-      within(dialog).getByText(strings.learning.tips[0]!.text),
+      within(dialog).getByText(adviceTips[0]!.text),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("Совет 1 из 3")).toBeInTheDocument();
 
+    items = [{ id: "new", title: "Новая версия", text: "Текст после правок" }];
     await user.tab();
     expect(anotherAdviceButton).toHaveFocus();
     await user.tab();
@@ -476,7 +485,7 @@ describe("app learn shloka flow", () => {
 
     await user.click(anotherAdviceButton);
     expect(
-      within(dialog).getByText(strings.learning.tips[1]!.text),
+      within(dialog).getByText(adviceTips[1]!.text),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("Совет 2 из 3")).toBeInTheDocument();
     await user.click(closeButton);
@@ -489,7 +498,7 @@ describe("app learn shloka flow", () => {
       name: "Совет",
     });
     expect(
-      within(reopenedDialog).getByText(strings.learning.tips[1]!.text),
+      within(reopenedDialog).getByText(adviceTips[1]!.text),
     ).toBeInTheDocument();
     await user.click(
       within(reopenedDialog).getByRole("button", {
@@ -498,7 +507,7 @@ describe("app learn shloka flow", () => {
     );
 
     expect(
-      within(reopenedDialog).getByText(strings.learning.tips[2]!.text),
+      within(reopenedDialog).getByText(adviceTips[2]!.text),
     ).toBeInTheDocument();
     expect(
       within(reopenedDialog).queryByText(/Совет \d из \d/),
@@ -515,6 +524,121 @@ describe("app learn shloka flow", () => {
     expect(
       requests.some(({ method }) => method !== "GET"),
     ).toBe(false);
+  });
+
+  it("retries a failed advice load and freezes an empty response until the attempt ends", async () => {
+    const user = userEvent.setup();
+    let calls = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/learning/tips") {
+        calls++;
+        if (calls === 1) return { status: 503, body: { message: "Unavailable" } };
+        return { status: 200, body: { items: calls === 2 ? [] : adviceTips } };
+      }
+      return learningApi(request, { dashboardLearningShlokas: [learningShloka] });
+    });
+    storeTestSession();
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText("Не удалось загрузить советы. Попробуйте ещё раз.")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Повторить" }));
+    expect(await screen.findByText("Советов пока нет")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Другой совет" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Закрыть совет" }));
+    await user.click(screen.getByRole("button", { name: "Совет" }));
+    expect(screen.getByText("Советов пока нет")).toBeInTheDocument();
+    expect(calls).toBe(2);
+    await user.click(screen.getByRole("button", { name: "Закрыть совет" }));
+    await user.click(screen.getByRole("button", { name: "Отмена" }));
+    await user.click(await screen.findByRole("link", { name: `Учить ${learningShloka.displayTitle}` }));
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText(adviceTips[0]!.text)).toBeInTheDocument();
+    expect(calls).toBe(3);
+  });
+
+  it.each(["helper", "all tips"])("freezes the first successful response while visiting %s", async (destination) => {
+    const user = userEvent.setup();
+    let resolve!: (value: MockApiResponse) => void;
+    let calls = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/learning/tips") {
+        calls++;
+        if (calls === 1) return new Promise<MockApiResponse>((done) => { resolve = done; });
+        return { status: 200, body: { items: [{ id: "new", title: "Новая версия", text: "Изменённый текст" }] } };
+      }
+      return learningApi(request);
+    });
+    storeTestSession();
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText("Загружаем советы…")).toBeInTheDocument();
+    if (destination === "helper") {
+      await user.click(screen.getByRole("button", { name: "Закрыть совет" }));
+      await user.click(screen.getByRole("button", { name: "Помощник" }));
+    } else {
+      await user.click(screen.getByRole("link", { name: "Все советы" }));
+      expect(await screen.findByText("Изменённый текст")).toBeInTheDocument();
+    }
+    await act(async () => { resolve({ status: 200, body: { items: adviceTips } }); });
+    if (destination === "helper") {
+      await user.click(screen.getByRole("button", { name: "К шлоке" }));
+    } else {
+      act(() => { window.history.back(); });
+    }
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText(adviceTips[0]!.text)).toBeInTheDocument();
+    expect(calls).toBe(destination === "helper" ? 1 : 2);
+  });
+
+  it.each([false, true])("reuses an in-flight or captured response after returning from the helper (resolved: %s)", async (resolveBeforeOpen) => {
+    const user = userEvent.setup();
+    let resolve!: (value: MockApiResponse) => void;
+    let calls = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/learning/tips") {
+        calls++;
+        if (calls === 1) return new Promise<MockApiResponse>((done) => { resolve = done; });
+        return { status: 503, body: { message: "Must reuse first request" } };
+      }
+      return learningApi(request);
+    });
+    storeTestSession();
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    await user.click(screen.getByRole("button", { name: "Закрыть совет" }));
+    await user.click(screen.getByRole("button", { name: "Помощник" }));
+    await user.click(screen.getByRole("button", { name: "К шлоке" }));
+    if (resolveBeforeOpen) await act(async () => { resolve({ status: 200, body: { items: adviceTips } }); });
+    await user.click(screen.getByRole("button", { name: "Совет" }));
+    if (!resolveBeforeOpen) await act(async () => { resolve({ status: 200, body: { items: adviceTips } }); });
+    expect(await screen.findByText(adviceTips[0]!.text)).toBeInTheDocument();
+    expect(calls).toBe(1);
+  });
+
+  it("ignores a late advice response from a cancelled attempt", async () => {
+    const user = userEvent.setup();
+    let resolve!: (value: MockApiResponse) => void;
+    let calls = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/learning/tips") {
+        calls++;
+        if (calls === 1) return new Promise<MockApiResponse>((done) => { resolve = done; });
+        return { status: 200, body: { items: adviceTips } };
+      }
+      return learningApi(request, { dashboardLearningShlokas: [learningShloka] });
+    });
+    storeTestSession();
+    renderAppAt("/library/shlokas/gita-1-1/learn");
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText("Загружаем советы…")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Закрыть совет" }));
+    await user.click(screen.getByRole("button", { name: "Отмена" }));
+    await user.click(await screen.findByRole("link", { name: `Учить ${learningShloka.displayTitle}` }));
+    await user.click(await screen.findByRole("button", { name: "Совет" }));
+    expect(await screen.findByText(adviceTips[0]!.text)).toBeInTheDocument();
+    await act(async () => { resolve({ status: 200, body: { items: [{ id: "old", title: "Старый", text: "Устаревший ответ" }] } }); });
+    expect(screen.queryByText("Устаревший ответ")).not.toBeInTheDocument();
+    expect(screen.getByText(adviceTips[0]!.text)).toBeInTheDocument();
   });
 
   it("restores the unfinished attempt and advice series after native Back", async () => {
@@ -560,7 +684,7 @@ describe("app learn shloka flow", () => {
       name: "Совет",
     });
     expect(
-      within(restoredDialog).getByText(strings.learning.tips[1]!.text),
+      within(restoredDialog).getByText(adviceTips[1]!.text),
     ).toBeInTheDocument();
     expect(
       requests.some(({ method }) => method !== "GET"),
@@ -606,7 +730,7 @@ describe("app learn shloka flow", () => {
       name: "Совет",
     });
     expect(
-      within(freshDialog).getByText(strings.learning.tips[0]!.text),
+      within(freshDialog).getByText(adviceTips[0]!.text),
     ).toBeInTheDocument();
     expect(within(freshDialog).getByText("Совет 1 из 3")).toBeInTheDocument();
     expect(
@@ -800,7 +924,7 @@ describe("app learn shloka flow", () => {
       name: "Совет",
     });
     expect(
-      within(restoredDialog).getByText(strings.learning.tips[1]!.text),
+      within(restoredDialog).getByText(adviceTips[1]!.text),
     ).toBeInTheDocument();
     expect(completionSequence(requests)).toEqual([
       `GET ${learningItemPath}`,
@@ -1363,7 +1487,7 @@ describe("app learn shloka flow", () => {
     await user.click(screen.getByRole("button", { name: "Совет" }));
     const freshDialog = await screen.findByRole("dialog", { name: "Совет" });
     expect(
-      within(freshDialog).getByText(strings.learning.tips[0]!.text),
+      within(freshDialog).getByText(adviceTips[0]!.text),
     ).toBeInTheDocument();
     expect(within(freshDialog).getByText("Совет 1 из 3")).toBeInTheDocument();
   });
@@ -1486,6 +1610,7 @@ function learningApi(
   if (isSessionRequest(request)) {
     return { status: 200, body: session };
   }
+  if (request.method === "GET" && request.path === "/api/learning/tips") return { status: 200, body: { items: adviceTips } };
   if (request.method === "GET" && request.path === "/api/library") {
     return {
       status: 200,

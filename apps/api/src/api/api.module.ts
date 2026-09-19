@@ -4,23 +4,26 @@ import { AccountsModule } from "../accounts/accounts.module.js";
 import { AuthModule } from "../auth/auth.module.js";
 import { CatalogModule } from "../catalog/catalog.module.js";
 import { DashboardModule } from "../dashboard/dashboard.module.js";
+import { LearningModule } from "../learning/learning.module.js";
 import { UserLibraryModule } from "../library/user-library.module.js";
 import { AccountController } from "./account.controller.js";
 import { AdminController } from "./admin.controller.js";
 import { ApiHandlersService } from "./api-handlers.service.js";
 import { AuthController } from "./auth.controller.js";
 import { DashboardController } from "./dashboard.controller.js";
+import { LearningController } from "./learning.controller.js";
 import { LibraryController } from "./library.controller.js";
 
 @Module({
   imports: [
+    LearningModule,
     AccountsModule,
     AuthModule,
     CatalogModule,
     DashboardModule,
     UserLibraryModule,
   ],
-  controllers: [AccountController, AdminController, AuthController, DashboardController, LibraryController],
+  controllers: [LearningController,AccountController, AdminController, AuthController, DashboardController, LibraryController],
   providers: [ApiHandlersService],
   exports: [ApiHandlersService],
 })
