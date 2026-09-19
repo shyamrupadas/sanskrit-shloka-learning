@@ -59,7 +59,8 @@ function tipDatabase() {
         return { rows: structuredClone([...tips].sort((a, b) => a.sort_order - b.sort_order)) };
       } else if (sql.includes("update learning_tips")) {
         assert.ok(locked);
-        assert.match(sql, /case id when \$1 then \$4 when \$2 then \$3 end/);
+        // Untyped CASE results resolve to text in PostgreSQL, incompatible with sort_order.
+        assert.match(sql, /case id when \$1 then \$4::integer when \$2 then \$3::integer end/);
         assert.match(sql, /where id in \(\$1, \$2\)/);
         tips.find((tip) => tip.id === values[0])!.sort_order = values[3] as number;
         tips.find((tip) => tip.id === values[1])!.sort_order = values[2] as number;

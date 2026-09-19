@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
-import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 import { routePaths } from "@/shared/model/routes";
 import { Button } from "@/shared/ui/button";
 
@@ -32,10 +31,9 @@ export function CatalogView({
 }: CatalogViewProps) {
   return (
     <AdminShell
-      backTo={isAdminLearningEnabled() ? routePaths.admin : routePaths.settings}
+      backTo={routePaths.admin}
       backLabel={strings.admin.adminTitle}
-      {...(!isAdminLearningEnabled() ? { subtitle: strings.admin.adminSubtitle } : {})}
-      title={isAdminLearningEnabled() ? strings.admin.catalogTitle : strings.admin.adminTitle}
+      title={strings.admin.catalogTitle}
     >
       <div
         aria-label={strings.admin.catalogActions}

@@ -22,7 +22,6 @@ import {
   routeSegments,
 } from "@/shared/model/routes";
 import type { SessionContextValue } from "@/shared/session";
-import { isAdminLearningEnabled } from "@/shared/model/admin-learning";
 
 interface RouterContext {
   session: SessionContextValue;
@@ -169,12 +168,7 @@ const adminRoute = createRoute({
   return createLazyRoute("/admin-layout/admin")({ component: AdminHomePage });
 });
 
-function requireAdminLearning(): void {
-  if (!isAdminLearningEnabled()) throw redirect({ to: routePaths.admin });
-}
-
 const adminCatalogRoute = createRoute({
-  beforeLoad: requireAdminLearning,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminCatalog,
 }).lazy(async () => {
@@ -183,7 +177,6 @@ const adminCatalogRoute = createRoute({
 });
 
 const adminLearningRoute = createRoute({
-  beforeLoad: requireAdminLearning,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminLearning,
   validateSearch: (search: Record<string, unknown>): { published?: boolean } => search.published === true ? { published: true } : {},
@@ -193,7 +186,6 @@ const adminLearningRoute = createRoute({
 });
 
 const adminTipNewRoute = createRoute({
-  beforeLoad: requireAdminLearning,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminTipNew,
 }).lazy(async () => {
@@ -202,7 +194,6 @@ const adminTipNewRoute = createRoute({
 });
 
 const adminTipEditRoute = createRoute({
-  beforeLoad: requireAdminLearning,
   getParentRoute: () => adminLayoutRoute,
   path: routeSegments.adminTipEdit,
 }).lazy(async () => {

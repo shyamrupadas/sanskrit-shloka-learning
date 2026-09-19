@@ -63,7 +63,7 @@ export class PostgresLearningTipRepository implements LearningTipRepository {
       if (!adjacent) return "edge";
       await executor.query(
         `update learning_tips
-         set sort_order = case id when $1 then $4 when $2 then $3 end
+         set sort_order = case id when $1 then $4::integer when $2 then $3::integer end
          where id in ($1, $2)`,
         [current.id, adjacent.id, current.sort_order, adjacent.sort_order],
       );
