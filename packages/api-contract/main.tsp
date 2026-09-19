@@ -571,6 +571,26 @@ namespace SanskritShlokaLearning {
   @tag("Admin")
   @route("/admin")
   namespace Admin {
+    @post
+    @route("/learning/tips")
+    op createTip(@header authorization?: string, @body request: SaveLearningTipRequest):
+      CreatedLearningTipResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse;
+
+    @patch
+    @route("/learning/tips/{tipId}")
+    op updateTip(@path tipId: string, @header authorization?: string, @body request: SaveLearningTipRequest):
+      OkLearningTipResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
+
+    @post
+    @route("/learning/tips/{tipId}/move")
+    op moveTip(@path tipId: string, @header authorization?: string, @body request: MoveLearningTipRequest):
+      OkLearningTipsResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
+
+    @delete
+    @route("/learning/tips/{tipId}")
+    op deleteTip(@path tipId: string, @header authorization?: string):
+      OkLearningTipsResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
+
     @get
     @route("/catalog")
     op getAdminCatalog(@header authorization?: string):
@@ -614,6 +634,29 @@ namespace SanskritShlokaLearning {
 }
 
 namespace SanskritShlokaLearning {
+  model MoveLearningTipRequest {
+    direction: "up" | "down";
+  }
+
+  model SaveLearningTipRequest {
+    @minLength(1)
+    @maxLength(120)
+    title: string;
+    @minLength(1)
+    @maxLength(2000)
+    text: string;
+  }
+
+  model CreatedLearningTipResponse {
+    @statusCode statusCode: 201;
+    @body tip: LearningTipDto;
+  }
+
+  model OkLearningTipResponse {
+    @statusCode statusCode: 200;
+    @body tip: LearningTipDto;
+  }
+
   model LearningTipDto {
     id: string;
     @minLength(1)

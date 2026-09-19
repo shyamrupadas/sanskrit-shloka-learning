@@ -91,7 +91,7 @@ describe("admin catalog page", () => {
     const loadingView = renderCatalog();
 
     expect(
-      await screen.findByRole("heading", { name: "Админка" }),
+      await screen.findByRole("heading", { name: "Каталог шлок" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Загрузка...")).toBeInTheDocument();
 
@@ -126,7 +126,7 @@ describe("admin catalog page", () => {
       await screen.findByRole("heading", { level: 2, name: "Список шлок" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { level: 1, name: "Админка" }),
+      screen.getByRole("heading", { level: 1, name: "Каталог шлок" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 3, name: "Бхагавад-гита" }),
@@ -157,8 +157,8 @@ describe("admin catalog page", () => {
     const catalogView = renderCatalog();
 
     await screen.findByText("Бхагавад-гита");
-    await user.click(screen.getByRole("button", { name: "Назад" }));
-    await expectPath(routePaths.settings);
+    await user.click(screen.getByRole("link", { name: "Админка" }));
+    await expectPath(routePaths.admin);
 
     catalogView.unmount();
     const createCatalogView = renderCatalog();
@@ -197,7 +197,7 @@ describe("admin catalog page", () => {
 });
 
 function renderCatalog() {
-  window.history.pushState({}, "", routePaths.admin);
+  window.history.pushState({}, "", routePaths.adminCatalog);
   const router = createCatalogTestRouter();
 
   return renderWithTestProviders(<RouterProvider router={router} />);
@@ -210,12 +210,12 @@ function createCatalogTestRouter() {
   const adminRoute = createRoute({
     component: AdminCatalogPage,
     getParentRoute: () => rootRoute,
-    path: routeSegments.admin,
+    path: routeSegments.adminCatalog,
   });
-  const settingsRoute = createRoute({
-    component: () => <h1>Settings</h1>,
+  const adminHomeRoute = createRoute({
+    component: () => <h1>Admin home</h1>,
     getParentRoute: () => rootRoute,
-    path: routeSegments.settings,
+    path: routeSegments.admin,
   });
   const sourceNewRoute = createRoute({
     component: () => <h1>Create source</h1>,
@@ -253,7 +253,7 @@ function createCatalogTestRouter() {
   return createRouter({
     routeTree: rootRoute.addChildren([
       adminRoute,
-      settingsRoute,
+      adminHomeRoute,
       sourceNewRoute,
       shlokaNewRoute,
       sourceEditRoute,

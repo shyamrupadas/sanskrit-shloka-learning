@@ -62,7 +62,7 @@ describe("admin source editor pages", () => {
     renderSourceEditor(routePaths.adminSourceNew);
 
     expect(
-      await screen.findByRole("button", { name: "Назад" }),
+      await screen.findByRole("link", { name: "Каталог шлок" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: "Новый источник" }),
@@ -78,8 +78,8 @@ describe("admin source editor pages", () => {
       title: "Амрита",
     });
 
-    await user.click(screen.getByRole("button", { name: "Назад" }));
-    await expectPath(routePaths.admin);
+    await user.click(screen.getByRole("link", { name: "Каталог шлок" }));
+    await expectPath(routePaths.adminCatalog);
   });
 
   it("creates a source with chapters and preserves chapter order", async () => {
@@ -362,7 +362,7 @@ function createSourceEditorTestRouter() {
   const adminRoute = createRoute({
     component: () => <h1>Admin catalog</h1>,
     getParentRoute: () => rootRoute,
-    path: routeSegments.admin,
+    path: routeSegments.adminCatalog,
   });
   const sourceNewRoute = createRoute({
     component: AdminSourcePage,

@@ -231,6 +231,10 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface MoveLearningTipRequest {
+  direction: "up" | "down";
+}
+
 export type NonEmptyString = string;
 
 export interface RegisterRequest {
@@ -240,6 +244,11 @@ export interface RegisterRequest {
 }
 
 export type ReviewResult = "remembered_without_error" | "remembered_with_error" | "remembered_with_hint" | "forgot";
+
+export interface SaveLearningTipRequest {
+  title: string;
+  text: string;
+}
 
 export interface SourceChapterOptionDto {
   code: SourceLocationCode;

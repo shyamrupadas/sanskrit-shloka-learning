@@ -375,6 +375,10 @@ function methodNameFromRoute(method, path) {
     return `update${capitalize(toCamelCase(resourcePart))}`;
   }
 
+  if (method === "delete") {
+    return `delete${capitalize(toCamelCase(resourcePart))}`;
+  }
+
   return toCamelCase(lastPart);
 }
 

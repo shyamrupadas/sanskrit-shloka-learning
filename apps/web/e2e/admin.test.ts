@@ -31,6 +31,9 @@ for (const viewport of [
     await expect(
       page.getByRole("heading", { name: "Админка" }),
     ).toBeVisible();
+    await page.getByRole("link", { name: /Каталог шлок/ }).click();
+    await expect(page).toHaveURL(/\/admin\/catalog$/);
+    await expect(page.getByRole("heading", { name: "Каталог шлок" })).toBeVisible();
     await expect(
       page.getByRole("heading", { name: longSourceTitle }),
     ).toBeVisible();
@@ -49,8 +52,8 @@ for (const viewport of [
     await expect(page.getByRole("button", { name: /удалить/i })).toHaveCount(0);
     await expectPageFitsViewport(page);
 
-    await page.getByRole("button", { name: "Назад" }).click();
-    await expect(page).toHaveURL(/\/admin$/);
+    await page.getByRole("link", { name: "Каталог шлок", exact: true }).click();
+    await expect(page).toHaveURL(/\/admin\/catalog$/);
     await page.getByRole("link", { name: "Новая шлока" }).click();
     await expect(page).toHaveURL(/\/admin\/shlokas\/new$/);
     await expect(

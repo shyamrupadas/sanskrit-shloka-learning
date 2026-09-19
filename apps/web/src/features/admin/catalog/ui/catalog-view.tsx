@@ -31,9 +31,9 @@ export function CatalogView({
 }: CatalogViewProps) {
   return (
     <AdminShell
-      backTo={routePaths.settings}
-      subtitle={strings.admin.adminSubtitle}
-      title={strings.admin.adminTitle}
+      backTo={routePaths.admin}
+      backLabel={strings.admin.adminTitle}
+      title={strings.admin.catalogTitle}
     >
       <div
         aria-label={strings.admin.catalogActions}

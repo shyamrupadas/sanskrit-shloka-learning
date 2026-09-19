@@ -48,6 +48,19 @@ export class ApiClient {
     });
   }
 
+  async tips(request: Types.SaveLearningTipRequest): Promise<Types.LearningTipDto> {
+    return this.#request<Types.LearningTipDto>("/api/admin/learning/tips", {
+      method: "POST",
+      body: JSON.stringify(request)
+    });
+  }
+
+  async deleteTip(tipId: string): Promise<Types.LearningTipListDto> {
+    return this.#request<Types.LearningTipListDto>(`/api/admin/learning/tips/${encodeURIComponent(tipId)}`, {
+      method: "DELETE"
+    });
+  }
+
   async getCatalog(): Promise<Types.AdminCatalogDto> {
     return this.#request<Types.AdminCatalogDto>("/api/admin/catalog", {
       method: "GET"
@@ -72,6 +85,13 @@ export class ApiClient {
     });
   }
 
+  async move(tipId: string, request: Types.MoveLearningTipRequest): Promise<Types.LearningTipListDto> {
+    return this.#request<Types.LearningTipListDto>(`/api/admin/learning/tips/${encodeURIComponent(tipId)}/move`, {
+      method: "POST",
+      body: JSON.stringify(request)
+    });
+  }
+
   async updateShloka(shlokaCode: string, request: Types.UpdateShlokaRequest): Promise<Types.AdminShlokaDto> {
     return this.#request<Types.AdminShlokaDto>(`/api/admin/shlokas/${encodeURIComponent(shlokaCode)}`, {
       method: "PATCH",
@@ -81,6 +101,13 @@ export class ApiClient {
 
   async updateSource(sourceCode: string, request: Types.UpdateSourceRequest): Promise<Types.AdminSourceDto> {
     return this.#request<Types.AdminSourceDto>(`/api/admin/sources/${encodeURIComponent(sourceCode)}`, {
+      method: "PATCH",
+      body: JSON.stringify(request)
+    });
+  }
+
+  async updateTip(tipId: string, request: Types.SaveLearningTipRequest): Promise<Types.LearningTipDto> {
+    return this.#request<Types.LearningTipDto>(`/api/admin/learning/tips/${encodeURIComponent(tipId)}`, {
       method: "PATCH",
       body: JSON.stringify(request)
     });

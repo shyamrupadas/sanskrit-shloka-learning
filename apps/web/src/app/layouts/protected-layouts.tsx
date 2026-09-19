@@ -53,7 +53,7 @@ function isShlokaPracticePath(pathname: string): boolean {
 export function AdminLayout() {
   return (
     <ProtectedLayout>
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-5 sm:px-6">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-6">
         <Outlet />
       </main>
     </ProtectedLayout>

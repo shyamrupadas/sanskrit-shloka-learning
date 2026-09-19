@@ -3,6 +3,35 @@ import { readFile } from "node:fs/promises";
 import { describe, test } from "node:test";
 
 describe("generated OpenAPI admin contract", () => {
+  test("exposes authorized adjacent moves and permanent deletion with confirmed lists", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const move = openApi.paths["/api/admin/learning/tips/{tipId}/move"]?.post;
+    const remove = openApi.paths["/api/admin/learning/tips/{tipId}"]?.delete;
+    for (const operation of [move, remove]) {
+      assert.ok(operation);
+      assert.ok(operation.parameters.some((parameter) => parameter.name === "authorization"));
+      assert.ok(operation.parameters.some((parameter) => parameter.name === "tipId" && parameter.required));
+      for (const status of ["200", "401", "403", "404"]) assert.ok(operation.responses[status]);
+      assert.equal(operation.responses["200"].content["application/json"].schema.$ref, "#/components/schemas/SanskritShlokaLearning.LearningTipListDto");
+    }
+    assert.ok(move.responses["400"]);
+    assert.deepEqual(openApi.components.schemas["SanskritShlokaLearning.MoveLearningTipRequest"].properties.direction.enum, ["up", "down"]);
+  });
+  test("publishes complete tips with bounded fields and admin authorization responses", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    for (const operation of [openApi.paths["/api/admin/learning/tips"].post, openApi.paths["/api/admin/learning/tips/{tipId}"].patch]) {
+      assert.ok(operation.parameters.some((parameter) => parameter.name === "authorization"));
+      for (const status of ["400", "401", "403"]) assert.ok(operation.responses[status]);
+      assert.equal(operation.requestBody.content["application/json"].schema.$ref, "#/components/schemas/SanskritShlokaLearning.SaveLearningTipRequest");
+    }
+    const schema = openApi.components.schemas["SanskritShlokaLearning.SaveLearningTipRequest"];
+    assert.deepEqual(schema.required, ["title", "text"]);
+    assert.deepEqual(Object.keys(schema.properties), ["title", "text"]);
+    assert.equal(schema.properties.title.maxLength, 120);
+    assert.equal(schema.properties.text.maxLength, 2000);
+    assert.equal(schema.properties.title.minLength, 1);
+    assert.equal(schema.properties.text.minLength, 1);
+  });
   test("exposes catalog editing routes without delete, publish, hide, or import APIs", async () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
     const paths = openApi.paths ?? {};
@@ -15,7 +44,7 @@ describe("generated OpenAPI admin contract", () => {
 
     for (const [path, methods] of Object.entries(paths)) {
       const lowerPath = path.toLowerCase();
-      assert.equal(methods.delete, undefined, `${path} must not expose DELETE`);
+      if (path !== "/api/admin/learning/tips/{tipId}") assert.equal(methods.delete, undefined, `${path} must not expose DELETE`);
       assert.equal(lowerPath.includes("publish"), false, `${path} must not expose publish APIs`);
       assert.equal(lowerPath.includes("hide"), false, `${path} must not expose hide APIs`);
       assert.equal(lowerPath.includes("import"), false, `${path} must not expose import APIs`);
