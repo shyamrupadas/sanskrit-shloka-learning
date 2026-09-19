@@ -231,3 +231,21 @@ describe("generated OpenAPI dashboard streak contract", () => {
     );
   });
 });
+
+describe("generated OpenAPI learning tips contract", () => {
+  test("exposes an authenticated ordered list without locale negotiation", async () => {
+    const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
+    const operation = openApi.paths?.["/api/learning/tips"]?.get;
+    assert.ok(operation);
+    assert.deepEqual(operation.parameters.map(({ name, in: location }) => ({ name, location })), [
+      { name: "authorization", location: "header" },
+    ]);
+    assert.ok(operation.responses["401"]);
+    assert.equal(operation.responses["200"].content["application/json"].schema.$ref,
+      "#/components/schemas/SanskritShlokaLearning.LearningTipListDto");
+    const schemas = openApi.components.schemas;
+    assert.deepEqual(schemas["SanskritShlokaLearning.LearningTipDto"].required, ["id", "title", "text"]);
+    assert.equal(schemas["SanskritShlokaLearning.LearningTipDto"].properties.title.maxLength, 120);
+    assert.equal(schemas["SanskritShlokaLearning.LearningTipDto"].properties.text.maxLength, 2000);
+  });
+});

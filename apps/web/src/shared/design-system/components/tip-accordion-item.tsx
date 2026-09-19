@@ -27,7 +27,7 @@ export function TipAccordionItem({
         onClick={() => setIsExpanded((current) => !current)}
         type="button"
       >
-        <span className="min-w-0 flex-1 text-base leading-[var(--typography-heading-line-height)] font-bold">
+        <span className="min-w-0 flex-1 break-words [overflow-wrap:anywhere] text-base leading-[var(--typography-heading-line-height)] font-bold">
           {title}
         </span>
         <Indicator
@@ -37,7 +37,7 @@ export function TipAccordionItem({
       </button>
       {isExpanded ? (
         <Typography
-          className="mt-2.5 break-words [overflow-wrap:anywhere]"
+          className="mt-2.5 whitespace-pre-wrap break-words [overflow-wrap:anywhere]"
           id={contentId}
           tone="muted"
           variant="p2"

@@ -19,6 +19,9 @@
     },
     {
       "name": "Admin"
+    },
+    {
+      "name": "Learning"
     }
   ],
   "paths": {
@@ -1101,6 +1104,46 @@
         ]
       }
     },
+    "/api/learning/tips": {
+      "get": {
+        "operationId": "Learning_getTips",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.LearningTipListDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanskritShlokaLearning.ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Learning"
+        ]
+      }
+    },
     "/api/library": {
       "get": {
         "operationId": "Library_getLibrary",
@@ -2082,6 +2125,43 @@
           "NOT_FOUND",
           "DATA_INTEGRITY_ERROR"
         ]
+      },
+      "SanskritShlokaLearning.LearningTipDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        }
+      },
+      "SanskritShlokaLearning.LearningTipListDto": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SanskritShlokaLearning.LearningTipDto"
+            }
+          }
+        }
       },
       "SanskritShlokaLearning.LibraryResponseDto": {
         "type": "object",

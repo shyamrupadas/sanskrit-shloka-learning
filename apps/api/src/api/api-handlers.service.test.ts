@@ -1595,7 +1595,7 @@ function getStreak(context: StreakTestContext) {
 }
 
 function createHandlers(
-  options: { catalog?: CatalogService; now?: () => Date } = {},
+  options: { catalog?: CatalogService; now?: () => Date; tips?: { list(locale: string): Promise<ApiTypes.LearningTipDto[]> } } = {},
 ): TestHandlers {
   const accounts = new InMemoryAccountRepository();
   const passwordHasher = new PasswordHasher();
@@ -1630,6 +1630,7 @@ function createHandlers(
       dashboard,
       streak,
       userLibrary,
+      options.tips ?? { list: async () => [] },
     ),
     { accounts, reviewHistoryRepository, userLibraryRepository },
   );
@@ -1666,3 +1667,25 @@ function validSourceRequest(overrides: Partial<ApiTypes.CreateSourceRequest> = {
     ...overrides,
   };
 }
+
+
+describe("ApiHandlersService learning tips", () => {
+  test("requires a session and serves Russian tips to a non-admin, including an empty list", async () => {
+    const locales: string[] = [];
+    let items = [
+      { id: "second", title: "Второй", text: "В серверном порядке" },
+      { id: "first", title: "Первый", text: "Стабильные идентификаторы" },
+    ];
+    const handlers = createHandlers({ tips: { list: async (locale) => { locales.push(locale); return items; } } });
+    assert.equal((await handlers.getTips({})).status, 401);
+    assert.deepEqual(locales, []);
+    const registration = await handlers.register({ body: { email: "tips@example.com", password: "123456", passwordConfirmation: "123456" } });
+    assert.equal(registration.status, 201);
+    assert.deepEqual(registration.body.account.roles, []);
+    const authorization = `Bearer ${registration.body.accessToken}`;
+    assert.deepEqual(await handlers.getTips({ authorization }), { status: 200, body: { items } });
+    items = [];
+    assert.deepEqual(await handlers.getTips({ authorization }), { status: 200, body: { items: [] } });
+    assert.deepEqual(locales, ["ru", "ru"]);
+  });
+});

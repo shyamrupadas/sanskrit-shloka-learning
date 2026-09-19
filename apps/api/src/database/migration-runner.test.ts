@@ -10,6 +10,8 @@ import {
   runMigrations,
 } from "./migration-runner.js";
 
+import { migrations as applicationMigrations } from "./migrations/index.js";
+
 const silentLogger = { log: () => undefined };
 
 describe("runMigrations", () => {
@@ -205,3 +207,25 @@ function result<Row extends pg.QueryResultRow>(rows: Row[]): pg.QueryResult<Row>
     rows,
   };
 }
+
+
+test("learning tips migration preserves the original copy and is never seeded again", async () => {
+  const seed = applicationMigrations.find((item) => item.id === "0011_learning_tips");
+  assert.ok(seed);
+  const sql = seed.statements.join("\n");
+  for (const fragment of [
+    "('reading-by-lines', 0)", "('learning-through-meaning', 1)", "('when-recall-stalls', 2)",
+    "Читайте каждую строку как отдельную смысловую фразу. Сначала произнесите ее медленно, затем соедините со следующей строкой и повторите весь фрагмент без паузы.",
+    "Разберите ключевые слова и свяжите их с общим смыслом строки. Вспоминайте не только звучание, но и последовательность образов или действий, которую передает текст.",
+    "Не пытайтесь угадать весь текст сразу. Вспомните первое слово или смысл строки, прочитайте подсказку и затем повторите шлоку целиком еще раз.",
+    "primary key (tip_id, locale)", "references learning_tips(id) on delete cascade",
+    "char_length(title) between 1 and 120", "char_length(text) between 1 and 2000",
+  ]) assert.ok(sql.includes(fragment), fragment);
+  assert.equal(sql.split("Как читать шлоку по строкам").length - 1, 3);
+  const client = new FakeMigrationClient();
+  await runMigrations(client, [seed], silentLogger);
+  const batches = client.migrationBatches.length;
+  const result = await runMigrations(client, [seed], silentLogger);
+  assert.deepEqual(result, { applied: [], skipped: [seed.id] });
+  assert.equal(client.migrationBatches.length, batches);
+});

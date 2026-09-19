@@ -10,6 +10,8 @@ import { materializedShlokaDisplayTitleMigration } from "./0008-materialized-shl
 import { learningActivityUserDayMigration } from "./0009-learning-activity-user-day.js";
 import { numericSourceLocationCodesMigration } from "./0010-numeric-source-location-codes.js";
 
+import { learningTipsMigration } from "./0011-learning-tips.js";
+
 export const migrations: readonly Migration[] = [
   initialAuthMigration,
   catalogMigration,
@@ -21,4 +23,5 @@ export const migrations: readonly Migration[] = [
   materializedShlokaDisplayTitleMigration,
   learningActivityUserDayMigration,
   numericSourceLocationCodesMigration,
+  learningTipsMigration,
 ];

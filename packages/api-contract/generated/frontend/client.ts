@@ -156,6 +156,12 @@ export class ApiClient {
     });
   }
 
+  async getTips(): Promise<Types.LearningTipListDto> {
+    return this.#request<Types.LearningTipListDto>("/api/learning/tips", {
+      method: "GET"
+    });
+  }
+
   async completeLearning(shlokaCode: string, request: Types.CompleteLearningRequestBody): Promise<Types.CompleteLearningDto> {
     return this.#request<Types.CompleteLearningDto>(`/api/library/items/${encodeURIComponent(shlokaCode)}/complete-learning`, {
       method: "POST",

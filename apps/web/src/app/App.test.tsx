@@ -322,6 +322,7 @@ function expectActiveNavigationLink(
 }
 
 function successfulApi({ method, path }: MockApiRequest): MockApiResponse {
+  if (method === "GET" && path === "/api/learning/tips") return { status: 200, body: { items: [] } };
   if (method === "POST" && path === "/api/auth/register") {
     return { status: 201, body: session };
   }

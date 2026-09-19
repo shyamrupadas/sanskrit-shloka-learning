@@ -178,6 +178,16 @@ export interface EmptyDashboardDto {
 
 export type ErrorCode = "VALIDATION_ERROR" | "INVALID_CREDENTIALS" | "EMAIL_ALREADY_REGISTERED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND" | "DATA_INTEGRITY_ERROR";
 
+export interface LearningTipDto {
+  id: string;
+  title: string;
+  text: string;
+}
+
+export interface LearningTipListDto {
+  items: LearningTipDto[];
+}
+
 export interface LibraryResponseDto {
   defaultTab: LibraryTab;
   tabs: LibraryTabDto[];

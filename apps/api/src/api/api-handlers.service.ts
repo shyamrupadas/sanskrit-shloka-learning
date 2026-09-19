@@ -16,6 +16,8 @@ import { StreakService } from "../dashboard/streak.service.js";
 import { UserLibraryService } from "../library/user-library.service.js";
 import { isValidTimeZone } from "../shared/user-day.js";
 
+import { LEARNING_TIP_REPOSITORY, type LearningTipRepository } from "../learning/learning-tip.repository.js";
+
 type AdminAuthorizationError =
   | { status: 401; body: ApiTypes.ApiError }
   | { status: 403; body: ApiTypes.ApiError };
@@ -29,7 +31,15 @@ export class ApiHandlersService implements BackendContract.ApiHandlers {
     @Inject(DashboardService) private readonly dashboard: DashboardService,
     @Inject(StreakService) private readonly streak: StreakService,
     @Inject(UserLibraryService) private readonly userLibrary: UserLibraryService,
+    @Inject(LEARNING_TIP_REPOSITORY) private readonly tips: LearningTipRepository,
   ) {}
+
+  async getTips(request: BackendContract.GetTipsRequest): Promise<BackendContract.GetTipsResponse> {
+    if (!(await this.auth.lookupSession(request.authorization))) {
+      return { status: 401, body: unauthorizedError };
+    }
+    return { status: 200, body: { items: await this.tips.list("ru") } };
+  }
 
   async register(request: BackendContract.RegisterRequest): Promise<BackendContract.RegisterResponse> {
     return this.auth.register(request.body);

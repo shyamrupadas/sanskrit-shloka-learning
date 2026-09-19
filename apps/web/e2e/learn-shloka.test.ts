@@ -29,6 +29,85 @@ const secondShloka = shloka({
   text: secondShlokaPadas.join("\n"),
 });
 
+test("positions advice at the bottom on mobile and centrally on larger screens", async ({ page }) => {
+  await openFirstLearningAttempt(page);
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Совет", exact: true });
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 767, height: 900 },
+    { width: 768, height: 1024 },
+    { width: 1280, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expect.poll(async () => {
+      const box = await dialog.boundingBox();
+      if (!box) return Number.POSITIVE_INFINITY;
+      const horizontalError = Math.abs(box.x + box.width / 2 - viewport.width / 2);
+      const verticalError = viewport.width < 768
+        ? Math.abs(box.y + box.height - viewport.height)
+        : Math.abs(box.y + box.height / 2 - viewport.height / 2);
+      return Math.max(horizontalError, verticalError);
+    }).toBeLessThanOrEqual(1);
+    await expect(dialog.getByRole("button", { name: "Закрыть совет" })).toBeInViewport();
+    await expect(dialog.getByRole("link", { name: "Все советы" })).toBeInViewport();
+  }
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole("button", { name: "Совет", exact: true })).toBeFocused();
+});
+
+test("preserves the frozen advice list through native Back and reload while the page gets fresh data", async ({ page }) => {
+  await openFirstLearningAttempt(page);
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await page.getByRole("button", { name: "Другой совет" }).click();
+  await expect(page.getByText("Второй текст", { exact: true })).toBeVisible();
+  let freshReads = 0;
+  await page.route("**/api/learning/tips", async (route) => {
+    expect(route.request().method()).toBe("GET");
+    freshReads++;
+    await fulfillJson(route, 200, { items: [{ id: "b", title: "Изменённый совет", text: "Новая версия второго" }] });
+  });
+  await page.getByRole("link", { name: "Все советы" }).click();
+  await expect(page.getByText("Новая версия второго")).toBeVisible();
+  const pageReads = freshReads;
+  await page.goBack();
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await expect(page.getByText("Второй текст", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Других советов нет" })).toBeDisabled();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: firstShloka.displayTitle })).toBeVisible();
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await expect(page.getByText("Второй текст", { exact: true })).toBeVisible();
+  expect(freshReads).toBe(pageReads);
+  await page.getByRole("button", { name: "Закрыть совет" }).click();
+  await page.getByRole("button", { name: "Отмена" }).click();
+  await page.getByRole("article", { name: firstShloka.displayTitle }).getByRole("button", { name: "Учить" }).click();
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await expect(page.getByText("Новая версия второго")).toBeVisible();
+  expect(freshReads).toBe(pageReads + 1);
+});
+
+test("restarts only legacy advice and preserves the attempt and progress on reload", async ({ page }) => {
+  const requests: ObservedRequest[] = [];
+  await openFirstLearningAttempt(page, requests);
+  await page.evaluate(() => {
+    window.history.replaceState({ ...window.history.state, learnShlokaAdviceAttempt: { shlokaCode: "gita-1-1", tipIndex: 1 } }, "");
+  });
+  await page.reload();
+  await expectLearnRoute(page, firstShloka.code);
+  await expect(page.getByRole("heading", { name: firstShloka.displayTitle })).toBeVisible();
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await expect(page.getByText("Первый текст", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Другой совет" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  await expect(page.getByText("Второй текст", { exact: true })).toBeVisible();
+  expect(requests.filter(({ method }) => method !== "GET")).toEqual([]);
+});
+
 test("replaces completed attempts while preserving the original return route", async ({
   page,
 }) => {
@@ -211,6 +290,11 @@ async function mockLearningApi(
     const url = new URL(request.url());
     const method = request.method();
     requests.push({ method, pathname: url.pathname });
+
+    if (method === "GET" && url.pathname === "/api/learning/tips") {
+      await fulfillJson(route, 200, { items: [{ id: "a", title: "Первый совет", text: "Первый текст" }, { id: "b", title: "Второй совет", text: "Второй текст" }] });
+      return;
+    }
 
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(

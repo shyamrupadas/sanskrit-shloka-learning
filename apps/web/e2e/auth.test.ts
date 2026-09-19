@@ -495,6 +495,11 @@ async function mockApi(
       return;
     }
 
+    if (method === "GET" && url.pathname === "/api/learning/tips") {
+      await fulfillJson(route, 200, { items: [] });
+      return;
+    }
+
     if (method === "GET" && url.pathname === "/api/library") {
       await fulfillJson(route, 200, options.library ?? emptyLibrary);
       return;

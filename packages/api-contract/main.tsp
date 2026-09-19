@@ -612,3 +612,33 @@ namespace SanskritShlokaLearning {
       OkAdminShlokaResponse | ValidationErrorResponse | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse;
   }
 }
+
+namespace SanskritShlokaLearning {
+  model LearningTipDto {
+    id: string;
+    @minLength(1)
+    @maxLength(120)
+    title: string;
+    @minLength(1)
+    @maxLength(2000)
+    text: string;
+  }
+
+  model LearningTipListDto {
+    items: LearningTipDto[];
+  }
+
+  model OkLearningTipsResponse {
+    @statusCode statusCode: 200;
+    @body list: LearningTipListDto;
+  }
+
+  @tag("Learning")
+  @route("/learning")
+  namespace Learning {
+    @get
+    @route("/tips")
+    op getTips(@header authorization?: string):
+      OkLearningTipsResponse | UnauthorizedResponse;
+  }
+}

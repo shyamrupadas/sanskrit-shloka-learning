@@ -122,6 +122,13 @@ body {
   --component-empty-padding: 18px;
   --component-learning-attempt-canonical-text-line-height: 1.55;
   --component-learning-attempt-canonical-text-size: 22px;
+  --component-modal-mobile-width: 390px;
+  --component-modal-mobile-radius: 24px;
+  --component-modal-wide-width: 560px;
+  --component-modal-padding-bottom: 28px;
+  --component-modal-handle-width: 42px;
+  --component-modal-handle-gap: 18px;
+  --component-modal-shadow: 0 -12px 32px var(--shadow-high-color);
   --component-learning-advice-text-line-height: 1.58;
   --component-learning-advice-text-size: 18px;
   --component-learning-advice-title-size: 22px;
