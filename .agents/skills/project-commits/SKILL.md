@@ -7,7 +7,7 @@ description: Create one commit with all current repository changes using this re
 
 ## Workflow
 
-1. Treat the current task and conversation as the complete commit intent. Immediately stage every tracked, untracked, modified, and deleted file with `git add -A`. Do not inspect, classify, filter, or exclude files based on whether they appear to belong to the task, and do not split the changes into multiple commits.
+1. Перед коммитом удали созданные тобой временные файлы проверок.
 2. If the staged diff is empty, report that there is nothing to commit and stop.
 3. Use `type(scope): subject`. Scope is mandatory. Choose the type, scope, and subject from the current task. Write the subject in English, imperative mood, lowercase after the colon, with no trailing period.
 4. Do not run tests, linters, builds, type checks, generators, or other validation as part of this skill unless the user explicitly requests it in the same request.
