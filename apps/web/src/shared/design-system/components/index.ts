@@ -8,6 +8,7 @@ export {
   type BottomNavigationSection,
 } from "./bottom-navigation";
 export { EmptyState, type EmptyStateProps } from "./empty-state";
+export { ModalContent, type ModalContentProps } from "./modal-content";
 export {
   LibraryTabs,
   type LibraryTabItem,

@@ -29,6 +29,36 @@ const secondShloka = shloka({
   text: secondShlokaPadas.join("\n"),
 });
 
+test("positions advice at the bottom on mobile and centrally on larger screens", async ({ page }) => {
+  await openFirstLearningAttempt(page);
+  await page.getByRole("button", { name: "Совет", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Совет", exact: true });
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 767, height: 900 },
+    { width: 768, height: 1024 },
+    { width: 1280, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expect.poll(async () => {
+      const box = await dialog.boundingBox();
+      if (!box) return Number.POSITIVE_INFINITY;
+      const horizontalError = Math.abs(box.x + box.width / 2 - viewport.width / 2);
+      const verticalError = viewport.width < 768
+        ? Math.abs(box.y + box.height - viewport.height)
+        : Math.abs(box.y + box.height / 2 - viewport.height / 2);
+      return Math.max(horizontalError, verticalError);
+    }).toBeLessThanOrEqual(1);
+    await expect(dialog.getByRole("button", { name: "Закрыть совет" })).toBeInViewport();
+    await expect(dialog.getByRole("link", { name: "Все советы" })).toBeInViewport();
+  }
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole("button", { name: "Совет", exact: true })).toBeFocused();
+});
+
 test("replaces completed attempts while preserving the original return route", async ({
   page,
 }) => {

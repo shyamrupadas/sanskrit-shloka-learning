@@ -581,6 +581,68 @@ export const designTokens = {
         cssVariable: "--input-text-size",
       }),
     },
+    modal: {
+      mobileRadius: fromSource(
+        24,
+        "component-modal-mobile-radius",
+        "Mobile sheet top corner radius in MfM5u.",
+        {
+          cssValue: px(24),
+          cssVariable: "--component-modal-mobile-radius",
+        },
+      ),
+      mobileWidth: fromSource(
+        390,
+        "component-modal-mobile-width",
+        "Mobile sheet width in MfM5u.",
+        {
+          cssValue: px(390),
+          cssVariable: "--component-modal-mobile-width",
+        },
+      ),
+      wideWidth: fromSource(
+        560,
+        "component-modal-wide-width",
+        "Centered dialog width in G1Mmty.",
+        {
+          cssValue: px(560),
+          cssVariable: "--component-modal-wide-width",
+        },
+      ),
+      paddingBottom: fromSource(
+        28,
+        "component-modal-padding-bottom",
+        "Sheet bottom padding in MfM5u and G1Mmty.",
+        {
+          cssValue: px(28),
+          cssVariable: "--component-modal-padding-bottom",
+        },
+      ),
+      handleWidth: fromSource(
+        42,
+        "component-modal-handle-width",
+        "Mobile sheet handle width in MfM5u.",
+        {
+          cssValue: px(42),
+          cssVariable: "--component-modal-handle-width",
+        },
+      ),
+      handleGap: fromSource(
+        18,
+        "component-modal-handle-gap",
+        "Existing mobile handle-to-header spacing retained when extracting the shared modal.",
+        {
+          cssValue: px(18),
+          cssVariable: "--component-modal-handle-gap",
+        },
+      ),
+      shadow: fromSource(
+        "0 -12px 32px var(--shadow-high-color)",
+        "component-modal-shadow",
+        "Sheet shadow geometry in MfM5u and G1Mmty.",
+        { cssVariable: "--component-modal-shadow" },
+      ),
+    },
     learningAdvice: {
       textLineHeight: fromSource(
         1.58,

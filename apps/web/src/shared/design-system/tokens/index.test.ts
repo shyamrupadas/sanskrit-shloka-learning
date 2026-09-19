@@ -73,6 +73,7 @@ describe("design token contract", () => {
       "card",
       "emptyState",
       "input",
+      "modal",
       "learningAdvice",
       "learningAttempt",
       "learningHelper",
