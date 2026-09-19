@@ -1,6 +1,6 @@
 # Советы из БД
 
-Status: ready-for-agent
+Status: awaiting-human-review
 
 ## Problem Statement
 
