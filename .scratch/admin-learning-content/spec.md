@@ -1,6 +1,6 @@
 # Админка и управление советами
 
-Status: ready-for-agent
+Status: awaiting-human-review
 
 ## Актуальное уточнение scope от 2026-09-19
 

@@ -151,6 +151,7 @@ export interface DashboardShlokaDto {
   code: string;
   displayTitle: string;
   text: string;
+  fullTranslation?: string;
 }
 
 export interface DashboardStreakDto {

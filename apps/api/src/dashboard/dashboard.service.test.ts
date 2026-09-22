@@ -127,6 +127,10 @@ describe("DashboardService review candidates", () => {
       statuses.map(({ shlokaCode }) => shlokaCode),
     );
     assert.equal(full.remainingCount, 0);
+    assert.deepEqual(
+      full.items.map(({ fullTranslation }) => fullTranslation),
+      statuses.map(({ shlokaCode }) => `Перевод ${shlokaCode}`),
+    );
   });
 
   test("uses the IANA local day and removes any manually completed review from the count", async () => {
@@ -370,6 +374,7 @@ function shloka(code: string): ApiTypes.LibraryShlokaDto {
   return {
     code,
     displayTitle: code,
+    fullTranslation: `Перевод ${code}`,
     number: code,
     personalStatus: "available",
     sourceTitle: "Источник",

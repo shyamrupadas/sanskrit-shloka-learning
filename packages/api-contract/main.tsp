@@ -141,6 +141,7 @@ namespace SanskritShlokaLearning {
     code: string;
     displayTitle: string;
     text: string;
+    fullTranslation?: string;
   }
 
   enum DashboardReviewListState {
