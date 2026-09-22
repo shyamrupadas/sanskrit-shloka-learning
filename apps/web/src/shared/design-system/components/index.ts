@@ -25,6 +25,7 @@ export {
   type ShlokaCardProps,
 } from "./shloka-card";
 export { SettingsRow, type SettingsRowProps } from "./settings-row";
+export { ShlokaTranslation } from "./shloka-translation";
 export { StatusCard, type StatusCardProps } from "./status-card";
 export {
   StreakCounter,

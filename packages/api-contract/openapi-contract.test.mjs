@@ -184,6 +184,9 @@ describe("generated OpenAPI dashboard list contract", () => {
     const openApi = JSON.parse(await readFile(new URL("./generated/openapi/openapi.json", import.meta.url), "utf8"));
     const learning = openApi.paths?.["/api/dashboard/learning-shlokas"]?.get;
     const review = openApi.paths?.["/api/dashboard/review-shlokas"]?.get;
+    const shloka = openApi.components.schemas["SanskritShlokaLearning.DashboardShlokaDto"];
+    assert.equal(shloka.properties.fullTranslation.type, "string");
+    assert.equal(shloka.required.includes("fullTranslation"), false);
 
     assert.ok(learning);
     assert.ok(review);

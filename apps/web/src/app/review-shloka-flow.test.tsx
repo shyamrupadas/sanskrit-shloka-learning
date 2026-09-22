@@ -17,11 +17,13 @@ import {
 const firstShloka = reviewShloka({
   code: "gita-1-1",
   displayTitle: "Бхагавад-гита 1.1",
+  fullTranslation: "Перевод первой шлоки.",
   text: "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
 });
 const secondShloka = reviewShloka({
   code: "gita-4-7",
   displayTitle: "Бхагавад-гита 4.7",
+  fullTranslation: "Перевод следующей шлоки.",
 });
 
 describe("app review shloka flow", () => {
@@ -81,6 +83,9 @@ describe("app review shloka flow", () => {
       /дхарма-кшетре куру-кшетре\s+самавета юютсавах/,
     );
     expect(api.completions).toHaveLength(0);
+    expect(screen.getByRole("region", { name: "Перевод" })).toHaveTextContent(
+      firstShloka.fullTranslation!,
+    );
 
     expect(
       screen.queryByRole("button", { name: "Оценить результат" }),
@@ -123,11 +128,15 @@ describe("app review shloka flow", () => {
     await user.click(
       await screen.findByRole("button", { name: "Нужна подсказка" }),
     );
+    expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
     const firstHint = screen.getByLabelText("Канонический текст шлоки");
     expect(firstHint).toHaveTextContent(/^дхарма-/);
     expect(firstHint).not.toHaveTextContent("самавета юютсавах");
 
     await user.click(screen.getByRole("button", { name: "Ещё подсказка" }));
+    expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
     expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
       /дхарма-кшетре куру-кшетре/,
     );
@@ -145,6 +154,10 @@ describe("app review shloka flow", () => {
     );
     expect(api.completions).toHaveLength(1);
     expect(api.completions[0]?.body).toMatchObject({ result: "forgot" });
+    expect(screen.getByRole("region", { name: "Перевод" })).toHaveTextContent(
+      firstShloka.fullTranslation!,
+    );
+    expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Дальше" }));
     if (hasNext) {
@@ -207,6 +220,8 @@ describe("app review shloka flow", () => {
 
     await expectPath("/library/shlokas/gita-1-1/review");
     expect(await screen.findByText("без подсказки")).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
     await completeWithoutError(user);
 
     await expectPath("/library/shlokas/gita-1-1/review");
@@ -222,7 +237,13 @@ describe("app review shloka flow", () => {
         name: secondShloka.displayTitle,
       }),
     ).toBeInTheDocument();
-    await completeWithoutError(user);
+    expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Вспомнил" }));
+    expect(screen.getByRole("region", { name: "Перевод" })).toHaveTextContent(
+      secondShloka.fullTranslation!,
+    );
+    expect(screen.queryByText(firstShloka.fullTranslation!)).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Все правильно" }));
 
     await expectPath(routePaths.dashboard);
     expect(
@@ -566,6 +587,7 @@ function toDashboardShloka(
     code: shloka.code,
     displayTitle: shloka.displayTitle,
     text: shloka.text,
+    ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
 }
 

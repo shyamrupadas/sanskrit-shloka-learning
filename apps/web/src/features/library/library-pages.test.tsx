@@ -306,7 +306,7 @@ describe("library pages", () => {
     expect(libraryRequestCount).toBeGreaterThanOrEqual(4);
   });
 
-  it("opens a minimal shloka page from the card body and arrow", async () => {
+  it("opens the shloka text and translation from the card body and arrow", async () => {
     const user = userEvent.setup();
     mockApi(successfulLibraryApi);
     storeTestSession(session);
@@ -332,8 +332,10 @@ describe("library pages", () => {
       /карманй эвадхикарас те\s+ма пхалешу кадачана\s+ма кармапхалахетур бхур\s+ма те санго сту акармани/,
     );
     expect(
-      screen.queryByText("Только на действие у тебя право."),
-    ).not.toBeInTheDocument();
+      within(screen.getByRole("region", { name: "Перевод" })).getByText(
+        "Только на действие у тебя право.",
+      ),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("link", { name: "Библиотека" }));
     await expectPath(routePaths.library);
@@ -352,6 +354,20 @@ describe("library pages", () => {
       }),
     ).toBeInTheDocument();
   });
+});
+
+it.each([undefined, "", "   "])("omits the translation section when translation is %j", async (fullTranslation) => {
+  mockApi(({ method, path }) => {
+    if (method === "GET" && path === "/api/library/items/gita-chapter-2-2-47") {
+      return { status: 200, body: { ...shlokaDetail, fullTranslation } };
+    }
+    throw new Error(`Unhandled test API request: ${method} ${path}`);
+  });
+  storeTestSession(session);
+  renderLibraryAt("/library/shlokas/gita-chapter-2-2-47");
+
+  await screen.findByRole("heading", { name: shlokaDetail.displayTitle });
+  expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
 });
 
 function renderLibraryAt(path: string) {

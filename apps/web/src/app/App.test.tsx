@@ -306,7 +306,9 @@ describe("App auth and empty shell", () => {
     expect(await screen.findByRole("link", { name: /Обучение/ })).toBeVisible();
     await userEvent.click(screen.getByRole("link", { name: /Каталог шлок/ }));
     await expectPath("/admin/catalog");
-    expect(await screen.findByRole("heading", { name: "Каталог шлок" })).toBeVisible();
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Каталог шлок" }),
+    ).toBeVisible();
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 });

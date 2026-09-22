@@ -271,8 +271,6 @@ export const strings = {
     fullText: "полный текст",
     hintOne: "подсказка 1",
     hintTwo: "подсказка 2",
-    instruction:
-      "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
     loadError: "Не удалось загрузить повторение",
     loading: "Загрузка повторения",
     next: "Дальше",
@@ -294,6 +292,7 @@ export const strings = {
     backToLibrary: "Библиотека",
     canonicalText: "Канонический текст шлоки",
     loadError: "Не удалось загрузить шлоку",
+    translation: "Перевод",
   },
   nav: {
     dashboard: "Главная",

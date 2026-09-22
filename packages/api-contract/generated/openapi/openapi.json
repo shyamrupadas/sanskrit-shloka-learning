@@ -2332,6 +2332,9 @@
           },
           "text": {
             "type": "string"
+          },
+          "fullTranslation": {
+            "type": "string"
           }
         }
       },
