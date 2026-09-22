@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
   SanskritTypography,
+  ShlokaTranslation,
   StatusCard,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
@@ -59,6 +60,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
           >
             {shlokaQuery.data.text}
           </SanskritTypography>
+          <ShlokaTranslation text={shlokaQuery.data.fullTranslation} />
         </article>
       )}
     </section>

@@ -8,6 +8,7 @@ import { getApiErrorMessage } from "@/shared/api/errors";
 import {
   PageHeader,
   SanskritTypography,
+  ShlokaTranslation,
   Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
@@ -238,11 +239,15 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
           </RecallTypography>
         </article>
 
-        <Typography tone="muted" variant="p2">
-          {stage === "full" && fullTextOutcome === "self"
-            ? strings.reviewShloka.resultDescription
-            : strings.reviewShloka.instruction}
-        </Typography>
+        {stage === "full" ? (
+          <ShlokaTranslation text={currentShloka.fullTranslation} />
+        ) : null}
+
+        {stage === "full" && fullTextOutcome === "self" ? (
+          <Typography tone="muted" variant="p2">
+            {strings.reviewShloka.resultDescription}
+          </Typography>
+        ) : null}
 
         {completionMutation.error ? (
           <Typography role="alert" tone="danger" variant="p2">
@@ -515,6 +520,7 @@ function toDashboardShloka(
     code: shloka.code,
     displayTitle: shloka.displayTitle,
     text: shloka.text,
+    ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
 }
 

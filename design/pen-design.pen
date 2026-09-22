@@ -11833,6 +11833,48 @@
               "fontSize": "$typography-p4-size",
               "fontWeight": "$typography-weight-medium",
               "fontStyle": "Normal"
+            },
+            {
+              "type": "frame",
+              "id": "ewbNr",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lU72H",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "lAvml",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
             }
           ]
         }
@@ -12550,19 +12592,6 @@
                   "fontWeight": "$typography-weight-bold"
                 }
               ]
-            },
-            {
-              "type": "text",
-              "id": "Aa7S4",
-              "name": "Recall Instruction",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
-              "fontWeight": "$typography-weight-normal"
             }
           ]
         },
@@ -12791,19 +12820,6 @@
                   "fontStyle": "Normal"
                 }
               ]
-            },
-            {
-              "type": "text",
-              "id": "iTpnK",
-              "name": "Recall Instruction",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
-              "fontWeight": "$typography-weight-normal"
             }
           ]
         },
@@ -13032,19 +13048,6 @@
                   "fontStyle": "Normal"
                 }
               ]
-            },
-            {
-              "type": "text",
-              "id": "Ld84b",
-              "name": "Recall Instruction",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
-              "fontWeight": "$typography-weight-normal"
             }
           ]
         },
@@ -13265,7 +13268,7 @@
                   "fill": "$color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
@@ -13275,17 +13278,46 @@
               ]
             },
             {
-              "type": "text",
-              "id": "gKhbp",
-              "name": "Recall Instruction",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
+              "type": "frame",
+              "id": "AcFV4",
+              "name": "Перевод шлоки",
               "width": "fill_container",
-              "content": "Сначала попробуйте вспомнить самостоятельно. Подсказки открываются постепенно.",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
-              "fontWeight": "$typography-weight-normal"
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "y23ek",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "bqVXn",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
             }
           ]
         },

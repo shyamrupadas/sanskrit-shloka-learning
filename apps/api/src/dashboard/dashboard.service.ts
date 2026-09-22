@@ -268,5 +268,6 @@ function toDashboardShloka(
     code: shloka.code,
     displayTitle: shloka.displayTitle,
     text: shloka.text,
+    ...(shloka.fullTranslation ? { fullTranslation: shloka.fullTranslation } : {}),
   };
 }
