@@ -81,6 +81,7 @@ describe("design token contract", () => {
       "settingsRow",
       "streakIndicator",
       "tipAccordion",
+      "helpTooltip",
       "tabs",
     ]);
   });

@@ -830,6 +830,29 @@ export const designTokens = {
         cssVariable: "--component-tip-accordion-border",
       }),
     },
+    helpTooltip: {
+      iconSize: fromPencil(18, "component-icon-sm", {
+        cssValue: px(18),
+        cssVariable: "--component-help-tooltip-icon-size",
+      }),
+      width: fromSource(
+        350,
+        "component-help-tooltip-width",
+        "Width of the assessment tooltip (W9qs6) in vIh6v.",
+        { cssValue: px(350), cssVariable: "--component-help-tooltip-width" },
+      ),
+      shadow: fromSource(
+        "0 4px 16px var(--shadow-mid-color)",
+        "component-help-tooltip-shadow",
+        "Shadow geometry of the assessment tooltip (W9qs6) in vIh6v.",
+        { cssVariable: "--component-help-tooltip-shadow" },
+      ),
+      sideOffset: fromSource(
+        15,
+        "component-help-tooltip-side-offset",
+        "Gap between the question icon bottom (151) and tooltip top (166) in vIh6v.",
+      ),
+    },
     tabs: {
       height: fromPencil(42, "component-tab-height", {
         cssValue: px(42),

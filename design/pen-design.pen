@@ -12582,7 +12582,7 @@
                   "id": "F4qUmS",
                   "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "без подсказки",
+                  "content": "произнесите по памяти",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
@@ -12612,7 +12612,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -12620,14 +12620,14 @@
                   "type": "text",
                   "id": "JGfdU",
                   "name": "Recall Body",
-                  "fill": "$color-text-primary",
+                  "fill": "$color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Текст скрыт\n\nПроизнесите шлоку по памяти.",
+                  "content": "Текст скрыт",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold"
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-normal"
                 }
               ]
             }
@@ -12877,7 +12877,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -12892,7 +12892,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -13143,7 +13143,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -13158,7 +13158,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -13368,22 +13368,34 @@
           "children": [
             {
               "type": "frame",
-              "id": "qZnOC",
+              "id": "HAAkm",
               "name": "Review Header",
               "width": "fill_container",
-              "layout": "vertical",
+              "height": 32,
               "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
                   "type": "text",
-                  "id": "wsZzK",
+                  "id": "vpxLX",
                   "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "полный текст",
+                  "content": "оцените себя честно",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
                   "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "icon",
+                  "id": "Gvj3u",
+                  "name": "Почему важно оценивать честно — открыть подсказку",
+                  "context": "Нажатие открывает пояснение: Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить. Повторное нажатие, нажатие снаружи и Escape закрывают.",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "circle-question-mark",
+                  "library": "lucide",
+                  "fill": "$color-brand"
                 }
               ]
             },
@@ -13409,7 +13421,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -13424,7 +13436,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -13470,30 +13482,14 @@
                   "fontWeight": "$typography-weight-normal"
                 }
               ]
-            },
-            {
-              "type": "text",
-              "id": "auCBv",
-              "name": "Пояснение оценки",
-              "fill": "#64748B",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
-              "lineHeight": 1.4,
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "normal"
             }
           ]
         },
         {
           "type": "frame",
           "id": "YIdfr",
-          "layoutPosition": "absolute",
-          "x": 0,
-          "y": 716,
           "name": "Bottom Action Dock",
-          "width": 390,
+          "width": "fill_container",
           "fill": "#FFFFFF",
           "effect": {
             "type": "shadow",
@@ -30883,7 +30879,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -30898,7 +30894,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -31185,7 +31181,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -31200,7 +31196,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -32130,22 +32126,34 @@
           "children": [
             {
               "type": "frame",
-              "id": "Qwy86",
+              "id": "F31d5H",
               "name": "Review Header",
               "width": "fill_container",
-              "layout": "vertical",
+              "height": 32,
               "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
                   "type": "text",
-                  "id": "i8T5F",
+                  "id": "cW9gc",
                   "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "полный текст",
+                  "content": "оцените себя честно",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
                   "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "icon",
+                  "id": "u7hdXp",
+                  "name": "Почему важно оценивать честно — открыть подсказку",
+                  "context": "Нажатие открывает пояснение: Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить. Повторное нажатие, нажатие снаружи и Escape закрывают.",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "circle-question-mark",
+                  "library": "lucide",
+                  "fill": "$color-brand"
                 }
               ]
             },
@@ -32171,7 +32179,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -32186,7 +32194,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -32232,30 +32240,14 @@
                   "fontWeight": "$typography-weight-normal"
                 }
               ]
-            },
-            {
-              "type": "text",
-              "id": "Xc07k",
-              "name": "Пояснение оценки",
-              "fill": "#64748B",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
-              "lineHeight": 1.4,
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "normal"
             }
           ]
         },
         {
           "type": "frame",
           "id": "Zbbb7",
-          "layoutPosition": "absolute",
-          "x": 0,
-          "y": 716,
           "name": "Bottom Action Dock / сохраняем",
-          "width": 390,
+          "width": "fill_container",
           "fill": "#FFFFFF",
           "effect": {
             "type": "shadow",
@@ -32478,22 +32470,34 @@
           "children": [
             {
               "type": "frame",
-              "id": "tY254",
+              "id": "kPmqB",
               "name": "Review Header",
               "width": "fill_container",
-              "layout": "vertical",
+              "height": 32,
               "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
                   "type": "text",
-                  "id": "faNuS",
+                  "id": "xFQe8",
                   "name": "Review Stage",
                   "fill": "$color-brand",
-                  "content": "полный текст",
+                  "content": "оцените себя честно",
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": "$typography-p2-size",
                   "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "icon",
+                  "id": "E5kGlb",
+                  "name": "Почему важно оценивать честно — открыть подсказку",
+                  "context": "Нажатие открывает пояснение: Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить. Повторное нажатие, нажатие снаружи и Escape закрывают.",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "circle-question-mark",
+                  "library": "lucide",
+                  "fill": "$color-brand"
                 }
               ]
             },
@@ -32519,7 +32523,7 @@
                   "content": "Бхагавад-гита 1.1",
                   "lineHeight": "$typography-heading-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$typography-h2-size",
+                  "fontSize": "$typography-h1-size",
                   "fontWeight": "$typography-weight-bold",
                   "fontStyle": "Normal"
                 },
@@ -32534,7 +32538,7 @@
                   "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
                   "fontSize": "$typography-p4-size",
-                  "fontWeight": "$typography-weight-bold",
+                  "fontWeight": "$typography-weight-medium",
                   "fontStyle": "Normal"
                 }
               ]
@@ -32583,19 +32587,6 @@
             },
             {
               "type": "text",
-              "id": "TnUdJ",
-              "name": "Пояснение оценки",
-              "fill": "#64748B",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
-              "lineHeight": 1.4,
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "normal"
-            },
-            {
-              "type": "text",
               "id": "fxzbp",
               "name": "Ошибка сохранения",
               "fill": "#DC2626",
@@ -32612,11 +32603,8 @@
         {
           "type": "frame",
           "id": "VTvPm",
-          "layoutPosition": "absolute",
-          "x": 0,
-          "y": 716,
           "name": "Bottom Action Dock",
-          "width": 390,
+          "width": "fill_container",
           "fill": "#FFFFFF",
           "effect": {
             "type": "shadow",
@@ -32691,6 +32679,390 @@
                   "fontWeight": "700"
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vIh6v",
+      "x": 4674,
+      "y": 6209,
+      "name": "Повторение — пояснение честной оценки",
+      "clip": true,
+      "width": 390,
+      "height": 960,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "x2Nnrb",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "A4gIP",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "r2Uvbq",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "K56Xlb",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "oCLq8",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "zT6hh",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HfoHo",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "R5grv",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "gy1sM",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "U99bWZ",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XkLis",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Y9PL7",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            20,
+            20,
+            18,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "e3KfMC",
+              "name": "Review Header",
+              "width": "fill_container",
+              "height": 32,
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YVQQ1",
+                  "name": "Review Stage",
+                  "fill": "$color-brand",
+                  "content": "оцените себя честно",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "icon",
+                  "id": "wLg9z",
+                  "name": "Почему важно оценивать честно — открыть подсказку",
+                  "context": "Нажатие открывает пояснение: Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить. Повторное нажатие, нажатие снаружи и Escape закрывают.",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "circle-question-mark",
+                  "library": "lucide",
+                  "fill": "$color-brand"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wBDtJ",
+              "name": "Recall Card",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yGbCT",
+                  "name": "Recall Title",
+                  "fill": "$color-text-primary",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "text",
+                  "id": "p7FlHL",
+                  "name": "Recall Body",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MA4w8",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mUrsE",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "HxHu9",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "diivS",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A14",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "cmQlz",
+              "name": "Все правильно",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vLuws",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Все правильно",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BKThX",
+              "name": "Сделал ошибку",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#D6DEE9",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "padding": [
+                0,
+                14
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kLqkq",
+                  "name": "Secondary Button Label",
+                  "fill": "#2563EB",
+                  "content": "Сделал ошибку",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W9qs6",
+          "layoutPosition": "absolute",
+          "x": 20,
+          "y": 166,
+          "name": "Подсказка об оценке — открыта",
+          "width": 350,
+          "fill": "$color-surface",
+          "cornerRadius": "$radius-md",
+          "stroke": "$color-border",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "padding": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "PaWKc",
+              "name": "Пояснение честной оценки",
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+              "lineHeight": "$typography-body-line",
+              "fontFamily": "$font-ui",
+              "fontSize": "$typography-p2-size",
+              "fontWeight": "$typography-weight-normal"
             }
           ]
         }

@@ -12,12 +12,14 @@ import {
   Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
+import { cn } from "@/shared/lib/utils";
 import { getBrowserTimeZone } from "@/shared/lib/time-zone";
 import { segmentGraphemes } from "@/shared/lib/unicode";
 import { routePaths } from "@/shared/model/routes";
 import { useSession, useUnauthorizedRedirect } from "@/shared/session";
 import { Button } from "@/shared/ui/button";
 import { Card, CardHeader } from "@/shared/ui/card";
+import { Tooltip } from "@/shared/ui/tooltip";
 
 type ReviewStage = "hidden" | "hint-one" | "hint-two" | "full" | "completed";
 type FullTextOutcome = "self" | "hint" | "forgot";
@@ -217,14 +219,19 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   return (
     <ReviewLayout>
       <div className="min-h-0 min-w-0 flex-1 space-y-[18px] overflow-y-auto px-5 pt-5 pb-[18px]">
-        <Typography tone="brand" variant="p2" weight="bold">
-          {stageLabel(stage)}
-        </Typography>
+        {stage === "full" && fullTextOutcome === "self" ? (
+          <ReviewAssessmentHelp />
+        ) : (
+          <Typography tone="brand" variant="p2" weight="bold">
+            {stageLabel(stage)}
+          </Typography>
+        )}
 
         <article className="space-y-3.5 rounded-xl border border-border bg-card p-[18px] shadow-[var(--shadow-low)]">
           <SanskritTypography
+            as="h2"
             className="break-words [overflow-wrap:anywhere]"
-            variant="h2"
+            variant="h1"
           >
             {currentShloka.displayTitle}
           </SanskritTypography>
@@ -232,8 +239,9 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
             aria-label={recallBodyLabel(stage)}
             as="div"
             className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
-            variant="p4"
-            weight="bold"
+            tone={stage === "hidden" ? "muted" : "default"}
+            variant={stage === "hidden" ? "p2" : "p4"}
+            weight={stage === "hidden" ? "normal" : "medium"}
           >
             {recallBody(currentShloka.text, stage)}
           </RecallTypography>
@@ -241,12 +249,6 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
 
         {stage === "full" ? (
           <ShlokaTranslation text={currentShloka.fullTranslation} />
-        ) : null}
-
-        {stage === "full" && fullTextOutcome === "self" ? (
-          <Typography tone="muted" variant="p2">
-            {strings.reviewShloka.resultDescription}
-          </Typography>
         ) : null}
 
         {completionMutation.error ? (
@@ -347,6 +349,20 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
         ) : null}
       </div>
     </ReviewLayout>
+  );
+}
+
+function ReviewAssessmentHelp() {
+  return (
+    <div className="flex h-8 items-center gap-2">
+      <Typography tone="brand" variant="p2" weight="bold">
+        {strings.reviewShloka.resultTitle}
+      </Typography>
+      <Tooltip
+        content={strings.reviewShloka.resultDescription}
+        label={strings.reviewShloka.resultHelp}
+      />
+    </div>
   );
 }
 
@@ -460,7 +476,10 @@ function ReviewButton({
 }) {
   return (
     <Button
-      className="h-[52px] w-full text-[16px] font-bold"
+      className={cn(
+        "h-[52px] w-full text-[16px] font-bold",
+        variant === "outline" && "bg-card text-primary",
+      )}
       disabled={disabled}
       onClick={onClick}
       type="button"
@@ -526,7 +545,7 @@ function toDashboardShloka(
 
 function recallBody(text: string, stage: ReviewStage): string {
   if (stage === "hidden") {
-    return `${strings.reviewShloka.textHidden}\n\n${strings.reviewShloka.recallPrompt}`;
+    return strings.reviewShloka.textHidden;
   }
 
   const firstLine = firstTextLine(text);

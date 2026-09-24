@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { App } from "@/app/App";
 import { routePaths } from "@/shared/model/routes";
@@ -67,8 +67,9 @@ describe("app review shloka flow", () => {
       }),
     ).toBeInTheDocument();
     expect(await screen.findByLabelText("Текст скрыт")).toHaveTextContent(
-      "Произнесите шлоку по памяти.",
+      /^Текст скрыт$/,
     );
+    expect(screen.getByText("произнесите по памяти")).toBeInTheDocument();
     expect(api.completions).toHaveLength(0);
 
     if (path === "self") {
@@ -78,6 +79,9 @@ describe("app review shloka flow", () => {
         screen.getByRole("button", { name: "Нужна подсказка" }),
       );
       await user.click(screen.getByRole("button", { name: "Вспомнил" }));
+      expect(screen.queryByRole("button", {
+        name: "Почему важно оценивать честно",
+      })).not.toBeInTheDocument();
     }
     expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
       /дхарма-кшетре куру-кшетре\s+самавета юютсавах/,
@@ -112,6 +116,45 @@ describe("app review shloka flow", () => {
     expect(api.completions[0]?.body).toMatchObject({ result });
     expect(api.completions[0]?.body).toHaveProperty("timeZone");
     expect(api.completions).toHaveLength(1);
+  });
+
+  it("opens the assessment explanation on click and closes on repeat click, Escape and outside click", async () => {
+    vi.stubGlobal("ResizeObserver", class {
+      observe = vi.fn();
+      unobserve = vi.fn();
+      disconnect = vi.fn();
+    });
+    const user = userEvent.setup();
+    const api = createReviewApi([firstShloka]);
+    mockApi(api.handle);
+    storeTestSession(session);
+    renderAppAt("/library/shlokas/gita-1-1/review");
+
+    await user.click(await screen.findByRole("button", { name: "Вспомнил" }));
+    expect(screen.getByText("оцените себя честно")).toBeInTheDocument();
+    const trigger = screen.getByRole("button", {
+      name: "Почему важно оценивать честно",
+    });
+    expect(screen.queryByText(/Оцените себя честно — алгоритм/)).not.toBeInTheDocument();
+
+    await user.click(trigger);
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(
+      "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+    );
+    await user.click(trigger);
+    await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
+
+    trigger.focus();
+    await user.keyboard("{Enter}");
+    expect(await screen.findByRole("tooltip")).toBeInTheDocument();
+    await user.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
+
+    await user.click(trigger);
+    expect(await screen.findByRole("tooltip")).toBeInTheDocument();
+    await user.click(screen.getByRole("heading", { name: firstShloka.displayTitle }));
+    await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
+    expect(api.completions).toHaveLength(0);
   });
 
   it.each([false, true])("records forgot on reveal and finishes without another save with hasNext=%s", async (hasNext) => {
@@ -215,7 +258,7 @@ describe("app review shloka flow", () => {
     );
 
     await expectPath("/library/shlokas/gita-1-1/review");
-    expect(await screen.findByText("без подсказки")).toBeInTheDocument();
+    expect(await screen.findByText("произнесите по памяти")).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
     expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
     await completeWithoutError(user);
@@ -226,7 +269,7 @@ describe("app review shloka flow", () => {
       await screen.findByRole("button", { name: "Повторить следующую" }),
     );
     await expectPath("/library/shlokas/gita-4-7/review");
-    expect(await screen.findByText("без подсказки")).toBeInTheDocument();
+    expect(await screen.findByText("произнесите по памяти")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 2,
