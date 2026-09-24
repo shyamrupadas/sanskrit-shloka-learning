@@ -87,10 +87,6 @@ describe("app review shloka flow", () => {
       firstShloka.fullTranslation!,
     );
 
-    expect(
-      screen.queryByRole("button", { name: "Оценить результат" }),
-    ).not.toBeInTheDocument();
-
     await user.click(screen.getByRole("button", { name: action }));
 
     if (hasNext) {
@@ -118,7 +114,7 @@ describe("app review shloka flow", () => {
     expect(api.completions).toHaveLength(1);
   });
 
-  it.each([false, true])("records forgot on reveal and finishes on Next with hasNext=%s", async (hasNext) => {
+  it.each([false, true])("records forgot on reveal and finishes without another save with hasNext=%s", async (hasNext) => {
     const user = userEvent.setup();
     const api = createReviewApi(hasNext ? [firstShloka, secondShloka] : [firstShloka]);
     mockApi(api.handle);
@@ -147,7 +143,7 @@ describe("app review shloka flow", () => {
     );
 
     expect(
-      await screen.findByRole("button", { name: "Дальше" }),
+      await screen.findByRole("button", { name: "Завершить" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Канонический текст шлоки")).toHaveTextContent(
       /дхарма-кшетре куру-кшетре\s+самавета юютсавах/,
@@ -159,7 +155,7 @@ describe("app review shloka flow", () => {
     );
     expect(screen.queryByText(/Сначала попробуйте вспомнить самостоятельно/)).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Дальше" }));
+    await user.click(screen.getByRole("button", { name: "Завершить" }));
     if (hasNext) {
       expect(
         await screen.findByRole("heading", { name: "Повторение завершено" }),

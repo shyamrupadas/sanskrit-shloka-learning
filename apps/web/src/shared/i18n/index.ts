@@ -259,7 +259,7 @@ export const strings = {
     title: "Заучивание",
   },
   reviewShloka: {
-    completeHinted: "Завершить",
+    complete: "Завершить",
     completedDescription: (displayTitle: string) =>
       `Результат повторения шлоки «${displayTitle}» сохранён.`,
     completedEyebrow: "Готово",
@@ -273,7 +273,6 @@ export const strings = {
     hintTwo: "подсказка 2",
     loadError: "Не удалось загрузить повторение",
     loading: "Загрузка повторения",
-    next: "Дальше",
     nextHint: "Ещё подсказка",
     needHint: "Нужна подсказка",
     recall: "Вспомнил",

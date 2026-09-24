@@ -334,7 +334,7 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
           >
             {completionMutation.isPending
               ? strings.reviewShloka.completing
-              : strings.reviewShloka.completeHinted}
+              : strings.reviewShloka.complete}
           </ReviewButton>
         ) : null}
         {stage === "full" && fullTextOutcome === "forgot" ? (
@@ -342,7 +342,7 @@ export function ReviewShlokaPage({ shlokaCode }: { shlokaCode: string }) {
             disabled={completionMutation.isPending}
             onClick={finishReview}
           >
-            {strings.reviewShloka.next}
+            {strings.reviewShloka.complete}
           </ReviewButton>
         ) : null}
       </div>

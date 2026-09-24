@@ -1,5 +1,5 @@
 {
-  "version": "2.18",
+  "version": "2.19",
   "children": [
     {
       "type": "frame",
@@ -12507,6 +12507,55 @@
         },
         {
           "type": "frame",
+          "id": "hTG8C",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "H4g59",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "avXTB",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WJtBJ",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bxysV",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "Pt3iY",
           "name": "Content",
           "width": "fill_container",
@@ -12528,17 +12577,6 @@
               "layout": "vertical",
               "gap": 8,
               "children": [
-                {
-                  "type": "text",
-                  "id": "d2AsoV",
-                  "name": "Screen Title",
-                  "fill": "$color-text-primary",
-                  "content": "Повторение",
-                  "lineHeight": "$typography-heading-line",
-                  "fontFamily": "$font-ui",
-                  "fontSize": "$typography-h1-size",
-                  "fontWeight": "$typography-weight-bold"
-                },
                 {
                   "type": "text",
                   "id": "F4qUmS",
@@ -12734,6 +12772,55 @@
         },
         {
           "type": "frame",
+          "id": "A6KqB",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Amktp",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "wd0lI",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zS29I",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F9ygxj",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "ss8ml",
           "name": "Content",
           "width": "fill_container",
@@ -12755,17 +12842,6 @@
               "layout": "vertical",
               "gap": 8,
               "children": [
-                {
-                  "type": "text",
-                  "id": "B1gGs",
-                  "name": "Screen Title",
-                  "fill": "$color-text-primary",
-                  "content": "Повторение",
-                  "lineHeight": "$typography-heading-line",
-                  "fontFamily": "$font-ui",
-                  "fontSize": "$typography-h1-size",
-                  "fontWeight": "$typography-weight-bold"
-                },
                 {
                   "type": "text",
                   "id": "jvsID",
@@ -12962,6 +13038,55 @@
         },
         {
           "type": "frame",
+          "id": "AV1ze",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "wj0Ol",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "AIfDf",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MPG1U",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aOYKT",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "kPIDg",
           "name": "Content",
           "width": "fill_container",
@@ -12983,17 +13108,6 @@
               "layout": "vertical",
               "gap": 8,
               "children": [
-                {
-                  "type": "text",
-                  "id": "iHgXU",
-                  "name": "Screen Title",
-                  "fill": "$color-text-primary",
-                  "content": "Повторение",
-                  "lineHeight": "$typography-heading-line",
-                  "fontFamily": "$font-ui",
-                  "fontSize": "$typography-h1-size",
-                  "fontWeight": "$typography-weight-bold"
-                },
                 {
                   "type": "text",
                   "id": "UIJFo",
@@ -13119,7 +13233,7 @@
       "name": "Повторение — полный текст / без подсказки",
       "clip": true,
       "width": 390,
-      "height": 844,
+      "height": 960,
       "fill": "$bg",
       "layout": "vertical",
       "alignItems": "center",
@@ -13190,6 +13304,55 @@
         },
         {
           "type": "frame",
+          "id": "b5tEzs",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "dR0F9",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "EjTjM",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JANAa",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pKl22",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "C0RLb",
           "name": "Content",
           "width": "fill_container",
@@ -13211,17 +13374,6 @@
               "layout": "vertical",
               "gap": 8,
               "children": [
-                {
-                  "type": "text",
-                  "id": "C2u9ee",
-                  "name": "Screen Title",
-                  "fill": "$color-text-primary",
-                  "content": "Повторение",
-                  "lineHeight": "$typography-heading-line",
-                  "fontFamily": "$font-ui",
-                  "fontSize": "$typography-h1-size",
-                  "fontWeight": "$typography-weight-bold"
-                },
                 {
                   "type": "text",
                   "id": "wsZzK",
@@ -13318,19 +13470,35 @@
                   "fontWeight": "$typography-weight-normal"
                 }
               ]
+            },
+            {
+              "type": "text",
+              "id": "auCBv",
+              "name": "Пояснение оценки",
+              "fill": "#64748B",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
             }
           ]
         },
         {
           "type": "frame",
-          "id": "hdjQO",
+          "id": "YIdfr",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 716,
           "name": "Bottom Action Dock",
-          "width": "fill_container",
-          "fill": "$color-surface",
+          "width": 390,
+          "fill": "#FFFFFF",
           "effect": {
             "type": "shadow",
             "shadowType": "outer",
-            "color": "$shadow-mid-color",
+            "color": "#0F172A14",
             "offset": {
               "x": 0,
               "y": -4
@@ -13345,188 +13513,61 @@
           ],
           "children": [
             {
-              "id": "Z5PKj",
-              "type": "ref",
-              "ref": "M6qnk",
-              "name": "Оценить результат",
-              "width": "fill_container",
-              "height": 52
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "E41yd",
-      "x": 1776,
-      "y": 6209,
-      "name": "Повторение — результат",
-      "clip": true,
-      "width": 390,
-      "height": 844,
-      "fill": "$bg",
-      "layout": "vertical",
-      "alignItems": "center",
-      "children": [
-        {
-          "type": "frame",
-          "id": "l5M6vM",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 62,
-          "padding": [
-            0,
-            20
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "WyqwN",
-              "name": "Status Time",
-              "fill": "$text",
-              "content": "9:41",
-              "fontFamily": "$font",
-              "fontSize": 14,
-              "fontWeight": "700"
-            },
-            {
               "type": "frame",
-              "id": "N30ZFb",
-              "name": "Status Icons",
-              "gap": 5,
+              "id": "XrmQb",
+              "name": "Все правильно",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "tXnRI",
-                  "name": "Signal",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "d031GI",
-                  "name": "Wifi",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$text"
-                },
-                {
-                  "type": "icon",
-                  "id": "AnJYJ",
-                  "name": "Battery",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$text"
+                  "type": "text",
+                  "id": "HtGAr",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Все правильно",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
                 }
               ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "B6RLTR",
-          "name": "Content",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical",
-          "gap": 18,
-          "padding": [
-            20,
-            20,
-            18,
-            20
-          ],
-          "children": [
-            {
-              "type": "text",
-              "id": "KVdNn",
-              "name": "Screen Title",
-              "fill": "$color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Как получилось?",
-              "lineHeight": "$typography-heading-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-h1-size",
-              "fontWeight": "$typography-weight-bold"
             },
             {
-              "type": "text",
-              "id": "Zzmai",
-              "name": "Result Text",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Оцените только самостоятельное вспоминание до полного текста. Ошибка не сбивает серию дней.",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p3-size",
-              "fontWeight": "$typography-weight-normal"
-            },
-            {
-              "type": "text",
-              "id": "Q8opct",
-              "name": "Flow Finish Hint",
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "После последней шлоки откроется завершение пачки и действие «На дашборд».",
-              "lineHeight": "$typography-body-line",
-              "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
-              "fontWeight": "$typography-weight-normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Y783mx",
-          "name": "Bottom Action Dock",
-          "width": "fill_container",
-          "fill": "$color-surface",
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "$shadow-mid-color",
-            "offset": {
-              "x": 0,
-              "y": -4
-            },
-            "blur": 16
-          },
-          "layout": "vertical",
-          "gap": 10,
-          "padding": [
-            12,
-            20
-          ],
-          "children": [
-            {
-              "id": "LYXW2",
-              "type": "ref",
-              "ref": "M6qnk",
-              "name": "Все правильно",
-              "width": "fill_container",
-              "height": 52
-            },
-            {
-              "id": "SOoxx",
-              "type": "ref",
-              "ref": "B9n47J",
+              "type": "frame",
+              "id": "dAMMk",
               "name": "Сделал ошибку",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#D6DEE9",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "padding": [
+                0,
+                14
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "y8M23",
+                  "name": "Secondary Button Label",
+                  "fill": "#2563EB",
+                  "content": "Сделал ошибку",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
             }
           ]
         }
@@ -13872,8 +13913,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "$color-focus-ring",
-        "spread": 3
+        "color": "$color-focus-ring"
       },
       "gap": 6,
       "padding": [
@@ -30652,6 +30692,2003 @@
                       "content": "Отмена"
                     }
                   }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "phus0",
+      "x": 1776,
+      "y": 6209,
+      "name": "Повторение — полный текст / с подсказкой",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "kqczb",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "YQrj0",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "jrlnh",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "btFCi",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "qAXn4",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "eNWL1",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PEVHf",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "OJSJ3",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "eINOJ",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xlcvQ",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UtKbC",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "corKb",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            20,
+            20,
+            18,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "V1Ies",
+              "name": "Review Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DCJhx",
+                  "name": "Review Stage",
+                  "fill": "$color-brand",
+                  "content": "полный текст",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qgDQp",
+              "name": "Recall Card",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GOC8a",
+                  "name": "Recall Title",
+                  "fill": "$color-text-primary",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "text",
+                  "id": "d6zUc",
+                  "name": "Recall Body",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WHiPd",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iJuiK",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "E4wilO",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cVJfT",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "k74izg",
+              "name": "Завершить",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VqDYD",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Завершить",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "G5nudz",
+      "x": 2190,
+      "y": 6209,
+      "name": "Повторение — полный текст / не вспомнил",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "y4W2Ql",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "R4LYgU",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "JgQNx",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "I8fDk",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "GsVtW",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "uqjWx",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZbbG6",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Lz5Cp",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "UdMic",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n9bcg",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fIq06",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Zcy2p",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            20,
+            20,
+            18,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "gWe1h",
+              "name": "Review Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "N6oGN",
+                  "name": "Review Stage",
+                  "fill": "$color-brand",
+                  "content": "полный текст",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E0n8Tm",
+              "name": "Recall Card",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Vi6sD",
+                  "name": "Recall Title",
+                  "fill": "$color-text-primary",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Wo72Q",
+                  "name": "Recall Body",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e0MYxx",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wc6R5",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "btzJO",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tU78A",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "NuI7F",
+              "name": "Завершить",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "N9AnB",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Завершить",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "LwsXw",
+      "x": 2604,
+      "y": 6209,
+      "name": "Повторение — завершение / есть следующая шлока",
+      "clip": true,
+      "width": 390,
+      "height": 960,
+      "fill": "$color-bg-app",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rhrub",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "OocKb",
+              "name": "Status Time",
+              "fill": "$color-text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-ui",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "LotQP",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ZS9BT",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "pSO7k",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "X27jYM",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PhhbB",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "xDT4q",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "ajDgH",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DnV2y",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jBS8F",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HUDmD",
+          "name": "Success Body",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            34,
+            20,
+            20,
+            20
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Idzgl",
+              "name": "Success Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nbSsH",
+                  "name": "Success Icon",
+                  "width": 60,
+                  "height": 60,
+                  "fill": "$color-success-bg",
+                  "cornerRadius": "$radius-pill",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "FZxyD",
+                      "type": "ref",
+                      "ref": "Pg6xe",
+                      "name": "Success Check",
+                      "width": 28,
+                      "height": 28
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q7OpV",
+                  "name": "Success Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DgR3Q",
+                      "name": "Success Eyebrow",
+                      "fill": "$color-brand",
+                      "content": "Готово",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "m3z8BY",
+                      "name": "Success Title",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Повторение завершено",
+                      "lineHeight": "$learning-title-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$learning-title-size",
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QZ7uH",
+                      "name": "Success Description",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Результат повторения шлоки «Бхагавад-гита 1.1» сохранён.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "S2V5En",
+                  "name": "Continue Block",
+                  "width": "fill_container",
+                  "stroke": "$color-border",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    18,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "C6X8Pw",
+                      "name": "Continue Title",
+                      "fill": "$color-text-primary",
+                      "content": "Хотите продолжить?",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mcIoH",
+                      "name": "Повторить следующую",
+                      "width": "fill_container",
+                      "height": 52,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": "#D6DEE9",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "padding": [
+                        0,
+                        14
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rlJtH",
+                          "name": "Secondary Button Label",
+                          "fill": "#2563EB",
+                          "content": "Повторить следующую",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "y1xAL",
+          "name": "Bottom Action Dock",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "cornerRadius": "$radius-none",
+          "stroke": "$color-transparent",
+          "strokeAlignment": "inner",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "padding": [
+            12,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "oL6Rp",
+              "name": "Закончить",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pu6ki",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Закончить",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rGP2I",
+      "x": 3018,
+      "y": 6209,
+      "name": "Повторение — загрузка",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "DTwki",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "IwYRX",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "dOT7X",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "iSaiH",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "L2RXT6",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "cRybh",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nv4Ce",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Ju3tt",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "r0Pfp",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "w1kYY",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TBXxW",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jatEP",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": 20,
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 6,
+              "id": "qg3j6",
+              "name": "Skeleton Stage",
+              "fill": "#E2E8F0",
+              "width": 175,
+              "height": 20
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 6,
+              "id": "AHHFo",
+              "name": "Skeleton Title",
+              "fill": "#E2E8F0",
+              "width": 116,
+              "height": 16
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 12,
+              "id": "EoUMU",
+              "name": "Skeleton Recall Card",
+              "fill": "#E2E8F0",
+              "width": "fill_container",
+              "height": 160
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "mtk6Y",
+      "x": 3432,
+      "y": 6209,
+      "name": "Повторение — ошибка загрузки",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "N3wlnq",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "mPcLk",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "t066P",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "gYb3V",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "j5ynyn",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "vHWZp",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fI7ku",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "qM9LV",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "FY8Se",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "y8zgj",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gpktE",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ySx0b",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "dOCOz",
+              "name": "Ошибка загрузки",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#E2E8F0",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GxnAk",
+                  "name": "Заголовок ошибки",
+                  "fill": "#334155",
+                  "content": "Ошибка",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "VYkMM",
+                  "name": "Описание ошибки",
+                  "fill": "#64748B",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Не удалось загрузить повторение",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "w1eLKu",
+      "x": 3846,
+      "y": 6209,
+      "name": "Повторение — сохранение результата",
+      "clip": true,
+      "width": 390,
+      "height": 960,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "qKXX5",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "inciP",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "r0El3b",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "gCSWJ",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "FXQlj",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "OAgOS",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ouzlA",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "i40tPf",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "KVbT0",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jqhXe",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d0GkH",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Nyq6z",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            20,
+            20,
+            18,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Qwy86",
+              "name": "Review Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "i8T5F",
+                  "name": "Review Stage",
+                  "fill": "$color-brand",
+                  "content": "полный текст",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q9Ll98",
+              "name": "Recall Card",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VTwfl",
+                  "name": "Recall Title",
+                  "fill": "$color-text-primary",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Qyf7Q",
+                  "name": "Recall Body",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xz0Zx",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "B1bgG7",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "u3tSW",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Xc07k",
+              "name": "Пояснение оценки",
+              "fill": "#64748B",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Zbbb7",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 716,
+          "name": "Bottom Action Dock / сохраняем",
+          "width": 390,
+          "fill": "#FFFFFF",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A14",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "NNYsf",
+              "name": "Сохраняем",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#93C5FD",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ndmw5",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Сохраняем...",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FnJ1V",
+              "name": "Сделал ошибку / отключено",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#F8FAFC",
+              "cornerRadius": 8,
+              "stroke": "#E2E8F0",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "padding": [
+                0,
+                14
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EkU2q",
+                  "name": "Secondary Button Label",
+                  "fill": "#94A3B8",
+                  "content": "Сделал ошибку",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Y0Ost",
+      "x": 4260,
+      "y": 6209,
+      "name": "Повторение — ошибка сохранения",
+      "clip": true,
+      "width": 390,
+      "height": 960,
+      "fill": "$bg",
+      "layout": "vertical",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Y5TtA",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "x94k3",
+              "name": "Status Time",
+              "fill": "$text",
+              "content": "9:41",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "sNtEB",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "QAxBL",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "UPXw7",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text"
+                },
+                {
+                  "type": "icon",
+                  "id": "Lo4GR",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "a0TTCp",
+          "name": "Review Page Header",
+          "width": 358,
+          "height": 44,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "zwnbM",
+              "type": "ref",
+              "ref": "Qm2hL",
+              "name": "Back Button"
+            },
+            {
+              "type": "frame",
+              "id": "QStoJ",
+              "name": "Header Title Slot",
+              "width": 278,
+              "height": 44,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "I6KKRz",
+                  "name": "Header Title",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Повторение",
+                  "lineHeight": "$typography-heading-line",
+                  "textAlign": "center",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-h1-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OWVLT",
+              "name": "Header Right Spacer",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "V3yFx",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            20,
+            20,
+            18,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "tY254",
+              "name": "Review Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "faNuS",
+                  "name": "Review Stage",
+                  "fill": "$color-brand",
+                  "content": "полный текст",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TV6Pi",
+              "name": "Recall Card",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Gaid9",
+                  "name": "Recall Title",
+                  "fill": "$color-text-primary",
+                  "content": "Бхагавад-гита 1.1",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-h2-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "text",
+                  "id": "f1nHFv",
+                  "name": "Recall Body",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета̄ йуйутсавах̣\nма̄мака̄х̣ па̄н̣д̣ава̄ш́ чаива\nким акурвата санджайа",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-bold",
+                  "fontStyle": "Normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "iPmAs",
+              "name": "Перевод шлоки",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jjRHc",
+                  "name": "Заголовок перевода",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Перевод",
+                  "lineHeight": "$typography-heading-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p2-size",
+                  "fontWeight": "$typography-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "WRXv1",
+                  "name": "Текст перевода",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": "$typography-p3-size",
+                  "fontWeight": "$typography-weight-normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "TnUdJ",
+              "name": "Пояснение оценки",
+              "fill": "#64748B",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "fxzbp",
+              "name": "Ошибка сохранения",
+              "fill": "#DC2626",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Не удалось сохранить результат повторения",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VTvPm",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 716,
+          "name": "Bottom Action Dock",
+          "width": 390,
+          "fill": "#FFFFFF",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0F172A14",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "lDwRT",
+              "name": "Все правильно",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#2563EB",
+              "cornerRadius": 8,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cArQU",
+                  "name": "Button Label",
+                  "fill": "#FFFFFF",
+                  "content": "Все правильно",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kniFX",
+              "name": "Сделал ошибку",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#D6DEE9",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "padding": [
+                0,
+                14
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zJzmQ",
+                  "name": "Secondary Button Label",
+                  "fill": "#2563EB",
+                  "content": "Сделал ошибку",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
                 }
               ]
             }

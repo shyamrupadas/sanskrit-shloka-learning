@@ -31,7 +31,6 @@ Accepted: 2026-08-10
 - Экран: `Повторение — первая подсказка` (`Zt9yX`)
 - Экран: `Повторение — вторая подсказка` (`dtDuy`)
 - Экран: `Повторение — полный текст` (`s0VvGA`)
-- Экран: `Повторение — результат` (`E41yd`)
 - Экран: `Обучение санскриту` (`aj0kd`)
 - Экран: `Настройки` (`HTlzD`)
 - Компонент: `Product / Word Row` (`L7MCU`)
@@ -40,9 +39,9 @@ Accepted: 2026-08-10
 
 ## Implementation report
 
-- После сохранения через read-only launcher проверены актуальные references `QPXXW`, `IQcqK`, `M6fBeF`, `Zt9yX`, `dtDuy`, `s0VvGA`, `E41yd`, `aj0kd`, `HTlzD`, `L7MCU`, `epjBK` и `rgPsh`.
+- После сохранения через read-only launcher проверены актуальные references `QPXXW`, `IQcqK`, `M6fBeF`, `Zt9yX`, `dtDuy`, `s0VvGA`, `aj0kd`, `HTlzD`, `L7MCU`, `epjBK` и `rgPsh`.
 - Сохранены HTML-уровни `h1`/`h2`, доступные имена, пользовательские состояния и layout-классы переноса; route-level tests дополнены assertions по уровням заголовков без проверки styling-классов.
 - Прошли `pnpm lint`, web `typecheck`, 153 unit/integration tests, production `build` и 8 Playwright e2e tests на viewport 360×800 и 390×844.
-- Новые UI-contract exceptions не вводились; существующие `UIE-002`, `UIE-004` и `UIE-005` продолжают описывать loading-состояние заучивания, функциональные действия повторения и состав настроек.
+- Новые UI-contract exceptions не вводились.
 - Pen-состояния проверены по screenshots до сохранения. Ручной visual review работающего приложения подтверждён владельцем продукта 2026-08-10; visual-verification gate закрыт.
 - Новые DB migrations не требуются.
