@@ -11987,6 +11987,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -12008,6 +12009,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -12029,6 +12031,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -12047,7 +12050,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -12074,10 +12077,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -12087,10 +12091,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -12102,18 +12107,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "n4ZrmX",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "FGGLN",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q7s6s",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sYhWU",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
                 }
               ]
             }
@@ -12123,6 +12163,7 @@
           "type": "frame",
           "id": "P3HTJ",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие «Выучил», под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -12139,6 +12180,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -12147,12 +12189,37 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "hZ6sn",
+              "id": "VMNsk",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Выучил",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Выучил",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "cfzXi",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
+                }
+              }
             }
           ]
         }
@@ -12274,7 +12341,14 @@
                       "ref": "Pg6xe",
                       "name": "Success Check",
                       "width": 28,
-                      "height": 28
+                      "height": 28,
+                      "descendants": {
+                        "gnrAo": {
+                          "width": 28,
+                          "height": 28,
+                          "fill": "$color-success-fg"
+                        }
+                      }
                     }
                   ]
                 },
@@ -12292,10 +12366,11 @@
                       "name": "Success Eyebrow",
                       "fill": "$color-brand",
                       "content": "ГОТОВО",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -12305,9 +12380,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Шлока добавлена в повторение",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": 1.18,
                       "fontFamily": "$font-ui",
-                      "fontSize": "$learning-title-size",
+                      "fontSize": 27,
                       "fontWeight": "700"
                     },
                     {
@@ -12350,17 +12425,28 @@
                       "name": "Continue Title",
                       "fill": "$color-text-primary",
                       "content": "Хотите продолжить?",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 16,
                       "fontWeight": "700"
                     },
                     {
-                      "id": "Tr820",
+                      "id": "TJStB",
                       "type": "ref",
                       "ref": "B9n47J",
                       "name": "Учить следующую",
                       "width": "fill_container",
-                      "height": 52
+                      "height": 52,
+                      "fill": "$color-bg-app",
+                      "descendants": {
+                        "nALai": {
+                          "enabled": false
+                        },
+                        "VZsCN": {
+                          "content": "Учить следующую",
+                          "fontSize": 15
+                        }
+                      }
                     },
                     {
                       "type": "frame",
@@ -12377,6 +12463,7 @@
                           "name": "Choose Shloka Label",
                           "fill": "$color-brand",
                           "content": "Выбрать другую",
+                          "lineHeight": 1.428571,
                           "fontFamily": "$font-ui",
                           "fontSize": 14,
                           "fontWeight": "700"
@@ -12417,12 +12504,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "TNIh8",
+              "id": "S2i627",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Закончить",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Закончить",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
         }
@@ -15545,6 +15639,7 @@
                       "name": "Back To Shloka Label",
                       "fill": "$color-brand",
                       "content": "К шлоке",
+                      "lineHeight": 1.428571,
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -15566,6 +15661,7 @@
                       "name": "Helper Title",
                       "fill": "$color-text-primary",
                       "content": "Помощник",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -15598,6 +15694,7 @@
                   "name": "Fragment Label",
                   "fill": "$color-text-secondary",
                   "content": "Пада 1",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -15608,6 +15705,7 @@
                   "name": "Fragment Count",
                   "fill": "$color-text-secondary",
                   "content": "1 / 7",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -15704,10 +15802,11 @@
                   "name": "Helper Phase",
                   "fill": "$color-brand",
                   "content": "ПРОЧИТАЙТЕ И ЗАПОМНИТЕ",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": 11,
+                  "fontSize": "$typography-p1-size",
                   "fontWeight": "700",
-                  "letterSpacing": 1
+                  "letterSpacing": 1.08
                 },
                 {
                   "type": "text",
@@ -15717,11 +15816,12 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "textAlign": "center",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 }
               ]
             }
@@ -15755,12 +15855,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "GqFfR",
+              "id": "EvX5v",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Скрыть и повторить",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Скрыть и повторить",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
         }
@@ -15878,6 +15985,7 @@
                       "name": "Back To Shloka Label",
                       "fill": "$color-brand",
                       "content": "К шлоке",
+                      "lineHeight": 1.428571,
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -15899,6 +16007,7 @@
                       "name": "Helper Title",
                       "fill": "$color-text-primary",
                       "content": "Помощник",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -15931,6 +16040,7 @@
                   "name": "Fragment Label",
                   "fill": "$color-text-secondary",
                   "content": "Пада 1",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -15941,6 +16051,7 @@
                   "name": "Fragment Count",
                   "fill": "$color-text-secondary",
                   "content": "1 / 7",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -16037,10 +16148,11 @@
                   "name": "Helper Phase",
                   "fill": "$color-brand",
                   "content": "ТЕКСТ СКРЫТ",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": 11,
+                  "fontSize": "$typography-p1-size",
                   "fontWeight": "700",
-                  "letterSpacing": 1
+                  "letterSpacing": 1.08
                 },
                 {
                   "type": "text",
@@ -16088,12 +16200,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "o6BXP9",
+              "id": "YcyWR",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Показать и свериться",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Показать и свериться",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
         }
@@ -16211,6 +16330,7 @@
                       "name": "Back To Shloka Label",
                       "fill": "$color-brand",
                       "content": "К шлоке",
+                      "lineHeight": 1.428571,
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -16232,6 +16352,7 @@
                       "name": "Helper Title",
                       "fill": "$color-text-primary",
                       "content": "Помощник",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -16264,6 +16385,7 @@
                   "name": "Fragment Label",
                   "fill": "$color-text-secondary",
                   "content": "Пада 1",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -16274,6 +16396,7 @@
                   "name": "Fragment Count",
                   "fill": "$color-text-secondary",
                   "content": "1 / 7",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -16370,10 +16493,11 @@
                   "name": "Helper Phase",
                   "fill": "$color-brand",
                   "content": "СВЕРЬТЕСЬ",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": 11,
+                  "fontSize": "$typography-p1-size",
                   "fontWeight": "700",
-                  "letterSpacing": 1
+                  "letterSpacing": 1.08
                 },
                 {
                   "type": "text",
@@ -16383,11 +16507,12 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "textAlign": "center",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 }
               ]
             }
@@ -16421,12 +16546,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "TXy9e",
+              "id": "w6SAp",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Следующий фрагмент",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Следующий фрагмент",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
         }
@@ -16544,6 +16676,7 @@
                       "name": "Back To Shloka Label",
                       "fill": "$color-brand",
                       "content": "К шлоке",
+                      "lineHeight": 1.428571,
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -16565,6 +16698,7 @@
                       "name": "Helper Title",
                       "fill": "$color-text-primary",
                       "content": "Помощник",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -16597,6 +16731,7 @@
                   "name": "Fragment Label",
                   "fill": "$color-text-secondary",
                   "content": "Вся шлока",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -16607,6 +16742,7 @@
                   "name": "Fragment Count",
                   "fill": "$color-text-secondary",
                   "content": "7 / 7",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 12,
                   "fontWeight": "700"
@@ -16703,10 +16839,11 @@
                   "name": "Helper Phase",
                   "fill": "$color-brand",
                   "content": "СВЕРЬТЕСЬ",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
-                  "fontSize": 11,
+                  "fontSize": "$typography-p1-size",
                   "fontWeight": "700",
-                  "letterSpacing": 1
+                  "letterSpacing": 1.08
                 },
                 {
                   "type": "text",
@@ -16716,11 +16853,12 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "textAlign": "center",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 }
               ]
             }
@@ -16754,12 +16892,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "Iq173",
+              "id": "jC728",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Вернуться к шлоке",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Вернуться к шлоке",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              }
             }
           ]
         }
@@ -16872,6 +17017,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -16893,6 +17039,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -16914,6 +17061,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -16932,7 +17080,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -16959,10 +17107,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -16972,10 +17121,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -16987,27 +17137,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "Fa9VO",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "hPQTo",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EBRUW",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "fAeuv",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -17017,6 +17193,7 @@
           "type": "frame",
           "id": "yEjMx",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -17033,6 +17210,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -17052,6 +17230,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "Fa9VO",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -17197,7 +17393,7 @@
                       "name": "Другой совет",
                       "width": "fill_container",
                       "height": 52,
-                      "fill": "$button-secondary-bg",
+                      "fill": "$color-bg-app",
                       "stroke": "$color-border",
                       "opacity": 1,
                       "descendants": {
@@ -17346,6 +17542,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17367,6 +17564,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17388,6 +17586,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17406,7 +17605,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -17433,10 +17632,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -17446,10 +17646,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -17461,27 +17662,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "MudNO",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "Co5iv",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "owRqn",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "s2kB8",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -17491,6 +17718,7 @@
           "type": "frame",
           "id": "KDBWm",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -17507,6 +17735,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -17526,6 +17755,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "MudNO",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -17809,6 +18056,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-text-tertiary",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17830,6 +18078,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17851,6 +18100,7 @@
                   "name": "Tip Label",
                   "fill": "$color-text-tertiary",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -17869,7 +18119,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -17896,10 +18146,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -17909,10 +18160,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -17924,30 +18176,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "wHdxt",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "OlAfR",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "fill": "$color-surface-muted",
-                  "opacity": 0.8,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KEsaj",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15,
-                      "fill": "$color-disabled-fg"
+                    {
+                      "type": "text",
+                      "id": "MUaYs",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -17957,6 +18232,7 @@
           "type": "frame",
           "id": "I4DHE",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -17973,6 +18249,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -17995,6 +18272,26 @@
                   "fontSize": 16,
                   "fontWeight": "700",
                   "fill": "$color-disabled-fg"
+                }
+              }
+            },
+            {
+              "id": "wHdxt",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "opacity": 0.5,
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15,
+                  "fill": "$color-brand"
                 }
               }
             }
@@ -18109,6 +18406,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18130,6 +18428,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18151,6 +18450,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18169,7 +18469,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -18196,10 +18496,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -18209,10 +18510,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -18224,10 +18526,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "WG1bQ",
+                  "name": "Перевод шлоки",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JCnLY",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NtvpA",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
                 },
                 {
                   "type": "frame",
@@ -18258,23 +18603,6 @@
                       "fontWeight": "normal"
                     }
                   ]
-                },
-                {
-                  "id": "J4X6Ud",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
-                  "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
-                    },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
-                    }
-                  }
                 }
               ]
             }
@@ -18284,6 +18612,7 @@
           "type": "frame",
           "id": "I34wD",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -18300,6 +18629,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -18322,6 +18652,24 @@
                   "fontSize": 16,
                   "fontWeight": "700",
                   "fill": "$button-primary-fg"
+                }
+              }
+            },
+            {
+              "id": "J4X6Ud",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -18436,6 +18784,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18457,6 +18806,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18478,6 +18828,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18496,7 +18847,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -18523,10 +18874,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -18536,10 +18888,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -18551,10 +18904,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "wCrUn",
+                  "name": "Перевод шлоки",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "S3RslU",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "k3Fz13",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
                 },
                 {
                   "type": "frame",
@@ -18585,23 +18981,6 @@
                       "fontWeight": "normal"
                     }
                   ]
-                },
-                {
-                  "id": "b7tVN",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
-                  "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
-                    },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
-                    }
-                  }
                 }
               ]
             }
@@ -18611,6 +18990,7 @@
           "type": "frame",
           "id": "sl1Fl",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -18627,6 +19007,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -18649,6 +19030,24 @@
                   "fontSize": 16,
                   "fontWeight": "700",
                   "fill": "$button-primary-fg"
+                }
+              }
+            },
+            {
+              "id": "b7tVN",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -18763,6 +19162,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -18784,6 +19184,7 @@
                   "name": "Loading Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -19022,20 +19423,37 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "w6Dtf",
+              "id": "a5Lg4",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Попробовать снова",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Попробовать снова",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              }
             },
             {
-              "id": "iUYGz",
+              "id": "ZQzl5",
               "type": "ref",
               "ref": "B9n47J",
               "name": "Отмена и возврат",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Отмена и возврат",
+                  "fontSize": 14
+                }
+              }
             }
           ]
         }
@@ -19198,12 +19616,19 @@
           "alignItems": "center",
           "children": [
             {
-              "id": "s42imU",
+              "id": "jSdr5",
               "type": "ref",
               "ref": "M6qnk",
               "name": "Вернуться",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "aUMci": {
+                  "content": "Вернуться",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              }
             }
           ]
         }
@@ -19350,10 +19775,11 @@
                       "name": "Success Eyebrow",
                       "fill": "$color-brand",
                       "content": "ГОТОВО",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -19363,9 +19789,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Шлока добавлена в повторение",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": 1.18,
                       "fontFamily": "$font-ui",
-                      "fontSize": "$learning-title-size",
+                      "fontSize": 27,
                       "fontWeight": "700"
                     },
                     {
@@ -19408,6 +19834,7 @@
                       "name": "Continue Title",
                       "fill": "$color-text-primary",
                       "content": "Хотите продолжить?",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -19432,6 +19859,7 @@
                       "name": "Выбрать другую",
                       "width": "fill_container",
                       "height": 52,
+                      "fill": "$color-bg-app",
                       "descendants": {
                         "nALai": {
                           "enabled": false
@@ -19601,6 +20029,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -19622,6 +20051,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -19643,6 +20073,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -19661,7 +20092,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -19688,10 +20119,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -19701,10 +20133,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 2.20",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -19716,27 +20149,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "на джайате мрийате ва кадачин наям бхутва бхавита ва на бхуйахнаджо нитйах шашвато йам пурано на ханйате ханйамане шарире\nвасанси джирнани йатха вихайа навани грихнати наро парани\nтатха шарирани вихайа джирнанй анйани самйати навани дехи",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "A9iHe",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "usmUE",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mPUbx",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "m0Weoh",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Душа никогда не рождается и не умирает. Она не возникает и не прекращает существовать. Нерождённая, вечная и неизменная, она не погибает, когда погибает тело.\n\nКак человек оставляет изношенную одежду и надевает новую, так воплощённая душа оставляет старые тела и принимает новые.",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -19746,6 +20205,7 @@
           "type": "frame",
           "id": "nWbJu",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -19762,6 +20222,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -19781,6 +20242,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "A9iHe",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -20424,6 +20903,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20445,6 +20925,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20466,6 +20947,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20484,7 +20966,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -20511,10 +20993,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -20524,10 +21007,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -20539,27 +21023,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "GlUhQ",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "IkIGQ",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "R4SQN",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "XtU3r",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -20569,6 +21079,7 @@
           "type": "frame",
           "id": "m59THS",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -20585,6 +21096,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -20604,6 +21116,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "GlUhQ",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -20852,6 +21382,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20873,6 +21404,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20894,6 +21426,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -20912,7 +21445,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -20939,10 +21472,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -20952,10 +21486,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -20967,27 +21502,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "WKHGs",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "AciFl",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SrF2R",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "VbCGg",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -20997,6 +21558,7 @@
           "type": "frame",
           "id": "X9mA0Z",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -21013,6 +21575,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -21032,6 +21595,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "WKHGs",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -21154,7 +21735,8 @@
                       "descendants": {
                         "aUMci": {
                           "content": "Повторить",
-                          "fontSize": 16
+                          "fontSize": 15,
+                          "fontWeight": "500"
                         }
                       }
                     },
@@ -21294,6 +21876,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21315,6 +21898,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21336,6 +21920,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21354,7 +21939,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -21381,10 +21966,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -21394,10 +21980,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -21409,27 +21996,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "S8A7i",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "s1XbZL",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rtPXz",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "YlimT",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -21439,6 +22052,7 @@
           "type": "frame",
           "id": "IBrFl",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -21455,6 +22069,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -21474,6 +22089,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "S8A7i",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -21722,6 +22355,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21743,6 +22377,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21764,6 +22399,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -21782,7 +22418,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -21809,10 +22445,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -21822,10 +22459,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -21837,27 +22475,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "E3hobX",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "SHi6T",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Rcw5O",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "l94Eox",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -21867,6 +22531,7 @@
           "type": "frame",
           "id": "ZK31M",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -21883,6 +22548,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -21902,6 +22568,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "E3hobX",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -22047,7 +22731,7 @@
                       "name": "Другой совет",
                       "width": "fill_container",
                       "height": 52,
-                      "fill": "$button-secondary-bg",
+                      "fill": "$color-bg-app",
                       "stroke": "$color-border",
                       "opacity": 1,
                       "descendants": {
@@ -22384,6 +23068,7 @@
                   "name": "Cancel Label",
                   "fill": "$color-brand",
                   "content": "Отмена",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -22405,6 +23090,7 @@
                   "name": "Screen Title",
                   "fill": "$color-text-primary",
                   "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -22426,6 +23112,7 @@
                   "name": "Tip Label",
                   "fill": "$color-brand",
                   "content": "Совет",
+                  "lineHeight": 1.428571,
                   "fontFamily": "$font-ui",
                   "fontSize": 14,
                   "fontWeight": "700"
@@ -22444,7 +23131,7 @@
           "padding": [
             24,
             20,
-            18,
+            16,
             20
           ],
           "justifyContent": "space_between",
@@ -22471,10 +23158,11 @@
                       "name": "Learning Eyebrow",
                       "fill": "$color-brand",
                       "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
                       "fontFamily": "$font-ui",
-                      "fontSize": 11,
+                      "fontSize": "$typography-p1-size",
                       "fontWeight": "700",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.08
                     },
                     {
                       "type": "text",
@@ -22484,10 +23172,11 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Бхагавад-гита 1.1",
-                      "lineHeight": "$learning-title-line",
+                      "lineHeight": "$typography-heading-line",
                       "fontFamily": "$font-sanskrit",
-                      "fontSize": "$learning-title-size",
-                      "fontWeight": "700"
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
                     }
                   ]
                 },
@@ -22499,27 +23188,53 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
-                  "lineHeight": "$learning-verse-line",
+                  "lineHeight": "$typography-body-line",
                   "fontFamily": "$font-sanskrit",
-                  "fontSize": "$learning-verse-size",
-                  "fontWeight": "700"
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
                 },
                 {
-                  "id": "B8s0Sw",
-                  "type": "ref",
-                  "ref": "B9n47J",
-                  "name": "Помощник",
+                  "type": "frame",
+                  "id": "AWbns",
+                  "name": "Перевод шлоки",
                   "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "nALai": {
-                      "enabled": false
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "COVFE",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
                     },
-                    "VZsCN": {
-                      "content": "Помощник",
-                      "fontSize": 15
+                    {
+                      "type": "text",
+                      "id": "m1Yk1r",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -22529,6 +23244,7 @@
           "type": "frame",
           "id": "FWeYv",
           "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
           "width": "fill_container",
           "fill": "$color-surface",
           "cornerRadius": "$radius-none",
@@ -22545,6 +23261,7 @@
             "blur": 16
           },
           "layout": "vertical",
+          "gap": 10,
           "padding": [
             12,
             20
@@ -22564,6 +23281,24 @@
                   "content": "Выучил",
                   "fontSize": 16,
                   "fontWeight": "700"
+                }
+              }
+            },
+            {
+              "id": "B8s0Sw",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15
                 }
               }
             }
@@ -22709,7 +23444,7 @@
                       "name": "Другой совет",
                       "width": "fill_container",
                       "height": 52,
-                      "fill": "$button-secondary-bg",
+                      "fill": "$color-bg-app",
                       "stroke": "$color-border",
                       "opacity": 1,
                       "descendants": {
@@ -33075,6 +33810,357 @@
           "fill": "$color-text-primary",
           "width": 14,
           "height": 8
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "VfiLf",
+      "x": 5916,
+      "y": 5065,
+      "name": "Заучивание — проверка статуса",
+      "context": "Состояние completionRecovery=checking: проверяем результат операции. Отмена, Совет, Помощник и нижняя кнопка недоступны.",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$color-bg-app",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "WhWeV",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "nzFDZ",
+              "name": "Status Time",
+              "fill": "$color-text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-ui",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "YTEFu",
+              "name": "Status Icons",
+              "gap": 5,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "GAgel",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "iPSA0",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "wsUy7",
+                  "name": "Battery",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$color-text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PQj3x",
+          "name": "Attempt Header",
+          "width": "fill_container",
+          "height": 52,
+          "stroke": "$color-border",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "strokeAlignment": "inner",
+          "padding": [
+            0,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GM48U",
+              "name": "Cancel Action",
+              "width": 100,
+              "height": 44,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Pvm5e",
+                  "name": "Cancel Label",
+                  "fill": "$color-text-tertiary",
+                  "content": "Отмена",
+                  "lineHeight": 1.428571,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TaRAD",
+              "name": "Screen Title Box",
+              "width": "fill_container",
+              "height": 44,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LETtM",
+                  "name": "Screen Title",
+                  "fill": "$color-text-primary",
+                  "content": "Заучивание",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s8e6vQ",
+              "name": "Tip Action",
+              "width": 100,
+              "height": 44,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "C3NXnt",
+                  "name": "Tip Label",
+                  "fill": "$color-text-tertiary",
+                  "content": "Совет",
+                  "lineHeight": 1.428571,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aPjz4",
+          "name": "Attempt Body",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            24,
+            20,
+            16,
+            20
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "P2Kwp",
+              "name": "Learning Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f80s9D",
+                  "name": "Learning Intro",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nXAeL",
+                      "name": "Learning Eyebrow",
+                      "fill": "$color-brand",
+                      "content": "ШЛОКА ДЛЯ ЗАУЧИВАНИЯ",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p1-size",
+                      "fontWeight": "700",
+                      "letterSpacing": 1.08
+                    },
+                    {
+                      "type": "text",
+                      "id": "fEgSd",
+                      "name": "Shloka Title",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Бхагавад-гита 1.1",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-sanskrit",
+                      "fontSize": "$typography-h1-size",
+                      "fontWeight": "$typography-weight-bold",
+                      "fontStyle": "Normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "iIKcJ",
+                  "name": "Learning Shloka",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "дхарма-кшетре куру-кшетре\nсамавета юютсавах\nмамаках пандавашчаива\nкимакурвата санджая",
+                  "lineHeight": "$typography-body-line",
+                  "fontFamily": "$font-sanskrit",
+                  "fontSize": "$typography-p4-size",
+                  "fontWeight": "$typography-weight-medium",
+                  "fontStyle": "Normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "pEdrC",
+                  "name": "Перевод шлоки",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$space-2",
+                  "padding": [
+                    "$space-2",
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "K6hA3",
+                      "name": "Заголовок перевода",
+                      "fill": "$color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Перевод",
+                      "lineHeight": "$typography-heading-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p2-size",
+                      "fontWeight": "$typography-weight-bold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "G8Xqc",
+                      "name": "Текст перевода",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Дхритараштра спросил: О Санджая, что делали мои сыновья и сыновья Панду, собравшись на священном поле Курукшетра и желая вступить в бой?",
+                      "lineHeight": "$typography-body-line",
+                      "fontFamily": "$font-ui",
+                      "fontSize": "$typography-p3-size",
+                      "fontWeight": "$typography-weight-normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "N46dHk",
+          "name": "Bottom Action Dock",
+          "context": "Закреплённая нижняя панель: основное действие, под ним вторичное «Помощник». Контент шлоки и перевода прокручивается над панелью.",
+          "width": "fill_container",
+          "fill": "$color-surface",
+          "cornerRadius": "$radius-none",
+          "stroke": "$color-transparent",
+          "strokeAlignment": "inner",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$shadow-mid-color",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "R5eUqF",
+              "type": "ref",
+              "ref": "M6qnk",
+              "name": "Проверяем статус",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-disabled-bg",
+              "opacity": 0.8,
+              "descendants": {
+                "aUMci": {
+                  "content": "Проверяем…",
+                  "fontSize": 16,
+                  "fontWeight": "700",
+                  "fill": "$color-disabled-fg"
+                }
+              }
+            },
+            {
+              "id": "hQLWn",
+              "type": "ref",
+              "ref": "B9n47J",
+              "name": "Помощник",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-bg-app",
+              "opacity": 0.5,
+              "descendants": {
+                "nALai": {
+                  "enabled": false
+                },
+                "VZsCN": {
+                  "content": "Помощник",
+                  "fontSize": 15,
+                  "fill": "$color-brand"
+                }
+              }
+            }
+          ]
         }
       ]
     }

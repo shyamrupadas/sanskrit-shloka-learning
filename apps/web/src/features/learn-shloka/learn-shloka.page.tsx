@@ -9,6 +9,7 @@ import {
 
 import {
   SanskritTypography,
+  ShlokaTranslation,
   Typography,
 } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
@@ -34,19 +35,6 @@ type HelperState = {
   phase: HelperPhase;
   shlokaCode: string;
 };
-
-const attemptTitleTypography = {
-  "--typography-h1-size": "var(--component-learning-attempt-title-size)",
-  "--typography-heading-line-height":
-    "var(--component-learning-attempt-title-line-height)",
-} as CSSProperties;
-
-const attemptCanonicalTextTypography = {
-  "--typography-body-line-height":
-    "var(--component-learning-attempt-canonical-text-line-height)",
-  "--typography-p4-size":
-    "var(--component-learning-attempt-canonical-text-size)",
-} as CSSProperties;
 
 const attemptStateTitleTypography = {
   "--typography-h1-size":
@@ -279,14 +267,14 @@ export function LearnShlokaPage({
   );
 
   return (
-    <section className="flex min-h-dvh min-w-0 flex-1 flex-col">
+    <section className="flex h-dvh min-h-0 min-w-0 flex-none flex-col">
       <LearnShlokaHeader
         adviceShlokaCode={shlokaCode}
         actionsDisabled={actionsDisabled}
         onCancel={cancel}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col px-5 pt-6 pb-4">
+      <div className="min-h-0 min-w-0 flex-1 overflow-y-auto px-5 pt-6 pb-4">
         <div className="min-w-0 space-y-6">
           <div className="space-y-2">
             <Typography
@@ -300,7 +288,6 @@ export function LearnShlokaPage({
             </Typography>
             <SanskritTypography
               className="break-words [overflow-wrap:anywhere]"
-              style={attemptTitleTypography}
               variant="h1"
             >
               {shlokaQuery.data.displayTitle}
@@ -311,12 +298,13 @@ export function LearnShlokaPage({
             aria-label={strings.shloka.canonicalText}
             as="div"
             className="break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
-            style={attemptCanonicalTextTypography}
             variant="p4"
-            weight="bold"
+            weight="medium"
           >
             {shlokaQuery.data.text}
           </SanskritTypography>
+
+          <ShlokaTranslation text={shlokaQuery.data.fullTranslation} />
 
           {completionRecovery === "retry" ? (
             <Typography
@@ -341,25 +329,10 @@ export function LearnShlokaPage({
             </Typography>
           ) : null}
 
-          <Button
-            className="h-[52px] w-full text-[15px] text-primary"
-            disabled={actionsDisabled}
-            onClick={() => {
-              setHelperState({
-                fragmentIndex: 0,
-                phase: "read",
-                shlokaCode,
-              });
-            }}
-            type="button"
-            variant="outline"
-          >
-            {strings.learnShloka.helper}
-          </Button>
         </div>
       </div>
 
-      <div className="sticky bottom-0 mt-auto bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]">
+      <div className="sticky bottom-0 mt-auto shrink-0 space-y-2.5 bg-card px-5 py-3 shadow-[var(--component-bottom-nav-shadow)]">
         <Button
           className="h-[52px] w-full text-[16px] font-bold"
           disabled={actionsDisabled}
@@ -374,6 +347,21 @@ export function LearnShlokaPage({
           type="button"
         >
           {completionAction}
+        </Button>
+        <Button
+          className="h-[52px] w-full text-[15px] text-primary"
+          disabled={actionsDisabled}
+          onClick={() => {
+            setHelperState({
+              fragmentIndex: 0,
+              phase: "read",
+              shlokaCode,
+            });
+          }}
+          type="button"
+          variant="outline"
+        >
+          {strings.learnShloka.helper}
         </Button>
       </div>
     </section>
@@ -537,9 +525,8 @@ function LearnShlokaHelper({
                 aria-label={strings.learnShloka.helperCurrentFragment}
                 as="div"
                 className="w-full break-words whitespace-pre-wrap [overflow-wrap:anywhere]"
-                style={attemptCanonicalTextTypography}
                 variant="p4"
-                weight="bold"
+                weight="medium"
               >
                 {fragment.text}
               </SanskritTypography>
