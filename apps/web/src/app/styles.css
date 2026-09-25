@@ -120,8 +120,6 @@ body {
   --component-card-padding: 14px;
   --component-empty-icon-size: 42px;
   --component-help-tooltip-icon-size: 18px;
-  --component-help-tooltip-width: 350px;
-  --component-help-tooltip-shadow: 0 4px 16px var(--shadow-mid-color);
   --component-empty-padding: 18px;
   --component-learning-attempt-canonical-text-line-height: 1.55;
   --component-learning-attempt-canonical-text-size: 22px;

@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { CircleHelp } from "lucide-react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 
-import { Typography } from "@/shared/design-system/components";
 import { designTokens } from "@/shared/design-system/tokens";
 
 export interface TooltipProps {
@@ -13,17 +12,30 @@ export interface TooltipProps {
 export function Tooltip({ content, label }: TooltipProps) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const touchPressRef = useRef(false);
 
   return (
     <TooltipPrimitive.Provider delayDuration={0}>
-      <TooltipPrimitive.Root open={open}>
+      <TooltipPrimitive.Root open={open} onOpenChange={setOpen}>
         <TooltipPrimitive.Trigger
           data-slot="tooltip-trigger"
           ref={triggerRef}
           aria-label={label}
           className="relative shrink-0 rounded-sm text-primary outline-none after:absolute after:-inset-2 focus-visible:ring-2 focus-visible:ring-ring"
-          onBlur={() => setOpen(false)}
-          onClick={() => setOpen((previous) => !previous)}
+          onPointerDown={(event) => {
+            touchPressRef.current = event.pointerType === "touch";
+            if (touchPressRef.current) {
+              // Keep Radix from closing on pointerdown before the tap toggles it.
+              event.preventDefault();
+            }
+          }}
+          onClick={(event) => {
+            if (touchPressRef.current && event.detail > 0) {
+              event.preventDefault();
+              setOpen((previous) => !previous);
+            }
+            touchPressRef.current = false;
+          }}
           type="button"
         >
           <CircleHelp
@@ -34,22 +46,20 @@ export function Tooltip({ content, label }: TooltipProps) {
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             data-slot="tooltip-content"
-            className="z-50 inline-flex origin-(--radix-tooltip-content-transform-origin) items-center gap-1.5 rounded-md data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 w-[var(--component-help-tooltip-width)] max-w-[calc(100vw-var(--screen-gutter)*2)] border border-border bg-card p-3 text-foreground shadow-[var(--component-help-tooltip-shadow)]"
+            className="z-50 inline-flex w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-background has-data-[slot=kbd]:pr-1.5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"
             collisionPadding={designTokens.spacing.screenGutter.value}
-            onEscapeKeyDown={() => setOpen(false)}
             onPointerDownOutside={(event) => {
               if (
                 event.target instanceof Node &&
                 triggerRef.current?.contains(event.target)
               ) {
-                return;
+                event.preventDefault();
               }
-              setOpen(false);
             }}
             side="bottom"
-            sideOffset={designTokens.components.helpTooltip.sideOffset.value}
           >
-            <Typography variant="p2">{content}</Typography>
+            {content}
+            <TooltipPrimitive.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
           </TooltipPrimitive.Content>
         </TooltipPrimitive.Portal>
       </TooltipPrimitive.Root>

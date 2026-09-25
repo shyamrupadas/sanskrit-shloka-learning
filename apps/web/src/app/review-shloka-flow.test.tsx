@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it, vi } from "vitest";
@@ -118,7 +118,7 @@ describe("app review shloka flow", () => {
     expect(api.completions).toHaveLength(1);
   });
 
-  it("opens the assessment explanation on click and closes on repeat click, Escape and outside click", async () => {
+  it("shows assessment help on mouse hover and keyboard focus, and toggles it on touch", async () => {
     vi.stubGlobal("ResizeObserver", class {
       observe = vi.fn();
       unobserve = vi.fn();
@@ -137,22 +137,36 @@ describe("app review shloka flow", () => {
     });
     expect(screen.queryByText(/Оцените себя честно — алгоритм/)).not.toBeInTheDocument();
 
-    await user.click(trigger);
+    await user.hover(trigger);
     expect(await screen.findByRole("tooltip")).toHaveTextContent(
       "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
     );
-    await user.click(trigger);
+    await user.pointer({
+      target: document.body,
+      coords: { x: 500, y: 500 },
+    });
+    await user.pointer({
+      target: document.body,
+      coords: { x: 600, y: 600 },
+    });
     await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
 
-    trigger.focus();
-    await user.keyboard("{Enter}");
+    act(() => trigger.focus());
     expect(await screen.findByRole("tooltip")).toBeInTheDocument();
     await user.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
 
-    await user.click(trigger);
+    await user.pointer({ keys: "[TouchA]", target: trigger, coords: { x: 0, y: 0 } });
     expect(await screen.findByRole("tooltip")).toBeInTheDocument();
-    await user.click(screen.getByRole("heading", { name: firstShloka.displayTitle }));
+    await user.pointer({ keys: "[TouchA]", target: trigger, coords: { x: 0, y: 0 } });
+    await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
+
+    await user.pointer({ keys: "[TouchA]", target: trigger, coords: { x: 0, y: 0 } });
+    expect(await screen.findByRole("tooltip")).toBeInTheDocument();
+    await user.pointer({
+      keys: "[TouchA]",
+      target: screen.getByRole("heading", { name: firstShloka.displayTitle }),
+    });
     await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
     expect(api.completions).toHaveLength(0);
   });

@@ -33030,41 +33030,51 @@
           "type": "frame",
           "id": "W9qs6",
           "layoutPosition": "absolute",
-          "x": 20,
-          "y": 166,
-          "name": "Подсказка об оценке — открыта",
-          "width": 350,
-          "fill": "$color-surface",
+          "x": 25,
+          "y": 158,
+          "name": "Tooltip — shadcn radix-nova / открыт",
+          "context": "Стандартное оформление @shadcn/tooltip, style radix-nova: bg-foreground text-background text-xs (12/16), px-3 py-1.5, rounded-md, w-fit max-w-xs, Arrow. side=bottom. Без рамки, тени и проектных переопределений внешнего вида.",
+          "width": 320,
+          "fill": "$color-text-primary",
           "cornerRadius": "$radius-md",
-          "stroke": "$color-border",
-          "strokeWidth": 1,
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "$shadow-mid-color",
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "blur": 16
-          },
           "layout": "vertical",
-          "padding": 12,
+          "padding": [
+            6,
+            12
+          ],
           "children": [
             {
               "type": "text",
               "id": "PaWKc",
               "name": "Пояснение честной оценки",
-              "fill": "$color-text-primary",
+              "fill": "$color-bg-app",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Оцените себя честно — алгоритм предложит чаще повторять трудные шлоки, чтобы быстрее их запомнить.",
-              "lineHeight": "$typography-body-line",
+              "lineHeight": 1.3333333333,
               "fontFamily": "$font-ui",
-              "fontSize": "$typography-p2-size",
+              "fontSize": "$typography-p1-size",
               "fontWeight": "$typography-weight-normal"
             }
           ]
+        },
+        {
+          "type": "path",
+          "id": "IzwN2",
+          "layoutPosition": "absolute",
+          "x": 178,
+          "y": 151,
+          "name": "Tooltip Arrow — к центру значка вопроса",
+          "geometry": "M0 8l5.6-6.6q1.4-1.4 2.8 0l5.6 6.6z",
+          "viewBox": [
+            0,
+            0,
+            14,
+            8
+          ],
+          "fill": "$color-text-primary",
+          "width": 14,
+          "height": 8
         }
       ]
     }
