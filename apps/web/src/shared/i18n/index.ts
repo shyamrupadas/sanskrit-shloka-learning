@@ -272,6 +272,7 @@ export const strings = {
     hintOne: "подсказка 1",
     hintTwo: "подсказка 2",
     loadError: "Не удалось загрузить повторение",
+    loadErrorTitle: "Ошибка",
     loading: "Загрузка повторения",
     nextHint: "Ещё подсказка",
     needHint: "Нужна подсказка",
