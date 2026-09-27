@@ -1,0 +1,39 @@
+import type { ReactNode } from "react";
+
+import { cn } from "@/shared/lib/utils";
+
+export type ScreenLayoutProps = {
+  children: ReactNode;
+  contentClassName?: string;
+  footer?: ReactNode;
+  header?: ReactNode;
+  labelledBy?: string;
+  role?: "alert" | "status";
+};
+
+export function ScreenLayout({
+  children,
+  contentClassName,
+  footer,
+  header,
+  labelledBy,
+  role,
+}: ScreenLayoutProps) {
+  return (
+    <section
+      aria-labelledby={labelledBy}
+      className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden pt-[env(safe-area-inset-top)]"
+      role={role}
+    >
+      {header ? <div className="shrink-0">{header}</div> : null}
+      <div className={cn("min-h-0 min-w-0 flex-1 overflow-y-auto", contentClassName)}>
+        {children}
+      </div>
+      {footer ? (
+        <footer className="shrink-0 bg-card pb-[env(safe-area-inset-bottom)] shadow-[var(--component-bottom-nav-shadow)]">
+          {footer}
+        </footer>
+      ) : null}
+    </section>
+  );
+}

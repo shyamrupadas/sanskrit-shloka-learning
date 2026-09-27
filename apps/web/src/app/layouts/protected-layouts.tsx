@@ -21,7 +21,7 @@ export function AuthenticatedLayout() {
       <main
         className={
           isShlokaPractice
-            ? "mx-auto flex min-h-dvh w-full max-w-3xl flex-col"
+            ? "mx-auto flex h-dvh min-h-0 w-full max-w-3xl flex-col overflow-hidden"
             : shouldHideBottomNavigation
             ? "mx-auto flex min-h-dvh w-full max-w-3xl flex-col px-4 py-5"
             : "mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pt-5 pb-[calc(var(--component-bottom-nav-height)+var(--space-8)+env(safe-area-inset-bottom))] sm:px-6"
