@@ -20,7 +20,7 @@ export function ScreenLayout({
   role,
 }: ScreenLayoutProps) {
   return (
-    <main className="mx-auto h-dvh min-h-0 w-full max-w-3xl overflow-hidden bg-background text-foreground">
+    <main className="fixed inset-x-0 top-0 mx-auto h-dvh min-h-0 w-full max-w-3xl overflow-hidden bg-background text-foreground">
       <section
         aria-labelledby={labelledBy}
         className={cn(
