@@ -34,6 +34,54 @@ test("redirects protected routes to the login/register flow", async ({
   ).toBeVisible();
 });
 
+test("keeps both auth forms reachable within the screen on a short viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 360 });
+  await mockApi(page, { invalidLogin: true });
+
+  for (const [path, heading, footerLink] of [
+    ["/login", "Вход", "Зарегистрироваться"],
+    ["/register", "Регистрация", "Войти"],
+  ] as const) {
+    await page.goto(path);
+
+    const title = page.getByRole("heading", { name: heading });
+    const link = page.getByRole("link", { name: footerLink });
+    await expect(title).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: "Основная навигация" }),
+    ).toHaveCount(0);
+
+    async function expectFormReachable() {
+      await link.scrollIntoViewIfNeeded();
+      await expect(link).toBeInViewport();
+      expect(
+        await page.evaluate(() =>
+          document.scrollingElement!.scrollHeight - document.scrollingElement!.clientHeight,
+        ),
+      ).toBeLessThanOrEqual(1);
+
+      await title.scrollIntoViewIfNeeded();
+      await expect(title).toBeInViewport();
+    }
+
+    await expectFormReachable();
+
+    await page.getByLabel("Email").fill("learner@example.com");
+    await page.getByLabel("Пароль", { exact: true }).fill("correct-password");
+    if (path === "/register") {
+      await page.getByLabel("Подтверждение пароля").fill("different-password");
+    }
+    await page.getByRole("button", {
+      name: path === "/login" ? "Войти" : "Зарегистрироваться",
+    }).click();
+    await expect(page.getByRole("alert")).toBeVisible();
+
+    await expectFormReachable();
+  }
+});
+
 test("registers and reaches the empty dashboard and library", async ({
   page,
 }) => {
