@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, TriangleAlert } from "lucide-react";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
-import { Typography } from "@/shared/design-system/components";
+import { ScreenLayout, Typography } from "@/shared/design-system/components";
 import { strings } from "@/shared/i18n";
 import { routePaths } from "@/shared/model/routes";
 import { Card, CardHeader } from "@/shared/ui/card";
@@ -25,20 +25,22 @@ export function AdminShell({
   title: string;
 }) {
   return (
-    <section className="min-w-0 space-y-5">
-      <Link className="inline-flex w-fit items-center gap-2 rounded-md text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50" to={backTo}>
-        <ChevronLeft aria-hidden="true" className="size-5" />{backLabel}
-      </Link>
-      <Typography as="h1" variant="p4" weight="bold">{title}</Typography>
-      {subtitle ? <Typography
-        className="break-words [overflow-wrap:anywhere]"
-        tone="muted"
-        variant="p2"
-      >
-        {subtitle}
-      </Typography> : null}
-      {children}
-    </section>
+    <ScreenLayout contentClassName="px-4 pt-6 pb-8 sm:px-6">
+      <section className="min-w-0 space-y-5">
+        <Link className="inline-flex w-fit items-center gap-2 rounded-md text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50" to={backTo}>
+          <ChevronLeft aria-hidden="true" className="size-5" />{backLabel}
+        </Link>
+        <Typography as="h1" variant="p4" weight="bold">{title}</Typography>
+        {subtitle ? <Typography
+          className="break-words [overflow-wrap:anywhere]"
+          tone="muted"
+          variant="p2"
+        >
+          {subtitle}
+        </Typography> : null}
+        {children}
+      </section>
+    </ScreenLayout>
   );
 }
 

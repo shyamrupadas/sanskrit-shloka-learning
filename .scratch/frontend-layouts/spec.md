@@ -1,6 +1,7 @@
 # Единая система лейаутов страниц
 
-Status: ready-for-agent
+Status: awaiting-human-review
+Accepted: 2026-09-28
 
 ## Problem Statement
 

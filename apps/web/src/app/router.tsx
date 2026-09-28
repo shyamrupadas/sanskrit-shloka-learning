@@ -149,83 +149,80 @@ const settingsRoute = createRoute({
   return createLazyRoute("/authenticated/settings")({ component: SettingsPage });
 });
 
-const adminLayoutRoute = createRoute({
+const adminRouteGroup = createRoute({
   beforeLoad: ({ context }) => requireAdmin(context.session),
-  getParentRoute: () => rootRoute,
-  id: "admin-layout",
-}).lazy(async () => {
-  const { AdminLayout } = await import("@/app/layouts/admin-layout");
-  return createLazyRoute("/admin-layout")({ component: AdminLayout });
+  getParentRoute: () => authenticatedRoute,
+  id: "admin-group",
 });
 
 const adminRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.admin,
 }).lazy(async () => {
   const { AdminHomePage } = await import("@/features/admin/home.page");
-  return createLazyRoute("/admin-layout/admin")({ component: AdminHomePage });
+  return createLazyRoute("/authenticated/admin-group/admin")({ component: AdminHomePage });
 });
 
 const adminCatalogRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminCatalog,
 }).lazy(async () => {
   const { AdminCatalogPage } = await import("@/features/admin/catalog.page");
-  return createLazyRoute("/admin-layout/admin/catalog")({ component: AdminCatalogPage });
+  return createLazyRoute("/authenticated/admin-group/admin/catalog")({ component: AdminCatalogPage });
 });
 
 const adminLearningRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminLearning,
   validateSearch: (search: Record<string, unknown>): { published?: boolean } => search.published === true ? { published: true } : {},
 }).lazy(async () => {
   const { AdminTipsPage } = await import("@/features/admin/tips.page");
-  return createLazyRoute("/admin-layout/admin/learning")({ component: AdminTipsPage });
+  return createLazyRoute("/authenticated/admin-group/admin/learning")({ component: AdminTipsPage });
 });
 
 const adminTipNewRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminTipNew,
 }).lazy(async () => {
   const { AdminTipEditorPage } = await import("@/features/admin/tip-editor.page");
-  return createLazyRoute("/admin-layout/admin/learning/new")({ component: AdminTipEditorPage });
+  return createLazyRoute("/authenticated/admin-group/admin/learning/new")({ component: AdminTipEditorPage });
 });
 
 const adminTipEditRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminTipEdit,
 }).lazy(async () => {
   const { AdminTipEditorPage } = await import("@/features/admin/tip-editor.page");
-  return createLazyRoute("/admin-layout/admin/learning/$tipId/edit")({ component: AdminTipEditorPage });
+  return createLazyRoute("/authenticated/admin-group/admin/learning/$tipId/edit")({ component: AdminTipEditorPage });
 });
 
 const adminSourceRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminSourceNew,
 }).lazy(async () => {
   const { AdminSourcePage } = await import("@/features/admin/source-editor.page");
-  return createLazyRoute("/admin-layout/admin/sources/new")({
+  return createLazyRoute("/authenticated/admin-group/admin/sources/new")({
     component: AdminSourcePage,
   });
 });
 
 const adminSourceEditRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminSourceEdit,
 }).lazy(loadAdminSourceEditRoute);
 
 const adminShlokaRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminShlokaNew,
 }).lazy(async () => {
   const { AdminShlokaPage } = await import("@/features/admin/shloka-editor.page");
-  return createLazyRoute("/admin-layout/admin/shlokas/new")({
+  return createLazyRoute("/authenticated/admin-group/admin/shlokas/new")({
     component: AdminShlokaPage,
   });
 });
 
 const adminShlokaEditRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
+  getParentRoute: () => adminRouteGroup,
   path: routeSegments.adminShlokaEdit,
 }).lazy(loadAdminShlokaEditRoute);
 
@@ -242,17 +239,17 @@ const routeTree = rootRoute.addChildren([
     reviewShlokaRoute,
     learningRoute,
     settingsRoute,
-  ]),
-  adminLayoutRoute.addChildren([
-    adminRoute,
-    adminCatalogRoute,
-    adminLearningRoute,
-    adminTipNewRoute,
-    adminTipEditRoute,
-    adminSourceRoute,
-    adminSourceEditRoute,
-    adminShlokaRoute,
-    adminShlokaEditRoute,
+    adminRouteGroup.addChildren([
+      adminRoute,
+      adminCatalogRoute,
+      adminLearningRoute,
+      adminTipNewRoute,
+      adminTipEditRoute,
+      adminSourceRoute,
+      adminSourceEditRoute,
+      adminShlokaRoute,
+      adminShlokaEditRoute,
+    ]),
   ]),
 ]);
 
