@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   expectPath,
@@ -168,9 +168,6 @@ describe("App auth and empty shell", () => {
     const learningNavigation = await screen.findByRole("navigation", {
       name: "Основная навигация",
     });
-    const currentLibraryLink = within(learningNavigation).getByRole("link", {
-      name: "Библиотека",
-    });
     await expectActiveNavigationLink(
       within(learningNavigation).getByRole("link", { name: "Обучение" }),
     );
@@ -178,7 +175,10 @@ describe("App auth and empty shell", () => {
       await screen.findByRole("heading", { name: "Советы" }),
     ).toBeInTheDocument();
 
-    await user.click(currentLibraryLink);
+    await user.click(
+      within(screen.getByRole("navigation", { name: "Основная навигация" }))
+        .getByRole("link", { name: "Библиотека" }),
+    );
     await expectPath("/library");
     await screen.findByRole("heading", { name: "Библиотека" });
     const libraryNavigation = screen.getByRole("navigation", {
@@ -229,6 +229,40 @@ describe("App auth and empty shell", () => {
 
     await expectPath("/login");
     expectStoredSessionCleared();
+  });
+
+  it("rechecks an expired session when opening another protected route", async () => {
+    let sessionRequests = 0;
+    const now = vi.spyOn(Date, "now");
+    now.mockReturnValue(1_000);
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        sessionRequests += 1;
+        return sessionRequests === 1
+          ? { status: 200, body: session }
+          : {
+              status: 401,
+              body: { code: "UNAUTHORIZED", message: "Сессия истекла" },
+            };
+      }
+      return successfulApi(request);
+    });
+    storeTestSession(session);
+
+    try {
+      renderAppAt("/dashboard");
+      const libraryLink = await screen.findByRole("link", {
+        name: "Библиотека",
+      });
+      now.mockReturnValue(32_000);
+      await userEvent.click(libraryLink);
+
+      await expectPath("/login");
+      expectStoredSessionCleared();
+      expect(sessionRequests).toBe(2);
+    } finally {
+      now.mockRestore();
+    }
   });
 
   it.each([
@@ -306,6 +340,59 @@ describe("App auth and empty shell", () => {
       await screen.findByRole("heading", { level: 1, name: "Каталог шлок" }),
     ).toBeVisible();
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+  });
+
+  it("uses the server role when a saved admin role is stale", async () => {
+    mockApi(successfulApi);
+    storeTestSession({
+      ...session,
+      account: { ...session.account, roles: ["admin"] },
+    });
+
+    renderAppAt("/admin");
+
+    await expectPath("/dashboard");
+    expect(await screen.findByRole("navigation", {
+      name: "Основная навигация",
+    })).toBeInTheDocument();
+  });
+
+  it("uses a newly verified admin role on a direct admin visit", async () => {
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        return { status: 200, body: adminSession };
+      }
+      return successfulApi(request);
+    });
+    storeTestSession({
+      ...adminSession,
+      account: { ...adminSession.account, roles: [] },
+    });
+
+    renderAppAt("/admin");
+
+    expect(await screen.findByRole("link", { name: /Каталог шлок/ })).toBeVisible();
+  });
+
+  it("checks the server again before entering admin after a role is revoked", async () => {
+    let sessionRequests = 0;
+    mockApi((request) => {
+      if (request.method === "GET" && request.path === "/api/auth/session") {
+        sessionRequests += 1;
+        return {
+          status: 200,
+          body: sessionRequests === 1 ? adminSession : session,
+        };
+      }
+      return successfulApi(request);
+    });
+    storeTestSession(adminSession);
+
+    renderAppAt("/settings");
+    await userEvent.click(await screen.findByRole("link", { name: "Админка" }));
+
+    await expectPath("/dashboard");
+    expect(sessionRequests).toBeGreaterThanOrEqual(2);
   });
 });
 

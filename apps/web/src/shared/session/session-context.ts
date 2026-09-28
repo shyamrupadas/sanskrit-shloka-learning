@@ -12,6 +12,7 @@ export interface SessionContextValue {
   hasSession: boolean;
   logout: () => Promise<void>;
   setSession: (session: ApiTypes.AuthSessionDto) => void;
+  verifySession: (force?: boolean) => Promise<ApiTypes.AccountDto | null>;
 }
 
 export const SessionContext = createContext<SessionContextValue | null>(null);

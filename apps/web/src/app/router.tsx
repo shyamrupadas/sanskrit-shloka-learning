@@ -7,6 +7,9 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
+import { flushSync } from "react-dom";
+
+import { isUnauthorizedError } from "@/shared/api/errors";
 
 import {
   loadAdminShlokaEditRoute,
@@ -68,14 +71,11 @@ const registerRoute = createRoute({
 });
 
 const authenticatedRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAuthentication(context.session);
+  beforeLoad: async ({ context }) => {
+    await requireAuthentication(context.session);
   },
   getParentRoute: () => rootRoute,
   id: "authenticated",
-}).lazy(async () => {
-  const { AuthenticatedLayout } = await import("@/app/layouts/protected-layouts");
-  return createLazyRoute("/authenticated")({ component: AuthenticatedLayout });
 });
 
 const dashboardRoute = createRoute({
@@ -150,13 +150,11 @@ const settingsRoute = createRoute({
 });
 
 const adminLayoutRoute = createRoute({
-  beforeLoad: ({ context }) => {
-    requireAdmin(context.session);
-  },
+  beforeLoad: ({ context }) => requireAdmin(context.session),
   getParentRoute: () => rootRoute,
   id: "admin-layout",
 }).lazy(async () => {
-  const { AdminLayout } = await import("@/app/layouts/protected-layouts");
+  const { AdminLayout } = await import("@/app/layouts/admin-layout");
   return createLazyRoute("/admin-layout")({ component: AdminLayout });
 });
 
@@ -268,16 +266,31 @@ export function createAppRouter() {
   });
 }
 
-function requireAuthentication(session: SessionContextValue): void {
+async function requireAuthentication(
+  session: SessionContextValue,
+  forceVerification = false,
+): Promise<ApiTypes.AccountDto> {
   if (!session.hasSession) {
     throw redirect({ to: routePaths.login });
   }
+
+  try {
+    const account = await session.verifySession(forceVerification);
+    if (account) return account;
+    throw redirect({ to: routePaths.login });
+  } catch (error) {
+    if (isUnauthorizedError(error)) {
+      flushSync(() => session.clearSession());
+      throw redirect({ to: routePaths.login });
+    }
+    throw error;
+  }
 }
 
-function requireAdmin(session: SessionContextValue): void {
-  requireAuthentication(session);
+async function requireAdmin(session: SessionContextValue): Promise<void> {
+  const account = await requireAuthentication(session, true);
 
-  if (!session.account?.roles.includes("admin")) {
+  if (!account.roles.includes("admin")) {
     throw redirect({ to: routePaths.dashboard });
   }
 }

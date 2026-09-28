@@ -291,6 +291,14 @@ async function mockLearningApi(
     const method = request.method();
     requests.push({ method, pathname: url.pathname });
 
+    if (method === "GET" && url.pathname === "/api/auth/session") {
+      await fulfillJson(route, 200, {
+        accessToken: "access-token-1",
+        account: { email: "learner@example.com", id: "account-1", roles: [] },
+      } satisfies ApiTypes.AuthSessionDto);
+      return;
+    }
+
     if (method === "GET" && url.pathname === "/api/learning/tips") {
       await fulfillJson(route, 200, { items: [{ id: "a", title: "Первый совет", text: "Первый текст" }, { id: "b", title: "Второй совет", text: "Второй текст" }] });
       return;

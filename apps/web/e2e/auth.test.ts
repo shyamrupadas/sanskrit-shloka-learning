@@ -151,6 +151,47 @@ test("scrolls a long library inside the screen while keeping navigation visible"
   ).toBeLessThanOrEqual(1);
 });
 
+test("scrolls a long shloka without a document scroll or empty navigation space", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 480 });
+  const session = await mockApi(page, {
+    libraryItem: {
+      ...mobileShloka,
+      text: Array.from(
+        { length: 30 },
+        (_, index) => `Строка шлоки ${index + 1}`,
+      ).join("\n"),
+    },
+  });
+  await page.addInitScript((savedSession) => {
+    localStorage.setItem(
+      "sanskrit-shloka-learning.access-token",
+      savedSession.accessToken,
+    );
+    localStorage.setItem(
+      "sanskrit-shloka-learning.account",
+      JSON.stringify(savedSession.account),
+    );
+  }, session);
+
+  await page.goto(`/library/shlokas/${mobileShloka.code}`);
+  const translation = page.getByRole("region", { name: "Перевод" });
+  await expect(translation).toBeAttached();
+  await expect(
+    page.getByRole("navigation", { name: "Основная навигация" }),
+  ).toHaveCount(0);
+  await expect(page.getByRole("main")).toBeVisible();
+  await translation.scrollIntoViewIfNeeded();
+  await expect(translation).toBeInViewport();
+  expect(
+    await page.evaluate(() =>
+      document.scrollingElement!.scrollHeight -
+      document.scrollingElement!.clientHeight,
+    ),
+  ).toBeLessThanOrEqual(1);
+});
+
 for (const viewport of [
   { height: 844, width: 390 },
   { height: 800, width: 360 },

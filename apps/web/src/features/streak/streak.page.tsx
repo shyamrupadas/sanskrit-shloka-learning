@@ -6,6 +6,7 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
   PageHeader,
+  ScreenLayout,
   StatusCard,
   StreakCounter,
   StreakIcon,
@@ -40,16 +41,20 @@ export function StreakPage() {
   useUnauthorizedRedirect(streakQuery.error);
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col">
-      <PageHeader
-        backAction={{
-          label: strings.streak.backToDashboard,
-          onClick: () => {
-            void navigate({ to: routePaths.dashboard });
-          },
-        }}
-        title={strings.streak.title}
-      />
+    <ScreenLayout
+      contentClassName="flex flex-col px-4 pb-4"
+      header={
+        <PageHeader
+          backAction={{
+            label: strings.streak.backToDashboard,
+            onClick: () => {
+              void navigate({ to: routePaths.dashboard });
+            },
+          }}
+          title={strings.streak.title}
+        />
+      }
+    >
       {streakQuery.isPending ? (
         <div className="pt-5">
           <StatusCard title={strings.common.loading} />
@@ -67,7 +72,7 @@ export function StreakPage() {
       ) : (
         <StreakContent streak={streakQuery.data} />
       )}
-    </section>
+    </ScreenLayout>
   );
 }
 
