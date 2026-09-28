@@ -13,6 +13,7 @@ export type BottomNavigationSection =
 
 export type BottomNavigationProps = {
   activeSection?: BottomNavigationSection | undefined;
+  fixed?: boolean;
 };
 
 type NavigationItem = {
@@ -64,11 +65,17 @@ const navigationItems = [
 
 export function BottomNavigation({
   activeSection,
+  fixed = true,
 }: BottomNavigationProps) {
   return (
     <nav
       aria-label={strings.nav.primaryLabel}
-      className="fixed inset-x-0 bottom-0 z-20 mx-auto h-[calc(var(--component-bottom-nav-height)+env(safe-area-inset-bottom))] w-full max-w-3xl rounded-[var(--component-bottom-nav-radius)] bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] outline-1 -outline-offset-1 [outline-color:var(--component-bottom-nav-border)]"
+      className={cn(
+        "mx-auto w-full max-w-3xl rounded-[var(--component-bottom-nav-radius)] bg-[var(--component-bottom-nav-background)] shadow-[var(--component-bottom-nav-shadow)] outline-1 -outline-offset-1 [outline-color:var(--component-bottom-nav-border)]",
+        fixed
+          ? "fixed inset-x-0 bottom-0 z-20 h-[calc(var(--component-bottom-nav-height)+env(safe-area-inset-bottom))]"
+          : "h-[var(--component-bottom-nav-height)]",
+      )}
     >
       <ul className="grid h-[var(--component-bottom-nav-height)] list-none grid-cols-4 gap-[var(--component-bottom-nav-gap)] p-[var(--component-bottom-nav-padding)]">
         {navigationItems.map((item) => {

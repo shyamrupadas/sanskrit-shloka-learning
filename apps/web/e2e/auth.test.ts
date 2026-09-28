@@ -90,6 +90,67 @@ test("logs in and logs out", async ({ page }) => {
   ).toBeNull();
 });
 
+test("scrolls a long library inside the screen while keeping navigation visible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 480 });
+  const session = await mockApi(page, {
+    library: {
+      ...emptyLibrary,
+      allShlokas: Array.from({ length: 12 }, (_, index) => ({
+        ...mobileShloka,
+        code: `library-item-${index + 1}`,
+        displayTitle: `Шлока ${index + 1}`,
+        personalStatus: "reviewing" as const,
+      })),
+    },
+  });
+  await page.addInitScript((savedSession) => {
+    localStorage.setItem(
+      "sanskrit-shloka-learning.access-token",
+      savedSession.accessToken,
+    );
+    localStorage.setItem(
+      "sanskrit-shloka-learning.account",
+      JSON.stringify(savedSession.account),
+    );
+  }, session);
+
+  await page.goto("/library");
+  const navigation = page.getByRole("navigation", {
+    name: "Основная навигация",
+  });
+  const lastCard = page.getByRole("article", { name: "Шлока 12" });
+  await expect(lastCard).toBeAttached();
+  await expect(navigation).toBeVisible();
+  const navigationBefore = await navigation.boundingBox();
+  expect(
+    await lastCard.evaluate((card) => {
+      for (let ancestor = card.parentElement; ancestor; ancestor = ancestor.parentElement) {
+        if (
+          getComputedStyle(ancestor).overflowY === "auto" &&
+          ancestor.scrollHeight > ancestor.clientHeight
+        ) {
+          return true;
+        }
+      }
+      return false;
+    }),
+  ).toBe(true);
+
+  await lastCard.scrollIntoViewIfNeeded();
+  await expect(lastCard).toBeInViewport();
+  const navigationAfter = await navigation.boundingBox();
+  expect(navigationAfter?.y).toBe(navigationBefore?.y);
+  expect((await lastCard.boundingBox())!.y + (await lastCard.boundingBox())!.height)
+    .toBeLessThanOrEqual(navigationAfter!.y);
+  expect(
+    await page.evaluate(() =>
+      document.scrollingElement!.scrollHeight - document.scrollingElement!.clientHeight,
+    ),
+  ).toBeLessThanOrEqual(1);
+});
+
 for (const viewport of [
   { height: 844, width: 390 },
   { height: 800, width: 360 },
@@ -400,8 +461,8 @@ async function expectActiveNavigationLink(
   expectedLink: Locator,
 ): Promise<void> {
   await expect(expectedLink).toHaveAttribute("aria-current", "page");
-  expect(
-    await navigation.getByRole("link").evaluateAll(
+  await expect.poll(async () =>
+    navigation.getByRole("link").evaluateAll(
       (links) =>
         links.filter((link) => link.getAttribute("aria-current") === "page")
           .length,

@@ -15,6 +15,7 @@ export function AuthenticatedLayout() {
   const shouldHideBottomNavigation = isBottomNavigationHiddenPath(
     location.pathname,
   );
+  const hasPageNavigation = isBottomNavigationSectionPath(location.pathname);
 
   return (
     <ProtectedLayout>
@@ -22,6 +23,8 @@ export function AuthenticatedLayout() {
         className={
           isShlokaPractice
             ? "mx-auto flex h-dvh min-h-0 w-full max-w-3xl flex-col overflow-hidden"
+            : hasPageNavigation
+            ? "mx-auto h-dvh min-h-0 w-full max-w-3xl overflow-hidden"
             : shouldHideBottomNavigation
             ? "mx-auto flex min-h-dvh w-full max-w-3xl flex-col px-4 py-5"
             : "mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pt-5 pb-[calc(var(--component-bottom-nav-height)+var(--space-8)+env(safe-area-inset-bottom))] sm:px-6"
@@ -29,12 +32,21 @@ export function AuthenticatedLayout() {
       >
         <Outlet />
       </main>
-      {shouldHideBottomNavigation ? null : (
+      {shouldHideBottomNavigation || hasPageNavigation ? null : (
         <BottomNavigation
           activeSection={getActiveNavigationSection(location.pathname)}
         />
       )}
     </ProtectedLayout>
+  );
+}
+
+function isBottomNavigationSectionPath(pathname: string): boolean {
+  return (
+    pathname === routePaths.dashboard ||
+    pathname === routePaths.library ||
+    pathname === routePaths.learning ||
+    pathname === routePaths.settings
   );
 }
 

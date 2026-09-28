@@ -6,6 +6,8 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
+  BottomNavigation,
+  ScreenLayout,
   SettingsRow,
   Typography,
 } from "@/shared/design-system/components";
@@ -52,93 +54,98 @@ export function SettingsPage() {
   }
 
   return (
-    <section className="min-w-0 space-y-4">
-      <Typography variant="h1">{strings.settings.title}</Typography>
+    <ScreenLayout
+      contentClassName="px-4 pt-5 pb-8 sm:px-6"
+      footer={<BottomNavigation activeSection="settings" fixed={false} />}
+    >
+      <section className="min-w-0 space-y-4">
+        <Typography variant="h1">{strings.settings.title}</Typography>
 
-      {settingsQuery.isPending ? (
-        <StatusCard title={strings.common.loading} />
-      ) : settingsQuery.error ? (
-        <StatusCard
-          description={getApiErrorMessage(
-            settingsQuery.error,
-            strings.settings.loadError,
-          )}
-          title={strings.common.error}
-        />
-      ) : (
-        <SettingsRow
-          action={
-            <div className="flex h-7 w-12 items-center justify-center">
-              <Switch
-                aria-labelledby="hard-mode-title"
-                checked={hardMode}
-                className="scale-150"
-                disabled={settingsMutation.isPending}
-                onCheckedChange={(checked) =>
-                  settingsMutation.mutate({ hardMode: checked })
-                }
-              />
-            </div>
-          }
-          feedback={
-            settingsMutation.isSuccess || settingsMutation.error ? (
-              <>
-                {settingsMutation.isSuccess ? (
-                  <Typography role="status" tone="muted" variant="p2">
-                    {strings.settings.saved}
-                  </Typography>
-                ) : null}
-                {settingsMutation.error ? (
-                  <Typography role="alert" tone="danger" variant="p2">
-                    {getApiErrorMessage(
-                      settingsMutation.error,
-                      strings.settings.saveError,
-                    )}
-                  </Typography>
-                ) : null}
-              </>
-            ) : null
-          }
-          title={strings.settings.hardMode}
-          titleId="hard-mode-title"
-        />
-      )}
+        {settingsQuery.isPending ? (
+          <StatusCard title={strings.common.loading} />
+        ) : settingsQuery.error ? (
+          <StatusCard
+            description={getApiErrorMessage(
+              settingsQuery.error,
+              strings.settings.loadError,
+            )}
+            title={strings.common.error}
+          />
+        ) : (
+          <SettingsRow
+            action={
+              <div className="flex h-7 w-12 items-center justify-center">
+                <Switch
+                  aria-labelledby="hard-mode-title"
+                  checked={hardMode}
+                  className="scale-150"
+                  disabled={settingsMutation.isPending}
+                  onCheckedChange={(checked) =>
+                    settingsMutation.mutate({ hardMode: checked })
+                  }
+                />
+              </div>
+            }
+            feedback={
+              settingsMutation.isSuccess || settingsMutation.error ? (
+                <>
+                  {settingsMutation.isSuccess ? (
+                    <Typography role="status" tone="muted" variant="p2">
+                      {strings.settings.saved}
+                    </Typography>
+                  ) : null}
+                  {settingsMutation.error ? (
+                    <Typography role="alert" tone="danger" variant="p2">
+                      {getApiErrorMessage(
+                        settingsMutation.error,
+                        strings.settings.saveError,
+                      )}
+                    </Typography>
+                  ) : null}
+                </>
+              ) : null
+            }
+            title={strings.settings.hardMode}
+            titleId="hard-mode-title"
+          />
+        )}
 
-      {auth.account?.roles.includes("admin") ? (
+        {auth.account?.roles.includes("admin") ? (
+          <SettingsRow
+            action={
+              <Button
+                asChild
+                className="h-[var(--button-height)] px-4 text-[length:var(--button-font-size)]"
+                variant="outline"
+              >
+                <Link to={routePaths.admin}>
+                  <Shield />
+                  {strings.settings.adminAction}
+                </Link>
+              </Button>
+            }
+            title={strings.settings.adminTitle}
+          />
+        ) : null}
+
         <SettingsRow
           action={
             <Button
-              asChild
               className="h-[var(--button-height)] px-4 text-[length:var(--button-font-size)]"
-              variant="outline"
+              disabled={isLoggingOut}
+              onClick={handleLogout}
+              type="button"
+              variant="destructive"
             >
-              <Link to={routePaths.admin}>
-                <Shield />
-                {strings.settings.adminAction}
-              </Link>
+              <LogOut />
+              {strings.auth.logout}
             </Button>
           }
-          title={strings.settings.adminTitle}
+          description={auth.account?.email}
+          title={strings.settings.accountTitle}
         />
-      ) : null}
-
-      <SettingsRow
-        action={
-          <Button
-            className="h-[var(--button-height)] px-4 text-[length:var(--button-font-size)]"
-            disabled={isLoggingOut}
-            onClick={handleLogout}
-            type="button"
-            variant="destructive"
-          >
-            <LogOut />
-            {strings.auth.logout}
-          </Button>
-        }
-        description={auth.account?.email}
-        title={strings.settings.accountTitle}
-      />
-    </section>
+      </section>
+    </ScreenLayout>
   );
 }
 

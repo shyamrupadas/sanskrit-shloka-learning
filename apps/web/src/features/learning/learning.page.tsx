@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import {
+  BottomNavigation,
   EmptyState,
+  ScreenLayout,
   TipAccordionItem,
   Typography,
 } from "@/shared/design-system/components";
@@ -29,48 +31,53 @@ export function LearningPage() {
   }, [apiClient, request]);
 
   return (
-    <section className="mx-auto w-full min-w-0 max-w-[688px] space-y-4">
-      <Typography variant="h1">{strings.learning.title}</Typography>
-      {failed ? (
-        <EmptyState
-          action={
-            <button
-              onClick={() => {
-                setFailed(false);
-                setRequest((value) => value + 1);
-              }}
-              type="button"
-            >
-              {strings.learning.retry}
-            </button>
-          }
-          actionFullWidth
-          description={strings.learning.errorDescription}
-          showIcon={false}
-          title={strings.learning.errorTitle}
-        />
-      ) : items === undefined ? (
-        <Typography role="status" tone="muted" variant="p2">
-          {strings.learning.loading}
-        </Typography>
-      ) : items.length === 0 ? (
-        <EmptyState
-          description={strings.learning.emptyDescription}
-          showIcon={false}
-          title={strings.learning.empty}
-        />
-      ) : (
-        <div className="space-y-4">
-          {items.map((tip, index) => (
-            <TipAccordionItem
-              defaultExpanded={index === items.length - 1}
-              key={tip.id}
-              text={tip.text}
-              title={tip.title}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+    <ScreenLayout
+      contentClassName="px-4 pt-5 pb-8 sm:px-6"
+      footer={<BottomNavigation activeSection="learning" fixed={false} />}
+    >
+      <section className="mx-auto w-full min-w-0 max-w-[688px] space-y-4">
+        <Typography variant="h1">{strings.learning.title}</Typography>
+        {failed ? (
+          <EmptyState
+            action={
+              <button
+                onClick={() => {
+                  setFailed(false);
+                  setRequest((value) => value + 1);
+                }}
+                type="button"
+              >
+                {strings.learning.retry}
+              </button>
+            }
+            actionFullWidth
+            description={strings.learning.errorDescription}
+            showIcon={false}
+            title={strings.learning.errorTitle}
+          />
+        ) : items === undefined ? (
+          <Typography role="status" tone="muted" variant="p2">
+            {strings.learning.loading}
+          </Typography>
+        ) : items.length === 0 ? (
+          <EmptyState
+            description={strings.learning.emptyDescription}
+            showIcon={false}
+            title={strings.learning.empty}
+          />
+        ) : (
+          <div className="space-y-4">
+            {items.map((tip, index) => (
+              <TipAccordionItem
+                defaultExpanded={index === items.length - 1}
+                key={tip.id}
+                text={tip.text}
+                title={tip.title}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </ScreenLayout>
   );
 }

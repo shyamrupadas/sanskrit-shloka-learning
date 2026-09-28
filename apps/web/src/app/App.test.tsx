@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 import { describe, expect, it } from "vitest";
@@ -161,7 +161,7 @@ describe("App auth and empty shell", () => {
     expect(learningLink).toHaveAttribute("href", "/learning");
     expect(settingsLink).toHaveAttribute("href", "/settings");
     expect(within(navigation).getAllByRole("link")).toHaveLength(4);
-    expectActiveNavigationLink(navigation, dashboardLink);
+    await expectActiveNavigationLink(dashboardLink);
 
     await user.click(learningLink);
     await expectPath("/learning");
@@ -171,8 +171,7 @@ describe("App auth and empty shell", () => {
     const currentLibraryLink = within(learningNavigation).getByRole("link", {
       name: "Библиотека",
     });
-    expectActiveNavigationLink(
-      learningNavigation,
+    await expectActiveNavigationLink(
       within(learningNavigation).getByRole("link", { name: "Обучение" }),
     );
     expect(
@@ -185,8 +184,7 @@ describe("App auth and empty shell", () => {
     const libraryNavigation = screen.getByRole("navigation", {
       name: "Основная навигация",
     });
-    expectActiveNavigationLink(
-      libraryNavigation,
+    await expectActiveNavigationLink(
       within(libraryNavigation).getByRole("link", { name: "Библиотека" }),
     );
 
@@ -198,8 +196,7 @@ describe("App auth and empty shell", () => {
     const settingsNavigation = screen.getByRole("navigation", {
       name: "Основная навигация",
     });
-    expectActiveNavigationLink(
-      settingsNavigation,
+    await expectActiveNavigationLink(
       within(settingsNavigation).getByRole("link", { name: "Еще" }),
     );
 
@@ -210,8 +207,7 @@ describe("App auth and empty shell", () => {
     const dashboardNavigation = await screen.findByRole("navigation", {
       name: "Основная навигация",
     });
-    expectActiveNavigationLink(
-      dashboardNavigation,
+    await expectActiveNavigationLink(
       within(dashboardNavigation).getByRole("link", { name: "Главная" }),
     );
   });
@@ -318,15 +314,24 @@ function renderAppAt(path: string) {
   return render(<App />);
 }
 
-function expectActiveNavigationLink(
-  navigation: HTMLElement,
+async function expectActiveNavigationLink(
   expectedLink: HTMLElement,
 ) {
-  const activeLinks = within(navigation)
-    .getAllByRole("link")
-    .filter((link) => link.getAttribute("aria-current") === "page");
+  await waitFor(() => {
+    const currentNavigation = screen.getByRole("navigation", {
+      name: "Основная навигация",
+    });
+    expect(
+      screen.getAllByRole("navigation", { name: "Основная навигация" }),
+    ).toHaveLength(1);
+    expect(currentNavigation.closest("footer")).not.toBeNull();
+    const activeLinks = within(currentNavigation)
+      .getAllByRole("link")
+      .filter((link) => link.getAttribute("aria-current") === "page");
 
-  expect(activeLinks).toEqual([expectedLink]);
+    expect(activeLinks).toHaveLength(1);
+    expect(activeLinks[0]).toHaveAttribute("href", expectedLink.getAttribute("href"));
+  });
 }
 
 function successfulApi({ method, path }: MockApiRequest): MockApiResponse {

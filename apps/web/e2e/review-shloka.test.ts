@@ -85,8 +85,18 @@ test("keeps review header and actions fixed while long content scrolls through c
   await expect(canonicalText).toContainText("Строка шлоки 36");
   await canonicalText.evaluate((element) => element.scrollIntoView({ block: "end" }));
   await expect.poll(async () => (await canonicalText.boundingBox())?.y ?? 0).toBeLessThan(0);
-  expect((await canonicalText.boundingBox())!.y + (await canonicalText.boundingBox())!.height)
-    .toBeLessThanOrEqual((await footer.boundingBox())!.y + 1);
+  const visibleTextBottom = await canonicalText.evaluate((element) => {
+    let scrollArea = element.parentElement;
+    while (scrollArea && getComputedStyle(scrollArea).overflowY !== "auto") {
+      scrollArea = scrollArea.parentElement;
+    }
+    if (!scrollArea) throw new Error("Review content has no scroll area");
+    return Math.min(
+      element.getBoundingClientRect().bottom,
+      scrollArea.getBoundingClientRect().bottom,
+    );
+  });
+  expect(visibleTextBottom).toBeLessThanOrEqual((await footer.boundingBox())!.y + 1);
   await page.getByRole("region", { name: "Перевод" }).scrollIntoViewIfNeeded();
   await expect(page.getByRole("region", { name: "Перевод" })).toBeInViewport({ ratio: 0.01 });
   await expect.poll(async () => page.evaluate(() =>
