@@ -295,10 +295,15 @@ export const designTokens = {
           '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
         cssVariable: "--font-family-data-token",
       }),
-      sanskrit: fromPencil("Noto Serif", "font-sanskrit", {
-        cssValue: '"Noto Serif", ui-serif, Georgia, serif',
-        cssVariable: "--font-family-sanskrit-token",
-      }),
+      sanskrit: fromSource(
+        "Roboto",
+        "font-sanskrit",
+        "AOSP Roboto Regular, Medium and Bold static faces",
+        {
+          cssValue: '"Roboto", ui-sans-serif, system-ui, sans-serif',
+          cssVariable: "--font-family-sanskrit-token",
+        },
+      ),
       transliteration: fromPencil("Inter", "font-transliteration"),
       ui: fromPencil("Inter", "font-ui", {
         cssValue:

@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
-@import "@fontsource/noto-serif/500.css";
 
 @font-face {
   font-family: "Material Symbols Rounded";
@@ -13,24 +12,24 @@
 }
 
 @font-face {
-  font-family: "Noto Serif";
-  src: url("../assets/fonts/noto-serif-regular.woff2") format("woff2");
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-regular.ttf") format("truetype");
   font-display: swap;
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "Noto Serif";
-  src: url("../assets/fonts/noto-serif-medium.woff2") format("woff2");
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-medium.ttf") format("truetype");
   font-display: swap;
   font-style: normal;
   font-weight: 500;
 }
 
 @font-face {
-  font-family: "Noto Serif";
-  src: url("../assets/fonts/noto-serif-bold.woff2") format("woff2");
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-bold.ttf") format("truetype");
   font-display: swap;
   font-style: normal;
   font-weight: 700;
@@ -162,7 +161,7 @@ body {
   --disabled-background: #E2E8F0;
   --disabled-foreground: #94A3B8;
   --font-family-data-token: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-family-sanskrit-token: "Noto Serif", ui-serif, Georgia, serif;
+  --font-family-sanskrit-token: "Roboto", ui-sans-serif, system-ui, sans-serif;
   --font-family-sans-token: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --foreground: #334155;
   --input: #D6DEE9;

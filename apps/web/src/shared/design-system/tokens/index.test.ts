@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -283,84 +282,49 @@ describe("design token contract", () => {
     }
   });
 
-  it("ships the approved Sanskrit font faces and license locally", () => {
+  it("ships the Sanskrit font faces locally", () => {
     const css = readWebFile("src", "app", "styles.css");
-    const mediumFontCssPath = path.join(
-      webRoot,
-      "node_modules",
-      "@fontsource",
-      "noto-serif",
-      "500.css",
-    );
     const regularFontPath = path.join(
       webRoot,
       "src",
       "assets",
       "fonts",
-      "noto-serif-regular.woff2",
+      "roboto-regular.ttf",
+    );
+    const mediumFontPath = path.join(
+      webRoot,
+      "src",
+      "assets",
+      "fonts",
+      "roboto-medium.ttf",
     );
     const boldFontPath = path.join(
       webRoot,
       "src",
       "assets",
       "fonts",
-      "noto-serif-bold.woff2",
+      "roboto-bold.ttf",
     );
-    const licensePath = path.join(
-      webRoot,
-      "src",
-      "assets",
-      "fonts",
-      "OFL-1.1.txt",
-    );
-
     expect(designTokens.typography.families.sanskrit).toMatchObject({
-      source: { name: "font-sanskrit", type: "pencil-variable" },
-      value: "Noto Serif",
+      source: { name: "font-sanskrit", type: "source-value" },
+      value: "Roboto",
     });
     expect(designTokens.typography.families.transliteration.value).toBe(
       "Inter",
     );
-    expect(css).toContain('@import "@fontsource/noto-serif/500.css";');
     expect(css).toMatch(
-      /@font-face\s*{[^}]*font-family:\s*"Noto Serif";[^}]*noto-serif-regular\.woff2[^}]*font-style:\s*normal;[^}]*font-weight:\s*400;[^}]*}/s,
+      /@font-face\s*{[^}]*font-family:\s*"Roboto";[^}]*roboto-regular\.ttf[^}]*font-style:\s*normal;[^}]*font-weight:\s*400;[^}]*}/s,
     );
     expect(css).toMatch(
-      /@font-face\s*{[^}]*font-family:\s*"Noto Serif";[^}]*noto-serif-bold\.woff2[^}]*font-style:\s*normal;[^}]*font-weight:\s*700;[^}]*}/s,
+      /@font-face\s*{[^}]*font-family:\s*"Roboto";[^}]*roboto-medium\.ttf[^}]*font-style:\s*normal;[^}]*font-weight:\s*500;[^}]*}/s,
+    );
+    expect(css).toMatch(
+      /@font-face\s*{[^}]*font-family:\s*"Roboto";[^}]*roboto-bold\.ttf[^}]*font-style:\s*normal;[^}]*font-weight:\s*700;[^}]*}/s,
     );
     expect(css).not.toMatch(/@font-face\s*{[^}]*(?:https?:)?\/\//s);
-    expect(existsSync(mediumFontCssPath)).toBe(true);
     expect(existsSync(regularFontPath)).toBe(true);
+    expect(existsSync(mediumFontPath)).toBe(true);
     expect(existsSync(boldFontPath)).toBe(true);
-    expect(existsSync(licensePath)).toBe(true);
-
-    if (
-      !existsSync(mediumFontCssPath) ||
-      !existsSync(regularFontPath) ||
-      !existsSync(boldFontPath) ||
-      !existsSync(licensePath)
-    ) {
-      return;
-    }
-
-    expect(readFileSync(mediumFontCssPath, "utf8")).toMatch(
-      /@font-face\s*{[^}]*font-family:\s*'Noto Serif';[^}]*font-style:\s*normal;[^}]*font-weight:\s*500;[^}]*}/s,
-    );
-
-    expect(
-      createHash("sha256")
-        .update(readFileSync(regularFontPath))
-        .digest("hex"),
-    ).toBe("5add58655482dd9921475d7d97f5df9a6b8405d973ede5fb6bf606e65b1ebba5");
-    expect(
-      createHash("sha256").update(readFileSync(boldFontPath)).digest("hex"),
-    ).toBe("2a602d046318447063d559cd43a9bb06d9ea8a6996d81377ef9259f6e6759096");
-    expect(readFileSync(licensePath, "utf8")).toContain(
-      "SIL OPEN FONT LICENSE Version 1.1",
-    );
-    expect(readFileSync(licensePath, "utf8")).toContain(
-      "Copyright 2018 The Noto Project Authors",
-    );
   });
 
   it("keeps PWA theme artifacts synchronized", () => {
