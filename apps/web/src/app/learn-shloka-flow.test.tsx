@@ -171,6 +171,33 @@ describe("app learn shloka flow", () => {
     ).toBe(false);
   });
 
+  it.each(["Перевод из каталога.\nВторой абзац.", undefined])(
+    "shows only the supplied translation and places the helper after completion (%s)",
+    async (fullTranslation) => {
+      mockApi((request) => {
+        if (request.method === "GET" && request.path === learningItemPath) {
+          return {
+            status: 200,
+            body: { ...learningShlokaDetails, fullTranslation },
+          };
+        }
+        return learningApi(request);
+      });
+      storeTestSession(session);
+      renderAppAt("/library/shlokas/gita-1-1/learn");
+
+      const complete = await screen.findByRole("button", { name: "Выучил" });
+      const helper = screen.getByRole("button", { name: "Помощник" });
+      expect(complete.compareDocumentPosition(helper) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      if (fullTranslation) {
+        const translation = screen.getByRole("region", { name: "Перевод" });
+        expect(within(translation).getByText(fullTranslation, { collapseWhitespace: false }).textContent).toBe(fullTranslation);
+      } else {
+        expect(screen.queryByRole("region", { name: "Перевод" })).not.toBeInTheDocument();
+      }
+    },
+  );
+
   it("walks all seven helper fragments through read, recall, and check before returning to the same attempt", async () => {
     const user = userEvent.setup();
     const requests: MockApiRequest[] = [];

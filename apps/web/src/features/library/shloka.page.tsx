@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
   SanskritTypography,
+  ScreenLayout,
   ShlokaTranslation,
   StatusCard,
 } from "@/shared/design-system/components";
@@ -22,7 +23,7 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
   useUnauthorizedRedirect(shlokaQuery.error);
 
   return (
-    <section className="min-w-0 space-y-4">
+    <ScreenLayout contentClassName="space-y-4 px-4 py-5">
       <Link
         activeOptions={{ exact: true }}
         className="inline-flex w-fit items-center gap-2 rounded-md text-sm font-bold text-primary outline-none hover:text-[color:var(--primary-hover)] focus-visible:ring-3 focus-visible:ring-ring/50"
@@ -63,6 +64,6 @@ export function ShlokaPage({ shlokaCode }: { shlokaCode: string }) {
           <ShlokaTranslation text={shlokaQuery.data.fullTranslation} />
         </article>
       )}
-    </section>
+    </ScreenLayout>
   );
 }

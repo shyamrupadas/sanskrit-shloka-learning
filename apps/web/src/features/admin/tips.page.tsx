@@ -21,7 +21,7 @@ export function AdminTipsPage() {
   const queryClient = useQueryClient();
   const queryKey = ["admin", "tips", accessToken];
   const [deleting, setDeleting] = useState<ApiTypes.LearningTipDto>();
-  const { published } = useSearch({ from: "/admin-layout/admin/learning" });
+  const { published } = useSearch({ from: "/authenticated/admin-group/admin/learning" });
   const query = useQuery({
     queryKey,
     queryFn: () => apiClient.getTips(),

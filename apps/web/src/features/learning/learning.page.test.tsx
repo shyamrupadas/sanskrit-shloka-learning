@@ -1,4 +1,5 @@
 import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
+import { Outlet, RouterProvider, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
@@ -23,7 +24,7 @@ describe("learning page", () => {
       throw new Error(`Unexpected ${method} ${path}`);
     });
     storeTestSession();
-    const view = renderWithTestProviders(<LearningPage />);
+    const view = renderLearning();
     const first = await screen.findByRole("button", { name: tips[0]!.title });
     expect(screen.getAllByRole("button").map((button) => button.textContent)).toEqual(tips.map((tip) => tip.title));
     expect(first).toHaveAttribute("aria-expanded", "false");
@@ -37,7 +38,7 @@ describe("learning page", () => {
     expect(first).toHaveAttribute("aria-expanded", "false");
     expect(calls).toBe(1);
     view.unmount();
-    renderWithTestProviders(<LearningPage />);
+    renderLearning();
     expect(await screen.findByRole("button", { name: "Новый материал" })).toBeInTheDocument();
     expect(calls).toBe(2);
   });
@@ -56,7 +57,7 @@ describe("learning page", () => {
       throw new Error(`Unexpected ${method} ${path}`);
     });
     storeTestSession();
-    renderWithTestProviders(<LearningPage />);
+    renderLearning();
     expect(await screen.findByText("Загружаем советы…")).toBeInTheDocument();
     resolve({ status: 503, body: { message: "Unavailable" } });
     expect(await screen.findByText("Не удалось загрузить советы")).toBeInTheDocument();
@@ -65,3 +66,16 @@ describe("learning page", () => {
     expect(screen.queryByRole("button", { name: "Повторить" })).not.toBeInTheDocument();
   });
 });
+
+function renderLearning() {
+  window.history.pushState({}, "", "/learning");
+  const rootRoute = createRootRoute({ component: Outlet });
+  const learningRoute = createRoute({
+    component: LearningPage,
+    getParentRoute: () => rootRoute,
+    path: "/learning",
+  });
+  const router = createRouter({ routeTree: rootRoute.addChildren([learningRoute]) });
+
+  return renderWithTestProviders(<RouterProvider router={router} />);
+}

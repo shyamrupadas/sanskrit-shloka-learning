@@ -295,10 +295,15 @@ export const designTokens = {
           '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
         cssVariable: "--font-family-data-token",
       }),
-      sanskrit: fromPencil("Noto Serif", "font-sanskrit", {
-        cssValue: '"Noto Serif", ui-serif, Georgia, serif',
-        cssVariable: "--font-family-sanskrit-token",
-      }),
+      sanskrit: fromSource(
+        "Roboto",
+        "font-sanskrit",
+        "AOSP Roboto Regular, Medium and Bold static faces",
+        {
+          cssValue: '"Roboto", ui-sans-serif, system-ui, sans-serif',
+          cssVariable: "--font-family-sanskrit-token",
+        },
+      ),
       transliteration: fromPencil("Inter", "font-transliteration"),
       ui: fromPencil("Inter", "font-ui", {
         cssValue:
@@ -673,25 +678,6 @@ export const designTokens = {
       ),
     },
     learningAttempt: {
-      canonicalTextLineHeight: fromSource(
-        1.55,
-        "component-learning-attempt-canonical-text-line-height",
-        "Canonical text line height measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
-        {
-          cssValue: "1.55",
-          cssVariable:
-            "--component-learning-attempt-canonical-text-line-height",
-        },
-      ),
-      canonicalTextSize: fromSource(
-        22,
-        "component-learning-attempt-canonical-text-size",
-        "Canonical text size measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
-        {
-          cssValue: px(22),
-          cssVariable: "--component-learning-attempt-canonical-text-size",
-        },
-      ),
       recoveryBannerPaddingY: fromSource(
         11,
         "component-learning-attempt-recovery-banner-padding-y",
@@ -724,19 +710,10 @@ export const designTokens = {
       titleLineHeight: fromSource(
         1.18,
         "component-learning-attempt-title-line-height",
-        "Title line height measured from Заучивание — шлока (QPXXW), Заучивание — ошибка загрузки (Z3V3cv), and Заучивание — status guard (oLEhU); Pencil has no named component variable for this value.",
+        "State title line height measured from Заучивание — завершение (IQcqK), Заучивание — ошибка загрузки (Z3V3cv), and Заучивание — status guard (oLEhU); Pencil has no named component variable for this value.",
         {
           cssValue: "1.18",
           cssVariable: "--component-learning-attempt-title-line-height",
-        },
-      ),
-      titleSize: fromSource(
-        28,
-        "component-learning-attempt-title-size",
-        "Shloka title size measured from Заучивание — шлока (QPXXW) and Заучивание — длинная шлока (UWOdl); Pencil has no named component variable for this value.",
-        {
-          cssValue: px(28),
-          cssVariable: "--component-learning-attempt-title-size",
         },
       ),
     },
@@ -828,6 +805,12 @@ export const designTokens = {
     tipAccordion: {
       border: fromPencil("#E2E8F0", "border", {
         cssVariable: "--component-tip-accordion-border",
+      }),
+    },
+    helpTooltip: {
+      iconSize: fromPencil(18, "component-icon-sm", {
+        cssValue: px(18),
+        cssVariable: "--component-help-tooltip-icon-size",
       }),
     },
     tabs: {

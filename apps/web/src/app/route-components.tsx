@@ -1,10 +1,10 @@
 import { createLazyRoute, getRouteApi } from "@tanstack/react-router";
 
 const adminSourceEditRouteApi = getRouteApi(
-  "/admin-layout/admin/sources/$sourceCode/edit",
+  "/authenticated/admin-group/admin/sources/$sourceCode/edit",
 );
 const adminShlokaEditRouteApi = getRouteApi(
-  "/admin-layout/admin/shlokas/$shlokaCode/edit",
+  "/authenticated/admin-group/admin/shlokas/$shlokaCode/edit",
 );
 const libraryRouteApi = getRouteApi("/authenticated/library");
 const shlokaRouteApi = getRouteApi(
@@ -22,7 +22,7 @@ export async function loadAdminSourceEditRoute() {
     "@/features/admin/source-editor.page",
   );
 
-  return createLazyRoute("/admin-layout/admin/sources/$sourceCode/edit")({
+  return createLazyRoute("/authenticated/admin-group/admin/sources/$sourceCode/edit")({
     component: AdminSourceEditRoute,
   });
 
@@ -103,7 +103,7 @@ export async function loadAdminShlokaEditRoute() {
     "@/features/admin/shloka-editor.page",
   );
 
-  return createLazyRoute("/admin-layout/admin/shlokas/$shlokaCode/edit")({
+  return createLazyRoute("/authenticated/admin-group/admin/shlokas/$shlokaCode/edit")({
     component: AdminShlokaEditRoute,
   });
 

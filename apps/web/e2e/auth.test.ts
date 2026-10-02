@@ -34,6 +34,54 @@ test("redirects protected routes to the login/register flow", async ({
   ).toBeVisible();
 });
 
+test("keeps both auth forms reachable within the screen on a short viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 360 });
+  await mockApi(page, { invalidLogin: true });
+
+  for (const [path, heading, footerLink] of [
+    ["/login", "Вход", "Зарегистрироваться"],
+    ["/register", "Регистрация", "Войти"],
+  ] as const) {
+    await page.goto(path);
+
+    const title = page.getByRole("heading", { name: heading });
+    const link = page.getByRole("link", { name: footerLink });
+    await expect(title).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: "Основная навигация" }),
+    ).toHaveCount(0);
+
+    async function expectFormReachable() {
+      await link.scrollIntoViewIfNeeded();
+      await expect(link).toBeInViewport();
+      expect(
+        await page.evaluate(() =>
+          document.scrollingElement!.scrollHeight - document.scrollingElement!.clientHeight,
+        ),
+      ).toBeLessThanOrEqual(1);
+
+      await title.scrollIntoViewIfNeeded();
+      await expect(title).toBeInViewport();
+    }
+
+    await expectFormReachable();
+
+    await page.getByLabel("Email").fill("learner@example.com");
+    await page.getByLabel("Пароль", { exact: true }).fill("correct-password");
+    if (path === "/register") {
+      await page.getByLabel("Подтверждение пароля").fill("different-password");
+    }
+    await page.getByRole("button", {
+      name: path === "/login" ? "Войти" : "Зарегистрироваться",
+    }).click();
+    await expect(page.getByRole("alert")).toBeVisible();
+
+    await expectFormReachable();
+  }
+});
+
 test("registers and reaches the empty dashboard and library", async ({
   page,
 }) => {
@@ -88,6 +136,108 @@ test("logs in and logs out", async ({ page }) => {
   expect(
     await page.evaluate((key) => window.localStorage.getItem(key), accessTokenStorageKey),
   ).toBeNull();
+});
+
+test("scrolls a long library inside the screen while keeping navigation visible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 480 });
+  const session = await mockApi(page, {
+    library: {
+      ...emptyLibrary,
+      allShlokas: Array.from({ length: 12 }, (_, index) => ({
+        ...mobileShloka,
+        code: `library-item-${index + 1}`,
+        displayTitle: `Шлока ${index + 1}`,
+        personalStatus: "reviewing" as const,
+      })),
+    },
+  });
+  await page.addInitScript((savedSession) => {
+    localStorage.setItem(
+      "sanskrit-shloka-learning.access-token",
+      savedSession.accessToken,
+    );
+    localStorage.setItem(
+      "sanskrit-shloka-learning.account",
+      JSON.stringify(savedSession.account),
+    );
+  }, session);
+
+  await page.goto("/library");
+  const navigation = page.getByRole("navigation", {
+    name: "Основная навигация",
+  });
+  const lastCard = page.getByRole("article", { name: "Шлока 12" });
+  await expect(lastCard).toBeAttached();
+  await expect(navigation).toBeVisible();
+  const navigationBefore = await navigation.boundingBox();
+  expect(
+    await lastCard.evaluate((card) => {
+      for (let ancestor = card.parentElement; ancestor; ancestor = ancestor.parentElement) {
+        if (
+          getComputedStyle(ancestor).overflowY === "auto" &&
+          ancestor.scrollHeight > ancestor.clientHeight
+        ) {
+          return true;
+        }
+      }
+      return false;
+    }),
+  ).toBe(true);
+
+  await lastCard.scrollIntoViewIfNeeded();
+  await expect(lastCard).toBeInViewport();
+  const navigationAfter = await navigation.boundingBox();
+  expect(navigationAfter?.y).toBe(navigationBefore?.y);
+  expect((await lastCard.boundingBox())!.y + (await lastCard.boundingBox())!.height)
+    .toBeLessThanOrEqual(navigationAfter!.y);
+  expect(
+    await page.evaluate(() =>
+      document.scrollingElement!.scrollHeight - document.scrollingElement!.clientHeight,
+    ),
+  ).toBeLessThanOrEqual(1);
+});
+
+test("scrolls a long shloka without a document scroll or empty navigation space", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 480 });
+  const session = await mockApi(page, {
+    libraryItem: {
+      ...mobileShloka,
+      text: Array.from(
+        { length: 30 },
+        (_, index) => `Строка шлоки ${index + 1}`,
+      ).join("\n"),
+    },
+  });
+  await page.addInitScript((savedSession) => {
+    localStorage.setItem(
+      "sanskrit-shloka-learning.access-token",
+      savedSession.accessToken,
+    );
+    localStorage.setItem(
+      "sanskrit-shloka-learning.account",
+      JSON.stringify(savedSession.account),
+    );
+  }, session);
+
+  await page.goto(`/library/shlokas/${mobileShloka.code}`);
+  const translation = page.getByRole("region", { name: "Перевод" });
+  await expect(translation).toBeAttached();
+  await expect(
+    page.getByRole("navigation", { name: "Основная навигация" }),
+  ).toHaveCount(0);
+  await expect(page.getByRole("main")).toBeVisible();
+  await translation.scrollIntoViewIfNeeded();
+  await expect(translation).toBeInViewport();
+  expect(
+    await page.evaluate(() =>
+      document.scrollingElement!.scrollHeight -
+      document.scrollingElement!.clientHeight,
+    ),
+  ).toBeLessThanOrEqual(1);
 });
 
 for (const viewport of [
@@ -400,8 +550,8 @@ async function expectActiveNavigationLink(
   expectedLink: Locator,
 ): Promise<void> {
   await expect(expectedLink).toHaveAttribute("aria-current", "page");
-  expect(
-    await navigation.getByRole("link").evaluateAll(
+  await expect.poll(async () =>
+    navigation.getByRole("link").evaluateAll(
       (links) =>
         links.filter((link) => link.getAttribute("aria-current") === "page")
           .length,

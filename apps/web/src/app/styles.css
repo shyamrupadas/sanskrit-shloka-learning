@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
-@import "@fontsource/noto-serif/500.css";
 
 @font-face {
   font-family: "Material Symbols Rounded";
@@ -13,16 +12,24 @@
 }
 
 @font-face {
-  font-family: "Noto Serif";
-  src: url("../assets/fonts/noto-serif-regular.woff2") format("woff2");
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-regular.ttf") format("truetype");
   font-display: swap;
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "Noto Serif";
-  src: url("../assets/fonts/noto-serif-bold.woff2") format("woff2");
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-medium.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../assets/fonts/roboto-bold.ttf") format("truetype");
   font-display: swap;
   font-style: normal;
   font-weight: 700;
@@ -40,7 +47,7 @@ body {
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 @theme inline {
@@ -119,9 +126,8 @@ body {
   --component-card-indicator-size: 22px;
   --component-card-padding: 14px;
   --component-empty-icon-size: 42px;
+  --component-help-tooltip-icon-size: 18px;
   --component-empty-padding: 18px;
-  --component-learning-attempt-canonical-text-line-height: 1.55;
-  --component-learning-attempt-canonical-text-size: 22px;
   --component-modal-mobile-width: 390px;
   --component-modal-mobile-radius: 24px;
   --component-modal-wide-width: 560px;
@@ -136,7 +142,6 @@ body {
   --component-learning-attempt-recovery-banner-padding-y: 11px;
   --component-learning-attempt-recovery-banner-text-size: 13px;
   --component-learning-attempt-title-line-height: 1.18;
-  --component-learning-attempt-title-size: 28px;
   --component-learning-helper-memory-prompt-line-height: 1.18;
   --component-learning-helper-memory-prompt-size: 25px;
   --component-page-header-action-size: 40px;
@@ -156,7 +161,7 @@ body {
   --disabled-background: #E2E8F0;
   --disabled-foreground: #94A3B8;
   --font-family-data-token: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-family-sanskrit-token: "Noto Serif", ui-serif, Georgia, serif;
+  --font-family-sanskrit-token: "Roboto", ui-sans-serif, system-ui, sans-serif;
   --font-family-sans-token: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --foreground: #334155;
   --input: #D6DEE9;

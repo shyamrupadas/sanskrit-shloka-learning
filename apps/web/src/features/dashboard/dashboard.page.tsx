@@ -4,7 +4,9 @@ import type { ApiTypes } from "@sanskrit-shloka-learning/api-contract";
 
 import { getApiErrorMessage } from "@/shared/api/errors";
 import {
+  BottomNavigation,
   EmptyState,
+  ScreenLayout,
   ShlokaCard,
   StatusCard,
   StreakIndicator,
@@ -19,6 +21,17 @@ const initialReviewLimit = 5;
 const initialLearningLimit = 3;
 
 export function DashboardPage() {
+  return (
+    <ScreenLayout
+      contentClassName="px-4 pt-5 pb-8 sm:px-6"
+      footer={<BottomNavigation activeSection="dashboard" fixed={false} />}
+    >
+      <DashboardContent />
+    </ScreenLayout>
+  );
+}
+
+function DashboardContent() {
   const auth = useSession();
   const timeZone = getBrowserTimeZone();
   const reviewQuery = useQuery({

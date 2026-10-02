@@ -8,10 +8,11 @@ interfaces или ответственности модулей прочитай
 interfaces, зависимостей или ответственности модулей живую спецификацию можно
 не перечитывать.
 
-## Shadcn primitives
+## UI-компоненты
 
-При добавлении или обновлении generic shadcn/Radix primitives в `src/shared/ui/`
-следуй `docs/design/frontend-design-system.md#shadcnradix-primitives-workflow`.
+При создании, выделении или изменении UI-компонентов следуй разделу
+«Компонентная граница» в `docs/design/frontend-design-system.md`,
+включая shadcn/Radix workflow.
 Если shadcn MCP или registry item недоступны, верни blocker/exception.
 
 Не создавай верхнеуровневые `pages`, `services`, `components`, `auth`, `api`,

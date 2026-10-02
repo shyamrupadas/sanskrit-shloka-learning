@@ -39,6 +39,10 @@ for (const viewport of [
     ).toBeVisible();
     await expect(page.getByText("gita · 1 глава")).toBeVisible();
     await expectPageFitsViewport(page);
+    const lastSource = page.getByRole("heading", { name: "Дополнительный источник 8" });
+    await lastSource.scrollIntoViewIfNeeded();
+    await expect(lastSource).toBeInViewport();
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
     await page.getByRole("link", { name: "Новый источник" }).click();
     await expect(page).toHaveURL(/\/admin\/sources\/new$/);
@@ -65,6 +69,9 @@ for (const viewport of [
     await expect(page.getByLabel("Глава")).toBeVisible();
     await expect(page.getByLabel("Номер шлоки")).toBeVisible();
     await expectPageFitsViewport(page);
+    await page.setViewportSize({ width: viewport.width, height: 500 });
+    await expectFormEndReachableWithoutDocumentScroll(page);
+    await page.setViewportSize(viewport);
 
     await page.goto("/admin/sources/gita/edit");
     await expect(
@@ -91,7 +98,7 @@ for (const viewport of [
   });
 }
 
-async function storeAdminSession(page: Page): Promise<void> {
+async function storeAdminSession(page: Page, session: ApiTypes.AuthSessionDto = adminSession): Promise<void> {
   await page.addInitScript(
     ({ accountKey, session, tokenKey }) => {
       window.localStorage.setItem(tokenKey, session.accessToken);
@@ -99,13 +106,13 @@ async function storeAdminSession(page: Page): Promise<void> {
     },
     {
       accountKey: accountStorageKey,
-      session: adminSession,
+      session,
       tokenKey: accessTokenStorageKey,
     },
   );
 }
 
-async function mockAdminApi(page: Page): Promise<void> {
+async function mockAdminApi(page: Page, serverSession: ApiTypes.AuthSessionDto = adminSession): Promise<void> {
   let hardMode = false;
 
   await page.route(/^http:\/\/127\.0\.0\.1:4173\/api\//, async (route) => {
@@ -114,7 +121,22 @@ async function mockAdminApi(page: Page): Promise<void> {
     const method = request.method();
 
     if (method === "GET" && url.pathname === "/api/auth/session") {
-      await fulfillJson(route, 200, adminSession);
+      await fulfillJson(route, 200, serverSession);
+      return;
+    }
+
+    if (method === "GET" && url.pathname === "/api/dashboard/review-shlokas") {
+      await fulfillJson(route, 200, { hasReviewingShlokas: false, items: [], remainingCount: 0, state: "empty" });
+      return;
+    }
+
+    if (method === "GET" && url.pathname === "/api/dashboard/learning-shlokas") {
+      await fulfillJson(route, 200, { hasLearningShlokas: false, items: [], remainingCount: 0 });
+      return;
+    }
+
+    if (method === "GET" && url.pathname === "/api/dashboard/streak") {
+      await fulfillJson(route, 200, { continuedToday: false, days: 0, history: [] });
       return;
     }
 
@@ -180,6 +202,17 @@ async function expectPageFitsViewport(page: Page): Promise<void> {
   ).toBe(true);
 }
 
+async function expectFormEndReachableWithoutDocumentScroll(page: Page): Promise<void> {
+  const lastField = page.getByLabel("Полный перевод");
+  await lastField.scrollIntoViewIfNeeded();
+  await expect(lastField).toBeInViewport();
+  const submit = page.getByRole("button", { name: "Создать шлоку" });
+  await submit.scrollIntoViewIfNeeded();
+  await expect(submit).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Новая шлока" })).not.toBeInViewport();
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+}
+
 const adminSession = {
   account: {
     id: "admin-account",
@@ -188,6 +221,46 @@ const adminSession = {
   },
   accessToken: "admin-access-token",
 } satisfies ApiTypes.AuthSessionDto;
+
+const regularSession = {
+  account: { ...adminSession.account, roles: [] },
+  accessToken: adminSession.accessToken,
+} satisfies ApiTypes.AuthSessionDto;
+
+for (const { name, storedSession, serverSession, destination } of [
+  { name: "guest", storedSession: null, serverSession: adminSession, destination: "/login" },
+  { name: "regular user", storedSession: regularSession, serverSession: regularSession, destination: "/dashboard" },
+  { name: "stale saved admin role", storedSession: adminSession, serverSession: regularSession, destination: "/dashboard" },
+  { name: "new server admin role", storedSession: regularSession, serverSession: adminSession, destination: "/admin/learning/new" },
+  { name: "administrator", storedSession: adminSession, serverSession: adminSession, destination: "/admin/learning/new" },
+]) {
+  test(`checks the server role on repeated cold admin entry for ${name}`, async ({ page }) => {
+    await mockAdminApi(page, serverSession);
+    if (storedSession) await storeAdminSession(page, storedSession);
+
+    for (let entry = 0; entry < 2; entry += 1) {
+      await page.goto("/admin/learning/new");
+      await expect(page).toHaveURL(destination);
+      await expectDestinationPage(page, destination);
+    }
+
+    if (destination === "/admin/learning/new") {
+      await page.reload();
+      await expect(page).toHaveURL(destination);
+      await expectDestinationPage(page, destination);
+    }
+  });
+}
+
+async function expectDestinationPage(page: Page, destination: string): Promise<void> {
+  if (destination === "/login") {
+    await expect(page.getByRole("heading", { name: "Вход" })).toBeVisible();
+  } else if (destination === "/dashboard") {
+    await expect(page.getByRole("navigation", { name: "Основная навигация" })).toBeVisible();
+  } else {
+    await expect(page.getByRole("heading", { name: "Новый совет" })).toBeVisible();
+  }
+}
 
 const longSourceTitle =
   "Бхагавад-гита — очень длинное название источника для мобильной проверки";
@@ -214,6 +287,12 @@ const adminCatalog = {
         },
       ],
     },
+    ...Array.from({ length: 8 }, (_, index) => ({
+      ...chapterSource,
+      code: `extra-${index + 1}`,
+      title: `Дополнительный источник ${index + 1}`,
+      shlokas: [],
+    })),
   ],
 } satisfies ApiTypes.AdminCatalogDto;
 

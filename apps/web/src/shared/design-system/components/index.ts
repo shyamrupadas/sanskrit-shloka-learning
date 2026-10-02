@@ -25,6 +25,7 @@ export {
   type ShlokaCardProps,
 } from "./shloka-card";
 export { SettingsRow, type SettingsRowProps } from "./settings-row";
+export { ScreenLayout, type ScreenLayoutProps } from "./screen-layout";
 export { ShlokaTranslation } from "./shloka-translation";
 export { StatusCard, type StatusCardProps } from "./status-card";
 export {

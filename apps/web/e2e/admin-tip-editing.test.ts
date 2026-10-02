@@ -37,6 +37,7 @@ test("protects native Back, persists order and deletion, and keeps catalog forms
   });
   await page.goto("/settings");
   await page.getByRole("link", { name: "Админка", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Админка", exact: true })).toBeVisible();
   await page.getByRole("link", { name: /Обучение/ }).click();
   await page.getByRole("link", { name: "Добавить совет", exact: true }).click();
   await page.getByLabel("Заголовок *").fill("Новый совет");
@@ -69,7 +70,7 @@ test("protects native Back, persists order and deletion, and keeps catalog forms
   await expect(page.getByRole("link", { name: "Добавить первый совет" })).toBeVisible();
   await page.getByRole("link", { name: "Админка", exact: true }).click();
   await page.getByRole("link", { name: /Каталог шлок/ }).click();
-  await expect(page.getByRole("heading", { name: "Каталог шлок", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Каталог шлок", exact: true })).toBeVisible();
   await page.getByRole("link", { name: "Новый источник", exact: true }).click();
   await expect(page.getByLabel("Код источника")).toBeVisible();
   await page.getByRole("link", { name: "Каталог шлок", exact: true }).click();

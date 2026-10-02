@@ -231,9 +231,6 @@ importers:
       '@fontsource/material-symbols-rounded':
         specifier: ^5.3.5
         version: 5.3.5
-      '@fontsource/noto-serif':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@sanskrit-shloka-learning/api-contract':
         specifier: workspace:*
         version: link:../../packages/api-contract
@@ -786,9 +783,6 @@ packages:
 
   '@fontsource/material-symbols-rounded@5.3.5':
     resolution: {integrity: sha512-aIemTZg0nt9UWI5UZ4H7UaUmNrDzt8CFK1hKzBmVF3/aWjs+NBRw10Jl11l6ZWnlQY5kKwwuIf7VMZOlk649FA==}
-
-  '@fontsource/noto-serif@5.3.0':
-    resolution: {integrity: sha512-ZrMzjuQlBIcw+qma1slZQdU3YDJvrjLG+9CWU1bxSf3YTkucwqd3EYa/Kfo4Ts19w8IMTGAmtOE3d6wWlgnBtA==}
 
   '@hono/node-server@2.1.1':
     resolution: {integrity: sha512-ELuehkj5VCBdgEw9zs+ivkKwyzzUCSQuE96YmiPvn1ECBoZCczbFXJLeEGMTYjphP6gydh4pHMqEYPVMYUVgQg==}
@@ -5286,8 +5280,6 @@ snapshots:
   '@fontsource-variable/inter@5.3.0': {}
 
   '@fontsource/material-symbols-rounded@5.3.5': {}
-
-  '@fontsource/noto-serif@5.3.0': {}
 
   '@hono/node-server@2.1.1(hono@4.13.7)':
     dependencies:
